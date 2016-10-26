@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/css/bootstrap-table.css}"/>
+    <!--font-->
+    <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+
+    <script th:attr="src=@{/js/jquery-1.10.2.min.js}"  th:href="@{/js/jquery-1.10.2.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
+</head>
+<body style="padding: 10px;">
+    <div th:id="search-panel">
+        <!--search info-->
+        <div id="search-content" class="panel panel-default">
+            <div id="panel-heading" class="panel-heading">
+                <i class="fa fa-user fa-fw"></i>
+                Login info
+            </div>
+            <div id="panel-body" class="panel-body">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-envelope-o fa-fw"></i>
+                    </span>
+                    <input type="email" class="form-control"  placeholder="Email"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-user-o fa-fw"></i>
+                    </span>
+                    <input type="text" class="form-control"  placeholder="User name"/>
+                </div>
+
+
+            </div>
+
+        </div>
+        <p></p>
+        <button class="btn btn-default btn btn-primary fa  fa-search" id="load-data" th:value="@{/workspace/getuser}">
+            Search
+        </button>
+    </div>
+    <table  id="table-pagination"
+            data-pagination="true"
+            data-search="true"
+    >
+    <thead>
+    <tr>
+        <th  data-checkbox="true"></th>
+        <th  data-field="userId" data-align="right" data-sortable="true">ID</th>
+        <th  data-field="username" data-align="center" data-sortable="true">Item Name</th>
+        <th  data-field="password" data-sortable="true" data-sorter="true">FullName</th>
+    </tr>
+    </thead>
+</table>
+
+<script>
+    var dataSearch = [
+        {
+            "name": "bootstrap-table",
+            "stargazers_count": "526",
+            "forks_count": "122",
+            "description": "An extended Bootstrap table with radio, checkbox, sort, pagination, and other added features. (supports twitter bootstrap v2 and v3) "
+        }
+    ];
+
+    var dataInit = [
+        {
+            "name": "bootstrap-table",
+            "stargazers_count": "526",
+            "forks_count": "122",
+            "description": "An extended Bootstrap table with radio, checkbox, sort, pagination, and other added features. (supports twitter bootstrap v2 and v3) "
+        },
+        {
+            "name": "multiple-select",
+            "stargazers_count": "288",
+            "forks_count": "150",
+            "description": "A jQuery plugin to select multiple elements with checkboxes :)"
+        },
+        {
+            "name": "bootstrap-show-password",
+            "stargazers_count": "32",
+            "forks_count": "11",
+            "description": "Show/hide password plugin for twitter bootstrap."
+        },
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        },
+        {
+            "name": "scutech-redmine",
+            "stargazers_count": "6",
+            "forks_count": "3",
+            "description": "Redmine notification tools for chrome extension."
+        },
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "stargazers_count": "13",
+            "forks_count": "4",
+            "description": "my blog"
+        }
+    ];
+
+    $(function () {
+        $('#table-pagination').bootstrapTable({
+            data: dataInit
+        });
+    });
+
+    var $searchButton = $('#load-data');
+    $(function () {
+        $searchButton.click(function () {
+            var $form_action = $('#form_action');
+            $.ajax({
+                type: "GET",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                url: $searchButton.val(),
+                dataType: 'json',
+                timeout: 600000,
+                success: function (data) {
+                    $('#table-pagination').bootstrapTable('load', data);
+                },
+            });
+        });
+    });
+
+</script>
+
+</body>
+</html>

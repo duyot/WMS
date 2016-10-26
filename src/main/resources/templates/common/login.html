@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <title>Login</title>
 </head>
 <body>
-
+    <form action="#" th:attr="action=@{/User/DoLogin}" th:object="${user}" method="post">
+        <fieldset>
+            Username: <input type="text" th:field="*{username}"/>
+            Passowrd: <input type="text" th:field="*{password}"/>
+            <input type="submit" value="Subscribe!"/>
+        </fieldset>
+    </form>
 </body>
 </html>

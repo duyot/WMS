@@ -9,10 +9,13 @@ package com.vivas.utils;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -22,6 +25,31 @@ import java.util.*;
  */
 @SuppressWarnings("deprecation")
 public class DataUtil {
+
+    public static boolean isEmail(String email){
+        return EmailValidator.getInstance().isValid(email);
+    }
+
+    public static String MD5Encrypt(String inputString)
+    {
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+            md.update(inputString.getBytes());
+
+            byte byteData[] = md.digest();
+
+            //convert the byte to hex format method 1
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++) {
+                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
     
     //duyot: 22/01: bat truong hop serial truyen sang dang .0
     public static String getQuantity(String quantity) {
@@ -168,31 +196,6 @@ public class DataUtil {
      * @param objs Object
      * @return String
      */
-    public static String connectString(String separateChar, Object... objs) {
-        if (objs == null || objs.length == 0) {
-            return "";
-        }
-
-        StringBuilder content = new StringBuilder();
-        content.append(convertToStringLog(objs[0]));
-
-        for (int i = 1; i < objs.length; i++) {
-            content.append(separateChar).append(convertToStringLog(objs[i]));
-        }
-
-        return content.toString();
-    }
-
-    private static String convertToStringLog(Object obj) {
-        if (obj == null) {
-            return "";
-        } else if (obj instanceof Date) {
-            return DateUtil.date2ddMMyyyyHHMMss((Date) obj);
-        } else {
-            return obj.toString();
-        }
-    }
-
     /**
      * @param obj1 Object
      * @return Long

@@ -953,6 +953,8 @@ h1, h2, h3, h4, h5, h6, figure {
   font-weight: 400;
   padding-left: 50px;
   padding-right: 50px;
+  margin-top: 30px;
+  width: 170px;
 }
 #fh5co-started .btn:hover {
   background: #f14034 !important;
@@ -1495,6 +1497,10 @@ h1 {
 	width:90%;
 	margin:0 auto;
 }
+.register .container{
+  width:65%;
+  margin:0 auto;
+}
 .left{
 	width:100%;
 	float:left;
@@ -1517,6 +1523,24 @@ input[type="text"]{
 	width:95%;
 	color:#fff;
 }
+input[type="password"]{
+  padding:10px;
+  background:transparent;
+  border:none;
+  border-bottom:1px solid #fff;
+  outline:none;
+  width:95%;
+  color:#fff;
+}
+input[type="email"]{
+  padding:10px;
+  background:transparent;
+  border:none;
+  border-bottom:1px solid #fff;
+  outline:none;
+  width:95%;
+  color:#fff;
+}
 input[type="submit"] {
     padding: 13px 80px;
     background: #a07650;
@@ -1536,7 +1560,7 @@ input[type="submit"]:hover{
 	background:#000;
 }
 .email{
-	margin:15px 0px;
+	margin:0px 0px;
 }
 .right-w3{
 	width:45%;

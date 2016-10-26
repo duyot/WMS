@@ -18,20 +18,15 @@ import java.util.ResourceBundle;
  * @author duyot
  */
 public class BundleUtils {
-
     public static Logger log = LoggerFactory.getLogger(BundleUtils.class);
 
     private static ResourceBundle rsConfig = null;
-    public static final String CAS = "cas";
+    public static final String CASCASCAS = "cas";
     
-     public static String getStringCas(String key) {
-        rsConfig = ResourceBundle.getBundle(CAS);
-        return rsConfig.getString(key);
-    }
-    
-    
-    
-    
+//     public static String getStringCas(String key) {
+//        rsConfig = ResourceBundle.getBundle(CAS);
+//        return rsConfig.getString(key);
+//    }
      public static String getkey(String key) {
         try {
             InputStream input = null;
@@ -50,7 +45,7 @@ public class BundleUtils {
         return key;
     }
      public static void main(String[] args) {
-         System.out.println(getkey("JNDI_NAME"));
+         System.out.println(getkey("rest_service_url"));
     }
      
 }

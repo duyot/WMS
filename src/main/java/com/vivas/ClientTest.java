@@ -1,6 +1,5 @@
 package com.vivas;
 
-import com.vivas.dto.ResponseObject;
 import com.vivas.dto.User;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -26,7 +25,7 @@ public class ClientTest {
 
     public static void main(String[] args) {
 //        ClientTest.testSendObject(new User("sdf","sdf"));
-        ClientTest.testReceiveFile("logback.xml");
+        ClientTest.testReceiveFile("logback-spring.xml");
     }
 
     /*

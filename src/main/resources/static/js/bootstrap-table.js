@@ -1163,7 +1163,12 @@
         if (this.options.search) {
             html = [];
             html.push(
-                '<div class="pull-' + this.options.searchAlign + ' search">',
+                '<div class="pull-' + this.options.searchAlign + ' search input-group "'+'style="'+'width:15%">',
+
+                '<span class="'+ 'input-group-addon">',
+                '<i class="'+'fa  fa-search fa-fw">',
+                '</i></span>',
+
                 sprintf('<input class="form-control' +
                     sprintf(' input-%s', this.options.iconSize) +
                     '" type="text" placeholder="%s">',

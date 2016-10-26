@@ -1,10 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title>WMS - Workspace</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="WMS" />
+
+    <!--CSS/ JS-->
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href="css/bootstrap.min.css" th:href="@{/workspace_resource/css/bootstrap.min.css}" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" th:href="@{/workspace_resource/css/style.css}" rel='stylesheet' type='text/css' />
+    <link href="css/font-awesome.css" th:href="@{/workspace_resource/css/font-awesome.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/icon-font.min.css" th:href="@{/workspace_resource/css/icon-font.min.css}" type='text/css' />
+    <link href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}" rel="stylesheet" type="text/css" media="all"/>
+    <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
+    <!--END CSS/ JS-->
+
 </head>
-<body>
+<body class="sticky-header left-side-collapsed">
+<section>
+    <!--left menu-->
+    <div th:include="common/workspace_leftmenu :: frag-leftmenu"></div>
+    <!--main content-->
+    <div class="main-content main-content2 main-content2copy">
+        <div th:include="common/header :: frag-headermneu"></div>
+        <div id="page-wrapper">
+            <p>WMS page here</p>
+        </div>
+    </div>
+    <!--footer-->
+    <div th:include="common/footer :: frag-footer"></div>
+</section>
+
+<!--FIANL JS-->
+<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
+<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
+<script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
 
 </body>
 </html>
