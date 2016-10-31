@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ajax Example</title>
+
+    <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
+    <style>
+        #gif-loading,#content{
+            width: 400px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <p id="content"></p>
+    <div id="loading" style="width: 100px;height: 100px;">
+    </div>
+    <button type="button" id="btn-ajax">Call ajax</button>
+    <button type="button" id="btn-get">Call get</button>
+
+    <script type="application/javascript">
+        var btn_call = $('#btn-ajax');
+        var btn_get  = $('#btn-get');
+
+        btn_get.click(function () {
+            $.getJSON("http://localhost:8080/WMS_Webservices/services/userservices/getAlls",{userId:"23"},function (data) {
+                //var returnedData = JSON.stringify(data)
+                document.getElementById("content").innerHTML = data;
+            });
+        });
+
+        var img_tag = '<img id="gif-loading'+ '" src="'+ 'images/gif/loading_gif.gif"/>';
+        btn_call.click(function () {
+
+            $.ajax({
+                type:"GET",
+                url:"http://localhost:8080/WMS_Webservices/services/userservices/getAlls",
+                data:{userId:"23"},
+                contentType:"",
+                dataType:"json",
+                timeout: 600000,
+                beforeSend: function(){
+                    console.log('before send');
+                    $('#loading').html(img_tag);
+                },
+                success:function(data){
+                    var returnedData = JSON.stringify(data)
+                    document.getElementById("content").innerHTML = returnedData;
+                },
+                error:function(){
+                    alert('error');
+                },
+                complete: function(html){
+                    console.log('finish');
+                    $('#loading').html(html);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

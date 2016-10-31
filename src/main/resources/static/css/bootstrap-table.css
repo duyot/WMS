@@ -17,7 +17,7 @@
 .bootstrap-table .table:not(.table-condensed) > thead > tr > td,
 .bootstrap-table .table:not(.table-condensed) > tbody > tr > td,
 .bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
-    padding: 8px;
+    padding: 5px;
 }
 
 .bootstrap-table .table.table-no-bordered > thead > tr > th,
@@ -126,7 +126,7 @@
 
 /* the same color with .active */
 .fixed-table-container tbody .selected td {
-    background-color: #f5f5f5;
+    background: #bdc3c7;
 }
 
 .fixed-table-container .bs-checkbox {
@@ -200,8 +200,8 @@
 .fixed-table-toolbar .search,
 .fixed-table-toolbar .columns {
     position: relative;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 0px;
+    margin-bottom: 5px;
     line-height: 34px;
 }
 
@@ -304,3 +304,12 @@ div.fixed-table-scroll-outer {
     height: 150px;
     overflow: hidden;
 }
+.table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > th {
+    background-color: #f9fafe;
+    color: #4b5056;
+}
+
+.table-striped>tr:nth-child(odd){
+    background-color:#8da0aa;
+}
+

@@ -7,11 +7,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 h4, h5, h6,
 h1, h2, h3 {margin-top: 0;}
 ul, ol {margin: 0;}
-p {margin: 0;}
-
 html, body{
-  	font-family: 'Cabin', sans-serif;
-    font-size: 100%;
+  	font-family: FontAwesome;
+    font-size: 96%;
   	overflow-x: hidden;
 	background: #f9f9f9;
 }
@@ -576,7 +574,7 @@ footer  p a:hover{
     display: none;
 }
 div#page-wrapper {
-    padding:2em 2em;
+    padding:0.8em;
 }
 .left-side-collapsed .logo-icon {
     height: 51px;
@@ -1778,13 +1776,13 @@ ul.dropdown-menu.drp-mnu li a i {
 .user-name p{
 	font-size:14px;
 	color:#F44336;
-	line-height:1em;
+	line-height:.6em;
 	font-weight:700;
 }
 .user-name p span{
-	font-size:11px;
+	font-size:12px;
 	font-style:italic;
-	color:#424f63;
+	color:#34495e;
 	font-weight:normal;
 }
 /**** icon dropdown ******/
@@ -2071,9 +2069,6 @@ tspan {
 }
 .spark {
     margin: 1em 0;
-}
-i.fa.fa-search {
-    color: #27cce4;
 }
 i.fa.fa-search1 {
     color: #fff;
@@ -2511,33 +2506,11 @@ text.highcharts-yaxis-title {
 .stats-info{
   background-color: #fff;
 }
-.panel .panel-heading {
-  padding: 20px;
-  overflow: hidden;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border: 0!important;
-  height: 55px;
-  font-size: 14px;
-  font-weight: 600;
-}
-.panel .panel-heading .panel-title {
-  font-size: 14px;
-  float: left;
-  margin: 0;
-  padding: 0;
-  font-weight: 600;
-}
 h4.asd label {
     font-size: 1em;
     padding-left: 1em;
     color: #000;
 	cursor: pointer;
-}
-.panel-heading {
-  padding:32px 2em 0px;
-  border-top-left-radius:0 !important;
-  border-top-right-radius: 0 !important;
 }
 .stats-info ul {
   margin: 0;
@@ -2551,10 +2524,6 @@ h4.asd label {
   padding:14.35px 0;
   font-size: 0.85em;
   color: #999;
-}
-.panel-title {
-  font-size: 20px;
-  color: #000;
 }
 .stats-info ul li.last{
 	border-bottom:0;
@@ -2860,9 +2829,6 @@ button.note-color-btn {
 	background:#fff;
 	padding:2em;
 }
-.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-  border-top: none !important;
-}
 .tab-content > .active {
   display: block;
   visibility: visible;
@@ -2969,17 +2935,6 @@ span.badge1 {
 .but_list h1,.but_list h2,.but_list h3,.but_list h4,.but_list h5 {
     margin-bottom: 0.7em;
 }
-.btn-primary{
-	background-color: #00ACED !important;
-    border-color: #00ACED !important;
-	color: #fff;
-	padding: 6px 10px;
-}
-.btn-primary:hover{
-	background-color: #8BC34A !important;
-    border-color: #8BC34A !important;
-    color: #fff !important;
-}
 .caret {
     padding-left: 0 !important;
 }
@@ -3029,8 +2984,8 @@ h2.modal-title {
   font-size: 0.85em;
 }
 .radio label, .checkbox label, label{
-  font-size: 0.85em;
-  font-weight:300;
+  font-size: 1em;
+  font-weight:bold;
   vertical-align: middle;
 }
 .checkbox1{
@@ -3137,14 +3092,6 @@ select[multiple] {
 }
 .pad0A {
   padding: 0!important;
-}
-.input-group {
-	position: relative;
-    display: table;
-    width: 45%;
-    float: left;
-    margin: 0 0 0 10em;
-    border-collapse: separate;
 }
 .has-success .input-group-addon {
   border-color:#A4E7A5 !important;
@@ -3380,12 +3327,6 @@ h4.content-box-header{
 	-o-border-radius:3px 3px 0px 0px;
 	-ms-border-radius:3px 3px 0px 0px;
 }
-.panel {
-    border: none !important; 
-    border-radius:none !important;
-    -webkit-box-shadow: none !important;
-     box-shadow:none !important; 
-}
 .widget-footer.clearfix {
   margin: 1em 0 0 0;
 }
@@ -3421,27 +3362,11 @@ div.checker input {
   font-weight:400;
   font-size: 14px;
 }
-.form-control:focus {
-    border-color:#ccc;
-    outline: 0;
-    -webkit-box-shadow:none ! important;
-    box-shadow:none ! important;
-}
 .icon-state-warning {
   color:#b8c9f1;
 }
-.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-  font-size: 0.85em;
-  color:#000;
-} 
 .mailbox-content table tbody tr:hover {
   background: #EFF0F4;
-}
-.table td, .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-  padding:15px !important;
-}
-.table > thead > tr > th {
-  border-bottom:1px solid #ACACAC !important;
 }
 .badge-success, .bg-green, .bootstrap-switch-success, .btn-success {
 	border: none;
@@ -4597,9 +4522,6 @@ li.nbs-flexisel-item {
     color: #999;
     line-height: 1.8em;
 }
-.panel{
-	box-shadow:none;
-}
 .pa_italic span{
 	display:none;
 }
@@ -5076,10 +4998,6 @@ canvas#line {
 canvas#bar {
     width: 428px !important;
 }
-.panel .panel-heading {
-    padding: 17px 20px;
-    height: 48px;
-}
 canvas#radar {
     width: 409px !important;
     height: 256px !important;
@@ -5145,10 +5063,6 @@ canvas#line{
 }
 canvas#bar {
     width: 404px !important;
-}
-.panel .panel-heading {
-    padding: 21px 20px;
-    height: 55px;
 }
 .avatar_left {
   width: 65%;

@@ -45,6 +45,9 @@ public class HomeController {
         User loggedUser = userService.login(user);
 
         if(!DataUtil.isStringNullOrEmpty(loggedUser.getUserId())){
+            if(DataUtil.isStringNullOrEmpty(loggedUser.getImgUrl())){
+                loggedUser.setImgUrl("default.jpg");
+            }
             //set some session attribute
             log.info("Login susscessfully for user: "+ loggedUser.getUsername());
             request.getSession().setAttribute("isLogin",true);

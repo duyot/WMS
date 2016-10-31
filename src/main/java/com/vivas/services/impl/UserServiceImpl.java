@@ -2,6 +2,7 @@ package com.vivas.services.impl;
 
 import com.google.common.collect.Lists;
 import com.vivas.dataprovider.UserDP;
+import com.vivas.dto.Condition;
 import com.vivas.dto.User;
 import com.vivas.services.interfaces.UserService;
 import org.apache.catalina.mbeans.MemoryUserDatabaseMBean;
@@ -26,12 +27,17 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean register(User user) {
-        return userDP.register(user);
+        return userDP.add(user);
     }
 
     @Override
     public User login(User user) {
         return userDP.login(user);
+    }
+
+    @Override
+    public List<User> findUserByCondition(List<Condition> lstCondition) {
+        return userDP.findByCondition(lstCondition);
     }
 
 

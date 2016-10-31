@@ -2,26 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head >
 	<title>WMS- Workspace</title>
-
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="WMS" />
-
-	<!--CSS/ JS-->
-	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-	<link href="css/bootstrap.min.css" th:href="@{/workspace_resource/css/bootstrap.min.css}" rel='stylesheet' type='text/css' />
-	<link href="css/style.css" th:href="@{/workspace_resource/css/style.css}" rel='stylesheet' type='text/css' />
-	<link href="css/font-awesome.css" th:href="@{/workspace_resource/css/font-awesome.css}" rel="stylesheet"/>
+	<!--CSS-->
+	<link rel='stylesheet' href="css/bootstrap.css" th:href="@{/css/bootstrap.css}"  type='text/css' />
+	<link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/css/bootstrap-table.css}"/>
+	<link rel='stylesheet' href="css/style.css" th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
 	<link rel="stylesheet" href="css/icon-font.min.css" th:href="@{/workspace_resource/css/icon-font.min.css}" type='text/css' />
-	<link href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}" rel="stylesheet" type="text/css" media="all"/>
+	<link rel="stylesheet" href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
+	<link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+
+	<link rel="stylesheet" href="/css/bootstrap-combobox.css" th:href="@{/css/bootstrap-combobox.css}"/>
+	<!--script-->
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
-		<script>
-			 new WOW().init();
+	<script>
+					new WOW().init();
 		</script>
 	<script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
-	<!--END CSS/ JS-->
-
-</head> 
+	<script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
+	<script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
+</head>
  <body class="sticky-header left-side-collapsed">
     <section>
 		<!--left menu-->
@@ -30,9 +32,129 @@
 		<div class="main-content main-content2 main-content2copy">
 			<div th:include="common/header :: frag-headermneu"></div>
 			<div id="page-wrapper">
-				<p>main content here</p>
+				<!--search panel-->
+				<div id="panel-search-content" class="panel panel-primary">
+					<div class="panel-heading">
+						<i class="fa  fa-search"></i>
+						Search info
+					</div>
+					<div class="panel-body">
+						<div class="container">
+							<!--row 1: username + status-->
+							<div class="row">
+								<div class="col-sm-2">
+									<label>Tên tài khoản</label>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-user-o fa-fw"></i>
+										</span>
+										<input id="inp-username" type="text" class="form-control"  placeholder="User name"/>
+									</div>
+								</div>
+								<div class="col-sm-2">
+									<label>Trạng thái</label>
+
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group">
+										<select id="cmb-status" class="combobox form-control">
+											<option value="-1">Tất cả</option>
+											<option value="1">Hiệu lực</option>
+											<option value="0">Hết hiệu lực</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-2">
+									<label>Email</label>
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-envelope-o fa-fw"></i>
+										</span>
+										<input id="inp-email" type="email" class="form-control"  placeholder="Email"/>
+									</div>
+								</div>
+
+								<div class="col-sm-2">
+									<label>Vai trò</label>
+
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group">
+										<select id="cmb-role" class="combobox form-control">
+											<option value="-1">Tất cả</option>
+											<option value="1">Admin</option>
+											<option value="2">User</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<p></p>
+
+						<div class="wrapper text-center" style="text-align: center;">
+							<div class="btn-group" role="group" aria-label="Basic example">
+								<button type="button" class="btn btn-default  btn-primary" id="btn-load-data" th:value="@{/workspace/getuser}">
+									Search
+								</button>
+								<button type="button" class="btn btn-default btn-primary" id="login" th:value="@{/workspace/login}">
+									Login
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end search panel-->
+				<div id="panel-search-result" class="panel panel-primary">
+					<div class="panel-heading">
+						<i class="fa fa-database"></i>
+						Result
+					</div>
+					<div class="panel-body">
+						<!--toolbar-->
+						<div id="toolbar" class="btn-group">
+							<button id="btn-add" type="button" class="btn btn-default">
+								<i class="fa fa-plus"></i>
+							</button>
+							<button id="btn-update" type="button" class="btn btn-default">
+								<i class="fa fa-edit"></i>
+							</button>
+							<button id="btn-delete" type="button" class="btn btn-default">
+								<i class="fa fa-trash"></i>
+							</button>
+						</div>
+						<table  id="table-pagination"
+								data-pagination="true"
+								data-search="true"
+								data-click-to-select="true"
+								data-show-columns="true"
+								data-toolbar="#toolbar"
+								class="table-striped"
+						>
+
+							<thead>
+							<tr>
+								<th  class="col-md-1" data-checkbox="true"></th>
+								<th  class="col-md-1" data-formatter="runningFormatter" data-align="center">STT</th>
+								<th  class="col-md-2" data-field="userId" data-align="center" data-sortable="true">ID</th>
+								<th  class="col-md-4" data-field="username" data-align="left" data-sortable="true">Item Name</th>
+								<th  class="col-md-4" data-field="password" data-align="left" data-sorter="true">FullName</th>
+							</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
+		<!--modal-->
+		<div th:include="modal/add_user_modal :: frag-modal"></div>
 		<!--footer-->
 		<div th:include="common/footer :: frag-footer"></div>
 	</section>
@@ -41,6 +163,112 @@
 	<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
 	<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 	<script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
+
+	<script>
+//		row num
+		function runningFormatter(value, row, index) {
+			return index +1;
+		}
+//		init empty data
+		var dataInit = [
+		];
+
+		$(function () {
+			$('#table-pagination').bootstrapTable({
+				data: dataInit
+			});
+
+			$('.combobox').combobox();
+		});
+//
+
+		var $btnSearch = $('#btn-load-data');
+
+		$(function () {
+			$btnSearch.click(function () {
+				var emailVal    = $('#inp-email').val();
+				var usernameVal = $('#inp-username').val();
+				var statusVal   = $('#cmb-status').val();
+				var roleVal     = $('#cmb-role').val();
+				$.ajax({
+					type: "GET",
+					cache:false,
+					data:{username:usernameVal,email:emailVal,status:statusVal,role:roleVal},
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					url: $btnSearch.val(),
+					dataType: 'json',
+					timeout: 600000,
+					success: function (data) {
+						$('#table-pagination').bootstrapTable('load', data);
+					},
+				});
+			});
+		});
+//		login action
+		var $btnLogin = $('#login');
+		$(function () {
+			$btnLogin.click(function () {
+				$.ajax({
+					type: "GET",
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					url: $btnLogin.val(),
+					dataType: 'text',
+					timeout: 600000,
+					success: function (data) {
+						document.getElementById("login-info").innerHTML = data;
+					},
+					error:function (data) {
+						alert('error');
+						alert(data);
+					}
+				});
+			});
+		});
+//		add action
+		$btn_add = $('#btn-add');
+		$(function () {
+			$btn_add.click(function () {
+				changeModelByType(1,null);
+				$('#myModal').modal('show');
+			});
+		});
+//		update action
+		$btn_update = $('#btn-update');
+		$(function () {
+			$btn_update.click(function () {
+				//check before show
+				selectedItemArr = $('#table-pagination').bootstrapTable('getSelections');
+				selectedItem    = selectedItemArr[0];
+				if(selectedItem == null){
+					alert('Chọn 1 bản ghi!');
+					return;
+				}
+				changeModelByType(2,selectedItem);
+				$('#myModal').modal('show');
+			});
+		});
+
+		function changeModelByType(type,selectedItem) {
+			if(type == 1){//add
+				$("#myModalLabel").text('Thêm mới');
+				$("#modal-inp-username").val('');
+				$("#modal-inp-email").val('');
+
+				$("#modal-btn-update").hide();
+				$("#modal-btn-add").show();
+			}else{
+				username = selectedItem["username"];
+				email    = selectedItem["email"];
+				$("#myModalLabel").text('Cập nhật');
+				$("#modal-inp-username").val(username);
+				$("#modal-inp-email").val(email);
+
+				$("#modal-btn-update").show();
+				$("#modal-btn-add").hide();
+			}
+		}
+//		delete action
+	</script>
 
 </body>
 </html>

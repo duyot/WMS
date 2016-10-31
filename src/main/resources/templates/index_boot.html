@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/css/bootstrap-table.css}"/>
+    <!--font-->
+    <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+
+    <script th:attr="src=@{/js/jquery-1.10.2.min.js}"  th:href="@{/js/jquery-1.10.2.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
+</head>
+<body style="padding: 10px;">
+        <!--search panel-->
+        <div id="panel-search-content" class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-user fa-fw"></i>
+                Login info
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-envelope-o fa-fw"></i>
+                    </span>
+                    <input type="email" class="form-control"  placeholder="Email"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-user-o fa-fw"></i>
+                    </span>
+                    <input type="text" class="form-control"  placeholder="User name"/>
+                </div>
+                <p></p>
+                <div class="wrapper text-center" style="text-align: center;">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-default  btn-primary" id="load-data" th:value="@{/workspace/getuser}">
+                            Search
+                        </button>
+                        <button type="button" class="btn btn-default btn-primary" id="login" th:value="@{/workspace/login}">
+                            Login
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end search panel-->
+        <div id="panel-search-result" class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-user fa-fw"></i>
+                Result
+            </div>
+            <div class="panel-body">
+                <!--toolbar-->
+                <div id="toolbar" class="btn-group">
+                    <button type="button" class="btn btn-default">
+                        <i class="fa fa-plus fa-fw"></i>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <i class="fa fa-trash fa-fw"></i>
+                    </button>
+                </div>
+                <table  id="table-pagination"
+                        data-pagination="true"
+                        data-search="true"
+                        data-show-columns="true"
+                        data-toolbar="#toolbar"
+                >
+                    <thead>
+                    <tr>
+                        <th  data-checkbox="true"></th>
+                        <th  data-field="userId" data-align="right" data-sortable="true">ID</th>
+                        <th  data-field="username" data-align="center" data-sortable="true">Item Name</th>
+                        <th  data-field="password" data-sortable="true" data-sorter="true">FullName</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+
+    <script>
+    var dataSearch = [
+        {
+            "name": "bootstrap-table",
+            "userId": "526",
+            "username": "122",
+            "password": "An extended Bootstrap table with radio, checkbox, sort, pagination, and other added features. (supports twitter bootstrap v2 and v3) "
+        }
+    ];
+
+    var dataInit = [
+        {
+            "name": "bootstrap-table",
+            "userId": "526",
+            "username": "122",
+            "password": "An extended Bootstrap table with radio, checkbox, sort, pagination, and other added features. (supports twitter bootstrap v2 and v3) "
+        },
+        {
+            "name": "multiple-select",
+            "userId": "288",
+            "username": "150",
+            "password": "A jQuery plugin to select multiple elements with checkboxes :)"
+        },
+        {
+            "name": "bootstrap-show-password",
+            "userId": "32",
+            "username": "11",
+            "password": "Show/hide password plugin for twitter bootstrap."
+        },
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        },
+        {
+            "name": "scutech-redmine",
+            "userId": "6",
+            "username": "3",
+            "password": "Redmine notification tools for chrome extension."
+        },
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        }
+        ,
+        {
+            "name": "blog",
+            "userId": "13",
+            "username": "4",
+            "password": "my blog"
+        }
+    ];
+
+    $(function () {
+        $('#table-pagination').bootstrapTable({
+            data: dataInit
+        });
+    });
+
+    var $searchButton = $('#load-data');
+    $(function () {
+        $searchButton.click(function () {
+            $.ajax({
+                type: "GET",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                url: $searchButton.val(),
+                dataType: 'json',
+                timeout: 600000,
+                success: function (data) {
+                    $('#table-pagination').bootstrapTable('load', data);
+                },
+            });
+        });
+    });
+
+    var $btnLogin = $('#login');
+    var $lblLoginInfo = $('#login-info');
+    $(function () {
+        $btnLogin.click(function () {
+            $.ajax({
+                type: "GET",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                url: $btnLogin.val(),
+                dataType: 'text',
+                timeout: 600000,
+                success: function (data) {
+                    document.getElementById("login-info").innerHTML = data;
+                },
+                error:function (data) {
+                    alert('error');
+                    alert(data);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

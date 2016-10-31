@@ -358,7 +358,7 @@
         searchText: '',
         iconSize: undefined,
         buttonsClass: 'default',
-        iconsPrefix: 'glyphicon', // glyphicon of fa (font awesome)
+        iconsPrefix: 'fa fa-th-list', // glyphicon of fa (font awesome)
         icons: {
             paginationSwitchDown: 'glyphicon-collapse-down icon-chevron-down',
             paginationSwitchUp: 'glyphicon-collapse-up icon-chevron-up',
@@ -469,7 +469,7 @@
 
     BootstrapTable.LOCALES['en-US'] = BootstrapTable.LOCALES.en = {
         formatLoadingMessage: function () {
-            return 'Loading, please wait...';
+            return '';
         },
         formatRecordsPerPage: function (pageNumber) {
             return sprintf('%s rows per page', pageNumber);
@@ -1092,7 +1092,7 @@
                 sprintf(' btn-%s', this.options.iconSize) +
                 ' dropdown-toggle" data-toggle="dropdown">',
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.columns),
-                ' <span class="caret"></span>',
+                ' <span class="fa fa-angle-down"></span>',
                 '</button>',
                 '<ul class="dropdown-menu" role="menu">');
 
