@@ -1,6 +1,8 @@
 package com.vivas.controller;
 
+import com.vivas.dto.ActionMenuDTO;
 import com.vivas.dto.User;
+import com.vivas.services.interfaces.RoleActionService;
 import com.vivas.services.interfaces.UserService;
 import com.vivas.utils.DataUtil;
 import org.slf4j.Logger;
@@ -10,10 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by duyot on 10/18/2016.
@@ -25,6 +29,9 @@ public class HomeController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RoleActionService roleActionService;
 
     @RequestMapping
     public String home(Model model){
@@ -52,24 +59,27 @@ public class HomeController {
             log.info("Login susscessfully for user: "+ loggedUser.getUsername());
             request.getSession().setAttribute("isLogin",true);
             request.getSession().setAttribute("user", loggedUser);
+            //
+            List<ActionMenuDTO> lstActionMenu = roleActionService.getUserActionService(loggedUser.getRoleId());
+            request.getSession().setAttribute("lstUserAction", lstActionMenu);
+
             return "redirect:workspace";
         }else{
             log.info("Login fail for user: "+ user.getUsername());
             return "common/error";
         }
-
     }
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public String register(User registerUser){
+    public ModelAndView register(User registerUser){
         log.info("Register user info: "+ registerUser.toString());
         registerUser.setPassword(DataUtil.MD5Encrypt(registerUser.getPassword()));
-        if(userService.register(registerUser)){
-            log.info("SUCCESS");
-        }else{
-            log.info("FAIL");
-        }
+//        if(userService.register(registerUser)){
+//            log.info("SUCCESS");
+//        }else{
+//            log.info("FAIL");
+//        }
 
-        return "common/success";
+        return new ModelAndView("index","message","message");
     }
 }

@@ -2,6 +2,7 @@ package com.vivas.controller;
 
 import com.google.common.collect.Lists;
 import com.vivas.constants.Constants;
+import com.vivas.dto.ActionMenuDTO;
 import com.vivas.dto.Condition;
 import com.vivas.dto.User;
 import com.vivas.services.interfaces.UserService;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.PathResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,8 +60,10 @@ public class WorkSpaceController {
 
 
     @RequestMapping()
-        public String home(HttpServletRequest request){
+        public String home(Model model, HttpServletRequest request){
         Object isLogin = request.getSession().getAttribute("isLogin");
+        List<ActionMenuDTO> lstActionMenu= (List<ActionMenuDTO>) request.getSession().getAttribute("lstUserAction");
+        model.addAttribute("lstUserAction",lstActionMenu);
         if(isLogin != null){
             return "workspace/wms_workspace";
         }else{

@@ -12,8 +12,9 @@ public class User {
     public String email;
     public String imgUrl;
     public String roleName;
+    public String roleId;
 
-    public User(String userId, String username, String password, String status, String createDate, String email, String imgUrl, String roleName) {
+    public User(String userId, String username, String password, String status, String createDate, String email, String imgUrl, String roleName,String roleId) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -22,6 +23,7 @@ public class User {
         this.email = email;
         this.imgUrl = imgUrl;
         this.roleName = roleName;
+        this.roleId = roleId;
     }
 
     public User() {
@@ -89,6 +91,14 @@ public class User {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     @Override

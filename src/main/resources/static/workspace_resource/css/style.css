@@ -1784,6 +1784,8 @@ ul.dropdown-menu.drp-mnu li a i {
 	font-style:italic;
 	color:#34495e;
 	font-weight:normal;
+	width: 100px;
+
 }
 /**** icon dropdown ******/
 .wrapper-dropdown-4 i.dropdown-icon{
