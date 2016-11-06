@@ -6,6 +6,7 @@ import com.vivas.dto.ActionMenuDTO;
 import com.vivas.dto.Condition;
 import com.vivas.dto.User;
 import com.vivas.services.interfaces.UserService;
+import com.vivas.utils.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class WorkSpaceController {
         List<Condition> lstCondition = Lists.newArrayList();
             lstCondition.add(new Condition("username", Constants.SQL_OPERATOR.LIKE,username));
             lstCondition.add(new Condition("email", Constants.SQL_OPERATOR.LIKE,email));
-            if(!status.equals(Constants.STATS_ALL)){
+            if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
                 lstCondition.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
             }
 

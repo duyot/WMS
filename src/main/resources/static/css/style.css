@@ -514,28 +514,6 @@ h1, h2, h3, h4, h5, h6, figure {
   line-height: 1.5;
   margin-bottom: 30px;
 }
-#fh5co-header .display-tc .btn,
-#fh5co-counter .display-tc .btn,
-.fh5co-cover .display-tc .btn {
-  padding: 15px 30px;
-  background: #f35f55;
-  color: #fff;
-  border: none !important;
-  font-size: 18px;
-  text-transform: uppercase;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  border-radius: 4px;
-}
-#fh5co-header .display-tc .btn:hover,
-#fh5co-counter .display-tc .btn:hover,
-.fh5co-cover .display-tc .btn:hover {
-  background: #f14034 !important;
-  -webkit-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
-  -moz-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
-  box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
-}
 #fh5co-header .display-tc .form-inline .form-group,
 #fh5co-counter .display-tc .form-inline .form-group,
 .fh5co-cover .display-tc .form-inline .form-group {
@@ -1543,7 +1521,7 @@ input[type="email"]{
 }
 input[type="submit"] {
     padding: 13px 80px;
-    background: #a07650;
+    background: #178bca;
     border: none;
     outline: none;
 	margin:50px 0 0 190px;
@@ -1557,7 +1535,7 @@ input[type="submit"] {
 	font-family: 'open sans',sans-serif;
 }
 input[type="submit"]:hover{
-	background:#000;
+	background:#178bca;
 }
 .email{
 	margin:0px 0px;

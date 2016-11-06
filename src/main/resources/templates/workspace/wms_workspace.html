@@ -23,8 +23,11 @@
 	<script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
 	<script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
 	<script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
+	<!--confirmation-->
+	<script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
+	<script th:attr="src=@{/js/bootstrap-confirmation.js}"  th:href="@{/js/bootstrap-confirmation.js}"></script>
 </head>
- <body class="sticky-header left-side-collapsed">
+<body class="sticky-header left-side-collapsed">
     <section>
 		<!--left menu-->
 		<div th:include="common/workspace_leftmenu :: frag-leftmenu"></div>
@@ -126,9 +129,17 @@
 							<button id="btn-update" type="button" class="btn btn-default">
 								<i class="fa fa-edit"></i>
 							</button>
-							<button id="btn-delete" type="button" class="btn btn-default">
+							<button class="btn btn btn-default" data-toggle="confirmation"
+									data-btn-ok-label="Có!" data-btn-ok-icon=""
+									data-btn-ok-class="btn-success"
+									data-btn-cancel-label="Không!" data-btn-cancel-icon=""
+									data-btn-cancel-class="btn-danger"
+									data-title="Xóa thông tin người dùng?" data-content="">
 								<i class="fa fa-trash"></i>
 							</button>
+							<!--<button id="btn-delete" type="button" class="btn btn-default">-->
+								<!--<i class="fa fa-trash"></i>-->
+							<!--</button>-->
 						</div>
 						<table  id="table-pagination"
 								data-pagination="true"
@@ -162,7 +173,6 @@
 	<!--FIANL JS-->
 	<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
 	<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
-	<script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
 
 	<script>
 //		row num
@@ -173,17 +183,39 @@
 		var dataInit = [
 		];
 
+		//@Init component-----------------------------------------------------------------------------------------------
 		$(function () {
 			$('#table-pagination').bootstrapTable({
 				data: dataInit
 			});
 
 			$('.combobox').combobox();
+
+			$('[data-toggle=confirmation]').confirmation({
+				rootSelector: '[data-toggle=confirmation]',
+				// other options
+				onConfirm: function() {
+					alert('You choosed');
+				},
+			});
 		});
-//
-
+		//@Del action------------------------------------------------------------------------------------------------------------------
+		var $btnDel = $('#btn-delete');
+		$(function () {
+			$btnDel.click(function () {
+				//check before show
+				var selectedItemArr = $('#table-pagination').bootstrapTable('getSelections');
+				var selectedItem    = selectedItemArr[0];
+				if(selectedItem == null){
+					alert('Chọn 1 bản ghi!');
+					return;
+				}
+				//show notifycation
+				//
+			});
+		});
+		//@SEARCH ACTION------------------------------------------------------------------------------------------------
 		var $btnSearch = $('#btn-load-data');
-
 		$(function () {
 			$btnSearch.click(function () {
 				var emailVal    = $('#inp-email').val();
@@ -204,7 +236,7 @@
 				});
 			});
 		});
-//		login action
+		//@Login action-------------------------------------------------------------------------------------------------
 		var $btnLogin = $('#login');
 		$(function () {
 			$btnLogin.click(function () {
@@ -216,15 +248,17 @@
 					timeout: 600000,
 					success: function (data) {
 						document.getElementById("login-info").innerHTML = data;
-					},
-					error:function (data) {
-						alert('error');
-						alert(data);
 					}
+//					,
+//					error:function (data) {
+//						alert('error');
+//						alert(data);
+//					}
 				});
 			});
 		});
-//		add action
+
+		//@Add action---------------------------------------------------------------------------------------------------
 		$btn_add = $('#btn-add');
 		$(function () {
 			$btn_add.click(function () {
@@ -232,7 +266,7 @@
 				$('#myModal').modal('show');
 			});
 		});
-//		update action
+		//@Update action------------------------------------------------------------------------------------------------
 		$btn_update = $('#btn-update');
 		$(function () {
 			$btn_update.click(function () {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +40,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String doLogin(User user, HttpServletRequest request){
+    public String doLogin(User user,Model model, HttpServletRequest request){
         String plainPassword = user.getPassword();
         user.setPassword(DataUtil.MD5Encrypt(plainPassword));
 
@@ -66,20 +67,20 @@ public class HomeController {
             return "redirect:workspace";
         }else{
             log.info("Login fail for user: "+ user.getUsername());
-            return "common/error";
+            model.addAttribute("errorMessage","Thông tin tài khoản không đúng");
+            return "/index";
         }
     }
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public ModelAndView register(User registerUser){
+    @RequestMapping(value = "/register",method = RequestMethod.POST,produces="text/plain")
+    public @ResponseBody String register(User registerUser){
         log.info("Register user info: "+ registerUser.toString());
-        registerUser.setPassword(DataUtil.MD5Encrypt(registerUser.getPassword()));
-//        if(userService.register(registerUser)){
-//            log.info("SUCCESS");
-//        }else{
-//            log.info("FAIL");
-//        }
+        if(registerUser.getUsername().equalsIgnoreCase("duyot")){
+            registerUser.setPassword(DataUtil.MD5Encrypt(registerUser.getPassword()));
+            return "Đăng ký thành công";
+        }else{
+            return "Đăng ký không thành công";
+        }
 
-        return new ModelAndView("index","message","message");
     }
 }

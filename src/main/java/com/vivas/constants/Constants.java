@@ -6,6 +6,7 @@ package com.vivas.constants;
 public class Constants {
 
     public static final String STATS_ALL = "-1";
+    public static final String STATS_NONE = "";
 
     public static class SERVICE_METHOD{
         public static String ADD = "add";
