@@ -11,223 +11,81 @@
 
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}"  th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
+    <script th:attr="src=@{/js/wms-common.js}"  th:href="@{/js/wms-common.js}"></script>
 </head>
 <body style="padding: 10px;">
-        <!--search panel-->
-        <div id="panel-search-content" class="panel panel-primary">
-            <div class="panel-heading">
-                <i class="fa fa-user fa-fw"></i>
-                Login info
-            </div>
-            <div class="panel-body">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="fa fa-envelope-o fa-fw"></i>
-                    </span>
-                    <input type="email" class="form-control"  placeholder="Email"/>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="fa fa-user-o fa-fw"></i>
-                    </span>
-                    <input type="text" class="form-control"  placeholder="User name"/>
-                </div>
-                <p></p>
-                <div class="wrapper text-center" style="text-align: center;">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-default  btn-primary" id="load-data" th:value="@{/workspace/getuser}">
-                            Search
-                        </button>
-                        <button type="button" class="btn btn-default btn-primary" id="login" th:value="@{/workspace/login}">
-                            Login
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--end search panel-->
-        <div id="panel-search-result" class="panel panel-primary">
-            <div class="panel-heading">
-                <i class="fa fa-user fa-fw"></i>
-                Result
-            </div>
-            <div class="panel-body">
-                <!--toolbar-->
-                <div id="toolbar" class="btn-group">
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-plus fa-fw"></i>
-                    </button>
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-trash fa-fw"></i>
-                    </button>
-                </div>
-                <table  id="table-pagination"
-                        data-pagination="true"
-                        data-search="true"
-                        data-show-columns="true"
-                        data-toolbar="#toolbar"
-                >
-                    <thead>
-                    <tr>
-                        <th  data-checkbox="true"></th>
-                        <th  data-field="userId" data-align="right" data-sortable="true">ID</th>
-                        <th  data-field="username" data-align="center" data-sortable="true">Item Name</th>
-                        <th  data-field="password" data-sortable="true" data-sorter="true">FullName</th>
-                    </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
 
+    <form id="upload-file-form" method="post" th:action="@{/workspace/upload}" enctype="multipart/form-data">
+        <div class="input-group">
+            <label for="upload-file-input">Upload your file:</label>
+            <input id="upload-file-input" type="file" class="form-control" name="uploadfile" />
+            <input id="inp-username" class="form-control" type="text" name="username"/>
+            <button id="btn-submit" type="submit" class="btn btn-default" th:value="@{/workspace/upload}">Upload</button>
+            <p></p>
+            <label id="upload-action-info"></label>
+        </div>
+    </form>
 
     <script>
-    var dataSearch = [
-        {
-            "name": "bootstrap-table",
-            "userId": "526",
-            "username": "122",
-            "password": "An extended Bootstrap table with radio, checkbox, sort, pagination, and other added features. (supports twitter bootstrap v2 and v3) "
-        }
-    ];
+//        $btnUpload = $('#btn-submit');
+//        $btnUpload.click(function () {
+//            var fileName = $('#upload-file-input').val();
+//            var fileExtension = getExtension(fileName);
+//            if(!isDocument(fileExtension)){
+//                alert('File không đúng định dạng!');
+//                return;
+//            }
+//            $.ajax({
+//                url: $btnUpload.val(),
+//                type: 'POST',
+//                data:{uploadfile:new FormData($("#upload-file-form")[0]),username:"duyot"},
+//                enctype: 'multipart/form-data',
+//                processData: false,
+//                contentType: false,
+//                cache: false,
+//                success:function (data) {
+//                    document.getElementById("upload-action-info").innerHTML = data;
+//                },
+//                error:function () {
+//                    document.getElementById("upload-action-info").innerHTML = 'Quá dung lượng hoặc file không hỗ trợ';
+//                }
+//            });
+//
+//            $("#upload-file-input").val('');
+//        });
 
-    var dataInit = [
-        {
-            "name": "bootstrap-table",
-            "userId": "526",
-            "username": "122",
-            "password": "An extended Bootstrap table with radio, checkbox, sort, pagination, and other added features. (supports twitter bootstrap v2 and v3) "
-        },
-        {
-            "name": "multiple-select",
-            "userId": "288",
-            "username": "150",
-            "password": "A jQuery plugin to select multiple elements with checkboxes :)"
-        },
-        {
-            "name": "bootstrap-show-password",
-            "userId": "32",
-            "username": "11",
-            "password": "Show/hide password plugin for twitter bootstrap."
-        },
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        },
-        {
-            "name": "scutech-redmine",
-            "userId": "6",
-            "username": "3",
-            "password": "Redmine notification tools for chrome extension."
-        },
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        }
-        ,
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        }
-        ,
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        }
-        ,
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        }
-        ,
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        }
-        ,
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        }
-        ,
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        }
-        ,
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        }
-        ,
-        {
-            "name": "blog",
-            "userId": "13",
-            "username": "4",
-            "password": "my blog"
-        }
-    ];
+//        $('#upload-file-form').submit(function(evt){
+//            evt.preventDefault();
+//            formData = $('#upload-file-form').serialize();
+//
+//            var fileName = $('#upload-file-input').val();
+//            var fileExtension = getExtension(fileName);
+//            if(!isDocument(fileExtension)){
+//                alert('File không đúng định dạng!');
+//                return;
+//            }
+//
+//            var postData = {uploadfile:new FormData($("#upload-file-form")[0]),username:"duyot"}
+//
+//            $.ajax({
+//                url: $('#btn-submit').val(),
+//                type: 'POST',
+//                data:JSON.stringify(postData) ,
+//                enctype: 'multipart/form-data',
+//                processData: false,
+//                contentType: false,
+//                cache: false,
+//                success:function (data) {
+//                    document.getElementById("upload-action-info").innerHTML = data;
+//                },
+//                error:function () {
+//                    document.getElementById("upload-action-info").innerHTML = 'Quá dung lượng hoặc file không hỗ trợ';
+//                }
+//            });
+//
+//            $("#upload-file-input").val('');
+//        });
 
-    $(function () {
-        $('#table-pagination').bootstrapTable({
-            data: dataInit
-        });
-    });
-
-    var $searchButton = $('#load-data');
-    $(function () {
-        $searchButton.click(function () {
-            $.ajax({
-                type: "GET",
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                url: $searchButton.val(),
-                dataType: 'json',
-                timeout: 600000,
-                success: function (data) {
-                    $('#table-pagination').bootstrapTable('load', data);
-                },
-            });
-        });
-    });
-
-    var $btnLogin = $('#login');
-    var $lblLoginInfo = $('#login-info');
-    $(function () {
-        $btnLogin.click(function () {
-            $.ajax({
-                type: "GET",
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                url: $btnLogin.val(),
-                dataType: 'text',
-                timeout: 600000,
-                success: function (data) {
-                    document.getElementById("login-info").innerHTML = data;
-                },
-                error:function (data) {
-                    alert('error');
-                    alert(data);
-                }
-            });
-        });
-    });
-</script>
-
+    </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head >
-	<title>WMS- Workspace</title>
+	<title>WMS - Workspace</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="WMS" />
@@ -9,23 +9,28 @@
 	<link rel='stylesheet' href="css/bootstrap.css" th:href="@{/css/bootstrap.css}"  type='text/css' />
 	<link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/css/bootstrap-table.css}"/>
 	<link rel='stylesheet' href="css/style.css" th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
-	<link rel="stylesheet" href="css/icon-font.min.css" th:href="@{/workspace_resource/css/icon-font.min.css}" type='text/css' />
 	<link rel="stylesheet" href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
 	<link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
 
 	<link rel="stylesheet" href="/css/bootstrap-combobox.css" th:href="@{/css/bootstrap-combobox.css}"/>
-	<!--script-->
-	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-	<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
-	<script>
-					new WOW().init();
-		</script>
-	<script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
-	<script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
-	<script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
-	<!--confirmation-->
-	<script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
-	<script th:attr="src=@{/js/bootstrap-confirmation.js}"  th:href="@{/js/bootstrap-confirmation.js}"></script>
+    <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
+    <!--script-->
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
+    <script>
+                new WOW().init();
+    </script>
+    <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
+    <!--confirmation-->
+    <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
+    <script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>
+    <!--datetime-->
+    <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
+    <script th:attr="src=@{/js/daterangepicker.js}" th:href="@{/js/daterangepicker.js}"></script>
+    <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
+
 </head>
 <body class="sticky-header left-side-collapsed">
     <section>
@@ -71,6 +76,7 @@
 									</div>
 								</div>
 							</div>
+							<!--row 2: email + vai tro-->
 							<div class="row">
 								<div class="col-sm-2">
 									<label>Email</label>
@@ -92,12 +98,28 @@
 									<div class="input-group">
 										<select id="cmb-role" class="combobox form-control">
 											<option value="-1">Tất cả</option>
-											<option value="1">Admin</option>
-											<option value="2">User</option>
+                                            <option th:each="sopt:${mapRoles.entrySet()}"
+                                                    th:value="${sopt.key}" th:text="${sopt.value}">Admin</option>
+											<!--<option value="1">Admin</option>-->
+											<!--<option value="2">User</option>-->
 										</select>
 									</div>
 								</div>
 							</div>
+                            <!--row 3: datetime-->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Ngày tạo</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar fa-fw"></i>
+										</span>
+                                        <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 
 						<p></p>
@@ -106,9 +128,6 @@
 							<div class="btn-group" role="group" aria-label="Basic example">
 								<button type="button" class="btn btn-default  btn-primary" id="btn-load-data" th:value="@{/workspace/getuser}">
 									Search
-								</button>
-								<button type="button" class="btn btn-default btn-primary" id="login" th:value="@{/workspace/login}">
-									Login
 								</button>
 							</div>
 						</div>
@@ -121,26 +140,21 @@
 						Result
 					</div>
 					<div class="panel-body">
-						<!--toolbar-->
-						<div id="toolbar" class="btn-group">
-							<button id="btn-add" type="button" class="btn btn-default">
-								<i class="fa fa-plus"></i>
+                    <!--toolbar-->
+                            <div id="toolbar" class="btn-group">
+                            <button id="btn-add" th:value="@{/workspace/add}" type="button" class="btn btn-default">
+                            <i class="fa fa-plus"></i>
 							</button>
-							<button id="btn-update" type="button" class="btn btn-default">
+							<button id="btn-update" th:value="@{/workspace/update}" type="button" class="btn btn-default">
 								<i class="fa fa-edit"></i>
 							</button>
-							<button class="btn btn btn-default" data-toggle="confirmation"
-									data-btn-ok-label="Có!" data-btn-ok-icon=""
-									data-btn-ok-class="btn-success"
-									data-btn-cancel-label="Không!" data-btn-cancel-icon=""
-									data-btn-cancel-class="btn-danger"
-									data-title="Xóa thông tin người dùng?" data-content="">
+							<button id="btn-delete" th:value="@{/workspace/delete}" type="button" class="btn btn-default">
 								<i class="fa fa-trash"></i>
 							</button>
-							<!--<button id="btn-delete" type="button" class="btn btn-default">-->
-								<!--<i class="fa fa-trash"></i>-->
-							<!--</button>-->
-						</div>
+
+                            <label class="action-info" id="action-info"  th:text="${actionInfo}" th:style="${successStyle}"></label>
+							<label id="del-action-info"></label>
+                    </div>
 						<table  id="table-pagination"
 								data-pagination="true"
 								data-search="true"
@@ -154,9 +168,11 @@
 							<tr>
 								<th  class="col-md-1" data-checkbox="true"></th>
 								<th  class="col-md-1" data-formatter="runningFormatter" data-align="center">STT</th>
-								<th  class="col-md-2" data-field="userId" data-align="center" data-sortable="true">ID</th>
-								<th  class="col-md-4" data-field="username" data-align="left" data-sortable="true">Item Name</th>
-								<th  class="col-md-4" data-field="password" data-align="left" data-sorter="true">FullName</th>
+								<th  class="col-md-1" data-field="userId" data-align="center" data-sortable="true">ID</th>
+								<th  class="col-md-3" data-field="username" data-align="left" data-sortable="true">Tài khoản </th>
+								<th  class="col-md-3" data-field="email" data-align="left" data-sorter="true">Email</th>
+								<th  class="col-md-2" data-field="roleName" data-align="left" data-sorter="true">Vai trò</th>
+								<th  class="col-md-1" data-field="status" data-align="left" data-sorter="true">Trạng thái</th>
 							</tr>
 							</thead>
 						</table>
@@ -165,16 +181,20 @@
 			</div>
 		</div>
 		<!--modal-->
-		<div th:include="modal/add_user_modal :: frag-modal"></div>
+		<div th:include="modal/add_user_modal :: frag-add-user-modal"></div>
+		<div th:include="modal/confirm_modal :: frag-confirm-del-modal"></div>
 		<!--footer-->
 		<div th:include="common/footer :: frag-footer"></div>
 	</section>
 
-	<!--FIANL JS-->
+	<!--FINAL JS-->
 	<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
 	<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 
 	<script>
+        function clearActionInfo() {
+            $('.action-info').text('');
+        }
 //		row num
 		function runningFormatter(value, row, index) {
 			return index +1;
@@ -189,43 +209,83 @@
 				data: dataInit
 			});
 
-			$('.combobox').combobox();
+            $('.combobox').combobox();
 
-			$('[data-toggle=confirmation]').confirmation({
-				rootSelector: '[data-toggle=confirmation]',
-				// other options
-				onConfirm: function() {
-					alert('You choosed');
-				},
-			});
+            initDateRangeSelect();
 		});
-		//@Del action------------------------------------------------------------------------------------------------------------------
-		var $btnDel = $('#btn-delete');
+
+        $btnShowTime = $('#btn-show-time');
+
+        $btnShowTime.click(function () {
+
+
+        });
+		//@Del action---------------------------------------------------------------------------------------------------
+        var $btnDel = $('#btn-delete');
+        var selectedDelItem;
 		$(function () {
 			$btnDel.click(function () {
-				//check before show
 				var selectedItemArr = $('#table-pagination').bootstrapTable('getSelections');
 				var selectedItem    = selectedItemArr[0];
 				if(selectedItem == null){
-					alert('Chọn 1 bản ghi!');
+					alert('Chọn 1 bản ghi');
 					return;
 				}
-				//show notifycation
-				//
+				$("#lbl-del-info").text('Xóa thông tin: '+ selectedItem['username']);
+				$('#myDelModal').modal('show');
 			});
 		});
+
+		var $btnDelConfirmed = $('#modal-btn-del-ok');
+		$btnDelConfirmed.click(function () {
+			//
+			var selectedItemArr = $('#table-pagination').bootstrapTable('getSelections');
+			var selectedItem    = selectedItemArr[0];
+			userIdVal = selectedItem['userId'];
+			$.ajax({
+				type: "POST",
+				cache:false,
+				data:{userId:userIdVal},
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				url: $btnDel.val(),
+				dataType: 'text',
+				timeout: 600000,
+				success: function (data) {
+					resultArr = data.split('|');
+					resultCode = resultArr[0];
+					resultName = resultArr[1];
+					if(resultCode == 1){
+						document.getElementById("del-action-info").style = 'color:#337ab7';
+					}
+					document.getElementById("del-action-info").innerHTML = resultName;
+					$('#btn-load-data').trigger('click');
+
+				},
+				error:function(){
+					document.getElementById("del-action-info").innerHTML = 'Lỗi hệ thống';
+				},
+			});
+			//
+			$('#myDelModal').modal('hide');
+			//
+		});
+
 		//@SEARCH ACTION------------------------------------------------------------------------------------------------
 		var $btnSearch = $('#btn-load-data');
 		$(function () {
 			$btnSearch.click(function () {
+                clearActionInfo();
 				var emailVal    = $('#inp-email').val();
 				var usernameVal = $('#inp-username').val();
 				var statusVal   = $('#cmb-status').val();
 				var roleVal     = $('#cmb-role').val();
+                var drp = $('#create-date-range').data('daterangepicker');
+                var startDateVal = drp.startDate.format("DD/MM/YYYY");
+                var endDateVal   = drp.endDate.format("DD/MM/YYYY");
 				$.ajax({
 					type: "GET",
 					cache:false,
-					data:{username:usernameVal,email:emailVal,status:statusVal,role:roleVal},
+					data:{username:usernameVal,email:emailVal,status:statusVal,role:roleVal,startDate:startDateVal,endDate:endDateVal},
 					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 					url: $btnSearch.val(),
 					dataType: 'json',
@@ -249,11 +309,6 @@
 					success: function (data) {
 						document.getElementById("login-info").innerHTML = data;
 					}
-//					,
-//					error:function (data) {
-//						alert('error');
-//						alert(data);
-//					}
 				});
 			});
 		});
@@ -262,7 +317,8 @@
 		$btn_add = $('#btn-add');
 		$(function () {
 			$btn_add.click(function () {
-				changeModelByType(1,null);
+                clearActionInfo();
+				changeModelByType(1,null,$btn_add.val());
 				$('#myModal').modal('show');
 			});
 		});
@@ -270,6 +326,7 @@
 		$btn_update = $('#btn-update');
 		$(function () {
 			$btn_update.click(function () {
+                clearActionInfo();
 				//check before show
 				selectedItemArr = $('#table-pagination').bootstrapTable('getSelections');
 				selectedItem    = selectedItemArr[0];
@@ -277,25 +334,36 @@
 					alert('Chọn 1 bản ghi!');
 					return;
 				}
-				changeModelByType(2,selectedItem);
+				changeModelByType(2,selectedItem,$btn_update.val());
 				$('#myModal').modal('show');
 			});
 		});
 
-		function changeModelByType(type,selectedItem) {
+		function changeModelByType(type,selectedItem,actionVal) {
+            $("#user-insert-update-form").attr("th:object",actionVal);
 			if(type == 1){//add
+                $("#user-insert-update-form").attr("action",actionVal);
+
 				$("#myModalLabel").text('Thêm mới');
 				$("#modal-inp-username").val('');
 				$("#modal-inp-email").val('');
 
 				$("#modal-btn-update").hide();
 				$("#modal-btn-add").show();
-			}else{
-				username = selectedItem["username"];
-				email    = selectedItem["email"];
+			}else{//update
+                $("#user-insert-update-form").attr("action",actionVal);
 				$("#myModalLabel").text('Cập nhật');
-				$("#modal-inp-username").val(username);
-				$("#modal-inp-email").val(email);
+				$("#modal-inp-username").val(selectedItem["username"]);
+				$("#modal-inp-email").val(selectedItem["email"]);
+                //
+				$("#modal-inp-userId").val(selectedItem["userId"]);
+				$("#modal-inp-password").val(selectedItem["password"]);
+				$("#modal-inp-createDate").val(selectedItem["createDate"]);
+				$("#modal-inp-imgUrl").val(selectedItem["imgUrl"]);
+				$("#modal-inp-roleName").val(selectedItem["roleName"]);
+				$("#modal-cmb-roleundefined").val(selectedItem["roleName"]);
+				var statusName = selectedItem["status"] == 1?'Hiệu lực':"Hết hiệu lực";
+				$("#modal-cmb-statusundefined").val(statusName);
 
 				$("#modal-btn-update").show();
 				$("#modal-btn-add").hide();

@@ -4,47 +4,161 @@
 </head>
 <body>
 
-<div th:fragment="frag-modal">
+<div th:fragment="frag-add-user-modal">
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
-                        <!--<span aria-hidden="true">&times;</span>-->
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Thêm mới</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container-modal">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="input-group">
-										<span class="input-group-addon">
-											<i class="fa fa-envelope-o fa-fw"></i>
-										</span>
-                                    <input id="modal-inp-email" type="email" class="form-control"  placeholder="Email"/>
+            <form id="user-insert-update-form" action="" method="post">
+                <div class="modal-content" id="user-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Thêm mới</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                                <!--hidden fields-->
+                            <input id="modal-inp-userId" hidden="true" name="userId"/>
+                            <input id="modal-inp-password" hidden="true" name="password"/>
+                            <input id="modal-inp-createDate" hidden="true" name="createDate"/>
+                            <input id="modal-inp-imgUrl" hidden="true" name="imgUrl"/>
+                            <input id="modal-inp-roleName" hidden="true" name="roleName"/>
+                                <!--row 1-->
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="input-group">
+                                            <label for="modal-inp-username" class="control-label">Username:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-user-o fa-fw"></i>
+                                                </span>
+                                            <input id="modal-inp-username" class="form-control" type="text" th:required="true" name="username" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="input-group">
+                                            <label for="modal-inp-email" class="control-label">Email:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-envelope-o fa-fw"></i>
+                                                </span>
+                                            <input id="modal-inp-email" class="form-control" type="email" th:required="true" name="email"  placeholder="example@gmail.com"/>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="input-group">
-										<span class="input-group-addon">
-											<i class="fa fa-user-o fa-fw"></i>
-										</span>
-                                    <input id="modal-inp-username" type="text" class="form-control"  placeholder="User name"/>
+                                <!--row 2-->
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="input-group">
+                                            <label for="modal-cmb-role" class="control-label">Vai trò:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <select id="modal-cmb-role" class="combobox form-control" name="roleId" th:required="true">
+                                                <option th:each="sopt:${mapRoles.entrySet()}"
+                                                        th:value="${sopt.key}" th:text="${sopt.value}">Admin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="input-group">
+                                            <label for="modal-cmb-role" class="control-label">Trạng thái:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <select id="modal-cmb-status" name="status" class="combobox form-control" th:required="true">
+                                                <option value="1" selected="true">Hiệu lực</option>
+                                                <option value="0">Hết hiệu lực</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-update"  type="submit" class="btn btn-primary"  >Update</button>
+                        <button id="modal-btn-add"     type="submit" class="btn btn-primary"  >Add</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="modal-btn-update" type="button" class="btn btn-primary"  >Save</button>
-                    <button id="modal-btn-add"    type="button" class="btn btn-primary"  >Create</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+
+    <!--<script>-->
+        <!--$btnAdd    = $('#modal-btn-add');-->
+        <!--$btnUpdate = $('#modal-btn-update');-->
+
+        <!--$(function () {-->
+            <!--$btnAdd.click(function () {-->
+                <!--$('#user-modal').validator()-->
+                <!--var jsonData = JSON.stringify(getDataObject());-->
+                <!--$.ajax({-->
+                    <!--type: "POST",-->
+                    <!--cache:false,-->
+                    <!--data:jsonData,-->
+                    <!--contentType : "application/json",-->
+                    <!--url: $btnAdd.val(),-->
+                    <!--dataType: 'text',-->
+                    <!--timeout: 600000,-->
+                    <!--success: function (data) {-->
+                        <!--var resultArr = new Array();-->
+                        <!--resultArr = data.split('|');-->
+                        <!--resultCode = resultArr[0];-->
+                        <!--resultName = resultArr[1];-->
+                        <!--//show notify-->
+                        <!--show_notify(resultCode,resultName);-->
+                    <!--},-->
+                <!--});-->
+
+            <!--});-->
+            <!--$btnUpdate.click(function () {-->
+                <!--show_notify_error('Cập nhật thành công!');-->
+            <!--});-->
+        <!--});-->
+
+        <!--function getDataObject() {-->
+            <!--var emailVal    = $('#modal-inp-email').val();-->
+            <!--var usernameVal = $('#modal-inp-username').val();-->
+            <!--var statusVal   = $('#modal-cmb-status').val();-->
+            <!--var roleVal     = $('#modal-cmb-role').val();-->
+
+            <!--var dataObject = {username: usernameVal, email : emailVal,status:statusVal,roleId:roleVal};-->
+            <!--return dataObject;-->
+        <!--}-->
+
+        <!--function show_notify(type,data) {-->
+            <!--var titleVar;-->
+            <!--var typeVal;-->
+            <!--if(type == '1'){-->
+                <!--titleVar = "Thành công";-->
+                <!--typeVal = "success";-->
+            <!--}else{-->
+                <!--titleVar = "Lỗi";-->
+                <!--typeVal = "error";-->
+            <!--}-->
+            <!--var opts = {-->
+                <!--title: titleVar,-->
+                <!--type:  typeVal,-->
+                <!--text: data,-->
+                <!--styling: "brighttheme",-->
+                <!--width: "250px",-->
+                <!--delay: 4000,-->
+                <!--shadow: true-->
+            <!--};-->
+            <!--new PNotify(opts);-->
+        <!--}-->
+    <!--</script>-->
 </div>
 
 </body>

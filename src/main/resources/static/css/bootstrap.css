@@ -873,6 +873,7 @@ pre code {
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
+  margin-top: -6px;
 }
 .container:before, .container:after {
   content: " ";
@@ -5402,7 +5403,7 @@ button.close {
 }
 
 .modal-header {
-  padding: 10px;
+  padding: 8px;
   border-bottom: 1px solid #e5e5e5;
   min-height: 16.42857px;
   background-color:#337ab7;
@@ -5457,7 +5458,7 @@ button.close {
 
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 600px;
+    width: 750px;
     margin: 30px auto;
   }
 

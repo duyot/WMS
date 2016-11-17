@@ -158,15 +158,15 @@
                             <li class="dropdown profile_details_drop">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <div class="profile_img" style="min-width:170px">
-                                        <!--<span th:style="'background:url('+${session.user.imgUrl}');'"></span>-->
-                                        <!--<span th:background="@{/images/}+${session.user.imgUrl}"></span>-->
                                         <span th:style="'background:url('+@{/images/user_profile/}+${session.user.imgUrl}+');'"></span>
                                         <div class="user-name">
                                             <p th:text="${session.user.username}"></p>
                                             <p><span th:text="${session.user.roleName}"></span></p>
                                         </div>
-                                        <i class="lnr lnr-chevron-down"></i>
-                                        <i class="lnr lnr-chevron-up"></i>
+
+
+                                        <i class="fa fa-angle-down"></i>
+                                        <i class="fa fa-angle-up"></i>
 
                                         <div class="clearfix"></div>
                                     </div>

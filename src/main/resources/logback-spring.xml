@@ -9,9 +9,9 @@
     </appender>
     <!--log by time-->
     <appender name="FILEBYTIME" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/WMS/logs/logFile.log</file>
+        <file>/WMS/logs/portal/logFile.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/WMS/logs/logFile.%d.log</fileNamePattern>
+            <fileNamePattern>/WMS/logs/portal/logFile.%d.log</fileNamePattern>
             <maxHistory>30</maxHistory><!--the maximum number of archive files to keep-->
             <totalSizeCap>3GB</totalSizeCap><!--total size of all archive files-->
             <!--<maxFileSize>100MB</maxFileSize>-->
@@ -20,9 +20,27 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
+
+    <!--sift log-->
+    <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>userid</key>
+            <defaultValue>unknown</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="FILE-${userid}" class="ch.qos.logback.core.FileAppender">
+                <file>/WMS/logs/portal/user/${userid}.log</file>
+                <append>false</append>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern> %userid %d [%thread] %level %mdc %logger{35} - %msg%n</pattern>
+                </layout>
+            </appender>
+        </sift>
+    </appender>
     <!--ROOT -->
     <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILEBYTIME"/>
+        <!--<appender-ref ref="SIFT"/>-->
     </root>
 </configuration>
