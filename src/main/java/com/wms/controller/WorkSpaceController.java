@@ -5,6 +5,7 @@ import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.RoleActionService;
 import com.wms.services.interfaces.UserService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +49,9 @@ public class WorkSpaceController {
     @Autowired
     BaseService roleService;
 
+    @Autowired
+    RoleActionService roleActionService;
+
     Map<String,String> mapRoles;
 
     @ModelAttribute("mapRoles")
@@ -66,8 +71,8 @@ public class WorkSpaceController {
     @RequestMapping()
     public String home(Model model, HttpServletRequest request){
         Object isLogin = request.getSession().getAttribute("isLogin");
-        List<ActionMenuDTO> lstActionMenu= (List<ActionMenuDTO>) request.getSession().getAttribute("lstUserAction");
-        model.addAttribute("lstUserAction",lstActionMenu);
+        List<ActionMenuDTO> lstActionMenu = roleActionService.getUserActionService("1000");
+        request.getSession().setAttribute("lstUserAction",lstActionMenu);
         model.addAttribute("action-info","");
         if(isLogin != null){
             return "workspace/wms_workspace";
@@ -76,6 +81,25 @@ public class WorkSpaceController {
         }
     }
 
+    //redirect with role------------------------------------------------------------------------------------------------
+    @RequestMapping("/sysadmin")
+    public String sysadmin(){
+        return "workspace/wms_workspace";
+    }
+    @RequestMapping("/cusadmin")
+    public String cusadmin(){
+        return "workspace/wms_workspace";
+    }
+    @RequestMapping("/admin")
+    public String admin(){
+        return "workspace/wms_workspace";
+    }
+    @RequestMapping("/user")
+    public String user(){
+        return "workspace/wms_workspace";
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping("/logout")
         public String logout(HttpServletRequest request){
             request.getSession().invalidate();
@@ -115,7 +139,7 @@ public class WorkSpaceController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(User addUser,RedirectAttributes redirectAttributes){
-        addUser.setPassword(DataUtil.MD5Encrypt("wms"));
+        addUser.setPassword(DataUtil.BCryptPasswordEncoder("wms"));
         addUser.setRoleName(mapRoles.get(addUser.getRoleId()));
         log.info("Register user info: "+ addUser.toString());
 
@@ -166,7 +190,8 @@ public class WorkSpaceController {
         }
     }
 
-    @RequestMapping("/wms")
+    @PreAuthorize("hasRole('SYS_ADMIN')")
+    @RequestMapping("/abc/list_menu")
     public String wms(){
         return "index_boot";
     }

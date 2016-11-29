@@ -12,6 +12,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -48,6 +49,16 @@ public class DataUtil {
 
     public static boolean isEmail(String email){
         return EmailValidator.getInstance().isValid(email);
+    }
+
+
+    public static String BCryptPasswordEncoder(String password){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(DataUtil.BCryptPasswordEncoder("123456a@"));
     }
 
     public static String MD5Encrypt(String inputString)

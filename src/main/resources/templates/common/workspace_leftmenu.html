@@ -16,14 +16,14 @@
             <!--sidebar nav start-->
             <ul class="nav nav-pills nav-stacked custom-nav">
                 <li class="menu-list" th:each="action:${session.lstUserAction}">
-                    <a th:href="${action.parentAction.url}">
+                    <a th:href="@{${action.parentAction.url}}">
                         <i th:class="${action.parentAction.imgClass}"></i>
                         <span th:text="${action.parentAction.actionName}"></span>
                     </a>
 
                     <ul class="sub-menu-list" >
                         <li th:each="subaction:${action.lstSubAction}">
-                            <a th:href="${subaction.url}" th:text="${subaction.actionName}"></a>
+                            <a th:href="@{${subaction.url}}" th:text="${subaction.actionName}"></a>
                         </li>
                     </ul>
                 </li>
