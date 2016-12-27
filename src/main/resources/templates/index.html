@@ -21,10 +21,9 @@
 	<meta name="twitter:card" content="" />
 
 	<link rel="stylesheet" href="css/animate.css" th:href="@{/css/animate.css}"/>
-	<link rel="stylesheet" href="css/icomoon.css" th:href="@{/css/icomoon.css}"/>
 	<link rel="stylesheet" href="css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
 	<link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}" />
-	<link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+	<link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
 	<!-- jQuery -->
 	<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
 	<script>
@@ -53,7 +52,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-2">
-					<div id="fh5co-logo"><a href="index_boot.html">WMS</a></div>
+					<div id="fh5co-logo"><a href="index_boot.html"></a></div>
 				</div>
 				<div class="col-xs-10 text-right menu-1">
 					<ul>
@@ -87,45 +86,15 @@
 		</div>
 	</nav>
 
-	<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="background-image:url(images/img_bg_2.jpg);">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center">
-					<div class="display-t">
-						<div class="display-tc animate-box" data-animate-effect="fadeIn">
-							<h1>Services</h1>
-							<h2>Free html5 templates Made by <a href="http://freehtml5.co" target="_blank">freehtml5.co</a></h2>
-						</div>
-						<!--login form-->
-						<div class="display-tc animate-box" data-animate-effect="fadeIn">
-							<p th:text="${errorMessage}" style="color:red"></p>
-							<form action="#" th:attr="action=@{/login}" method="post">
-								<div class="left">
-									<div class="username">
-										<input type="text" name="username" class="username" placeholder="Your Name" required=""/>
-									</div>
-
-									<div class="email">
-										<input type="password" name="password" class="email" placeholder="Your Password" required=""/>
-									</div>
-									<input type="submit" class="btn btn-default" value="Login"/>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner">
+		<img th:src="@{/images/wms_background.jpg}" style="width:100%;height: 550px"/>
 	</header>
 	
 	<div id="fh5co-services">
 		<div class="container">
 			<div class="col-md-6 col-sm-6 animate-box">
 				<div class="feature-center">
-					<span class="icon icon2">
-						<i class="icon-eye"></i>
-					</span>
+					<i class="fa fa-search"></i>
 					<div class="desc">
 						<h3>Retina Ready</h3>
 						<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>

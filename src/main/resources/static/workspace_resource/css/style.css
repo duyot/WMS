@@ -4,7 +4,6 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 */
-
 .action-info{
 	color:#f44336;
 	margin-left:10px;
@@ -19,7 +18,7 @@ h4, h5, h6,
 h1, h2, h3 {margin-top: 0;}
 ul, ol {margin: 0;}
 html, body{
-  	font-family: FontAwesome;
+	font-family: 'Open Sans', sans-serif !important;
     font-size: 96%;
   	overflow-x: hidden;
 	background: #f9f9f9;
@@ -42,7 +41,7 @@ a:focus, a:active, a:hover {
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: 'Cabin', sans-serif;
+	font-family: 'Open Sans', sans-serif;
 }
 .icons {
     margin: 2em 2em;
@@ -1790,7 +1789,7 @@ ul.dropdown-menu.drp-mnu li a i {
 	font-size:14px;
 	color:#F44336;
 	line-height:.6em;
-	font-weight:700;
+	font-weight:500;
 }
 .user-name p span{
 	font-size:12px;
@@ -2999,8 +2998,8 @@ h2.modal-title {
   font-size: 0.85em;
 }
 .radio label, .checkbox label, label{
-  font-size: 1em;
-  font-weight:bold;
+  font-size: 0.95em;
+  font-weight:normal;
   vertical-align: middle;
 }
 .checkbox1{

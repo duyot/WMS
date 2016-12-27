@@ -1,15 +1,9 @@
 package com.wms.dto;
 
-import com.wms.base.BaseDTO;
-import com.wms.base.BaseModel;
-import com.wms.persistents.model.Customer;
-import com.wms.utils.DateTimeUtils;
-import com.wms.utils.StringUtils;
-
 /**
  * Created by duyot on 12/6/2016.
  */
-public class CustomerDTO extends BaseDTO{
+public class CustomerDTO{
     private String id;
     private String code;
     private String name;
@@ -127,11 +121,21 @@ public class CustomerDTO extends BaseDTO{
         this.createDate = createDate;
     }
 
+
     @Override
-    public BaseModel toModel() {
-        return new Customer(!StringUtils.validString(id) ? null:Long.valueOf(id),
-                code,name,type,telNumber,email,bankName,bankAccountCode,address,
-                !StringUtils.validString(status) ? null:Long.valueOf(status),
-                !StringUtils.validString(createDate) ? null: DateTimeUtils.convertStringToDate(createDate));
+    public String toString() {
+        return "CustomerDTO{" +
+                "id='" + id + '\'' +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", telNumber='" + telNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", bankName='" + bankName + '\'' +
+                ", bankAccountCode='" + bankAccountCode + '\'' +
+                ", address='" + address + '\'' +
+                ", status='" + status + '\'' +
+                ", createDate='" + createDate + '\'' +
+                '}';
     }
 }

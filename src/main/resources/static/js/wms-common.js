@@ -46,6 +46,24 @@ function isImage(filename) {
     return false;
 }
 
+function clearActionInfo() {
+    $('#action-info').text('');
+    $('#del-action-info').text('');
+}
+
+function showAdd() {
+    $("#myModalLabel").text('Thêm mới');
+    $("#modal-btn-update").hide();
+    $("#modal-btn-add").show();
+}
+function showUpdate() {
+    $("#myModalLabel").text('Cập nhật');
+    $("#modal-btn-update").show();
+    $("#modal-btn-add").hide();
+}
+
+
+
 function isDocument(filename) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {

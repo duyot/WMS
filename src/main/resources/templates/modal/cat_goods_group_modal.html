@@ -1,10 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
+
+<div th:fragment="frag-cat-goods_group-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form id="cat-goods-group-insert-update-form" action="" method="post">
+                <div class="modal-content" id="user-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Thêm mới</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--hidden fields-->
+                            <input id="modal-inp-id" hidden="true" name="id"/>
+                            <!--row 1-->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <label class="control-label">Khách hàng:</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <select th:name="custId" id="cmb-customer" class="combobox form-control" th:if="${lstCustomers.size() &gt; 1}" >
+                                            <option  th:each="sopt:${lstCustomers}"
+                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                        </select>
+
+                                        <label id="lblCustomer" th:value="${lstCustomers.get(0).getId()}" th:if="${lstCustomers.size() == 1}" th:text="${lstCustomers.get(0).getName()}"></label>
+                                        <input id="modal-inp-customerId" hidden="true" th:if="${lstCustomers.size() == 1}" th:value="${lstCustomers.get(0).getId()}" type="text" th:name="custId"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <label for="modal-inp-name" class="control-label">Nhóm hàng:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa  fa-server fa-fw"></i>
+                                                </span>
+                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name"  placeholder="Điện tử, điện lạnh..."/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="div-status" class="row">
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <label class="control-label">Trạng thái:</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <select id="modal-cmb-status" name="status" class="combobox form-control" th:required="true">
+                                            <option value="1" selected="true">Hiệu lực</option>
+                                            <option value="0">Hết hiệu lực</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-update"  type="submit" class="btn btn-primary"  >Update</button>
+                        <button id="modal-btn-add"     type="submit" class="btn btn-primary"  >Add</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

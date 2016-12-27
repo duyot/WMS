@@ -11,6 +11,7 @@ public interface BaseService<T>{
     public boolean add(T tObject);
     public boolean update(T tObject);
     public boolean delete(Long id);
+    public T findById(Long id);
     public List<T> findByCondition(List<Condition> lstCondition);
     public List<T> getAll();
 }

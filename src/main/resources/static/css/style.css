@@ -1454,7 +1454,6 @@ h1, h2, h3, h4, h5, h6, figure {
 	img{max-width:100%;}
 /*-- //Reset-Code --*/
 body {
-	background:url('../images/bg.jpg') no-repeat 0px 0px;
 	background-size: cover;
 	font-family: 'Open Sans', sans-serif;
 	background-attachment: fixed;
@@ -1472,7 +1471,7 @@ h1 {
 	font-weight:400;
 }
 .container{
-	width:90%;
+	width:100%;
 	margin:0 auto;
 }
 .register .container{

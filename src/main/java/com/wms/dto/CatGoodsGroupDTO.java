@@ -9,6 +9,7 @@ public class CatGoodsGroupDTO {
     private String name;
     private String status;
     private String custId;
+    private String custName;
 
     public CatGoodsGroupDTO(String id, String name, String status, String custId) {
         this.id = id;
@@ -50,6 +51,14 @@ public class CatGoodsGroupDTO {
 
     public void setCustId(String custId) {
         this.custId = custId;
+    }
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName;
     }
 
     @Override

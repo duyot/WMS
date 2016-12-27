@@ -9,6 +9,11 @@ public class Constants {
     public static final String STATS_NONE = "";
     public static final String SUCCES_COLOR = "color:#337ab7;";
 
+    public static class STATUS{
+        public static String ACTIVE = "1";
+        public static String INACTIVE = "0";
+    }
+
     public static class SERVICE_METHOD{
         public static String ADD = "add";
         public static String UPDATE = "update";
@@ -21,13 +26,16 @@ public class Constants {
     public static class SERVICE_PREFIX{
         public static String ROLE_SERVICE = "roleservices/";
         public static String USER_SERVICE = "userservices/";
+        public static String CUSTOMER_SERVICE = "customerservices/";
+        public static String CAT_GOODS_GROUP_SERVICE = "catgoodsgroupservices/";
+        public static String GOODS_SERVICE = "goodsservices/";
     }
 
     public static class SQL_OPERATOR{
         public static String EQUAL = "EQUAL";
         public static String NOT_EQUAL = "NOT_EQUAL";
         public static String GREATER = "GREATER";
-        public static String GREATER_EQAL = "GREATER_EQAL";
+        public static String GREATER_EQAL = "GREATER_EQUAL";
         public static String LOWER = "LOWER";
         public static String LOWER_EQUAL = "LOWER_EQUAL";
         public static String IN = "IN";

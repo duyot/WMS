@@ -81,7 +81,7 @@
 .fixed-table-container thead th .th-inner,
 .fixed-table-container tbody td .th-inner {
     padding: 8px;
-    line-height: 24px;
+    line-height: 16px;
     vertical-align: top;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -163,6 +163,7 @@
 .fixed-table-pagination .pagination-info {
     line-height: 34px;
     margin-right: 5px;
+    font-size: 12px;
 }
 
 .fixed-table-pagination .btn-group {
@@ -231,11 +232,13 @@
 /* support bootstrap 2 */
 .fixed-table-body thead th .th-inner {
     box-sizing: border-box;
+    font-size: 13px;
 }
 
 .table th, .table td {
     vertical-align: middle;
     box-sizing: border-box;
+    font-size: 13px;
 }
 
 .fixed-table-toolbar .dropdown-menu {

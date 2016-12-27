@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
 import com.wms.dto.Condition;
 import com.wms.dto.User;
+import com.wms.services.interfaces.RoleActionService;
 import com.wms.services.interfaces.UserService;
 import com.wms.utils.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +31,8 @@ import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 public class WMSUserDetailsService implements UserDetailsService {
     @Autowired
     public UserService userService;
+    @Autowired
+    RoleActionService roleActionService;
 
     Logger log = LoggerFactory.getLogger(WMSUserDetailsService.class);
     @Override
@@ -43,17 +47,9 @@ public class WMSUserDetailsService implements UserDetailsService {
                 return null;
             }
             User loggedUser = lstUser.get(0);
-            return new org.springframework.security.core.userdetails.User(loggedUser.getUsername(),loggedUser.getPassword(),getAuthorities(loggedUser));
+            return new WMSUserDetails(loggedUser,roleActionService.getUserActionService(loggedUser.getRoleId()));
         } catch (Exception e) {
             throw new UsernameNotFoundException("User not found");
         }
     }
-
-    private Set<GrantedAuthority> getAuthorities(User user){
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_"+user.getRoleName());
-        authorities.add(grantedAuthority);
-        return authorities;
-    }
-
 }

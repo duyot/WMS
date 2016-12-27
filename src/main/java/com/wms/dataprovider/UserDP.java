@@ -19,7 +19,7 @@ public class UserDP extends BaseDP<User>{
     Logger log = LoggerFactory.getLogger(UserDP.class);
 
     public UserDP() {
-        super(User[].class,Constants.SERVICE_PREFIX.USER_SERVICE);
+        super(User[].class,User.class,Constants.SERVICE_PREFIX.USER_SERVICE);
     }
 
     public ResponseObject register(User registerUser){

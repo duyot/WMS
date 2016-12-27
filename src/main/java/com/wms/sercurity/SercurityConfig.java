@@ -35,15 +35,17 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http    .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/WMS").permitAll()
-                .antMatchers("/css/**", "/js/**","/images/**","/workspace_resource/**").permitAll()
-                .antMatchers("/workspace","/workspace/").hasRole("SYS_ADMIN")
+                .antMatchers("/css/**", "/fonts/**","/js/**","/images/**","/workspace_resource/**").permitAll()
+                .antMatchers("/workspace","/workspace/").permitAll()
+                //for sys_admin
                 .antMatchers("/workspace/sysadmin/**").hasRole("SYS_ADMIN")
-                .antMatchers("/workspace/cusadmin/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN")
-                .antMatchers("/workspace/admin/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN","ADMIN")
+                //for each functioni
+                .antMatchers("/workspace/cat_goods_group_ctr","/workspace/cat_goods_group_ctr/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN","ADMIN")
                 .antMatchers("/workspace/user/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN","ADMIN","USER")
+                //
                 .anyRequest().authenticated()
             .and()
                 .formLogin()
@@ -57,13 +59,9 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
             auth.userDetailsService(wmsUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 //          auth.inMemoryAuthentication().withUser("duyot").password("123456a@").roles("SYS_ADMIN");
-//          auth.inMemoryAuthentication().withUser("cusadmin").password("123456").roles("CUS_ADMIN");
-//          auth.inMemoryAuthentication().withUser("admin").password("123456").roles("ADMIN");
-//          auth.inMemoryAuthentication().withUser("user").password("123456").roles("USER");
     }
 }

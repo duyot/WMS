@@ -27,18 +27,21 @@ public class BaseDP<T> {
     public  String UPDATE_URL;
     public  String DELETE_URL;
 
+    public  String FIND_BY_ID_URL;
     public  String FIND_CONDITION_URL;
     public  String GET_ALL_URL;
 
     public RestTemplate restTemplate;
 
     public Class<T[]> valueArrayClass;
+    public Class objectClass;
 
     Logger log = LoggerFactory.getLogger(BaseDP.class);
 
-    public BaseDP(Class<T[]> valueArrayClass,String service_prefix) {
+    public BaseDP(Class<T[]> valueArrayClass,Class objectClass,String service_prefix) {
         this.restTemplate = new RestTemplate();
         this.valueArrayClass = valueArrayClass;
+        this.objectClass = objectClass;
         this.SERVICE_PREFIX = service_prefix;
         initMainURL();
     }
@@ -48,6 +51,7 @@ public class BaseDP<T> {
         UPDATE_URL = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.UPDATE;
         DELETE_URL = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.DELETE;
 
+        FIND_BY_ID_URL = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.FIND_BY_ID;
         FIND_CONDITION_URL = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.FIND_BY_CONDITION;
         GET_ALL_URL        = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.GET_ALL;
     }
@@ -88,19 +92,28 @@ public class BaseDP<T> {
                 return true;
             }
         } catch (RestClientException e) {
-            log.info(e.toString());
+            log.error(e.toString());
             e.printStackTrace();
         }
         return false;
     }
 
+    public T findById(Long id){
+        String findUrl = FIND_BY_ID_URL + id;
+        try {
+            return (T) restTemplate.getForObject(findUrl, objectClass);
+        } catch (RestClientException e) {
+            log.error(e.toString());
+            return null;
+        }
+    }
+
     public List<T> findByCondition(List<Condition> lstCondition){
-        RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<T[]> responseEntity = restTemplate.postForEntity(FIND_CONDITION_URL, lstCondition,valueArrayClass);
             return Arrays.asList(responseEntity.getBody());
         } catch (RestClientException e) {
-            log.info(e.toString());
+            log.error(e.toString());
             return new ArrayList<>();
         }
     }
@@ -110,7 +123,7 @@ public class BaseDP<T> {
             ResponseEntity<T[]> responseEntity = restTemplate.getForEntity(GET_ALL_URL,valueArrayClass);
             return Arrays.asList(responseEntity.getBody());
         } catch (RestClientException e) {
-            log.info(e.toString());
+            log.error(e.toString());
             return Lists.newArrayList();
         }
     }

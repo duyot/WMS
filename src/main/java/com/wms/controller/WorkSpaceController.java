@@ -40,63 +40,33 @@ import java.util.Map;
 @Controller
 @RequestMapping("/workspace")
 public class WorkSpaceController {
-
     Logger log = LoggerFactory.getLogger(WorkSpaceController.class);
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    BaseService roleService;
-
-    @Autowired
-    RoleActionService roleActionService;
-
-    Map<String,String> mapRoles;
-
-    @ModelAttribute("mapRoles")
-    public Map<String,String> mapRoles(){
-        Map<String,String> mapRole = new HashMap<>();
-        List<RoleDTO> lstRole = roleService.getAll();
-        if(DataUtil.isListNullOrEmpty(lstRole)){
-            return mapRole;
-        }
-        for(RoleDTO i: lstRole){
-            mapRole.put(i.getId(),i.getRoleName());
-        }
-        this.mapRoles = mapRole;
-        return mapRole;
-    }
-
     @RequestMapping()
-    public String home(Model model, HttpServletRequest request){
+    public String home(HttpServletRequest request){
         Object isLogin = request.getSession().getAttribute("isLogin");
-        List<ActionMenuDTO> lstActionMenu = roleActionService.getUserActionService("1000");
-        request.getSession().setAttribute("lstUserAction",lstActionMenu);
-        model.addAttribute("action-info","");
-        if(isLogin != null){
-            return "workspace/wms_workspace";
-        }else{
+        if(isLogin == null){
             return "index";
         }
+        return "workspace/wms";
     }
 
     //redirect with role------------------------------------------------------------------------------------------------
     @RequestMapping("/sysadmin")
     public String sysadmin(){
-        return "workspace/wms_workspace";
+        return "workspace/wms";
     }
     @RequestMapping("/cusadmin")
     public String cusadmin(){
-        return "workspace/wms_workspace";
+        return "workspace/wms";
     }
     @RequestMapping("/admin")
     public String admin(){
-        return "workspace/wms_workspace";
+        return "workspace/wms";
     }
     @RequestMapping("/user")
     public String user(){
-        return "workspace/wms_workspace";
+        return "workspace/wms";
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -108,108 +78,20 @@ public class WorkSpaceController {
             return "redirect:/";
     }
 
-    @RequestMapping(value = "/getuser",method = RequestMethod.GET,produces="application/json")
-    public @ResponseBody List<User> getUser(@RequestParam("username")String username,@RequestParam("email")String email,
-                                            @RequestParam("status")String status,@RequestParam("role")String role,
-                                            @RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate
-    ){
-        List<Condition> lstCondition = Lists.newArrayList();
-            lstCondition.add(new Condition("username", Constants.SQL_OPERATOR.LIKE,username));
-            lstCondition.add(new Condition("email", Constants.SQL_OPERATOR.LIKE,email));
-
-        if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
-            lstCondition.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
-        }
-
-        if(!DataUtil.isStringNullOrEmpty(role) && !role.equals(Constants.STATS_ALL)){
-            lstCondition.add(new Condition("roleId", Constants.SQL_OPERATOR.EQUAL,role));
-        }
-
-        if(!DataUtil.isStringNullOrEmpty(startDate) && !DataUtil.isStringNullOrEmpty(endDate)){
-            lstCondition.add(new Condition("createDate", Constants.SQL_OPERATOR.BETWEEN,startDate + "|"+ endDate));
-        }
-
-        return userService.findUserByCondition(lstCondition);
-    }
-
     @RequestMapping(value = "/login",method = RequestMethod.GET,produces="text/plain")
     public @ResponseBody String login(){
        return "Success";
     }
 
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(User addUser,RedirectAttributes redirectAttributes){
-        addUser.setPassword(DataUtil.BCryptPasswordEncoder("wms"));
-        addUser.setRoleName(mapRoles.get(addUser.getRoleId()));
-        log.info("Register user info: "+ addUser.toString());
-
-        ResponseObject responseObject = userService.register(addUser);
-
-        if(responseObject == null || responseObject.getStatusName().equalsIgnoreCase(Responses.ERROR.getName())){
-            log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","Lỗi: " +addUser.getUsername());
-        }else if(responseObject.getStatusName().equalsIgnoreCase(Responses.ERROR_CONSTRAINT.getName())){
-            log.info("ERROR CONSTRAINT");
-            redirectAttributes.addFlashAttribute("actionInfo","Lỗi:" +addUser.getUsername()+ " đã có trên hệ thống!");
-        }else{
-            redirectAttributes.addFlashAttribute("actionInfo","Thành công: " +addUser.getUsername());
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
-            log.info("SUCCESS");
-        }
-
-        return "redirect:/workspace";
+    @PreAuthorize("hasAnyRole('SYS_ADMIN','CUS_ADMIN','ADMIN')")
+    @RequestMapping("/cat_goods_group")
+    public String redirectCatGoodsGroup(){
+        return "redirect:/workspace/cat_goods_group_ctr";
     }
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String update(User updateUser, RedirectAttributes redirectAttributes){
-        updateUser.setRoleName(mapRoles.get(updateUser.getRoleId()));
-        log.info("Update user info: "+ updateUser.toString());
-
-        if(userService.update(updateUser)){
-            log.info("SUCCESS");
-            redirectAttributes.addFlashAttribute("actionInfo", "Cập nhật thành công: " +updateUser.getUsername());
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
-        }else{
-            log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","Cập nhật không thành công: " +updateUser.getUsername());
-        }
-        return  "redirect:/workspace";
-    }
-
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(@RequestParam("userId")String userId,Model model){
-        try {
-            Long id = Long.parseLong(userId);
-            if(userService.delelte(id)){
-                return "1|Xoá thành công";
-            }else{
-                return "0|Xoá không thành công";
-            }
-        } catch (NumberFormatException e) {
-            return "0|Xoá không thành công lỗi convert long";
-        }
-    }
-
-    @PreAuthorize("hasRole('SYS_ADMIN')")
-    @RequestMapping("/abc/list_menu")
-    public String wms(){
-        return "index_boot";
-    }
-
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    @ResponseBody
-    public String uploadFile(@RequestParam("uploadfile") MultipartFile uploadfile,
-                             @RequestParam("username") String username
-                             ) {
-        if(uploadfile == null || DataUtil.isStringNullOrEmpty(uploadfile.getOriginalFilename())){
-            return "Không có file upload!";
-        }
-
-        String filename  = username+ "_" + DateTimeUtils.getSysDate_ddMMyyyy_HH_mm_ss()+ "_" + uploadfile.getOriginalFilename();
-
-        if(!FunctionUtils.saveUploadedFile(uploadfile,filename)){
-            return "Lỗi: đóng file trước khi upload!";
-        }
-        return "Upload thành công";
+    @PreAuthorize("hasAnyRole('SYS_ADMIN','CUS_ADMIN','ADMIN')")
+    @RequestMapping("/cat_goods")
+    public String redirectCatGoods(){
+        return "redirect:/workspace/goods_ctr";
     }
 }

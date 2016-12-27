@@ -28,6 +28,11 @@ public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> 
     }
 
     @Override
+    public T findById(Long id) {
+        return tdp.findById(id);
+    }
+
+    @Override
     public List getAll() {
         return tdp.getAll();
     }

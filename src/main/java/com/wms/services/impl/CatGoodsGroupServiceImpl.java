@@ -1,7 +1,24 @@
 package com.wms.services.impl;
 
+import com.wms.dataprovider.CatGoodsGroupDP;
+import com.wms.dataprovider.CustomerDP;
+import com.wms.dto.CatGoodsGroupDTO;
+import com.wms.dto.CustomerDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+
 /**
  * Created by duyot on 12/7/2016.
  */
-public class CatGoodsGroupServiceImpl {
+@Service("catGoodsGroupService")
+public class CatGoodsGroupServiceImpl extends BaseServiceImpl<CatGoodsGroupDTO,CatGoodsGroupDP>{
+    @Autowired
+    CatGoodsGroupDP catGoodsGroupDP;
+
+    @PostConstruct
+    public void setupService(){
+        this.tdp = catGoodsGroupDP;
+    }
 }

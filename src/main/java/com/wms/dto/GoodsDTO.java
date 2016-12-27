@@ -1,15 +1,9 @@
 package com.wms.dto;
 
-import com.wms.base.BaseDTO;
-import com.wms.base.BaseModel;
-import com.wms.persistents.model.Goods;
-import com.wms.utils.DateTimeUtils;
-import com.wms.utils.StringUtils;
-
 /**
  * Created by duyot on 12/9/2016.
  */
-public class GoodsDTO extends BaseDTO{
+public class GoodsDTO {
     private String id;
     private String code;
     private String name;
@@ -23,6 +17,7 @@ public class GoodsDTO extends BaseDTO{
     private String inPrice;
     private String outPrice;
     private String brand;
+    private String custName;
 
     public GoodsDTO() {
     }
@@ -147,12 +142,11 @@ public class GoodsDTO extends BaseDTO{
         this.brand = brand;
     }
 
-    @Override
-    public BaseModel toModel() {
-        return new Goods(!StringUtils.validString(id) ? null:Long.valueOf(id),code,name,status,
-                !StringUtils.validString(createDate) ? null: DateTimeUtils.convertStringToDate(createDate),
-                !StringUtils.validString(custId) ? null:Long.valueOf(custId),unitType,!StringUtils.validString(goodsGroupId) ? null:Long.valueOf(goodsGroupId),
-                serialType,description,!StringUtils.validString(inPrice) ? null:Double.valueOf(inPrice),!StringUtils.validString(inPrice) ? null:Double.valueOf(inPrice),brand
-                );
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName;
     }
 }
