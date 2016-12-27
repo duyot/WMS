@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
  * Created by duyot on 11/9/2016.
  */
 @Service("roleService")
-public class RoleServieImpl extends BaseServiceImpl<RoleDTO,RoleDP> {
+public class RoleServiceImpl extends BaseServiceImpl<RoleDTO,RoleDP> {
     @Autowired
     RoleDP roleDP;
 
