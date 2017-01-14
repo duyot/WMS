@@ -161,7 +161,7 @@
                                     <div class="profile_img" style="min-width:170px">
                                         <span th:style="'background:url('+@{/images/user_profile/}+${session.user.imgUrl}+');'"></span>
                                         <div class="user-name">
-                                            <p th:text="${session.user.username}"></p>
+                                            <p th:text="${session.user.code}"></p>
                                             <p><span th:text="${session.user.roleName}"></span></p>
                                         </div>
 

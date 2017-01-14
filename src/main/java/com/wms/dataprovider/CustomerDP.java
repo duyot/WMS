@@ -3,9 +3,6 @@ package com.wms.dataprovider;
 import com.wms.base.BaseDP;
 import com.wms.constants.Constants;
 import com.wms.dto.CustomerDTO;
-import com.wms.dto.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 /**

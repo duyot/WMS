@@ -29,7 +29,7 @@
         </discriminator>
         <sift>
             <appender name="FILE-${userid}" class="ch.qos.logback.core.FileAppender">
-                <file>/WMS/logs/portal/user/${userid}.log</file>
+                <file>/WMS/logs/portal/catUserDTO/${userid}.log</file>
                 <append>false</append>
                 <layout class="ch.qos.logback.classic.PatternLayout">
                     <pattern> %userid %d [%thread] %level %mdc %logger{35} - %msg%n</pattern>

@@ -1,16 +1,13 @@
 package com.wms.controller;
 
 import com.wms.constants.Responses;
-import com.wms.dto.ActionMenuDTO;
 import com.wms.dto.ResponseObject;
-import com.wms.dto.User;
-import com.wms.sercurity.WMSUserDetails;
+import com.wms.dto.CatUserDTO;
 import com.wms.services.interfaces.RoleActionService;
 import com.wms.services.interfaces.UserService;
 import com.wms.utils.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * Created by duyot on 10/18/2016.
@@ -60,7 +56,7 @@ public class HomeController {
 
 
 //    @RequestMapping(value = "/login",method = RequestMethod.POST)
-//    public String doLogin(User user,Model model, HttpServletRequest request){
+//    public String doLogin(CatUserDTO user,Model model, HttpServletRequest request){
 //        //
 ////        WMSUserDetails loggedUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        //
@@ -73,7 +69,7 @@ public class HomeController {
 //            user.setUsername(null);
 //        }
 //
-//        User loggedUser = userService.login(user);
+//        CatUserDTO loggedUser = userService.login(user);
 //
 //        if(DataUtil.isStringNullOrEmpty(loggedUser.getUserId())){
 //            log.info("Login fail for user: "+ user.getUsername());
@@ -96,10 +92,10 @@ public class HomeController {
 //    }
 
     @RequestMapping(value = "/register",method = RequestMethod.POST,produces="text/plain")
-    public @ResponseBody String register(User registerUser){
-        registerUser.setPassword(DataUtil.BCryptPasswordEncoder(registerUser.getPassword()));
-        log.info("Register user info: "+ registerUser.toString());
-        ResponseObject responseObject = userService.register(registerUser);
+    public @ResponseBody String register(CatUserDTO registerCatUserDTO){
+        registerCatUserDTO.setPassword(DataUtil.BCryptPasswordEncoder(registerCatUserDTO.getPassword()));
+        log.info("Register user info: "+ registerCatUserDTO.toString());
+        ResponseObject responseObject = userService.register(registerCatUserDTO);
         if(responseObject == null || !Responses.SUCCESS.getName().equalsIgnoreCase(responseObject.getStatusName())){
             return "Đăng ký không thành công";
         }

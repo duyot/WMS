@@ -3,10 +3,10 @@ package com.wms.controller.common_managerment;
 import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
+import com.wms.dto.CatUserDTO;
 import com.wms.dto.Condition;
 import com.wms.dto.ResponseObject;
 import com.wms.dto.RoleDTO;
-import com.wms.dto.User;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.UserService;
 import com.wms.utils.DataUtil;
@@ -65,21 +65,21 @@ public class ListEmployeeController {
 
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(User addUser,RedirectAttributes redirectAttributes){
-        addUser.setPassword(DataUtil.BCryptPasswordEncoder("wms"));
-        addUser.setRoleName(mapRoles.get(addUser.getRoleId()));
-        log.info("Register user info: "+ addUser.toString());
+    public String add(CatUserDTO addCatUserDTO, RedirectAttributes redirectAttributes){
+        addCatUserDTO.setPassword(DataUtil.BCryptPasswordEncoder("wms"));
+        addCatUserDTO.setRoleName(mapRoles.get(addCatUserDTO.getRoleName()));
+        log.info("Register user info: "+ addCatUserDTO.toString());
 
-        ResponseObject responseObject = userService.register(addUser);
+        ResponseObject responseObject = userService.register(addCatUserDTO);
 
         if(responseObject == null || responseObject.getStatusName().equalsIgnoreCase(Responses.ERROR.getName())){
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","Lỗi: " +addUser.getUsername());
+            redirectAttributes.addFlashAttribute("actionInfo","Lỗi: " + addCatUserDTO.getCode());
         }else if(responseObject.getStatusName().equalsIgnoreCase(Responses.ERROR_CONSTRAINT.getName())){
             log.info("ERROR CONSTRAINT");
-            redirectAttributes.addFlashAttribute("actionInfo","Lỗi:" +addUser.getUsername()+ " đã có trên hệ thống!");
+            redirectAttributes.addFlashAttribute("actionInfo","Lỗi:" + addCatUserDTO.getCode()+ " đã có trên hệ thống!");
         }else{
-            redirectAttributes.addFlashAttribute("actionInfo","Thành công: " +addUser.getUsername());
+            redirectAttributes.addFlashAttribute("actionInfo","Thành công: " + addCatUserDTO.getCode());
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("SUCCESS");
         }
@@ -89,9 +89,9 @@ public class ListEmployeeController {
 
     @RequestMapping(value = "/getuser",method = RequestMethod.GET,produces="application/json")
     public @ResponseBody
-    List<User> getUser(@RequestParam("username")String username, @RequestParam("email")String email,
-                       @RequestParam("status")String status, @RequestParam("role")String role,
-                       @RequestParam("startDate")String startDate, @RequestParam("endDate")String endDate
+    List<CatUserDTO> getUser(@RequestParam("username")String username, @RequestParam("email")String email,
+                             @RequestParam("status")String status, @RequestParam("role")String role,
+                             @RequestParam("startDate")String startDate, @RequestParam("endDate")String endDate
     ){
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("username", Constants.SQL_OPERATOR.LIKE,username));
@@ -113,17 +113,17 @@ public class ListEmployeeController {
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String update(User updateUser, RedirectAttributes redirectAttributes){
-        updateUser.setRoleName(mapRoles.get(updateUser.getRoleId()));
-        log.info("Update user info: "+ updateUser.toString());
+    public String update(CatUserDTO updateCatUserDTO, RedirectAttributes redirectAttributes){
+        updateCatUserDTO.setRoleName(mapRoles.get(updateCatUserDTO.getRoleName()));
+        log.info("Update user info: "+ updateCatUserDTO.toString());
 
-        if(userService.update(updateUser)){
+        if(userService.update(updateCatUserDTO)){
             log.info("SUCCESS");
-            redirectAttributes.addFlashAttribute("actionInfo", "Cập nhật thành công: " +updateUser.getUsername());
+            redirectAttributes.addFlashAttribute("actionInfo", "Cập nhật thành công: " + updateCatUserDTO.getCode());
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
         }else{
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","Cập nhật không thành công: " +updateUser.getUsername());
+            redirectAttributes.addFlashAttribute("actionInfo","Cập nhật không thành công: " + updateCatUserDTO.getCode());
         }
         return  "redirect:/workspace";
     }

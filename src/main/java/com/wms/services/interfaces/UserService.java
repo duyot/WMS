@@ -1,9 +1,9 @@
 package com.wms.services.interfaces;
 
 
+import com.wms.dto.CatUserDTO;
 import com.wms.dto.Condition;
 import com.wms.dto.ResponseObject;
-import com.wms.dto.User;
 
 import java.util.List;
 
@@ -11,15 +11,15 @@ import java.util.List;
  * Created by duyot on 10/17/2016.
  */
 public interface UserService {
-    List<User> getAlls();
+    List<CatUserDTO> getAlls();
 
-    public ResponseObject register(User user);
+    public ResponseObject register(CatUserDTO catUserDTO);
 
-    public User login(User user);
+    public CatUserDTO login(CatUserDTO catUserDTO);
 
-    public List<User> findUserByCondition(List<Condition> lstCondition);
+    public List<CatUserDTO> findUserByCondition(List<Condition> lstCondition);
 
-    public boolean update(User user);
+    public boolean update(CatUserDTO catUserDTO);
 
     public boolean delelte(Long id);
 }

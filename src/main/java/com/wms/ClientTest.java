@@ -1,6 +1,6 @@
 package com.wms;
 
-import com.wms.dto.User;
+import com.wms.dto.CatUserDTO;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
@@ -24,7 +24,7 @@ public class ClientTest {
     public static final String TEST__FILE_URI = "http://localhost:8080//SpringRestServices/services/userservices/getFile/{fileName}";
 
     public static void main(String[] args) {
-//        ClientTest.testSendObject(new User("sdf","sdf"));
+//        ClientTest.testSendObject(new CatUserDTO("sdf","sdf"));
         ClientTest.testReceiveFile("logback-spring.xml");
     }
 
@@ -62,15 +62,15 @@ public class ClientTest {
         MultiValueMap<String, String> headers =
                 new LinkedMultiValueMap<String, String>();
         headers.add("Accept", "application/json");
-        headers.add("User-Agent", "Java/1.6.0_20");
+        headers.add("CatUserDTO-Agent", "Java/1.6.0_20");
         headers.add("Host", "localhost:8080");
         headers.add("Connection", "keep-alive");
         HttpEntity<Object> httpEntity = new HttpEntity(headers);
 
-        ResponseEntity responseEntity = restTemplate.exchange(TEST__PARAMS_URI, HttpMethod.GET,httpEntity,User.class,2);
-        User user = (User) responseEntity.getBody();
+        ResponseEntity responseEntity = restTemplate.exchange(TEST__PARAMS_URI, HttpMethod.GET,httpEntity,CatUserDTO.class,2);
+        CatUserDTO catUserDTO = (CatUserDTO) responseEntity.getBody();
 
-        System.out.println(user.getUsername());
+        System.out.println(catUserDTO.getName());
     }
 
 
@@ -79,7 +79,7 @@ public class ClientTest {
      */
     public static void testFindUser(String id){
         RestTemplate restTemplate = new RestTemplate();
-//        User responseEntity = restTemplate.getForObject(TEST__PARAMS_URI, User.class,2);
+//        CatUserDTO responseEntity = restTemplate.getForObject(TEST__PARAMS_URI, CatUserDTO.class,2);
         String responseEntity = restTemplate.getForObject(TEST__PARAMS_URI, String.class,2);
 
         System.out.println(responseEntity);
@@ -88,13 +88,13 @@ public class ClientTest {
     /*
         test submit object
      */
-    public static void testSendObject(User requestUser){
+    public static void testSendObject(CatUserDTO requestCatUserDTO){
         RestTemplate restTemplate = new RestTemplate();
         //get by object format
-//        ResponseObject reponseUser = restTemplate.postForObject(TEST__POST_OBJECT_URI,requestUser,ResponseObject.class);
+//        ResponseObject reponseUser = restTemplate.postForObject(TEST__POST_OBJECT_URI,requestCatUserDTO,ResponseObject.class);
 //        System.out.println(reponseUser.getStatusCode());
         //get string(json) format
-        String reponseUser = restTemplate.postForObject(TEST__POST_OBJECT_URI,requestUser,String.class);
+        String reponseUser = restTemplate.postForObject(TEST__POST_OBJECT_URI, requestCatUserDTO,String.class);
         System.out.println(reponseUser);
     }
     /*

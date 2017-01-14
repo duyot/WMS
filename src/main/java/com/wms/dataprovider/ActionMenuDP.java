@@ -20,14 +20,14 @@ import java.util.List;
 public class ActionMenuDP {
     Logger log = LoggerFactory.getLogger(ActionMenuDP.class);
     private  final String SERVICE_URL    = BundleUtils.getkey("rest_service_url");
-    private  final String SERVICE_PREFIX = "roleActionServices/";
+    private  final String SERVICE_PREFIX = "sysRoleMenuServices/";
 
     private  final String GET_ACTION_MENU_URL    = SERVICE_URL+SERVICE_PREFIX  + "getUserAction/";
 
-    public List<ActionMenuDTO> getActionMenu(String roleId){
+    public List<ActionMenuDTO> getActionMenu(String roleCode){
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<ActionMenuDTO[]> responseEntity = restTemplate.getForEntity(GET_ACTION_MENU_URL+roleId,ActionMenuDTO[].class);
+            ResponseEntity<ActionMenuDTO[]> responseEntity = restTemplate.getForEntity(GET_ACTION_MENU_URL+roleCode,ActionMenuDTO[].class);
             if(responseEntity.getBody() != null){
                 return Arrays.asList(responseEntity.getBody());
             }else{

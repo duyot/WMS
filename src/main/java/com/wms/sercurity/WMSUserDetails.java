@@ -1,9 +1,7 @@
 package com.wms.sercurity;
 
-import com.google.common.collect.Lists;
 import com.wms.dto.ActionMenuDTO;
-import com.wms.dto.CustomerDTO;
-import com.wms.dto.User;
+import com.wms.dto.CatUserDTO;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,17 +16,17 @@ import java.util.Set;
  * Created by duyot on 11/18/2016.
  */
 public class WMSUserDetails implements UserDetails,CredentialsContainer {
-    private User user;
+    private CatUserDTO catUserDTO;
     private Set<GrantedAuthority> lstAuthorities;
     private List<ActionMenuDTO> lstMenu;
 
-    public WMSUserDetails(User user) {
-        this.user = user;
+    public WMSUserDetails(CatUserDTO catUserDTO) {
+        this.catUserDTO = catUserDTO;
     }
 
-    public WMSUserDetails(User user, List<ActionMenuDTO> lstMenu) {
-        this.user = user;
-        this.lstAuthorities = getLstAuthorities(user.getRoleCode());
+    public WMSUserDetails(CatUserDTO catUserDTO, List<ActionMenuDTO> lstMenu) {
+        this.catUserDTO = catUserDTO;
+        this.lstAuthorities = getLstAuthorities(catUserDTO.getRoleCode());
         this.lstMenu = lstMenu;
     }
 
@@ -39,12 +37,12 @@ public class WMSUserDetails implements UserDetails,CredentialsContainer {
         return authorities;
     }
 
-    public User getUser() {
-        return user;
+    public CatUserDTO getCatUserDTO() {
+        return catUserDTO;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCatUserDTO(CatUserDTO catUserDTO) {
+        this.catUserDTO = catUserDTO;
     }
 
 
@@ -63,12 +61,12 @@ public class WMSUserDetails implements UserDetails,CredentialsContainer {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return catUserDTO.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return catUserDTO.getCode();
     }
 
     @Override
@@ -93,6 +91,6 @@ public class WMSUserDetails implements UserDetails,CredentialsContainer {
 
     @Override
     public void eraseCredentials() {
-        this.user.setPassword(null);
+        this.catUserDTO.setPassword(null);
     }
 }

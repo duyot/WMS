@@ -11,7 +11,6 @@
 	<link rel='stylesheet' href="css/style.css" th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
 	<link rel="stylesheet" href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
 	<link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-
 	<link rel="stylesheet" href="/css/bootstrap-combobox.css" th:href="@{/css/bootstrap-combobox.css}"/>
     <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
     <!--script-->
@@ -57,7 +56,7 @@
 								<div class="col-sm-4">
 									<div class="input-group">
 										<span class="input-group-addon">
-											<i class="fa fa-user-o fa-fw"></i>
+											<i class="fa fa-catUserDTO-o fa-fw"></i>
 										</span>
 										<input id="inp-username" type="text" class="form-control"  placeholder="User name"/>
 									</div>
@@ -101,7 +100,7 @@
                                             <option th:each="sopt:${mapRoles.entrySet()}"
                                                     th:value="${sopt.key}" th:text="${sopt.value}">Admin</option>
 											<!--<option value="1">Admin</option>-->
-											<!--<option value="2">User</option>-->
+											<!--<option value="2">CatUserDTO</option>-->
 										</select>
 									</div>
 								</div>
@@ -181,7 +180,7 @@
 			</div>
 		</div>
 		<!--modal-->
-		<div th:include="modal/add_user_modal :: frag-add-user-modal"></div>
+		<div th:include="modal/add_user_modal :: frag-add-catUserDTO-modal"></div>
 		<div th:include="modal/confirm_modal :: frag-confirm-del-modal"></div>
 		<!--footer-->
 		<div th:include="common/footer :: frag-footer"></div>
@@ -337,9 +336,9 @@
 		});
 
 		function changeModelByType(type,selectedItem,actionVal) {
-            $("#user-insert-update-form").attr("th:object",actionVal);
+            $("#catUserDTO-insert-update-form").attr("th:object",actionVal);
 			if(type == 1){//add
-                $("#user-insert-update-form").attr("action",actionVal);
+                $("#catUserDTO-insert-update-form").attr("action",actionVal);
 
 				$("#myModalLabel").text('Thêm mới');
 				$("#modal-inp-username").val('');
@@ -348,7 +347,7 @@
 				$("#modal-btn-update").hide();
 				$("#modal-btn-add").show();
 			}else{//update
-                $("#user-insert-update-form").attr("action",actionVal);
+                $("#catUserDTO-insert-update-form").attr("action",actionVal);
 				$("#myModalLabel").text('Cập nhật');
 				$("#modal-inp-username").val(selectedItem["username"]);
 				$("#modal-inp-email").val(selectedItem["email"]);

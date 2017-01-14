@@ -2,27 +2,20 @@ package com.wms.sercurity;
 
 import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
+import com.wms.dto.CatUserDTO;
 import com.wms.dto.Condition;
-import com.wms.dto.User;
 import com.wms.services.interfaces.RoleActionService;
 import com.wms.services.interfaces.UserService;
 import com.wms.utils.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.CredentialsContainer;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 /**
  * Created by duyot on 11/18/2016.
@@ -36,20 +29,20 @@ public class WMSUserDetailsService implements UserDetailsService {
 
     Logger log = LoggerFactory.getLogger(WMSUserDetailsService.class);
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String code) throws UsernameNotFoundException {
         List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("username", Constants.SQL_OPERATOR.EQUAL,username));
+        lstCon.add(new Condition("code", Constants.SQL_OPERATOR.EQUAL,code));
         //
         try {
-            List<User> lstUser = userService.findUserByCondition(lstCon);
-            if(DataUtil.isListNullOrEmpty(lstUser)){
-                log.info("User not available");
+            List<CatUserDTO> lstCatUserDTO = userService.findUserByCondition(lstCon);
+            if(DataUtil.isListNullOrEmpty(lstCatUserDTO)){
+                log.info("CatUserDTO not available");
                 return null;
             }
-            User loggedUser = lstUser.get(0);
-            return new WMSUserDetails(loggedUser,roleActionService.getUserActionService(loggedUser.getRoleId()));
+            CatUserDTO loggedCatUserDTO = lstCatUserDTO.get(0);
+            return new WMSUserDetails(loggedCatUserDTO,roleActionService.getUserActionService(loggedCatUserDTO.getRoleCode()));
         } catch (Exception e) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("CatUserDTO not found");
         }
     }
 }

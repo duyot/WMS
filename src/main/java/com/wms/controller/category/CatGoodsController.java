@@ -66,8 +66,7 @@ public class CatGoodsController {
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public  @ResponseBody
-    List<GoodsDTO> findByCondition(@RequestParam("customerId")String custId,
+    public  @ResponseBody List<GoodsDTO> findByCondition(@RequestParam("customerId")String custId,
                                    @RequestParam("status")String status,@RequestParam("goodsGroupId")String goodsGroupId){
         List<Condition> lstCon = Lists.newArrayList();
 

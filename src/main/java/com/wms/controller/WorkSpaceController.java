@@ -80,7 +80,7 @@ public class WorkSpaceController {
 
     @RequestMapping(value = "/login",method = RequestMethod.GET,produces="text/plain")
     public @ResponseBody String login(){
-       return "Success";
+        return "Success";
     }
 
     @PreAuthorize("hasAnyRole('SYS_ADMIN','CUS_ADMIN','ADMIN')")

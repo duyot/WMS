@@ -4,12 +4,12 @@
 </head>
 <body>
 
-<div th:fragment="frag-add-user-modal">
+<div th:fragment="frag-add-catUserDTO-modal">
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form id="user-insert-update-form" action="" method="post">
-                <div class="modal-content" id="user-modal">
+            <form id="catUserDTO-insert-update-form" action="" method="post">
+                <div class="modal-content" id="catUserDTO-modal">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
                         </button>
@@ -33,7 +33,7 @@
                                     <div class="col-sm-4">
                                         <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    <i class="fa fa-user-o fa-fw"></i>
+                                                    <i class="fa fa-catUserDTO-o fa-fw"></i>
                                                 </span>
                                             <input id="modal-inp-username" class="form-control" type="text" th:required="true" name="username" />
                                         </div>
@@ -101,7 +101,7 @@
 
         <!--$(function () {-->
             <!--$btnAdd.click(function () {-->
-                <!--$('#user-modal').validator()-->
+                <!--$('#catUserDTO-modal').validator()-->
                 <!--var jsonData = JSON.stringify(getDataObject());-->
                 <!--$.ajax({-->
                     <!--type: "POST",-->

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
 
     <link rel="stylesheet" href="/css/bootstrap-combobox.css" th:href="@{/css/bootstrap-combobox.css}"/>
+    <link rel="stylesheet" href="/css/bootstrap-toggle.css" th:href="@{/css/bootstrap-toggle.css}"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
@@ -27,7 +28,7 @@
     <script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>
     <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
-
+    <!--font and favi icon-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
 
@@ -44,7 +45,7 @@
             <div id="panel-search-content" class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa  fa-search"></i>
-                    Search info
+                    <!--Search info-->
                 </div>
                 <div class="panel-body">
                     <div class="container">
@@ -67,15 +68,10 @@
                             </div>
                             <div class="col-sm-2">
                                 <label>Trạng thái</label>
-
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <select id="cmb-status" class="combobox form-control">
-                                        <option value="-1">Tất cả</option>
-                                        <option value="1">Hiệu lực</option>
-                                        <option value="0">Hết hiệu lực</option>
-                                    </select>
+                                    <input id="cmb-status" checked="true" data-toggle="toggle" type="checkbox"/>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +93,7 @@
             <div id="panel-search-result" class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-database"></i>
-                    Result
+                    <!--Result-->
                 </div>
                 <div class="panel-body">
                     <!--toolbar-->
@@ -148,7 +144,8 @@
 <!--FINAL JS-->
 <script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
-
+<!--switch-->
+<script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
 <script>
     //		row num
     function runningFormatter(value, row, index) {
@@ -166,7 +163,6 @@
 
         $('.combobox').combobox();
 
-        initDateRangeSelect();
         //fill data to table
         search(false);
     });
@@ -180,7 +176,12 @@
         if(customerIdVal == ''){
             customerIdVal = $('#cmb-customer').val();
         }
-        var statusVal       = $('#cmb-status').val();
+        var statusVal;
+        if($('#cmb-status').prop('checked')){
+            statusVal = '1';
+        }else{
+            statusVal = '0';
+        }
         $.ajax({
             type: "GET",
             cache:false,
@@ -309,7 +310,12 @@
 
             $("#modal-inp-name").val(selectedItem["name"]);
             $("#modal-inp-id").val(selectedItem["id"]);
-            $("#modal-cmb-statusundefined").val(selectedItem["status"]);
+            var currentStatus = selectedItem["status"];
+            if(currentStatus == 'Hết hiệu lực'){
+                $('#modal-cmb-status').bootstrapToggle('off');
+            }else{
+                $('#modal-cmb-status').bootstrapToggle('on');
+            }
             $("#div-status *").prop('disabled',false);
             showUpdate();
         }

@@ -1,12 +1,8 @@
 package com.wms.sercurity;
 
 import com.google.common.collect.Lists;
-import com.wms.constants.Constants;
-import com.wms.dto.ActionMenuDTO;
-import com.wms.dto.Condition;
 import com.wms.dto.CustomerDTO;
 import com.wms.services.interfaces.BaseService;
-import com.wms.services.interfaces.RoleActionService;
 import com.wms.utils.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -44,8 +39,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 		/*Set some session variables*/
         WMSUserDetails authUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        session.setAttribute("user", authUser.getUser());
-        session.setAttribute("lstCustomers", getCustomer(authUser.getUser().getCustomerId()));
+        session.setAttribute("user", authUser.getCatUserDTO());
+        session.setAttribute("lstCustomers", getCustomer(authUser.getCatUserDTO().getCustId()));
         session.setAttribute("authorities", authentication.getAuthorities());
         session.setAttribute("lstUserAction", authUser.getLstMenu());
         session.setAttribute("isLogin", true);
@@ -74,15 +69,15 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     protected String determineTargetUrl(Authentication authentication) {
-        Set<String> authorities = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (authorities.contains("ROLE_SYS_ADMIN")) {
-            return "/workspace";
-        } else if (authorities.contains("ROLE_CUS_ADMIN")) {
-            return "/workspace";
-        } else if (authorities.contains("ROLE_ADMIN")) {
-            return "/workspace";
-        }else{
-            return "/workspace";
+                Set<String> authorities = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+                if (authorities.contains("ROLE_SYS_ADMIN")) {
+                    return "/workspace";
+                } else if (authorities.contains("ROLE_CUS_ADMIN")) {
+                    return "/workspace";
+                } else if (authorities.contains("ROLE_ADMIN")) {
+                    return "/workspace";
+                }else{
+                    return "/workspace";
         }
     }
 

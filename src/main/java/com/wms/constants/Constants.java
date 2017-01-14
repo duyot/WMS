@@ -24,11 +24,11 @@ public class Constants {
     }
 
     public static class SERVICE_PREFIX{
-        public static String ROLE_SERVICE = "roleservices/";
-        public static String USER_SERVICE = "userservices/";
-        public static String CUSTOMER_SERVICE = "customerservices/";
-        public static String CAT_GOODS_GROUP_SERVICE = "catgoodsgroupservices/";
-        public static String GOODS_SERVICE = "goodsservices/";
+        public static String ROLE_SERVICE = "sysRoleServices/";
+        public static String USER_SERVICE = "catUserServices/";
+        public static String CUSTOMER_SERVICE = "customerServices/";
+        public static String CAT_GOODS_GROUP_SERVICE = "catGoodsGroupServices/";
+        public static String GOODS_SERVICE = "catGoodsServices/";
     }
 
     public static class SQL_OPERATOR{

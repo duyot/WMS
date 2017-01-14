@@ -94,6 +94,11 @@ public class CatGoodsGroupController {
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String update(CatGoodsGroupDTO catGoodsGroup, RedirectAttributes redirectAttributes){
         log.info("Update cat_goods_group info: "+ catGoodsGroup.toString());
+        if("on".equalsIgnoreCase(catGoodsGroup.getStatus())){
+            catGoodsGroup.setStatus("1");
+        }else{
+            catGoodsGroup.setStatus("0");
+        }
 
         if(catGoodsGroupService.update(catGoodsGroup)){
             log.info("SUCCESS");

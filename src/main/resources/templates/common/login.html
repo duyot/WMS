@@ -5,7 +5,7 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="#" th:attr="action=@{/User/DoLogin}" th:object="${user}" method="post">
+    <form action="#" th:attr="action=@{/User/DoLogin}" th:object="${catUserDTO}" method="post">
         <fieldset>
             Username: <input type="text" th:field="*{username}"/>
             Passowrd: <input type="text" th:field="*{password}"/>

@@ -1,41 +1,35 @@
 package com.wms.dto;
 
-import com.wms.utils.DataUtil;
-
 import java.util.List;
 
 /**
  * Created by duyot on 11/3/2016.
  */
 public class ActionMenuDTO {
-    private ActionDTO parentAction;
-    private List<ActionDTO> lstSubAction;
+    private SysMenuDTO parentAction;
+    private List<SysMenuDTO> lstSubAction;
 
-    public ActionMenuDTO(ActionDTO parentAction, List<ActionDTO> lstSubAction) {
+    public ActionMenuDTO(SysMenuDTO parentAction, List<SysMenuDTO> lstSubAction) {
         this.parentAction = parentAction;
         this.lstSubAction = lstSubAction;
-    }
-
-    public boolean isSubAvailable(){
-        return !DataUtil.isListNullOrEmpty(lstSubAction);
     }
 
     public ActionMenuDTO() {
     }
 
-    public ActionDTO getParentAction() {
+    public SysMenuDTO getParentAction() {
         return parentAction;
     }
 
-    public void setParentAction(ActionDTO parentAction) {
+    public void setParentAction(SysMenuDTO parentAction) {
         this.parentAction = parentAction;
     }
 
-    public List<ActionDTO> getLstSubAction() {
+    public List<SysMenuDTO> getLstSubAction() {
         return lstSubAction;
     }
 
-    public void setLstSubAction(List<ActionDTO> lstSubAction) {
+    public void setLstSubAction(List<SysMenuDTO> lstSubAction) {
         this.lstSubAction = lstSubAction;
     }
 }
