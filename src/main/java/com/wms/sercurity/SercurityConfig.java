@@ -39,12 +39,12 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http    .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/WMS").permitAll()
+                .antMatchers("/", "/WMS","/language/**").permitAll()
                 .antMatchers("/css/**", "/fonts/**","/js/**","/images/**","/workspace_resource/**").permitAll()
                 .antMatchers("/workspace","/workspace/").permitAll()
                 //for sys_admin
                 .antMatchers("/workspace/sysadmin/**").hasRole("SYS_ADMIN")
-                //for each functioni
+                //for each function
                 .antMatchers("/workspace/cat_goods_group_ctr","/workspace/cat_goods_group_ctr/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN","ADMIN")
                 .antMatchers("/workspace/user/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN","ADMIN","USER")
                 //
@@ -65,6 +65,5 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
             auth.eraseCredentials(false).userDetailsService(wmsUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-//          auth.inMemoryAuthentication().withUser("duyot").password("123456a@").roles("SYS_ADMIN");
     }
 }

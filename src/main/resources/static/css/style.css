@@ -539,7 +539,6 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-about,
 #fh5co-contact,
 #fh5co-footer {
-  padding: 7em 0;
   clear: both;
 }
 @media screen and (max-width: 768px) {
@@ -1390,7 +1389,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 .row-pb-md {
-  padding-bottom: 4em !important;
+  padding-bottom: 2em !important;
 }
 
 .row-pb-sm {

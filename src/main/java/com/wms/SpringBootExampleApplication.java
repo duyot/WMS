@@ -23,7 +23,6 @@ public class SpringBootExampleApplication extends SpringBootServletInitializer {
 	public LocaleResolver localeResolver() {
 		SessionLocaleResolver slr = new SessionLocaleResolver();
 		slr.setDefaultLocale(new Locale("vi", "VN"));
-//		slr.setDefaultLocale(Locale.ENGLISH);
 		return slr;
 	}
 

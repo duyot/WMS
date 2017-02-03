@@ -19,9 +19,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 /**
  * Created by duyot on 10/18/2016.
@@ -50,7 +54,7 @@ public class HomeController {
 
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String login(){
-        return "sercurity_login";
+        return "security_login";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
@@ -62,42 +66,21 @@ public class HomeController {
         return "redirect:/login?logout";
     }
 
+    @RequestMapping(value="/language/en", method = RequestMethod.GET)
+    public String changeLanguage2English(HttpServletRequest request, HttpServletResponse response) {
+        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+        localeResolver.setLocale(request,response,Locale.ENGLISH);
+        return "redirect:/";
+    }
 
-//    @RequestMapping(value = "/login",method = RequestMethod.POST)
-//    public String doLogin(CatUserDTO user,Model model, HttpServletRequest request){
-//        //
-////        WMSUserDetails loggedUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        //
-//        String plainPassword = user.getPassword();
-//        user.setPassword(DataUtil.MD5Encrypt(plainPassword));
-//
-//        String accountName = user.getUsername();
-//        if(DataUtil.isEmail(accountName)){
-//            user.setEmail(accountName);
-//            user.setUsername(null);
-//        }
-//
-//        CatUserDTO loggedUser = catUserService.login(user);
-//
-//        if(DataUtil.isStringNullOrEmpty(loggedUser.getUserId())){
-//            log.info("Login fail for user: "+ user.getUsername());
-//            model.addAttribute("errorMessage","Thông tin tài khoản không đúng");
-//            return "/index";
-//        }
-//
-//        if(DataUtil.isStringNullOrEmpty(loggedUser.getImgUrl())){
-//            loggedUser.setImgUrl("default.jpg");
-//        }
-//        //set some session attribute
-//        log.info("Login susscessfully for user: "+ loggedUser.getUsername());
-//        request.getSession().setAttribute("isLogin",true);
-//        request.getSession().setAttribute("user", loggedUser);
-//        MDC.put("userid",loggedUser.getUsername());
-//        //
-//        List<ActionMenuDTO> lstActionMenu = roleActionService.getUserActionService(loggedUser.getRoleId());
-//        request.getSession().setAttribute("lstUserAction", lstActionMenu);
-//        return "redirect:workspace";
-//    }
+    @RequestMapping(value="/language/vi", method = RequestMethod.GET)
+    public String changeLanguage2Vietnamese(HttpServletRequest request, HttpServletResponse response) {
+        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+        localeResolver.setLocale(request,response,new Locale("vi", "VN"));
+        return "redirect:/";
+    }
+
+
 
     @RequestMapping(value = "/register",method = RequestMethod.POST,produces="text/plain")
     public @ResponseBody String register(CatUserDTO registerCatUserDTO){
