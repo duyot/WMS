@@ -1,12 +1,11 @@
 package com.wms.sercurity;
 
-import com.google.common.collect.Lists;
-import com.wms.constants.Constants;
+import com.wms.dto.ActionMenuDTO;
+import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatUserDTO;
-import com.wms.dto.Condition;
+import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.RoleActionService;
-import com.wms.services.interfaces.UserService;
-import com.wms.utils.DataUtil;
+import com.wms.utils.FunctionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,26 +22,33 @@ import java.util.List;
 @Component("wmsUserDetailsService")
 public class WMSUserDetailsService implements UserDetailsService {
     @Autowired
-    public UserService userService;
+    public CatUserService catUserService;
     @Autowired
     RoleActionService roleActionService;
 
     Logger log = LoggerFactory.getLogger(WMSUserDetailsService.class);
     @Override
     public UserDetails loadUserByUsername(String code) throws UsernameNotFoundException {
-        List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("code", Constants.SQL_OPERATOR.EQUAL,code));
-        //
+        CatUserDTO loggingUser = new CatUserDTO();
+        loggingUser.setCode(code);
         try {
-            List<CatUserDTO> lstCatUserDTO = userService.findUserByCondition(lstCon);
-            if(DataUtil.isListNullOrEmpty(lstCatUserDTO)){
+            CatUserDTO loggedUser = catUserService.login(loggingUser);
+            if(loggedUser.getCode() == null){
                 log.info("CatUserDTO not available");
                 return null;
             }
-            CatUserDTO loggedCatUserDTO = lstCatUserDTO.get(0);
-            return new WMSUserDetails(loggedCatUserDTO,roleActionService.getUserActionService(loggedCatUserDTO.getRoleCode()));
+
+            AuthTokenInfo tokenInfo = getAuthenTokenInfo(loggedUser);
+            List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(loggedUser.getRoleCode(),tokenInfo);
+
+            return new WMSUserDetails(loggedUser,lstMenu,tokenInfo);
         } catch (Exception e) {
             throw new UsernameNotFoundException("CatUserDTO not found");
         }
     }
+
+    private AuthTokenInfo getAuthenTokenInfo(CatUserDTO catUserDTO){
+        return FunctionUtils.sendTokenRequest(catUserDTO.getCode(),catUserDTO.getPassword());
+    }
+
 }

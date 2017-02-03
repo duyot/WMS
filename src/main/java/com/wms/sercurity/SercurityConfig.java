@@ -4,6 +4,7 @@ package com.wms.sercurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,6 +34,7 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService wmsUserDetailsService;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http    .csrf().disable()
@@ -58,10 +60,11 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .logout()
                 .permitAll();
+
     }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(wmsUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+            auth.eraseCredentials(false).userDetailsService(wmsUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 //          auth.inMemoryAuthentication().withUser("duyot").password("123456a@").roles("SYS_ADMIN");
     }
 }

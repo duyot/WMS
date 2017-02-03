@@ -3,12 +3,9 @@ package com.wms.controller.common_managerment;
 import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
-import com.wms.dto.CatUserDTO;
-import com.wms.dto.Condition;
-import com.wms.dto.ResponseObject;
-import com.wms.dto.RoleDTO;
+import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
-import com.wms.services.interfaces.UserService;
+import com.wms.services.interfaces.CatUserService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
@@ -35,17 +32,24 @@ public class ListEmployeeController {
     Logger log = LoggerFactory.getLogger(ListEmployeeController.class);
 
     @Autowired
-    UserService userService;
+    CatUserService catUserService;
 
     @Autowired
     BaseService roleService;
 
     Map<String,String> mapRoles;
 
+    private AuthTokenInfo tokenInfo;
+
+    @ModelAttribute("tokenInfo")
+    public void setTokenInfo(HttpServletRequest request){
+        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+    }
+
     @ModelAttribute("mapRoles")
     public Map<String,String> mapRoles(){
         Map<String,String> mapRole = new HashMap<>();
-        List<RoleDTO> lstRole = roleService.getAll();
+        List<RoleDTO> lstRole = roleService.getAll(tokenInfo);
         if(DataUtil.isListNullOrEmpty(lstRole)){
             return mapRole;
         }
@@ -70,7 +74,7 @@ public class ListEmployeeController {
         addCatUserDTO.setRoleName(mapRoles.get(addCatUserDTO.getRoleName()));
         log.info("Register user info: "+ addCatUserDTO.toString());
 
-        ResponseObject responseObject = userService.register(addCatUserDTO);
+        ResponseObject responseObject = catUserService.register(addCatUserDTO,tokenInfo);
 
         if(responseObject == null || responseObject.getStatusName().equalsIgnoreCase(Responses.ERROR.getName())){
             log.info("ERROR");
@@ -109,7 +113,8 @@ public class ListEmployeeController {
             lstCondition.add(new Condition("createDate", Constants.SQL_OPERATOR.BETWEEN,startDate + "|"+ endDate));
         }
 
-        return userService.findUserByCondition(lstCondition);
+//        return catUserService.f(lstCondition,tokenInfo);
+        return null;
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
@@ -117,7 +122,9 @@ public class ListEmployeeController {
         updateCatUserDTO.setRoleName(mapRoles.get(updateCatUserDTO.getRoleName()));
         log.info("Update user info: "+ updateCatUserDTO.toString());
 
-        if(userService.update(updateCatUserDTO)){
+//        ResponseObject response = catUserService.update(updateCatUserDTO,tokenInfo);
+        ResponseObject response = null;
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("SUCCESS");
             redirectAttributes.addFlashAttribute("actionInfo", "Cập nhật thành công: " + updateCatUserDTO.getCode());
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
@@ -132,7 +139,9 @@ public class ListEmployeeController {
     public @ResponseBody String delete(@RequestParam("userId")String userId,Model model){
         try {
             Long id = Long.parseLong(userId);
-            if(userService.delelte(id)){
+//            ResponseObject response = catUserService.delete(id,tokenInfo);
+            ResponseObject response = null;
+            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
                 return "1|Xoá thành công";
             }else{
                 return "0|Xoá không thành công";

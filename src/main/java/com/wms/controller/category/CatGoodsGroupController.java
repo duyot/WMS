@@ -1,13 +1,11 @@
 package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
-import com.sun.org.apache.bcel.internal.generic.GETFIELD;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
-import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,20 +34,23 @@ public class CatGoodsGroupController {
     @Autowired
     BaseService catGoodsGroupService;
 
-    public Map<String, String> mapCustomer = new HashMap<>();
+    private CatCustomerDTO selectedCustomer;
 
+    private AuthTokenInfo tokenInfo;
 
+    @ModelAttribute("tokenInfo")
+    public void setTokenInfo(HttpServletRequest request){
+        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+    }
 
-    @ModelAttribute("lstCustomers")
-    public List<CustomerDTO> lstCustomer(HttpServletRequest request){
-        List<CustomerDTO> lstCustomer = (List<CustomerDTO>) request.getSession().getAttribute("lstCustomers");
-        mapCustomer = lstCustomer.stream().collect(Collectors.toMap(CustomerDTO::getId, CustomerDTO::getName));
-        return (List<CustomerDTO>) request.getSession().getAttribute("lstCustomers");
+    @ModelAttribute("selectedCustomer")
+    public void setSelectedCustomer(HttpServletRequest request){
+        this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
     }
 
     @RequestMapping()
     public String home(Model model){
-        model.addAttribute("menuName","Danh mục nhóm hàng hóa");
+        model.addAttribute("menuName","menu.catgoodsgroup");
         return "category/cat_goods_group";
     }
 
@@ -67,10 +68,10 @@ public class CatGoodsGroupController {
 
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
-        List<CatGoodsGroupDTO> lstCatGoods = catGoodsGroupService.findByCondition(lstCon);
+        List<CatGoodsGroupDTO> lstCatGoods = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
 
         for(CatGoodsGroupDTO i: lstCatGoods){
-            i.setCustName(mapCustomer.get(i.getCustId()));
+            i.setCustName(selectedCustomer.getName());
         }
 
         return lstCatGoods;
@@ -79,13 +80,14 @@ public class CatGoodsGroupController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(CatGoodsGroupDTO catGoodsGroup, RedirectAttributes redirectAttributes){
         catGoodsGroup.setStatus("1");
-        if(catGoodsGroupService.add(catGoodsGroup)){
-            redirectAttributes.addFlashAttribute("actionInfo","Thành công");
+        ResponseObject response = catGoodsGroupService.add(catGoodsGroup,tokenInfo);
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+            redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catGoodsGroup.toString()+" SUCCESS");
         }else{
             log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","Lỗi: nhóm hàng hóa đã có trên hệ thống! ");
+            redirectAttributes.addFlashAttribute("actionInfo","result.add.fail");
         }
 
         return "redirect:/workspace/cat_goods_group_ctr";
@@ -99,23 +101,28 @@ public class CatGoodsGroupController {
         }else{
             catGoodsGroup.setStatus("0");
         }
-
-        if(catGoodsGroupService.update(catGoodsGroup)){
+        ResponseObject response = catGoodsGroupService.update(catGoodsGroup,tokenInfo);
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("SUCCESS");
-            redirectAttributes.addFlashAttribute("actionInfo", "Cập nhật thành công!");
+            redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
-        }else{
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","Cập nhật không thành công!");
+            redirectAttributes.addFlashAttribute("actionInfo","result.update.fail");
+        }
+        else{
+            log.info("ERROR");
+            redirectAttributes.addFlashAttribute("actionInfo","Lỗi hệ thống, liên hệ quản trị để được hỗ trợ!");
         }
         return  "redirect:/workspace/cat_goods_group_ctr";
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(@RequestParam("id")String id,Model model){
+    public @ResponseBody String delete(@RequestParam("id")String id){
         try {
             Long idL = Long.parseLong(id);
-            if(catGoodsGroupService.delete(idL)){
+            ResponseObject response = catGoodsGroupService.delete(idL,tokenInfo);
+            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
                 return "1|Xoá thành công";
             }else{
                 return "0|Xoá không thành công";

@@ -1,38 +1,20 @@
 package com.wms.controller;
 
 import com.google.common.collect.Lists;
-import com.wms.constants.Constants;
-import com.wms.constants.Responses;
 import com.wms.dto.*;
-import com.wms.services.interfaces.BaseService;
-import com.wms.services.interfaces.RoleActionService;
-import com.wms.services.interfaces.UserService;
-import com.wms.utils.BundleUtils;
-import com.wms.utils.DataUtil;
-import com.wms.utils.DateTimeUtils;
-import com.wms.utils.FunctionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-import org.thymeleaf.util.DateUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by duyot on 10/12/2016.
@@ -42,6 +24,7 @@ import java.util.Map;
 public class WorkSpaceController {
     Logger log = LoggerFactory.getLogger(WorkSpaceController.class);
 
+    List<CatCustomerDTO> lstCustomer;
     @RequestMapping()
     public String home(HttpServletRequest request){
         Object isLogin = request.getSession().getAttribute("isLogin");
@@ -51,6 +34,37 @@ public class WorkSpaceController {
         return "workspace/wms";
     }
 
+    @ModelAttribute("lstCustomers")
+    public List<CatCustomerDTO> lstCustomers(HttpServletRequest request){
+        this.lstCustomer = (List<CatCustomerDTO>) request.getSession().getAttribute("lstCustomers");
+        if(lstCustomer == null){
+            return Lists.newArrayList();
+        }
+        return  lstCustomer;
+    }
+
+    @ModelAttribute("mapCustomer")
+    public Map<String, String> mapCustomer(HttpServletRequest request){
+        List<CatCustomerDTO> lstCustomers = (List<CatCustomerDTO>) request.getSession().getAttribute("lstCustomers");
+        if(lstCustomers == null){//has just only one customer
+            return new HashMap<>();
+        }
+        return lstCustomers.stream().collect(Collectors.toMap(CatCustomerDTO::getId, CatCustomerDTO::getName));
+    }
+
+    //select customer
+    @RequestMapping(value = "/select_customer/{custId}",method = RequestMethod.GET)
+    public @ResponseBody String selectCustomer(@PathVariable("custId") String custId,HttpServletRequest request){
+        CatCustomerDTO selectedCustomer = null;
+        for(CatCustomerDTO customer:lstCustomer){
+            if(customer.getId().equalsIgnoreCase(custId)){
+                selectedCustomer = customer;
+                break;
+            }
+        }
+        request.getSession().setAttribute("selectedCustomer",selectedCustomer);
+        return selectedCustomer.getName();
+}
     //redirect with role------------------------------------------------------------------------------------------------
     @RequestMapping("/sysadmin")
     public String sysadmin(){

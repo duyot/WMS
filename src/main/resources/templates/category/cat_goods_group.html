@@ -52,22 +52,17 @@
                         <!--row 1: username + status-->
                         <div class="row">
                             <div class="col-sm-2">
-                                <label>Khách hàng</label>
+                                <label th:text="#{lbl.usage}"></label>
                             </div>
 
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                <select id="cmb-customer" class="combobox form-control" th:if="${lstCustomers.size() &gt; 1}" >
-                                    <option value="-1">Tất cả</option>
-                                    <option  th:each="sopt:${lstCustomers}"
-                                        th:value="${sopt.id}" th:text="${sopt.name}">1</option>
-                                </select>
-                                <label id="lblCustomer" th:value="${lstCustomers.get(0).getId()}" th:if="${lstCustomers.size() == 1}" th:text="${lstCustomers.get(0).getName()}"></label>
-                                <label id="lbl-customerId" style="display: none" th:text="${lstCustomers.get(0).getId()}" th:if="${lstCustomers.size() == 1}"></label>
+                                <label id="lblCustomer" th:text="${session.selectedCustomer.name}"></label>
+                                <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
-                                <label>Trạng thái</label>
+                                <label th:text="#{lbl.status}"></label>
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
@@ -82,8 +77,8 @@
 
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-default  btn-primary" id="btn-search-cat-group" th:value="@{/workspace/cat_goods_group_ctr/findByCondition}">
-                                Search
+                            <button type="button" th:text="#{btn.search}" class="btn btn-default  btn-primary"
+                                    id="btn-search-cat-group" th:value="@{/workspace/cat_goods_group_ctr/findByCondition}">
                             </button>
                         </div>
                     </div>
@@ -108,7 +103,7 @@
                             <i class="fa fa-trash"></i>
                         </button>
 
-                        <label class="action-info" id="action-info"  th:text="${actionInfo}" th:style="${successStyle}"></label>
+                        <label class="action-info" id="action-info" th:if="${actionInfo != null} " th:text="#{${actionInfo}}" th:style="${successStyle}"></label>
                         <label id="del-action-info"></label>
                     </div>
                     <table  id="table-pagination"
@@ -122,8 +117,8 @@
 
                         <thead>
                         <tr>
-                            <th  class="col-md-1" data-checkbox="true"></th>
                             <th  class="col-md-1" data-formatter="runningFormatter" data-align="center">STT</th>
+                            <th  class="col-md-1" data-checkbox="true"></th>
                             <th  class="col-md-5" data-field="name" data-align="left" data-sortable="true">Nhóm hàng</th>
                             <th  class="col-md-4" data-field="custName" data-align="left" data-sortable="true">Khách hàng</th>
                             <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true">Trạng thái</th>
@@ -135,7 +130,7 @@
         </div>
     </div>
     <!--modal-->
-    <div th:include="modal/cat_goods_group_modal :: frag-cat-goods_group-modal"></div>
+        <div th:include="modal/cat_goods_group_modal :: frag-cat-goods_group-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-del-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
@@ -173,15 +168,13 @@
         }
 
         var customerIdVal   = $('#lbl-customerId').text();
-        if(customerIdVal == ''){
-            customerIdVal = $('#cmb-customer').val();
-        }
         var statusVal;
         if($('#cmb-status').prop('checked')){
             statusVal = '1';
         }else{
             statusVal = '0';
         }
+
         $.ajax({
             type: "GET",
             cache:false,
@@ -301,7 +294,8 @@
         if(type == 1){//add
             $("#cat-goods-group-insert-update-form").attr("action",actionVal);
             $("#modal-inp-name").val('');
-            //disable combo status
+            //set default active-disable combo status
+            $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
 
             showAdd();

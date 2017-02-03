@@ -1,7 +1,9 @@
 package com.wms.sercurity;
 
 import com.wms.dto.ActionMenuDTO;
+import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatUserDTO;
+import com.wms.utils.FunctionUtils;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,15 +21,13 @@ public class WMSUserDetails implements UserDetails,CredentialsContainer {
     private CatUserDTO catUserDTO;
     private Set<GrantedAuthority> lstAuthorities;
     private List<ActionMenuDTO> lstMenu;
+    private AuthTokenInfo tokenInfo;
 
-    public WMSUserDetails(CatUserDTO catUserDTO) {
-        this.catUserDTO = catUserDTO;
-    }
-
-    public WMSUserDetails(CatUserDTO catUserDTO, List<ActionMenuDTO> lstMenu) {
+    public WMSUserDetails(CatUserDTO catUserDTO, List<ActionMenuDTO> lstMenu,AuthTokenInfo tokenInfo) {
         this.catUserDTO = catUserDTO;
         this.lstAuthorities = getLstAuthorities(catUserDTO.getRoleCode());
         this.lstMenu = lstMenu;
+        this.tokenInfo = tokenInfo;
     }
 
     public Set<GrantedAuthority> getLstAuthorities(String roleName){
@@ -92,5 +92,13 @@ public class WMSUserDetails implements UserDetails,CredentialsContainer {
     @Override
     public void eraseCredentials() {
         this.catUserDTO.setPassword(null);
+    }
+
+    public void setTokenInfo(AuthTokenInfo tokenInfo) {
+        this.tokenInfo = tokenInfo;
+    }
+
+    public AuthTokenInfo getTokenInfo() {
+        return tokenInfo;
     }
 }

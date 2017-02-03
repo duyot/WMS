@@ -1,6 +1,8 @@
 package com.wms.services.impl;
 
 import com.wms.base.BaseDP;
+import com.wms.dto.AuthTokenInfo;
+import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,32 +15,32 @@ public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> 
     public TDP tdp;
 
     @Override
-    public boolean add(T tObject) {
-        return tdp.add(tObject);
+    public ResponseObject add(T tObject, AuthTokenInfo token) {
+        return tdp.add(tObject,token);
     }
 
     @Override
-    public boolean update(T tObject) {
-        return tdp.update(tObject);
+    public ResponseObject update(T tObject,AuthTokenInfo token) {
+        return tdp.update(tObject,token);
     }
 
     @Override
-    public boolean delete(Long id) {
-        return tdp.delete(id);
+    public ResponseObject delete(Long id, AuthTokenInfo token) {
+        return tdp.delete(id,token);
     }
 
     @Override
-    public T findById(Long id) {
-        return tdp.findById(id);
+    public T findById(Long id,AuthTokenInfo token) {
+        return tdp.findById(id,token);
     }
 
     @Override
-    public List getAll() {
-        return tdp.getAll();
+    public List getAll(AuthTokenInfo token) {
+        return tdp.getAll(token);
     }
 
     @Override
-    public List findByCondition(List lstCondition) {
-        return tdp.findByCondition(lstCondition);
+    public List findByCondition(List lstCondition,AuthTokenInfo token) {
+        return tdp.findByCondition(lstCondition,token);
     }
 }

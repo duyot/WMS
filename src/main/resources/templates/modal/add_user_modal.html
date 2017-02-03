@@ -4,7 +4,7 @@
 </head>
 <body>
 
-<div th:fragment="frag-add-catUserDTO-modal">
+<div th:fragment="frag-select-customer-modal">
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -94,71 +94,6 @@
             </form>
         </div>
     </div>
-
-    <!--<script>-->
-        <!--$btnAdd    = $('#modal-btn-add');-->
-        <!--$btnUpdate = $('#modal-btn-update');-->
-
-        <!--$(function () {-->
-            <!--$btnAdd.click(function () {-->
-                <!--$('#catUserDTO-modal').validator()-->
-                <!--var jsonData = JSON.stringify(getDataObject());-->
-                <!--$.ajax({-->
-                    <!--type: "POST",-->
-                    <!--cache:false,-->
-                    <!--data:jsonData,-->
-                    <!--contentType : "application/json",-->
-                    <!--url: $btnAdd.val(),-->
-                    <!--dataType: 'text',-->
-                    <!--timeout: 600000,-->
-                    <!--success: function (data) {-->
-                        <!--var resultArr = new Array();-->
-                        <!--resultArr = data.split('|');-->
-                        <!--resultCode = resultArr[0];-->
-                        <!--resultName = resultArr[1];-->
-                        <!--//show notify-->
-                        <!--show_notify(resultCode,resultName);-->
-                    <!--},-->
-                <!--});-->
-
-            <!--});-->
-            <!--$btnUpdate.click(function () {-->
-                <!--show_notify_error('Cập nhật thành công!');-->
-            <!--});-->
-        <!--});-->
-
-        <!--function getDataObject() {-->
-            <!--var emailVal    = $('#modal-inp-email').val();-->
-            <!--var usernameVal = $('#modal-inp-username').val();-->
-            <!--var statusVal   = $('#modal-cmb-status').val();-->
-            <!--var roleVal     = $('#modal-cmb-role').val();-->
-
-            <!--var dataObject = {username: usernameVal, email : emailVal,status:statusVal,roleId:roleVal};-->
-            <!--return dataObject;-->
-        <!--}-->
-
-        <!--function show_notify(type,data) {-->
-            <!--var titleVar;-->
-            <!--var typeVal;-->
-            <!--if(type == '1'){-->
-                <!--titleVar = "Thành công";-->
-                <!--typeVal = "success";-->
-            <!--}else{-->
-                <!--titleVar = "Lỗi";-->
-                <!--typeVal = "error";-->
-            <!--}-->
-            <!--var opts = {-->
-                <!--title: titleVar,-->
-                <!--type:  typeVal,-->
-                <!--text: data,-->
-                <!--styling: "brighttheme",-->
-                <!--width: "250px",-->
-                <!--delay: 4000,-->
-                <!--shadow: true-->
-            <!--};-->
-            <!--new PNotify(opts);-->
-        <!--}-->
-    <!--</script>-->
 </div>
 
 </body>

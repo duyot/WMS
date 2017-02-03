@@ -2,10 +2,7 @@ package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
-import com.wms.dto.CatGoodsGroupDTO;
-import com.wms.dto.Condition;
-import com.wms.dto.CustomerDTO;
-import com.wms.dto.GoodsDTO;
+import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
 import org.slf4j.Logger;
@@ -37,31 +34,38 @@ public class CatGoodsController {
     @Autowired
     BaseService goodsService;
 
+    private AuthTokenInfo tokenInfo;
+
+    @ModelAttribute("tokenInfo")
+    public void setTokenInfo(HttpServletRequest request){
+        tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+    }
+
     @ModelAttribute("lstCatGoodsGroup")
     public List<CatGoodsGroupDTO> lstCatGoodsGroup(HttpServletRequest request){
-        List<CustomerDTO> lstCustomer = (List<CustomerDTO>) request.getSession().getAttribute("lstCustomers");
+        List<CatCustomerDTO> lstCustomer = (List<CatCustomerDTO>) request.getSession().getAttribute("lstCustomers");
         if(DataUtil.isListNullOrEmpty(lstCustomer) || lstCustomer.size() >1){
             return Lists.newArrayList();
         }
 
-        CustomerDTO customer = lstCustomer.get(0);
+        CatCustomerDTO customer = lstCustomer.get(0);
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId", Constants.SQL_OPERATOR.EQUAL,customer.getId()));
         lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
-        return catGoodsGroupService.findByCondition(lstCon);
+        return catGoodsGroupService.findByCondition(lstCon,tokenInfo);
     }
 
     @ModelAttribute("lstCustomers")
-    public List<CustomerDTO> lstCustomer(HttpServletRequest request){
-        List<CustomerDTO> lstCustomer = (List<CustomerDTO>) request.getSession().getAttribute("lstCustomers");
-        mapCustomer = lstCustomer.stream().collect(Collectors.toMap(CustomerDTO::getId, CustomerDTO::getName));
-        return (List<CustomerDTO>) request.getSession().getAttribute("lstCustomers");
+    public List<CatCustomerDTO> lstCustomer(HttpServletRequest request){
+        List<CatCustomerDTO> lstCustomer = (List<CatCustomerDTO>) request.getSession().getAttribute("lstCustomers");
+        mapCustomer = lstCustomer.stream().collect(Collectors.toMap(CatCustomerDTO::getId, CatCustomerDTO::getName));
+        return (List<CatCustomerDTO>) request.getSession().getAttribute("lstCustomers");
     }
 
     @RequestMapping()
     public String home(Model model){
-        model.addAttribute("menuName","Danh mục hàng hóa");
+        model.addAttribute("menuName","menu.catgoods");
         return "category/cat_goods";
     }
 
@@ -84,7 +88,7 @@ public class CatGoodsController {
 
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
-        List<GoodsDTO> lstGoods = goodsService.findByCondition(lstCon);
+        List<GoodsDTO> lstGoods = goodsService.findByCondition(lstCon,tokenInfo);
 
         for(GoodsDTO i: lstGoods){
             i.setCustName(mapCustomer.get(i.getCustId()));

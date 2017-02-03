@@ -2,6 +2,7 @@ package com.wms.services.impl;
 
 import com.wms.dataprovider.ActionMenuDP;
 import com.wms.dto.ActionMenuDTO;
+import com.wms.dto.AuthTokenInfo;
 import com.wms.services.interfaces.RoleActionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class RoleActionServiceImpl implements RoleActionService{
     ActionMenuDP actionMenuDP;
 
     @Override
-    public List<ActionMenuDTO> getUserActionService(String roleCode) {
-        return actionMenuDP.getActionMenu(roleCode);
+    public List<ActionMenuDTO> getUserActionService(String roleCode, AuthTokenInfo tokenInfo) {
+        return actionMenuDP.getActionMenu(roleCode,tokenInfo);
     }
 }

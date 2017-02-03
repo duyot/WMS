@@ -17,11 +17,13 @@ import java.util.Locale;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(value = "com.wms")
+
 public class SpringBootExampleApplication extends SpringBootServletInitializer {
 	@Bean
 	public LocaleResolver localeResolver() {
 		SessionLocaleResolver slr = new SessionLocaleResolver();
 		slr.setDefaultLocale(new Locale("vi", "VN"));
+//		slr.setDefaultLocale(Locale.ENGLISH);
 		return slr;
 	}
 

@@ -7,7 +7,7 @@
 <div th:fragment="frag-cat-goods_group-modal">
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-mini" role="document">
             <form id="cat-goods-group-insert-update-form" action="" method="post">
                 <div class="modal-content" id="catUserDTO-modal">
                     <div class="modal-header">
@@ -19,32 +19,30 @@
                         <div class="container-modal">
                             <!--hidden fields-->
                             <input id="modal-inp-id" hidden="true" name="id"/>
-                            <!--row 1-->
-                            <div class="row">
-                                <div class="col-sm-2">
+                            <div class="row row-header-first">
+                                <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label class="control-label">Khách hàng:</label>
+                                        <label class="control-label" th:text="#{lbl.usage}"></label>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-4">
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
                                     <div class="input-group">
-                                        <select th:name="custId" id="cmb-customer" class="combobox form-control" th:if="${lstCustomers.size() &gt; 1}" >
-                                            <option  th:each="sopt:${lstCustomers}"
-                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
-                                        </select>
-
-                                        <label id="lblCustomer" th:value="${lstCustomers.get(0).getId()}" th:if="${lstCustomers.size() == 1}" th:text="${lstCustomers.get(0).getName()}"></label>
-                                        <input id="modal-inp-customerId" hidden="true" th:if="${lstCustomers.size() == 1}" th:value="${lstCustomers.get(0).getId()}" type="text" th:name="custId"/>
+                                        <label id="lblCustomer" th:text="${session.selectedCustomer.name}"></label>
+                                        <input id="modal-inp-customerId" hidden="true" th:value="${session.selectedCustomer.id}" type="text" th:name="custId"/>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2">
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label for="modal-inp-name" class="control-label">Nhóm hàng:</label>
+                                        <label for="modal-inp-name" class="control-label" th:text="#{lbl.goodsgroup}"></label>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
                                     <div class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="fa  fa-server fa-fw"></i>
@@ -53,14 +51,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="div-status" class="row">
-                                <div class="col-sm-2">
+                            <!--row 3-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label class="control-label">Trạng thái:</label>
+                                        <label class="control-label" th:text="#{lbl.status}"></label>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-4">
+                            </div>
+                            <div id="div-status" class="row row-content">
+                                <div class="col-sm-12">
                                     <div class="input-group">
                                         <input id="modal-cmb-status" name="status" data-toggle="toggle" type="checkbox"/>
                                     </div>

@@ -1,8 +1,9 @@
 package com.wms.sercurity;
 
-import com.google.common.collect.Lists;
-import com.wms.dto.CustomerDTO;
+import com.wms.dto.AuthTokenInfo;
+import com.wms.dto.CatCustomerDTO;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.CatUserService;
 import com.wms.utils.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Autowired
     BaseService customerService;
 
+    @Autowired
+    CatUserService catUserServices;
+
+
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         HttpSession session = httpServletRequest.getSession();
@@ -40,32 +46,25 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		/*Set some session variables*/
         WMSUserDetails authUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         session.setAttribute("user", authUser.getCatUserDTO());
-        session.setAttribute("lstCustomers", getCustomer(authUser.getCatUserDTO().getCustId()));
+        List<CatCustomerDTO> lstCustomers = getCustomer(authUser.getCatUserDTO().getId(),authUser.getTokenInfo());
+        if(!DataUtil.isListNullOrEmpty(lstCustomers)){
+            if(lstCustomers.size() > 1){
+                session.setAttribute("lstCustomers",lstCustomers);
+            }else{
+                session.setAttribute("selectedCustomer",lstCustomers.get(0));
+            }
+        }
         session.setAttribute("authorities", authentication.getAuthorities());
         session.setAttribute("lstUserAction", authUser.getLstMenu());
         session.setAttribute("isLogin", true);
+        session.setAttribute("tokenInfo", authUser.getTokenInfo());
         //
         String targetUrl = determineTargetUrl(authentication);
         redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, targetUrl);
     }
 
-    private List<CustomerDTO> getCustomer(String custId){
-        List<CustomerDTO> lstCustomer = Lists.newArrayList();
-        if(DataUtil.isStringNullOrEmpty(custId)){
-            return null;
-        }
-        String[] arrCustId = custId.split(",");
-        for(int i = 0;i<arrCustId.length;i++){
-            try {
-                Long id = Long.parseLong(arrCustId[i]);
-                CustomerDTO customer =  (CustomerDTO) customerService.findById(id);
-                lstCustomer.add(customer);
-            } catch (NumberFormatException e) {
-                log.error(e.toString());
-            }
-        }
-        //
-        return lstCustomer;
+    private List<CatCustomerDTO> getCustomer(String userId, AuthTokenInfo tokenInfo){
+        return catUserServices.getCustomer(userId,tokenInfo);
     }
 
     protected String determineTargetUrl(Authentication authentication) {

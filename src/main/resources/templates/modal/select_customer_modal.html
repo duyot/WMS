@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="frag-add-catUserDTO-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="select-customer-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-mini" role="document">
+                <div class="modal-content" id="catUserDTO-modal">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Chọn khách hàng:</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--row 1-->
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <input id="modal-list-customer-size" hidden="true" name="userId" th:value="${lstCustomers.size()}"/>
+                                </div>
+                                <div class="col-sm-11">
+                                    <div class="input-group" style="width:400px;">
+                                        <select id="modal-cmb-customer" class="combobox form-control" name="roleId" th:required="true">
+                                            <option th:each="sopt:${mapCustomer.entrySet()}"
+                                                    th:value="${sopt.key}" th:text="${sopt.value}">Admin</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-select-customer"  type="submit" class="btn btn-primary" th:value="@{workspace/select_customer/}" >Select</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

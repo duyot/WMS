@@ -15,18 +15,18 @@ public class Constants {
     }
 
     public static class SERVICE_METHOD{
-        public static String ADD = "add";
-        public static String UPDATE = "update";
+        public static String ADD = "add?access_token=";
+        public static String UPDATE = "update?access_token=";
         public static String DELETE = "delete/";
         public static String FIND_BY_ID = "find/";
-        public static String FIND_BY_CONDITION = "findByCondition";
-        public static String GET_ALL = "getAll";
+        public static String FIND_BY_CONDITION = "findByCondition?access_token=";
+        public static String GET_ALL = "getAll?access_token=";
     }
 
     public static class SERVICE_PREFIX{
         public static String ROLE_SERVICE = "sysRoleServices/";
         public static String USER_SERVICE = "catUserServices/";
-        public static String CUSTOMER_SERVICE = "customerServices/";
+        public static String CUSTOMER_SERVICE = "catCustomerServices/";
         public static String CAT_GOODS_GROUP_SERVICE = "catGoodsGroupServices/";
         public static String GOODS_SERVICE = "catGoodsServices/";
     }
