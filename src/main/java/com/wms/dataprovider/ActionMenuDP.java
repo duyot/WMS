@@ -1,6 +1,7 @@
 package com.wms.dataprovider;
 
 import com.wms.dto.ActionMenuDTO;
+import com.wms.dto.AuthTokenInfo;
 import com.wms.utils.BundleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +23,13 @@ public class ActionMenuDP {
     private  final String SERVICE_URL    = BundleUtils.getkey("rest_service_url");
     private  final String SERVICE_PREFIX = "sysRoleMenuServices/";
 
-    private  final String GET_ACTION_MENU_URL    = SERVICE_URL+SERVICE_PREFIX  + "getUserAction/";
+    private  String GET_ACTION_MENU_URL    = SERVICE_URL+SERVICE_PREFIX  + "getUserAction/";
 
-    public List<ActionMenuDTO> getActionMenu(String roleCode){
+    public List<ActionMenuDTO> getActionMenu(String roleCode, AuthTokenInfo tokenInfo){
         RestTemplate restTemplate = new RestTemplate();
+        String getActionMenuURL =   GET_ACTION_MENU_URL + roleCode + "?access_token="+tokenInfo.getAccess_token();
         try {
-            ResponseEntity<ActionMenuDTO[]> responseEntity = restTemplate.getForEntity(GET_ACTION_MENU_URL+roleCode,ActionMenuDTO[].class);
+            ResponseEntity<ActionMenuDTO[]> responseEntity = restTemplate.getForEntity(getActionMenuURL,ActionMenuDTO[].class);
             if(responseEntity.getBody() != null){
                 return Arrays.asList(responseEntity.getBody());
             }else{

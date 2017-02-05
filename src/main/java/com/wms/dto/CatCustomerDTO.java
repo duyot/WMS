@@ -3,7 +3,7 @@ package com.wms.dto;
 /**
  * Created by duyot on 12/6/2016.
  */
-public class CustomerDTO{
+public class CatCustomerDTO {
     private String id;
     private String code;
     private String name;
@@ -16,7 +16,7 @@ public class CustomerDTO{
     private String status;
     private String createDate;
 
-    public CustomerDTO(String id, String code, String name, String type, String telNumber, String email, String bankName, String bankAccountCode, String address, String status, String createDate) {
+    public CatCustomerDTO(String id, String code, String name, String type, String telNumber, String email, String bankName, String bankAccountCode, String address, String status, String createDate) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -30,7 +30,7 @@ public class CustomerDTO{
         this.createDate = createDate;
     }
 
-    public CustomerDTO() {
+    public CatCustomerDTO() {
     }
 
     public String getId() {
@@ -124,7 +124,7 @@ public class CustomerDTO{
 
     @Override
     public String toString() {
-        return "CustomerDTO{" +
+        return "CatCustomerDTO{" +
                 "id='" + id + '\'' +
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +

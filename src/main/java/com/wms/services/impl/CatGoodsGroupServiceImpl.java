@@ -1,9 +1,7 @@
 package com.wms.services.impl;
 
 import com.wms.dataprovider.CatGoodsGroupDP;
-import com.wms.dataprovider.CustomerDP;
 import com.wms.dto.CatGoodsGroupDTO;
-import com.wms.dto.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

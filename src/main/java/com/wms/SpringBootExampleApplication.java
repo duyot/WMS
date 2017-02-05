@@ -17,6 +17,7 @@ import java.util.Locale;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(value = "com.wms")
+
 public class SpringBootExampleApplication extends SpringBootServletInitializer {
 	@Bean
 	public LocaleResolver localeResolver() {

@@ -503,7 +503,7 @@ h3, .h3 {
 }
 
 h4, .h4 {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 h5, .h5 {
@@ -917,6 +917,19 @@ pre code {
   margin-right: -15px;
   margin-top: 10px;
 }
+
+.row-header{
+  margin-top: 15px;
+}
+
+.row-header-first{
+  margin-top: 0px;
+}
+
+.row-content{
+  margin-left: -5px;
+}
+
 .row:before, .row:after {
   content: " ";
   display: table;
@@ -5423,6 +5436,7 @@ button.close {
 .modal-body {
   position: relative;
   padding: 15px;
+  padding-top:5px;
 }
 
 .modal-footer {
@@ -5459,6 +5473,16 @@ button.close {
 @media (min-width: 768px) {
   .modal-dialog {
     width: 750px;
+    margin: 30px auto;
+  }
+
+  .modal-dialog-medium {
+    width: 550px;
+    margin: 30px auto;
+  }
+
+  .modal-dialog-mini {
+    width: 380px;
     margin: 30px auto;
   }
 
