@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
 
     <link rel="stylesheet" href="/css/bootstrap-combobox.css" th:href="@{/css/bootstrap-combobox.css}"/>
-    <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
+    <link rel="stylesheet" href="/css/bootstrap-toggle.css" th:href="@{/css/bootstrap-toggle.css}"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
@@ -26,11 +26,9 @@
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>
-    <!--datetime-->
-    <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
-    <script th:attr="src=@{/js/daterangepicker.js}" th:href="@{/js/daterangepicker.js}"></script>
+    <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
-
+    <!--font and favi icon-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
 
@@ -47,7 +45,7 @@
             <div id="panel-search-content" class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa  fa-search"></i>
-                    Search info
+                    <!--Search info-->
                 </div>
                 <div class="panel-body">
                     <div class="container">
@@ -70,34 +68,12 @@
                             </div>
                             <div class="col-sm-2">
                                 <label>Trạng thái</label>
-
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <select id="cmb-status" class="combobox form-control">
-                                        <option value="-1">Tất cả</option>
-                                        <option value="1">Hiệu lực</option>
-                                        <option value="0">Hết hiệu lực</option>
-                                    </select>
+                                    <input id="cmb-status" checked="true" data-toggle="toggle" type="checkbox"/>
                                 </div>
                             </div>
-                        </div>
-                        <!--row 2: nhom hh-->
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label>Nhóm hàng hóa </label>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <div class="input-group">
-                                    <select id="cmb-goods-group" class="combobox form-control">
-                                        <option value="-1">Tất cả</option>
-                                        <option  th:each="sopt:${lstCatGoodsGroup}"
-                                                 th:value="${sopt.id}" th:text="${sopt.name}">1</option>
-                                    </select>
-                                </div>
-                            </div>
-
                         </div>
 
                     </div>
@@ -106,8 +82,8 @@
 
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-default  btn-primary" id="btn-search-cat-group" th:value="@{/workspace/goods_ctr/findByCondition}">
-                                Search
+                            <button type="button" class="btn btn-default  btn-primary" id="btn-search-cat-group" th:value="@{/workspace/cat_goods_ctr/findByCondition}">
+                                Tìm kiếm
                             </button>
                         </div>
                     </div>
@@ -117,18 +93,18 @@
             <div id="panel-search-result" class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-database"></i>
-                    Result
+                    <!--Result-->
                 </div>
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-add" th:value="@{/workspace/goods_ctr/add}" type="button" class="btn btn-default">
+                        <button id="btn-add" th:value="@{/workspace/cat_goods_ctr/add}" type="button" class="btn btn-default">
                             <i class="fa fa-plus"></i>
                         </button>
-                        <button id="btn-update" th:value="@{/workspace/goods_ctr/update}" type="button" class="btn btn-default">
+                        <button id="btn-update" th:value="@{/workspace/cat_goods_ctr/update}" type="button" class="btn btn-default">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button id="btn-delete" th:value="@{/workspace/goods_ctr/delete}" type="button" class="btn btn-default">
+                        <button id="btn-delete" th:value="@{/workspace/cat_goods_ctr/delete}" type="button" class="btn btn-default">
                             <i class="fa fa-trash"></i>
                         </button>
 
@@ -148,12 +124,9 @@
                         <tr>
                             <th  class="col-md-1" data-checkbox="true"></th>
                             <th  class="col-md-1" data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true">Mã hàng</th>
-                            <th  class="col-md-3" data-field="name" data-align="left" data-sortable="true">Tên hàng</th>
-                            <th  class="col-md-2" data-field="status" data-align="left" data-sortable="true">Nhóm hàng</th>
-                            <th  class="col-md-1" data-field="unitType" data-align="left" data-sortable="true">Đơn vị</th>
-                            <th  class="col-md-1" data-field="status" data-align="status" data-sortable="true">Trạng thái</th>
-                            <th  class="col-md-1" data-field="brand" data-align="status" data-sortable="true">Brand</th>
+                            <th  class="col-md-5" data-field="name" data-align="left" data-sortable="true">Nhóm hàng</th>
+                            <th  class="col-md-4" data-field="custName" data-align="left" data-sortable="true">Khách hàng</th>
+                            <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true">Trạng thái</th>
                         </tr>
                         </thead>
                     </table>
@@ -162,7 +135,7 @@
         </div>
     </div>
     <!--modal-->
-    <div th:include="modal/cat_goods_group_modal :: frag-cat-goods_group-modal"></div>
+    <div th:include="modal/cat_goods_modal :: frag-cat-goods-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-del-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
@@ -171,7 +144,8 @@
 <!--FINAL JS-->
 <script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
-
+<!--switch-->
+<script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
 <script>
     //		row num
     function runningFormatter(value, row, index) {
@@ -189,7 +163,6 @@
 
         $('.combobox').combobox();
 
-        initDateRangeSelect();
         //fill data to table
         search(false);
     });
@@ -203,9 +176,13 @@
         if(customerIdVal == ''){
             customerIdVal = $('#cmb-customer').val();
         }
-        var statusVal       = $('#cmb-status').val();
-        var goodsGroupVal       = $('#cmb-goods-group').val();
-
+        var statusVal;
+        if($('#cmb-status').prop('checked')){
+            statusVal = '1';
+        }else{
+            statusVal = '0';
+        }
+        var goodsGroupVal = '1002';
         $.ajax({
             type: "GET",
             cache:false,
@@ -218,6 +195,7 @@
                 $('#table-pagination').bootstrapTable('load', data);
             },
         });
+        alert("1");
     }
     //@Del action---------------------------------------------------------------------------------------------------
     var $btnDel = $('#btn-delete');
@@ -334,7 +312,12 @@
 
             $("#modal-inp-name").val(selectedItem["name"]);
             $("#modal-inp-id").val(selectedItem["id"]);
-            $("#modal-cmb-statusundefined").val(selectedItem["status"]);
+            var currentStatus = selectedItem["status"];
+            if(currentStatus == 'Hết hiệu lực'){
+                $('#modal-cmb-status').bootstrapToggle('off');
+            }else{
+                $('#modal-cmb-status').bootstrapToggle('on');
+            }
             $("#div-status *").prop('disabled',false);
             showUpdate();
         }
