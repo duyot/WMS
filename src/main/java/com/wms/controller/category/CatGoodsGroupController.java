@@ -85,10 +85,14 @@ public class CatGoodsGroupController {
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catGoodsGroup.toString()+" SUCCESS");
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName()))
+        {
+            log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
+            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }else{
             log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.add.fail");
-        }
+        redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
+    }
 
         return "redirect:/workspace/cat_goods_group_ctr";
     }
@@ -108,11 +112,11 @@ public class CatGoodsGroupController {
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.update.fail");
+            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }
         else{
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","Lỗi hệ thống, liên hệ quản trị để được hỗ trợ!");
+            redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
         }
         return  "redirect:/workspace/cat_goods_group_ctr";
     }

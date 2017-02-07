@@ -6,7 +6,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 */
 .action-info{
 	color:#f44336;
-	margin-left:10px;
+	margin-left:5px;
+	margin-top:-10px;
+}
+
+.action-info-detail{
+	color:#f44336;
 	margin-top:-10px;
 }
 #del-action-info{
