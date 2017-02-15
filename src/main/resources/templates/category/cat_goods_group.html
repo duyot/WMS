@@ -57,7 +57,7 @@
 
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                <label id="lblCustomer" th:text="${session.selectedCustomer.name}"></label>
+                                <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                 <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
                                 </div>
                             </div>
