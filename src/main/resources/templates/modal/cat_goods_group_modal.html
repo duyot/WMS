@@ -70,14 +70,20 @@
                     </div>
                     <div class="modal-footer">
                         <button id="modal-btn-update"  type="submit" class="btn btn-primary"  >Update</button>
-                        <button id="modal-btn-add"     type="submit" class="btn btn-primary"  >Add</button>
+                        <button id="modal-btn-add"     type="submit" class="btn btn-primary">Add</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
+    <script>
+        $('#cat-goods-group-insert-update-form').submit(function() {
+            $(this).find('input:text').each(function(){
+                $(this).val($.trim($(this).val()));
+            });
+        });
+    </script>
 </div>
 
 </body>

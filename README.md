@@ -1,2 +1,2 @@
 # WMS
-WMS application
+Best way to manage your warehouse and selling items!

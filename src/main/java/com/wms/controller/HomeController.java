@@ -30,12 +30,12 @@ import java.util.Locale;
 /**
  * Created by duyot on 10/18/2016.
  */
-@Controller
-@RequestMapping("/")
-public class HomeController {
-    Logger log = LoggerFactory.getLogger(HomeController.class);
+    @Controller
+    @RequestMapping("/")
+    public class HomeController {
+        Logger log = LoggerFactory.getLogger(HomeController.class);
 
-    @Autowired
+        @Autowired
     CatUserService catUserService;
 
     @Autowired

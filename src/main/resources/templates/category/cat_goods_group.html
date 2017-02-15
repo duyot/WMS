@@ -57,7 +57,7 @@
 
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                <label id="lblCustomer" th:text="${session.selectedCustomer.name}"></label>
+                                <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                 <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
                                 </div>
                             </div>
@@ -299,6 +299,7 @@
             $("#div-status *").prop('disabled',true);
 
             showAdd();
+            $("#myModalLabel").text('Thêm mới');
         }else{//update
             $("#cat-goods-group-insert-update-form").attr("action",actionVal);
 

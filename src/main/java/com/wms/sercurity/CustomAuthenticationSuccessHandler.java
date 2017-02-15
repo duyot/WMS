@@ -5,6 +5,7 @@ import com.wms.dto.CatCustomerDTO;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.utils.DataUtil;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             if(lstCustomers.size() > 1){
                 session.setAttribute("lstCustomers",lstCustomers);
             }else{
-                session.setAttribute("selectedCustomer",lstCustomers.get(0));
+                CatCustomerDTO customer = lstCustomers.get(0);
+                customer.setName(StringEscapeUtils.escapeHtml(customer.getName()));
+                session.setAttribute("selectedCustomer",customer);
             }
         }
         session.setAttribute("authorities", authentication.getAuthorities());

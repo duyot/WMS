@@ -6,6 +6,7 @@ import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,7 @@ public class CatGoodsGroupController {
         List<CatGoodsGroupDTO> lstCatGoods = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
 
         for(CatGoodsGroupDTO i: lstCatGoods){
+            i.setName(StringEscapeUtils.escapeHtml(i.getName()));
             i.setCustName(selectedCustomer.getName());
         }
 
@@ -85,10 +87,14 @@ public class CatGoodsGroupController {
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catGoodsGroup.toString()+" SUCCESS");
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName()))
+        {
+            log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
+            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }else{
             log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.add.fail");
-        }
+        redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
+    }
 
         return "redirect:/workspace/cat_goods_group_ctr";
     }
@@ -108,11 +114,11 @@ public class CatGoodsGroupController {
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.update.fail");
+            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }
         else{
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","Lỗi hệ thống, liên hệ quản trị để được hỗ trợ!");
+            redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
         }
         return  "redirect:/workspace/cat_goods_group_ctr";
     }
