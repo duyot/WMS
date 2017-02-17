@@ -29,7 +29,7 @@
                             <div class="row row-content">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label id="lblCustomer" th:text="${session.selectedCustomer.name}"></label>
+                                        <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                         <input id="modal-inp-customerId" hidden="true" th:value="${session.selectedCustomer.id}" type="text" th:name="custId"/>
                                     </div>
                                 </div>
@@ -44,9 +44,9 @@
                             <div class="row row-content">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="fa  fa-server fa-fw"></i>
-                                                </span>
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                        </span>
                                         <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name"  placeholder="Điện tử, điện lạnh..."/>
                                     </div>
                                 </div>

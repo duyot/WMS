@@ -4,8 +4,8 @@
  */
 package com.wms.utils;
 
-//import_stock com.viettel.language.util.EnumWordType;
-//import_stock com.viettel.language.util.MultiLanguageNumberToWords;
+//stock_management com.viettel.language.util.EnumWordType;
+//stock_management com.viettel.language.util.MultiLanguageNumberToWords;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;

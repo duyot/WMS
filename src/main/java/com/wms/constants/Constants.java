@@ -14,6 +14,11 @@ public class Constants {
         public static String INACTIVE = "0";
     }
 
+    public static class IMPORT_TYPE{
+        public static String IMPORT = "1";
+        public static String EXPORT = "2";
+    }
+
     public static class SERVICE_METHOD{
         public static String ADD = "add?access_token=";
         public static String UPDATE = "update?access_token=";
@@ -29,6 +34,8 @@ public class Constants {
         public static String CUSTOMER_SERVICE = "catCustomerServices/";
         public static String CAT_GOODS_GROUP_SERVICE = "catGoodsGroupServices/";
         public static String GOODS_SERVICE = "catGoodsServices/";
+        public static String CAT_STOCK_SERVICE = "catStockServices/";
+        public static String STOCK_MANAGEMENT_SERVICE = "stockManagementServices/";
     }
 
     public static class SQL_OPERATOR{

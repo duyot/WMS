@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: WMS
-Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: duyot
-Implementation-Vendor-Id: com.vivas
-Created-By: IntelliJ IDEA
-Build-Jdk: 1.8.0_92
-Main-Class: ${start-class}
-
