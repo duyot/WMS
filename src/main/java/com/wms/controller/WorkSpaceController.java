@@ -85,7 +85,8 @@ public class WorkSpaceController {
         return "workspace/wms";
     }
 
-    //------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------
+    // ---------
     @RequestMapping("/logout")
         public String logout(HttpServletRequest request){
             request.getSession().invalidate();
@@ -99,15 +100,21 @@ public class WorkSpaceController {
         return "Success";
     }
 
-    @PreAuthorize("hasAnyRole('SYS_ADMIN','CUS_ADMIN','ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/cat_goods_group")
     public String redirectCatGoodsGroup(){
         return "redirect:/workspace/cat_goods_group_ctr";
     }
 
-    @PreAuthorize("hasAnyRole('SYS_ADMIN','CUS_ADMIN','ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/cat_goods")
     public String redirectCatGoods(){
         return "redirect:/workspace/goods_ctr";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/import_stock")
+    public String redirectImportStock(){
+        return "redirect:/workspace/stock_management";
     }
 }

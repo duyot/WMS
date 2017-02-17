@@ -1,6 +1,11 @@
 /**
  * Created by duyot on 11/16/2016.
  */
+//		row num
+function runningFormatter(value, row, index) {
+    return index +1;
+}
+
 function initDateRangeSelect() {
     var date = new Date();
     var start = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -69,6 +74,12 @@ function escapeHtml(unsafe) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+}
+
+function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
 }
 
 

@@ -302,8 +302,7 @@
             $("#myModalLabel").text('Thêm mới');
         }else{//update
             $("#cat-goods-group-insert-update-form").attr("action",actionVal);
-
-            $("#modal-inp-name").val(selectedItem["name"]);
+            $("#modal-inp-name").val(decodeHtml(selectedItem["name"]));
             $("#modal-inp-id").val(selectedItem["id"]);
             var currentStatus = selectedItem["status"];
             if(currentStatus == 'Hết hiệu lực'){
