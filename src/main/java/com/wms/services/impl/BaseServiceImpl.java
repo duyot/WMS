@@ -14,6 +14,17 @@ import java.util.List;
 public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> {
     public TDP tdp;
 
+
+    @Override
+    public String getSysDate(AuthTokenInfo tokenInfo) {
+        return tdp.getSysDate(tokenInfo);
+    }
+
+    @Override
+    public String getSysDateWithPattern(String pattern, AuthTokenInfo tokenInfo) {
+        return tdp.getSysDateWithPattern(pattern,tokenInfo);
+    }
+
     @Override
     public ResponseObject add(T tObject, AuthTokenInfo token) {
         return tdp.add(tObject,token);

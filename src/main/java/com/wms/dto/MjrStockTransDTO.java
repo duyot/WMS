@@ -12,7 +12,7 @@ public class MjrStockTransDTO {
     private String custId;
     private String stockId;
     private String contractNumber;
-    private String invoicetNumber;
+    private String invoiceNumber;
     private String type;
     private String status;
     private String createdDate;
@@ -23,17 +23,18 @@ public class MjrStockTransDTO {
     private String transMoneyRequire;
     private String transMoneyReceive;
     private String transMoneyResponse;
+    private String description;
 
     public MjrStockTransDTO() {
     }
 
-    public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoicetNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String transMoneyReceive, String transMoneyResponse) {
+    public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoiceNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String transMoneyReceive, String transMoneyResponse, String description) {
         this.id = id;
         this.code = code;
         this.custId = custId;
         this.stockId = stockId;
         this.contractNumber = contractNumber;
-        this.invoicetNumber = invoicetNumber;
+        this.invoiceNumber = invoiceNumber;
         this.type = type;
         this.status = status;
         this.createdDate = createdDate;
@@ -44,6 +45,7 @@ public class MjrStockTransDTO {
         this.transMoneyRequire = transMoneyRequire;
         this.transMoneyReceive = transMoneyReceive;
         this.transMoneyResponse = transMoneyResponse;
+        this.description = description;
     }
 
     public String getId() {
@@ -86,12 +88,12 @@ public class MjrStockTransDTO {
         this.contractNumber = contractNumber;
     }
 
-    public String getInvoicetNumber() {
-        return invoicetNumber;
+    public String getInvoiceNumber() {
+        return invoiceNumber;
     }
 
-    public void setInvoicetNumber(String invoicetNumber) {
-        this.invoicetNumber = invoicetNumber;
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
     }
 
     public String getType() {
@@ -174,4 +176,11 @@ public class MjrStockTransDTO {
         this.transMoneyResponse = transMoneyResponse;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

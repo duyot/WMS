@@ -10,6 +10,8 @@ import java.util.List;
  * Created by duyot on 11/9/2016.
  */
 public interface BaseService<T>{
+    public String getSysDate(AuthTokenInfo tokenInfo);
+    public String getSysDateWithPattern(String pattern,AuthTokenInfo tokenInfo);
     public ResponseObject add(T tObject, AuthTokenInfo token);
     public ResponseObject update(T tObject,AuthTokenInfo token);
     public ResponseObject delete(Long id,AuthTokenInfo token);
