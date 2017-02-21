@@ -3,7 +3,7 @@ package com.wms.dto;
 /**
  * Created by duyot on 12/9/2016.
  */
-public class GoodsDTO {
+public class CatGoodsDTO {
     private String id;
     private String code;
     private String name;
@@ -12,17 +12,27 @@ public class GoodsDTO {
     private String custId;
     private String unitType;
     private String goodsGroupId;
-    private String serialType;
+    private String goodsGroupName;
+    private String isSerial;
     private String description;
     private String inPrice;
     private String outPrice;
     private String brand;
     private String custName;
+    private String unitTypeName;
 
-    public GoodsDTO() {
+    public String getGoodsGroupName() {
+        return goodsGroupName;
     }
 
-    public GoodsDTO(String id, String code, String name, String status, String createDate, String custId, String unitType, String goodsGroupId, String serialType, String description, String inPrice, String outPrice, String brand) {
+    public void setGoodsGroupName(String goodsGroupName) {
+        this.goodsGroupName = goodsGroupName;
+    }
+
+    public CatGoodsDTO() {
+    }
+
+    public CatGoodsDTO(String id, String code, String name, String status, String createDate, String custId, String unitType, String goodsGroupId, String isSerial, String description, String inPrice, String outPrice, String brand) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -31,7 +41,7 @@ public class GoodsDTO {
         this.custId = custId;
         this.unitType = unitType;
         this.goodsGroupId = goodsGroupId;
-        this.serialType = serialType;
+        this.isSerial = isSerial;
         this.description = description;
         this.inPrice = inPrice;
         this.outPrice = outPrice;
@@ -102,12 +112,12 @@ public class GoodsDTO {
         this.goodsGroupId = goodsGroupId;
     }
 
-    public String getSerialType() {
-        return serialType;
+    public String getIsSerial() {
+        return isSerial;
     }
 
-    public void setSerialType(String serialType) {
-        this.serialType = serialType;
+    public void setIsSerial(String isSerial) {
+        this.isSerial = isSerial;
     }
 
     public String getDescription() {

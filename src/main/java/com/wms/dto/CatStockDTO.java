@@ -11,6 +11,15 @@ public class CatStockDTO {
     private String address;
     private String status;
     private String managerInfo;
+    private String custName;
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName;
+    }
 
     public CatStockDTO(String id, String custId, String code, String name, String address, String status, String managerInfo) {
         this.id = id;

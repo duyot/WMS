@@ -109,7 +109,19 @@ public class WorkSpaceController {
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/cat_goods")
     public String redirectCatGoods(){
-        return "redirect:/workspace/goods_ctr";
+        return "redirect:/workspace/cat_goods_ctr";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/cat_stock")
+    public String redirectCatStock(){
+        return "redirect:/workspace/cat_stock_ctr";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/cat_partner")
+    public String redirectCatPartner(){
+        return "redirect:/workspace/cat_partner_ctr";
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")

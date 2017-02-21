@@ -35,6 +35,7 @@ public class Constants {
         public static String CAT_GOODS_GROUP_SERVICE = "catGoodsGroupServices/";
         public static String GOODS_SERVICE = "catGoodsServices/";
         public static String CAT_STOCK_SERVICE = "catStockServices/";
+        public static String CAT_PARTNER_SERVICE = "catPartnerServices/";
         public static String STOCK_MANAGEMENT_SERVICE = "stockManagementServices/";
     }
 

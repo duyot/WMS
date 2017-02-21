@@ -2,6 +2,7 @@ package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
+import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -22,17 +24,18 @@ import java.util.stream.Collectors;
  * Created by duyot on 12/9/2016.
  */
 @Controller
-@RequestMapping("/workspace/goods_ctr")
+@RequestMapping("/workspace/cat_goods_ctr")
 public class CatGoodsController {
     Logger log = LoggerFactory.getLogger(CatGoodsController.class);
+    private CatCustomerDTO selectedCustomer;
 
-    public Map<String, String> mapCustomer = new HashMap<>();
+    public Map<String, String> mapGoodsGroup = new HashMap<>();
 
     @Autowired
     BaseService catGoodsGroupService;
 
     @Autowired
-    BaseService goodsService;
+    BaseService catGoodsService;
 
     private AuthTokenInfo tokenInfo;
 
@@ -41,26 +44,24 @@ public class CatGoodsController {
         tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
     }
 
-    @ModelAttribute("lstCatGoodsGroup")
-    public List<CatGoodsGroupDTO> lstCatGoodsGroup(HttpServletRequest request){
-        List<CatCustomerDTO> lstCustomer = (List<CatCustomerDTO>) request.getSession().getAttribute("lstCustomers");
-        if(DataUtil.isListNullOrEmpty(lstCustomer) || lstCustomer.size() >1){
-            return Lists.newArrayList();
-        }
-
-        CatCustomerDTO customer = lstCustomer.get(0);
-        List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("custId", Constants.SQL_OPERATOR.EQUAL,customer.getId()));
-        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
-        return catGoodsGroupService.findByCondition(lstCon,tokenInfo);
+    @ModelAttribute("selectedCustomer")
+    public void setSelectedCustomer(HttpServletRequest request){
+        this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
     }
 
-    @ModelAttribute("lstCustomers")
-    public List<CatCustomerDTO> lstCustomer(HttpServletRequest request){
-        List<CatCustomerDTO> lstCustomer = (List<CatCustomerDTO>) request.getSession().getAttribute("lstCustomers");
-        mapCustomer = lstCustomer.stream().collect(Collectors.toMap(CatCustomerDTO::getId, CatCustomerDTO::getName));
-        return (List<CatCustomerDTO>) request.getSession().getAttribute("lstCustomers");
+    @ModelAttribute("mapGoodsGroup")
+    public Map<String, String> setLstGoodsGroup(HttpServletRequest request){
+        CatCustomerDTO curCust = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("custId", Constants.SQL_OPERATOR.EQUAL,curCust.getId()));
+        lstCon.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"desc"));
+        List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
+
+        for(CatGoodsGroupDTO i: lstCatGoodsGroup){
+            mapGoodsGroup.put(i.getId(), i.getName());
+        }
+        return mapGoodsGroup;
     }
 
     @RequestMapping()
@@ -68,33 +69,87 @@ public class CatGoodsController {
         model.addAttribute("menuName","menu.catgoods");
         return "category/cat_goods";
     }
-
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public  @ResponseBody List<GoodsDTO> findByCondition(@RequestParam("customerId")String custId,
-                                   @RequestParam("status")String status,@RequestParam("goodsGroupId")String goodsGroupId){
+    public  @ResponseBody List<CatGoodsDTO> findByCondition(@RequestParam("customerId")String custId, @RequestParam("status")String status){
         List<Condition> lstCon = Lists.newArrayList();
 
         if(!DataUtil.isStringNullOrEmpty(custId) && !custId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,custId));
+            lstCon.add(new Condition("custId", Constants.SQL_OPERATOR.EQUAL,custId));
         }
 
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
         }
 
-        if(!DataUtil.isStringNullOrEmpty(goodsGroupId) && !goodsGroupId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("goodsGroupId",Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,goodsGroupId));
-        }
-
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
-        List<GoodsDTO> lstGoods = goodsService.findByCondition(lstCon,tokenInfo);
+        List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
 
-        for(GoodsDTO i: lstGoods){
-            i.setCustName(mapCustomer.get(i.getCustId()));
+        for(CatGoodsDTO i: lstCatGoods){
+            i.setCustName(selectedCustomer.getName());
+            i.setGoodsGroupName(mapGoodsGroup.get(i.getGoodsGroupId()));
+
         }
 
-        return lstGoods;
+        return lstCatGoods;
     }
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    public String add(CatGoodsDTO catGoods, RedirectAttributes redirectAttributes){
+        catGoods.setStatus("1");
+        catGoods.setCustId("1000");
+        ResponseObject response = catGoodsService.add(catGoods,tokenInfo);
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+            redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
+            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
+            log.info("Add: "+ catGoods.toString()+" SUCCESS");
+        }else{
+            log.info("Add: "+ catGoods.toString()+" ERROR");
+            redirectAttributes.addFlashAttribute("actionInfo","result.add.fail");
+        }
+
+        return "redirect:/workspace/cat_goods_ctr";
+    }
+
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    public String update(CatGoodsDTO catGoods, RedirectAttributes redirectAttributes){
+        catGoods.setCustId("1000");
+        log.info("Update cat_goods info: "+ catGoods.toString());
+        if("on".equalsIgnoreCase(catGoods.getStatus())){
+            catGoods.setStatus("1");
+        }else{
+            catGoods.setStatus("0");
+        }
+        ResponseObject response = catGoodsService.update(catGoods,tokenInfo);
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+            log.info("SUCCESS");
+            redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
+            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
+            log.info("ERROR");
+            redirectAttributes.addFlashAttribute("actionInfo","result.update.fail");
+        }
+        else{
+            log.info("ERROR");
+            redirectAttributes.addFlashAttribute("actionInfo","Lỗi hệ thống, liên hệ quản trị để được hỗ trợ!");
+        }
+        return  "redirect:/workspace/cat_goods_ctr";
+    }
+
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public @ResponseBody String delete(@RequestParam("id")String id){
+        try {
+            Long idL = Long.parseLong(id);
+            ResponseObject response = catGoodsService.delete(idL,tokenInfo);
+            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+                return "1|Xoá thành công";
+            }else{
+                return "0|Xoá không thành công";
+            }
+        } catch (NumberFormatException e) {
+            return "0|Xoá không thành công lỗi convert long";
+        }
+    }
+
+
 
 }

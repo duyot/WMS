@@ -6288,4 +6288,37 @@ button.close {
   }
 }
 
+.leftForm {
+  width:49.5%;
+  float:left;
+  border-right: 1px dotted #CCC;
+  box-sizing: border-box;
+  padding: 0px 15px 0px 0px;
+}
+
+.rightForm {
+  width:49.5%;
+  float:right;
+  box-sizing: border-box;
+  padding: 0px 0px 0px 15px;
+}
+p span {
+  color: #F00;
+}
+
+p {
+  margin: 0px;
+  font-weight: 500;
+  line-height: 2;
+  color:#333;
+}
+
+.no-margin-label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 0px;
+}
+
+
+
 /*# sourceMappingURL=bootstrap.css.map */

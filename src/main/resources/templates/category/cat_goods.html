@@ -52,22 +52,17 @@
                         <!--row 1: username + status-->
                         <div class="row">
                             <div class="col-sm-2">
-                                <label>Khách hàng</label>
+                                <label th:text="#{lbl.usage}"></label>
                             </div>
 
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <select id="cmb-customer" class="combobox form-control" th:if="${lstCustomers.size() &gt; 1}" >
-                                        <option value="-1">Tất cả</option>
-                                        <option  th:each="sopt:${lstCustomers}"
-                                                 th:value="${sopt.id}" th:text="${sopt.name}">1</option>
-                                    </select>
-                                    <label id="lblCustomer" th:value="${lstCustomers.get(0).getId()}" th:if="${lstCustomers.size() == 1}" th:text="${lstCustomers.get(0).getName()}"></label>
-                                    <label id="lbl-customerId" style="display: none" th:text="${lstCustomers.get(0).getId()}" th:if="${lstCustomers.size() == 1}"></label>
+                                    <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                    <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
-                                <label>Trạng thái</label>
+                                <label th:text="#{lbl.status}"></label>
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
@@ -83,7 +78,7 @@
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-default  btn-primary" id="btn-search-cat-group" th:value="@{/workspace/cat_goods_ctr/findByCondition}">
-                                Tìm kiếm
+                                <span class="fa fa-search" th:text="#{btn.search}"></span>
                             </button>
                         </div>
                     </div>
@@ -123,10 +118,13 @@
                         <thead>
                         <tr>
                             <th  class="col-md-1" data-checkbox="true"></th>
-                            <th  class="col-md-1" data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th  class="col-md-5" data-field="name" data-align="left" data-sortable="true">Nhóm hàng</th>
-                            <th  class="col-md-4" data-field="custName" data-align="left" data-sortable="true">Khách hàng</th>
-                            <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true">Trạng thái</th>
+                            <th  class="col-md-1" data-formatter="runningFormatter" data-align="center" ></th>
+                            <th  class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
+                            <th  class="col-md-5" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
+                            <th  class="col-md-1" data-field="unitType" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
+                            <th  class="col-md-1" data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
+                            <th  class="col-md-1" data-field="isSerial" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
+                            <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
                         </tr>
                         </thead>
                     </table>
@@ -182,11 +180,10 @@
         }else{
             statusVal = '0';
         }
-        var goodsGroupVal = '1002';
         $.ajax({
             type: "GET",
             cache:false,
-            data:{customerId:customerIdVal,status:statusVal,goodsGroupId:goodsGroupVal},
+            data:{customerId:customerIdVal,status:statusVal},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             url: $btnSearch.val(),
             dataType: 'json',
@@ -195,7 +192,6 @@
                 $('#table-pagination').bootstrapTable('load', data);
             },
         });
-        alert("1");
     }
     //@Del action---------------------------------------------------------------------------------------------------
     var $btnDel = $('#btn-delete');
@@ -299,19 +295,22 @@
     });
 
     function changeModelByType(type,selectedItem,actionVal) {
-        $("#cat-goods-group-insert-update-form").attr("th:object",actionVal);
+        $("#cat-goods-insert-update-form").attr("th:object",actionVal);
         if(type == 1){//add
-            $("#cat-goods-group-insert-update-form").attr("action",actionVal);
+            $("#cat-goods-insert-update-form").attr("action",actionVal);
             $("#modal-inp-name").val('');
-            //disable combo status
+            //set default active-disable combo status
+            $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
 
             showAdd();
         }else{//update
-            $("#cat-goods-group-insert-update-form").attr("action",actionVal);
-
+            $("#cat-goods-insert-update-form").attr("action",actionVal);
+            $("#modal-inp-code").val(selectedItem["code"]);
             $("#modal-inp-name").val(selectedItem["name"]);
             $("#modal-inp-id").val(selectedItem["id"]);
+            $("#modal-cmb-goods-unit").val(selectedItem["unitType"]);
+            $("#modal-cmb-goods-group").val(selectedItem["goodsGroupId"]);
             var currentStatus = selectedItem["status"];
             if(currentStatus == 'Hết hiệu lực'){
                 $('#modal-cmb-status').bootstrapToggle('off');

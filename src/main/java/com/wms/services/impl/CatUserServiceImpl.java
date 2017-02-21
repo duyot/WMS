@@ -1,7 +1,6 @@
 package com.wms.services.impl;
 
 import com.wms.dataprovider.CatUserDP;
-import com.wms.dataprovider.GoodsDP;
 import com.wms.dto.*;
 import com.wms.services.interfaces.CatUserService;
 import org.springframework.beans.factory.annotation.Autowired;
