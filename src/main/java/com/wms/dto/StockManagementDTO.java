@@ -6,23 +6,23 @@ import java.util.List;
  * Created by duyot on 2/16/2017.
  */
 public class StockManagementDTO {
-    private String stockId;
+    private MjrStockTransDTO mjrStockTransDTO;
     private List<MjrStockTransDetailDTO> lstGoods;
 
-    public StockManagementDTO(List<MjrStockTransDetailDTO> lstGoods, String stockId) {
-        this.stockId = stockId;
+    public StockManagementDTO(List<MjrStockTransDetailDTO> lstGoods,  MjrStockTransDTO mjrStockTransDTO) {
+        this.mjrStockTransDTO = mjrStockTransDTO;
         this.lstGoods = lstGoods;
     }
 
     public StockManagementDTO() {
     }
 
-    public String getStockId() {
-        return stockId;
+    public MjrStockTransDTO getMjrStockTransDTO() {
+        return mjrStockTransDTO;
     }
 
-    public void setStockId(String stockId) {
-        this.stockId = stockId;
+    public void setMjrStockTransDTO(MjrStockTransDTO mjrStockTransDTO) {
+        this.mjrStockTransDTO = mjrStockTransDTO;
     }
 
     public List<MjrStockTransDetailDTO> getLstGoods() {

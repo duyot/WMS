@@ -18,6 +18,10 @@ public class MjrStockTransDetailDTO {
     //unmap db field
     private String goodsName;
     private String columnId;
+    //field to show on table
+    private String amountValue;
+    private String inputPriceValue;
+    private String outputPriceValue;
 
 
     public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String inputPrice, String outputPrice, String cellCode) {
@@ -139,5 +143,29 @@ public class MjrStockTransDetailDTO {
 
     public void setColumnId(String columnId) {
         this.columnId = columnId;
+    }
+
+    public String getAmountValue() {
+        return amountValue;
+    }
+
+    public void setAmountValue(String amountValue) {
+        this.amountValue = amountValue;
+    }
+
+    public String getInputPriceValue() {
+        return inputPriceValue;
+    }
+
+    public void setInputPriceValue(String inputPriceValue) {
+        this.inputPriceValue = inputPriceValue;
+    }
+
+    public String getOutputPriceValue() {
+        return outputPriceValue;
+    }
+
+    public void setOutputPriceValue(String outputPriceValue) {
+        this.outputPriceValue = outputPriceValue;
     }
 }

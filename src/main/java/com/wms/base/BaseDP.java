@@ -25,6 +25,9 @@ public class BaseDP<T> {
     public  final String SERVICE_URL    = BundleUtils.getkey("rest_service_url");
     public  String SERVICE_PREFIX;
 
+    public  String GET_SYSDATE_URL;
+    public  String GET_SYSDATE_WITH_PATTERN_URL;
+
     public  String ADD_URL;
     public  String UPDATE_URL;
     public  String DELETE_URL;
@@ -49,6 +52,9 @@ public class BaseDP<T> {
     }
 
     private void initMainURL(){
+        GET_SYSDATE_URL               = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.GET_SYS_DATE;
+        GET_SYSDATE_WITH_PATTERN_URL  = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.GET_SYS_DATE_PATTERN;
+
         ADD_URL    = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.ADD;
         UPDATE_URL = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.UPDATE;
         DELETE_URL = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.DELETE;
@@ -56,6 +62,26 @@ public class BaseDP<T> {
         FIND_BY_ID_URL     = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.FIND_BY_ID;
         FIND_CONDITION_URL = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.FIND_BY_CONDITION;
         GET_ALL_URL        = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.GET_ALL;
+    }
+
+    public String getSysDate(AuthTokenInfo tokenInfo){
+        String findUrl = GET_SYSDATE_URL + tokenInfo.getAccess_token();
+        try {
+            return  restTemplate.getForObject(findUrl, String.class);
+        } catch (RestClientException e) {
+            log.error(e.toString());
+            return "";
+        }
+    }
+
+    public String getSysDateWithPattern(String pattern,AuthTokenInfo tokenInfo){
+        try {
+            return restTemplate.postForObject(GET_SYSDATE_WITH_PATTERN_URL + tokenInfo.getAccess_token(), pattern,String.class);
+        } catch (RestClientException e) {
+            log.info(e.toString());
+            e.printStackTrace();
+            return "";
+        }
     }
 
     public ResponseObject add(T tObject, AuthTokenInfo tokenInfo){

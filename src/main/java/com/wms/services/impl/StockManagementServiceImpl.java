@@ -1,6 +1,7 @@
 package com.wms.services.impl;
 
 import com.wms.dataprovider.StockManagementDP;
+import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.ResponseObject;
 import com.wms.dto.StockTransDTO;
 import com.wms.services.interfaces.StockManagementService;
@@ -17,12 +18,12 @@ public class StockManagementServiceImpl implements StockManagementService{
 
 
     @Override
-    public ResponseObject importStock(StockTransDTO stockTrans) {
-        return stockManagementDP.importStock(stockTrans);
+    public ResponseObject importStock(StockTransDTO stockTrans, AuthTokenInfo tokenInfo) {
+        return stockManagementDP.importStock(stockTrans,tokenInfo);
     }
 
     @Override
-    public ResponseObject exportStock(StockTransDTO stockTrans) {
-        return stockManagementDP.exportStock(stockTrans);
+    public ResponseObject exportStock(StockTransDTO stockTrans,AuthTokenInfo tokenInfo) {
+        return stockManagementDP.exportStock(stockTrans,tokenInfo);
     }
 }

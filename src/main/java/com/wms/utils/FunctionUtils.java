@@ -19,10 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by duyot on 11/17/2016.
@@ -37,6 +34,15 @@ public class FunctionUtils {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         return headers;
+    }
+
+    public static Map getMapGoodsState(){
+        Map<String,String> mapGoodsState = new HashMap<>();
+        mapGoodsState.put("1","Bình thường");
+        mapGoodsState.put("2","Hỏng");
+        mapGoodsState.put("Bình thường","1");
+        mapGoodsState.put("Hỏng","2");
+        return  mapGoodsState;
     }
 
     /*
@@ -154,15 +160,18 @@ public class FunctionUtils {
                 //goods amount
                 Cell cellAmount = row.getCell(4);
                 cellAmount.setCellType(CellType.STRING);
-                goodsItem.setAmount(formatNumber(cellAmount.getStringCellValue()));
+                goodsItem.setAmount(cellAmount.getStringCellValue());
+                goodsItem.setAmountValue(formatNumber(cellAmount.getStringCellValue()));
                 //goods input
                 Cell cellInputPrice = row.getCell(5);
                 cellInputPrice.setCellType(CellType.STRING);
-                goodsItem.setInputPrice(FunctionUtils.formatNumber(cellInputPrice.getStringCellValue()));
+                goodsItem.setInputPrice(cellInputPrice.getStringCellValue());
+                goodsItem.setInputPriceValue(formatNumber(cellInputPrice.getStringCellValue()));
                 //goods output
                 Cell cellOutputPrice = row.getCell(6);
                 cellOutputPrice.setCellType(CellType.STRING);
-                goodsItem.setOutputPrice(FunctionUtils.formatNumber(cellOutputPrice.getStringCellValue()));
+                goodsItem.setOutputPrice((cellOutputPrice.getStringCellValue()));
+                goodsItem.setOutputPriceValue(formatNumber(cellOutputPrice.getStringCellValue()));
                 //goods cell
                 Cell cellCells = row.getCell(7);
                 cellCells.setCellType(CellType.STRING);

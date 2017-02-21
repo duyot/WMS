@@ -20,6 +20,9 @@ public class Constants {
     }
 
     public static class SERVICE_METHOD{
+        public static String GET_SYS_DATE = "getSysDate?access_token=";
+        public static String GET_SYS_DATE_PATTERN = "getSysDateWithPattern?access_token=";
+
         public static String ADD = "add?access_token=";
         public static String UPDATE = "update?access_token=";
         public static String DELETE = "delete/";

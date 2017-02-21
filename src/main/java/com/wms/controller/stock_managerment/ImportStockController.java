@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by duyot on 2/15/2017.
@@ -37,11 +38,12 @@ public class ImportStockController {
     private CatCustomerDTO selectedCustomer;
     private AuthTokenInfo tokenInfo;
     private CatUserDTO currentUser;
+    private Map<String,String> mapGoodsState = FunctionUtils.getMapGoodsState();
     //
-    @ModelAttribute("tokenInfo")
-    public void setTokenInfo(HttpServletRequest request){
-        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-    }
+//    @ModelAttribute("tokenInfo")
+//    public void setTokenInfo(HttpServletRequest request){
+//        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+//    }
 
     @ModelAttribute("selectedCustomer")
     public void setSelectedCustomer(HttpServletRequest request){
@@ -58,6 +60,8 @@ public class ImportStockController {
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
+        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        //
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
@@ -86,37 +90,43 @@ public class ImportStockController {
     @ResponseBody
     public String importStock(@RequestBody StockManagementDTO stockManagementDTO) {
         log.info(currentUser.getCode() +" import: ");
-        StockTransDTO stockTrans = initStockTrans(stockManagementDTO.getLstGoods());
-        stockManagementService.importStock(stockTrans);
-        return "Success";
+        String sysdate = catStockService.getSysDate(tokenInfo);
+        StockTransDTO stockTrans = initStockTrans(stockManagementDTO,sysdate);
+        ResponseObject response = stockManagementService.importStock(stockTrans,tokenInfo);
+        return response.getStatusName();
     }
 
-    private StockTransDTO initStockTrans(List<MjrStockTransDetailDTO> lstGoods){
+    private StockTransDTO initStockTrans(StockManagementDTO stockManagementDTO,String sysdate){
         StockTransDTO stockTrans = new StockTransDTO();
         //
-        MjrStockTransDTO mjrStockTransDTO = initMjrStockTrans();
+        MjrStockTransDTO mjrStockTransDTO = initMjrStockTrans(stockManagementDTO.getMjrStockTransDTO(),sysdate);
         //
         stockTrans.setMjrStockTransDTO(mjrStockTransDTO);
         //
-        List<MjrStockTransDetailDTO> lstStockTransDetails = initListTransDetail(lstGoods);
+        List<MjrStockTransDetailDTO> lstStockTransDetails = initListTransDetail(stockManagementDTO.getLstGoods());
         stockTrans.setLstMjrStockTransDetail(lstStockTransDetails);
         //
         return stockTrans;
     }
 
     private List<MjrStockTransDetailDTO> initListTransDetail(List<MjrStockTransDetailDTO> lstGoods){
-        //todo
+        for(MjrStockTransDetailDTO i: lstGoods){
+            i.setAmountValue(null);
+            i.setInputPriceValue(null);
+            i.setOutputPriceValue(null);
+            //
+            i.setGoodsState(mapGoodsState.get(i.getGoodsState()));
+        }
         return lstGoods;
     }
 
-    private MjrStockTransDTO initMjrStockTrans(){
-        MjrStockTransDTO mjrStockTrans = new MjrStockTransDTO();
-        mjrStockTrans.setCustId(selectedCustomer.getId());
-        mjrStockTrans.setStockId("1");
-        mjrStockTrans.setType(Constants.IMPORT_TYPE.IMPORT);
-        mjrStockTrans.setStatus(Constants.STATUS.ACTIVE);
-        mjrStockTrans.setCreatedUser(currentUser.getCode());
+    private MjrStockTransDTO initMjrStockTrans(MjrStockTransDTO mjrStockTransDTO,String sysdate){
+        mjrStockTransDTO.setCustId(selectedCustomer.getId());
+        mjrStockTransDTO.setType(Constants.IMPORT_TYPE.IMPORT);
+        mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
+        mjrStockTransDTO.setCreatedDate(sysdate);
+        mjrStockTransDTO.setCreatedUser(currentUser.getCode());
         //
-        return mjrStockTrans;
+        return mjrStockTransDTO;
     }
 }
