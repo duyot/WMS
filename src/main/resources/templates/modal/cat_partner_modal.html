@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-cat-partner-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-mini" role="document">
+            <form id="cat-insert-update-form" action="" method="post">
+                <div class="modal-content" id="catUserDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Thêm mới</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--hidden fields-->
+                            <input id="modal-inp-id" hidden="true" name="id"/>
+                            <div class="row row-header-first">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label" th:text="#{lbl.usage}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                        <input id="modal-inp-customerId" hidden="true" th:value="${session.selectedCustomer.id}" type="text" th:name="custId"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-code" class="control-label" th:text="#{lbl.partnerCode}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-code" class="form-control" type="text" th:required="true" name="code"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-name" class="control-label" th:text="#{lbl.partnerName}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-address" class="control-label" th:text="#{lbl.address}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-address" class="form-control" type="text" th:required="true" name="address"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row 3-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label" th:text="#{lbl.status}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="div-status" class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input id="modal-cmb-status" name="status" data-toggle="toggle" type="checkbox"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-update"  type="submit" class="btn btn-primary"  >Update</button>
+                        <button id="modal-btn-add"     type="submit" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $('#cat-goods-group-insert-update-form').submit(function() {
+            $(this).find('input:text').each(function(){
+                $(this).val($.trim($(this).val()));
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>
