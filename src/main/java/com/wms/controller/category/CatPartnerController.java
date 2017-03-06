@@ -72,15 +72,14 @@ public class CatPartnerController {
 
         List<CatPartnerDTO> lstCatPartner = catPartnerService.findByCondition(lstCon,tokenInfo);
         String statusName ="";
-        String active = ResourceBundleUtils.getkey("lbl.active");
-        String inactive = ResourceBundleUtils.getkey("lbl.inactive");
+        String active = Constants.STATUS.activeName;
+        String inactive = Constants.STATUS.inactiveName;
 
         for(CatPartnerDTO i: lstCatPartner){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
             i.setCustName(selectedCustomer.getName());
-            statusName = i.getStatus() =="1" ? active: inactive;
-            i.setCustName(selectedCustomer.getName());
-            i.setStatus(statusName);
+            statusName = "1".equals(i.getStatus()) ? active: inactive;
+            i.setStatusName(statusName);
         }
 
         return lstCatPartner;

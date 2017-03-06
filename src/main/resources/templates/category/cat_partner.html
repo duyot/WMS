@@ -123,7 +123,7 @@
                             <th  class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.partnerName}"></th>
                             <th  class="col-md-1" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
                             <th  class="col-md-3" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
-                            <th  class="col-md-2" data-field="status" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
+                            <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
                         </tr>
                         </thead>
                     </table>
@@ -287,17 +287,13 @@
                 return;
             }
             changeModelByType(2,selectedItem,$btn_update.val());
-            alert("vao day");
             $('#myModal').modal('show');
-            document.getElementById("modal-inp-code").focus();
-            $( '#modal-inp-code' ).focus();
-            alert("3");
+            $('#modal-inp-code').focus();
         });
     });
 
     function changeModelByType(type,selectedItem,actionVal) {
         $("#cat-insert-update-form").attr("th:object",actionVal);
-        $("#modal-inp-code").focus();
         if(type == 1){//add
             $("#cat-insert-update-form").attr("action",actionVal);
             $("#modal-inp-code").val('');
@@ -318,7 +314,7 @@
             $("#modal-inp-address").val(decodeHtml(selectedItem["address"]));
             $("#modal-inp-id").val(selectedItem["id"]);
             var currentStatus = selectedItem["status"];
-            if(currentStatus == 'Hết hiệu lực'){
+            if(currentStatus == '0'){
                 $('#modal-cmb-status').bootstrapToggle('off');
             }else{
                 $('#modal-cmb-status').bootstrapToggle('on');

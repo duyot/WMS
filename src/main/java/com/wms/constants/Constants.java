@@ -12,6 +12,8 @@ public class Constants {
     public static class STATUS{
         public static String ACTIVE = "1";
         public static String INACTIVE = "0";
+        public static String activeName = "Hiệu lực";
+        public static String inactiveName = "Hết hiệu lực";
     }
 
     public static class IMPORT_TYPE{

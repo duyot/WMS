@@ -12,7 +12,15 @@ public class CatPartnerDTO {
     private String status;
     private String custName;
     private String telNumber;
+    private String statusName;
 
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
 
     public String getCustName() {
         return custName;
