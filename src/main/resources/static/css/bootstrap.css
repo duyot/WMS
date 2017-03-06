@@ -6302,16 +6302,6 @@ button.close {
   box-sizing: border-box;
   padding: 0px 0px 0px 15px;
 }
-p span {
-  color: #F00;
-}
-
-p {
-  margin: 0px;
-  font-weight: 500;
-  line-height: 2;
-  color:#333;
-}
 
 .no-margin-label {
   display: inline-block;

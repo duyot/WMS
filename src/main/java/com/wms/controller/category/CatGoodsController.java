@@ -51,6 +51,9 @@ public class CatGoodsController {
 
     @ModelAttribute("mapGoodsGroup")
     public Map<String, String> setLstGoodsGroup(HttpServletRequest request){
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
         CatCustomerDTO curCust = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));

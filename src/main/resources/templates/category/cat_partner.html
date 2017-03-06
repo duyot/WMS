@@ -121,8 +121,9 @@
                             <th  class="col-md-1" data-checkbox="true"></th>
                             <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.partnerCode}"></th>
                             <th  class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.partnerName}"></th>
-                            <th  class="col-md-4" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
-                            <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
+                            <th  class="col-md-1" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
+                            <th  class="col-md-3" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
+                            <th  class="col-md-2" data-field="status" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
                         </tr>
                         </thead>
                     </table>
@@ -286,15 +287,23 @@
                 return;
             }
             changeModelByType(2,selectedItem,$btn_update.val());
+            alert("vao day");
             $('#myModal').modal('show');
+            document.getElementById("modal-inp-code").focus();
+            $( '#modal-inp-code' ).focus();
+            alert("3");
         });
     });
 
     function changeModelByType(type,selectedItem,actionVal) {
-        $("#cat-goods-group-insert-update-form").attr("th:object",actionVal);
+        $("#cat-insert-update-form").attr("th:object",actionVal);
+        $("#modal-inp-code").focus();
         if(type == 1){//add
             $("#cat-insert-update-form").attr("action",actionVal);
+            $("#modal-inp-code").val('');
             $("#modal-inp-name").val('');
+            $("#modal-inp-telNumber").val('');
+            $("#modal-inp-address").val('');
             //set default active-disable combo status
             $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
@@ -305,6 +314,7 @@
             $("#cat-insert-update-form").attr("action",actionVal);
             $("#modal-inp-code").val(decodeHtml(selectedItem["code"]));
             $("#modal-inp-name").val(decodeHtml(selectedItem["name"]));
+            $("#modal-inp-telNumber").val(decodeHtml(selectedItem["telNumber"]));
             $("#modal-inp-address").val(decodeHtml(selectedItem["address"]));
             $("#modal-inp-id").val(selectedItem["id"]);
             var currentStatus = selectedItem["status"];
@@ -316,6 +326,7 @@
             $("#div-status *").prop('disabled',false);
             showUpdate();
         }
+
     }
 </script>
 

@@ -11,6 +11,8 @@ public class CatPartnerDTO {
     private String address;
     private String status;
     private String custName;
+    private String telNumber;
+
 
     public String getCustName() {
         return custName;
@@ -20,16 +22,25 @@ public class CatPartnerDTO {
         this.custName = custName;
     }
 
-    public CatPartnerDTO(String id, String custId, String code, String name, String address, String status) {
+    public CatPartnerDTO(String id, String custId, String code, String name, String address, String status, String telNumber) {
         this.id = id;
         this.custId = custId;
         this.code = code;
         this.name = name;
         this.address = address;
         this.status = status;
+        this.telNumber = telNumber;
     }
 
     public CatPartnerDTO() {
+    }
+
+    public String getTelNumber() {
+        return telNumber;
+    }
+
+    public void setTelNumber(String telNumber) {
+        this.telNumber = telNumber;
     }
 
     public String getId() {

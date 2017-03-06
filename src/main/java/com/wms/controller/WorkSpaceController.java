@@ -125,6 +125,18 @@ public class WorkSpaceController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/cat_department")
+    public String redirectCatDepartment(){
+        return "redirect:/workspace/cat_department_ctr";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/cat_user")
+    public String redirectCatUser(){
+        return "redirect:/workspace/cat_user_ctr";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/import_stock")
     public String redirectImportStock(){
         return "redirect:/workspace/stock_management";

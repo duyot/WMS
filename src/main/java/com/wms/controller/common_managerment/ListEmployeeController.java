@@ -29,7 +29,7 @@ import static javax.swing.text.StyleConstants.ModelAttribute;
  * Created by duyot on 12/5/2016.
  */
 @Controller
-@RequestMapping("/list_employee")
+@RequestMapping("/workspace/cat_user_ctr")
 public class ListEmployeeController {
     Logger log = LoggerFactory.getLogger(ListEmployeeController.class);
 

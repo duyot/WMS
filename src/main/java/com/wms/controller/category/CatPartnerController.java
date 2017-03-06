@@ -6,6 +6,7 @@ import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
+import com.wms.utils.ResourceBundleUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,10 +71,16 @@ public class CatPartnerController {
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatPartnerDTO> lstCatPartner = catPartnerService.findByCondition(lstCon,tokenInfo);
+        String statusName ="";
+        String active = ResourceBundleUtils.getkey("lbl.active");
+        String inactive = ResourceBundleUtils.getkey("lbl.inactive");
 
         for(CatPartnerDTO i: lstCatPartner){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
             i.setCustName(selectedCustomer.getName());
+            statusName = i.getStatus() =="1" ? active: inactive;
+            i.setCustName(selectedCustomer.getName());
+            i.setStatus(statusName);
         }
 
         return lstCatPartner;
@@ -82,6 +89,7 @@ public class CatPartnerController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(CatPartnerDTO catPartnerDTO, RedirectAttributes redirectAttributes){
         catPartnerDTO.setStatus("1");
+        catPartnerDTO.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catPartnerService.add(catPartnerDTO,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
@@ -96,12 +104,13 @@ public class CatPartnerController {
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
         }
 
-        return "redirect:/workspace/cat_Partner_ctr";
+        return "redirect:/workspace/cat_partner_ctr";
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String update(CatPartnerDTO catPartnerDTO, RedirectAttributes redirectAttributes){
-        log.info("Update cat_goods_group info: "+ catPartnerDTO.toString());
+        log.info("Update cat_partner info: "+ catPartnerDTO.toString());
+        catPartnerDTO.setCustId(this.selectedCustomer.getId());
         if("on".equalsIgnoreCase(catPartnerDTO.getStatus())){
             catPartnerDTO.setStatus("1");
         }else{
@@ -120,7 +129,7 @@ public class CatPartnerController {
             log.info("ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
         }
-        return  "redirect:/workspace/cat_Partner_ctr";
+        return  "redirect:/workspace/cat_partner_ctr";
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
