@@ -7,10 +7,15 @@
 <body>
     <form action="#" th:attr="action=@{/User/DoLogin}" th:object="${catUserDTO}" method="post">
         <fieldset>
-            Username: <input type="text" th:field="*{username}"/>
+            Username: <input id="username" type="text" th:field="*{username}"/>
             Passowrd: <input type="text" th:field="*{password}"/>
             <input type="submit" value="Subscribe!"/>
         </fieldset>
     </form>
+<script>
+    $(function () {
+        $('#username').focus();
+    });
+</script>
 </body>
 </html>

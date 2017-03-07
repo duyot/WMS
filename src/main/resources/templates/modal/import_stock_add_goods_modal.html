@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<div th:fragment="frag-add-goods-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-mini" role="document">
+            <form id="form-add-goods">
+                <div class="modal-content" id="catUserDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--row 1-->
+                            <div class="row row-header-first">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label label-require" th:text="#{lbl.goods}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row GOODS-->
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <select id="modal-cmb-goods" class="combobox form-control">
+                                        <option  th:each="sopt:${lstGoods}"
+                                                 th:value="${sopt.code}" th:text="${sopt.name}">1</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!--row 3-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-amount" class="control-label label-require" th:text="#{lbl.amount}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row AMOUNT-->
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calculator fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-amount" class="form-control" type="text"
+                                               required="true" name="amount"  placeholder="1,2,1.5..."
+                                               data-validation="number"  data-validation-optional="true" data-validation-allowing="float"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row 5-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label label-require" th:text="#{lbl.status}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row GOODS STATE-->
+                            <div id="div-status" class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input id="cmb-goods-state" checked="true" data-toggle="toggle" type="checkbox"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row lbl input price-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label label-require" for="modal-inp-input-price" th:text="#{lbl.inputPrice}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-rmb fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-input-price"  class="form-control"
+                                               data-validation="number" data-validation-allowing="float" data-validation-optional="true"
+                                               required="true" type="text" name="amount"  placeholder="1,2,1.5..."/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row lbl serial-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label" for="modal-inp-serial" th:text="#{lbl.serial}"
+                                               data-validation="alphanumeric" data-validation-allowing="-_"
+                                               data-validation-error-msg="Invalid character, only '_' and '-' allowed!"
+                                        ></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-barcode fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-serial" class="form-control" type="text" name="serial" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--row lbl cellcode-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label" for="modal-inp-cell" th:text="#{lbl.cellCode}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-cell" class="form-control" type="text" name="cellCode"
+                                               data-validation="alphanumeric" data-validation-allowing="-_"
+                                               data-validation-error-msg="Invalid character, only '_' and '-' allowed!"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-update"  type="submit" class="btn btn-primary">Update</button>
+                        <button id="modal-btn-add"     type="submit" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

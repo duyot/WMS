@@ -181,7 +181,7 @@
 		</div>
 		<!--modal-->
 		<div th:include="modal/add_user_modal :: frag-add-catUserDTO-modal"></div>
-		<div th:include="modal/confirm_modal :: frag-confirm-del-modal"></div>
+		<div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
 		<!--footer-->
 		<div th:include="common/footer :: frag-footer"></div>
 	</section>
@@ -228,7 +228,7 @@
 					return;
 				}
 				$("#lbl-del-info").text('Xóa thông tin: '+ selectedItem['username']);
-				$('#myDelModal').modal('show');
+				$('#myConfirmModal').modal('show');
 			});
 		});
 
@@ -262,7 +262,7 @@
 				},
 			});
 			//
-			$('#myDelModal').modal('hide');
+			$('#myConfirmModal').modal('hide');
 			//
 		});
 

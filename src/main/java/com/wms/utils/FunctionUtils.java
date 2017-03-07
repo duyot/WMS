@@ -1,8 +1,14 @@
 package com.wms.utils;
 
 import com.google.common.collect.Lists;
+import com.wms.constants.Constants;
 import com.wms.dto.AuthTokenInfo;
+import com.wms.dto.CatGoodsDTO;
+import com.wms.dto.ImportFileResultDTO;
 import com.wms.dto.MjrStockTransDetailDTO;
+import net.sf.jxls.transformer.Configuration;
+import net.sf.jxls.transformer.XLSTransformer;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -13,11 +19,14 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLConnection;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -26,6 +35,59 @@ import java.util.*;
  */
 public class FunctionUtils {
     public static Logger log = LoggerFactory.getLogger(FunctionUtils.class);
+
+
+    /*
+
+     */
+     public static void loadFileToClient(HttpServletResponse response, String fileResource){
+        try {
+            File file = new File(fileResource);
+            //
+            String mimeType= URLConnection.guessContentTypeFromName(file.getName());
+            response.setContentType(mimeType);
+            response.setContentLength((int) file.length());//length in bytes
+            response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() +"\""));
+            //
+            InputStream is = new FileInputStream(file);
+            FileCopyUtils.copy(is, response.getOutputStream());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
+        export error when importing
+     */
+    public static String exportExcelError(List<MjrStockTransDetailDTO> lstError,String prefixFileName){
+        String templatePath = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.IMPORT_ERROR_TEMPLATE;
+
+        log.info("Number of Errors: "+ lstError.size());
+
+        File file = new File(templatePath);
+        String templateAbsolutePath = file.getAbsolutePath();
+
+        Map<String, Object> beans = new HashMap<String, Object>();
+        beans.put("items", lstError);
+
+        Configuration config = new Configuration();
+        XLSTransformer transformer = new XLSTransformer(config);
+        String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String reportFullPath = BundleUtils.getkey("temp_url") + fullFileName;
+        try {
+            transformer.transformXLS(templateAbsolutePath, beans, reportFullPath);
+            log.info("Finish export report file in "+ reportFullPath);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+            log.error(e.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error(e.toString());
+        }
+        return fullFileName;
+    }
 
     /*
          * Prepare HTTP Headers.
@@ -118,8 +180,18 @@ public class FunctionUtils {
 
     }
 
-    public static List<MjrStockTransDetailDTO> getListStockImportFromFile(MultipartFile mpf){
+    public static String getCellValue(Cell cell){
+        if(cell == null){
+            return "";
+        }
+        cell.setCellType(CellType.STRING);
+        return cell.getStringCellValue();
+    }
+
+    public static ImportFileResultDTO getListStockImportFromFile(MultipartFile mpf, HashSet<String> setGoodsCode, Map<String,CatGoodsDTO> mapGoods){
+        ImportFileResultDTO importResult = new ImportFileResultDTO();
         List<MjrStockTransDetailDTO> lstGoods = Lists.newArrayList();
+        boolean isValid = true;
         try {
             Workbook wb = WorkbookFactory.create(new FileInputStream(FunctionUtils.convertMultipartToFile(mpf)));
             Sheet sheet = null;
@@ -136,60 +208,110 @@ public class FunctionUtils {
                 rowIterator.next();
             }
             int count = 0;
+            StringBuilder errorInfo;
+            CatGoodsDTO goodsDTO;
             while(rowIterator.hasNext()) {
                 count ++;
                 MjrStockTransDetailDTO goodsItem = new MjrStockTransDetailDTO();
                 goodsItem.setColumnId(count+"");
+                errorInfo = new StringBuilder();
+                //
                 Row row = rowIterator.next();
-                //goods code
-                Cell cellGoodsCode = row.getCell(0);
-                cellGoodsCode.setCellType(CellType.STRING);
-                goodsItem.setGoodsCode(cellGoodsCode.getStringCellValue());
-                //goods name
-                Cell cellGoodsName = row.getCell(1);
-                cellGoodsName.setCellType(CellType.STRING);
-                goodsItem.setGoodsName(cellGoodsName.getStringCellValue());
-                //goods status
-                Cell cellStatus = row.getCell(2);
-                cellStatus.setCellType(CellType.STRING);
-                goodsItem.setGoodsState(cellStatus.getStringCellValue().equalsIgnoreCase("1")?"Bình thường":"Hỏng");
+                //
                 //goods serial
-                Cell cellSerial = row.getCell(3);
-                cellSerial.setCellType(CellType.STRING);
-                goodsItem.setSerial(cellSerial.getStringCellValue());
-                //goods amount
-                Cell cellAmount = row.getCell(4);
-                cellAmount.setCellType(CellType.STRING);
-                goodsItem.setAmount(cellAmount.getStringCellValue());
-                goodsItem.setAmountValue(formatNumber(cellAmount.getStringCellValue()));
-                //goods input
-                Cell cellInputPrice = row.getCell(5);
-                cellInputPrice.setCellType(CellType.STRING);
-                goodsItem.setInputPrice(cellInputPrice.getStringCellValue());
-                goodsItem.setInputPriceValue(formatNumber(cellInputPrice.getStringCellValue()));
-                //goods output
-                Cell cellOutputPrice = row.getCell(6);
-                cellOutputPrice.setCellType(CellType.STRING);
-                goodsItem.setOutputPrice((cellOutputPrice.getStringCellValue()));
-                goodsItem.setOutputPriceValue(formatNumber(cellOutputPrice.getStringCellValue()));
+                Cell cellSerial = row.getCell(4);
+                String serial = getCellValue(cellSerial);
+                goodsItem.setSerial(serial);
+                //goods code
+                Cell cellGoodsCode = row.getCell(1);
+                String goodsCode = getCellValue(cellGoodsCode);
+                if(DataUtil.isStringNullOrEmpty(goodsCode)){
+                    errorInfo.append("Chưa có mã hàng");
+                    isValid = false;
+                }else{
+                    //check if goods_code is valid
+                    if(!setGoodsCode.contains(goodsCode)){
+                        errorInfo.append("\n Mã hàng không hợp lệ");
+                        isValid = false;
+                    }else{
+                        //check serial info
+                        goodsDTO = mapGoods.get(goodsCode);
+                        if("1".equalsIgnoreCase(goodsDTO.getIsSerial()) && DataUtil.isStringNullOrEmpty(serial)){
+                            errorInfo.append("\n Hàng serial cần nhập thông tin serial");
+                            isValid = false;
+                        }
+                    }
+                }
+                goodsItem.setGoodsCode(goodsCode);
+                //goods name
+                Cell cellGoodsName = row.getCell(2);
+                goodsItem.setGoodsName(getCellValue(cellGoodsName));
+                //STATE
+                Cell cellStatus = row.getCell(3);
+                String goodsState = getCellValue(cellStatus);
+                if(DataUtil.isStringNullOrEmpty(goodsState)){
+                    errorInfo.append("\n Chưa có trạng thái hàng");
+                    isValid = false;
+                }else{
+                    if(!goodsState.equalsIgnoreCase("1") && !goodsState.equalsIgnoreCase("2")){
+                        errorInfo.append("\n Trạng thái hàng không hợp lệ(1: Bình thường,2:Hỏng");
+                        isValid = false;
+                    }
+                }
+                goodsItem.setGoodsState(goodsState);
+                goodsItem.setGoodsStateValue(goodsState.equalsIgnoreCase("1")?"Bình thường":"Hỏng");
+                //AMOUNT
+                Cell cellAmount = row.getCell(5);
+                String amount = getCellValue(cellAmount);
+                if(DataUtil.isStringNullOrEmpty(amount)){
+                    errorInfo.append("\n Chưa có số lượng hàng");
+                    isValid = false;
+                }else{
+                    if(!StringUtils.isNumeric(amount)){
+                        errorInfo.append("\n Số lượng hàng phải là số");
+                        isValid = false;
+                    }else{
+                        goodsItem.setAmountValue(formatNumber(amount));
+                    }
+                }
+                goodsItem.setAmount(amount);
+                //PRICE
+                Cell cellInputPrice = row.getCell(6);
+                String inputPrice = getCellValue(cellInputPrice);
+                if(DataUtil.isStringNullOrEmpty(inputPrice)){
+                    errorInfo.append("\n Chưa có giá nhập");
+                    isValid = false;
+                }else{
+                    if(!StringUtils.isNumeric(inputPrice)){
+                        errorInfo.append("\n Giá nhập phải là số");
+                        isValid = false;
+                    }else{
+                        goodsItem.setInputPriceValue(formatNumber(inputPrice));
+                    }
+                }
+                goodsItem.setInputPrice(inputPrice);
                 //goods cell
                 Cell cellCells = row.getCell(7);
-                cellCells.setCellType(CellType.STRING);
-                goodsItem.setCellCode(cellCells.getStringCellValue());
+                goodsItem.setCellCode(getCellValue(cellCells));
+
+                if(!isValid){
+                    goodsItem.setErrorInfo(errorInfo.toString());
+                }
 
                 lstGoods.add(goodsItem);
             }
             //
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
-            log.info(e.toString());
+            return null;
         }
         //
-        return lstGoods;
+        importResult.setValid(isValid);
+        importResult.setLstGoodsImport(lstGoods);
+        return importResult;
     }
 
     public static String formatNumber(String number){
@@ -198,7 +320,7 @@ public class FunctionUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(FunctionUtils.formatNumber("200000"));
+//        System.out.println(FunctionUtils.formatNumber("200000"));
     }
 
 }

@@ -22,6 +22,8 @@ public class MjrStockTransDetailDTO {
     private String amountValue;
     private String inputPriceValue;
     private String outputPriceValue;
+    private String goodsStateValue;
+    private String errorInfo;
 
 
     public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String inputPrice, String outputPrice, String cellCode) {
@@ -167,5 +169,21 @@ public class MjrStockTransDetailDTO {
 
     public void setOutputPriceValue(String outputPriceValue) {
         this.outputPriceValue = outputPriceValue;
+    }
+
+    public String getErrorInfo() {
+        return errorInfo;
+    }
+
+    public void setErrorInfo(String errorInfo) {
+        this.errorInfo = errorInfo;
+    }
+
+    public String getGoodsStateValue() {
+        return goodsStateValue;
+    }
+
+    public void setGoodsStateValue(String goodsStateValue) {
+        this.goodsStateValue = goodsStateValue;
     }
 }

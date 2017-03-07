@@ -1,9 +1,41 @@
 /**
  * Created by duyot on 11/16/2016.
  */
+//check if contain xml special character
+function isContainXMLCharacter(value){
+    return escapeHtml(value) != value;
+}
 //		row num
 function runningFormatter(value, row, index) {
     return index +1;
+}
+
+function unFormatFloat(value) {
+    return value.replace(",","");
+}
+
+var _validFileExcel = [".xls", ".xlsx"];
+function isValidExcel(oInput) {
+    if (oInput.type == "file") {
+        var sFileName = oInput.value;
+        if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExcel.length; j++) {
+                var sCurExtension = _validFileExcel[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+
+            if (!blnValid) {
+                alert(sFileName + " không đúng định dạng! Vui lòng nhập file " + _validFileExcel.join(", "));
+                oInput.value = "";
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 function initDateRangeSelect() {
@@ -67,6 +99,13 @@ function showUpdate() {
     $("#modal-btn-add").hide();
 }
 
+function disableButton(button) {
+    button.prop('disabled', true);
+}
+function enableButton(button) {
+    button.prop('disabled', false);
+}
+
 function escapeHtml(unsafe) {
     return unsafe
         .replace(/&/g, "&amp;")
@@ -82,6 +121,20 @@ function decodeHtml(html) {
     return txt.value;
 }
 
+function showModal(object) {
+    object.modal('show');
+}
+
+function hideModal(object) {
+    object.modal('hide');
+}
+
+var messages = {
+    welcome: "Welcome",
+    goodbye: "Goodbye",
+    error: "Something bad happend. Sowwy!"
+};
+
 
 
 function isDocument(filename) {
@@ -96,5 +149,11 @@ function isDocument(filename) {
             return true;
     }
     return false;
+}
+
+function preprocessInput(object) {
+    object.find('input:text').each(function(){
+        $(this).val($.trim($(this).val()));
+    });
 }
 

@@ -9,6 +9,12 @@ public class Constants {
     public static final String STATS_NONE = "";
     public static final String SUCCES_COLOR = "color:#337ab7;";
 
+    public static class FILE_RESOURCE{
+        public static String IMPORT_TEMPLATE = "Bieu_mau_nhap_hang.xlsx";
+        public static String EXPORT_TEMPLATE = "template_import.xlsx";
+        public static String IMPORT_ERROR_TEMPLATE = "template_import_error.xlsx";
+    }
+
     public static class STATUS{
         public static String ACTIVE = "1";
         public static String INACTIVE = "0";
@@ -40,6 +46,7 @@ public class Constants {
         public static String CAT_STOCK_SERVICE = "catStockServices/";
         public static String CAT_PARTNER_SERVICE = "catPartnerServices/";
         public static String STOCK_MANAGEMENT_SERVICE = "stockManagementServices/";
+        public static String ERR$MJR_STOCK_GOODS_SERIAL_SERVICE = "err$MjrStockGoodsSerialServices/";
     }
 
     public static class SQL_OPERATOR{

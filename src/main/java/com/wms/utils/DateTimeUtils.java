@@ -312,4 +312,14 @@ public class DateTimeUtils {
         java.sql.Date date = new java.sql.Date(time);
         return convertDateToString(date, format);
     }
+
+    public static String getSysDateTimeForFileName(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
+        try {
+            return dateFormat.format(calendar.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }
