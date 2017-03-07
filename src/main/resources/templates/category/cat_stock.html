@@ -291,9 +291,9 @@
     });
 
     function changeModelByType(type,selectedItem,actionVal) {
-        $("#cat-goods-group-insert-update-form").attr("th:object",actionVal);
+        $("#cat-insert-update-form").attr("th:object",actionVal);
         if(type == 1){//add
-            $("#cat-goods-group-insert-update-form").attr("action",actionVal);
+            $("#cat-insert-update-form").attr("action",actionVal);
             $("#modal-inp-name").val('');
             //set default active-disable combo status
             $('#modal-cmb-status').bootstrapToggle('on');
@@ -302,7 +302,7 @@
             showAdd();
             $("#myModalLabel").text('Thêm mới');
         }else{//update
-            $("#cat-goods-group-insert-update-form").attr("action",actionVal);
+            $("#cat-insert-update-form").attr("action",actionVal);
             $("#modal-inp-code").val(decodeHtml(selectedItem["code"]));
             $("#modal-inp-name").val(decodeHtml(selectedItem["name"]));
             $("#modal-inp-address").val(decodeHtml(selectedItem["address"]));
