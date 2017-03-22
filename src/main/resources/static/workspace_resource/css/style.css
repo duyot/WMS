@@ -52,8 +52,8 @@ body.loading .modal-loading {
 
 .action-info{
 	color:#f44336;
-	margin-left:5px;
-	margin-top:-10px;
+	margin-left:0px;
+	margin-top: 0px;
 }
 
 .action-info-detail{
@@ -63,7 +63,7 @@ body.loading .modal-loading {
 #del-action-info{
 	color:#f44336;
 	margin-left:10px;
-	margin-top:-10px;
+	margin-top: 0px;
 }
 h4, h5, h6,
 h1, h2, h3 {margin-top: 0;}
@@ -5129,7 +5129,7 @@ canvas#bar {
   width: 65%;
 }
 .pull-left {
-  width: 47%;
+  width: 60%;
 }
 .login-social-link a.facebook {
   margin-right: 20px;

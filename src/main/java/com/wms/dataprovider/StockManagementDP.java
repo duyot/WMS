@@ -23,7 +23,7 @@ public class StockManagementDP {
 
     public ResponseObject exportStock(StockTransDTO stockTrans, AuthTokenInfo tokenInfo){
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject(EXPORT_STOCK_URL,stockTrans,ResponseObject.class);
+        return restTemplate.postForObject(EXPORT_STOCK_URL+"?access_token="+tokenInfo.getAccess_token(),stockTrans,ResponseObject.class);
     }
 
 }

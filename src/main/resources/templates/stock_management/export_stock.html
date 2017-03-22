@@ -133,14 +133,14 @@
                                 <div class="col-sm-1">
                                     <div class="input-group">
                                         <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload"
-                                                id="btn-excel-import" th:value="@{/workspace/stock_management/import/upload}">
+                                                id="btn-excel-export" th:value="@{/workspace/stock_management/export/upload}">
                                         </button>
                                     </div>
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="input-group">
                                         <div class="input-group">
-                                            <input id="inp-file-import" data-toggle="toggle" type="file"
+                                            <input id="inp-file-export" data-toggle="toggle" type="file"
                                                    onchange="isValidExcel(this);"
                                             />
                                         </div>
@@ -148,7 +148,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="input-group">
-                                        <a class="link-label" th:text="#{link.downloadtemplate}" th:href="@{/workspace/stock_management/import/getTemplateFile}">
+                                        <a class="link-label" th:text="#{link.downloadtemplate}" th:href="@{/workspace/stock_management/export/getTemplateFile}">
                                         </a>
                                     </div>
                                 </div>
@@ -157,8 +157,8 @@
                     </form>
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" th:text="#{btn.import}" class="btn btn-default  btn-primary"
-                                    id="btn-import" th:value="@{/workspace/stock_management/import/import}">
+                            <button type="button" th:text="#{btn.export}" class="btn btn-default  btn-primary"
+                                    id="btn-export" th:value="@{/workspace/stock_management/export/exportStock}">
                             </button>
                         </div>
                     </div>
@@ -176,28 +176,28 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-add" th:value="@{/workspace/stock_management/import/add}" type="button"
+                        <button id="btn-add" th:value="@{/workspace/stock_management/export/add}" type="button"
                                 class="btn btn-default" th:title="#{tooltip.addgoods}" >
                             <i class="fa fa-plus"></i>
                         </button>
-                        <button id="btn-update" th:value="@{/workspace/stock_management/import/update}" type="button"
+                        <button id="btn-update" th:value="@{/workspace/stock_management/export/update}" type="button"
                                 class="btn btn-default" th:title="#{tooltip.updategoods}" >
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button id="btn-delete" th:value="@{/workspace/stock_management/import/delete}" type="button"
+                        <button id="btn-delete" th:value="@{/workspace/stock_management/export/delete}" type="button"
                                 class="btn btn-default" th:title="#{tooltip.deletegoods}" >
                             <i class="fa fa-trash"></i>
                         </button>
-                        <button id="btn-refresh-table" th:href="@{/workspace/stock_management/import/getFile}" type="button"
+                        <button id="btn-refresh-table" th:href="@{/workspace/stock_management/getFile}" type="button"
                                 class="btn btn-default" th:title="#{tooltip.cleartabble}" >
                             <i class="fa  fa-refresh"></i>
                         </button>
 
                         <label class="action-info" id="action-info" th:if="${actionInfo != null} " th:text="#{${actionInfo}}" th:style="${successStyle}"></label>
-                        <label class="toolbar-label-info" id="import-action-info"></label>
+                        <label class="toolbar-label-info" id="export-action-info"></label>
                         <label id="del-action-info"></label>
                     </div>
-                    <table  id="tbl-import-goods"
+                    <table  id="tbl-export-goods"
                             data-pagination="true"
                             data-search="true"
                             data-click-to-select="true"
@@ -216,7 +216,7 @@
                             <th   data-field="goodsStateValue" data-align="left" data-sortable="true">Trạng thái</th>
                             <th   class="col-md-1" data-field="serial" data-align="left" data-sortable="true">Serial</th>
                             <th   data-field="amountValue" data-align="right" data-sortable="true">Số lượng</th>
-                            <th   data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
+                            <th   data-field="outputPriceValue" data-align="right" data-sortable="true">Giá xuất</th>
                             <th   data-field="cellCode" data-align="left" data-sortable="true">Vị trí</th>
                             <th   data-field="columnId" data-align="left" data-sortable="true" >ColumnId</th>
                         </tr>
@@ -229,7 +229,6 @@
     <div class="modal-loading"><!-- Place at bottom of page --></div>
     <!--modal-->
     <div th:include="modal/confirm_download_modal :: frag-confirm-download-error-modal"></div>
-    <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
     <div th:include="modal/import_stock_add_goods_modal :: frag-add-goods-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--footer-->
@@ -245,7 +244,7 @@
 <script th:attr="src=@{/js/jquery.form-validator.min.js}" th:href="@{/js/jquery.form-validator.min.js}"></script>
 <script>
     //---------------------------------------------------------------------
-    $table = $('#tbl-import-goods');
+    $table = $('#tbl-export-goods');
     var dataInit = [
     ];
 
@@ -265,7 +264,7 @@
         //
         $('.combobox').combobox();
         //
-        disableButton($('#btn-import'));
+        disableButton($('#btn-export'));
         //
         $.validate({
             decimalSeparator : '.',
@@ -278,18 +277,18 @@
         });
     });
     //@Upload---------------------------------------------------------------------
-    var btnUploadExcel = $('#btn-excel-import');
+    var btnUploadExcel = $('#btn-excel-export');
     $(function () {
         btnUploadExcel.click(function () {
             //
-            $("#import-action-info").text('');
+            $("#export-action-info").text('');
             //
             var data = new FormData();
-            jQuery.each(jQuery('#inp-file-import')[0].files, function(i, file) {
+            jQuery.each(jQuery('#inp-file-export')[0].files, function(i, file) {
                 data.append('file-'+i, file);
             });
 
-            var fileName = $('#inp-file-import').val();
+            var fileName = $('#inp-file-export').val();
             if(fileName == ''){
                 alert('Chưa có file dữ liệu');
                 return;
@@ -311,7 +310,7 @@
                     }
                     $table.bootstrapTable('load', data);
                     //
-                    enableButton($('#btn-import'));
+                    enableButton($('#btn-export'));
                 },
                 error: function(data){
                     alert(data);
@@ -323,35 +322,35 @@
         });
 
     });
-    //@Import---------------------------------------------------------------------
-    var btnImport = $('#btn-import');
-    btnImport.click(function () {
+    //@export---------------------------------------------------------------------
+    var btnexport = $('#btn-export');
+    btnexport.click(function () {
         var contractNumber = $('#inp-contract-number').val();
         if(isContainXMLCharacter(contractNumber)){
             alert("Mã hợp đồng chứa kí tự đặc biệt!");
             return;
         }
         //validate
-        var import_goods = $table.bootstrapTable('getData');
-        if(import_goods.length == 0){
-            alert('Chưa có thông tin hàng nhập!');
+        var export_goods = $table.bootstrapTable('getData');
+        if(export_goods.length == 0){
+            alert('Chưa có thông tin hàng xuất!');
             return;
         }
         var stockIdValue = $('#cmb-stock').val();
         if(stockIdValue == null){
-            alert('Chưa có thông tin kho nhập!');
+            alert('Chưa có thông tin kho xuất!');
             $('#cmb-stockundefined').focus();
             return;
         }
         //
-        $("#lbl-del-info").text('Nhập hàng lên hệ thống?');
+        $("#lbl-del-info").text('Xuất hàng?');
         //
         showModal($('#myConfirmModal'));
     });
 
-    var btnImportConfirm = $('#modal-btn-del-ok');
+    var btnExportConfirm = $('#modal-btn-del-ok');
     $body = $("body");
-    btnImportConfirm.click(function () {
+    btnExportConfirm.click(function () {
         //
         hideModal($('#myConfirmModal'));
         $body.addClass("loading");
@@ -361,13 +360,13 @@
         var descriptionValue = $('#inp-contract-note').val();
         var stock_trans_info = {contractNumber:contractNumberValue,invoiceNumber:invoiceValue,stockId:stockIdValue,description:descriptionValue};
         //
-        var importData = JSON.stringify({lstGoods:$table.bootstrapTable('getData'),mjrStockTransDTO:stock_trans_info});
+        var exportData = JSON.stringify({lstGoods:$table.bootstrapTable('getData'),mjrStockTransDTO:stock_trans_info});
         //
-        var $lblInfo = $("#import-action-info");
+        var $lblInfo = $("#export-action-info");
         //
         $.ajax({
-            url: btnImport.val(),
-            data:importData,
+            url: btnexport.val(),
+            data:exportData,
             cache: false,
             contentType: "application/json",
             dataType: 'json',
@@ -375,21 +374,21 @@
             success: function(data){
                 //
                 var resultMessage  = data['statusCode'];
-                var stockTransId   = data['key'];
-                var successRecords = data['success'];
+                var key   = data['key'];
                 //
-                if(resultMessage == "SUCCESS_WITH_ERROR"){
-                    var totalRecords   = data['total'];
+                if(resultMessage == "FAIL"){
+                    var statusName   = data['statusName'];
+                    var key   = data['key'];
                     //show modal upload file
-                    $("#modal-error-import-lbl-info").text('Nhập '+successRecords+'/'+totalRecords+' hàng thành công với mã giao dịch '+ stockTransId);
-                    $("#modal-link-download").attr("href",$("#modal-inp-stock-trans-id").val()+"/"+ stockTransId);
-                    showModal($("#myDownloadErrorImportModal"));
+                    $lblInfo.text("Xuất hàng thất bại: "+ converExportMessage(statusName) + key);
+                    $lblInfo.css('color','#F44336');
                 }else{
-                    $lblInfo.text("Nhập "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId);
+                    var totalSuccess = data['success'];
+                    $lblInfo.text("Xuất "+ totalSuccess+" hàng thành công");
                     $lblInfo.css('color','#337ab7');
+                    disableButton($('#btn-export'));
+                    $table.bootstrapTable('removeAll');
                 }
-                disableButton($('#btn-import'));
-                $table.bootstrapTable('removeAll');
             },
             error: function(data){
                 $lblInfo.text(data);
@@ -445,6 +444,8 @@
                 $('#modal-inp-amount').val('1');
             }
             //
+            $('#modal-lbl-price').text("Giá bán");
+            //
             showModal($('#myModal'));
         });
     });
@@ -472,7 +473,7 @@
             });
             if(isSerial == '1'){
                 if(($('#modal-inp-amount').val() != "1")){
-                    alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng nhập phải là 1.");
+                    alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng xuất phải là 1.");
                     return;
                 }
             }
@@ -491,8 +492,8 @@
                 goodsStateValue = "Bình thường";
                 goodsState = "1";
             }
-            var inputPriceValue = $('#modal-inp-input-price').val();
-            if(inputPriceValue.trim() == ""){
+            var outputPriceValue = $('#modal-inp-input-price').val();
+            if(outputPriceValue.trim() == ""){
                 return;
             }
             var serial = escapeHtml($('#modal-inp-serial').val());
@@ -508,14 +509,14 @@
                 serial:serial,
                 amountValue: amount,
                 amount: amount,
-                inputPriceValue: inputPriceValue,
-                inputPrice: inputPriceValue,
+                outputPriceValue: outputPriceValue,
+                outputPrice: outputPriceValue,
                 cellCode: cellCode,
                 columnId:columnId
             });
             //
             $table.bootstrapTable('append', rows);
-            enableButton($('#btn-import'));
+            enableButton($('#btn-export'));
             //
         });
     });
@@ -544,6 +545,27 @@
 
     var $btnUpdateModal = $('#modal-btn-update');
         $btnUpdateModal.click(function () {
+            //
+            //valid require serial
+            var isSerial;
+            //
+            $.ajax({
+                url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
+                cache: false,
+                contentType: false,
+                processData: false,
+                async:false,
+                type: 'GET',
+                success: function(data){
+                    isSerial = data;
+                },
+            });
+            if(isSerial == '1'){
+                if(($('#modal-inp-amount').val() != "1")){
+                    alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng xuất phải là 1.");
+                    return;
+                }
+            }
             //get data
             var goodsCode = $('#modal-cmb-goods').val();
             var goodsName = $("#modal-cmb-goods option:selected").text();
@@ -579,6 +601,8 @@
     //@Refresh table----------------------------------------------------------
     $('#btn-refresh-table').click(function () {
         $table.bootstrapTable('removeAll');
+        $("#export-action-info").text('');
+        //
     });
     //-------------------------------------------------------------------------
     function changeModelByType(isAdd,selectedItems) {
@@ -597,7 +621,7 @@
             }else{
                 $('#cmb-goods-state').bootstrapToggle('off');
             }
-            $('#modal-inp-input-price').val(unFormatFloat(selectedItems['inputPriceValue']));
+            $('#modal-inp-input-price').val(unFormatFloat(selectedItems['outputPriceValue']));
             $('#modal-inp-serial').val(selectedItems['serial']);
             $('#modal-inp-cell').val(selectedItems['cellCode']);
             //

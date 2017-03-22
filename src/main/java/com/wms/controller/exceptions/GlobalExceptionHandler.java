@@ -25,6 +25,8 @@ public class GlobalExceptionHandler implements ErrorController{
             return "common/error/page_403";
         }else if(getStatus(request) == HttpStatus.NOT_FOUND){
             return "common/error/page_404";
+        }else if(getStatus(request) == HttpStatus.FORBIDDEN){
+            return "/login";
         }else{
             return "common/error/error";
         }

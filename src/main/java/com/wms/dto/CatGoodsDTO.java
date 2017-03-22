@@ -1,5 +1,7 @@
 package com.wms.dto;
 
+import com.wms.constants.Constants;
+
 /**
  * Created by duyot on 12/9/2016.
  */
@@ -114,6 +116,10 @@ public class CatGoodsDTO {
 
     public String getIsSerial() {
         return isSerial;
+    }
+
+    public boolean isSerial(){
+        return Constants.IS_SERIAL.equalsIgnoreCase(isSerial);
     }
 
     public void setIsSerial(String isSerial) {

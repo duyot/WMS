@@ -12,12 +12,12 @@
                 <div class="modal-header">
                     <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
                     </button>
-                    <h4 class="modal-title" id="myConfirmModalLabel">Confirm</h4>
+                    <h4 class="modal-title" id="myConfirmModalLabel" th:text="#{modal.label.confirm}"></h4>
                 </div>
                 <div class="modal-body">
                     <div class="container-modal" style="height: 50px">
                         <p id="modal-lbl-info">Thông tin tải lên chứa lỗi!</p>
-                        <p><a id="link-download" class="link-label" style="float:left" th:text="#{link.downloadfile}" th:href="@{/workspace/stock_management/getErrorImportFile}"/>
+                        <p><a id="link-download" class="link-label" style="float:left" th:text="#{link.downloadfile}" th:href="@{/workspace/stock_management/import/getErrorImportFile}"/>
                         </p>
                     </div>
                 </div>

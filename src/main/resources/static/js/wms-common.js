@@ -1,6 +1,28 @@
 /**
  * Created by duyot on 11/16/2016.
  */
+function converExportMessage(mesageCode){
+    switch (mesageCode){
+        case "ERROR_TOTAL_NOT_ENOUGH":
+            return  "Không đủ số lượng hàng trong kho!";
+            break;
+        case "ERROR_UPDATE_TOTAL":
+            return "Lỗi cập nhật số lượng hàng";
+        case "ERROR_NOT_FOUND_STOCK_GOODS":
+            return "Hàng không có sẵn trong kho";
+        case "ERROR_NOT_FOUND_SERIAL":
+            return "Serial không có sẵn trong kho: ";
+        case "ERROR_CREATE_STOCK_TRANS_DETAIL":
+            return "Lối tạo chi tiết giao dịch";
+        case "ERROR_OVER_GOODS_NUMBER":
+            return "Số hàng nhập lên vượt quá 1000. Vui lòng nhập số lượng nhỏ hơn";
+        case "ERROR_SYSTEM":
+            return "Lỗi hệ thống: liên hệ admin để được hỗ trợ";
+        default:
+            return "Lỗi hệ thống: liên hệ admin để được hỗ trợ";
+    }
+
+}
 //check if contain xml special character
 function isContainXMLCharacter(value){
     return escapeHtml(value) != value;
@@ -60,7 +82,7 @@ function initDateRangeSelect() {
             'This Month': [moment().startOf('month'), moment().endOf('month')],
             'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
         },
-        showDropdowns: true,
+        showDropdowns: true
     });
 }
 //------------------------------------------------------------------------------------------------------------------
@@ -68,19 +90,6 @@ function initDateRangeSelect() {
 function getExtension(filename) {
     var parts = filename.split('.');
     return parts[parts.length - 1];
-}
-
-function isImage(filename) {
-    var ext = getExtension(filename);
-    switch (ext.toLowerCase()) {
-        case 'jpg':
-        case 'gif':
-        case 'bmp':
-        case 'png':
-            //etc
-            return true;
-    }
-    return false;
 }
 
 function clearActionInfo() {
@@ -155,5 +164,18 @@ function preprocessInput(object) {
     object.find('input:text').each(function(){
         $(this).val($.trim($(this).val()));
     });
+}
+
+function isAllFieldValid(object) {
+    var className;
+    var result = true;
+    object.find('input:text').each(function(){
+        className = $(this).attr("class");
+        if(className.indexOf("error") != -1){
+            result = false;
+        }
+    });
+
+    return result;
 }
 

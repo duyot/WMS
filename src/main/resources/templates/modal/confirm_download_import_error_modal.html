@@ -15,10 +15,11 @@
                     <h4 class="modal-title" id="myConfirmModalLabel">Confirm</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="container-modal" style="height: 50px">
-                        <input id="modal-inp-stock-trans-id" th:value="@{/workspace/stock_management/getErrorImportStockFile}" hidden="true"/>
+                    <div class="container-modal">
+                        <input id="modal-inp-stock-trans-id" th:value="@{/workspace/stock_management/import/getErrorImportStockFile}" hidden="true"/>
                         <p id="modal-error-import-lbl-info"></p>
-                        <p><a id="modal-link-download" class="link-label" style="float:left" th:text="#{link.downloadfileerror}" th:href="@{/workspace/stock_management/getErrorImportStockFile}"/>
+                        <p style="height: 30px">
+                            <a id="modal-link-download" class="link-label" style="float:left" th:text="#{link.downloadfileerror}" th:href="@{/workspace/stock_management/import/getErrorImportStockFile}"/>
                         </p>
                     </div>
                 </div>
