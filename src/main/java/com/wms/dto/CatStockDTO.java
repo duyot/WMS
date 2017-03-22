@@ -12,6 +12,15 @@ public class CatStockDTO {
     private String status;
     private String managerInfo;
     private String custName;
+    private String statusName;
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
 
     public String getCustName() {
         return custName;

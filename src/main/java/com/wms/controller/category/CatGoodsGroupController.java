@@ -70,10 +70,15 @@ public class CatGoodsGroupController {
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatGoodsGroupDTO> lstCatGoods = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
+        String statusName ="";
+        String active = Constants.STATUS.activeName;
+        String inactive = Constants.STATUS.inactiveName;
 
         for(CatGoodsGroupDTO i: lstCatGoods){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
             i.setCustName(selectedCustomer.getName());
+            statusName = "1".equals(i.getStatus()) ? active: inactive;
+            i.setStatusName(statusName);
         }
 
         return lstCatGoods;
@@ -82,6 +87,7 @@ public class CatGoodsGroupController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(CatGoodsGroupDTO catGoodsGroup, RedirectAttributes redirectAttributes){
         catGoodsGroup.setStatus("1");
+        catGoodsGroup.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catGoodsGroupService.add(catGoodsGroup,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
@@ -102,6 +108,7 @@ public class CatGoodsGroupController {
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String update(CatGoodsGroupDTO catGoodsGroup, RedirectAttributes redirectAttributes){
         log.info("Update cat_goods_group info: "+ catGoodsGroup.toString());
+        catGoodsGroup.setCustId(this.selectedCustomer.getId());
         if("on".equalsIgnoreCase(catGoodsGroup.getStatus())){
             catGoodsGroup.setStatus("1");
         }else{

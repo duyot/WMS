@@ -13,7 +13,7 @@
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Thêm mới</h4>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{btn.add}"></h4>
                     </div>
                     <div class="modal-body">
                         <div class="container-modal">
@@ -21,7 +21,7 @@
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label for="modal-inp-code" class="control-label la" th:text="#{lbl.partnerCode}"></label>
+                                        <label for="modal-inp-code" class="control-label label-require" th:text="#{lbl.partnerCode}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -31,14 +31,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
                                         </span>
-                                        <input id="modal-inp-code" class="form-control" type="text" th:required="true" name="code" />
+                                        <input id="modal-inp-code" class="form-control" type="text" th:required="true" name="code" maxlength="30" />
                                     </div>
                                 </div>
                             </div>
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label for="modal-inp-name" class="control-label" th:text="#{lbl.partnerName}"></label>
+                                        <label for="modal-inp-name" class="control-label label-require" th:text="#{lbl.partnerName}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
                                         </span>
-                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name"  />
+                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name" maxlength="1000"  />
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
                                         </span>
-                                        <input id="modal-inp-telNumber" class="form-control" type="text" name="telNumber"  />
+                                        <input id="modal-inp-telNumber" class="form-control" type="text" name="telNumber" maxlength="50" />
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
                                         </span>
-                                        <input id="modal-inp-address" class="form-control" type="text" name="address"  />
+                                        <input id="modal-inp-address" class="form-control" type="text" name="address" maxlength="1000" />
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label class="control-label" th:text="#{lbl.status}"></label>
+                                        <label class="control-label " th:text="#{lbl.status}"></label>
                                     </div>
                                 </div>
                             </div>

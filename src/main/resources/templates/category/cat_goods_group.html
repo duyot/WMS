@@ -119,9 +119,8 @@
                         <tr>
                             <th  class="col-md-1" data-formatter="runningFormatter" data-align="center">STT</th>
                             <th  class="col-md-1" data-checkbox="true"></th>
-                            <th  class="col-md-5" data-field="name" data-align="left" data-sortable="true">Nhóm hàng</th>
-                            <th  class="col-md-4" data-field="custName" data-align="left" data-sortable="true">Khách hàng</th>
-                            <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true">Trạng thái</th>
+                            <th  class="col-md-8" data-field="name" data-align="left" data-sortable="true">Nhóm hàng hóa</th>
+                            <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>
                         </tr>
                         </thead>
                     </table>
@@ -270,6 +269,9 @@
             clearActionInfo();
             changeModelByType(1,null,$btn_add.val());
             $('#myModal').modal('show');
+            $("#myModal").on('shown.bs.modal', function () {
+                $('#modal-inp-name').focus();
+            });
         });
     });
     //@Update action------------------------------------------------------------------------------------------------
@@ -286,6 +288,9 @@
             }
             changeModelByType(2,selectedItem,$btn_update.val());
             $('#myModal').modal('show');
+            $("#myModal").on('shown.bs.modal', function () {
+                $('#modal-inp-name').focus();
+            });
         });
     });
 
@@ -305,7 +310,7 @@
             $("#modal-inp-name").val(decodeHtml(selectedItem["name"]));
             $("#modal-inp-id").val(selectedItem["id"]);
             var currentStatus = selectedItem["status"];
-            if(currentStatus == 'Hết hiệu lực'){
+            if(currentStatus == '0'){
                 $('#modal-cmb-status').bootstrapToggle('off');
             }else{
                 $('#modal-cmb-status').bootstrapToggle('on');

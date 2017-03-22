@@ -275,6 +275,9 @@
             clearActionInfo();
             changeModelByType(1,null,$btn_add.val());
             $('#myModal').modal('show');
+            $("#myModal").on('shown.bs.modal', function () {
+                $('#modal-inp-code').focus();
+            });
         });
     });
     //@Update action------------------------------------------------------------------------------------------------
@@ -291,6 +294,9 @@
             }
             changeModelByType(2,selectedItem,$btn_update.val());
             $('#myModal').modal('show');
+            $("#myModal").on('shown.bs.modal', function () {
+                $('#modal-inp-code').focus();
+            });
         });
     });
 
@@ -298,7 +304,10 @@
         $("#cat-goods-insert-update-form").attr("th:object",actionVal);
         if(type == 1){//add
             $("#cat-goods-insert-update-form").attr("action",actionVal);
+            $("#modal-inp-code").val('');
             $("#modal-inp-name").val('');
+            $("#modal-cmb-goods-unit").val('-1');
+            $("#modal-cmb-goods-group").val('-1');
             //set default active-disable combo status
             $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
@@ -312,7 +321,7 @@
             $("#modal-cmb-goods-unit").val(selectedItem["unitType"]);
             $("#modal-cmb-goods-group").val(selectedItem["goodsGroupId"]);
             var currentStatus = selectedItem["status"];
-            if(currentStatus == 'Hết hiệu lực'){
+            if(currentStatus == '0'){
                 $('#modal-cmb-status').bootstrapToggle('off');
             }else{
                 $('#modal-cmb-status').bootstrapToggle('on');

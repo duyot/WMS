@@ -11,31 +11,17 @@
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Thêm mới</h4>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{btn.add}"></h4>
                     </div>
                     <div class="modal-body">
                         <div class="container-modal">
                             <!--hidden fields-->
                             <input id="modal-inp-id" hidden="true" name="id"/>
-                            <div class="row row-header-first">
-                                <div class="col-sm-12">
-                                    <div class="input-group">
-                                        <label class="control-label" th:text="#{lbl.usage}"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row row-content">
-                                <div class="col-sm-12">
-                                    <div class="input-group">
-                                        <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
-                                        <input id="modal-inp-customerId" hidden="true" th:value="${session.selectedCustomer.id}" type="text" th:name="custId"/>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label for="modal-inp-name" class="control-label" th:text="#{lbl.goodsgroup}"></label>
+                                        <label for="modal-inp-name" class="control-label label-require" th:text="#{lbl.goodsgroup}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +31,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
                                         </span>
-                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name"  placeholder="Điện tử, điện lạnh..."/>
+                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name"  placeholder="Điện tử, điện lạnh..." maxlength="100"/>
                                     </div>
                                 </div>
                             </div>
@@ -67,9 +53,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="modal-btn-update"  type="submit" class="btn btn-primary"  >Update</button>
-                        <button id="modal-btn-add"     type="submit" class="btn btn-primary">Add</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="modal-btn-update"  type="submit" class="btn btn-primary"  th:text="#{btn.update}" ></button>
+                        <button id="modal-btn-add"     type="submit" class="btn btn-primary" th:text="#{btn.add}"></button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{btn.close}"></button>
                     </div>
                 </div>
             </form>
