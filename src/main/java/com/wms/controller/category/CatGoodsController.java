@@ -67,6 +67,22 @@ public class CatGoodsController {
         return mapGoodsGroup;
     }
 
+    @ModelAttribute("mapUnitType")
+    public Map<String, String> setLstUnitType(HttpServletRequest request){
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"desc"));
+        List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
+
+        for(CatGoodsGroupDTO i: lstCatGoodsGroup){
+            mapGoodsGroup.put(i.getId(), i.getName());
+        }
+        return mapGoodsGroup;
+    }
+
     @RequestMapping()
     public String home(Model model){
         model.addAttribute("menuName","menu.catgoods");
@@ -88,10 +104,26 @@ public class CatGoodsController {
 
         List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
 
+        String serialTypeName;
+        String isSerialName = Constants.SERIAL_TYPE.IS_SERIAL_NAME;
+        String isSerial = Constants.SERIAL_TYPE.IS_SERIAL;
+        String noSerialName = Constants.SERIAL_TYPE.NO_SERIAL_NAME;
+        String statusName ="";
+        String active = Constants.STATUS.activeName;
+        String inactive = Constants.STATUS.inactiveName;
+
+
         for(CatGoodsDTO i: lstCatGoods){
             i.setCustName(selectedCustomer.getName());
             i.setGoodsGroupName(mapGoodsGroup.get(i.getGoodsGroupId()));
 
+            serialTypeName =  isSerial.equals(i.getIsSerial()) ? isSerialName: noSerialName;
+            i.setSerialTypeName(serialTypeName);
+
+            statusName = "1".equals(i.getStatus()) ? active: inactive;
+            i.setStatusName(statusName);
+
+            i.setUnitTypeName("Cái");
         }
 
         return lstCatGoods;
@@ -99,7 +131,7 @@ public class CatGoodsController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(CatGoodsDTO catGoods, RedirectAttributes redirectAttributes){
         catGoods.setStatus("1");
-        catGoods.setCustId("1000");
+        catGoods.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catGoodsService.add(catGoods,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
@@ -115,7 +147,7 @@ public class CatGoodsController {
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String update(CatGoodsDTO catGoods, RedirectAttributes redirectAttributes){
-        catGoods.setCustId("1000");
+        catGoods.setCustId(this.selectedCustomer.getId());
         log.info("Update cat_goods info: "+ catGoods.toString());
         if("on".equalsIgnoreCase(catGoods.getStatus())){
             catGoods.setStatus("1");

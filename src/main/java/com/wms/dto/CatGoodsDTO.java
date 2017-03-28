@@ -20,6 +20,32 @@ public class CatGoodsDTO {
     private String brand;
     private String custName;
     private String unitTypeName;
+    private String serialTypeName;
+    private String statusName;
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
+    public String getUnitTypeName() {
+        return unitTypeName;
+    }
+
+    public void setUnitTypeName(String unitTypeName) {
+        this.unitTypeName = unitTypeName;
+    }
+
+    public String getSerialTypeName() {
+        return serialTypeName;
+    }
+
+    public void setSerialTypeName(String serialTypeName) {
+        this.serialTypeName = serialTypeName;
+    }
 
     public String getGoodsGroupName() {
         return goodsGroupName;

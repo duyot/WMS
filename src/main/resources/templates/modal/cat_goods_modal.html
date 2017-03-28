@@ -92,7 +92,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa  fa-server fa-fw"></i>
                                                 </span>
-                                            <select id="modal-cmb-goods-group" class="combobox form-control">
+                                            <select id="modal-cmb-goods-group" class="combobox form-control" name="modal-cmb-goods-group">
                                             <option value="-1">---Chọn---</option>
                                             <option th:each="sopt:${mapGoodsGroup.entrySet()}"
                                             th:value="${sopt.key}" th:text="${sopt.value}"></option>

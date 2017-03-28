@@ -26,6 +26,12 @@ public class Constants {
         public static String IMPORT = "1";
         public static String EXPORT = "2";
     }
+    public static class SERIAL_TYPE{
+        public static String IS_SERIAL = "1";
+        public static String NO_SERIAL = "0";
+        public static String IS_SERIAL_NAME = "Có";
+        public static String NO_SERIAL_NAME = "Không";
+    }
 
     public static class SERVICE_METHOD{
         public static String GET_SYS_DATE = "getSysDate?access_token=";

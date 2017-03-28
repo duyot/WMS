@@ -121,10 +121,10 @@
                             <th  class="col-md-1" data-formatter="runningFormatter" data-align="center" ></th>
                             <th  class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
                             <th  class="col-md-5" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
-                            <th  class="col-md-1" data-field="unitType" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
+                            <th  class="col-md-1" data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
                             <th  class="col-md-1" data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
-                            <th  class="col-md-1" data-field="isSerial" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
-                            <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
+                            <th  class="col-md-1" data-field="serialTypeName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
+                            <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
                         </tr>
                         </thead>
                     </table>
@@ -314,6 +314,7 @@
 
             showAdd();
         }else{//update
+            alert(2);
             $("#cat-goods-insert-update-form").attr("action",actionVal);
             $("#modal-inp-code").val(selectedItem["code"]);
             $("#modal-inp-name").val(selectedItem["name"]);
