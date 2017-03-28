@@ -2,10 +2,8 @@ package com.wms.utils;
 
 import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
-import com.wms.dto.AuthTokenInfo;
-import com.wms.dto.CatGoodsDTO;
-import com.wms.dto.ImportFileResultDTO;
-import com.wms.dto.MjrStockTransDetailDTO;
+import com.wms.dto.*;
+import com.wms.services.interfaces.BaseService;
 import net.sf.jxls.transformer.Configuration;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.commons.lang.StringUtils;
@@ -35,6 +33,26 @@ import java.util.*;
  */
 public class FunctionUtils {
     public static Logger log = LoggerFactory.getLogger(FunctionUtils.class);
+
+    /*
+        get stock
+     */
+    public static List<CatStockDTO> getListStock(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
+        List<Condition> lstCondition = Lists.newArrayList();
+        lstCondition.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentCustomer.getId()));
+        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        return service.findByCondition(lstCondition,tokenInfo);
+    }
+
+    /*
+       get stock
+    */
+    public static List<CatGoodsDTO> getListGoods(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
+        List<Condition> lstCondition = Lists.newArrayList();
+        lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentCustomer.getId()));
+        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        return service.findByCondition(lstCondition,tokenInfo);
+    }
 
     /*
 

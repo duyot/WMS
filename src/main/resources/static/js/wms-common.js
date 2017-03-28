@@ -36,6 +36,25 @@ function unFormatFloat(value) {
     return value.replace(",","");
 }
 
+function setInfoMessage(object,value) {
+    object.text(value);
+    object.css('color','#337ab7');
+}
+
+function setErrorMessage(object,value) {
+    object.text(value);
+    $lblInfo.css('color','#F44336');
+}
+
+function isTableEmpty(object) {
+    var data = object.bootstrapTable('getData');
+    if(data.length == 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 var _validFileExcel = [".xls", ".xlsx"];
 function isValidExcel(oInput) {
     if (oInput.type == "file") {

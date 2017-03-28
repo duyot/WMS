@@ -385,15 +385,13 @@
                     $("#modal-link-download").attr("href",$("#modal-inp-stock-trans-id").val()+"/"+ stockTransId);
                     showModal($("#myDownloadErrorImportModal"));
                 }else{
-                    $lblInfo.text("Nhập "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId);
-                    $lblInfo.css('color','#337ab7');
+                    setInfoMessage($lblInfo,"Nhập "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId)
                 }
                 disableButton($('#btn-import'));
                 $table.bootstrapTable('removeAll');
             },
             error: function(data){
-                $lblInfo.text(data);
-                $lblInfo.css('color','#F44336');
+                setErrorMessage($lblInfo,data)
             },
             complete: function(){
                 $body.removeClass("loading");

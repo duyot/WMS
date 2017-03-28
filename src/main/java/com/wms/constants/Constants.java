@@ -14,6 +14,7 @@ public class Constants {
         public static String IMPORT_TEMPLATE = "Bieu_mau_nhap_hang.xlsx";
         public static String EXPORT_TEMPLATE = "template_import.xlsx";
         public static String IMPORT_ERROR_TEMPLATE = "template_import_error.xlsx";
+        public static String GOODS_TOTAL_TEMPLATE = "Thong_tin_hang_trong_kho.xlsx";
     }
 
     public static class STATUS{
@@ -51,6 +52,9 @@ public class Constants {
         public static String CAT_DEPARTMENT_SERVICE = "catDepartmentServices/";
         public static String STOCK_MANAGEMENT_SERVICE = "stockManagementServices/";
         public static String ERR$MJR_STOCK_GOODS_SERIAL_SERVICE = "err$MjrStockGoodsSerialServices/";
+        public static String MJR_STOCK_GOODS_SERVICE = "mjrStockGoodsServices/";
+        public static String MJR_STOCK_GOODS_SERIAL_SERVICE = "mjrStockGoodsSerialServices/";
+        public static String MJR_STOCK_GOODS_TOTAL_SERVICE = "mjrStockGoodsTotalServices/";
     }
 
     public static class SQL_OPERATOR{

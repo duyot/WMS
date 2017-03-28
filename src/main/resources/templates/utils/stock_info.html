@@ -64,92 +64,44 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
-                                    <label class="label-require" for="cmb-stock" th:text="#{lbl.stock}"></label>
+                                    <label for="cmb-stock" th:text="#{lbl.stock}"></label>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group">
                                         <select id="cmb-stock" class="combobox form-control">
+                                            <option value="-1">Tất cả</option>
                                             <option  th:each="sopt:${lstStock}"
                                                      th:value="${sopt.id}" th:text="${sopt.name}">1</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <!--row 2: contract number + invoice-->
+                            <!--row 2: goods group - goods -->
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.contracnumber}" for="inp-contract-number"></label>
+                                    <label th:text="#{lbl.goods}" for="cmb-goods"></label>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <span class="input-group-addon">
-                                                <i class="fa fa-book fa-fw"></i>
-                                            </span>
-                                        <input id="inp-contract-number" class="form-control" type="text"
-                                               data-validation="length" data-validation-length="max50"
-                                               data-validation-error-msg="Quá số kí tự cho phép(50)"
-                                        />
+                                        <select id="cmb-goods" class="combobox form-control">
+                                            <option value="-1">Tất cả</option>
+                                            <option  th:each="sopt:${lstGoods}"
+                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.invoice}" for="inp-invoice"></label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                                <i class="fa fa-table fa-fw"></i>
-                                            </span>
-                                        <input id="inp-invoice" class="form-control" type="text"
-                                               data-validation="length" data-validation-length="max50"
-                                               data-validation-error-msg="Quá số kí tự cho phép(50)"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <!--note-->
-                            <!--row 3: note-->
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.note}" for="inp-contract-note"></label>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                                <i class="fa fa-sticky-note fa-fw"></i>
-                                            </span>
-                                        <textarea id="inp-contract-note" class="form-control error" th:rows="2"
-                                                  data-validation="length" data-validation-length="max500"
-                                                  data-validation-error-msg="Quá số kí tự cho phép(500)"
-                                        ></textarea>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!--row 4: file uploa-->
-                            <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.fileupload}" for="inp-contract-note"></label>
+                                    <label>Trạng thái</label>
+
                                 </div>
-                                <div class="col-sm-1">
+                                <div class="col-sm-4">
                                     <div class="input-group">
-                                        <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload"
-                                                id="btn-excel-export" th:value="@{/workspace/stock_management/export/upload}">
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="input-group">
-                                        <div class="input-group">
-                                            <input id="inp-file-export" data-toggle="toggle" type="file"
-                                                   onchange="isValidExcel(this);"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="input-group">
-                                        <a class="link-label" th:text="#{link.downloadtemplate}" th:href="@{/workspace/stock_management/export/getTemplateFile}">
-                                        </a>
+                                        <select id="cmb-status" class="combobox form-control">
+                                            <option value="-1">Tất cả</option>
+                                            <option value="1">Bình thường</option>
+                                            <option value="2">Hỏng</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -157,8 +109,8 @@
                     </form>
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" th:text="#{btn.export}" class="btn btn-default  btn-primary"
-                                    id="btn-export" th:value="@{/workspace/stock_management/export/exportStock}">
+                            <button type="button" th:text="#{btn.search}" class="btn btn-default  btn-primary"
+                                    id="btn-search-stock-info" th:value="@{/workspace/utils/stockInfo/findByCondition}">
                             </button>
                         </div>
                     </div>
@@ -176,28 +128,18 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-add" th:value="@{/workspace/stock_management/export/add}" type="button"
-                                class="btn btn-default" th:title="#{tooltip.addgoods}" >
-                            <i class="fa fa-plus"></i>
-                        </button>
-                        <button id="btn-update" th:value="@{/workspace/stock_management/export/update}" type="button"
-                                class="btn btn-default" th:title="#{tooltip.updategoods}" >
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button id="btn-delete" th:value="@{/workspace/stock_management/export/delete}" type="button"
-                                class="btn btn-default" th:title="#{tooltip.deletegoods}" >
-                            <i class="fa fa-trash"></i>
-                        </button>
-                        <button id="btn-refresh-table" th:href="@{/workspace/stock_management/getFile}" type="button"
+                        <button id="btn-refresh-table" type="button"
                                 class="btn btn-default" th:title="#{tooltip.cleartabble}" >
-                            <i class="fa  fa-refresh"></i>
+                            <i class="fa fa-refresh"></i>
                         </button>
 
-                        <label class="action-info" id="action-info" th:if="${actionInfo != null} " th:text="#{${actionInfo}}" th:style="${successStyle}"></label>
-                        <label class="toolbar-label-info" id="export-action-info"></label>
-                        <label id="del-action-info"></label>
+                        <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/stockInfo/getTotalFile}">
+                            <i class="fa fa-download"></i>
+                        </a>
+
+                        <label class="action-info" id="action-info"></label>
                     </div>
-                    <table  id="tbl-export-goods"
+                    <table  id="tbl-stock-info"
                             data-pagination="true"
                             data-search="true"
                             data-click-to-select="true"
@@ -209,16 +151,14 @@
 
                         <thead>
                         <tr>
-                            <th   data-field="id" data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th   data-checkbox="true"></th>
-                            <th   class="col-md-2" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
-                            <th   class="col-md-3" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
-                            <th   data-field="goodsStateValue" data-align="left" data-sortable="true">Trạng thái</th>
-                            <th   class="col-md-1" data-field="serial" data-align="left" data-sortable="true">Serial</th>
-                            <th   data-field="amountValue" data-align="right" data-sortable="true">Số lượng</th>
-                            <th   data-field="outputPriceValue" data-align="right" data-sortable="true">Giá xuất</th>
-                            <th   data-field="cellCode" data-align="left" data-sortable="true">Vị trí</th>
-                            <th   data-field="columnId" data-align="left" data-sortable="true" >ColumnId</th>
+                            <th data-field="id" data-formatter="runningFormatter" data-align="center">STT</th>
+                            <th data-checkbox="true"></th>
+                            <th class="col-md-2" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
+                            <th class="col-md-3" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
+                            <th data-field="goodsStateName" data-align="left" data-sortable="true">Trạng thái</th>
+                            <th data-field="stockName" data-align="left" data-sortable="true">Kho</th>
+                            <th data-field="amountValue" data-align="right" data-sortable="true">Số lượng</th>
+                            <th data-field="changeDate" data-align="right" data-sortable="true">Thời gian cập nhật</th>
                         </tr>
                         </thead>
                     </table>
@@ -227,10 +167,6 @@
         </div>
     </div>
     <div class="modal-loading"><!-- Place at bottom of page --></div>
-    <!--modal-->
-    <div th:include="modal/confirm_download_modal :: frag-confirm-download-error-modal"></div>
-    <div th:include="modal/import_stock_add_goods_modal :: frag-add-goods-modal"></div>
-    <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -244,7 +180,7 @@
 <script th:attr="src=@{/js/jquery.form-validator.min.js}" th:href="@{/js/jquery.form-validator.min.js}"></script>
 <script>
     //---------------------------------------------------------------------
-    $table = $('#tbl-export-goods');
+    $table = $('#tbl-stock-info');
     var dataInit = [
     ];
 
@@ -253,351 +189,38 @@
         $table.bootstrapTable({
             data: dataInit
         });
-        $table.bootstrapTable('hideColumn', 'columnId');
-        $table.bootstrapTable('hideColumn', 'goodsId');
-        $table.bootstrapTable('hideColumn', 'isSerial');
-        //
-        selectedIndex = -1;
-        $table.bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
-            selectedIndex = $element.attr('data-index');
-        });
         //
         $('.combobox').combobox();
         //
-        disableButton($('#btn-export'));
-        //
-        $.validate({
-            decimalSeparator : '.',
-            modules : 'file'
-        });
-        //
-        $("#myModal").on('shown.bs.modal', function () {
-            $('#modal-cmb-goodsundefined').focus();
-            $('#modal-cmb-goodsundefined').attr("autocomplete","off");
-        });
     });
-    //@Upload---------------------------------------------------------------------
-    var btnUploadExcel = $('#btn-excel-export');
-    $(function () {
-        btnUploadExcel.click(function () {
-            //
-            $("#export-action-info").text('');
-            //
-            var data = new FormData();
-            jQuery.each(jQuery('#inp-file-export')[0].files, function(i, file) {
-                data.append('file-'+i, file);
-            });
-
-            var fileName = $('#inp-file-export').val();
-            if(fileName == ''){
-                alert('Chưa có file dữ liệu');
-                return;
-            }
-            //
-            $body.addClass("loading");
-            //
-            $.ajax({
-                url: btnUploadExcel.val(),
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                type: 'POST',
-                success: function(data){
-                    if(data == ''){
-                        $('#myDownloadErrorModal').modal('show');
-                        return;
-                    }
-                    $table.bootstrapTable('load', data);
-                    //
-                    enableButton($('#btn-export'));
-                },
-                error: function(data){
-                    alert(data);
-                },
-                complete: function(){
-                    $body.removeClass("loading");
-                }
-            });
-        });
-
-    });
-    //@export---------------------------------------------------------------------
-    var btnexport = $('#btn-export');
-    btnexport.click(function () {
-        var contractNumber = $('#inp-contract-number').val();
-        if(isContainXMLCharacter(contractNumber)){
-            alert("Mã hợp đồng chứa kí tự đặc biệt!");
-            return;
-        }
-        //validate
-        var export_goods = $table.bootstrapTable('getData');
-        if(export_goods.length == 0){
-            alert('Chưa có thông tin hàng xuất!');
-            return;
-        }
-        var stockIdValue = $('#cmb-stock').val();
-        if(stockIdValue == null){
-            alert('Chưa có thông tin kho xuất!');
-            $('#cmb-stockundefined').focus();
-            return;
-        }
-        //
-        $("#lbl-del-info").text('Xuất hàng?');
-        //
-        showModal($('#myConfirmModal'));
+    //@Search-----------------------------------------------------------------
+    var $btnSearch = $('#btn-search-stock-info');
+    $btnSearch.click(function () {
+        search();
     });
 
-    var btnExportConfirm = $('#modal-btn-del-ok');
-    $body = $("body");
-    btnExportConfirm.click(function () {
-        //
-        hideModal($('#myConfirmModal'));
-        $body.addClass("loading");
-        var stockIdValue = $('#cmb-stock').val();
-        var contractNumberValue = $('#inp-contract-number').val();
-        var invoiceValue = $('#inp-invoice').val();
-        var descriptionValue = $('#inp-contract-note').val();
-        var stock_trans_info = {contractNumber:contractNumberValue,invoiceNumber:invoiceValue,stockId:stockIdValue,description:descriptionValue};
-        //
-        var exportData = JSON.stringify({lstGoods:$table.bootstrapTable('getData'),mjrStockTransDTO:stock_trans_info});
-        //
-        var $lblInfo = $("#export-action-info");
-        //
+    function search(){
+        //search info stock_id/goods_group/goods/serial
+        var stock_id = $('#cmb-stock').val();
+        var goods_id = $('#cmb-goods').val();
+        var statusVal =  $('#cmb-status').val();
+
         $.ajax({
-            url: btnexport.val(),
-            data:exportData,
-            cache: false,
-            contentType: "application/json",
+            type: "GET",
+            cache:false,
+            data:{stockId:stock_id,goodsId:goods_id,status:statusVal},
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $btnSearch.val(),
             dataType: 'json',
-            type: 'POST',
-            success: function(data){
-                //
-                var resultMessage  = data['statusCode'];
-                var key   = data['key'];
-                //
-                if(resultMessage == "FAIL"){
-                    var statusName   = data['statusName'];
-                    var key   = data['key'];
-                    //show modal upload file
-                    $lblInfo.text("Xuất hàng thất bại: "+ converExportMessage(statusName) + key);
-                    $lblInfo.css('color','#F44336');
-                }else{
-                    var totalSuccess = data['success'];
-                    $lblInfo.text("Xuất "+ totalSuccess+" hàng thành công");
-                    $lblInfo.css('color','#337ab7');
-                    disableButton($('#btn-export'));
-                    $table.bootstrapTable('removeAll');
+            timeout: 600000,
+            success: function (data) {
+                $table.bootstrapTable('load', data);
+                if(isTableEmpty($table)){
+                    setInfoMessage($('#action-info'),"Không tìm thấy dữ liệu");
                 }
             },
-            error: function(data){
-                $lblInfo.text(data);
-                $lblInfo.css('color','#F44336');
-            },
-            complete: function(){
-                $body.removeClass("loading");
-            }
         });
-    });
-    //@Del action---------------------------------------------------------------------------------------------------
-    var $btnDel = $('#btn-delete');
-    $btnDel.click(function () {
-        //check before show
-        var selectedItemArr = $table.bootstrapTable('getSelections');
-        var selectedItem    = selectedItemArr[0];
-        if(selectedItem == null){
-            alert('Chọn 1 bản ghi!');
-            return;
-        }
-        //
-        clearActionInfo();
-        var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
-            return row.columnId;
-        });
-        $table.bootstrapTable('remove', {
-            field: 'columnId',
-            values: ids
-        });
-
-    });
-    //@Add action---------------------------------------------------------------------------------------------------
-    var $btnAdd = $('#btn-add');
-    $(function () {
-        $btnAdd.click(function () {
-            changeModelByType(true,null);
-            //
-            var isSerial;
-            //
-            $.ajax({
-                url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
-                cache: false,
-                contentType: false,
-                processData: false,
-                async:false,
-                type: 'GET',
-                success: function(data){
-                    isSerial = data;
-                },
-            });
-            //
-            if(isSerial == '1'){
-                $('#modal-inp-amount').val('1');
-            }
-            //
-            $('#modal-lbl-price').text("Giá bán");
-            //
-            showModal($('#myModal'));
-        });
-    });
-    var $btnAddModal = $('#modal-btn-add');
-    $(function () {
-        $btnAddModal.click(function () {
-            //
-            if(isAllFieldValid($("#form-add-goods")) == false){
-                alert('Nội dung nhập chứa thông tin lỗi');
-                return;
-            }
-            //valid require serial
-            var isSerial;
-            //
-            $.ajax({
-                url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
-                cache: false,
-                contentType: false,
-                processData: false,
-                async:false,
-                type: 'GET',
-                success: function(data){
-                    isSerial = data;
-                },
-            });
-            if(isSerial == '1'){
-                if(($('#modal-inp-amount').val() != "1")){
-                    alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng xuất phải là 1.");
-                    return;
-                }
-            }
-            //pre-process data
-            preprocessInput($("#form-add-goods"));
-            //get data
-            var goodsCode = $('#modal-cmb-goods').val();
-            var goodsName = $("#modal-cmb-goods option:selected").text();
-            var amount = $('#modal-inp-amount').val();
-            if(amount.trim() == ""){
-                return;
-            }
-            var goodsStateValue = "Hỏng";
-            var goodsState = "0";
-            if($('#cmb-goods-state').prop('checked')){
-                goodsStateValue = "Bình thường";
-                goodsState = "1";
-            }
-            var outputPriceValue = $('#modal-inp-input-price').val();
-            if(outputPriceValue.trim() == ""){
-                return;
-            }
-            var serial = escapeHtml($('#modal-inp-serial').val());
-            var cellCode = escapeHtml($('#modal-inp-cell').val());
-            //add to table
-            var columnId = ~~(Math.random() * 100) * -1,
-                rows = [];
-            rows.push({
-                goodsCode: goodsCode,
-                goodsName: goodsName,
-                goodsState: goodsState,
-                goodsStateValue: goodsStateValue,
-                serial:serial,
-                amountValue: amount,
-                amount: amount,
-                outputPriceValue: outputPriceValue,
-                outputPrice: outputPriceValue,
-                cellCode: cellCode,
-                columnId:columnId
-            });
-            //
-            $table.bootstrapTable('append', rows);
-            enableButton($('#btn-export'));
-            //
-        });
-    });
-
-    //@Update action---------------------------------------------------------------------------------------------------
-    var $btnUpdate = $('#btn-update');
-    $(function () {
-        $btnUpdate.click(function () {
-            //check before show
-            selectedItemArr = $table.bootstrapTable('getSelections');
-            selectedItem    = selectedItemArr[0];
-            if(selectedItem == null){
-                alert('Chọn 1 bản ghi!');
-                return;
-            }
-
-            if(selectedIndex == -1){
-                alert('Chọn 1 bản ghi!');
-                return;
-            }
-
-            changeModelByType(false,selectedItem);
-            showModal($('#myModal'))
-        });
-    });
-
-    var $btnUpdateModal = $('#modal-btn-update');
-        $btnUpdateModal.click(function () {
-            //
-            //valid require serial
-            var isSerial;
-            //
-            $.ajax({
-                url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
-                cache: false,
-                contentType: false,
-                processData: false,
-                async:false,
-                type: 'GET',
-                success: function(data){
-                    isSerial = data;
-                },
-            });
-            if(isSerial == '1'){
-                if(($('#modal-inp-amount').val() != "1")){
-                    alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng xuất phải là 1.");
-                    return;
-                }
-            }
-            //get data
-            var goodsCode = $('#modal-cmb-goods').val();
-            var goodsName = $("#modal-cmb-goods option:selected").text();
-            var amount = $('#modal-inp-amount').val();
-            var goodsStateValue = "Hỏng";
-            var goodsState = "0";
-            if($('#cmb-goods-state').prop('checked')){
-                goodsStateValue = "Bình thường";
-                goodsState = "1";
-            }
-            var inputPriceValue = $('#modal-inp-input-price').val();
-            var serial = $('#modal-inp-serial').val();
-            var cellCode = $('#modal-inp-cell').val();
-
-            selectedItemArr = $table.bootstrapTable('getSelections');
-            selectedItem    = selectedItemArr[0];
-
-            $table.bootstrapTable('updateRow', {index:selectedIndex,row:{
-                goodsCode: goodsCode,
-                goodsName: goodsName,
-                goodsState: goodsState,
-                goodsStateValue: goodsStateValue,
-                serial:serial,
-                amountValue: amount,
-                amount: amount,
-                inputPriceValue: inputPriceValue,
-                inputPrice: inputPriceValue,
-                cellCode: cellCode
-            }});
-            //
-            hideModal($('#myModal'));
-        });
+    }
     //@Refresh table----------------------------------------------------------
     $('#btn-refresh-table').click(function () {
         $table.bootstrapTable('removeAll');
@@ -605,31 +228,6 @@
         //
     });
     //-------------------------------------------------------------------------
-    function changeModelByType(isAdd,selectedItems) {
-        if(isAdd){
-            //clear content
-            clearContent();
-            //
-            showAdd();
-        }else{
-            clearContent();
-            $('#modal-cmb-goodsundefined').val(selectedItems['goodsName']);
-            $('#modal-cmb-goods').val(selectedItems['goodsCode']);
-            $('#modal-inp-amount').val(unFormatFloat(selectedItems['amountValue']));
-            if(selectedItem["goodsState"] =="1"){
-                $('#cmb-goods-state').bootstrapToggle('on');
-            }else{
-                $('#cmb-goods-state').bootstrapToggle('off');
-            }
-            $('#modal-inp-input-price').val(unFormatFloat(selectedItems['outputPriceValue']));
-            $('#modal-inp-serial').val(selectedItems['serial']);
-            $('#modal-inp-cell').val(selectedItems['cellCode']);
-            //
-            showUpdate();
-            //
-        }
-    }
-
     function clearContent() {
         $('#cmb-goods-state').bootstrapToggle('on');
         $('#modal-inp-input-price').val('');

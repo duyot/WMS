@@ -56,12 +56,10 @@ public class CatGoodsGroupController {
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public  @ResponseBody List<CatGoodsGroupDTO> findByCondition(@RequestParam("customerId")String custId, @RequestParam("status")String status){
+    public  @ResponseBody List<CatGoodsGroupDTO> findByCondition(@RequestParam("status")String status){
         List<Condition> lstCon = Lists.newArrayList();
 
-        if(!DataUtil.isStringNullOrEmpty(custId) && !custId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("custId", Constants.SQL_OPERATOR.EQUAL,custId));
-        }
+        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
 
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));

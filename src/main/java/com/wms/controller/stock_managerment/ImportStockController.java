@@ -66,10 +66,7 @@ public class ImportStockController {
         }
         this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         //
-        List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        return catStockService.findByCondition(lstCondition,tokenInfo);
+        return FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
     }
 
     @ModelAttribute("lstGoods")
@@ -80,10 +77,7 @@ public class ImportStockController {
         if(tokenInfo == null){
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
-        List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstGoods = catGoodsService.findByCondition(lstCondition,tokenInfo);
+        lstGoods = FunctionUtils.getListGoods(catGoodsService,selectedCustomer,tokenInfo);
         buildMapGoods();
         return lstGoods;
     }

@@ -12,8 +12,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class RoleDP extends BaseDP<RoleDTO>{
-    Logger log = LoggerFactory.getLogger(RoleDP.class);
-
     public RoleDP() {
         super(RoleDTO[].class,RoleDTO.class, Constants.SERVICE_PREFIX.ROLE_SERVICE);
     }

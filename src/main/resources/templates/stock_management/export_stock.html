@@ -380,19 +380,16 @@
                     var statusName   = data['statusName'];
                     var key   = data['key'];
                     //show modal upload file
-                    $lblInfo.text("Xuất hàng thất bại: "+ converExportMessage(statusName) + key);
-                    $lblInfo.css('color','#F44336');
+                    setInfoMessage($lblInfo,"Xuất hàng thất bại: "+ converExportMessage(statusName) + key);
                 }else{
                     var totalSuccess = data['success'];
-                    $lblInfo.text("Xuất "+ totalSuccess+" hàng thành công");
-                    $lblInfo.css('color','#337ab7');
+                    setInfoMessage($lblInfo,"Xuất "+ totalSuccess+" hàng thành công");
                     disableButton($('#btn-export'));
                     $table.bootstrapTable('removeAll');
                 }
             },
             error: function(data){
-                $lblInfo.text(data);
-                $lblInfo.css('color','#F44336');
+                setErrorMessage($lblInfo,data)
             },
             complete: function(){
                 $body.removeClass("loading");
