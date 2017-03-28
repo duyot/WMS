@@ -10,6 +10,7 @@ public class CatGoodsGroupDTO {
     private String status;
     private String custId;
     private String custName;
+    private String statusName;
 
     public CatGoodsGroupDTO(String id, String name, String status, String custId) {
         this.id = id;
@@ -69,5 +70,13 @@ public class CatGoodsGroupDTO {
                 ", status='" + status + '\'' +
                 ", custId='" + custId + '\'' +
                 '}';
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }

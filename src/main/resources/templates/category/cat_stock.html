@@ -122,7 +122,7 @@
                             <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.stockCode}"></th>
                             <th  class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.stockName}"></th>
                             <th  class="col-md-4" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
-                            <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
+                            <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
                         </tr>
                         </thead>
                     </table>
@@ -271,6 +271,9 @@
             clearActionInfo();
             changeModelByType(1,null,$btn_add.val());
             $('#myModal').modal('show');
+            $("#myModal").on('shown.bs.modal', function () {
+                $('#modal-inp-code').focus();
+            });
         });
     });
     //@Update action------------------------------------------------------------------------------------------------
@@ -287,6 +290,9 @@
             }
             changeModelByType(2,selectedItem,$btn_update.val());
             $('#myModal').modal('show');
+            $("#myModal").on('shown.bs.modal', function () {
+                $('#modal-inp-code').focus();
+            });
         });
     });
 
@@ -294,7 +300,9 @@
         $("#cat-insert-update-form").attr("th:object",actionVal);
         if(type == 1){//add
             $("#cat-insert-update-form").attr("action",actionVal);
+            $("#modal-inp-code").val('');
             $("#modal-inp-name").val('');
+            $("#modal-inp-address").val('');
             //set default active-disable combo status
             $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
@@ -308,7 +316,7 @@
             $("#modal-inp-address").val(decodeHtml(selectedItem["address"]));
             $("#modal-inp-id").val(selectedItem["id"]);
             var currentStatus = selectedItem["status"];
-            if(currentStatus == 'Hết hiệu lực'){
+            if(currentStatus == '0'){
                 $('#modal-cmb-status').bootstrapToggle('off');
             }else{
                 $('#modal-cmb-status').bootstrapToggle('on');

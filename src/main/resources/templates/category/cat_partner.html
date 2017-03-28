@@ -272,6 +272,9 @@
             clearActionInfo();
             changeModelByType(1,null,$btn_add.val());
             $('#myModal').modal('show');
+            $("#myModal").on('shown.bs.modal', function () {
+                $('#modal-inp-code').focus();
+            });
         });
     });
     //@Update action------------------------------------------------------------------------------------------------
@@ -288,7 +291,10 @@
             }
             changeModelByType(2,selectedItem,$btn_update.val());
             $('#myModal').modal('show');
-            $('#modal-inp-code').focus();
+            $("#myModal").on('shown.bs.modal', function () {
+                $('#modal-inp-code').focus();
+            });
+
         });
     });
 
