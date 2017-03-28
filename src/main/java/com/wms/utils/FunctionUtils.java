@@ -36,7 +36,6 @@ import java.util.*;
 public class FunctionUtils {
     public static Logger log = LoggerFactory.getLogger(FunctionUtils.class);
 
-
     /*
 
      */
@@ -63,7 +62,6 @@ public class FunctionUtils {
      */
     public static String exportExcelError(List<MjrStockTransDetailDTO> lstError,String prefixFileName){
         String templatePath = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.IMPORT_ERROR_TEMPLATE;
-
         log.info("Number of Errors: "+ lstError.size());
 
         File file = new File(templatePath);
@@ -185,10 +183,11 @@ public class FunctionUtils {
             return "";
         }
         cell.setCellType(CellType.STRING);
-        return cell.getStringCellValue();
+        return cell.getStringCellValue().trim();
     }
 
-    public static ImportFileResultDTO getListStockImportFromFile(MultipartFile mpf, HashSet<String> setGoodsCode, Map<String,CatGoodsDTO> mapGoods){
+    public static ImportFileResultDTO getListStockImportFromFile(MultipartFile mpf, HashSet<String> setGoodsCode,
+                                                                 Map<String,CatGoodsDTO> mapGoods,boolean isImportTransaction){
         ImportFileResultDTO importResult = new ImportFileResultDTO();
         List<MjrStockTransDetailDTO> lstGoods = Lists.newArrayList();
         boolean isValid = true;
@@ -210,14 +209,15 @@ public class FunctionUtils {
             int count = 0;
             StringBuilder errorInfo;
             CatGoodsDTO goodsDTO;
+            boolean isSerial;
             while(rowIterator.hasNext()) {
+                isSerial = false;
                 count ++;
                 MjrStockTransDetailDTO goodsItem = new MjrStockTransDetailDTO();
                 goodsItem.setColumnId(count+"");
                 errorInfo = new StringBuilder();
                 //
                 Row row = rowIterator.next();
-                //
                 //goods serial
                 Cell cellSerial = row.getCell(4);
                 String serial = getCellValue(cellSerial);
@@ -236,7 +236,8 @@ public class FunctionUtils {
                     }else{
                         //check serial info
                         goodsDTO = mapGoods.get(goodsCode);
-                        if("1".equalsIgnoreCase(goodsDTO.getIsSerial()) && DataUtil.isStringNullOrEmpty(serial)){
+                        isSerial = goodsDTO.isSerial();
+                        if(isSerial && DataUtil.isStringNullOrEmpty(serial)){
                             errorInfo.append("\n Hàng serial cần nhập thông tin serial");
                             isValid = false;
                         }
@@ -267,29 +268,41 @@ public class FunctionUtils {
                     errorInfo.append("\n Chưa có số lượng hàng");
                     isValid = false;
                 }else{
-                    if(!StringUtils.isNumeric(amount)){
-                        errorInfo.append("\n Số lượng hàng phải là số");
+                    if(!isNumberFloat(amount)){
+                        errorInfo.append("\n Số lượng hàng phải là số và >0");
                         isValid = false;
                     }else{
                         goodsItem.setAmountValue(formatNumber(amount));
                     }
+                    if(isSerial && !amount.equalsIgnoreCase("1")){
+                        errorInfo.append("\n Hàng quản lý serial số lượng nhập phải là 1");
+                        isValid = false;
+                    }
                 }
                 goodsItem.setAmount(amount);
                 //PRICE
-                Cell cellInputPrice = row.getCell(6);
-                String inputPrice = getCellValue(cellInputPrice);
-                if(DataUtil.isStringNullOrEmpty(inputPrice)){
-                    errorInfo.append("\n Chưa có giá nhập");
+                Cell cellPrice = row.getCell(6);
+                String price = getCellValue(cellPrice);
+                if(DataUtil.isStringNullOrEmpty(price)){
+                    errorInfo.append("\n Chưa có giá");
                     isValid = false;
                 }else{
-                    if(!StringUtils.isNumeric(inputPrice)){
-                        errorInfo.append("\n Giá nhập phải là số");
+                    if(!isNumberFloat(price)){
+                        errorInfo.append("\n Giá phải là số và >0");
                         isValid = false;
                     }else{
-                        goodsItem.setInputPriceValue(formatNumber(inputPrice));
+                        if(isImportTransaction){
+                            goodsItem.setInputPriceValue(formatNumber(price));
+                        }else{
+                            goodsItem.setOutputPriceValue(formatNumber(price));
+                        }
                     }
                 }
-                goodsItem.setInputPrice(inputPrice);
+                if(isImportTransaction){
+                    goodsItem.setInputPrice(price);
+                }else{
+                    goodsItem.setOutputPrice(price);
+                }
                 //goods cell
                 Cell cellCells = row.getCell(7);
                 goodsItem.setCellCode(getCellValue(cellCells));
@@ -319,8 +332,16 @@ public class FunctionUtils {
         return String.format("%,.2f", dNumber);
     }
 
+    public static boolean isNumberFloat(String input){
+        try {
+            return Float.valueOf(input) > 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
-//        System.out.println(FunctionUtils.formatNumber("200000"));
+        System.out.println(Float.valueOf("20.5"));
     }
 
 }

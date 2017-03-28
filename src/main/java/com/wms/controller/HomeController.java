@@ -33,9 +33,9 @@ import java.util.Locale;
     @Controller
     @RequestMapping("/")
     public class HomeController {
-        Logger log = LoggerFactory.getLogger(HomeController.class);
+    Logger log = LoggerFactory.getLogger(HomeController.class);
 
-        @Autowired
+    @Autowired
     CatUserService catUserService;
 
     @Autowired

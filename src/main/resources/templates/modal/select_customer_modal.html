@@ -19,7 +19,7 @@
                                     <input id="modal-list-customer-size" hidden="true" name="userId" th:value="${lstCustomers.size()}"/>
                                 </div>
                                 <div class="col-sm-11">
-                                    <div class="input-group" style="width:400px;">
+                                    <div class="input-group" style="width:300px;">
                                         <select id="modal-cmb-customer" class="combobox form-control" name="roleId" th:required="true">
                                             <option th:each="sopt:${mapCustomer.entrySet()}"
                                                     th:value="${sopt.key}" th:text="${sopt.value}">Admin</option>

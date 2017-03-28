@@ -5421,10 +5421,11 @@ button.close {
   position: relative;
   padding: 15px;
   padding-top:5px;
+  padding-bottom: 10px;
 }
 
 .modal-footer {
-  padding: 15px;
+  padding: 10px;
   text-align: right;
   border-top: 1px solid #e5e5e5;
 }
@@ -6292,6 +6293,16 @@ button.close {
   margin-bottom: 0px;
 }
 
+p span{
+  color:#f00;
+}
+
+p{
+  margin:0px;
+  font-weight:500px;
+  line-height:2px;
+  color:#333;
+}
 
 
 /*# sourceMappingURL=bootstrap.css.map */

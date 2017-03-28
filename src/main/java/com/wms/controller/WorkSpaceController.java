@@ -67,26 +67,7 @@ public class WorkSpaceController {
         request.getSession().setAttribute("selectedCustomer",selectedCustomer);
         return selectedCustomer.getName();
 }
-    //redirect with role------------------------------------------------------------------------------------------------
-    @RequestMapping("/sysadmin")
-    public String sysadmin(){
-        return "workspace/wms";
-    }
-    @RequestMapping("/cusadmin")
-    public String cusadmin(){
-        return "workspace/wms";
-    }
-    @RequestMapping("/admin")
-    public String admin(){
-        return "workspace/wms";
-    }
-    @RequestMapping("/user")
-    public String user(){
-        return "workspace/wms";
-    }
-
     //---------------------------------------------------------------------------------------------------------
-    // ---------
     @RequestMapping("/logout")
         public String logout(HttpServletRequest request){
             request.getSession().invalidate();
@@ -139,6 +120,19 @@ public class WorkSpaceController {
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/import_stock")
     public String redirectImportStock(){
-        return "redirect:/workspace/stock_management";
+        return "redirect:/workspace/stock_management/import";
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/export_stock")
+    public String redirectExportStock(){
+        return "redirect:/workspace/stock_management/export";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/stock_info")
+    public String redirectStockInfo(){
+        return "redirect:/workspace/utils/stockInfo";
+    }
+
 }

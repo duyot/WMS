@@ -13,24 +13,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.URLConnection;
 import java.util.*;
 
 /**
  * Created by duyot on 2/15/2017.
  */
 @Controller
-@RequestMapping("/workspace/stock_management/import")
-public class ImportStockController {
-    Logger log = LoggerFactory.getLogger(ImportStockController.class);
+@RequestMapping("/workspace/stock_management/export")
+public class ExportStockController {
+    Logger log = LoggerFactory.getLogger(ExportStockController.class);
     //
     @Autowired
     StockManagementService stockManagementService;
@@ -90,19 +87,20 @@ public class ImportStockController {
 
     @RequestMapping()
     public String home(Model model){
-        model.addAttribute("menuName","menu.importstock");
-        return "stock_management/import_stock";
+        model.addAttribute("menuName","menu.exportstock");
+        return "stock_management/export_stock";
     }
 
     @RequestMapping(value = "/getTemplateFile")
     public void getTemplateFile(HttpServletResponse response){
-        FunctionUtils.loadFileToClient(response,BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.IMPORT_TEMPLATE);
+        String fileResource = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.IMPORT_TEMPLATE;
+        FunctionUtils.loadFileToClient(response,fileResource);
     }
 
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request,HttpServletResponse response){
-        String fileResource = BundleUtils.getkey("temp_url") + request.getSession().getAttribute("file_import_error");
-        FunctionUtils.loadFileToClient(response,fileResource);
+        String fileName = BundleUtils.getkey("temp_url") + request.getSession().getAttribute("file_import_error");
+        FunctionUtils.loadFileToClient(response,fileName);
     }
 
     @RequestMapping(value = "/getErrorImportStockFile/{id}")
@@ -134,7 +132,7 @@ public class ImportStockController {
         Iterator<String> itr =  request.getFileNames();
         MultipartFile mpf = request.getFile(itr.next());
         //
-        ImportFileResultDTO importFileResult = FunctionUtils.getListStockImportFromFile(mpf,setGoodsCode, mapGoodsCodeGoods,true);
+        ImportFileResultDTO importFileResult = FunctionUtils.getListStockImportFromFile(mpf,setGoodsCode, mapGoodsCodeGoods,false);
         if(!importFileResult.isValid()){
             //save error file
             String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
@@ -146,15 +144,15 @@ public class ImportStockController {
         return importFileResult.getLstGoodsImport();
     }
 
-    @RequestMapping(value = "/import", method = RequestMethod.POST)
+    @RequestMapping(value = "/exportStock", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseObject importStock(@RequestBody StockManagementDTO stockManagementDTO) {
+    public ResponseObject exportStock(@RequestBody StockManagementDTO stockManagementDTO) {
         long startTime = System.currentTimeMillis();
         log.info("------------------------------------------------------------");
-        log.info(currentUser.getCode() +" import: " + stockManagementDTO.getLstGoods().size() + " items.");
+        log.info(currentUser.getCode() +" export: " + stockManagementDTO.getLstGoods().size() + " items.");
         String sysdate = catStockService.getSysDate(tokenInfo);
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO,sysdate);
-        ResponseObject response = stockManagementService.importStock(stockTrans,tokenInfo);
+        ResponseObject response = stockManagementService.exportStock(stockTrans,tokenInfo);
         log.info("Result "+ response.getStatusCode() +" in "+ (System.currentTimeMillis() - startTime) + "ms");
         return response;
     }
@@ -198,7 +196,7 @@ public class ImportStockController {
 
     private MjrStockTransDTO initMjrStockTrans(MjrStockTransDTO mjrStockTransDTO,String sysdate){
         mjrStockTransDTO.setCustId(selectedCustomer.getId());
-        mjrStockTransDTO.setType(Constants.IMPORT_TYPE.IMPORT);
+        mjrStockTransDTO.setType(Constants.IMPORT_TYPE.EXPORT);
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
@@ -240,7 +238,7 @@ public class ImportStockController {
 
     private String convertDBMessage(String oraMessage){
         if(oraMessage.contains("WMS_DB.UN_SERIAL")){
-            return "Serial đã được nhập trên hệ thống";
+            return "Serial đã có trên hệ thống";
         }else{
             return "Lỗi: "+ oraMessage;
         }

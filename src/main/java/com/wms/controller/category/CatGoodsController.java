@@ -93,14 +93,12 @@ public class CatGoodsController {
         List<Condition> lstCon = Lists.newArrayList();
 
         if(!DataUtil.isStringNullOrEmpty(custId) && !custId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("custId", Constants.SQL_OPERATOR.EQUAL,custId));
+            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,custId));
         }
-
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
         }
-
-        lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
+        lstCon.add(new Condition("id",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
 
