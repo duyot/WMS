@@ -322,6 +322,8 @@
             alert(selectedItem["unitType"]);
             $("#modal-cmb-goods-unit").val(selectedItem["unitType"]);
             $("#modal-cmb-goods-group").val(selectedItem["goodsGroupId"]);
+            $("#modal-inp-input-price").val(selectedItem["inPrice"]);
+            $("#modal-inp-output-price").val(selectedItem["outPrice"]);
             var currentStatus = selectedItem["status"];
             if(currentStatus == '0'){
                 $('#modal-cmb-status').bootstrapToggle('off');
