@@ -1,6 +1,7 @@
 package com.wms.controller.stock_managerment;
 
 import com.google.common.collect.Lists;
+import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
@@ -11,6 +12,7 @@ import com.wms.utils.FunctionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,59 +28,26 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/workspace/stock_management/export")
-public class ExportStockController {
+@Scope("session")
+public class ExportStockController extends BaseController{
     Logger log = LoggerFactory.getLogger(ExportStockController.class);
     //
     @Autowired
     StockManagementService stockManagementService;
     @Autowired
-    BaseService catStockService;
-    @Autowired
-    BaseService catGoodsService;
-    @Autowired
     BaseService err$MjrStockGoodsSerialService;
     //
-    private CatCustomerDTO selectedCustomer;
-    private AuthTokenInfo tokenInfo;
-    private CatUserDTO currentUser;
-    private List<CatGoodsDTO> lstGoods;
-    private Map<String,CatGoodsDTO> mapGoodsCodeGoods = new HashMap();
-    private Map<String,CatGoodsDTO> mapGoodsIdGoods   = new HashMap();
     private HashSet<String> setGoodsCode = new HashSet<>();
     //
-    @ModelAttribute("selectedCustomer")
-    public void setSelectedCustomer(HttpServletRequest request){
-        this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-    }
-
-    @ModelAttribute("currentUser")
-    public void setCurrentUser(HttpServletRequest request){
-        this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
-    }
-
-    @ModelAttribute("lstStock")
-    public List<CatStockDTO> getListStock(HttpServletRequest request){
-        if(selectedCustomer == null){
-            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+    @ModelAttribute("setGoodsCode")
+    public void setGoodsCode(HttpServletRequest request){
+        if(!DataUtil.isListNullOrEmpty(lstGoods) && setGoodsCode.size() == 0){
+            for(CatGoodsDTO i: lstGoods){
+                setGoodsCode.add(i.getCode());
+            }
         }
-        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        //
-        return FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
     }
-
-    @ModelAttribute("lstGoods")
-    public List<CatGoodsDTO>  getListGoods(HttpServletRequest request){
-        if(selectedCustomer == null){
-            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
-        lstGoods = FunctionUtils.getListGoods(catGoodsService,selectedCustomer,tokenInfo);
-        buildMapGoods();
-        return lstGoods;
-    }
-
+    //
     @RequestMapping()
     public String home(Model model){
         model.addAttribute("menuName","menu.exportstock");
@@ -104,7 +73,7 @@ public class ExportStockController {
         if(!DataUtil.isListNullOrEmpty(lstGoodsError)){
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName ="Error_"+ errorItem.getCustId() + "_"+ errorItem.getStockId() + "_"+ errorItem.getImportStockTransId();
-            String fileName = FunctionUtils.exportExcelError(convertListErrorToTransDetail(lstGoodsError),prefixFileName);
+            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName);
             FunctionUtils.loadFileToClient(response,BundleUtils.getkey("temp_url")+ fileName);
         }
     }
@@ -198,43 +167,4 @@ public class ExportStockController {
         return mjrStockTransDTO;
     }
 
-    private void buildMapGoods(){
-        if(!DataUtil.isListNullOrEmpty(lstGoods)){
-            for(CatGoodsDTO i: lstGoods){
-                mapGoodsCodeGoods.put(i.getCode(),i);
-                mapGoodsIdGoods.put(i.getId(),i);
-                setGoodsCode.add(i.getCode());
-            }
-        }
-    }
-
-    private List<MjrStockTransDetailDTO> convertListErrorToTransDetail(List<Err$MjrStockGoodsSerialDTO> lstGoodsError){
-        List<MjrStockTransDetailDTO> lstDetail = Lists.newArrayList();
-        CatGoodsDTO goods;
-        for(Err$MjrStockGoodsSerialDTO i: lstGoodsError){
-            MjrStockTransDetailDTO detail = new MjrStockTransDetailDTO();
-            goods = mapGoodsIdGoods.get(i.getGoodsId());
-            if(goods != null){
-                detail.setGoodsCode(goods.getCode());
-                detail.setGoodsName(goods.getName());
-            }
-            detail.setGoodsState(i.getGoodsState());
-            detail.setSerial(i.getSerial());
-            detail.setAmount(i.getAmount());
-            detail.setInputPrice(i.getInputPrice());
-            detail.setCellCode(i.getCellCode());
-            detail.setErrorInfo(convertDBMessage(i.getOraErrorMessage()));
-            //
-            lstDetail.add(detail);
-        }
-        return lstDetail;
-    }
-
-    private String convertDBMessage(String oraMessage){
-        if(oraMessage.contains("WMS_DB.UN_SERIAL")){
-            return "Serial đã có trên hệ thống";
-        }else{
-            return "Lỗi: "+ oraMessage;
-        }
-    }
 }

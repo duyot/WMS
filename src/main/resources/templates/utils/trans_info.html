@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" th:href="@{/css/bootstrap-combobox.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
+    <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
@@ -23,9 +24,10 @@
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
     <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
+    <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
+    <script th:attr="src=@{/js/daterangepicker.js}" th:href="@{/js/daterangepicker.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
-    <!--<script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>-->
     <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
     <!--font and favi icon-->
@@ -45,7 +47,6 @@
             <div id="panel-search-content" class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-search"></i>
-                    <!--Search info-->
                 </div>
                 <div class="panel-body">
                     <form>
@@ -55,13 +56,13 @@
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.usage}"></label>
                                 </div>
-
                                 <div class="col-sm-4">
                                     <div class="input-group">
                                         <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                         <button id="btn-get-goods-detail" style="display: none" th:value="@{/workspace/utils/stockInfo/getGoodsDetail}"></button>
                                     </div>
                                 </div>
+
                                 <div class="col-sm-2">
                                     <label for="cmb-stock" th:text="#{lbl.stock}"></label>
                                 </div>
@@ -75,47 +76,70 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--row 2: goods group - goods -->
+                            <!--row 2:created_date + user -->
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.goods}" for="cmb-goods"></label>
+                                    <label th:text="#{lbl.createdate}" for="create-date-range"></label>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <select id="cmb-goods" class="combobox form-control">
-                                            <option value="-1">Tất cả</option>
-                                            <option  th:each="sopt:${lstGoods}"
-                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
-                                        </select>
+										<span class="input-group-addon">
+											<i class="fa fa-calendar fa-fw"></i>
+										</span>
+                                        <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2">
-                                    <label>Trạng thái</label>
-
+                                    <label th:text="#{lbl.createuser}" for="cmb-user"></label>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <select id="cmb-status" class="combobox form-control">
+                                        <select id="cmb-user" class="combobox form-control">
                                             <option value="-1">Tất cả</option>
-                                            <option value="1">Bình thường</option>
-                                            <option value="2">Hỏng</option>
+                                            <option  th:each="sopt:${lstUsers}"
+                                                     th:value="${sopt.id}" th:text="${sopt.code}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row 3 :trans_code + trans_type -->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.transcode}" for="inp-trans-code"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-code"></i>
+										</span>
+                                        <input type="text" id="inp-trans-code" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.transtype}" for="cmb-trans-type"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <select id="cmb-trans-type" class="combobox form-control">
+                                            <option value="-1">Tất cả</option>
+                                            <option  th:each="sopt:${lstAppTransType}"
+                                                     th:value="${sopt.code}" th:text="${sopt.name}">1</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
-                    <div class="wrapper text-center" style="text-align: center;">
+                    <div class="wrapper text-center" style="text-align: center; margin:3px">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" th:text="#{btn.search}" class="btn btn-default  btn-primary"
-                                    id="btn-search-stock-info" th:value="@{/workspace/utils/stockInfo/findByCondition}">
+                                    id="btn-search-serial" th:value="@{/workspace/utils/trans_info/findTrans}">
                             </button>
                         </div>
                     </div>
-
                     <p></p>
-
                 </div>
             </div>
             <!--end search panel-->
@@ -132,7 +156,7 @@
                             <i class="fa fa-refresh"></i>
                         </button>
 
-                        <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/stockInfo/getTotalFile}">
+                        <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/searchSerial/getSerialFile}">
                             <i class="fa fa-download"></i>
                         </a>
 
@@ -151,16 +175,14 @@
                         <thead>
                         <tr>
                             <th data-field="id" data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th class="col-md-2" data-field="goodsCode" data-align="left" data-sortable="true">Mã</th>
-                            <th class="col-md-2" data-field="goodsName" data-align="left" data-sortable="true">Tên</th>
-                            <th data-field="goodsStateName" data-align="left" data-sortable="true">TT</th>
-                            <th data-field="stockName" data-align="left" data-sortable="true">Kho</th>
-                            <th data-field="amountValue" data-align="right" data-sortable="true">SL</th>
-                            <th data-field="changeDate" data-align="right" data-sortable="true">TG cập nhật</th>
-                            <th data-field="stockId" data-align="right" data-sortable="true"></th>
-                            <th data-field="goodsState" data-align="right" data-sortable="true"></th>
-                            <th data-field="goodsId" data-align="right" data-sortable="true"></th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter"></th>
+                            <th class="col-md-1" data-field="id" data-align="left" data-sortable="true">Mã</th>
+                            <th class="col-md-2" data-field="code" data-align="left" data-sortable="true">Code</th>
+                            <th data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
+                            <th data-field="typeValue" data-align="left" data-sortable="true">Loại GD</th>
+                            <th data-field="createdUser" data-align="right" data-sortable="true">Ngày tạo</th>
+                            <th data-field="importDate" data-align="right" data-sortable="true">Người tạo</th>
+                            <th data-field="contractNumber" data-align="right" data-sortable="true">Số HD</th>
+                            <th data-field="invoiceNumber" data-align="right" data-sortable="true">Số invoice</th>
                         </tr>
                         </thead>
                     </table>
@@ -169,7 +191,6 @@
         </div>
     </div>
     <div class="modal-loading"><!-- Place at bottom of page --></div>
-    <div th:include="modal/goods_details_modal :: frag-goods-detail-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -184,7 +205,6 @@
 <script>
     //---------------------------------------------------------------------
     $table = $('#tbl-stock-info');
-    $tableGoodsDetail = $('#tbl-goods-detail');
     var dataInit = [
     ];
 
@@ -194,62 +214,12 @@
             data: dataInit
         });
         //
-        $tableGoodsDetail.bootstrapTable({
-            data: dataInit,
-            pageList:[5,10, 25, 50],
-            pageSize:5
-        });
-        $table.bootstrapTable('hideColumn', 'stockId');
-        $table.bootstrapTable('hideColumn', 'goodsState');
-        $table.bootstrapTable('hideColumn', 'goodsId');
-        //
         $('.combobox').combobox();
         //
+        initDateRangeSelect();
     });
-    //
-    function operateFormatter(value, row, index) {
-        return [
-            '<a class="view-goods-detail" href="javascript:void(0)" title="Chi tiết">',
-            '<i class="fa fa-info-circle"></i>',
-            '</a>  '
-        ].join('');
-    }
-    //
-    $body = $("body");
-    window.operateEvents = {
-        'click .view-goods-detail': function (e, value, row, index) {
-            //get goods detail info
-            $body.addClass("loading");
-            $.ajax({
-                type: "GET",
-                cache:false,
-                data:{stockId:row['stockId'],goodsId:row['goodsId'],goodsState:row['goodsState']},
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                url: $('#btn-get-goods-detail').val(),
-                dataType: 'json',
-                timeout: 600000,
-                async:false,
-                success: function (data) {
-                    $tableGoodsDetail.bootstrapTable('load', data);
-                    var $downloadLink = $('#link-download-goods-detail');
-                    var originalLink = $downloadLink.attr("href");
-                    if(originalLink.includes("?")){
-                        originalLink = trimAtChacter(originalLink,"?");
-                    }
-                    $downloadLink.attr("href",originalLink +"?stockId="+row['stockId']);
-                    showModal($('#goods-detail-modal'));
-                },
-                complete: function(){
-                    $body.removeClass("loading");
-                }
-            });
-            //
-
-        }
-    };
-
     //@Search-----------------------------------------------------------------
-    var $btnSearch = $('#btn-search-stock-info');
+    var $btnSearch = $('#btn-search-serial');
     $btnSearch.click(function () {
         search();
     });
@@ -257,14 +227,28 @@
     function search(){
         $("#action-info").text('');
         //search info stock_id/goods_group/goods/serial
-        var stock_id = $('#cmb-stock').val();
-        var goods_id = $('#cmb-goods').val();
-        var statusVal =  $('#cmb-status').val();
+        var stockIdVal  = $('#cmb-stock').val();
+        var goodsIdVal  = $('#cmb-goods').val();
+        var serialVal =  $('#inp-serial').val().trim();
+        if(serialVal == ""){
+            alert("Nhập thông tin serial!");
+            return;
+        }
+        if(serialVal.includes(";")){
+            serialVal = serialVal.replace(";",",");
+        }
+
+        var arrSearchSerial = serialVal.split(",");
+        var arrLength = arrSearchSerial.length;
+        if(arrLength>900){
+            alert("Vui lòng nhập số lượng serial nhỏ hơn 900 để tìm kiếm. Số lượng hiện tại: "+ arrLength);
+            return;
+        }
 
         $.ajax({
             type: "GET",
             cache:false,
-            data:{stockId:stock_id,goodsId:goods_id,status:statusVal},
+            data:{stockId:stockIdVal,goodsId:goodsIdVal,serial:serialVal},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             url: $btnSearch.val(),
             dataType: 'json',

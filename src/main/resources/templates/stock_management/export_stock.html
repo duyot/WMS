@@ -380,7 +380,7 @@
                     var statusName   = data['statusName'];
                     var key   = data['key'];
                     //show modal upload file
-                    setInfoMessage($lblInfo,"Xuất hàng thất bại: "+ converExportMessage(statusName) + key);
+                    setErrorMessage($lblInfo,"Xuất hàng thất bại: "+ converExportMessage(statusName) + key);
                 }else{
                     var totalSuccess = data['success'];
                     setInfoMessage($lblInfo,"Xuất "+ totalSuccess+" hàng thành công");

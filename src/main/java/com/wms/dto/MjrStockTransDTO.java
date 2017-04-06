@@ -24,6 +24,9 @@ public class MjrStockTransDTO {
     private String transMoneyReceive;
     private String transMoneyResponse;
     private String description;
+    //
+    private String stockValue;
+    private String typeValue;
 
     public MjrStockTransDTO() {
     }
@@ -182,5 +185,21 @@ public class MjrStockTransDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getStockValue() {
+        return stockValue;
+    }
+
+    public void setStockValue(String stockValue) {
+        this.stockValue = stockValue;
+    }
+
+    public String getTypeValue() {
+        return typeValue;
+    }
+
+    public void setTypeValue(String typeValue) {
+        this.typeValue = typeValue;
     }
 }

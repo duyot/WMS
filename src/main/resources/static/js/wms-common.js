@@ -1,25 +1,29 @@
 /**
  * Created by duyot on 11/16/2016.
  */
+function trimAtChacter(value,character){
+    return value.substring(0,value.indexOf(character));
+}
+
 function converExportMessage(mesageCode){
     switch (mesageCode){
         case "ERROR_TOTAL_NOT_ENOUGH":
-            return  "Không đủ số lượng hàng trong kho!";
+            return  "Không đủ số lượng hàng trong kho! ";
             break;
         case "ERROR_UPDATE_TOTAL":
-            return "Lỗi cập nhật số lượng hàng";
+            return "Lỗi cập nhật số lượng hàng ";
         case "ERROR_NOT_FOUND_STOCK_GOODS":
-            return "Hàng không có sẵn trong kho";
+            return "Hàng không có sẵn trong kho ";
         case "ERROR_NOT_FOUND_SERIAL":
             return "Serial không có sẵn trong kho: ";
         case "ERROR_CREATE_STOCK_TRANS_DETAIL":
-            return "Lối tạo chi tiết giao dịch";
+            return "Lối tạo chi tiết giao dịch ";
         case "ERROR_OVER_GOODS_NUMBER":
-            return "Số hàng nhập lên vượt quá 1000. Vui lòng nhập số lượng nhỏ hơn";
+            return "Số hàng nhập lên vượt quá 1000. Vui lòng nhập số lượng nhỏ hơn ";
         case "ERROR_SYSTEM":
-            return "Lỗi hệ thống: liên hệ admin để được hỗ trợ";
+            return "Lỗi hệ thống: liên hệ admin để được hỗ trợ ";
         default:
-            return "Lỗi hệ thống: liên hệ admin để được hỗ trợ";
+            return "Lỗi hệ thống: liên hệ admin để được hỗ trợ ";
     }
 
 }
@@ -43,7 +47,7 @@ function setInfoMessage(object,value) {
 
 function setErrorMessage(object,value) {
     object.text(value);
-    $lblInfo.css('color','#F44336');
+    object.css('color','#F44336');
 }
 
 function isTableEmpty(object) {

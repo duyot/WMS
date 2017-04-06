@@ -91,7 +91,7 @@ public class BaseDP<T> {
         } catch (RestClientException e) {
             log.info(e.toString());
             e.printStackTrace();
-            return  new ResponseObject(Responses.ERROR.getCode(),Responses.ERROR.getName(),"");
+            return  new ResponseObject(Responses.ERROR.getName(),Responses.ERROR.getName(),"");
         }
     }
 
@@ -101,7 +101,7 @@ public class BaseDP<T> {
         } catch (RestClientException e) {
             e.printStackTrace();
             log.info(e.toString());
-            return  new ResponseObject(Responses.ERROR.getCode(),Responses.ERROR.getName(),"");
+            return  new ResponseObject(Responses.ERROR.getName(),Responses.ERROR.getName(),"");
         }
     }
 
@@ -113,7 +113,7 @@ public class BaseDP<T> {
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.toString());
-            return  new ResponseObject(Responses.ERROR.getCode(),Responses.ERROR.getName(),"");
+            return  new ResponseObject(Responses.ERROR.getName(),Responses.ERROR.getName(),"");
         }
     }
 

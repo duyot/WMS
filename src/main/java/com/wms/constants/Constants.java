@@ -10,16 +10,22 @@ public class Constants {
     public static final String STATS_NONE = "";
     public static final String SUCCES_COLOR = "color:#337ab7;";
 
+    public static class APP_PARAMS{
+        public static String TRANS_TYPE = "TRANS_TYPE";
+    }
+
     public static class FILE_RESOURCE{
         public static String IMPORT_TEMPLATE = "Bieu_mau_nhap_hang.xlsx";
         public static String EXPORT_TEMPLATE = "template_import.xlsx";
         public static String IMPORT_ERROR_TEMPLATE = "template_import_error.xlsx";
         public static String GOODS_TOTAL_TEMPLATE = "Thong_tin_hang_trong_kho.xlsx";
+        public static String GOODS_DETAILS_TEMPLATE = "Thong_tin_chi_tiet_hang_trong_kho.xlsx";
+        public static String GOODS_DETAILS_SERIAL_TEMPLATE = "Thong_tin_chi_tiet_hang_trong_kho_serial.xlsx";
+        public static String GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE = "Thong_tin_tim_kiem_serial.xlsx";
     }
 
     public static class STATUS{
         public static String ACTIVE = "1";
-        public static String INACTIVE = "0";
         public static String activeName = "Hiệu lực";
         public static String inactiveName = "Hết hiệu lực";
     }
@@ -30,7 +36,6 @@ public class Constants {
     }
     public static class SERIAL_TYPE{
         public static String IS_SERIAL = "1";
-        public static String NO_SERIAL = "0";
         public static String IS_SERIAL_NAME = "Có";
         public static String NO_SERIAL_NAME = "Không";
     }
@@ -61,6 +66,8 @@ public class Constants {
         public static String MJR_STOCK_GOODS_SERVICE = "mjrStockGoodsServices/";
         public static String MJR_STOCK_GOODS_SERIAL_SERVICE = "mjrStockGoodsSerialServices/";
         public static String MJR_STOCK_GOODS_TOTAL_SERVICE = "mjrStockGoodsTotalServices/";
+        public static String MJR_STOCK_TRANS_SERVICE = "mjrStockTransServices/";
+        public static String APP_PARAMS_SERVICE = "appParamsServices/";
     }
 
     public static class SQL_OPERATOR{
@@ -77,9 +84,7 @@ public class Constants {
     }
 
     public static class SQL_PRO_TYPE{
-        public static String STRING = "string";
         public static String LONG   = "long";
-        public static String DATE   = "date";
     }
 
 }

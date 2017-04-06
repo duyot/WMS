@@ -6,6 +6,7 @@ import com.wms.services.interfaces.CatUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -17,12 +18,15 @@ public class CatUserServiceImpl extends BaseServiceImpl<CatUserDTO,CatUserDP> im
     @Autowired
     CatUserDP catUserDP;
 
+    @PostConstruct
+    public void setupService(){
+        this.tdp = catUserDP;
+    }
 
     @Override
     public ResponseObject register(CatUserDTO catUserDTO,AuthTokenInfo tokenInfo) {
         return catUserDP.register(catUserDTO);
     }
-
 
     @Override
     public CatUserDTO login(CatUserDTO catUserDTO) {

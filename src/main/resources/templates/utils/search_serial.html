@@ -25,7 +25,6 @@
     <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
-    <!--<script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>-->
     <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
     <!--font and favi icon-->
@@ -75,7 +74,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--row 2: goods group - goods -->
+                            <!--row 2:goods -->
                             <div class="row">
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.goods}" for="cmb-goods"></label>
@@ -89,33 +88,36 @@
                                         </select>
                                     </div>
                                 </div>
-
+                            </div>
+                            <!--row 2: serial-->
+                            <div class="row">
                                 <div class="col-sm-2">
-                                    <label>Trạng thái</label>
-
+                                    <label th:text="#{lbl.serial}" for="inp-serial"></label>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-10">
                                     <div class="input-group">
-                                        <select id="cmb-status" class="combobox form-control">
-                                            <option value="-1">Tất cả</option>
-                                            <option value="1">Bình thường</option>
-                                            <option value="2">Hỏng</option>
-                                        </select>
+                                        <span class="input-group-addon">
+                                                <i class="fa fa-sticky-note fa-fw"></i>
+                                            </span>
+                                        <textarea id="inp-serial" class="form-control" th:rows="2"
+                                                  data-validation="length" data-validation-length="max9000"
+                                                  data-validation-error-msg="Quá số kí tự cho phép(9000)"
+                                                  placeholder="Serial cách nhau bởi dấu , hoặc ;"
+                                        ></textarea>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </form>
-                    <div class="wrapper text-center" style="text-align: center;">
+                    <div class="wrapper text-center" style="text-align: center; margin:3px">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" th:text="#{btn.search}" class="btn btn-default  btn-primary"
-                                    id="btn-search-stock-info" th:value="@{/workspace/utils/stockInfo/findByCondition}">
+                                    id="btn-search-serial" th:value="@{/workspace/utils/searchSerial/findSerial}">
                             </button>
                         </div>
                     </div>
-
                     <p></p>
-
                 </div>
             </div>
             <!--end search panel-->
@@ -132,7 +134,7 @@
                             <i class="fa fa-refresh"></i>
                         </button>
 
-                        <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/stockInfo/getTotalFile}">
+                        <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/searchSerial/getSerialFile}">
                             <i class="fa fa-download"></i>
                         </a>
 
@@ -151,16 +153,17 @@
                         <thead>
                         <tr>
                             <th data-field="id" data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th class="col-md-2" data-field="goodsCode" data-align="left" data-sortable="true">Mã</th>
+                            <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã</th>
                             <th class="col-md-2" data-field="goodsName" data-align="left" data-sortable="true">Tên</th>
-                            <th data-field="goodsStateName" data-align="left" data-sortable="true">TT</th>
-                            <th data-field="stockName" data-align="left" data-sortable="true">Kho</th>
+                            <th data-field="serial" data-align="left" data-sortable="true">Serial</th>
+                            <th data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
+                            <th data-field="goodsStateValue" data-align="left" data-sortable="true">TT</th>
+                            <th data-field="statusValue" data-align="left" data-sortable="true">TT Kho</th>
                             <th data-field="amountValue" data-align="right" data-sortable="true">SL</th>
-                            <th data-field="changeDate" data-align="right" data-sortable="true">TG cập nhật</th>
-                            <th data-field="stockId" data-align="right" data-sortable="true"></th>
-                            <th data-field="goodsState" data-align="right" data-sortable="true"></th>
-                            <th data-field="goodsId" data-align="right" data-sortable="true"></th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter"></th>
+                            <th data-field="importDate" data-align="right" data-sortable="true">TG nhập</th>
+                            <th data-field="exportDate" data-align="right" data-sortable="true">TG xuất</th>
+                            <th data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
+                            <th data-field="outputPriceValue" data-align="right" data-sortable="true">Giá xuất</th>
                         </tr>
                         </thead>
                     </table>
@@ -169,7 +172,6 @@
         </div>
     </div>
     <div class="modal-loading"><!-- Place at bottom of page --></div>
-    <div th:include="modal/goods_details_modal :: frag-goods-detail-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -184,7 +186,6 @@
 <script>
     //---------------------------------------------------------------------
     $table = $('#tbl-stock-info');
-    $tableGoodsDetail = $('#tbl-goods-detail');
     var dataInit = [
     ];
 
@@ -194,62 +195,11 @@
             data: dataInit
         });
         //
-        $tableGoodsDetail.bootstrapTable({
-            data: dataInit,
-            pageList:[5,10, 25, 50],
-            pageSize:5
-        });
-        $table.bootstrapTable('hideColumn', 'stockId');
-        $table.bootstrapTable('hideColumn', 'goodsState');
-        $table.bootstrapTable('hideColumn', 'goodsId');
-        //
         $('.combobox').combobox();
         //
     });
-    //
-    function operateFormatter(value, row, index) {
-        return [
-            '<a class="view-goods-detail" href="javascript:void(0)" title="Chi tiết">',
-            '<i class="fa fa-info-circle"></i>',
-            '</a>  '
-        ].join('');
-    }
-    //
-    $body = $("body");
-    window.operateEvents = {
-        'click .view-goods-detail': function (e, value, row, index) {
-            //get goods detail info
-            $body.addClass("loading");
-            $.ajax({
-                type: "GET",
-                cache:false,
-                data:{stockId:row['stockId'],goodsId:row['goodsId'],goodsState:row['goodsState']},
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                url: $('#btn-get-goods-detail').val(),
-                dataType: 'json',
-                timeout: 600000,
-                async:false,
-                success: function (data) {
-                    $tableGoodsDetail.bootstrapTable('load', data);
-                    var $downloadLink = $('#link-download-goods-detail');
-                    var originalLink = $downloadLink.attr("href");
-                    if(originalLink.includes("?")){
-                        originalLink = trimAtChacter(originalLink,"?");
-                    }
-                    $downloadLink.attr("href",originalLink +"?stockId="+row['stockId']);
-                    showModal($('#goods-detail-modal'));
-                },
-                complete: function(){
-                    $body.removeClass("loading");
-                }
-            });
-            //
-
-        }
-    };
-
     //@Search-----------------------------------------------------------------
-    var $btnSearch = $('#btn-search-stock-info');
+    var $btnSearch = $('#btn-search-serial');
     $btnSearch.click(function () {
         search();
     });
@@ -257,14 +207,28 @@
     function search(){
         $("#action-info").text('');
         //search info stock_id/goods_group/goods/serial
-        var stock_id = $('#cmb-stock').val();
-        var goods_id = $('#cmb-goods').val();
-        var statusVal =  $('#cmb-status').val();
+        var stockIdVal  = $('#cmb-stock').val();
+        var goodsIdVal  = $('#cmb-goods').val();
+        var serialVal =  $('#inp-serial').val().trim();
+        if(serialVal == ""){
+            alert("Nhập thông tin serial!");
+            return;
+        }
+        if(serialVal.includes(";")){
+            serialVal = serialVal.replace(";",",");
+        }
+
+        var arrSearchSerial = serialVal.split(",");
+        var arrLength = arrSearchSerial.length;
+        if(arrLength>900){
+            alert("Vui lòng nhập số lượng serial nhỏ hơn 900 để tìm kiếm. Số lượng hiện tại: "+ arrLength);
+            return;
+        }
 
         $.ajax({
             type: "GET",
             cache:false,
-            data:{stockId:stock_id,goodsId:goods_id,status:statusVal},
+            data:{stockId:stockIdVal,goodsId:goodsIdVal,serial:serialVal},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             url: $btnSearch.val(),
             dataType: 'json',

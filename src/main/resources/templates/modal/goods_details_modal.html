@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-goods-detail-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="goods-detail-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+         aria-labelledby="myModalLabel" aria-hidden="true" th:width="500px">
+        <div class="modal-dialog" role="document" style="width:85%">
+                <div class="modal-content" id="catUserDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{modal.label.goodsdetail}"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <div class="panel-body" style="padding: 0.2em 0.4em;">
+                                <div id="modal-goods-detail-toolbar" class="btn-group">
+                                    <a class="btn btn-default" id="link-download-goods-detail" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/stockInfo/getGoodsDetailFile}">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
+
+                                <table  id="tbl-goods-detail"
+                                        data-pagination="true"
+                                        data-search="true"
+                                        data-click-to-select="true"
+                                        data-show-columns="true"
+                                        data-toolbar="#modal-goods-detail-toolbar"
+                                        class="table-striped"
+                                        style="word-wrap: break-word;  table-layout: fixed;"
+                                >
+
+                                    <thead>
+                                    <tr>
+                                        <th data-field="id" data-formatter="runningFormatter" data-align="center">STT</th>
+                                        <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã</th>
+                                        <th class="col-md-2" data-field="goodsName" data-align="left" data-sortable="true">Tên</th>
+                                        <th data-field="serial" data-align="left" data-sortable="true">Serial</th>
+                                        <th data-field="goodsStateValue" data-align="left" data-sortable="true">TT</th>
+                                        <th data-field="statusValue" data-align="left" data-sortable="true">TT Kho</th>
+                                        <th data-field="amountValue" data-align="right" data-sortable="true">SL</th>
+                                        <th data-field="importDate" data-align="right" data-sortable="true">TG nhập</th>
+                                        <th data-field="exportDate" data-align="right" data-sortable="true">TG xuất</th>
+                                        <th data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
+                                        <th data-field="outputPriceValue" data-align="right" data-sortable="true">Giá xuất</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-add"     type="submit" class="btn btn-primary" data-dismiss="modal" >Close</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

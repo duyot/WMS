@@ -87,11 +87,11 @@ public class CatGoodsGroupController {
         catGoodsGroup.setStatus("1");
         catGoodsGroup.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catGoodsGroupService.add(catGoodsGroup,tokenInfo);
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catGoodsGroup.toString()+" SUCCESS");
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName()))
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode()))
         {
             log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
@@ -113,11 +113,11 @@ public class CatGoodsGroupController {
             catGoodsGroup.setStatus("0");
         }
         ResponseObject response = catGoodsGroupService.update(catGoodsGroup,tokenInfo);
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }
@@ -133,7 +133,7 @@ public class CatGoodsGroupController {
         try {
             Long idL = Long.parseLong(id);
             ResponseObject response = catGoodsGroupService.delete(idL,tokenInfo);
-            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 return "1|Xoá thành công";
             }else{
                 return "0|Xoá không thành công";

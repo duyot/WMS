@@ -24,9 +24,16 @@ public class MjrStockTransDetailDTO {
     private String outputPriceValue;
     private String goodsStateValue;
     private String errorInfo;
+    private String importDate;
+    private String exportDate;
+    private String statusValue;
+    private String stockId;
+    private String stockValue;
 
 
-    public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String inputPrice, String outputPrice, String cellCode) {
+    public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState,
+                                  String isSerial, String amount, String serial, String inputPrice, String outputPrice,
+                                  String cellCode,String statusValue) {
         this.id = id;
         this.stockTransId = stockTransId;
         this.goodsId = goodsId;
@@ -38,6 +45,7 @@ public class MjrStockTransDetailDTO {
         this.inputPrice = inputPrice;
         this.outputPrice = outputPrice;
         this.cellCode = cellCode;
+        this.statusValue = statusValue;
     }
 
     public MjrStockTransDetailDTO() {
@@ -185,5 +193,45 @@ public class MjrStockTransDetailDTO {
 
     public void setGoodsStateValue(String goodsStateValue) {
         this.goodsStateValue = goodsStateValue;
+    }
+
+    public String getImportDate() {
+        return importDate;
+    }
+
+    public void setImportDate(String importDate) {
+        this.importDate = importDate;
+    }
+
+    public String getExportDate() {
+        return exportDate;
+    }
+
+    public void setExportDate(String exportDate) {
+        this.exportDate = exportDate;
+    }
+
+    public String getStatusValue() {
+        return statusValue;
+    }
+
+    public void setStatusValue(String statusValue) {
+        this.statusValue = statusValue;
+    }
+
+    public String getStockValue() {
+        return stockValue;
+    }
+
+    public void setStockValue(String stockValue) {
+        this.stockValue = stockValue;
+    }
+
+    public String getStockId() {
+        return stockId;
+    }
+
+    public void setStockId(String stockId) {
+        this.stockId = stockId;
     }
 }

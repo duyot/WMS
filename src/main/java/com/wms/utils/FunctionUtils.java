@@ -35,6 +35,122 @@ public class FunctionUtils {
     public static Logger log = LoggerFactory.getLogger(FunctionUtils.class);
 
     /*
+       get AppParams
+    */
+    public static List<AppParamsDTO> getAppParams(BaseService service,AuthTokenInfo tokenInfo){
+        List<Condition> lstCondition = Lists.newArrayList();
+        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        return service.findByCondition(lstCondition,tokenInfo);
+    }
+
+    public static List<AppParamsDTO> getAppParamByType(String type,List<AppParamsDTO> lstAppParams){
+        List<AppParamsDTO> lstResult = Lists.newArrayList();
+        for(AppParamsDTO i: lstAppParams){
+            if(i.getType().equalsIgnoreCase(type)){
+                lstResult.add(i);
+            }
+        }
+        return lstResult;
+    }
+
+    private static String convertDBMessage(String oraMessage){
+        if(oraMessage.contains("WMS_DB.UN_SERIAL")){
+            return "Serial đã có trên hệ thống";
+        }else{
+            return "Lỗi: "+ oraMessage;
+        }
+    }
+    /*
+
+     */
+    public static List<MjrStockTransDetailDTO> convertListErrorToTransDetail(List<Err$MjrStockGoodsSerialDTO> lstGoodsError,Map<String,CatGoodsDTO> mapGoodsIdGoods){
+        List<MjrStockTransDetailDTO> lstDetail = Lists.newArrayList();
+        CatGoodsDTO goods;
+        for(Err$MjrStockGoodsSerialDTO i: lstGoodsError){
+            MjrStockTransDetailDTO detail = new MjrStockTransDetailDTO();
+            goods = mapGoodsIdGoods.get(i.getGoodsId());
+            if(goods != null){
+                detail.setGoodsCode(goods.getCode());
+                detail.setGoodsName(goods.getName());
+            }
+            detail.setGoodsState(i.getGoodsState());
+            detail.setSerial(i.getSerial());
+            detail.setAmount(i.getAmount());
+            detail.setInputPrice(i.getInputPrice());
+            detail.setCellCode(i.getCellCode());
+            detail.setErrorInfo(convertDBMessage(i.getOraErrorMessage()));
+            //
+            lstDetail.add(detail);
+        }
+        return lstDetail;
+    }
+    /*
+
+     */
+    public static void exportExcel(String templateAbsolutePath,Map<String, Object> beans,String fullPath){
+        Configuration config = new Configuration();
+        XLSTransformer transformer = new XLSTransformer(config);
+        try {
+            transformer.transformXLS(templateAbsolutePath, beans, fullPath);
+            log.info("Finish export report file in "+ fullPath);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+            log.error(e.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error(e.toString());
+        }
+    }
+    /*
+
+     */
+    public static List<MjrStockTransDetailDTO> convertGoodsSerialToDetail(List<MjrStockGoodsSerialDTO> lstStockGoodsSerial){
+        List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
+        if (!DataUtil.isListNullOrEmpty(lstStockGoodsSerial)) {
+            for(MjrStockGoodsSerialDTO i:lstStockGoodsSerial){
+                MjrStockTransDetailDTO temp = new MjrStockTransDetailDTO();
+                temp.setGoodsId(i.getGoodsId());
+                temp.setGoodsState(i.getGoodsState());
+                temp.setSerial(i.getSerial());
+                temp.setAmount(i.getAmount());
+                temp.setImportDate(i.getImportDate());
+                temp.setExportDate(i.getExportDate());
+                temp.setInputPrice(i.getInputPrice());
+                temp.setOutputPrice(i.getOutputPrice());
+                temp.setStatusValue(i.getStatus().equalsIgnoreCase("1")?"Trong kho":"Đã xuất");
+                temp.setStockId(i.getStockId());
+                //
+                lstResult.add(temp);
+            }
+        }
+
+        return lstResult;
+    }
+    /*
+
+     */
+    public static  List<MjrStockTransDetailDTO> setNameValueGoodsDetail(List<MjrStockTransDetailDTO> lstGoodsDetail,
+                                                                        Map<String,CatGoodsDTO> mapGoodsIdGoods,String stockName){
+        if(!DataUtil.isListNullOrEmpty(lstGoodsDetail)){
+            CatGoodsDTO currentGoods;
+            for(MjrStockTransDetailDTO i: lstGoodsDetail){
+                currentGoods = mapGoodsIdGoods.get(i.getGoodsId());
+                //
+                i.setGoodsCode(currentGoods.getCode());
+                i.setGoodsName(currentGoods.getName());
+                i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                i.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
+                i.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
+                i.setGoodsStateValue(i.getGoodsState().equalsIgnoreCase("1")?"Bình thường":"Hỏng");
+                i.setStockValue(stockName);
+            }
+        }else{
+            return Lists.newArrayList();
+        }
+        return lstGoodsDetail;
+    }
+
+    /*
         get stock
      */
     public static List<CatStockDTO> getListStock(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
@@ -45,7 +161,17 @@ public class FunctionUtils {
     }
 
     /*
-       get stock
+        get user
+     */
+    public static List<CatUserDTO> getListUser(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
+        List<Condition> lstCondition = Lists.newArrayList();
+        lstCondition.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentCustomer.getId()));
+        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        return service.findByCondition(lstCondition,tokenInfo);
+    }
+
+    /*
+       get goods
     */
     public static List<CatGoodsDTO> getListGoods(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
         List<Condition> lstCondition = Lists.newArrayList();
@@ -88,20 +214,11 @@ public class FunctionUtils {
         Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("items", lstError);
 
-        Configuration config = new Configuration();
-        XLSTransformer transformer = new XLSTransformer(config);
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
         String reportFullPath = BundleUtils.getkey("temp_url") + fullFileName;
-        try {
-            transformer.transformXLS(templateAbsolutePath, beans, reportFullPath);
-            log.info("Finish export report file in "+ reportFullPath);
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-            log.error(e.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-            log.error(e.toString());
-        }
+
+        exportExcel(templateAbsolutePath,beans,reportFullPath);
+
         return fullFileName;
     }
 
@@ -346,8 +463,12 @@ public class FunctionUtils {
     }
 
     public static String formatNumber(String number){
-        double dNumber = Double.valueOf(number);
-        return String.format("%,.2f", dNumber);
+        if (!DataUtil.isStringNullOrEmpty(number)) {
+            double dNumber = Double.valueOf(number);
+            return String.format("%,.2f", dNumber);
+        }else{
+            return "";
+        }
     }
 
     public static boolean isNumberFloat(String input){

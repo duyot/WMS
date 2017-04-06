@@ -358,8 +358,8 @@
 				$("#modal-inp-imgUrl").val(selectedItem["imgUrl"]);
 				$("#modal-inp-roleName").val(selectedItem["roleName"]);
 				$("#modal-cmb-roleundefined").val(selectedItem["roleName"]);
-				var statusName = selectedItem["status"] == 1?'Hiệu lực':"Hết hiệu lực";
-				$("#modal-cmb-statusundefined").val(statusName);
+				var statusValue = selectedItem["status"] == 1?'Hiệu lực':"Hết hiệu lực";
+				$("#modal-cmb-statusundefined").val(statusValue);
 
 				$("#modal-btn-update").show();
 				$("#modal-btn-add").hide();

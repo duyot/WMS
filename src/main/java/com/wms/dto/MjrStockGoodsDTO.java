@@ -18,8 +18,10 @@ public class MjrStockGoodsDTO {
     private String importStockTransId;
     private String inputPrice;
     private String outputPrice;
+    private String exportDate;
+    private String exportStockTransId;
 
-    public MjrStockGoodsDTO(String id, String custId, String stockId, String goodsId, String goodsState, String cellCode, String amount, String importDate, String changeDate, String status, String partnerId, String importStockTransId, String inputPrice, String outputPrice) {
+    public MjrStockGoodsDTO(String id, String custId, String stockId, String goodsId, String goodsState, String cellCode, String amount, String importDate, String changeDate, String status, String partnerId, String importStockTransId, String inputPrice, String outputPrice, String exportDate, String exportStockTransId) {
         this.id = id;
         this.custId = custId;
         this.stockId = stockId;
@@ -34,6 +36,8 @@ public class MjrStockGoodsDTO {
         this.importStockTransId = importStockTransId;
         this.inputPrice = inputPrice;
         this.outputPrice = outputPrice;
+        this.exportDate = exportDate;
+        this.exportStockTransId = exportStockTransId;
     }
 
     public MjrStockGoodsDTO() {
@@ -151,4 +155,19 @@ public class MjrStockGoodsDTO {
         this.outputPrice = outputPrice;
     }
 
+    public String getExportDate() {
+        return exportDate;
+    }
+
+    public void setExportDate(String exportDate) {
+        this.exportDate = exportDate;
+    }
+
+    public String getExportStockTransId() {
+        return exportStockTransId;
+    }
+
+    public void setExportStockTransId(String exportStockTransId) {
+        this.exportStockTransId = exportStockTransId;
+    }
 }

@@ -135,4 +135,16 @@ public class WorkSpaceController {
         return "redirect:/workspace/utils/stockInfo";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/search_serial")
+    public String redirectSearchSerial(){
+        return "redirect:/workspace/utils/searchSerial";
+    }
+
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/trans_info")
+    public String redirectTransInfo(){
+        return "redirect:/workspace/utils/trans_info";
+    }
 }
