@@ -314,13 +314,16 @@
 
             showAdd();
         }else{//update
-            alert(2);
             $("#cat-goods-insert-update-form").attr("action",actionVal);
             $("#modal-inp-code").val(selectedItem["code"]);
             $("#modal-inp-name").val(selectedItem["name"]);
             $("#modal-inp-id").val(selectedItem["id"]);
+            alert(selectedItem["code"]);
+            alert(selectedItem["unitType"]);
             $("#modal-cmb-goods-unit").val(selectedItem["unitType"]);
             $("#modal-cmb-goods-group").val(selectedItem["goodsGroupId"]);
+            $("#modal-inp-input-price").val(selectedItem["inPrice"]);
+            $("#modal-inp-output-price").val(selectedItem["outPrice"]);
             var currentStatus = selectedItem["status"];
             if(currentStatus == '0'){
                 $('#modal-cmb-status').bootstrapToggle('off');

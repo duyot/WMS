@@ -70,11 +70,13 @@
                                             <span class="input-group-addon">
                                                  <i class="fa  fa-server fa-fw"></i>
                                             </span>
-                                            <select id="modal-cmb-goods-unit" class="combobox form-control" name="unitType" th:required="true">
+                                            <select id="modal-cmb-goods-unit" class="combobox form-control" name="unitType" th:required="true" autocomplete="off">
                                                 <option value="-1">---Chọn---</option>
-                                                <option value="1">Chiếc</option>
-                                                <option value="2">Cái</option>
+                                                <option th:each="sopt:${mapUnitType.entrySet()}"
+                                                        th:value="${sopt.key}" th:text="${sopt.value}"></option>
+
                                             </select>
+
                                         </div>
                                     </div>
                                 </div>
@@ -92,7 +94,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa  fa-server fa-fw"></i>
                                                 </span>
-                                            <select id="modal-cmb-goods-group" class="combobox form-control" name="modal-cmb-goods-group">
+                                            <select id="modal-cmb-goods-group" class="combobox form-control" name="goodsGroupId" th:required="true">
                                             <option value="-1">---Chọn---</option>
                                             <option th:each="sopt:${mapGoodsGroup.entrySet()}"
                                             th:value="${sopt.key}" th:text="${sopt.value}"></option>
@@ -114,11 +116,8 @@
                                         <div class="input-group">
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                                            <input id="modal-inp-not-serial" type="radio" name="isSerial"  checked="true" value="0"/>
-                                            <label  class="no-margin-label" th:text="#{lbl.notManaSerial}"></label>
-                                            &nbsp;&nbsp;&nbsp;
-                                            <input id="modal-inp-serial" type="radio" name="isSerial" value="1"/>
-                                            <label  class="no-margin-label" th:text="#{lbl.manaSerial}"></label>
+                                            <input id="modal-inp-not-serial" type="radio" name="isSerial"  checked="true" value="0" th:text="#{lbl.notManaSerial}"/>
+                                            <input id="modal-inp-serial" type="radio" name="isSerial" value="1" th:text="#{lbl.manaSerial}"/>
 
                                         </div>
                                     </div>
@@ -155,7 +154,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-angle-double-right fa-fw"></i>
                                                 </span>
-                                            <input id="modal-inp-input-price" class="form-control" type="text"  name="inPrice"  placeholder=""/>
+                                            <input id="modal-inp-input-price" class="form-control" type="number" step="any"  name="inPrice"  min ="0" max = "99999999999999"/>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +172,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-angle-double-left fa-fw"></i>
                                                 </span>
-                                            <input id="modal-inp-output-price" class="form-control" type="text" name="outPrice"  placeholder=""/>
+                                            <input id="modal-inp-output-price" class="form-control" type="number" step="any" name="outPrice"  min ="0" max = "99999999999999"/>
                                         </div>
                                     </div>
                                 </div>

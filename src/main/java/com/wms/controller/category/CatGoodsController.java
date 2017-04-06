@@ -1,6 +1,7 @@
 package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
@@ -30,9 +31,13 @@ public class CatGoodsController {
     private CatCustomerDTO selectedCustomer;
 
     public Map<String, String> mapGoodsGroup = new HashMap<>();
+    public Map<String, String> mapUnitType = new HashMap<>();
 
     @Autowired
     BaseService catGoodsGroupService;
+
+    @Autowired
+    BaseService appParamsService;
 
     @Autowired
     BaseService catGoodsService;
@@ -57,7 +62,7 @@ public class CatGoodsController {
         CatCustomerDTO curCust = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCon.add(new Condition("custId", Constants.SQL_OPERATOR.EQUAL,curCust.getId()));
+        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,curCust.getId()));
         lstCon.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"desc"));
         List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
 
@@ -74,13 +79,14 @@ public class CatGoodsController {
         }
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("type", Constants.SQL_OPERATOR.EQUAL,Constants.APP_PARAMS.UNIT_TYPE));
         lstCon.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"desc"));
-        List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
+        List<AppParamsDTO> lstAppParamsDTOS = appParamsService.findByCondition(lstCon,tokenInfo);
 
-        for(CatGoodsGroupDTO i: lstCatGoodsGroup){
-            mapGoodsGroup.put(i.getId(), i.getName());
+        for(AppParamsDTO i: lstAppParamsDTOS){
+            mapUnitType.put(i.getCode(), i.getName());
         }
-        return mapGoodsGroup;
+        return mapUnitType;
     }
 
     @RequestMapping()
@@ -121,7 +127,8 @@ public class CatGoodsController {
             statusName = "1".equals(i.getStatus()) ? active: inactive;
             i.setStatusName(statusName);
 
-            i.setUnitTypeName("Cái");
+            i.setUnitTypeName(mapUnitType.get(i.getUnitType()));
+
         }
 
         return lstCatGoods;
@@ -131,7 +138,7 @@ public class CatGoodsController {
         catGoods.setStatus("1");
         catGoods.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catGoodsService.add(catGoods,tokenInfo);
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catGoods.toString()+" SUCCESS");
@@ -153,11 +160,11 @@ public class CatGoodsController {
             catGoods.setStatus("0");
         }
         ResponseObject response = catGoodsService.update(catGoods,tokenInfo);
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.update.fail");
         }
@@ -173,7 +180,7 @@ public class CatGoodsController {
         try {
             Long idL = Long.parseLong(id);
             ResponseObject response = catGoodsService.delete(idL,tokenInfo);
-            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 return "1|Xoá thành công";
             }else{
                 return "0|Xoá không thành công";

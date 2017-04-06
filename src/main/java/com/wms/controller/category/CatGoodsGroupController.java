@@ -142,7 +142,4 @@ public class CatGoodsGroupController {
             return "0|Xoá không thành công lỗi convert long";
         }
     }
-
-
-
 }

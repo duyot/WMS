@@ -1,6 +1,7 @@
 package com.wms.dto;
 
 /**
+<<<<<<< HEAD
  * Created by doanlv4 on 25/03/2017.
  */
 public class AppParamsDTO {
@@ -20,6 +21,24 @@ public class AppParamsDTO {
         this.type = type;
         this.parOrder = parOrder;
         this.code = code;
+=======
+ * Created by doanlv4 on 28/03/2017.
+ */
+public class AppParamsDTO {
+    private String id;
+    private String code;
+    private String name;
+    private String status;
+    private String statusName;
+    private String parOrder;
+
+    public AppParamsDTO(String id, String code, String name, String status, String parOrder) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.status = status;
+        this.parOrder = parOrder;
+>>>>>>> 82a5caa22e2998c70ccea91139b582f9c2701375
     }
 
     public AppParamsDTO() {
@@ -33,6 +52,7 @@ public class AppParamsDTO {
         this.id = id;
     }
 
+<<<<<<< HEAD
     public String getName() {
         return name;
     }
@@ -41,6 +61,8 @@ public class AppParamsDTO {
         this.name = name;
     }
 
+=======
+>>>>>>> 82a5caa22e2998c70ccea91139b582f9c2701375
     public String getCode() {
         return code;
     }
@@ -49,6 +71,17 @@ public class AppParamsDTO {
         this.code = code;
     }
 
+<<<<<<< HEAD
+=======
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+>>>>>>> 82a5caa22e2998c70ccea91139b582f9c2701375
     public String getStatus() {
         return status;
     }
@@ -57,12 +90,21 @@ public class AppParamsDTO {
         this.status = status;
     }
 
+<<<<<<< HEAD
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+=======
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+>>>>>>> 82a5caa22e2998c70ccea91139b582f9c2701375
     }
 
     public String getParOrder() {
@@ -72,6 +114,7 @@ public class AppParamsDTO {
     public void setParOrder(String parOrder) {
         this.parOrder = parOrder;
     }
+<<<<<<< HEAD
 
     @Override
     public String toString() {
@@ -84,4 +127,6 @@ public class AppParamsDTO {
                 ", parOrder='" + parOrder + '\'' +
                 '}';
     }
+=======
+>>>>>>> 82a5caa22e2998c70ccea91139b582f9c2701375
 }

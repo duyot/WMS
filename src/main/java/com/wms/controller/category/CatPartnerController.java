@@ -116,11 +116,11 @@ public class CatPartnerController {
             catPartnerDTO.setStatus("0");
         }
         ResponseObject response = catPartnerService.update(catPartnerDTO,tokenInfo);
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }
