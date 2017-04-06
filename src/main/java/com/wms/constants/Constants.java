@@ -24,6 +24,11 @@ public class Constants {
         public static String inactiveName = "Hết hiệu lực";
     }
 
+    public static class APP_PARAMS{
+        public static String UNIT_TYPE = "UNIT_TYPE";
+
+    }
+
     public static class IMPORT_TYPE{
         public static String IMPORT = "1";
         public static String EXPORT = "2";
@@ -61,6 +66,7 @@ public class Constants {
         public static String MJR_STOCK_GOODS_SERVICE = "mjrStockGoodsServices/";
         public static String MJR_STOCK_GOODS_SERIAL_SERVICE = "mjrStockGoodsSerialServices/";
         public static String MJR_STOCK_GOODS_TOTAL_SERVICE = "mjrStockGoodsTotalServices/";
+        public static String APP_PARAMS_SERVICE = "appParamsServices/";
     }
 
     public static class SQL_OPERATOR{

@@ -89,11 +89,11 @@ public class CatStockController {
         catStockDTO.setStatus("1");
         catStockDTO.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catStockService.add(catStockDTO,tokenInfo);
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catStockDTO.toString()+" SUCCESS");
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName()))
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode()))
         {
             log.info("Add: "+ catStockDTO.toString()+" ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
@@ -114,11 +114,11 @@ public class CatStockController {
             catStockDTO.setStatus("0");
         }
         ResponseObject response = catStockService.update(catStockDTO,tokenInfo);
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }
@@ -134,7 +134,7 @@ public class CatStockController {
         try {
             Long idL = Long.parseLong(id);
             ResponseObject response = catStockService.delete(idL,tokenInfo);
-            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 return "1|Xoá thành công";
             }else{
                 return "0|Xoá không thành công";
