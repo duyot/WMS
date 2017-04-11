@@ -98,7 +98,7 @@
                                         <select id="cmb-user" class="combobox form-control">
                                             <option value="-1">Tất cả</option>
                                             <option  th:each="sopt:${lstUsers}"
-                                                     th:value="${sopt.id}" th:text="${sopt.code}">1</option>
+                                                     th:value="${sopt.code}" th:text="${sopt.name}">1</option>
                                         </select>
                                     </div>
                                 </div>
@@ -156,7 +156,7 @@
                             <i class="fa fa-refresh"></i>
                         </button>
 
-                        <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/searchSerial/getSerialFile}">
+                        <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/trans_info/getListTransFile}">
                             <i class="fa fa-download"></i>
                         </a>
 
@@ -179,8 +179,8 @@
                             <th class="col-md-2" data-field="code" data-align="left" data-sortable="true">Code</th>
                             <th data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
                             <th data-field="typeValue" data-align="left" data-sortable="true">Loại GD</th>
-                            <th data-field="createdUser" data-align="right" data-sortable="true">Ngày tạo</th>
-                            <th data-field="importDate" data-align="right" data-sortable="true">Người tạo</th>
+                            <th data-field="createdDate" data-align="right" data-sortable="true">Ngày tạo</th>
+                            <th data-field="createdUser" data-align="right" data-sortable="true">Người tạo</th>
                             <th data-field="contractNumber" data-align="right" data-sortable="true">Số HD</th>
                             <th data-field="invoiceNumber" data-align="right" data-sortable="true">Số invoice</th>
                         </tr>
@@ -227,28 +227,18 @@
     function search(){
         $("#action-info").text('');
         //search info stock_id/goods_group/goods/serial
-        var stockIdVal  = $('#cmb-stock').val();
-        var goodsIdVal  = $('#cmb-goods').val();
-        var serialVal =  $('#inp-serial').val().trim();
-        if(serialVal == ""){
-            alert("Nhập thông tin serial!");
-            return;
-        }
-        if(serialVal.includes(";")){
-            serialVal = serialVal.replace(";",",");
-        }
-
-        var arrSearchSerial = serialVal.split(",");
-        var arrLength = arrSearchSerial.length;
-        if(arrLength>900){
-            alert("Vui lòng nhập số lượng serial nhỏ hơn 900 để tìm kiếm. Số lượng hiện tại: "+ arrLength);
-            return;
-        }
+        var stock_id = $('#cmb-stock').val();
+        var createdUser = $('#cmb-user').val();
+        var drp = $('#create-date-range').data('daterangepicker');
+        var startDateVal = drp.startDate.format("DD/MM/YYYY");
+        var endDateVal   = drp.endDate.format("DD/MM/YYYY");
+        var transType =  $('#cmb-trans-type').val();
+        var transCode =  $('#inp-trans-code').val().trim();
 
         $.ajax({
             type: "GET",
             cache:false,
-            data:{stockId:stockIdVal,goodsId:goodsIdVal,serial:serialVal},
+            data:{stockId:stock_id,createdUser:createdUser,startDate:startDateVal,endDate:endDateVal,transType:transType,transCode:transCode},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             url: $btnSearch.val(),
             dataType: 'json',

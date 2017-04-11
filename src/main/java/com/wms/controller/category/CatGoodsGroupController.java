@@ -1,11 +1,13 @@
 package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
+import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
+import com.wms.utils.FunctionUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,28 +28,13 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/workspace/cat_goods_group_ctr")
-public class CatGoodsGroupController {
+public class CatGoodsGroupController extends BaseCommonController{
     Logger log = LoggerFactory.getLogger(CatGoodsGroupController.class);
 
     @Autowired
     BaseService customerService;
-
     @Autowired
     BaseService catGoodsGroupService;
-
-    private CatCustomerDTO selectedCustomer;
-
-    private AuthTokenInfo tokenInfo;
-
-    @ModelAttribute("tokenInfo")
-    public void setTokenInfo(HttpServletRequest request){
-        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-    }
-
-    @ModelAttribute("selectedCustomer")
-    public void setSelectedCustomer(HttpServletRequest request){
-        this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-    }
 
     @RequestMapping()
     public String home(Model model){
@@ -58,25 +45,19 @@ public class CatGoodsGroupController {
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
     public  @ResponseBody List<CatGoodsGroupDTO> findByCondition(@RequestParam("status")String status){
         List<Condition> lstCon = Lists.newArrayList();
-
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
 
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
         }
-
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatGoodsGroupDTO> lstCatGoods = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
-        String statusName ="";
-        String active = Constants.STATUS.activeName;
-        String inactive = Constants.STATUS.inactiveName;
 
         for(CatGoodsGroupDTO i: lstCatGoods){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
             i.setCustName(selectedCustomer.getName());
-            statusName = "1".equals(i.getStatus()) ? active: inactive;
-            i.setStatusName(statusName);
+            i.setStatusName(mapAppStatus.get(i.getStatus()));
         }
 
         return lstCatGoods;

@@ -1,6 +1,7 @@
 package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
+import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/workspace/cat_stock_ctr")
-public class CatStockController {
+public class CatStockController extends BaseCommonController{
     Logger log = LoggerFactory.getLogger(CatStockController.class);
 
     @Autowired
@@ -34,20 +35,6 @@ public class CatStockController {
 
     @Autowired
     BaseService catStockService;
-
-    private CatCustomerDTO selectedCustomer;
-
-    private AuthTokenInfo tokenInfo;
-
-    @ModelAttribute("tokenInfo")
-    public void setTokenInfo(HttpServletRequest request){
-        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-    }
-
-    @ModelAttribute("selectedCustomer")
-    public void setSelectedCustomer(HttpServletRequest request){
-        this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-    }
 
     @RequestMapping()
     public String home(Model model){
@@ -60,7 +47,7 @@ public class CatStockController {
         List<Condition> lstCon = Lists.newArrayList();
 
         if(!DataUtil.isStringNullOrEmpty(custId) && !custId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("custId", Constants.SQL_OPERATOR.EQUAL,custId));
+            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,custId));
         }
 
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
@@ -70,15 +57,11 @@ public class CatStockController {
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatStockDTO> lstCatStock = catStockService.findByCondition(lstCon,tokenInfo);
- 		String statusName ="";
-        String active = Constants.STATUS.activeName;
-        String inactive = Constants.STATUS.inactiveName;
 
         for(CatStockDTO i: lstCatStock){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
             i.setCustName(selectedCustomer.getName());
-			statusName = "1".equals(i.getStatus()) ? active: inactive;
-            i.setStatusName(statusName);
+            i.setStatusName(mapAppStatus.get(i.getStatus()));
         }
 
         return lstCatStock;

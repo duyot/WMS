@@ -44,10 +44,35 @@ public class StockInfoController extends BaseController{
     //
     private List<MjrStockGoodsTotalDTO> lstGoodsTotal;
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
+    private List<AppParamsDTO> lstAppTransType;
+    public Map<String,String> mapAppTransType = new HashMap();
+    public Map<String,String> mapAppStockStatus   = new HashMap();
 
     @ModelAttribute("lstAppTransType")
-    public void setAppTransType(){
-        FunctionUtils.getAppParamByType(Constants.APP_PARAMS.TRANS_TYPE,lstAppParams);
+    public List<AppParamsDTO> setAppTransType(HttpServletRequest request) {
+        if (lstAppTransType != null) {
+            return lstAppTransType;
+        }
+        if (lstAppParams == null) {
+            if (selectedCustomer == null) {
+                this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+            }
+            if (tokenInfo == null) {
+                this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+            }
+            lstAppParams = FunctionUtils.getAppParams(appParamsService, tokenInfo);
+            mapAppGoodsState = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE,lstAppParams));
+        }
+        lstAppTransType = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.TRANS_TYPE, lstAppParams);
+        buildMapTransType(lstAppTransType);
+        buildMapStockStatus(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STOCK_STATUS, lstAppParams));
+        return lstAppTransType;
+    }
+
+    private void buildMapAppParamsGoodsState(List<AppParamsDTO> lstAppParams){
+        for(AppParamsDTO i: lstAppParams){
+            mapAppGoodsState.put(i.getCode(),i.getName());
+        }
     }
 
     @RequestMapping()
@@ -108,7 +133,7 @@ public class StockInfoController extends BaseController{
 
         }
 
-        lstGoodsDetails = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,null);
+        lstGoodsDetails = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,null,mapAppGoodsState);
         return lstGoodsDetails;
     }
 
@@ -149,7 +174,7 @@ public class StockInfoController extends BaseController{
                 temp.setExportDate(i.getExportDate());
                 temp.setInputPrice(i.getInputPrice());
                 temp.setOutputPrice(i.getOutputPrice());
-                temp.setStatusValue(i.getStatus().equalsIgnoreCase("1")?"Trong kho":"Đã xuất");
+                temp.setStatusValue(mapAppTransType.get(i.getStatus()));
                 //
                 lstResult.add(temp);
             }
@@ -163,7 +188,7 @@ public class StockInfoController extends BaseController{
             for(MjrStockGoodsTotalDTO i: lstTotal){
                 i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
                 i.setStockName(mapStockIdStock.get(i.getStockId()).getName());
-                i.setGoodsStateName(i.getGoodsState().equalsIgnoreCase("1")?"Bình thường":"Hỏng");
+                i.setGoodsStateName(mapAppGoodsState.get(i.getGoodsState()));
             }
         }else{
             return Lists.newArrayList();
@@ -218,4 +243,19 @@ public class StockInfoController extends BaseController{
         return reportFullPath;
     }
     //==================================================================================================================
+    private void buildMapTransType(List<AppParamsDTO> lstAppParams){
+        if(!DataUtil.isListNullOrEmpty(lstAppParams)){
+            for(AppParamsDTO i: lstAppParams){
+                mapAppTransType.put(i.getCode(),i.getName());
+            }
+        }
+    }
+    //
+    private void buildMapStockStatus(List<AppParamsDTO> lstAppParams){
+        if(!DataUtil.isListNullOrEmpty(lstAppParams)){
+            for(AppParamsDTO i: lstAppParams){
+                mapAppStockStatus.put(i.getCode(),i.getName());
+            }
+        }
+    }
 }

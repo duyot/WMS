@@ -25,6 +25,7 @@ import java.util.List;
 public class CatUserDP extends BaseDP<CatUserDTO>{
     private final String LOGIN_URL = BundleUtils.getkey("login_url");
     private final String GET_CUSTOMER_URL = BundleUtils.getkey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getCustomer/";
+    private final String GET_USER_BY_CUST = BundleUtils.getkey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getUserByCustomerId/";
 
     Logger log = LoggerFactory.getLogger(CatUserDP.class);
 
@@ -55,6 +56,18 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
             return Lists.newArrayList();
         }
     }
+
+    public List<CatUserDTO> getUserByCustomer(String custId, AuthTokenInfo tokenInfo) {
+        String getCustomerURL = GET_USER_BY_CUST + custId + "?access_token="+ tokenInfo.getAccess_token();
+        try {
+            ResponseEntity<CatUserDTO[]> responseEntity = restTemplate.exchange(getCustomerURL, HttpMethod.GET,null,CatUserDTO[].class);
+            return Arrays.asList(responseEntity.getBody());
+        } catch (RestClientException e) {
+            log.error(e.toString());
+            return Lists.newArrayList();
+        }
+    }
+
 
 
 }

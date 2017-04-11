@@ -72,7 +72,7 @@ public class SearchSerialController extends BaseController{
         }
         stockId = lstResult.get(0).getStockId();
         String stockName = mapStockIdStock.get(stockId).getName();
-        lstGoodsDetails = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,stockName);
+        lstGoodsDetails = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,stockName,mapAppGoodsState);
         return lstGoodsDetails;
     }
     //==================================================================================================================

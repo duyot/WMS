@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by duyot on 3/31/2017.
@@ -39,6 +40,8 @@ public class BaseController {
     public Map<String,CatGoodsDTO> mapGoodsCodeGoods = new HashMap();
     public Map<String,CatGoodsDTO> mapGoodsIdGoods   = new HashMap();
     public Map<String,CatStockDTO> mapStockIdStock   = new HashMap();
+    public Map<String,String> mapAppGoodsState   = new HashMap();
+
     //
     @ModelAttribute("currentUser")
     public void setCurrentUser(HttpServletRequest request){
@@ -55,12 +58,13 @@ public class BaseController {
         }
         //
         if(lstStock == null){
-            lstStock = FunctionUtils.getListStock(appParamsService,selectedCustomer,tokenInfo);
+            lstStock = FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
             buildMapStock();
         }
         //
         return lstStock;
     }
+
     @ModelAttribute("lstAppParams")
     public List<AppParamsDTO>  getListAppParams(HttpServletRequest request){
         if(selectedCustomer == null){
@@ -70,7 +74,8 @@ public class BaseController {
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
         if(lstAppParams == null){
-            lstAppParams = FunctionUtils.getAppParams(catGoodsService,tokenInfo);
+            lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
+            mapAppGoodsState = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE,lstAppParams));
         }
         return lstAppParams;
     }
@@ -91,10 +96,6 @@ public class BaseController {
     }
     //==================================================================================================================
     private void buildMapGoods(){
-        //
-        mapGoodsCodeGoods.clear();
-        mapGoodsIdGoods.clear();
-        //
         if(!DataUtil.isListNullOrEmpty(lstGoods)){
             for(CatGoodsDTO i: lstGoods){
                 mapGoodsCodeGoods.put(i.getCode(),i);
@@ -104,9 +105,6 @@ public class BaseController {
     }
 
     private void buildMapStock(){
-        //
-        mapStockIdStock.clear();
-        //
         if(!DataUtil.isListNullOrEmpty(lstStock)){
             for(CatStockDTO i: lstStock){
                 mapStockIdStock.put(i.getId(),i);

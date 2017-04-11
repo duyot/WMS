@@ -12,27 +12,25 @@ public class Constants {
 
     public static class APP_PARAMS{
         public static String TRANS_TYPE = "TRANS_TYPE";
+        public static String UNIT_TYPE = "UNIT_TYPE";
+        public static String GOODS_STATE = "GOODS_STATE";
+        public static String STOCK_STATUS = "STOCK_STATUS";
+        public static String STATUS = "STATUS";
     }
 
     public static class FILE_RESOURCE{
-        public static String IMPORT_TEMPLATE = "Bieu_mau_nhap_hang.xlsx";
         public static String EXPORT_TEMPLATE = "template_import.xlsx";
         public static String IMPORT_ERROR_TEMPLATE = "template_import_error.xlsx";
         public static String GOODS_TOTAL_TEMPLATE = "Thong_tin_hang_trong_kho.xlsx";
         public static String GOODS_DETAILS_TEMPLATE = "Thong_tin_chi_tiet_hang_trong_kho.xlsx";
         public static String GOODS_DETAILS_SERIAL_TEMPLATE = "Thong_tin_chi_tiet_hang_trong_kho_serial.xlsx";
         public static String GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE = "Thong_tin_tim_kiem_serial.xlsx";
+        public static String IMPORT_TEMPLATE = "Bieu_mau_nhap_hang.xlsx";
+        public static String LIST_TRANS_TEMPLATE = "Thong_tin_ds_giao_dich.xlsx";
     }
 
     public static class STATUS{
         public static String ACTIVE = "1";
-        public static String activeName = "Hiệu lực";
-        public static String inactiveName = "Hết hiệu lực";
-    }
-
-    public static class APP_PARAMS{
-        public static String UNIT_TYPE = "UNIT_TYPE";
-
     }
 
     public static class IMPORT_TYPE{
@@ -71,10 +69,7 @@ public class Constants {
         public static String MJR_STOCK_GOODS_SERVICE = "mjrStockGoodsServices/";
         public static String MJR_STOCK_GOODS_SERIAL_SERVICE = "mjrStockGoodsSerialServices/";
         public static String MJR_STOCK_GOODS_TOTAL_SERVICE = "mjrStockGoodsTotalServices/";
-<<<<<<< HEAD
         public static String MJR_STOCK_TRANS_SERVICE = "mjrStockTransServices/";
-=======
->>>>>>> 82a5caa22e2998c70ccea91139b582f9c2701375
         public static String APP_PARAMS_SERVICE = "appParamsServices/";
     }
 

@@ -37,4 +37,9 @@ public class CatUserServiceImpl extends BaseServiceImpl<CatUserDTO,CatUserDP> im
     public List<CatCustomerDTO> getCustomer(String userId, AuthTokenInfo tokenInfo) {
         return catUserDP.getCustomer(userId,tokenInfo);
     }
+
+    @Override
+    public List<CatUserDTO> getUserByCustomer(String custId, AuthTokenInfo tokenInfo) {
+        return catUserDP.getUserByCustomer(custId,tokenInfo);
+    }
 }

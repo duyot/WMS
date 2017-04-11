@@ -2,11 +2,13 @@ package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
+import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
+import com.wms.utils.FunctionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,66 +28,53 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/workspace/cat_goods_ctr")
-public class CatGoodsController {
+public class CatGoodsController extends BaseCommonController{
     Logger log = LoggerFactory.getLogger(CatGoodsController.class);
-    private CatCustomerDTO selectedCustomer;
 
-    public Map<String, String> mapGoodsGroup = new HashMap<>();
-    public Map<String, String> mapUnitType = new HashMap<>();
+    public Map<String, String> mapGoodsGroup;
+    public Map<String, String> mapUnitType;
 
     @Autowired
     BaseService catGoodsGroupService;
 
     @Autowired
-    BaseService appParamsService;
-
-    @Autowired
     BaseService catGoodsService;
-
-    private AuthTokenInfo tokenInfo;
-
-    @ModelAttribute("tokenInfo")
-    public void setTokenInfo(HttpServletRequest request){
-        tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-    }
-
-    @ModelAttribute("selectedCustomer")
-    public void setSelectedCustomer(HttpServletRequest request){
-        this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-    }
 
     @ModelAttribute("mapGoodsGroup")
     public Map<String, String> setLstGoodsGroup(HttpServletRequest request){
         if(tokenInfo == null){
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
-        CatCustomerDTO curCust = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,curCust.getId()));
-        lstCon.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"desc"));
-        List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
+        if (mapGoodsGroup == null) {
+            mapGoodsGroup = new HashMap<>();
+            CatCustomerDTO curCust = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+            List<Condition> lstCon = Lists.newArrayList();
+            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,curCust.getId()));
+            lstCon.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"desc"));
+            List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
 
-        for(CatGoodsGroupDTO i: lstCatGoodsGroup){
-            mapGoodsGroup.put(i.getId(), i.getName());
+            for(CatGoodsGroupDTO i: lstCatGoodsGroup){
+                mapGoodsGroup.put(i.getId(), i.getName());
+            }
         }
+
         return mapGoodsGroup;
     }
 
     @ModelAttribute("mapUnitType")
-    public Map<String, String> setLstUnitType(HttpServletRequest request){
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+    public Map<String, String> setMapUnitType(HttpServletRequest request){
+        //
+        if (mapUnitType == null) {
+            if(tokenInfo == null){
+                this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+            }
+            if(lstAppParams == null){
+                lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
+            }
+            mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE,lstAppParams));
         }
-        List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCon.add(new Condition("type", Constants.SQL_OPERATOR.EQUAL,Constants.APP_PARAMS.UNIT_TYPE));
-        lstCon.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"desc"));
-        List<AppParamsDTO> lstAppParamsDTOS = appParamsService.findByCondition(lstCon,tokenInfo);
-
-        for(AppParamsDTO i: lstAppParamsDTOS){
-            mapUnitType.put(i.getCode(), i.getName());
-        }
+        //
         return mapUnitType;
     }
 
@@ -112,9 +101,6 @@ public class CatGoodsController {
         String isSerialName = Constants.SERIAL_TYPE.IS_SERIAL_NAME;
         String isSerial = Constants.SERIAL_TYPE.IS_SERIAL;
         String noSerialName = Constants.SERIAL_TYPE.NO_SERIAL_NAME;
-        String statusName ="";
-        String active = Constants.STATUS.activeName;
-        String inactive = Constants.STATUS.inactiveName;
 
 
         for(CatGoodsDTO i: lstCatGoods){
@@ -124,8 +110,7 @@ public class CatGoodsController {
             serialTypeName =  isSerial.equals(i.getIsSerial()) ? isSerialName: noSerialName;
             i.setSerialTypeName(serialTypeName);
 
-            statusName = "1".equals(i.getStatus()) ? active: inactive;
-            i.setStatusName(statusName);
+            i.setStatusName(mapAppStatus.get(i.getStatus()));
 
             i.setUnitTypeName(mapUnitType.get(i.getUnitType()));
 

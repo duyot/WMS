@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.CatUserService;
 import net.sf.jxls.transformer.Configuration;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +34,15 @@ import java.util.*;
  */
 public class FunctionUtils {
     public static Logger log = LoggerFactory.getLogger(FunctionUtils.class);
+
+    //build map app_params
+    public static Map<String,String>  buildMapAppParams(List<AppParamsDTO> lstAppParams){
+        Map<String,String> map   = new HashMap();
+        for(AppParamsDTO i: lstAppParams){
+            map.put(i.getCode(),i.getName());
+        }
+        return map;
+    }
 
     /*
        get AppParams
@@ -130,7 +140,7 @@ public class FunctionUtils {
 
      */
     public static  List<MjrStockTransDetailDTO> setNameValueGoodsDetail(List<MjrStockTransDetailDTO> lstGoodsDetail,
-                                                                        Map<String,CatGoodsDTO> mapGoodsIdGoods,String stockName){
+                                                                        Map<String,CatGoodsDTO> mapGoodsIdGoods,String stockName,Map<String,String> mapGoodsState){
         if(!DataUtil.isListNullOrEmpty(lstGoodsDetail)){
             CatGoodsDTO currentGoods;
             for(MjrStockTransDetailDTO i: lstGoodsDetail){
@@ -141,7 +151,7 @@ public class FunctionUtils {
                 i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
                 i.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
                 i.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
-                i.setGoodsStateValue(i.getGoodsState().equalsIgnoreCase("1")?"Bình thường":"Hỏng");
+                i.setGoodsStateValue(mapGoodsState.get(i.getGoodsState()));
                 i.setStockValue(stockName);
             }
         }else{
@@ -163,11 +173,8 @@ public class FunctionUtils {
     /*
         get user
      */
-    public static List<CatUserDTO> getListUser(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
-        List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentCustomer.getId()));
-        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        return service.findByCondition(lstCondition,tokenInfo);
+    public static List<CatUserDTO> getListUser(CatUserService catUserService, CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
+        return catUserService.getUserByCustomer(currentCustomer.getId(),tokenInfo);
     }
 
     /*
@@ -229,15 +236,6 @@ public class FunctionUtils {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         return headers;
-    }
-
-    public static Map getMapGoodsState(){
-        Map<String,String> mapGoodsState = new HashMap<>();
-        mapGoodsState.put("1","Bình thường");
-        mapGoodsState.put("2","Hỏng");
-        mapGoodsState.put("Bình thường","1");
-        mapGoodsState.put("Hỏng","2");
-        return  mapGoodsState;
     }
 
     /*
@@ -322,7 +320,7 @@ public class FunctionUtils {
     }
 
     public static ImportFileResultDTO getListStockImportFromFile(MultipartFile mpf, HashSet<String> setGoodsCode,
-                                                                 Map<String,CatGoodsDTO> mapGoods,boolean isImportTransaction){
+                                                                 Map<String,CatGoodsDTO> mapGoods,Map<String,String> mapGoodsState,boolean isImportTransaction){
         ImportFileResultDTO importResult = new ImportFileResultDTO();
         List<MjrStockTransDetailDTO> lstGoods = Lists.newArrayList();
         boolean isValid = true;
@@ -395,7 +393,7 @@ public class FunctionUtils {
                     }
                 }
                 goodsItem.setGoodsState(goodsState);
-                goodsItem.setGoodsStateValue(goodsState.equalsIgnoreCase("1")?"Bình thường":"Hỏng");
+                goodsItem.setGoodsStateValue(mapGoodsState.get(goodsState));
                 //AMOUNT
                 Cell cellAmount = row.getCell(5);
                 String amount = getCellValue(cellAmount);

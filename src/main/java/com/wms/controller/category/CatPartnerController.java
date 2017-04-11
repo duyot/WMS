@@ -1,6 +1,7 @@
 package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
+import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/workspace/cat_partner_ctr")
-public class CatPartnerController {
+public class CatPartnerController extends BaseCommonController{
     Logger log = LoggerFactory.getLogger(CatPartnerController.class);
 
     @Autowired
@@ -35,20 +36,6 @@ public class CatPartnerController {
 
     @Autowired
     BaseService catPartnerService;
-
-    private CatCustomerDTO selectedCustomer;
-
-    private AuthTokenInfo tokenInfo;
-
-    @ModelAttribute("tokenInfo")
-    public void setTokenInfo(HttpServletRequest request){
-        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-    }
-
-    @ModelAttribute("selectedCustomer")
-    public void setSelectedCustomer(HttpServletRequest request){
-        this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-    }
 
     @RequestMapping()
     public String home(Model model){
@@ -71,15 +58,11 @@ public class CatPartnerController {
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatPartnerDTO> lstCatPartner = catPartnerService.findByCondition(lstCon,tokenInfo);
-        String statusName ="";
-        String active = Constants.STATUS.activeName;
-        String inactive = Constants.STATUS.inactiveName;
 
         for(CatPartnerDTO i: lstCatPartner){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
             i.setCustName(selectedCustomer.getName());
-            statusName = "1".equals(i.getStatus()) ? active: inactive;
-            i.setStatusName(statusName);
+            i.setStatusName(mapAppStatus.get(i.getStatus()));
         }
 
         return lstCatPartner;

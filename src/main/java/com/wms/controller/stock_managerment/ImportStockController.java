@@ -97,7 +97,7 @@ public class ImportStockController extends BaseController{
         Iterator<String> itr =  request.getFileNames();
         MultipartFile mpf = request.getFile(itr.next());
         //
-        ImportFileResultDTO importFileResult = FunctionUtils.getListStockImportFromFile(mpf,setGoodsCode, mapGoodsCodeGoods,true);
+        ImportFileResultDTO importFileResult = FunctionUtils.getListStockImportFromFile(mpf,setGoodsCode, mapGoodsCodeGoods,mapAppGoodsState,true);
         if(!importFileResult.isValid()){
             //save error file
             String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
