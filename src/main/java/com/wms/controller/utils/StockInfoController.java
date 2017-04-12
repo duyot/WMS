@@ -69,12 +69,6 @@ public class StockInfoController extends BaseController{
         return lstAppTransType;
     }
 
-    private void buildMapAppParamsGoodsState(List<AppParamsDTO> lstAppParams){
-        for(AppParamsDTO i: lstAppParams){
-            mapAppGoodsState.put(i.getCode(),i.getName());
-        }
-    }
-
     @RequestMapping()
     public String home(Model model){
         //clear previous data
@@ -133,7 +127,7 @@ public class StockInfoController extends BaseController{
 
         }
 
-        lstGoodsDetails = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,null,mapAppGoodsState);
+        lstGoodsDetails = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,mapStockIdStock,mapAppGoodsState);
         return lstGoodsDetails;
     }
 
@@ -187,7 +181,7 @@ public class StockInfoController extends BaseController{
         if(!DataUtil.isListNullOrEmpty(lstTotal)){
             for(MjrStockGoodsTotalDTO i: lstTotal){
                 i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-                i.setStockName(mapStockIdStock.get(i.getStockId()).getName());
+                i.setStockName(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()));
                 i.setGoodsStateName(mapAppGoodsState.get(i.getGoodsState()));
             }
         }else{
@@ -232,7 +226,7 @@ public class StockInfoController extends BaseController{
         Map<String, Object> beans = new HashMap<>();
         beans.put("items", lstGoodsDetails);
         beans.put("date", DateTimeUtils.convertDateTimeToString(new Date()));
-        beans.put("stockName", mapStockIdStock.get(stockId).getName());
+        beans.put("stockName", FunctionUtils.getMapValue(mapStockIdStock,stockId));
         beans.put("goodsName", goodsItem.getGoodsName());
         beans.put("goodsStateValue", goodsItem.getGoodsStateValue());
 

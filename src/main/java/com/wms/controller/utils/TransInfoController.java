@@ -114,8 +114,10 @@ public class TransInfoController extends BaseController{
         }
 
         if(!DataUtil.isStringNullOrEmpty(transCode)){
-            lstCon.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,transCode));
+            lstCon.add(new Condition("code",Constants.SQL_OPERATOR.LIKE,transCode));
         }
+
+        lstCon.add(new Condition("createdDate",Constants.SQL_OPERATOR.ORDER,"desc"));
         //
         lstTrans = mjrStockTransService.findByCondition(lstCon,tokenInfo);
         if(DataUtil.isListNullOrEmpty(lstTrans)){
@@ -141,7 +143,7 @@ public class TransInfoController extends BaseController{
 
     private List<MjrStockTransDTO> setTransInfoValue(List<MjrStockTransDTO> lstTransDetail){
         for(MjrStockTransDTO i: lstTransDetail){
-            i.setStockValue(mapStockIdStock.get(i.getStockId()).getName());
+            i.setStockValue(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()));
             i.setTypeValue(mapAppTransType.get(i.getType()));
         }
         return lstTransDetail;

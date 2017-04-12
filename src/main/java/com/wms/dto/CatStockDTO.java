@@ -3,11 +3,9 @@ package com.wms.dto;
 /**
  * Created by duyot on 2/17/2017.
  */
-public class CatStockDTO {
+public class CatStockDTO extends BaseDTO{
     private String id;
     private String custId;
-    private String code;
-    private String name;
     private String address;
     private String status;
     private String managerInfo;
@@ -57,22 +55,6 @@ public class CatStockDTO {
 
     public void setCustId(String custId) {
         this.custId = custId;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getAddress() {

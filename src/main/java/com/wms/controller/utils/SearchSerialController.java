@@ -65,14 +65,13 @@ public class SearchSerialController extends BaseController{
             lstCon.add(new Condition("goodsId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,goodsId));
         }
         lstCon.add(new Condition("serial",Constants.SQL_OPERATOR.IN,arrSearchSerial));
+        lstCon.add(new Condition("importDate",Constants.SQL_OPERATOR.ORDER,"desc"));
         //
         List<MjrStockTransDetailDTO> lstResult= FunctionUtils.convertGoodsSerialToDetail(mjrStockGoodsSerialService.findByCondition(lstCon,tokenInfo));
         if(DataUtil.isListNullOrEmpty(lstResult)){
             return Lists.newArrayList();
         }
-        stockId = lstResult.get(0).getStockId();
-        String stockName = mapStockIdStock.get(stockId).getName();
-        lstGoodsDetails = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,stockName,mapAppGoodsState);
+        lstGoodsDetails  = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,mapStockIdStock,mapAppGoodsState);
         return lstGoodsDetails;
     }
     //==================================================================================================================

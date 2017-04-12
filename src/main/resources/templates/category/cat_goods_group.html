@@ -197,7 +197,7 @@
                 alert('Chọn 1 bản ghi');
                 return;
             }
-            $("#lbl-del-info").text('Xóa thông tin: '+ selectedItem['name']);
+            $("#lbl-del-info").text('Xóa thông tin: '+ decodeHtml(selectedItem['name']));
             $('#myConfirmModal').modal('show');
         });
     });

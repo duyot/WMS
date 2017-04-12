@@ -35,6 +35,14 @@ import java.util.*;
 public class FunctionUtils {
     public static Logger log = LoggerFactory.getLogger(FunctionUtils.class);
 
+    public static <T extends BaseDTO>  String getMapValue(Map<String,T> map,String key){
+        BaseDTO obj = map.get(key);
+        if(obj == null){
+            return "";
+        }
+        return obj.getName();
+    }
+
     //build map app_params
     public static Map<String,String>  buildMapAppParams(List<AppParamsDTO> lstAppParams){
         Map<String,String> map   = new HashMap();
@@ -140,7 +148,7 @@ public class FunctionUtils {
 
      */
     public static  List<MjrStockTransDetailDTO> setNameValueGoodsDetail(List<MjrStockTransDetailDTO> lstGoodsDetail,
-                                                                        Map<String,CatGoodsDTO> mapGoodsIdGoods,String stockName,Map<String,String> mapGoodsState){
+                                                                        Map<String,CatGoodsDTO> mapGoodsIdGoods,Map<String,CatStockDTO> mapStockIdStock,Map<String,String> mapGoodsState){
         if(!DataUtil.isListNullOrEmpty(lstGoodsDetail)){
             CatGoodsDTO currentGoods;
             for(MjrStockTransDetailDTO i: lstGoodsDetail){
@@ -148,11 +156,11 @@ public class FunctionUtils {
                 //
                 i.setGoodsCode(currentGoods.getCode());
                 i.setGoodsName(currentGoods.getName());
-                i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-                i.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
-                i.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
+                i.setAmountValue(formatNumber(i.getAmount()));
+                i.setInputPriceValue(formatNumber(i.getInputPrice()));
+                i.setOutputPriceValue(formatNumber(i.getOutputPrice()));
                 i.setGoodsStateValue(mapGoodsState.get(i.getGoodsState()));
-                i.setStockValue(stockName);
+                i.setStockValue(getMapValue(mapStockIdStock,i.getStockId() ));
             }
         }else{
             return Lists.newArrayList();
