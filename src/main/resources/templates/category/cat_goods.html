@@ -124,7 +124,7 @@
                             <th  class="col-md-1" data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
                             <th  class="col-md-1" data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
                             <th  class="col-md-1" data-field="serialTypeName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
-                            <th  class="col-md-1" data-field="statusValue" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
+                            <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
                         </tr>
                         </thead>
                     </table>
@@ -303,12 +303,17 @@
     function changeModelByType(type,selectedItem,actionVal) {
         $("#cat-goods-insert-update-form").attr("th:object",actionVal);
         if(type == 1){//add
+
             $("#cat-goods-insert-update-form").attr("action",actionVal);
             $("#modal-inp-code").val('');
             $("#modal-inp-name").val('');
-            $("#modal-cmb-goods-unit").val('-1');
-            $("#modal-cmb-goods-group").val('-1');
-            //set default active-disable combo status
+            $("#modal-inp-id").val('');
+            $("#modal-cmb-goods-unit").val('');
+            $("#modal-cmb-goods-group").val('');
+            $("#modal-cmb-goods-unitundefined").val('---Chọn---');
+            $("#modal-cmb-goods-groupundefined").val('---Chọn---');
+            $("#modal-inp-input-price").val('');
+            $("#modal-inp-output-price").val('');
             $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
 
@@ -318,10 +323,10 @@
             $("#modal-inp-code").val(selectedItem["code"]);
             $("#modal-inp-name").val(selectedItem["name"]);
             $("#modal-inp-id").val(selectedItem["id"]);
-            alert(selectedItem["code"]);
-            alert(selectedItem["unitType"]);
-            $("#modal-cmb-goods-unit").val(selectedItem["unitType"]);
-            $("#modal-cmb-goods-group").val(selectedItem["goodsGroupId"]);
+            $("#modal-cmb-goods-unitundefined").val(selectedItem['unitTypeName']);
+            $("#modal-cmb-goods-groupundefined").val(selectedItem['goodsGroupName']);
+            $("#modal-cmb-goods-unit").val(selectedItem['unitType']);
+            $("#modal-cmb-goods-group").val(selectedItem['goodsGroupId']);
             $("#modal-inp-input-price").val(selectedItem["inPrice"]);
             $("#modal-inp-output-price").val(selectedItem["outPrice"]);
             var currentStatus = selectedItem["status"];
