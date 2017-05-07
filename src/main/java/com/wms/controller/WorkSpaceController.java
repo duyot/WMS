@@ -147,4 +147,11 @@ public class WorkSpaceController {
     public String redirectTransInfo(){
         return "redirect:/workspace/utils/trans_info";
     }
+
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/app_params")
+    public String redirectAppParams(){
+        return "redirect:/workspace/app_params_ctr";
+    }
 }

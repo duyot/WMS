@@ -10,8 +10,15 @@ public class AppParamsDTO {
     private String status;
     private String type;
     private String parOrder;
+    private String statusName;
 
+    public String getStatusName() {
+        return statusName;
+    }
 
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
 
     public AppParamsDTO(String id, String code, String name, String status, String type, String parOrder ) {
         this.id = id;
