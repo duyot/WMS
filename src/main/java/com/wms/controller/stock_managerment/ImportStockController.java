@@ -15,15 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.URLConnection;
 import java.util.*;
 
 /**
@@ -39,8 +36,11 @@ public class ImportStockController extends BaseController{
     StockManagementService stockManagementService;
     @Autowired
     BaseService err$MjrStockGoodsSerialService;
+    @Autowired
+    BaseService catStockCellService;
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
+    public List<CatStockCellDTO> lstCells;
     //
     @ModelAttribute("setGoodsCode")
     public void setGoodsCode(HttpServletRequest request){
@@ -59,12 +59,12 @@ public class ImportStockController extends BaseController{
 
     @RequestMapping(value = "/getTemplateFile")
     public void getTemplateFile(HttpServletResponse response){
-        FunctionUtils.loadFileToClient(response,BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.IMPORT_TEMPLATE);
+        FunctionUtils.loadFileToClient(response,BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_TEMPLATE);
     }
 
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request,HttpServletResponse response){
-        String fileResource = BundleUtils.getkey("temp_url") + request.getSession().getAttribute("file_import_error");
+        String fileResource = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_import_error");
         FunctionUtils.loadFileToClient(response,fileResource);
     }
 
@@ -76,17 +76,21 @@ public class ImportStockController extends BaseController{
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName ="Error_"+ errorItem.getCustId() + "_"+ errorItem.getStockId() + "_"+ errorItem.getImportStockTransId();
             String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName);
-            FunctionUtils.loadFileToClient(response,BundleUtils.getkey("temp_url")+ fileName);
+            FunctionUtils.loadFileToClient(response,BundleUtils.getKey("temp_url")+ fileName);
         }
     }
 
     @RequestMapping(value = "/isSerial/{code}")
-    public @ResponseBody String isSerial(@PathVariable("code")String code){
+    public @ResponseBody CatGoodsDTO isSerial(@PathVariable("code")String code){
         CatGoodsDTO catGoodsDTO = mapGoodsCodeGoods.get(code);
-        if(catGoodsDTO != null){
-            return catGoodsDTO.getIsSerial();
-        }
-        return "0";
+        return catGoodsDTO;
+    }
+
+    @RequestMapping(value = "/getCells/{stockId}")
+    public @ResponseBody List<CatStockCellDTO> getCellByStock(@PathVariable("stockId")String stockId){
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,stockId));
+        return catStockCellService.findByCondition(lstCon,tokenInfo);
     }
 
 

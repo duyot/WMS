@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-add-goods-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="add-goods-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+         aria-labelledby="myModalLabel" aria-hidden="true" th:width="500px">
+        <div class="modal-dialog" role="document" style="width:85%">
+            <div class="modal-content" id="catUserDTO-modal">
+                <div class="modal-header">
+                    <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel" th:text="#{modal.label.goodsdetail}"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-modal">
+                        <div class="panel-body" style="padding: 0.1em 0.2em;">
+                            <!--row 1: file upload-->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.fileupload}" for="modal-btn-upload-excel"></label>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="input-group">
+                                        <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload"
+                                                id="modal-btn-upload-excel" th:value="@{/workspace/cat_goods_ctr/upload}">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="input-group">
+                                        <div class="input-group">
+                                            <input id="inp-file-import" data-toggle="toggle" type="file"
+                                                   onchange="isValidExcel(this);"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <a class="link-label" th:text="#{link.downloadtemplate}" th:href="@{/workspace/cat_goods_ctr/getTemplateFile}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <a id="link-upload-goods-error" class="link-label" th:text="#{link.downloadfileerror}"  th:href="@{/workspace/cat_goods_ctr/getErrorImportFile}" hidden="true">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <p></p>
+                        </div>
+                        <div class="panel-body" style="padding: 0.1em 0.2em;">
+                            <table  id="modal-tbl-add-goods"
+                                    data-pagination="true"
+                                    data-search="true"
+                                    data-click-to-select="true"
+                                    data-show-columns="true"
+                                    class="table-striped"
+                                    style="word-wrap: break-word;  table-layout: fixed;"
+                            >
+
+                            <thead>
+                            <tr>
+                                <th  data-formatter="runningFormatter" data-align="center" data-width="30px">STT</th>
+                                <th  data-checkbox="true" data-width="30px"></th>
+                                <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
+                                <th  class="col-md-4" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
+                                <th  class="col-md-1" data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
+                                <th  class="col-md-1" data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
+                                <th  class="col-md-1" data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
+                                <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+                                <th  class="col-md-1" data-field="inPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
+                                <th  class="col-md-1" data-field="outPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
+                            </tr>
+                            </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-btn-save-goods" th:value="@{/workspace/cat_goods_ctr/saveListGoods}" type="submit" class="btn btn-primary">Save</button>
+                    <button id="modal-btn-close" type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

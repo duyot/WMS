@@ -23,9 +23,9 @@ import java.util.List;
  */
 @Repository
 public class CatUserDP extends BaseDP<CatUserDTO>{
-    private final String LOGIN_URL = BundleUtils.getkey("login_url");
-    private final String GET_CUSTOMER_URL = BundleUtils.getkey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getCustomer/";
-    private final String GET_USER_BY_CUST = BundleUtils.getkey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getUserByCustomerId/";
+    private final String LOGIN_URL = BundleUtils.getKey("login_url");
+    private final String GET_CUSTOMER_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getCustomer/";
+    private final String GET_USER_BY_CUST = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getUserByCustomerId/";
 
     Logger log = LoggerFactory.getLogger(CatUserDP.class);
 

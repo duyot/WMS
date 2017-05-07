@@ -19,13 +19,14 @@ public class Constants {
     }
 
     public static class FILE_RESOURCE{
-        public static String EXPORT_TEMPLATE = "template_import.xlsx";
-        public static String IMPORT_ERROR_TEMPLATE = "template_import_error.xlsx";
+        public static String IMPORT_ERROR_TEMPLATE = "File_loi_nhap_hang.xlsx";
+        public static String IMPORT_GOODS_ERROR_TEMPLATE = "File_loi_hang_hoa.xlsx";
         public static String GOODS_TOTAL_TEMPLATE = "Thong_tin_hang_trong_kho.xlsx";
         public static String GOODS_DETAILS_TEMPLATE = "Thong_tin_chi_tiet_hang_trong_kho.xlsx";
         public static String GOODS_DETAILS_SERIAL_TEMPLATE = "Thong_tin_chi_tiet_hang_trong_kho_serial.xlsx";
         public static String GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE = "Thong_tin_tim_kiem_serial.xlsx";
         public static String IMPORT_TEMPLATE = "Bieu_mau_nhap_hang.xlsx";
+        public static String IMPORT_GOODS_TEMPLATE = "Bieu_mau_hang_hoa.xlsx";
         public static String LIST_TRANS_TEMPLATE = "Thong_tin_ds_giao_dich.xlsx";
     }
 
@@ -71,6 +72,7 @@ public class Constants {
         public static String MJR_STOCK_GOODS_TOTAL_SERVICE = "mjrStockGoodsTotalServices/";
         public static String MJR_STOCK_TRANS_SERVICE = "mjrStockTransServices/";
         public static String APP_PARAMS_SERVICE = "appParamsServices/";
+        public static String CAT_STOCK_CELL_SERVICE = "catStockCellServices/";
     }
 
     public static class SQL_OPERATOR{

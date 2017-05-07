@@ -3,9 +3,7 @@ package com.wms.controller.utils;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
-import com.wms.dto.CatGoodsDTO;
 import com.wms.dto.Condition;
-import com.wms.dto.MjrStockGoodsTotalDTO;
 import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.BundleUtils;
@@ -99,7 +97,7 @@ public class SearchSerialController extends BaseController{
     }
 
     private  String exportSerialFile(List<MjrStockTransDetailDTO> lstSerial,String prefixFileName){
-        String templatePath = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE;
+        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE;
 
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -109,7 +107,7 @@ public class SearchSerialController extends BaseController{
         beans.put("date", DateTimeUtils.convertDateTimeToString(new Date()));
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getkey("temp_url") + fullFileName;
+        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         //

@@ -8,10 +8,19 @@ import java.util.List;
 public class ImportFileResultDTO {
     private boolean isValid;
     private List<MjrStockTransDetailDTO> lstGoodsImport;
+    private List<CatGoodsDTO> lstGoods;
 
     public ImportFileResultDTO(boolean isValid, List<MjrStockTransDetailDTO> lstGoodsImport) {
         this.isValid = isValid;
         this.lstGoodsImport = lstGoodsImport;
+    }
+
+    public List<CatGoodsDTO> getLstGoods() {
+        return lstGoods;
+    }
+
+    public void setLstGoods(List<CatGoodsDTO> lstGoods) {
+        this.lstGoods = lstGoods;
     }
 
     public ImportFileResultDTO() {

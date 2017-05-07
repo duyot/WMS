@@ -1,14 +1,15 @@
 package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
+import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,16 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by duyot on 12/9/2016.
@@ -35,6 +39,7 @@ public class CatGoodsController extends BaseCommonController{
 
     public Map<String, String> mapGoodsGroup;
     public Map<String, String> mapUnitType;
+    public Map<String,String> mapAppGoodsState;
 
     @Autowired
     BaseService catGoodsGroupService;
@@ -60,6 +65,13 @@ public class CatGoodsController extends BaseCommonController{
                 mapGoodsGroup.put(i.getId(), i.getName());
             }
         }
+        //
+        if (mapAppGoodsState == null) {
+            if(lstAppParams == null){
+                lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
+            }
+            mapAppGoodsState = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE,lstAppParams));
+        }
 
         return mapGoodsGroup;
     }
@@ -77,6 +89,7 @@ public class CatGoodsController extends BaseCommonController{
             mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE,lstAppParams));
         }
         //
+        //
         return mapUnitType;
     }
 
@@ -85,17 +98,48 @@ public class CatGoodsController extends BaseCommonController{
         model.addAttribute("menuName","menu.catgoods");
         return "category/cat_goods";
     }
+
+
+    //
+    @RequestMapping(value = "/getTemplateFile")
+    public void getTemplateFile(HttpServletResponse response){
+        FunctionUtils.loadFileToClient(response, BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_GOODS_TEMPLATE);
+    }
+    //
+    @RequestMapping(value = "/getErrorImportFile")
+    public void getErrorImportFile(HttpServletRequest request,HttpServletResponse response){
+        String fileResource = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_goods_import_error");
+        FunctionUtils.loadFileToClient(response,fileResource);
+    }
+    //
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public List<CatGoodsDTO> uploadFile(MultipartHttpServletRequest request) {
+        //1. get the files from the request object
+        Iterator<String> itr =  request.getFileNames();
+        MultipartFile mpf = request.getFile(itr.next());
+        //
+        ImportFileResultDTO importFileResult = FunctionUtils.getListGoodsImportFromFile(mpf,mapAppGoodsState);
+        if(!importFileResult.isValid()){
+            //save error file
+            String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
+            String fileName = FunctionUtils.exportExcelImportGoodsError(importFileResult.getLstGoods(),prefixFileName);
+            //save in session
+            request.getSession().setAttribute("file_goods_import_error",fileName);
+            return null;
+        }
+        return importFileResult.getLstGoods();
+    }
+    //
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public  @ResponseBody List<CatGoodsDTO> findByCondition(@RequestParam("customerId")String custId, @RequestParam("status")String status){
+    public  @ResponseBody List<CatGoodsDTO> findByCondition(@RequestParam("status")String status){
         List<Condition> lstCon = Lists.newArrayList();
 
-        if(!DataUtil.isStringNullOrEmpty(custId) && !custId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,custId));
-        }
+        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
         }
-        lstCon.add(new Condition("id",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.ORDER,"desc"));
+        lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
 
@@ -104,17 +148,17 @@ public class CatGoodsController extends BaseCommonController{
         String isSerial = Constants.SERIAL_TYPE.IS_SERIAL;
         String noSerialName = Constants.SERIAL_TYPE.NO_SERIAL_NAME;
 
-
         for(CatGoodsDTO i: lstCatGoods){
+            i.setCode(StringEscapeUtils.escapeHtml(i.getCode()));
+            i.setName(StringEscapeUtils.escapeHtml(i.getName()));
             i.setCustName(selectedCustomer.getName());
             i.setGoodsGroupName(mapGoodsGroup.get(i.getGoodsGroupId()));
-
             serialTypeName =  isSerial.equals(i.getIsSerial()) ? isSerialName: noSerialName;
-            i.setSerialTypeName(serialTypeName);
-
+            i.setIsSerialName(serialTypeName);
             i.setStatusName(mapAppStatus.get(i.getStatus()));
-
             i.setUnitTypeName(mapUnitType.get(i.getUnitType()));
+            i.setInPriceValue(FunctionUtils.formatNumber(i.getInPrice()));
+            i.setOutPriceValue(FunctionUtils.formatNumber(i.getOutPrice()));
 
         }
 
@@ -123,7 +167,10 @@ public class CatGoodsController extends BaseCommonController{
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(CatGoodsDTO catGoods, RedirectAttributes redirectAttributes){
         catGoods.setStatus("1");
+        catGoods.setIsSerial(FunctionUtils.getValueFromToggle(catGoods.getIsSerial()));
         catGoods.setCustId(this.selectedCustomer.getId());
+        catGoods.setCreatedDate(catGoodsService.getSysDate(tokenInfo));
+        //
         ResponseObject response = catGoodsService.add(catGoods,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
@@ -136,16 +183,62 @@ public class CatGoodsController extends BaseCommonController{
 
         return "redirect:/workspace/cat_goods_ctr";
     }
+    //
+    @RequestMapping(value = "/saveListGoods", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseObject importStock(@RequestBody ListGoodsDTO lstGoodsObject,HttpServletRequest request) {
+        log.info("------------------------------------------------------------");
+        List<CatGoodsDTO> lstGoods = lstGoodsObject.getLstGoods();
+        log.info(currentUser.getCode() +" importting goods with: " + lstGoods.size() + " items.");
+        List<CatGoodsDTO> lstError = Lists.newArrayList();
+        //
+        ResponseObject insertResponse = new ResponseObject();
+        String sysdate = appParamsService.getSysDate(tokenInfo);
+        int successCount = 0;
+        for (CatGoodsDTO item: lstGoods) {
+            item.setStatus("1");
+            item.setCreatedDate(sysdate);
+            item.setCustId(this.selectedCustomer.getId());
+            insertResponse = catGoodsService.add(item,tokenInfo);
+            if(!Responses.SUCCESS.getName().equalsIgnoreCase(insertResponse.getStatusCode())){
+                item.setErrorInfo("Thông tin hàng đã được khai báo trên hệ thống");
+                lstError.add(item);
+            }else{
+                successCount ++;
+            }
+        }
+        //
+        if(lstError.size()>0){
+            //export file error
+            String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
+            String fileName = FunctionUtils.exportExcelImportGoodsError(lstError,prefixFileName);
+            //save in session
+            request.getSession().setAttribute("file_goods_save_error",fileName);
+            //
+            insertResponse.setStatusCode("SUCCESS_WITH_ERROR");
+            insertResponse.setTotal(lstGoods.size()+"");
+            insertResponse.setSuccess(successCount+"");
+        }else{
+            insertResponse.setStatusCode("SUCCESS");
+            insertResponse.setSuccess(lstGoods.size()+"");
+        }
+        //
+        return insertResponse;
+    }
+
+    //
+    @RequestMapping(value = "/getErrorSaveGoods")
+    public void getErrorSaveGoods(HttpServletRequest request,HttpServletResponse response){
+        String fileResource = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_goods_save_error");
+        FunctionUtils.loadFileToClient(response,fileResource);
+    }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String update(CatGoodsDTO catGoods, RedirectAttributes redirectAttributes){
-        catGoods.setCustId(this.selectedCustomer.getId());
+        catGoods.setCustId(selectedCustomer.getId());
+        catGoods.setStatus(FunctionUtils.getValueFromToggle(catGoods.getStatus()));
+        catGoods.setIsSerial(FunctionUtils.getValueFromToggle(catGoods.getIsSerial()));
         log.info("Update cat_goods info: "+ catGoods.toString());
-        if("on".equalsIgnoreCase(catGoods.getStatus())){
-            catGoods.setStatus("1");
-        }else{
-            catGoods.setStatus("0");
-        }
         ResponseObject response = catGoodsService.update(catGoods,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
@@ -157,7 +250,7 @@ public class CatGoodsController extends BaseCommonController{
         }
         else{
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","Lỗi hệ thống, liên hệ quản trị để được hỗ trợ!");
+            redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
         }
         return  "redirect:/workspace/cat_goods_ctr";
     }

@@ -56,13 +56,13 @@ public class ExportStockController extends BaseController{
 
     @RequestMapping(value = "/getTemplateFile")
     public void getTemplateFile(HttpServletResponse response){
-        String fileResource = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.IMPORT_TEMPLATE;
+        String fileResource = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_TEMPLATE;
         FunctionUtils.loadFileToClient(response,fileResource);
     }
 
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request,HttpServletResponse response){
-        String fileName = BundleUtils.getkey("temp_url") + request.getSession().getAttribute("file_import_error");
+        String fileName = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_import_error");
         FunctionUtils.loadFileToClient(response,fileName);
     }
 
@@ -74,7 +74,7 @@ public class ExportStockController extends BaseController{
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName ="Error_"+ errorItem.getCustId() + "_"+ errorItem.getStockId() + "_"+ errorItem.getImportStockTransId();
             String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName);
-            FunctionUtils.loadFileToClient(response,BundleUtils.getkey("temp_url")+ fileName);
+            FunctionUtils.loadFileToClient(response,BundleUtils.getKey("temp_url")+ fileName);
         }
     }
 

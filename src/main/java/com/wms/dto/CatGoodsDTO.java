@@ -8,7 +8,7 @@ import com.wms.constants.Constants;
 public class CatGoodsDTO extends BaseDTO{
     private String id;
     private String status;
-    private String createDate;
+    private String createdDate;
     private String custId;
     private String unitType;
     private String goodsGroupId;
@@ -20,8 +20,53 @@ public class CatGoodsDTO extends BaseDTO{
     private String brand;
     private String custName;
     private String unitTypeName;
-    private String serialTypeName;
     private String statusName;
+    //
+    private String columnId;
+    private String isSerialName;
+    private String inPriceValue;
+    private String outPriceValue;
+    private String errorInfo;
+
+    public String getIsSerialName() {
+        return isSerialName;
+    }
+
+    public void setIsSerialName(String isSerialName) {
+        this.isSerialName = isSerialName;
+    }
+
+    public String getErrorInfo() {
+        return errorInfo;
+    }
+
+    public void setErrorInfo(String errorInfo) {
+        this.errorInfo = errorInfo;
+    }
+
+    public String getInPriceValue() {
+        return inPriceValue;
+    }
+
+    public void setInPriceValue(String inPriceValue) {
+        this.inPriceValue = inPriceValue;
+    }
+
+    public String getOutPriceValue() {
+        return outPriceValue;
+    }
+
+    public void setOutPriceValue(String outPriceValue) {
+        this.outPriceValue = outPriceValue;
+    }
+
+    public String getColumnId() {
+        return columnId;
+    }
+
+    public void setColumnId(String columnId) {
+        this.columnId = columnId;
+    }
 
     public String getStatusName() {
         return statusName;
@@ -39,14 +84,6 @@ public class CatGoodsDTO extends BaseDTO{
         this.unitTypeName = unitTypeName;
     }
 
-    public String getSerialTypeName() {
-        return serialTypeName;
-    }
-
-    public void setSerialTypeName(String serialTypeName) {
-        this.serialTypeName = serialTypeName;
-    }
-
     public String getGoodsGroupName() {
         return goodsGroupName;
     }
@@ -58,12 +95,12 @@ public class CatGoodsDTO extends BaseDTO{
     public CatGoodsDTO() {
     }
 
-    public CatGoodsDTO(String id, String code, String name, String status, String createDate, String custId, String unitType, String goodsGroupId, String isSerial, String description, String inPrice, String outPrice, String brand) {
+    public CatGoodsDTO(String id, String code, String name, String status, String createdDate, String custId, String unitType, String goodsGroupId, String isSerial, String description, String inPrice, String outPrice, String brand) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.status = status;
-        this.createDate = createDate;
+        this.createdDate = createdDate;
         this.custId = custId;
         this.unitType = unitType;
         this.goodsGroupId = goodsGroupId;
@@ -90,12 +127,12 @@ public class CatGoodsDTO extends BaseDTO{
         this.status = status;
     }
 
-    public String getCreateDate() {
-        return createDate;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getCustId() {
@@ -172,5 +209,33 @@ public class CatGoodsDTO extends BaseDTO{
 
     public void setCustName(String custName) {
         this.custName = custName;
+    }
+
+    @Override
+    public String toString() {
+        return "CatGoodsDTO{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", status='" + status + '\'' +
+                ", createdDate='" + createdDate + '\'' +
+                ", custId='" + custId + '\'' +
+                ", unitType='" + unitType + '\'' +
+                ", goodsGroupId='" + goodsGroupId + '\'' +
+                ", goodsGroupName='" + goodsGroupName + '\'' +
+                ", isSerial='" + isSerial + '\'' +
+                ", description='" + description + '\'' +
+                ", inPrice='" + inPrice + '\'' +
+                ", outPrice='" + outPrice + '\'' +
+                ", brand='" + brand + '\'' +
+                ", custName='" + custName + '\'' +
+                ", unitTypeName='" + unitTypeName + '\'' +
+                ", statusName='" + statusName + '\'' +
+                ", columnId='" + columnId + '\'' +
+                ", isSerialName='" + isSerialName + '\'' +
+                ", inPriceValue='" + inPriceValue + '\'' +
+                ", outPriceValue='" + outPriceValue + '\'' +
+                ", errorInfo='" + errorInfo + '\'' +
+                '}';
     }
 }

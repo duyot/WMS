@@ -6284,7 +6284,7 @@ button.close {
   width:49.5%;
   float:right;
   box-sizing: border-box;
-  padding: 0px 0px 0px 15px;
+  padding: 0px 0px 15px 15px;
 }
 
 .no-margin-label {

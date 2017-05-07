@@ -12,7 +12,7 @@
     <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
 
-    <link rel="stylesheet" th:href="@{/css/bootstrap-combobox.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -22,10 +22,9 @@
     </script>
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
-    <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
-    <!--<script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>-->
     <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
     <!--font and favi icon-->
@@ -61,14 +60,15 @@
                                         <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                         <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
                                         <button id="btn-check-serial" style="display: none" th:value="@{/workspace/stock_management/import/isSerial}"></button>
+                                        <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <label class="label-require" for="cmb-stock" th:text="#{lbl.stock}"></label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <select id="cmb-stock" class="combobox form-control">
+                                    <div class="input-group" style="width: 100%;">
+                                        <select id="cmb-stock" class="form-control selectpicker" data-live-search="true"  data-width="100%">
                                             <option  th:each="sopt:${lstStock}"
                                                      th:value="${sopt.id}" th:text="${sopt.name}">1</option>
                                         </select>
@@ -125,10 +125,10 @@
                                 </div>
                             </div>
 
-                            <!--row 4: file uploa-->
+                            <!--row 4: file upload-->
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.fileupload}" for="inp-contract-note"></label>
+                                    <label th:text="#{lbl.fileupload}" for="btn-excel-import"></label>
                                 </div>
                                 <div class="col-sm-1">
                                     <div class="input-group">
@@ -209,8 +209,8 @@
 
                         <thead>
                         <tr>
-                            <th   data-field="id" data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th   data-checkbox="true"></th>
+                            <th   data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+                            <th   data-checkbox="true" data-width="40px"></th>
                             <th   class="col-md-2" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
                             <th   class="col-md-3" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
                             <th   data-field="goodsStateValue" data-align="left" data-sortable="true">Trạng thái</th>
@@ -263,9 +263,7 @@
             selectedIndex = $element.attr('data-index');
         });
         //
-        $('.combobox').combobox();
-        //
-        disableButton($('#btn-import'));
+        disableElement($('#btn-import'));
         //
         $.validate({
             decimalSeparator : '.',
@@ -311,7 +309,7 @@
                     }
                     $table.bootstrapTable('load', data);
                     //
-                    enableButton($('#btn-import'));
+                    enableElement($('#btn-import'));
                 },
                 error: function(data){
                     alert(data);
@@ -387,7 +385,7 @@
                 }else{
                     setInfoMessage($lblInfo,"Nhập "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId)
                 }
-                disableButton($('#btn-import'));
+                disableElement($('#btn-import'));
                 $table.bootstrapTable('removeAll');
             },
             error: function(data){
@@ -426,6 +424,7 @@
             changeModelByType(true,null);
             //
             var isSerial;
+            var inputAmount;
             //
             $.ajax({
                 url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
@@ -435,17 +434,40 @@
                 async:false,
                 type: 'GET',
                 success: function(data){
-                    isSerial = data;
+                    isSerial = data["isSerial"];
+                    inputAmount = data["inPrice"];
                 },
             });
             //
             if(isSerial == '1'){
                 $('#modal-inp-amount').val('1');
             }
+            $('#modal-inp-input-price').val(inputAmount);
             //
             showModal($('#myModal'));
         });
     });
+    //----------------------------------------------------------------------------------------------------------------
+    $("#modal-cmb-goods").change(function () {
+        var inputAmount;
+        //
+        $.ajax({
+            url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            async:false,
+            type: 'GET',
+            success: function(data){
+                currentGoods = data;
+                inputAmount = currentGoods['inPrice'];
+            },
+        });
+        //
+        $('#modal-inp-input-price').val(inputAmount);
+    });
+    //----------------------------------------------------------------------------------------------------------------
+
     var $btnAddModal = $('#modal-btn-add');
     $(function () {
         $btnAddModal.click(function () {
@@ -465,7 +487,8 @@
                 async:false,
                 type: 'GET',
                 success: function(data){
-                    isSerial = data;
+                    currentGoods = JSON.stringify(data);
+                    isSerial = currentGoods["isSerial"];
                 },
             });
             if(isSerial == '1'){
@@ -493,8 +516,11 @@
             if(inputPriceValue.trim() == ""){
                 return;
             }
-            var serial = escapeHtml($('#modal-inp-serial').val());
-            var cellCode = escapeHtml($('#modal-inp-cell').val());
+            var serial =   escapeHtml($('#modal-inp-serial').val());
+            var cellCode = escapeHtml($('button[data-id=modal-cmb-cells]').attr('title'));
+            if(cellCode.includes("selected")){
+                cellCode = "";
+            }
             //add to table
             var columnId = ~~(Math.random() * 100) * -1,
                 rows = [];
@@ -513,7 +539,7 @@
             });
             //
             $table.bootstrapTable('append', rows);
-            enableButton($('#btn-import'));
+            enableElement($('#btn-import'));
             //
         });
     });
@@ -554,7 +580,10 @@
             }
             var inputPriceValue = $('#modal-inp-input-price').val();
             var serial = $('#modal-inp-serial').val();
-            var cellCode = $('#modal-inp-cell').val();
+            var cellCode = escapeHtml($('button[data-id=modal-cmb-cells]').attr('title'));
+            if(cellCode.includes("selected")){
+                cellCode = "";
+            }
 
             selectedItemArr = $table.bootstrapTable('getSelections');
             selectedItem    = selectedItemArr[0];
@@ -577,18 +606,38 @@
     //@Refresh table----------------------------------------------------------
     $('#btn-refresh-table').click(function () {
         $table.bootstrapTable('removeAll');
+        $('#import-action-info').val("");
     });
     //-------------------------------------------------------------------------
     function changeModelByType(isAdd,selectedItems) {
+        var $cmbCell = $('select[name=modalCmbCells]');
+        //set cell for combo box
+        $.ajax({
+            url: $('#btn-get-cells').val()+'/'+$('#cmb-stock').val(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            async:false,
+            type: 'GET',
+            success: function(data){
+                if(data.length == 0){
+                    disableElement($cmbCell);
+                }else{
+                    enableElement($cmbCell);
+                }
+                loadSelectItems($cmbCell,data);
+            },
+        });
+        //
         if(isAdd){
-            //clear content
             clearContent();
             //
             showAdd();
         }else{
             clearContent();
-            $('#modal-cmb-goodsundefined').val(selectedItems['goodsName']);
-            $('#modal-cmb-goods').val(selectedItems['goodsCode']);
+            $('select[name=modalCmbGoods]').val(selectedItems['goodsCode']);
+            $('select[name=modalCmbGoods]').selectpicker('refresh');
+            //
             $('#modal-inp-amount').val(unFormatFloat(selectedItems['amountValue']));
             if(selectedItem["goodsState"] =="1"){
                 $('#cmb-goods-state').bootstrapToggle('on');
@@ -597,8 +646,9 @@
             }
             $('#modal-inp-input-price').val(unFormatFloat(selectedItems['inputPriceValue']));
             $('#modal-inp-serial').val(selectedItems['serial']);
-            $('#modal-inp-cell').val(selectedItems['cellCode']);
+            $cmbCell.val(selectedItems['cellCode']);
             //
+            $('.selectpicker').selectpicker('refresh')
             showUpdate();
             //
         }
@@ -608,8 +658,20 @@
         $('#cmb-goods-state').bootstrapToggle('on');
         $('#modal-inp-input-price').val('');
         $('#modal-inp-serial').val('');
-        $('#modal-inp-cell').val('');
+        $('select[name=modalCmbCells]').val("");
         $('#modal-inp-amount').val('');
+    }
+
+    function loadSelectItems(select, items) {
+        select.empty();
+        var firstValue;
+        $.each(items, function(i, item) {
+            var opt = document.createElement('option');
+            opt.value = item.code;
+            opt.innerHTML = item.code;
+            select.append(opt);
+        });
+        select.selectpicker('refresh');
     }
 </script>
 </body>

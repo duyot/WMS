@@ -13,8 +13,8 @@ import org.springframework.web.client.RestTemplate;
  */
 @Repository
 public class StockManagementDP {
-    private final String IMPORT_STOCK_URL = BundleUtils.getkey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "import";
-    private final String EXPORT_STOCK_URL = BundleUtils.getkey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "export";
+    private final String IMPORT_STOCK_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "import";
+    private final String EXPORT_STOCK_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "export";
 
     public ResponseObject importStock(StockTransDTO stockTrans, AuthTokenInfo tokenInfo){
         RestTemplate restTemplate = new RestTemplate();

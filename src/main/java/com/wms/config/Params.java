@@ -9,7 +9,7 @@ public class Params {
     public static String rest_service_url;
 
     public Params() {
-        this.setRest_service_url(BundleUtils.getkey("rest_service_url"));
+        this.setRest_service_url(BundleUtils.getKey("rest_service_url"));
     }
 
     public String getRest_service_url() {

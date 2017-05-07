@@ -102,7 +102,7 @@
                             <i class="fa fa-trash"></i>
                         </button>
 
-                        <label class="action-info" id="action-info" th:if="${actionInfo != null} " th:text="#{${actionInfo}}" th:style="${successStyle}"></label>
+                        <label class="action-info" id="main-action-info" th:if="${actionInfo != null} " th:text="#{${actionInfo}}" th:style="${successStyle}"></label>
                         <label id="del-action-info"></label>
                     </div>
                     <table  id="table-pagination"
@@ -116,10 +116,10 @@
 
                         <thead>
                         <tr>
-                            <th  class="col-md-1" data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th  class="col-md-1" data-checkbox="true"></th>
+                            <th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                            <th  data-checkbox="true" data-width="50px"></th>
                             <th  class="col-md-8" data-field="name" data-align="left" data-sortable="true">Nhóm hàng hóa</th>
-                            <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>
+                            <th  class="col-md-4" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>
                         </tr>
                         </thead>
                     </table>
@@ -235,7 +235,6 @@
         $('#myConfirmModal').modal('hide');
         //
     });
-
     //@SEARCH ACTION------------------------------------------------------------------------------------------------
     var $btnSearch = $('#btn-search-cat-group');
     $(function () {
@@ -243,23 +242,6 @@
             search(true);
         });
     });
-    //@Login action-------------------------------------------------------------------------------------------------
-    var $btnLogin = $('#login');
-    $(function () {
-        $btnLogin.click(function () {
-            $.ajax({
-                type: "GET",
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                url: $btnLogin.val(),
-                dataType: 'text',
-                timeout: 600000,
-                success: function (data) {
-                    document.getElementById("login-info").innerHTML = data;
-                }
-            });
-        });
-    });
-
     //@Add action---------------------------------------------------------------------------------------------------
     $btn_add = $('#btn-add');
     $(function () {

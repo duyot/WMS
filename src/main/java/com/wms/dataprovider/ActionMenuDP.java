@@ -20,7 +20,7 @@ import java.util.List;
 @Repository
 public class ActionMenuDP {
     Logger log = LoggerFactory.getLogger(ActionMenuDP.class);
-    private  final String SERVICE_URL    = BundleUtils.getkey("rest_service_url");
+    private  final String SERVICE_URL    = BundleUtils.getKey("rest_service_url");
     private  final String SERVICE_PREFIX = "sysRoleMenuServices/";
 
     private  String GET_ACTION_MENU_URL    = SERVICE_URL+SERVICE_PREFIX  + "getUserAction/";

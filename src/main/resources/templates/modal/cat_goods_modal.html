@@ -18,13 +18,19 @@
                     </div>
                     <div class="modal-body">
                         <div class="container-modal">
-                            <input id="modal-inp-id" hidden="true" name="id"/>
+                            <div class="row row-header-first">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input id="modal-inp-id" hidden="true" name="id"/>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="leftForm">
                                 <div class="row row-header">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <label for="modal-inp-code" class="control-label label-require" th:text="#{lbl.goodsCode}"></label>
+                                            <label for="modal-inp-code" class="control-label label-require" th:utext="#{lbl.goodsCode}"></label>
                                         </div>
                                     </div>
                                 </div>
@@ -34,7 +40,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa  fa-server fa-fw"></i>
                                                 </span>
-                                            <input id="modal-inp-code" class="form-control" type="text" th:required="true" name="code"  placeholder=""/>
+                                            <input id="modal-inp-code" class="form-control" type="text" required="true" name="code" maxlength="50"/>
                                         </div>
                                     </div>
                                 </div>
@@ -42,7 +48,7 @@
                                 <div class="row row-header">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <label for="modal-inp-name" class="control-label label-require" th:text="#{lbl.goodsName}"></label>
+                                            <label for="modal-inp-name" class="control-label label-require" th:utext="#{lbl.goodsName}"></label>
                                         </div>
                                     </div>
                                 </div>
@@ -52,7 +58,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa  fa-server fa-fw"></i>
                                                 </span>
-                                            <input id="modal-inp-name" class="form-control " type="text" th:required="true" name="name"  placeholder=""/>
+                                            <input id="modal-inp-name" class="form-control " type="text" th:required="true" name="name"  maxlength="100" placeholder=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +66,7 @@
                                 <div class="row row-header">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <label for="modal-cmb-goods-unit" class="control-label label-require" th:text="#{lbl.goodsUnit}"></label>
+                                            <label for="modal-cmb-goods-unit" class="control-label" th:text="#{lbl.goodsUnit}"></label>
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +76,8 @@
                                             <span class="input-group-addon">
                                                  <i class="fa  fa-server fa-fw"></i>
                                             </span>
-                                            <select id="modal-cmb-goods-unit" class="combobox form-control" name="unitType" th:required="true" autocomplete="off">
+                                            <select id="modal-cmb-goods-unit" class="combobox form-control selectpicker" name="unitType" data-live-search="true"  data-width="100%"
+                                                    th:required="true" autocomplete="off">
                                                 <option value="-1">---Chọn---</option>
                                                 <option th:each="sopt:${mapUnitType.entrySet()}"
                                                         th:value="${sopt.key}" th:text="${sopt.value}"></option>
@@ -84,7 +91,7 @@
                                 <div class="row row-header">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <label for="modal-cmb-goods-group" class="control-label label-require" th:text="#{lbl.goodsgroup}"></label>
+                                            <label for="modal-cmb-goods-group" class="control-label" th:text="#{lbl.goodsgroup}"></label>
                                         </div>
                                     </div>
                                 </div>
@@ -94,53 +101,46 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa  fa-server fa-fw"></i>
                                                 </span>
-                                            <select id="modal-cmb-goods-group" class="combobox form-control" name="goodsGroupId" th:required="true">
-                                            <option value="-1">---Chọn---</option>
-                                            <option th:each="sopt:${mapGoodsGroup.entrySet()}"
-                                            th:value="${sopt.key}" th:text="${sopt.value}"></option>
-
+                                            <select id="modal-cmb-goods-group" class="combobox form-control selectpicker" data-live-search="true"  data-width="100%"
+                                                    name="goodsGroupId">
+                                                <option value="-1">---Chọn---</option>
+                                                <option th:each="sopt:${mapGoodsGroup.entrySet()}"
+                                                    th:value="${sopt.key}" th:text="${sopt.value}"></option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="rightForm">
 
                                 <div class="row row-header">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="input-group">
-                                            <label for="modal-inp-serial" class="control-label" th:text="#{lbl.isSerial}"></label>
+                                            <label for="modal-cmb-serial" class="control-label" th:text="#{lbl.isSerial}"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <label for="modal-cmb-status" class="control-label" th:text="#{lbl.status}"></label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row row-content">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="input-group">
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                                            <input id="modal-inp-not-serial" type="radio" name="isSerial"  checked="true" value="0" th:text="#{lbl.notManaSerial}"/>
-                                            <input id="modal-inp-serial" type="radio" name="isSerial" value="1" th:text="#{lbl.manaSerial}"/>
-
+                                            <input id="modal-cmb-serial" name="isSerial" data-toggle="toggle" type="checkbox"/>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row row-header">
-                                    <div class="col-sm-12">
-                                        <div class="input-group">
-                                            <label class="control-label" th:text="#{lbl.status}"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="div-status" class="row row-content">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="input-group">
                                             <input id="modal-cmb-status" name="status" data-toggle="toggle" type="checkbox"/>
                                         </div>
                                     </div>
                                 </div>
 
-                            </div>
-
-                            <div class="rightForm">
                                 <div class="row row-header">
                                     <div class="col-sm-12">
                                         <div class="input-group">
@@ -154,7 +154,17 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-angle-double-right fa-fw"></i>
                                                 </span>
-                                            <input id="modal-inp-input-price" class="form-control" type="number" step="any"  name="inPrice"  min ="0" max = "99999999999999"/>
+                                            <input id="modal-inp-input-price" class="form-control" name="inPrice" data-validation="number"
+                                                   data-validation-allowing="float"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row row-content">
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <p id="modal-label-input-price" style="font-size:0.8em;color: #337ab7;line-height: 1em;"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +182,24 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-angle-double-left fa-fw"></i>
                                                 </span>
-                                            <input id="modal-inp-output-price" class="form-control" type="number" step="any" name="outPrice"  min ="0" max = "99999999999999"/>
+                                            <input id="modal-inp-output-price" class="form-control" name="outPrice" data-validation="number" data-validation-allowing="float"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-content">
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <p id="modal-label-output-price" style="font-size:0.8em;color: #337ab7;line-height: 1em;"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-content" style="float: right;">
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <button id="modal-btn-update"  type="submit" class="btn btn-primary" th:text="#{btn.update}" ></button>
+                                            <button id="modal-btn-add"     type="submit" class="btn btn-primary" th:text="#{btn.add}"></button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{btn.close}"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -180,16 +207,30 @@
 
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button id="modal-btn-update"  type="submit" class="btn btn-primary" th:text="#{btn.update}" ></button>
-                        <button id="modal-btn-add"     type="submit" class="btn btn-primary" th:text="#{btn.add}"></button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{btn.close}"></button>
+                    <div class="modal-footer" style="border-top: none !important;">
+                        <!--<button id="modal-btn-update"  type="submit" class="btn btn-primary" th:text="#{btn.update}" ></button>-->
+                        <!--<button id="modal-btn-add"     type="submit" class="btn btn-primary" th:text="#{btn.add}"></button>-->
+                        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{btn.close}"></button>-->
                     </div>
                 </div>
 
             </form>
         </div>
     </div>
+
+    <script>
+        $("#modal-inp-input-price").keyup(function() {
+            var currentValue = unFormatFloat($("#modal-inp-input-price").val());
+            $('#modal-label-input-price').text(DOCSO.doc(currentValue));
+            $('#modal-inp-input-price').val(currentValue);
+        });
+
+        $("#modal-inp-output-price").keyup(function() {
+            var currentValue = unFormatFloat($("#modal-inp-output-price").val());
+            $('#modal-label-output-price').text(DOCSO.doc(currentValue));
+            $('#modal-inp-output-price').val(currentValue);
+        });
+    </script>
 
 </div>
 

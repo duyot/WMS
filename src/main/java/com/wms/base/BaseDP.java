@@ -9,7 +9,6 @@ import com.wms.dto.ResponseObject;
 import com.wms.utils.BundleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
@@ -23,7 +22,7 @@ import java.util.List;
  * Created by duyot on 11/9/2016.
  */
 public class BaseDP<T> {
-    public  final String SERVICE_URL    = BundleUtils.getkey("rest_service_url");
+    public  final String SERVICE_URL    = BundleUtils.getKey("rest_service_url");
     public  String SERVICE_PREFIX;
 
     public  String GET_SYSDATE_URL;

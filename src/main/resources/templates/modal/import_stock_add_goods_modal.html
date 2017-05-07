@@ -26,7 +26,7 @@
                             <!--row GOODS-->
                             <div class="row row-content">
                                 <div class="col-sm-12">
-                                    <select id="modal-cmb-goods" class="combobox form-control" required="true" >
+                                    <select name="modalCmbGoods" id="modal-cmb-goods" class="form-control selectpicker"  data-live-search="true" data-width="100%" required="true" >
                                         <option  th:each="sopt:${lstGoods}"
                                                  th:value="${sopt.code}" th:text="${sopt.name}">1</option>
                                     </select>
@@ -119,21 +119,16 @@
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label class="control-label" for="modal-inp-cell" th:text="#{lbl.cellCode}"></label>
+                                        <label class="control-label" for="modal-cmb-cells" th:text="#{lbl.cellCode}"></label>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row row-content">
                                 <div class="col-sm-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa  fa-server fa-fw"></i>
-                                        </span>
-                                        <input id="modal-inp-cell" class="form-control" type="text" name="cellCode"
-                                               data-validation="alphanumeric" data-validation-allowing="-_" data-validation-optional="true"
-                                               data-validation-error-msg="Nội dung chứa kí tự đặc biệt(&quot;, &apos;, &gt;, &lt;, &amp;) và khoảng trống"
-                                        />
+                                    <div class="input-group" style="width: 100%;">
+                                        <select name="modalCmbCells" id="modal-cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                        </select>
                                     </div>
                                 </div>
                             </div>

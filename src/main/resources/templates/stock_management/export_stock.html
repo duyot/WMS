@@ -12,7 +12,7 @@
     <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
 
-    <link rel="stylesheet" th:href="@{/css/bootstrap-combobox.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -22,10 +22,9 @@
     </script>
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
-    <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
-    <!--<script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>-->
     <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
     <!--font and favi icon-->
@@ -68,7 +67,8 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <select id="cmb-stock" class="combobox form-control">
+                                        <select id="cmb-stock" class="combobox form-control selectpicker" data-live-search="true"  data-width="100%"
+                                                name="goodsGroupId" th:required="true">
                                             <option  th:each="sopt:${lstStock}"
                                                      th:value="${sopt.id}" th:text="${sopt.name}">1</option>
                                         </select>
@@ -209,8 +209,8 @@
 
                         <thead>
                         <tr>
-                            <th   data-field="id" data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th   data-checkbox="true"></th>
+                            <th   data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+                            <th   data-checkbox="true" data-width="40px"></th>
                             <th   class="col-md-2" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
                             <th   class="col-md-3" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
                             <th   data-field="goodsStateValue" data-align="left" data-sortable="true">Trạng thái</th>
@@ -262,9 +262,7 @@
             selectedIndex = $element.attr('data-index');
         });
         //
-        $('.combobox').combobox();
-        //
-        disableButton($('#btn-export'));
+        disableElement($('#btn-export'));
         //
         $.validate({
             decimalSeparator : '.',
@@ -310,7 +308,7 @@
                     }
                     $table.bootstrapTable('load', data);
                     //
-                    enableButton($('#btn-export'));
+                    enableElement($('#btn-export'));
                 },
                 error: function(data){
                     alert(data);
@@ -384,7 +382,7 @@
                 }else{
                     var totalSuccess = data['success'];
                     setInfoMessage($lblInfo,"Xuất "+ totalSuccess+" hàng thành công");
-                    disableButton($('#btn-export'));
+                    disableElement($('#btn-export'));
                     $table.bootstrapTable('removeAll');
                 }
             },
@@ -419,182 +417,175 @@
     });
     //@Add action---------------------------------------------------------------------------------------------------
     var $btnAdd = $('#btn-add');
-    $(function () {
-        $btnAdd.click(function () {
-            changeModelByType(true,null);
-            //
-            var isSerial;
-            //
-            $.ajax({
-                url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
-                cache: false,
-                contentType: false,
-                processData: false,
-                async:false,
-                type: 'GET',
-                success: function(data){
-                    isSerial = data;
-                },
-            });
-            //
-            if(isSerial == '1'){
-                $('#modal-inp-amount').val('1');
-            }
-            //
-            $('#modal-lbl-price').text("Giá bán");
-            //
-            showModal($('#myModal'));
+    $btnAdd.click(function () {
+        changeModelByType(true,null);
+        //
+        var isSerial;
+        //
+        $.ajax({
+            url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            async:false,
+            type: 'GET',
+            success: function(data){
+                isSerial = data;
+            },
         });
+        //
+        if(isSerial == '1'){
+            $('#modal-inp-amount').val('1');
+        }
+        //
+        $('#modal-lbl-price').text("Giá bán");
+        //
+        showModal($('#myModal'));
     });
     var $btnAddModal = $('#modal-btn-add');
-    $(function () {
-        $btnAddModal.click(function () {
-            //
-            if(isAllFieldValid($("#form-add-goods")) == false){
-                alert('Nội dung nhập chứa thông tin lỗi');
-                return;
-            }
-            //valid require serial
-            var isSerial;
-            //
-            $.ajax({
-                url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
-                cache: false,
-                contentType: false,
-                processData: false,
-                async:false,
-                type: 'GET',
-                success: function(data){
-                    isSerial = data;
-                },
-            });
-            if(isSerial == '1'){
-                if(($('#modal-inp-amount').val() != "1")){
-                    alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng xuất phải là 1.");
-                    return;
-                }
-            }
-            //pre-process data
-            preprocessInput($("#form-add-goods"));
-            //get data
-            var goodsCode = $('#modal-cmb-goods').val();
-            var goodsName = $("#modal-cmb-goods option:selected").text();
-            var amount = $('#modal-inp-amount').val();
-            if(amount.trim() == ""){
-                return;
-            }
-            var goodsStateValue = "Hỏng";
-            var goodsState = "0";
-            if($('#cmb-goods-state').prop('checked')){
-                goodsStateValue = "Bình thường";
-                goodsState = "1";
-            }
-            var outputPriceValue = $('#modal-inp-input-price').val();
-            if(outputPriceValue.trim() == ""){
-                return;
-            }
-            var serial = escapeHtml($('#modal-inp-serial').val());
-            var cellCode = escapeHtml($('#modal-inp-cell').val());
-            //add to table
-            var columnId = ~~(Math.random() * 100) * -1,
-                rows = [];
-            rows.push({
-                goodsCode: goodsCode,
-                goodsName: goodsName,
-                goodsState: goodsState,
-                goodsStateValue: goodsStateValue,
-                serial:serial,
-                amountValue: amount,
-                amount: amount,
-                outputPriceValue: outputPriceValue,
-                outputPrice: outputPriceValue,
-                cellCode: cellCode,
-                columnId:columnId
-            });
-            //
-            $table.bootstrapTable('append', rows);
-            enableButton($('#btn-export'));
-            //
+    $btnAddModal.click(function () {
+        //
+        if(isAllFieldValid($("#form-add-goods")) == false){
+            alert('Nội dung nhập chứa thông tin lỗi');
+            return;
+        }
+        //valid require serial
+        var isSerial;
+        //
+        $.ajax({
+            url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            async:false,
+            type: 'GET',
+            success: function(data){
+                isSerial = data;
+            },
         });
+        if(isSerial == '1'){
+            if(($('#modal-inp-amount').val() != "1")){
+                alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng xuất phải là 1.");
+                return;
+            }
+        }
+        //pre-process data
+        preprocessInput($("#form-add-goods"));
+        //get data
+        var goodsCode = $('#modal-cmb-goods').val();
+        var goodsName = $("#modal-cmb-goods option:selected").text();
+        var amount = $('#modal-inp-amount').val();
+        if(amount.trim() == ""){
+            return;
+        }
+        var goodsStateValue = "Hỏng";
+        var goodsState = "0";
+        if($('#cmb-goods-state').prop('checked')){
+            goodsStateValue = "Bình thường";
+            goodsState = "1";
+        }
+        var outputPriceValue = $('#modal-inp-input-price').val();
+        if(outputPriceValue.trim() == ""){
+            return;
+        }
+        var serial = escapeHtml($('#modal-inp-serial').val());
+        var cellCode = escapeHtml($('#modal-inp-cell').val());
+        //add to table
+        var columnId = ~~(Math.random() * 100) * -1,
+            rows = [];
+        rows.push({
+            goodsCode: goodsCode,
+            goodsName: goodsName,
+            goodsState: goodsState,
+            goodsStateValue: goodsStateValue,
+            serial:serial,
+            amountValue: amount,
+            amount: amount,
+            outputPriceValue: outputPriceValue,
+            outputPrice: outputPriceValue,
+            cellCode: cellCode,
+            columnId:columnId
+        });
+        //
+        $table.bootstrapTable('append', rows);
+        enableElement($('#btn-export'));
+        //
     });
 
     //@Update action---------------------------------------------------------------------------------------------------
     var $btnUpdate = $('#btn-update');
-    $(function () {
-        $btnUpdate.click(function () {
-            //check before show
-            selectedItemArr = $table.bootstrapTable('getSelections');
-            selectedItem    = selectedItemArr[0];
-            if(selectedItem == null){
-                alert('Chọn 1 bản ghi!');
-                return;
-            }
+    $btnUpdate.click(function () {
+        //check before show
+        selectedItemArr = $table.bootstrapTable('getSelections');
+        selectedItem    = selectedItemArr[0];
+        if(selectedItem == null){
+            alert('Chọn 1 bản ghi!');
+            return;
+        }
 
-            if(selectedIndex == -1){
-                alert('Chọn 1 bản ghi!');
-                return;
-            }
+        if(selectedIndex == -1){
+            alert('Chọn 1 bản ghi!');
+            return;
+        }
 
-            changeModelByType(false,selectedItem);
-            showModal($('#myModal'))
-        });
+        changeModelByType(false,selectedItem);
+        showModal($('#myModal'))
     });
 
     var $btnUpdateModal = $('#modal-btn-update');
-        $btnUpdateModal.click(function () {
-            //
-            //valid require serial
-            var isSerial;
-            //
-            $.ajax({
-                url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
-                cache: false,
-                contentType: false,
-                processData: false,
-                async:false,
-                type: 'GET',
-                success: function(data){
-                    isSerial = data;
-                },
-            });
-            if(isSerial == '1'){
-                if(($('#modal-inp-amount').val() != "1")){
-                    alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng xuất phải là 1.");
-                    return;
-                }
-            }
-            //get data
-            var goodsCode = $('#modal-cmb-goods').val();
-            var goodsName = $("#modal-cmb-goods option:selected").text();
-            var amount = $('#modal-inp-amount').val();
-            var goodsStateValue = "Hỏng";
-            var goodsState = "0";
-            if($('#cmb-goods-state').prop('checked')){
-                goodsStateValue = "Bình thường";
-                goodsState = "1";
-            }
-            var inputPriceValue = $('#modal-inp-input-price').val();
-            var serial = $('#modal-inp-serial').val();
-            var cellCode = $('#modal-inp-cell').val();
-
-            selectedItemArr = $table.bootstrapTable('getSelections');
-            selectedItem    = selectedItemArr[0];
-
-            $table.bootstrapTable('updateRow', {index:selectedIndex,row:{
-                goodsCode: goodsCode,
-                goodsName: goodsName,
-                goodsState: goodsState,
-                goodsStateValue: goodsStateValue,
-                serial:serial,
-                amountValue: amount,
-                amount: amount,
-                inputPriceValue: inputPriceValue,
-                inputPrice: inputPriceValue,
-                cellCode: cellCode
-            }});
-            //
-            hideModal($('#myModal'));
+    $btnUpdateModal.click(function () {
+        //valid require serial
+        var isSerial;
+        //
+        $.ajax({
+            url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            async:false,
+            type: 'GET',
+            success: function(data){
+                isSerial = data;
+            },
         });
+        if(isSerial == '1'){
+            if(($('#modal-inp-amount').val() != "1")){
+                alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng xuất phải là 1.");
+                return;
+            }
+        }
+        //get data
+        var goodsCode = $('#modal-cmb-goods').val();
+        var goodsName = $("#modal-cmb-goods option:selected").text();
+        var amount = $('#modal-inp-amount').val();
+        var goodsStateValue = "Hỏng";
+        var goodsState = "0";
+        if($('#cmb-goods-state').prop('checked')){
+            goodsStateValue = "Bình thường";
+            goodsState = "1";
+        }
+        var inputPriceValue = $('#modal-inp-input-price').val();
+        var serial = $('#modal-inp-serial').val();
+        var cellCode = $('#modal-inp-cell').val();
+
+        selectedItemArr = $table.bootstrapTable('getSelections');
+        selectedItem    = selectedItemArr[0];
+
+        $table.bootstrapTable('updateRow', {index:selectedIndex,row:{
+            goodsCode: goodsCode,
+            goodsName: goodsName,
+            goodsState: goodsState,
+            goodsStateValue: goodsStateValue,
+            serial:serial,
+            amountValue: amount,
+            amount: amount,
+            inputPriceValue: inputPriceValue,
+            inputPrice: inputPriceValue,
+            cellCode: cellCode
+        }});
+        //
+        hideModal($('#myModal'));
+    });
     //@Refresh table----------------------------------------------------------
     $('#btn-refresh-table').click(function () {
         $table.bootstrapTable('removeAll');
@@ -604,14 +595,17 @@
     //-------------------------------------------------------------------------
     function changeModelByType(isAdd,selectedItems) {
         if(isAdd){
-            //clear content
             clearContent();
             //
             showAdd();
         }else{
+
             clearContent();
-            $('#modal-cmb-goodsundefined').val(selectedItems['goodsName']);
-            $('#modal-cmb-goods').val(selectedItems['goodsCode']);
+            alert("cleared content");
+            $('select[name=modalCmbGoods]').val(selectedItems['goodsCode']);
+            $('select[name=modalCmbGoods]').selectpicker('refresh');
+            alert("1");
+
             $('#modal-inp-amount').val(unFormatFloat(selectedItems['amountValue']));
             if(selectedItem["goodsState"] =="1"){
                 $('#cmb-goods-state').bootstrapToggle('on');

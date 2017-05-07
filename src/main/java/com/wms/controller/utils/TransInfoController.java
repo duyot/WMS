@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -158,7 +157,7 @@ public class TransInfoController extends BaseController{
     }
     //==================================================================================================================
     private  String exportListStockTrans(List<MjrStockTransDTO> lstTrans,String prefixFileName){
-        String templatePath = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.LIST_TRANS_TEMPLATE;
+        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.LIST_TRANS_TEMPLATE;
         //
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -169,7 +168,7 @@ public class TransInfoController extends BaseController{
         beans.put("endDate", endDate);
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getkey("temp_url") + fullFileName;
+        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         return reportFullPath;

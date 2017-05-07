@@ -192,7 +192,7 @@ public class StockInfoController extends BaseController{
 
     //=======================================================================================================
     private  String exportTotal(List<MjrStockGoodsTotalDTO> lstGoodsTotal,String prefixFileName){
-        String templatePath = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.GOODS_TOTAL_TEMPLATE;
+        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_TOTAL_TEMPLATE;
 
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -202,7 +202,7 @@ public class StockInfoController extends BaseController{
         beans.put("date", DateTimeUtils.convertDateTimeToString(new Date()));
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getkey("temp_url") + fullFileName;
+        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         //
@@ -215,9 +215,9 @@ public class StockInfoController extends BaseController{
         MjrStockTransDetailDTO goodsItem = lstGoodsDetails.get(0);
         CatGoodsDTO catGoods = mapGoodsIdGoods.get(goodsItem.getGoodsId());
         if(catGoods.isSerial()){
-            templatePath = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_SERIAL_TEMPLATE;
+            templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_SERIAL_TEMPLATE;
         }else{
-            templatePath = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_TEMPLATE;
+            templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_TEMPLATE;
         }
         //
         File file = new File(templatePath);
@@ -231,7 +231,7 @@ public class StockInfoController extends BaseController{
         beans.put("goodsStateValue", goodsItem.getGoodsStateValue());
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getkey("temp_url") + fullFileName;
+        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         return reportFullPath;

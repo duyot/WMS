@@ -7,6 +7,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -17,7 +18,6 @@ import java.util.Locale;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(value = "com.wms")
-
 public class SpringBootExampleApplication extends SpringBootServletInitializer {
 	@Bean
 	public LocaleResolver localeResolver() {

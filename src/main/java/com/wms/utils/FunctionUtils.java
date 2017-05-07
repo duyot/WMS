@@ -7,12 +7,9 @@ import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import net.sf.jxls.transformer.Configuration;
 import net.sf.jxls.transformer.XLSTransformer;
-import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -34,6 +31,10 @@ import java.util.*;
  */
 public class FunctionUtils {
     public static Logger log = LoggerFactory.getLogger(FunctionUtils.class);
+
+    public static String getValueFromToggle(String toggleValue){
+        return "on".equalsIgnoreCase(toggleValue)?"1":"0";
+    }
 
     public static <T extends BaseDTO>  String getMapValue(Map<String,T> map,String key){
         BaseDTO obj = map.get(key);
@@ -220,7 +221,7 @@ public class FunctionUtils {
         export error when importing
      */
     public static String exportExcelError(List<MjrStockTransDetailDTO> lstError,String prefixFileName){
-        String templatePath = BundleUtils.getkey("template_url") + Constants.FILE_RESOURCE.IMPORT_ERROR_TEMPLATE;
+        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_ERROR_TEMPLATE;
         log.info("Number of Errors: "+ lstError.size());
 
         File file = new File(templatePath);
@@ -230,7 +231,28 @@ public class FunctionUtils {
         beans.put("items", lstError);
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getkey("temp_url") + fullFileName;
+        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
+
+        exportExcel(templateAbsolutePath,beans,reportFullPath);
+
+        return fullFileName;
+    }
+
+    /*
+        export error when importing
+     */
+    public static String exportExcelImportGoodsError(List<CatGoodsDTO> lstError,String prefixFileName){
+        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_GOODS_ERROR_TEMPLATE;
+        log.info("Number of Errors: "+ lstError.size());
+
+        File file = new File(templatePath);
+        String templateAbsolutePath = file.getAbsolutePath();
+
+        Map<String, Object> beans = new HashMap<String, Object>();
+        beans.put("items", lstError);
+
+        String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
 
         exportExcel(templateAbsolutePath,beans,reportFullPath);
 
@@ -250,7 +272,7 @@ public class FunctionUtils {
      * Add HTTP Authorization header, using Basic-Authentication to send client-credentials.
      */
     private static HttpHeaders getHeadersWithClientCredentials(){
-        String plainClientCredentials= BundleUtils.getkey("client_id") +":"+ BundleUtils.getkey("client_secret");
+        String plainClientCredentials= BundleUtils.getKey("client_id") +":"+ BundleUtils.getKey("client_secret");
         String base64ClientCredentials = new String(Base64.encodeBase64(plainClientCredentials.getBytes()));
 
         HttpHeaders headers = getHeaders();
@@ -260,7 +282,7 @@ public class FunctionUtils {
 
     public static AuthTokenInfo sendTokenRequest(String username, String password){
         RestTemplate restTemplate = new RestTemplate();
-        String tokenURL = BundleUtils.getkey("token_url");
+        String tokenURL = BundleUtils.getKey("token_url");
         tokenURL = tokenURL.replace("@username",username);
         tokenURL = tokenURL.replace("@password",password);
         HttpEntity<String> request = new HttpEntity<String>(getHeadersWithClientCredentials());
@@ -288,7 +310,7 @@ public class FunctionUtils {
 
 
     public static boolean saveUploadedFile(MultipartFile uploadfile,String fileName){
-        String saveDirectory = BundleUtils.getkey("upload_url");
+        String saveDirectory = BundleUtils.getKey("upload_url");
         String filepath  = Paths.get(saveDirectory, fileName).toString();
         try {
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
@@ -468,10 +490,143 @@ public class FunctionUtils {
         return importResult;
     }
 
+    public static ImportFileResultDTO getListGoodsImportFromFile(MultipartFile mpf,Map<String,String> mapGoodsState){
+        ImportFileResultDTO importResult = new ImportFileResultDTO();
+        List<CatGoodsDTO> lstGoods = Lists.newArrayList();
+        boolean isValid = true;
+        try {
+            Workbook wb = WorkbookFactory.create(new FileInputStream(FunctionUtils.convertMultipartToFile(mpf)));
+            Sheet sheet = null;
+            if (wb instanceof HSSFWorkbook) {
+                HSSFWorkbook workbook = (HSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            }else if (wb instanceof XSSFWorkbook) {
+                XSSFWorkbook workbook = (XSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            }
+
+            Iterator<Row> rowIterator = sheet.iterator();
+            if(rowIterator.hasNext()){//read from second row!
+                rowIterator.next();
+            }
+            int count = 0;
+            StringBuilder errorInfo;
+            CatGoodsDTO goodsDTO;
+            while(rowIterator.hasNext()) {
+                count ++;
+                goodsDTO = new CatGoodsDTO();
+                goodsDTO.setColumnId(count+"");
+                errorInfo = new StringBuilder();
+                //
+                Row row = rowIterator.next();
+                //goods serial
+                Cell cellSerial = row.getCell(5);
+                String serial = getCellValue(cellSerial);
+                if(DataUtil.isStringNullOrEmpty(serial)){
+                    errorInfo.append("\n Chưa có thông tin quản lý serial");
+                    isValid = false;
+                }else{
+                    if(!serial.equalsIgnoreCase("1") && !serial.equalsIgnoreCase("0")){
+                        errorInfo.append("\n Thông tin serial không hợp lệ(1: QL theo serial,0:Không quản lý theo serial");
+                        isValid = false;
+                    }
+                }
+                String serialTypeName =  "1".equals(serial) ? "Có": "Không";
+                goodsDTO.setIsSerial(serial);
+                goodsDTO.setIsSerialName(serialTypeName);
+                //goods code
+                Cell cellGoodsCode = row.getCell(1);
+                String goodsCode = getCellValue(cellGoodsCode);
+                if(DataUtil.isStringNullOrEmpty(goodsCode)){
+                    errorInfo.append("\n Chưa có mã hàng");
+                    isValid = false;
+                }
+                goodsDTO.setCode(goodsCode);
+                //goods name
+                Cell cellGoodsName = row.getCell(2);
+                String goodsName = getCellValue(cellGoodsName);
+                if(DataUtil.isStringNullOrEmpty(goodsName)){
+                    errorInfo.append("Chưa có tên hàng");
+                    isValid = false;
+                }
+                goodsDTO.setName(goodsName);
+                //STATE
+                Cell cellStatus = row.getCell(6);
+                String goodsState = getCellValue(cellStatus);
+                if(DataUtil.isStringNullOrEmpty(goodsState)){
+                    errorInfo.append("\n Chưa có trạng thái hàng");
+                    isValid = false;
+                }else{
+                    if(!goodsState.equalsIgnoreCase("1") && !goodsState.equalsIgnoreCase("2")){
+                        errorInfo.append("\n Trạng thái hàng không hợp lệ(1:Bình thường,2:Hỏng");
+                        isValid = false;
+                    }
+                }
+                goodsDTO.setStatus(goodsState);
+                goodsDTO.setStatusName(mapGoodsState.get(goodsState));
+                //UNIT TYPE
+                Cell cellUnitType = row.getCell(3);
+                String unitType = getCellValue(cellUnitType);
+                goodsDTO.setUnitType(unitType);
+                //GOODS GROUP
+                Cell cellGoodsGroup = row.getCell(4);
+                String goodsGroup = getCellValue(cellGoodsGroup);
+                goodsDTO.setGoodsGroupId(goodsGroup);
+                //In PRICE
+                Cell cellInPrice = row.getCell(7);
+                String price = getCellValue(cellInPrice);
+                if(DataUtil.isStringNullOrEmpty(price)){
+                    errorInfo.append("\n Chưa có giá nhập");
+                    isValid = false;
+                }else{
+                    if(!isNumberFloat(price)){
+                        errorInfo.append("\n Giá phải là số và >0");
+                        isValid = false;
+                    }else{
+                        goodsDTO.setInPriceValue(formatNumber(price));
+                    }
+                }
+                goodsDTO.setInPrice(price);
+                //In PRICE
+                Cell cellOutPrice = row.getCell(8);
+                String outPrice = getCellValue(cellOutPrice);
+                if(DataUtil.isStringNullOrEmpty(outPrice)){
+                    errorInfo.append("\n Chưa có giá xuất");
+                    isValid = false;
+                }else{
+                    if(!isNumberFloat(price)){
+                        errorInfo.append("\n Giá phải là số và >0");
+                        isValid = false;
+                    }else{
+                        goodsDTO.setOutPriceValue(formatNumber(outPrice));
+                    }
+                }
+                goodsDTO.setOutPrice(outPrice);
+                //
+                if(!isValid){
+                    goodsDTO.setErrorInfo(errorInfo.toString());
+                }
+                //
+                lstGoods.add(goodsDTO);
+            }
+            //
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        //
+        importResult.setValid(isValid);
+        importResult.setLstGoods(lstGoods);
+        return importResult;
+    }
+
     public static String formatNumber(String number){
         if (!DataUtil.isStringNullOrEmpty(number)) {
             double dNumber = Double.valueOf(number);
-            return String.format("%,.2f", dNumber);
+            return String.format("%,.0f", dNumber);
         }else{
             return "";
         }
