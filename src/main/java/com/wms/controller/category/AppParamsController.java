@@ -106,7 +106,7 @@ public class AppParamsController extends BaseCommonController {
             log.info("ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
         }
-        return  "redirect:/workspace/cat_partner_ctr";
+        return  "redirect:/workspace/app_params_ctr";
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
