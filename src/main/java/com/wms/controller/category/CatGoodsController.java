@@ -139,7 +139,7 @@ public class CatGoodsController extends BaseCommonController{
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
         }
-        lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
+        lstCon.add(new Condition("createdDate",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
 
@@ -176,6 +176,9 @@ public class CatGoodsController extends BaseCommonController{
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catGoods.toString()+" SUCCESS");
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
+            log.info("ERROR");
+            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }else{
             log.info("Add: "+ catGoods.toString()+" ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.add.fail");
@@ -235,9 +238,11 @@ public class CatGoodsController extends BaseCommonController{
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String update(CatGoodsDTO catGoods, RedirectAttributes redirectAttributes){
+        String sysdate = appParamsService.getSysDate(tokenInfo);
         catGoods.setCustId(selectedCustomer.getId());
         catGoods.setStatus(FunctionUtils.getValueFromToggle(catGoods.getStatus()));
         catGoods.setIsSerial(FunctionUtils.getValueFromToggle(catGoods.getIsSerial()));
+        catGoods.setCreatedDate(sysdate);
         log.info("Update cat_goods info: "+ catGoods.toString());
         ResponseObject response = catGoodsService.update(catGoods,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){

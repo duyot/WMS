@@ -29,19 +29,21 @@ public class BaseController {
     public BaseService catGoodsService;
     @Autowired
     public BaseService appParamsService;
-    //
+    //STOCK
     public List<CatStockDTO> lstStock;
+    public Map<String,CatStockDTO> mapStockIdStock   = new HashMap();
+    //GOODS
+    public Map<String,CatGoodsDTO> mapGoodsCodeGoods = new HashMap();
+    public Map<String,CatGoodsDTO> mapGoodsIdGoods   = new HashMap();
     public List<CatGoodsDTO> lstGoods;
+    //APP_PARAMS
     public List<AppParamsDTO> lstAppParams;
+    public List<AppParamsDTO> lstAppGoodsState;
+    public Map<String,String> mapAppGoodsState   = new HashMap();
+    //
     public AuthTokenInfo tokenInfo;
     public CatCustomerDTO selectedCustomer;
     public CatUserDTO currentUser;
-    //
-    public Map<String,CatGoodsDTO> mapGoodsCodeGoods = new HashMap();
-    public Map<String,CatGoodsDTO> mapGoodsIdGoods   = new HashMap();
-    public Map<String,CatStockDTO> mapStockIdStock   = new HashMap();
-    public Map<String,String> mapAppGoodsState   = new HashMap();
-
     //
     @ModelAttribute("currentUser")
     public void setCurrentUser(HttpServletRequest request){
@@ -67,9 +69,6 @@ public class BaseController {
 
     @ModelAttribute("lstAppParams")
     public List<AppParamsDTO>  getListAppParams(HttpServletRequest request){
-        if(selectedCustomer == null){
-            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
         if(tokenInfo == null){
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
@@ -78,6 +77,21 @@ public class BaseController {
             mapAppGoodsState = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE,lstAppParams));
         }
         return lstAppParams;
+    }
+
+    @ModelAttribute("lstAppGoodsState")
+    public List<AppParamsDTO>  getListAppParamsGoodsState(HttpServletRequest request){
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        if(lstAppGoodsState == null){
+            if (lstAppParams == null) {
+                lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
+            }
+            lstAppGoodsState = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE,lstAppParams);
+            mapAppGoodsState = FunctionUtils.buildMapAppParams(lstAppGoodsState);
+        }
+        return lstAppGoodsState;
     }
 
     @ModelAttribute("lstGoods")

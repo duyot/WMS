@@ -4,6 +4,37 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 */
+.menu-item {
+	background: #eeeeee none repeat scroll 0 0;
+	border-radius: 100%;
+	color: #ffffff;
+	height: 40px;
+	line-height: 40px;
+	margin-left: -40px;
+	position: absolute;
+	text-align: center;
+	transform: translate3d(0px, 0px, 0px);
+	transition: transform 200ms ease-out 0s, -webkit-transform 200ms ease-out 0s;
+	width: 40px;
+}
+
+.item-1 {
+background-color: #669ae1;
+box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
+text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.action-info-link{
+	margin-left: 5px !important;
+}
+/*
+
+ */
+.input-group-combo{
+	width: 100%;
+	max-width: 340px;
+}
+
 .label-require:after{
 	content:"*";
 	color:#F44336;
@@ -53,7 +84,7 @@ body.loading .modal-loading {
 
 .action-info{
 	color:#f44336;
-	margin-left: 4px;
+	margin-left: -4px;
 	margin-top: 0px;
 }
 

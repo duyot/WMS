@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.nio.file.Paths;
 import java.util.*;
@@ -123,7 +124,7 @@ public class FunctionUtils {
     /*
 
      */
-    public static List<MjrStockTransDetailDTO> convertGoodsSerialToDetail(List<MjrStockGoodsSerialDTO> lstStockGoodsSerial){
+    public static List<MjrStockTransDetailDTO> convertGoodsSerialToDetail(List<MjrStockGoodsSerialDTO> lstStockGoodsSerial, Map<String,String> mapAppStockStatus){
         List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
         if (!DataUtil.isListNullOrEmpty(lstStockGoodsSerial)) {
             for(MjrStockGoodsSerialDTO i:lstStockGoodsSerial){
@@ -136,7 +137,7 @@ public class FunctionUtils {
                 temp.setExportDate(i.getExportDate());
                 temp.setInputPrice(i.getInputPrice());
                 temp.setOutputPrice(i.getOutputPrice());
-                temp.setStatusValue(i.getStatus().equalsIgnoreCase("1")?"Trong kho":"Đã xuất");
+                temp.setStatusValue(mapAppStockStatus.get(i.getStatus()));
                 temp.setStockId(i.getStockId());
                 //
                 lstResult.add(temp);
@@ -176,6 +177,7 @@ public class FunctionUtils {
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentCustomer.getId()));
         lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"asc"));
         return service.findByCondition(lstCondition,tokenInfo);
     }
 
@@ -193,6 +195,7 @@ public class FunctionUtils {
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentCustomer.getId()));
         lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"asc"));
         return service.findByCondition(lstCondition,tokenInfo);
     }
 
@@ -630,6 +633,11 @@ public class FunctionUtils {
         }else{
             return "";
         }
+    }
+
+    public static String removeScientificNotation(String number){
+        BigDecimal num = new BigDecimal(number);
+        return num.toPlainString();
     }
 
     public static boolean isNumberFloat(String input){

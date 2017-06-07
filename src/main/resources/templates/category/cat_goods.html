@@ -22,7 +22,7 @@
     </script>
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
-    <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrapbootstrap-select.min.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>
@@ -388,8 +388,10 @@
             $("#modal-inp-name").val('');
             $("#modal-inp-id").val('');
             ///
-            $('select[name=unitType]').val("-1");
-            $('select[name=goodsGroupId]').val("-1");
+            $('select[name=unitType]').val($('#modal-cmb-goods-unit option:first ').val());
+            $('select[name=goodsGroupId]').val($('#modal-cmb-goods-group option:first ').val());
+            $('select[name=unitType]').selectpicker('refresh');
+            $('select[name=goodsGroupId]').selectpicker('refresh');
             //
             $("#modal-inp-input-price").val('');
             $("#modal-inp-output-price").val('');
@@ -408,7 +410,6 @@
             $('select[name=unitType]').selectpicker('refresh');
             $('select[name=goodsGroupId]').val(selectedItem['goodsGroupId']);
             $('select[name=goodsGroupId]').selectpicker('refresh');
-
             //
             $("#modal-inp-input-price").val(selectedItem["inPrice"]);
             $("#modal-inp-output-price").val(selectedItem["outPrice"]);
@@ -433,6 +434,5 @@
         }
     }
 </script>
-
 </body>
 </html>

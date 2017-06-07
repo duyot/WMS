@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,10 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/workspace")
+@Scope("session")
 public class WorkSpaceController {
-    Logger log = LoggerFactory.getLogger(WorkSpaceController.class);
-
     List<CatCustomerDTO> lstCustomer;
+
     @RequestMapping()
     public String home(HttpServletRequest request){
         Object isLogin = request.getSession().getAttribute("isLogin");
@@ -66,7 +67,7 @@ public class WorkSpaceController {
         }
         request.getSession().setAttribute("selectedCustomer",selectedCustomer);
         return selectedCustomer.getName();
-}
+    }
     //---------------------------------------------------------------------------------------------------------
     @RequestMapping("/logout")
         public String logout(HttpServletRequest request){
@@ -146,5 +147,11 @@ public class WorkSpaceController {
     @RequestMapping("/trans_info")
     public String redirectTransInfo(){
         return "redirect:/workspace/utils/trans_info";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/dashboard")
+    public String redirectDashboard(){
+        return "redirect:/workspace/dashboard_ctr";
     }
 }

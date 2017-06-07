@@ -60,6 +60,8 @@ public class CatStockController extends BaseCommonController{
 
         for(CatStockDTO i: lstCatStock){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
+            i.setCode(StringEscapeUtils.escapeHtml(i.getCode()));
+            i.setAddress(StringEscapeUtils.escapeHtml(i.getAddress()));
             i.setCustName(selectedCustomer.getName());
             i.setStatusName(mapAppStatus.get(i.getStatus()));
         }

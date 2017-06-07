@@ -3,6 +3,8 @@ package com.wms.controller.utils;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
+import com.wms.dto.AppParamsDTO;
+import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.Condition;
 import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.services.interfaces.BaseService;
@@ -14,11 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.Date;
@@ -37,6 +37,36 @@ public class SearchSerialController extends BaseController{
     BaseService mjrStockGoodsSerialService;
     //
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
+    public Map<String,String> mapAppStockStatus;
+
+    @ModelAttribute
+    public void setAppStockStatus(HttpServletRequest request) {
+        if (mapAppStockStatus != null) {
+            return ;
+        }
+
+        if (lstAppParams == null) {
+            if (tokenInfo == null) {
+                this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+            }
+            lstAppParams = FunctionUtils.getAppParams(appParamsService, tokenInfo);
+        }
+        //
+        buildMapStockStatus(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STOCK_STATUS, lstAppParams));
+        //
+        return;
+    }
+
+    //
+    private void buildMapStockStatus(List<AppParamsDTO> lstAppParams){
+        mapAppStockStatus = new HashMap<>();
+        if(!DataUtil.isListNullOrEmpty(lstAppParams)){
+            for(AppParamsDTO i: lstAppParams){
+                mapAppStockStatus.put(i.getCode(),i.getName());
+            }
+        }
+    }
+
 
     @RequestMapping()
     public String home(Model model){
@@ -65,7 +95,7 @@ public class SearchSerialController extends BaseController{
         lstCon.add(new Condition("serial",Constants.SQL_OPERATOR.IN,arrSearchSerial));
         lstCon.add(new Condition("importDate",Constants.SQL_OPERATOR.ORDER,"desc"));
         //
-        List<MjrStockTransDetailDTO> lstResult= FunctionUtils.convertGoodsSerialToDetail(mjrStockGoodsSerialService.findByCondition(lstCon,tokenInfo));
+        List<MjrStockTransDetailDTO> lstResult= FunctionUtils.convertGoodsSerialToDetail(mjrStockGoodsSerialService.findByCondition(lstCon,tokenInfo),mapAppStockStatus);
         if(DataUtil.isListNullOrEmpty(lstResult)){
             return Lists.newArrayList();
         }

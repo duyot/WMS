@@ -66,19 +66,18 @@
                                 <div class="row row-header">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <label for="modal-cmb-goods-unit" class="control-label" th:text="#{lbl.goodsUnit}"></label>
+                                            <label for="modal-cmb-goods-unit" class="control-label label-require" th:text="#{lbl.goodsUnit}"></label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row row-content">
                                     <div class="col-sm-12">
-                                        <div class="input-group">
+                                        <div class="input-group input-group-combo">
                                             <span class="input-group-addon">
                                                  <i class="fa  fa-server fa-fw"></i>
                                             </span>
                                             <select id="modal-cmb-goods-unit" class="combobox form-control selectpicker" name="unitType" data-live-search="true"  data-width="100%"
                                                     th:required="true" autocomplete="off">
-                                                <option value="-1">---Chọn---</option>
                                                 <option th:each="sopt:${mapUnitType.entrySet()}"
                                                         th:value="${sopt.key}" th:text="${sopt.value}"></option>
 
@@ -91,19 +90,18 @@
                                 <div class="row row-header">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <label for="modal-cmb-goods-group" class="control-label" th:text="#{lbl.goodsgroup}"></label>
+                                            <label for="modal-cmb-goods-group" class="control-label label-require" th:text="#{lbl.goodsgroup}"></label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row row-content">
                                     <div class="col-sm-12">
-                                        <div class="input-group">
+                                        <div class="input-group input-group-combo">
                                                 <span class="input-group-addon">
                                                     <i class="fa  fa-server fa-fw"></i>
                                                 </span>
                                             <select id="modal-cmb-goods-group" class="combobox form-control selectpicker" data-live-search="true"  data-width="100%"
                                                     name="goodsGroupId">
-                                                <option value="-1">---Chọn---</option>
                                                 <option th:each="sopt:${mapGoodsGroup.entrySet()}"
                                                     th:value="${sopt.key}" th:text="${sopt.value}"></option>
                                             </select>
@@ -229,6 +227,12 @@
             var currentValue = unFormatFloat($("#modal-inp-output-price").val());
             $('#modal-label-output-price').text(DOCSO.doc(currentValue));
             $('#modal-inp-output-price').val(currentValue);
+        });
+
+        $('#cat-goods-insert-update-form').submit(function() {
+            $(this).find('input:text').each(function(){
+                $(this).val($.trim($(this).val()));
+            });
         });
     </script>
 

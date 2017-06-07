@@ -29,13 +29,6 @@ public enum Responses {
         return this.statusName;
     }
 
-//    public static String getCodeByName(String name) {
-//        for(Responses e : values()) {
-//            if(e.statusName.equals(name)) return e.getCode();
-//        }
-//        return "";
-//    }
-
     public static void main(String[] args) {
     }
 

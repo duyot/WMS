@@ -12,7 +12,7 @@
     <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
 
-    <link rel="stylesheet" th:href="@{/css/bootstrap-combobox.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -22,7 +22,7 @@
     </script>
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
-    <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <!--common-->
@@ -65,9 +65,10 @@
                                     <label for="cmb-stock" th:text="#{lbl.stock}"></label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <select id="cmb-stock" class="combobox form-control">
-                                            <option value="-1">Tất cả</option>
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-stock" class="form-control selectpicker" data-live-search="true"
+                                                data-width="100%" name="cmb-stock">
+                                            <option value="-1" th:text="#{label.all}"></option>
                                             <option  th:each="sopt:${lstStock}"
                                                      th:value="${sopt.id}" th:text="${sopt.name}">1</option>
                                         </select>
@@ -80,9 +81,10 @@
                                     <label th:text="#{lbl.goods}" for="cmb-goods"></label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <select id="cmb-goods" class="combobox form-control">
-                                            <option value="-1">Tất cả</option>
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-goods" class="selectpicker form-control" data-live-search="true"
+                                            data-width="100%" name="cmb-goods">
+                                            <option value="-1" th:text="#{label.all}"></option>
                                             <option  th:each="sopt:${lstGoods}"
                                                      th:value="${sopt.id}" th:text="${sopt.name}">1</option>
                                         </select>
@@ -138,7 +140,7 @@
                             <i class="fa fa-download"></i>
                         </a>
 
-                        <label class="action-info" id="action-info"></label>
+                        <label class="action-info action-info-link" id="action-info"></label>
                     </div>
                     <table  id="tbl-stock-info"
                             data-pagination="true"

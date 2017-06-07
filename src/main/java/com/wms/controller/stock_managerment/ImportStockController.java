@@ -40,7 +40,6 @@ public class ImportStockController extends BaseController{
     BaseService catStockCellService;
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
-    public List<CatStockCellDTO> lstCells;
     //
     @ModelAttribute("setGoodsCode")
     public void setGoodsCode(HttpServletRequest request){
@@ -83,6 +82,8 @@ public class ImportStockController extends BaseController{
     @RequestMapping(value = "/isSerial/{code}")
     public @ResponseBody CatGoodsDTO isSerial(@PathVariable("code")String code){
         CatGoodsDTO catGoodsDTO = mapGoodsCodeGoods.get(code);
+        catGoodsDTO.setInPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getInPrice()));
+        catGoodsDTO.setOutPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getOutPrice()));
         return catGoodsDTO;
     }
 

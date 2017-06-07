@@ -10,6 +10,7 @@ import com.wms.utils.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -32,6 +33,7 @@ import java.util.Locale;
  */
     @Controller
     @RequestMapping("/")
+    @Scope("session")
     public class HomeController {
     Logger log = LoggerFactory.getLogger(HomeController.class);
 

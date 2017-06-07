@@ -72,12 +72,13 @@ public class CatGoodsGroupController extends BaseCommonController{
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catGoodsGroup.toString()+" SUCCESS");
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode()))
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName()))
         {
             log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }else{
             log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
+
         redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
     }
 
@@ -98,7 +99,7 @@ public class CatGoodsGroupController extends BaseCommonController{
             log.info("SUCCESS");
             redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
             redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
         }

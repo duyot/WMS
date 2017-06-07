@@ -389,7 +389,7 @@
                 $table.bootstrapTable('removeAll');
             },
             error: function(data){
-                setErrorMessage($lblInfo,data)
+                setErrorMessage($lblInfo,JSON.stringify(data))
             },
             complete: function(){
                 $body.removeClass("loading");
@@ -424,7 +424,7 @@
             changeModelByType(true,null);
             //
             var isSerial;
-            var inputAmount;
+            var price;
             //
             $.ajax({
                 url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
@@ -435,21 +435,32 @@
                 type: 'GET',
                 success: function(data){
                     isSerial = data["isSerial"];
-                    inputAmount = data["inPrice"];
+                    price = data["inPrice"];
                 },
             });
             //
-            if(isSerial == '1'){
-                $('#modal-inp-amount').val('1');
-            }
-            $('#modal-inp-input-price').val(inputAmount);
+            showElementBySerialType(isSerial);
+            $('#modal-inp-input-price').val(price);
+            $('#modal-label-inp-input-price').text(DOCSO.doc(price));
             //
             showModal($('#myModal'));
         });
     });
+
+    function showElementBySerialType(serialType) {
+        if(serialType == '1'){
+            $('#modal-inp-amount').val('1');
+            disableElement($('#modal-inp-amount'));
+            enableElement($('#modal-inp-serial'));
+        }else{
+            disableElement($('#modal-inp-serial'));
+            enableElement($('#modal-inp-amount'));
+        }
+    }
     //----------------------------------------------------------------------------------------------------------------
     $("#modal-cmb-goods").change(function () {
         var inputAmount;
+        var isSerial;
         //
         $.ajax({
             url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
@@ -461,10 +472,13 @@
             success: function(data){
                 currentGoods = data;
                 inputAmount = currentGoods['inPrice'];
+                isSerial = data["isSerial"];
             },
         });
         //
+        showElementBySerialType(isSerial);
         $('#modal-inp-input-price').val(inputAmount);
+        $('#modal-label-inp-input-price').text(DOCSO.doc(inputAmount));
     });
     //----------------------------------------------------------------------------------------------------------------
 
@@ -478,6 +492,7 @@
             }
             //valid require serial
             var isSerial;
+            var goods_code;
             //
             $.ajax({
                 url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
@@ -487,13 +502,18 @@
                 async:false,
                 type: 'GET',
                 success: function(data){
-                    currentGoods = JSON.stringify(data);
-                    isSerial = currentGoods["isSerial"];
+                    isSerial = data["isSerial"];
+                    goods_code = data["code"];
                 },
             });
             if(isSerial == '1'){
                 if(($('#modal-inp-amount').val() != "1")){
-                    alert($('#modal-cmb-goodsundefined').val() +" là hàng quản lý serial, số lượng nhập phải là 1.");
+                    alert(goods_code +" là hàng quản lý serial, số lượng nhập phải là 1.");
+                    return;
+                }
+                //
+                if(($('#modal-inp-serial').val().trim().length === 0)){
+                    alert(goods_code +" là hàng quản lý serial, cần nhập thông tin serial.");
                     return;
                 }
             }
@@ -673,6 +693,12 @@
         });
         select.selectpicker('refresh');
     }
+
+    $("#modal-inp-input-price").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-input-price").val());
+        $('#modal-label-inp-input-price').text(DOCSO.doc(currentValue));
+        $('#modal-inp-input-price').val(currentValue);
+    });
 </script>
 </body>
 </html>
