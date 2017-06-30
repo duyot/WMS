@@ -39,18 +39,20 @@
         <div id="page-wrapper">
             <button id="btn-get-revenue" th:value="@{/workspace/dashboard_ctr/getRevenue/}" type="button" style="display:none" class="btn btn-default" >
             </button>
+            <button id="btn-get-top-goods" th:value="@{/workspace/dashboard_ctr/getTopGoods/}" type="button" style="display:none" class="btn btn-default" >
+            </button>
             <div id="container" style="width:100%;height: 100vh">
                 <div class="row">
                     <div class="col-sm-6" id="chart-revenue" style="height: 50vh">
 
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" id="chart-top-goods" style="height: 50vh">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6" id="chart">
+                    <div class="col-sm-6">
 
                     </div>
 
@@ -70,12 +72,12 @@
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
 <script type="text/javascript">
+    //init revenue data------------------------------------------------------------------------------------------------
     var revenueData = null;
     var date = new Date();
     var month = date.getMonth();
     var year = date.getYear();
-    var date = date.getDate() - 7;
-    var startPoint = Date.UTC(year, month, date);
+
     $.ajax({
         url: $('#btn-get-revenue').val()+"7",
         cache: false,
@@ -90,6 +92,15 @@
             alert(json.stringify(data));
         }
     });
+
+    var startDate;
+    if(revenueData.length == 0){
+        startDate = date.getDate()-1;
+    }else{
+        startDate = date.getDate() - revenueData[0].data.length;
+    }
+    var startPoint = Date.UTC(year, month, startDate);
+
 
     Highcharts.chart('chart-revenue', {
 
@@ -107,7 +118,7 @@
             },
             labels: {
                 formatter: function() {
-                    return this.value + ' VNĐ';
+                    return this.value/1000000 + ' M';
                 }
             },
 
@@ -126,6 +137,60 @@
         },
         series: revenueData
 
+    });
+    //init top goods data-----------------------------------------------------------------------------------------------
+    var topGoodsData = null;
+    $.ajax({
+        url: $('#btn-get-top-goods').val()+"7",
+        cache: false,
+        async:false,
+        contentType: false,
+        processData: false,
+        type: 'GET',
+        success: function(data){
+            topGoodsData = data;
+        },
+        error: function(data){
+            alert(JSON.stringify(data));
+        }
+    });
+    //
+    Highcharts.chart('chart-top-goods', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Danh sách hàng bán chạy'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Số lượng'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+
+//        tooltip: {
+//            pointFormat: '<b style="color:{point.color}">{point.y:.0f}</b><br/>'
+//        },
+
+        series: [{
+            colorByPoint: true,
+            data: topGoodsData
+        }],
     });
 </script>
 </body>

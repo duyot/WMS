@@ -2,6 +2,7 @@ package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
 import com.wms.base.BaseCommonController;
+import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
@@ -34,7 +35,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/workspace/cat_goods_ctr")
 @Scope("session")
-public class CatGoodsController extends BaseCommonController{
+public class CatGoodsController extends BaseController {
     Logger log = LoggerFactory.getLogger(CatGoodsController.class);
 
     public Map<String, String> mapGoodsGroup;
@@ -98,8 +99,6 @@ public class CatGoodsController extends BaseCommonController{
         model.addAttribute("menuName","menu.catgoods");
         return "category/cat_goods";
     }
-
-
     //
     @RequestMapping(value = "/getTemplateFile")
     public void getTemplateFile(HttpServletResponse response){
@@ -143,29 +142,22 @@ public class CatGoodsController extends BaseCommonController{
 
         List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
 
-        String serialTypeName;
-        String isSerialName = Constants.SERIAL_TYPE.IS_SERIAL_NAME;
-        String isSerial = Constants.SERIAL_TYPE.IS_SERIAL;
-        String noSerialName = Constants.SERIAL_TYPE.NO_SERIAL_NAME;
-
         for(CatGoodsDTO i: lstCatGoods){
             i.setCode(StringEscapeUtils.escapeHtml(i.getCode()));
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
             i.setCustName(selectedCustomer.getName());
             i.setGoodsGroupName(mapGoodsGroup.get(i.getGoodsGroupId()));
-            serialTypeName =  isSerial.equals(i.getIsSerial()) ? isSerialName: noSerialName;
-            i.setIsSerialName(serialTypeName);
+            i.setIsSerialName(i.getIsSerial().equals("1")? "Có": "Không");
             i.setStatusName(mapAppStatus.get(i.getStatus()));
             i.setUnitTypeName(mapUnitType.get(i.getUnitType()));
             i.setInPriceValue(FunctionUtils.formatNumber(i.getInPrice()));
             i.setOutPriceValue(FunctionUtils.formatNumber(i.getOutPrice()));
-
         }
 
         return lstCatGoods;
     }
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(CatGoodsDTO catGoods, RedirectAttributes redirectAttributes){
+    public @ResponseBody String add(CatGoodsDTO catGoods, HttpServletRequest request){
         catGoods.setStatus("1");
         catGoods.setIsSerial(FunctionUtils.getValueFromToggle(catGoods.getIsSerial()));
         catGoods.setCustId(this.selectedCustomer.getId());
@@ -173,18 +165,17 @@ public class CatGoodsController extends BaseCommonController{
         //
         ResponseObject response = catGoodsService.add(catGoods,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
-            redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catGoods.toString()+" SUCCESS");
+            request.getSession().setAttribute("isGoodsModifiedImportStock",true);
+            request.getSession().setAttribute("isGoodsModifiedExportStock",true);
+            return "1|Thêm mới thành công";
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
+            return "0|Thông tin đã có trên hệ thống";
         }else{
             log.info("Add: "+ catGoods.toString()+" ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.add.fail");
+            return "0|Lỗi hệ thống";
         }
-
-        return "redirect:/workspace/cat_goods_ctr";
     }
     //
     @RequestMapping(value = "/saveListGoods", method = RequestMethod.POST)
@@ -226,6 +217,8 @@ public class CatGoodsController extends BaseCommonController{
             insertResponse.setSuccess(lstGoods.size()+"");
         }
         //
+        request.getSession().setAttribute("isGoodsModifiedImportStock",true);
+        request.getSession().setAttribute("isGoodsModifiedExportStock",true);
         return insertResponse;
     }
 
@@ -237,7 +230,7 @@ public class CatGoodsController extends BaseCommonController{
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String update(CatGoodsDTO catGoods, RedirectAttributes redirectAttributes){
+    public @ResponseBody String update(CatGoodsDTO catGoods, HttpServletRequest request){
         String sysdate = appParamsService.getSysDate(tokenInfo);
         catGoods.setCustId(selectedCustomer.getId());
         catGoods.setStatus(FunctionUtils.getValueFromToggle(catGoods.getStatus()));
@@ -247,25 +240,29 @@ public class CatGoodsController extends BaseCommonController{
         ResponseObject response = catGoodsService.update(catGoods,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
-            redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
+            request.getSession().setAttribute("isGoodsModifiedImportStock",true);
+            request.getSession().setAttribute("isGoodsModifiedExportStock",true);
+            return "1|Cập nhật thành công";
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.update.fail");
+            return "0|Thông tin đã có trên hệ thống";
         }
         else{
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
+            return "0|Lỗi hệ thống";
         }
-        return  "redirect:/workspace/cat_goods_ctr";
+        //
+        //log.info(request.getSession().getAttribute("isGoodsModified").toString());
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(@RequestParam("id")String id){
+    public @ResponseBody String delete(@RequestParam("id")String id, HttpServletRequest request){
         try {
             Long idL = Long.parseLong(id);
             ResponseObject response = catGoodsService.delete(idL,tokenInfo);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+                request.getSession().setAttribute("isGoodsModifiedImportStock",true);
+                request.getSession().setAttribute("isGoodsModifiedExportStock",true);
                 return "1|Xoá thành công";
             }else{
                 return "0|Xoá không thành công";
@@ -274,7 +271,4 @@ public class CatGoodsController extends BaseCommonController{
             return "0|Xoá không thành công lỗi convert long";
         }
     }
-
-
-
 }

@@ -8,8 +8,28 @@ import java.math.BigInteger;
 public class ChartDTO {
     private String name;
     private BigInteger[] data;
+    private String [] xAxisData;
+    private BigInteger y;
 
     public ChartDTO() {
+    }
+
+    public ChartDTO(String name, BigInteger y) {
+        this.name = name;
+        this.y = y;
+    }
+
+    public ChartDTO(String name, BigInteger[] data, String[] xAxisData, BigInteger y) {
+        this.name = name;
+        this.data = data;
+        this.xAxisData = xAxisData;
+        this.y = y;
+    }
+
+    public ChartDTO(String name, BigInteger[] data, String[] xAxisData) {
+        this.name = name;
+        this.data = data;
+        this.xAxisData = xAxisData;
     }
 
     public ChartDTO(String name, BigInteger [] data) {
@@ -31,5 +51,21 @@ public class ChartDTO {
 
     public void setData(BigInteger[] data) {
         this.data = data;
+    }
+
+    public String[] getxAxisData() {
+        return xAxisData;
+    }
+
+    public void setxAxisData(String[] xAxisData) {
+        this.xAxisData = xAxisData;
+    }
+
+    public BigInteger getY() {
+        return y;
+    }
+
+    public void setY(BigInteger y) {
+        this.y = y;
     }
 }

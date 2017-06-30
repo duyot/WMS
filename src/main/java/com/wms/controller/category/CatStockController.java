@@ -33,9 +33,6 @@ public class CatStockController extends BaseCommonController{
     Logger log = LoggerFactory.getLogger(CatStockController.class);
 
     @Autowired
-    BaseService customerService;
-
-    @Autowired
     BaseService catStockService;
 
     @RequestMapping()
@@ -72,27 +69,28 @@ public class CatStockController extends BaseCommonController{
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(CatStockDTO catStockDTO, RedirectAttributes redirectAttributes){
+    public @ResponseBody String add(CatStockDTO catStockDTO, HttpServletRequest request){
         catStockDTO.setStatus("1");
         catStockDTO.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catStockService.add(catStockDTO,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
-            redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catStockDTO.toString()+" SUCCESS");
+            //
+            request.getSession().setAttribute("isStockModifiedImportStock",true);
+            request.getSession().setAttribute("isStockModifiedExportStock",true);
+            return "1|Thêm mới thành công";
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode()))
         {
             log.info("Add: "+ catStockDTO.toString()+" ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
+            return "0|Thông tin đã có trên hệ thống";
         }else{
             log.info("Add: "+ catStockDTO.toString()+" ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
+            return "0|Lỗi hệ thống";
         }
-        return "redirect:/workspace/cat_stock_ctr";
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String update(CatStockDTO catStockDTO, RedirectAttributes redirectAttributes){
+    public @ResponseBody  String update(CatStockDTO catStockDTO, HttpServletRequest request){
         log.info("Update cat_stock info: "+ catStockDTO.toString());
 		catStockDTO.setCustId(this.selectedCustomer.getId());
         if("on".equalsIgnoreCase(catStockDTO.getStatus())){
@@ -103,25 +101,29 @@ public class CatStockController extends BaseCommonController{
         ResponseObject response = catStockService.update(catStockDTO,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
-            redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
+            //
+            request.getSession().setAttribute("isStockModifiedImportStock",true);
+            request.getSession().setAttribute("isStockModifiedExportStock",true);
+            return "1|Cập nhật thành công";
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
+            return "0|Thông tin đã có trên hệ thống";
         }
         else{
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
+            return "0|Lỗi hệ thống";
         }
-        return  "redirect:/workspace/cat_stock_ctr";
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(@RequestParam("id")String id){
+    public @ResponseBody String delete(@RequestParam("id")String id,HttpServletRequest request){
         try {
             Long idL = Long.parseLong(id);
             ResponseObject response = catStockService.delete(idL,tokenInfo);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+                //
+                request.getSession().setAttribute("isStockModifiedImportStock",true);
+                request.getSession().setAttribute("isStockModifiedExportStock",true);
                 return "1|Xoá thành công";
             }else{
                 return "0|Xoá không thành công";

@@ -3,6 +3,7 @@ package com.wms;
 import com.wms.dto.CatUserDTO;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -24,8 +25,8 @@ public class ClientTest {
     public static final String TEST__FILE_URI = "http://localhost:8080//SpringRestServices/services/userservices/getFile/{fileName}";
 
     public static void main(String[] args) {
-//        ClientTest.testSendObject(new CatUserDTO("sdf","sdf"));
-        ClientTest.testReceiveFile("logback-spring.xml");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println(encoder.encode("123456"));
     }
 
     /*

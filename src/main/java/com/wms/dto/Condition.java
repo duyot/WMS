@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
  * Created by duyot on 10/24/2016.
  */
 public class Condition {
-    Logger log = LoggerFactory.getLogger(Condition.class);
     private String property;
     private String propertyType;
     private String operator;
@@ -35,7 +34,6 @@ public class Condition {
                 try {
                     this.value = Long.parseLong((String)value);
                 } catch (NumberFormatException e) {
-                    log.info("Log in condition format: "+ e.toString());
                     this.value = value;
                 }
             }

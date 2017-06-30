@@ -1,5 +1,7 @@
 package com.wms.controller;
 
+import com.wms.base.BaseCommonController;
+import com.wms.base.BaseController;
 import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatCustomerDTO;
 import com.wms.dto.ChartDTO;
@@ -18,7 +20,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/workspace/dashboard_ctr")
 @Scope("session")
-public class DashBoardController {
+public class DashBoardController extends BaseController{
     @Autowired
     StatisticService statisticService;
 
@@ -54,6 +56,12 @@ public class DashBoardController {
     @RequestMapping(value = "/getRevenue/{type}",method = RequestMethod.GET)
     public @ResponseBody List<ChartDTO> getRevenue(@PathVariable("type") String type){
         return statisticService.getRevenue(selectedCustomer.getId(),type,tokenInfo);
+    }
+
+    //select customer
+    @RequestMapping(value = "/getTopGoods/{type}",method = RequestMethod.GET)
+    public @ResponseBody List<ChartDTO> getTopGoods(@PathVariable("type") String type){
+        return statisticService.getTopGoods(selectedCustomer.getId(),type,tokenInfo,mapGoodsIdGoods);
     }
 
 

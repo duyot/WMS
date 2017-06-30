@@ -5,6 +5,7 @@ import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatUserDTO;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.RoleActionService;
+import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,11 @@ public class WMSUserDetailsService implements UserDetailsService {
                 log.info("CatUserDTO not available");
                 return null;
             }
-
+            //
+            if (DataUtil.isStringNullOrEmpty(loggedUser.getImgUrl())) {
+                loggedUser.setImgUrl("default.jpg");
+            }
+            //
             AuthTokenInfo tokenInfo = getAuthenTokenInfo(loggedUser);
             List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(loggedUser.getRoleCode(),tokenInfo);
 

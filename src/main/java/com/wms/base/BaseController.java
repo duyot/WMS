@@ -2,6 +2,7 @@ package com.wms.base;
 
 import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
+import com.wms.controller.category.CatGoodsController;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
@@ -31,15 +32,18 @@ public class BaseController {
     public BaseService appParamsService;
     //STOCK
     public List<CatStockDTO> lstStock;
-    public Map<String,CatStockDTO> mapStockIdStock   = new HashMap();
+    public Map<String,CatStockDTO> mapStockIdStock;
     //GOODS
-    public Map<String,CatGoodsDTO> mapGoodsCodeGoods = new HashMap();
-    public Map<String,CatGoodsDTO> mapGoodsIdGoods   = new HashMap();
+    public Map<String,CatGoodsDTO> mapGoodsCodeGoods;
+    public Map<String,CatGoodsDTO> mapGoodsIdGoods;
     public List<CatGoodsDTO> lstGoods;
     //APP_PARAMS
     public List<AppParamsDTO> lstAppParams;
     public List<AppParamsDTO> lstAppGoodsState;
     public Map<String,String> mapAppGoodsState   = new HashMap();
+    //
+    //
+    public Map<String,String> mapAppStatus = new HashMap();
     //
     public AuthTokenInfo tokenInfo;
     public CatCustomerDTO selectedCustomer;
@@ -62,6 +66,7 @@ public class BaseController {
         if(lstStock == null){
             lstStock = FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
             buildMapStock();
+            request.getSession().setAttribute("isStockModified",false);
         }
         //
         return lstStock;
@@ -74,24 +79,11 @@ public class BaseController {
         }
         if(lstAppParams == null){
             lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
-            mapAppGoodsState = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE,lstAppParams));
-        }
-        return lstAppParams;
-    }
-
-    @ModelAttribute("lstAppGoodsState")
-    public List<AppParamsDTO>  getListAppParamsGoodsState(HttpServletRequest request){
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
-        if(lstAppGoodsState == null){
-            if (lstAppParams == null) {
-                lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
-            }
             lstAppGoodsState = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE,lstAppParams);
             mapAppGoodsState = FunctionUtils.buildMapAppParams(lstAppGoodsState);
+            mapAppStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STATUS,lstAppParams));
         }
-        return lstAppGoodsState;
+        return lstAppParams;
     }
 
     @ModelAttribute("lstGoods")
@@ -105,11 +97,15 @@ public class BaseController {
         if(lstGoods == null){
             lstGoods = FunctionUtils.getListGoods(catGoodsService,selectedCustomer,tokenInfo);
             buildMapGoods();
+            request.getSession().setAttribute("isGoodsModified",false);
         }
+
         return lstGoods;
     }
     //==================================================================================================================
-    private void buildMapGoods(){
+    public void buildMapGoods(){
+        mapGoodsCodeGoods = new HashMap<>();
+        mapGoodsIdGoods = new HashMap<>();
         if(!DataUtil.isListNullOrEmpty(lstGoods)){
             for(CatGoodsDTO i: lstGoods){
                 mapGoodsCodeGoods.put(i.getCode(),i);
@@ -118,7 +114,8 @@ public class BaseController {
         }
     }
 
-    private void buildMapStock(){
+    public void buildMapStock(){
+        mapStockIdStock = new HashMap<>();
         if(!DataUtil.isListNullOrEmpty(lstStock)){
             for(CatStockDTO i: lstStock){
                 mapStockIdStock.put(i.getId(),i);

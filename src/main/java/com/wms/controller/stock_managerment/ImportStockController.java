@@ -43,11 +43,48 @@ public class ImportStockController extends BaseController{
     //
     @ModelAttribute("setGoodsCode")
     public void setGoodsCode(HttpServletRequest request){
-        if(!DataUtil.isListNullOrEmpty(lstGoods) && setGoodsCode.size() == 0){
+        //
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        if(lstGoods == null || isGoodsModified(request)){
+            lstGoods = FunctionUtils.getListGoods(catGoodsService,selectedCustomer,tokenInfo);
+            buildMapGoods();
+            //
             for(CatGoodsDTO i: lstGoods){
                 setGoodsCode.add(i.getCode());
             }
+            //
+            request.getSession().setAttribute("isGoodsModifiedImportStock",false);
         }
+        //
+    }
+
+    @ModelAttribute("getStock")
+    public void getStock(HttpServletRequest request){
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        //
+        if(lstStock == null || isStockModified(request)){
+            lstStock = FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
+            buildMapStock();
+            request.getSession().setAttribute("isStockModifiedImportStock",false);
+        }
+    }
+
+    private boolean isGoodsModified(HttpServletRequest request){
+        return (boolean) request.getSession().getAttribute("isGoodsModifiedImportStock");
+    }
+
+    private boolean isStockModified(HttpServletRequest request){
+        return (boolean) request.getSession().getAttribute("isStockModifiedImportStock");
     }
     //
     @RequestMapping()

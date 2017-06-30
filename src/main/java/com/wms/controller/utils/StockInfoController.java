@@ -6,10 +6,7 @@ import com.wms.constants.Constants;
 import com.wms.controller.stock_managerment.ExportStockController;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
-import com.wms.utils.BundleUtils;
-import com.wms.utils.DataUtil;
-import com.wms.utils.DateTimeUtils;
-import com.wms.utils.FunctionUtils;
+import com.wms.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +78,8 @@ public class StockInfoController extends BaseController{
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public @ResponseBody List<MjrStockGoodsTotalDTO> getStockInfo(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
-                                                                  @RequestParam("status")String status
+    public @ResponseBody ServerPagingDTO getStockInfo(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
+                                                                  @RequestParam("status")String status,@RequestParam("limit")String limit,@RequestParam("offset")String offset
                                                      ){
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
@@ -97,15 +94,21 @@ public class StockInfoController extends BaseController{
             lstCon.add(new Condition("goodsState",Constants.SQL_OPERATOR.EQUAL,status));
         }
         lstCon.add(new Condition("changeDate",Constants.SQL_OPERATOR.ORDER,"desc"));
-
+        lstCon.add(new Condition("",Constants.SQL_OPERATOR.LIMIT, Integer.parseInt(limit)));
+        lstCon.add(new Condition("",Constants.SQL_OPERATOR.OFFSET, Integer.parseInt(offset)));
+        //
+        log.info(JSONUtils.object2JSONString(lstCon));
         List<MjrStockGoodsTotalDTO> lstResult = mjrStockGoodsTotalService.findByCondition(lstCon,tokenInfo);
         lstGoodsTotal = setNameValueInfo(lstResult);
-        return lstGoodsTotal;
+        ServerPagingDTO data = new ServerPagingDTO(7,lstGoodsTotal);
+
+        return data;
     }
 
     @RequestMapping(value = "/getGoodsDetail",method = RequestMethod.GET)
     public @ResponseBody List<MjrStockTransDetailDTO> getGoodsDetail(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
                                                                   @RequestParam("goodsState")String goodsState
+
     ){
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
@@ -119,8 +122,9 @@ public class StockInfoController extends BaseController{
         if(!DataUtil.isStringNullOrEmpty(goodsState) && !goodsState.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("goodsState",Constants.SQL_OPERATOR.EQUAL,goodsState));
         }
+
         lstCon.add(new Condition("importDate",Constants.SQL_OPERATOR.ORDER,"desc"));
-        //
+
         List<MjrStockTransDetailDTO> lstResult;
         CatGoodsDTO goodsItem = mapGoodsIdGoods.get(goodsId);
         if (goodsItem.isSerial()) {

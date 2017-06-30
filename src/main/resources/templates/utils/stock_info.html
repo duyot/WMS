@@ -143,12 +143,14 @@
                     </div>
                     <table  id="tbl-stock-info"
                             data-pagination="true"
+                            data-side-pagination="server"
                             data-search="true"
                             data-click-to-select="true"
                             data-show-columns="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
                             style="word-wrap: break-word;  table-layout: fixed;"
+                            data-page-list="[5,10, 25, 50, 100, ALL]"
                     >
 
                         <thead>
@@ -185,21 +187,42 @@
 <!--validation-->
 <script th:attr="src=@{/js/jquery.form-validator.min.js}" th:href="@{/js/jquery.form-validator.min.js}"></script>
 <script>
-    //---------------------------------------------------------------------
-    $table = $('#tbl-stock-info');
-    $tableGoodsDetail = $('#tbl-goods-detail');
+    //Init data---------------------------------------------------------------------
     var dataInit = [
     ];
 
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="view-goods-detail" href="javascript:void(0)" title="Chi tiết">',
+            '<i class="fa fa-info-circle"></i>',
+            '</a>  '
+        ].join('');
+    }
+    //---------------------------------------------------------------------
+    $table = $('#tbl-stock-info');
+    $btnDataUrl = $('#btn-search-stock-info');
+    $tableGoodsDetail = $('#tbl-goods-detail');
+    $body = $("body");
+    //Init component---------------------------------------------------------------------
     $(function () {
-        //
         $table.bootstrapTable({
-            data: dataInit
+            data: dataInit ,
+            url: $btnDataUrl.val(),
+            pageSize:5,
+            queryParams: function (p) {
+                //
+                var stock_id = $('#cmb-stock').val();
+                var goods_id = $('#cmb-goods').val();
+                var statusVal =  $('#cmb-status').val();
+
+                return { stockId:stock_id,goodsId:goods_id,status:statusVal,limit: p.limit,
+                    offset: p.offset};
+            }
         });
         //
         $tableGoodsDetail.bootstrapTable({
             data: dataInit,
-            pageList:[5,10, 25, 50],
+            pageList:[5 ,10, 25, 50],
             pageSize:5
         });
         $table.bootstrapTable('hideColumn', 'stockId');
@@ -208,15 +231,6 @@
         //
     });
     //
-    function operateFormatter(value, row, index) {
-        return [
-            '<a class="view-goods-detail" href="javascript:void(0)" title="Chi tiết">',
-            '<i class="fa fa-info-circle"></i>',
-            '</a>  '
-        ].join('');
-    }
-    //
-    $body = $("body");
     window.operateEvents = {
         'click .view-goods-detail': function (e, value, row, index) {
             //get goods detail info
@@ -248,7 +262,7 @@
 
         }
     };
-
+    //@FUNCTION-----------------------------------------------------------------
     //@Search-----------------------------------------------------------------
     var $btnSearch = $('#btn-search-stock-info');
     $btnSearch.click(function () {
@@ -256,27 +270,13 @@
     });
 
     function search(){
-        $("#action-info").text('');
-        //search info stock_id/goods_group/goods/serial
         var stock_id = $('#cmb-stock').val();
         var goods_id = $('#cmb-goods').val();
         var statusVal =  $('#cmb-status').val();
+        //
+        $table.bootstrapTable('refresh',{ stockId:stock_id,goodsId:goods_id,status:statusVal,limit: 5,
+            offset: 0});
 
-        $.ajax({
-            type: "GET",
-            cache:false,
-            data:{stockId:stock_id,goodsId:goods_id,status:statusVal},
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            url: $btnSearch.val(),
-            dataType: 'json',
-            timeout: 600000,
-            success: function (data) {
-                $table.bootstrapTable('load', data);
-                if(isTableEmpty($table)){
-                    setInfoMessage($('#action-info'),"Không tìm thấy dữ liệu");
-                }
-            }
-        });
     }
     //@Refresh table----------------------------------------------------------
     $('#btn-refresh-table').click(function () {

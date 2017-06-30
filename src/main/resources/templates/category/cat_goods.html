@@ -25,7 +25,7 @@
     <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrapbootstrap-select.min.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
-    <script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>
+    <script th:attr="src=@{/js/jquery.validate.min.js}"  th:href="@{/js/jquery.validate.min.js}"></script>
     <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
     <!--font and favi icon-->
@@ -95,17 +95,16 @@
                         <button id="btn-add" th:value="@{/workspace/cat_goods_ctr/add}" type="button" class="btn btn-default">
                             <i class="fa fa-plus"></i>
                         </button>
-                        <button id="btn-update" th:value="@{/workspace/cat_goods_ctr/update}" type="button" class="btn btn-default">
+                        <button id="btn-update" th:value="@{/workspace/cat_goods_ctr/update}" type="button" class="btn btn-default btn-hide">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button id="btn-delete" th:value="@{/workspace/cat_goods_ctr/delete}" type="button" class="btn btn-default">
+                        <button id="btn-delete" th:value="@{/workspace/cat_goods_ctr/delete}" type="button" class="btn btn-default btn-hide">
                             <i class="fa fa-trash"></i>
                         </button>
                         <button id="btn-show-modal-add-goods" type="button" class="btn btn-default">
                             <i class="fa  fa-upload"></i>
                         </button>
 
-                        <label class="action-info" id="main-action-info"  th:if="${actionInfo != null} " th:text="#{${actionInfo}}" th:style="${successStyle}"></label>
                         <label class="action-info" id="action-info"></label>
                         <label id="del-action-info"></label>
                     </div>
@@ -121,15 +120,15 @@
                         <thead>
                         <tr>
                             <th  data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th  data-checkbox="true"></th>
-                            <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
-                            <th  class="col-md-4" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
+                            <th  class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
+                            <th  class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
                             <th  class="col-md-1" data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
                             <th  class="col-md-1" data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
                             <th  class="col-md-1" data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
                             <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
                             <th  class="col-md-1" data-field="inPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
                             <th  class="col-md-1" data-field="outPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter"></th>
                         </tr>
                         </thead>
                     </table>
@@ -152,10 +151,8 @@
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 <!--switch-->
 <script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
-<!--validation-->
-<script th:attr="src=@{/js/jquery.form-validator.min.js}" th:href="@{/js/jquery.form-validator.min.js}"></script>
 <script>
-    //		row num
+    //
     function runningFormatter(value, row, index) {
         return index +1;
     }
@@ -163,13 +160,23 @@
     var dataInit = [
     ];
     //
-    $.validate({
-        decimalSeparator : '.'
-    });
-
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="update-goods row-function" href="javascript:void(0)" title="Sửa">',
+            '<i class="fa fa-pencil-square-o"></i>',
+            '</a> ',
+            '<a class="delete-goods row-function" href="javascript:void(0)" title="Xóa">',
+            '<i class="fa fa-trash"></i>',
+            '</a> '
+        ].join('');
+    }
+    //
     $table = $('#table-pagination');
     $tableAddListGoods = $('#modal-tbl-add-goods');
     $body = $("body");
+    $btn_update = $('#btn-update');
+    var $btnDelConfirmed = $('#modal-btn-del-ok');
+    var $btnDel = $('#btn-delete');
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $table.bootstrapTable({
@@ -184,8 +191,56 @@
 
         search(false);
     });
+    //------------------------------------------------------------------------------------------------------------
+    //@FUNCTION-----------------------------------------------------------------------------------------------
+    window.operateEvents = {
+        'click .update-goods': function (e, value, row, index) {
+            clearActionInfo();
+            changeModelByType(2,row,$btn_update.val());
+            showModal($modalAddUpdate);
+            $modalAddUpdate.on('shown.bs.modal', function () {
+                $('#modal-inp-code').focus();
+            });
+        },
 
-    //-----------------------------------------------------------------
+        'click .delete-goods': function (e, value, row, index) {
+            clearActionInfo()
+            $("#lbl-del-info").text('Xóa thông tin: '+ row['name']);
+            $('#myConfirmModal').modal('show');
+
+            $btnDelConfirmed.click(function () {
+                var idVal = row['id'];
+                $.ajax({
+                    type: "POST",
+                    cache:false,
+                    data:{id:idVal},
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    url: $btnDel.val(),
+                    dataType: 'text',
+                    timeout: 600000,
+                    success: function (data) {
+                        resultArr = data.split('|');
+                        resultCode = resultArr[0];
+                        resultName = resultArr[1];
+                        if(resultCode == 1){
+                            setInfoMessage($('#action-info'),resultName);
+                        }else{
+                            setErrorMessage($('#action-info'),resultName);
+                        }
+                        search(false);
+
+                    },
+                    error:function(){
+                        setErrorMessage($('#action-info'),'Lỗi hệ thống');
+                    },
+                });
+                //
+                hideModal($('#myConfirmModal'));
+                //
+            });
+        }
+    };
+    //
     function search(isClear){
         if(isClear){
             clearActionInfo()
@@ -206,56 +261,9 @@
             timeout: 600000,
             success: function (data) {
                 $table.bootstrapTable('load', data);
-            },
+            }
         });
     }
-    //@Del action---------------------------------------------------------------------------------------------------
-    var $btnDel = $('#btn-delete');
-    $btnDel.click(function () {
-        clearActionInfo()
-        var selectedItemArr = $table.bootstrapTable('getSelections');
-        var selectedItem    = selectedItemArr[0];
-        if(selectedItem == null){
-            alert('Chọn 1 bản ghi');
-            return;
-        }
-        $("#lbl-del-info").text('Xóa thông tin: '+ selectedItem['name']);
-        $('#myConfirmModal').modal('show');
-    });
-
-    var $btnDelConfirmed = $('#modal-btn-del-ok');
-    $btnDelConfirmed.click(function () {
-        //
-        var selectedItemArr = $table.bootstrapTable('getSelections');
-        var selectedItem    = selectedItemArr[0];
-        idVal = selectedItem['id'];
-        $.ajax({
-            type: "POST",
-            cache:false,
-            data:{id:idVal},
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            url: $btnDel.val(),
-            dataType: 'text',
-            timeout: 600000,
-            success: function (data) {
-                resultArr = data.split('|');
-                resultCode = resultArr[0];
-                resultName = resultArr[1];
-                if(resultCode == 1){
-                    document.getElementById("main-action-info").style = 'color:#337ab7';
-                }
-                document.getElementById("main-action-info").innerHTML = resultName;
-                search(false);
-
-            },
-            error:function(){
-                document.getElementById("main-action-info").innerHTML = 'Lỗi hệ thống';
-            },
-        });
-        //
-        hideModal($('#myConfirmModal'));
-        //
-    });
     //@Upload---------------------------------------------------------------------
     var btnShowUploadModal = $('#btn-show-modal-add-goods');
     btnShowUploadModal.click(function () {
@@ -359,25 +367,54 @@
             $('#modal-inp-code').focus();
         });
     });
-    //@Update action------------------------------------------------------------------------------------------------
-    $btn_update = $('#btn-update');
-    $(function () {
-        $btn_update.click(function () {
-            clearActionInfo();
-            //check before show
-            selectedItemArr = $table.bootstrapTable('getSelections');
-            selectedItem    = selectedItemArr[0];
-            if(selectedItem == null){
-                alert('Chọn 1 bản ghi!');
-                return;
+    //------------------------------------------------------------------------------------------------
+    $(document).ready(function () {
+        $("#cat-goods-insert-update-form").validate({
+            ignore: ":hidden",
+            rules: {
+                code: {
+                    required: true
+                },
+                name: {
+                    required: true
+                },
+                unitType: {
+                    required: true
+                },
+                goodsGroupId: {
+                    required: true
+                }
+            },
+            submitHandler: function (form) {
+                preprocessInput($("#cat-goods-insert-update-form"));
+                $.ajax({
+                    type: "POST",
+                    url: $("#cat-goods-insert-update-form").attr('action'),
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        resultArr = data.split('|');
+                        resultCode = resultArr[0];
+                        resultName = resultArr[1];
+                        if(resultCode == 1){
+                            setInfoMessage($('#action-info'),resultName);
+                        }else{
+                            setErrorMessage($('#action-info'),resultName);
+                        }
+
+                        search(false);
+
+                    },
+                    error:function(){
+                        setErrorMessage($('#action-info'),'Lỗi hệ thống');
+                    },
+                });
+                //
+                hideModal($modalAddUpdate);
+                return false; // required to block normal submit since you used ajax
             }
-            changeModelByType(2,selectedItem,$btn_update.val());
-            showModal($modalAddUpdate);
-            $modalAddUpdate.on('shown.bs.modal', function () {
-                $('#modal-inp-code').focus();
-            });
         });
     });
+    //
 
     function changeModelByType(type,selectedItem,actionVal) {
         $("#cat-goods-insert-update-form").attr("th:object",actionVal);

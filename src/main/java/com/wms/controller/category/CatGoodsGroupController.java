@@ -66,29 +66,25 @@ public class CatGoodsGroupController extends BaseCommonController{
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(CatGoodsGroupDTO catGoodsGroup, RedirectAttributes redirectAttributes){
+    public @ResponseBody String add(CatGoodsGroupDTO catGoodsGroup){
         catGoodsGroup.setStatus("1");
         catGoodsGroup.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catGoodsGroupService.add(catGoodsGroup,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
-            redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
             log.info("Add: "+ catGoodsGroup.toString()+" SUCCESS");
+            return "1|Thêm mới thành công";
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName()))
         {
             log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
+            return "0|Thông tin đã có trên hệ thống";
         }else{
             log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
-
-        redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
-    }
-
-        return "redirect:/workspace/cat_goods_group_ctr";
+            return "0|Lỗi hệ thống";
+        }
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String update(CatGoodsGroupDTO catGoodsGroup, RedirectAttributes redirectAttributes){
+    public @ResponseBody String update(CatGoodsGroupDTO catGoodsGroup){
         log.info("Update cat_goods_group info: "+ catGoodsGroup.toString());
         catGoodsGroup.setCustId(this.selectedCustomer.getId());
         if("on".equalsIgnoreCase(catGoodsGroup.getStatus())){
@@ -99,17 +95,16 @@ public class CatGoodsGroupController extends BaseCommonController{
         ResponseObject response = catGoodsGroupService.update(catGoodsGroup,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
-            redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
+            return "1|Cập nhật thành công";
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
+            return "0|Thông tin đã có trên hệ thống";
         }
         else{
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
+            return "0|Lỗi hệ thống";
         }
-        return  "redirect:/workspace/cat_goods_group_ctr";
+
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)

@@ -4,6 +4,15 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 */
+.row-function{
+	margin-right:8px;
+	font-size:15px;
+}
+
+.btn-hide{
+	display: none;
+}
+
 .menu-item {
 	background: #eeeeee none repeat scroll 0 0;
 	border-radius: 100%;
@@ -84,7 +93,7 @@ body.loading .modal-loading {
 
 .action-info{
 	color:#f44336;
-	margin-left: -4px;
+	margin-left: 3px;
 	margin-top: 0px;
 }
 
@@ -94,7 +103,7 @@ body.loading .modal-loading {
 }
 #del-action-info{
 	color:#f44336;
-	margin-left:10px;
+	margin-left: -4px;
 	margin-top: 0px;
 }
 h4, h5, h6,
@@ -2167,7 +2176,7 @@ i.pull-left.fa.fa-money.icon-rounded {
     background: #27cce4;
 }
 tspan {
-    font-weight: 700;
+    font-weight: 650;
 }
 .spark {
     margin: 1em 0;
