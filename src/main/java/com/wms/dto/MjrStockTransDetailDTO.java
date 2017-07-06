@@ -27,9 +27,28 @@ public class MjrStockTransDetailDTO {
     private String importDate;
     private String exportDate;
     private String statusValue;
+    private String status;
     private String stockId;
     private String stockValue;
 
+    public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String inputPrice, String outputPrice, String cellCode, String goodsName, String stockId, String importDate, String exportDate, String statusValue) {
+        this.id = id;
+        this.stockTransId = stockTransId;
+        this.goodsId = goodsId;
+        this.goodsCode = goodsCode;
+        this.goodsState = goodsState;
+        this.isSerial = isSerial;
+        this.amount = amount;
+        this.serial = serial;
+        this.inputPrice = inputPrice;
+        this.outputPrice = outputPrice;
+        this.cellCode = cellCode;
+        this.goodsName = goodsName;
+        this.stockId = stockId;
+        this.importDate = importDate;
+        this.exportDate = exportDate;
+        this.statusValue = statusValue;
+    }
 
     public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState,
                                   String isSerial, String amount, String serial, String inputPrice, String outputPrice,
@@ -233,5 +252,13 @@ public class MjrStockTransDetailDTO {
 
     public void setStockId(String stockId) {
         this.stockId = stockId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

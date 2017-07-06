@@ -32,9 +32,6 @@ import java.util.stream.Collectors;
 @Scope("session")
 public class CatGoodsGroupController extends BaseCommonController{
     Logger log = LoggerFactory.getLogger(CatGoodsGroupController.class);
-
-    @Autowired
-    BaseService customerService;
     @Autowired
     BaseService catGoodsGroupService;
 
@@ -48,6 +45,7 @@ public class CatGoodsGroupController extends BaseCommonController{
     public  @ResponseBody List<CatGoodsGroupDTO> findByCondition(@RequestParam("status")String status){
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.NOT_EQUAL,Constants.STATUS.DELETED));
 
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
@@ -66,12 +64,13 @@ public class CatGoodsGroupController extends BaseCommonController{
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public @ResponseBody String add(CatGoodsGroupDTO catGoodsGroup){
+    public @ResponseBody String add(CatGoodsGroupDTO catGoodsGroup, HttpServletRequest request){
         catGoodsGroup.setStatus("1");
         catGoodsGroup.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catGoodsGroupService.add(catGoodsGroup,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("Add: "+ catGoodsGroup.toString()+" SUCCESS");
+            request.getSession().setAttribute("isCatGoodsGroupModified",true);
             return "1|Thêm mới thành công";
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName()))
         {
@@ -79,12 +78,12 @@ public class CatGoodsGroupController extends BaseCommonController{
             return "0|Thông tin đã có trên hệ thống";
         }else{
             log.info("Add: "+ catGoodsGroup.toString()+" ERROR");
-            return "0|Lỗi hệ thống";
+            return "0|Thêm mới không thành công";
         }
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public @ResponseBody String update(CatGoodsGroupDTO catGoodsGroup){
+    public @ResponseBody String update(CatGoodsGroupDTO catGoodsGroup, HttpServletRequest request){
         log.info("Update cat_goods_group info: "+ catGoodsGroup.toString());
         catGoodsGroup.setCustId(this.selectedCustomer.getId());
         if("on".equalsIgnoreCase(catGoodsGroup.getStatus())){
@@ -95,6 +94,7 @@ public class CatGoodsGroupController extends BaseCommonController{
         ResponseObject response = catGoodsGroupService.update(catGoodsGroup,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
+            request.getSession().setAttribute("isCatGoodsGroupModified",true);
             return "1|Cập nhật thành công";
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
@@ -102,17 +102,20 @@ public class CatGoodsGroupController extends BaseCommonController{
         }
         else{
             log.info("ERROR");
-            return "0|Lỗi hệ thống";
+            return "0|Cập nhật không thành công";
         }
 
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(@RequestParam("id")String id){
+    public @ResponseBody String delete(@RequestParam("id")String id, HttpServletRequest request){
         try {
             Long idL = Long.parseLong(id);
-            ResponseObject response = catGoodsGroupService.delete(idL,tokenInfo);
+            CatGoodsGroupDTO deleteObject = (CatGoodsGroupDTO) catGoodsGroupService.findById(idL,tokenInfo);
+            deleteObject.setStatus(Constants.STATUS.DELETED);
+            ResponseObject response = catGoodsGroupService.update(deleteObject,tokenInfo);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+                request.getSession().setAttribute("isCatGoodsGroupModified",true);
                 return "1|Xoá thành công";
             }else{
                 return "0|Xoá không thành công";

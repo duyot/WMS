@@ -3,9 +3,9 @@ package com.wms.controller.utils;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
-import com.wms.controller.stock_managerment.ExportStockController;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.UtilsService;
 import com.wms.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +32,9 @@ import java.util.Map;
 public class StockInfoController extends BaseController{
     @Autowired
     BaseService mjrStockGoodsTotalService;
+
     @Autowired
-    BaseService mjrStockGoodsService;
-    @Autowired
-    BaseService mjrStockGoodsSerialService;
+    UtilsService utilsService;
 
     Logger log = LoggerFactory.getLogger(StockInfoController.class);
     //
@@ -46,6 +45,7 @@ public class StockInfoController extends BaseController{
     //
     public Map<String,String> mapAppTransType = new HashMap();
     public Map<String,String> mapAppStockStatus   = new HashMap();
+    public Map<String,Long> mapGoodsDetailTotal = new HashMap();
 
     @ModelAttribute("lstAppTransType")
     public List<AppParamsDTO> setAppGoodsState(HttpServletRequest request) {
@@ -78,11 +78,12 @@ public class StockInfoController extends BaseController{
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public @ResponseBody ServerPagingDTO getStockInfo(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
-                                                                  @RequestParam("status")String status,@RequestParam("limit")String limit,@RequestParam("offset")String offset
+    public @ResponseBody List<MjrStockGoodsTotalDTO> getStockInfo(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
+                                                                  @RequestParam("status")String status
                                                      ){
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("amount",Constants.SQL_OPERATOR.GREATER,0D));
 
         if(!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,stockId));
@@ -93,49 +94,36 @@ public class StockInfoController extends BaseController{
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("goodsState",Constants.SQL_OPERATOR.EQUAL,status));
         }
-        lstCon.add(new Condition("changeDate",Constants.SQL_OPERATOR.ORDER,"desc"));
-        lstCon.add(new Condition("",Constants.SQL_OPERATOR.LIMIT, Integer.parseInt(limit)));
-        lstCon.add(new Condition("",Constants.SQL_OPERATOR.OFFSET, Integer.parseInt(offset)));
         //
-        log.info(JSONUtils.object2JSONString(lstCon));
+        lstCon.add(new Condition("changeDate",Constants.SQL_OPERATOR.ORDER,"desc"));
+        //
         List<MjrStockGoodsTotalDTO> lstResult = mjrStockGoodsTotalService.findByCondition(lstCon,tokenInfo);
         lstGoodsTotal = setNameValueInfo(lstResult);
-        ServerPagingDTO data = new ServerPagingDTO(7,lstGoodsTotal);
-
-        return data;
+        return lstGoodsTotal;
     }
 
     @RequestMapping(value = "/getGoodsDetail",method = RequestMethod.GET)
-    public @ResponseBody List<MjrStockTransDetailDTO> getGoodsDetail(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
-                                                                  @RequestParam("goodsState")String goodsState
-
+    public @ResponseBody  ServerPagingDTO getGoodsDetail(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
+                                                         @RequestParam("goodsState")String goodsState,@RequestParam("limit")String limit,
+                                                         @RequestParam("offset")String offset
     ){
-        List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-
-        if(!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,stockId));
+        if (DataUtil.isStringNullOrEmpty(goodsId)) {
+            return null;
         }
-        if(!DataUtil.isStringNullOrEmpty(goodsId) && !goodsId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("goodsId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,goodsId));
-        }
-        if(!DataUtil.isStringNullOrEmpty(goodsState) && !goodsState.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("goodsState",Constants.SQL_OPERATOR.EQUAL,goodsState));
-        }
-
-        lstCon.add(new Condition("importDate",Constants.SQL_OPERATOR.ORDER,"desc"));
-
-        List<MjrStockTransDetailDTO> lstResult;
         CatGoodsDTO goodsItem = mapGoodsIdGoods.get(goodsId);
-        if (goodsItem.isSerial()) {
-            lstResult = FunctionUtils.convertGoodsSerialToDetail(mjrStockGoodsSerialService.findByCondition(lstCon,tokenInfo),mapAppStockStatus);
-        }else{
-            lstResult = convertGoodsToDetail(mjrStockGoodsService.findByCondition(lstCon,tokenInfo));
 
+        ServerPagingDTO data = new ServerPagingDTO();
+        List<MjrStockTransDetailDTO> lstData = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,limit,offset,tokenInfo);
+        lstGoodsDetails = setListGoodsDetailNameInfo(lstData,goodsItem);
+        data.setRows(lstGoodsDetails);
+        String key = selectedCustomer.getId()+stockId+goodsId+goodsItem.getIsSerial()+goodsState;
+        Long totalItem = mapGoodsDetailTotal.get(key);
+        if (totalItem == null) {
+            totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,tokenInfo);
+            mapGoodsDetailTotal.put(key,totalItem);
         }
-
-        lstGoodsDetails = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,mapStockIdStock,mapAppGoodsState);
-        return lstGoodsDetails;
+        data.setTotal(totalItem);
+        return data;
     }
 
     @RequestMapping(value = "/getTotalFile")
@@ -157,25 +145,40 @@ public class StockInfoController extends BaseController{
         }
         //
         String prefixFileName = "Thong_tin_chi_tiet_hang_trong_kho_";
+        //paging -> re get all goods detail
+        MjrStockTransDetailDTO item = lstGoodsDetails.get(0);
+        CatGoodsDTO goodsItem = mapGoodsIdGoods.get(item.getGoodsId());
+        String key = selectedCustomer.getId()+stockId+item.getGoodsId()+item.getIsSerial()+item.getGoodsState();
+        Long totalItem = mapGoodsDetailTotal.get(key);
+        if (totalItem == null) {
+            totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),tokenInfo);
+            mapGoodsDetailTotal.put(key,totalItem);
+        }//
+        List<MjrStockTransDetailDTO> lstGoodsDetailAlls = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),totalItem+"",0+"",tokenInfo);
         //
-        String fileResource = exportGoodsDetails(lstGoodsDetails,prefixFileName,stockId);
+        String fileResource = exportGoodsDetails(setListGoodsDetailNameInfo(lstGoodsDetailAlls,goodsItem),prefixFileName,stockId,goodsItem.isSerial());
         FunctionUtils.loadFileToClient(response,fileResource);
     }
 
     //------------------------------------------------------------------------------------------------------------------
-    private List<MjrStockTransDetailDTO> convertGoodsToDetail(List<MjrStockGoodsDTO> lstStockGoods){
+    private List<MjrStockTransDetailDTO> setListGoodsDetailNameInfo(List<MjrStockTransDetailDTO> lstStockGoods,CatGoodsDTO goodsItem){
         List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
+        for(MjrStockTransDetailDTO i:lstStockGoods){
         if (!DataUtil.isListNullOrEmpty(lstStockGoods)) {
-            for(MjrStockGoodsDTO i:lstStockGoods){
                 MjrStockTransDetailDTO temp = new MjrStockTransDetailDTO();
                 temp.setGoodsId(i.getGoodsId());
+                temp.setGoodsCode(goodsItem.getCode());
+                temp.setGoodsName(goodsItem.getName());
+                temp.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
                 temp.setGoodsState(i.getGoodsState());
-                temp.setAmount(i.getAmount());
+                temp.setAmountValue(i.getAmount());
                 temp.setImportDate(i.getImportDate());
                 temp.setExportDate(i.getExportDate());
-                temp.setInputPrice(i.getInputPrice());
-                temp.setOutputPrice(i.getOutputPrice());
+                temp.setInputPriceValue(i.getInputPrice());
+                temp.setOutputPriceValue(i.getOutputPrice());
                 temp.setStatusValue(mapAppStockStatus.get(i.getStatus()));
+                temp.setSerial(i.getSerial());
+                temp.setIsSerial(goodsItem.getIsSerial());
                 //
                 lstResult.add(temp);
             }
@@ -217,11 +220,13 @@ public class StockInfoController extends BaseController{
     }
 
     //=======================================================================================================
-    private  String exportGoodsDetails(List<MjrStockTransDetailDTO> lstGoodsDetails,String prefixFileName,String stockId){
+    private  String exportGoodsDetails(List<MjrStockTransDetailDTO> lstGoodsDetails,String prefixFileName,String stockId, boolean isSerial){
         String templatePath;
+        if (DataUtil.isListNullOrEmpty(lstGoodsDetails)) {
+            return "";
+        }
         MjrStockTransDetailDTO goodsItem = lstGoodsDetails.get(0);
-        CatGoodsDTO catGoods = mapGoodsIdGoods.get(goodsItem.getGoodsId());
-        if(catGoods.isSerial()){
+        if(isSerial){
             templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_SERIAL_TEMPLATE;
         }else{
             templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_TEMPLATE;

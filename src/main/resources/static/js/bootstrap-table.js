@@ -472,19 +472,19 @@
             return '';
         },
         formatRecordsPerPage: function (pageNumber) {
-            return sprintf('%s rows per page', pageNumber);
+            return sprintf('%s bản ghi mỗi trang', pageNumber);
         },
         formatShowingRows: function (pageFrom, pageTo, totalRows) {
-            return sprintf('Showing %s to %s of %s rows', pageFrom, pageTo, totalRows);
+            return sprintf('Hiển thị %s - %s trên %s bản ghi', pageFrom, pageTo, totalRows);
         },
         formatDetailPagination: function (totalRows) {
-            return sprintf('Showing %s rows', totalRows);
+            return sprintf('Hiển thị %s bản ghi', totalRows);
         },
         formatSearch: function () {
-            return 'Search';
+            return 'Tìm kiếm nhanh';
         },
         formatNoMatches: function () {
-            return 'No matching records found';
+            return 'Không tìm thấy kết quả';
         },
         formatPaginationSwitch: function () {
             return 'Hide/Show pagination';
@@ -496,10 +496,10 @@
             return 'Toggle';
         },
         formatColumns: function () {
-            return 'Columns';
+            return 'Ẩn/hiện cột';
         },
         formatAllRows: function () {
-            return 'All';
+            return 'Tất cả';
         }
     };
 

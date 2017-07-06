@@ -4,7 +4,9 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
-import com.wms.dto.*;
+import com.wms.dto.CatStockDTO;
+import com.wms.dto.Condition;
+import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -14,14 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by duyot on 12/6/2016.
@@ -42,17 +42,13 @@ public class CatStockController extends BaseCommonController{
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public  @ResponseBody List<CatStockDTO> findByCondition(@RequestParam("customerId")String custId, @RequestParam("status")String status){
+    public  @ResponseBody List<CatStockDTO> findByCondition(@RequestParam("status")String status){
         List<Condition> lstCon = Lists.newArrayList();
 
-        if(!DataUtil.isStringNullOrEmpty(custId) && !custId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,custId));
-        }
-
+        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
         }
-
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatStockDTO> lstCatStock = catStockService.findByCondition(lstCon,tokenInfo);
@@ -105,7 +101,7 @@ public class CatStockController extends BaseCommonController{
             request.getSession().setAttribute("isStockModifiedImportStock",true);
             request.getSession().setAttribute("isStockModifiedExportStock",true);
             return "1|Cập nhật thành công";
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
             return "0|Thông tin đã có trên hệ thống";
         }
@@ -119,9 +115,9 @@ public class CatStockController extends BaseCommonController{
     public @ResponseBody String delete(@RequestParam("id")String id,HttpServletRequest request){
         try {
             Long idL = Long.parseLong(id);
-            ResponseObject response = catStockService.delete(idL,tokenInfo);
+            CatStockDTO deleteStock = (CatStockDTO) catStockService.findById(idL,tokenInfo);
+            ResponseObject response = catStockService.update(deleteStock,tokenInfo);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
-                //
                 request.getSession().setAttribute("isStockModifiedImportStock",true);
                 request.getSession().setAttribute("isStockModifiedExportStock",true);
                 return "1|Xoá thành công";
@@ -132,7 +128,4 @@ public class CatStockController extends BaseCommonController{
             return "0|Xoá không thành công lỗi convert long";
         }
     }
-
-
-
 }

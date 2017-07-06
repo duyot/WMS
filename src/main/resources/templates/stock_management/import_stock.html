@@ -157,9 +157,12 @@
                     </form>
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" th:text="#{btn.import}" class="btn btn-default  btn-primary"
+                            <button type="button" class="btn btn-default  btn-primary"
                                     id="btn-import" th:value="@{/workspace/stock_management/import/import}">
+                                <i class="fa fa-sign-in"></i>
+                                <span th:text="#{btn.import}"></span>
                             </button>
+
                         </div>
                     </div>
 
@@ -180,20 +183,11 @@
                                 class="btn btn-default" th:title="#{tooltip.addgoods}" >
                             <i class="fa fa-plus"></i>
                         </button>
-                        <button id="btn-update" th:value="@{/workspace/stock_management/import/update}" type="button"
-                                class="btn btn-default" th:title="#{tooltip.updategoods}" >
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button id="btn-delete" th:value="@{/workspace/stock_management/import/delete}" type="button"
-                                class="btn btn-default" th:title="#{tooltip.deletegoods}" >
-                            <i class="fa fa-trash"></i>
-                        </button>
                         <button id="btn-refresh-table" th:href="@{/workspace/stock_management/import/getFile}" type="button"
                                 class="btn btn-default" th:title="#{tooltip.cleartabble}" >
                             <i class="fa  fa-refresh"></i>
                         </button>
 
-                        <label class="action-info" id="action-info" th:if="${actionInfo != null} " th:text="#{${actionInfo}}" th:style="${successStyle}"></label>
                         <label class="toolbar-label-info" id="import-action-info"></label>
                         <label id="del-action-info"></label>
                     </div>
@@ -210,15 +204,15 @@
                         <thead>
                         <tr>
                             <th   data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
-                            <th   data-checkbox="true" data-width="40px"></th>
                             <th   class="col-md-2" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
-                            <th   class="col-md-3" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
+                            <th   class="col-md-2" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
                             <th   data-field="goodsStateValue" data-align="left" data-sortable="true">Trạng thái</th>
-                            <th   class="col-md-1" data-field="serial" data-align="left" data-sortable="true">Serial</th>
+                            <th   class="col-md-2" data-field="serial" data-align="left" data-sortable="true">Serial</th>
                             <th   data-field="amountValue" data-align="right" data-sortable="true">Số lượng</th>
                             <th   data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
                             <th   data-field="cellCode" data-align="left" data-sortable="true">Vị trí</th>
                             <th   data-field="columnId" data-align="left" data-sortable="true" >ColumnId</th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
                         </tr>
                         </thead>
                     </table>
@@ -248,7 +242,16 @@
     $table = $('#tbl-import-goods');
     var dataInit = [
     ];
-
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="update-goods row-function" href="javascript:void(0)" title="Sửa">',
+            '<i class="fa fa-pencil-square-o"></i>',
+            '</a> ',
+            '<a class="delete-goods row-function" href="javascript:void(0)" title="Xóa">',
+            '<i class="fa fa-trash"></i>',
+            '</a> '
+        ].join('');
+    }
     $(function () {
         //
         $table.bootstrapTable({
@@ -275,6 +278,21 @@
             $('#modal-cmb-goodsundefined').attr("autocomplete","off");
         });
     });
+
+    window.operateEvents = {
+        'click .update-goods': function (e, value, row, index) {
+            changeModelByType(false,row);
+            showModal($('#myModal'))
+        },
+
+        'click .delete-goods': function (e, value, row, index) {
+            clearActionInfo();
+            $table.bootstrapTable('remove', {
+                field: 'columnId',
+                values: row["columnId"]
+            });
+        }
+    };
     //@Upload---------------------------------------------------------------------
     var btnUploadExcel = $('#btn-excel-import');
     $(function () {
@@ -395,27 +413,6 @@
                 $body.removeClass("loading");
             }
         });
-    });
-    //@Del action---------------------------------------------------------------------------------------------------
-    var $btnDel = $('#btn-delete');
-    $btnDel.click(function () {
-        //check before show
-        var selectedItemArr = $table.bootstrapTable('getSelections');
-        var selectedItem    = selectedItemArr[0];
-        if(selectedItem == null){
-            alert('Chọn 1 bản ghi!');
-            return;
-        }
-        //
-        clearActionInfo();
-        var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
-            return row.columnId;
-        });
-        $table.bootstrapTable('remove', {
-            field: 'columnId',
-            values: ids
-        });
-
     });
     //@Add action---------------------------------------------------------------------------------------------------
     var $btnAdd = $('#btn-add');
@@ -565,27 +562,6 @@
     });
 
     //@Update action---------------------------------------------------------------------------------------------------
-    var $btnUpdate = $('#btn-update');
-    $(function () {
-        $btnUpdate.click(function () {
-            //check before show
-            selectedItemArr = $table.bootstrapTable('getSelections');
-            selectedItem    = selectedItemArr[0];
-            if(selectedItem == null){
-                alert('Chọn 1 bản ghi!');
-                return;
-            }
-
-            if(selectedIndex == -1){
-                alert('Chọn 1 bản ghi!');
-                return;
-            }
-
-            changeModelByType(false,selectedItem);
-            showModal($('#myModal'))
-        });
-    });
-
     var $btnUpdateModal = $('#modal-btn-update');
         $btnUpdateModal.click(function () {
             //get data
@@ -605,18 +581,15 @@
                 cellCode = "";
             }
 
-            selectedItemArr = $table.bootstrapTable('getSelections');
-            selectedItem    = selectedItemArr[0];
-
             $table.bootstrapTable('updateRow', {index:selectedIndex,row:{
                 goodsCode: goodsCode,
                 goodsName: goodsName,
                 goodsState: goodsState,
                 goodsStateValue: goodsStateValue,
                 serial:serial,
-                amountValue: amount,
+                amountValue: formatFloatType(amount),
                 amount: amount,
-                inputPriceValue: inputPriceValue,
+                inputPriceValue: formatFloatType(inputPriceValue),
                 inputPrice: inputPriceValue,
                 cellCode: cellCode
             }});
@@ -659,7 +632,7 @@
             $('select[name=modalCmbGoods]').selectpicker('refresh');
             //
             $('#modal-inp-amount').val(unFormatFloat(selectedItems['amountValue']));
-            if(selectedItem["goodsState"] =="1"){
+            if(selectedItems["goodsState"] =="1"){
                 $('#cmb-goods-state').bootstrapToggle('on');
             }else{
                 $('#cmb-goods-state').bootstrapToggle('off');

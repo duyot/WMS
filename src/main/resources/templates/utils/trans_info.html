@@ -138,8 +138,10 @@
                     </form>
                     <div class="wrapper text-center" style="text-align: center; margin:3px">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" th:text="#{btn.search}" class="btn btn-default  btn-primary"
+                            <button type="button" class="btn btn-default  btn-primary"
                                     id="btn-search-serial" th:value="@{/workspace/utils/trans_info/findTrans}">
+                                <i class="fa fa-search"></i>
+                                <span th:text="#{btn.search}"></span>
                             </button>
                         </div>
                     </div>

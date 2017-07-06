@@ -48,12 +48,17 @@ public class CatGoodsController extends BaseController {
     @Autowired
     BaseService catGoodsService;
 
+    private boolean isGoodsGroupModified(HttpServletRequest request){
+        return (boolean) request.getSession().getAttribute("isCatGoodsGroupModified");
+    }
+
     @ModelAttribute("mapGoodsGroup")
     public Map<String, String> setLstGoodsGroup(HttpServletRequest request){
         if(tokenInfo == null){
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
-        if (mapGoodsGroup == null) {
+
+        if (mapGoodsGroup == null || isGoodsGroupModified(request)) {
             mapGoodsGroup = new HashMap<>();
             CatCustomerDTO curCust = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
             List<Condition> lstCon = Lists.newArrayList();
@@ -65,6 +70,8 @@ public class CatGoodsController extends BaseController {
             for(CatGoodsGroupDTO i: lstCatGoodsGroup){
                 mapGoodsGroup.put(i.getId(), i.getName());
             }
+            //
+            request.getSession().setAttribute("isCatGoodsGroupModified",false);
         }
         //
         if (mapAppGoodsState == null) {
@@ -118,7 +125,7 @@ public class CatGoodsController extends BaseController {
         Iterator<String> itr =  request.getFileNames();
         MultipartFile mpf = request.getFile(itr.next());
         //
-        ImportFileResultDTO importFileResult = FunctionUtils.getListGoodsImportFromFile(mpf,mapAppGoodsState);
+        ImportFileResultDTO importFileResult = FunctionUtils.getListGoodsImportFromFile(mpf,mapAppGoodsState,mapGoodsGroup,mapUnitType);
         if(!importFileResult.isValid()){
             //save error file
             String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
@@ -131,13 +138,23 @@ public class CatGoodsController extends BaseController {
     }
     //
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public  @ResponseBody List<CatGoodsDTO> findByCondition(@RequestParam("status")String status){
+    public  @ResponseBody List<CatGoodsDTO> findByCondition(@RequestParam("status")String status,@RequestParam("goodsCode")String goodsCode,@RequestParam("goodsGroupId")String goodsGroupId){
         List<Condition> lstCon = Lists.newArrayList();
 
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
         }
+
+        if(!DataUtil.isStringNullOrEmpty(goodsGroupId) && !goodsGroupId.equals(Constants.STATS_ALL)){
+            lstCon.add(new Condition("goodsGroupId",Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,goodsGroupId));
+        }
+
+        if(!DataUtil.isStringNullOrEmpty(goodsCode)){
+            lstCon.add(new Condition("code", Constants.SQL_OPERATOR.LIKE,goodsCode));
+        }
+
         lstCon.add(new Condition("createdDate",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
@@ -183,7 +200,7 @@ public class CatGoodsController extends BaseController {
     public ResponseObject importStock(@RequestBody ListGoodsDTO lstGoodsObject,HttpServletRequest request) {
         log.info("------------------------------------------------------------");
         List<CatGoodsDTO> lstGoods = lstGoodsObject.getLstGoods();
-        log.info(currentUser.getCode() +" importting goods with: " + lstGoods.size() + " items.");
+        log.info(currentUser.getCode() +" importing goods with: " + lstGoods.size() + " items.");
         List<CatGoodsDTO> lstError = Lists.newArrayList();
         //
         ResponseObject insertResponse = new ResponseObject();
@@ -193,6 +210,8 @@ public class CatGoodsController extends BaseController {
             item.setStatus("1");
             item.setCreatedDate(sysdate);
             item.setCustId(this.selectedCustomer.getId());
+            item.setUnitTypeName(null);
+            item.setGoodsGroupName(null);
             insertResponse = catGoodsService.add(item,tokenInfo);
             if(!Responses.SUCCESS.getName().equalsIgnoreCase(insertResponse.getStatusCode())){
                 item.setErrorInfo("Thông tin hàng đã được khai báo trên hệ thống");
@@ -243,7 +262,7 @@ public class CatGoodsController extends BaseController {
             request.getSession().setAttribute("isGoodsModifiedImportStock",true);
             request.getSession().setAttribute("isGoodsModifiedExportStock",true);
             return "1|Cập nhật thành công";
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
             return "0|Thông tin đã có trên hệ thống";
         }
@@ -251,15 +270,14 @@ public class CatGoodsController extends BaseController {
             log.info("ERROR");
             return "0|Lỗi hệ thống";
         }
-        //
-        //log.info(request.getSession().getAttribute("isGoodsModified").toString());
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public @ResponseBody String delete(@RequestParam("id")String id, HttpServletRequest request){
         try {
             Long idL = Long.parseLong(id);
-            ResponseObject response = catGoodsService.delete(idL,tokenInfo);
+            CatGoodsDTO deletedGoods = (CatGoodsDTO) catGoodsService.findById(idL,tokenInfo);
+            ResponseObject response = catGoodsService.update(deletedGoods,tokenInfo);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 request.getSession().setAttribute("isGoodsModifiedImportStock",true);
                 request.getSession().setAttribute("isGoodsModifiedExportStock",true);

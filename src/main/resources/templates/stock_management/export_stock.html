@@ -157,8 +157,10 @@
                     </form>
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" th:text="#{btn.export}" class="btn btn-default  btn-primary"
+                            <button type="button" class="btn btn-default  btn-primary"
                                     id="btn-export" th:value="@{/workspace/stock_management/export/exportStock}">
+                                <i class="fa fa-sign-out"></i>
+                                <span th:text="#{btn.export}"></span>
                             </button>
                         </div>
                     </div>
@@ -180,21 +182,12 @@
                                 class="btn btn-default" th:title="#{tooltip.addgoods}" >
                             <i class="fa fa-plus"></i>
                         </button>
-                        <button id="btn-update" th:value="@{/workspace/stock_management/export/update}" type="button"
-                                class="btn btn-default" th:title="#{tooltip.updategoods}" >
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button id="btn-delete" th:value="@{/workspace/stock_management/export/delete}" type="button"
-                                class="btn btn-default" th:title="#{tooltip.deletegoods}" >
-                            <i class="fa fa-trash"></i>
-                        </button>
                         <button id="btn-refresh-table" th:href="@{/workspace/stock_management/getFile}" type="button"
                                 class="btn btn-default" th:title="#{tooltip.cleartabble}" >
                             <i class="fa  fa-refresh"></i>
                         </button>
 
-                        <label class="action-info" id="action-info" th:if="${actionInfo != null} " th:text="#{${actionInfo}}" th:style="${successStyle}"></label>
-                        <label class="toolbar-label-info" id="export-action-info"></label>
+                        <label class="toolbar-label-info action-info" id="export-action-info"></label>
                         <label id="del-action-info"></label>
                     </div>
                     <table  id="tbl-export-goods"
@@ -210,7 +203,6 @@
                         <thead>
                         <tr>
                             <th   data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
-                            <th   data-checkbox="true" data-width="40px"></th>
                             <th   class="col-md-2" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
                             <th   class="col-md-3" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
                             <th   data-field="goodsStateValue" data-align="left" data-sortable="true">Trạng thái</th>
@@ -219,6 +211,7 @@
                             <th   data-field="outputPriceValue" data-align="right" data-sortable="true">Giá xuất</th>
                             <th   data-field="cellCode" data-align="left" data-sortable="true">Vị trí</th>
                             <th   data-field="columnId" data-align="left" data-sortable="true" >ColumnId</th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
                         </tr>
                         </thead>
                     </table>
@@ -247,7 +240,17 @@
     $table = $('#tbl-export-goods');
     var dataInit = [
     ];
-
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="update-goods row-function" href="javascript:void(0)" title="Sửa">',
+            '<i class="fa fa-pencil-square-o"></i>',
+            '</a> ',
+            '<a class="delete-goods row-function" href="javascript:void(0)" title="Xóa">',
+            '<i class="fa fa-trash"></i>',
+            '</a> '
+        ].join('');
+    }
+    //
     $(function () {
         //
         $table.bootstrapTable({
@@ -274,6 +277,21 @@
             $('#modal-cmb-goodsundefined').attr("autocomplete","off");
         });
     });
+    //
+    window.operateEvents = {
+        'click .update-goods': function (e, value, row, index) {
+            changeModelByType(false,row);
+            showModal($('#myModal'))
+        },
+
+        'click .delete-goods': function (e, value, row, index) {
+            clearActionInfo();
+            $table.bootstrapTable('remove', {
+                field: 'columnId',
+                values: row["columnId"]
+            });
+        }
+    };
     //@Upload---------------------------------------------------------------------
     var btnUploadExcel = $('#btn-excel-export');
     $(function () {
@@ -378,7 +396,7 @@
                     var statusName   = data['statusName'];
                     var key   = data['key'];
                     //show modal upload file
-                    setErrorMessage($lblInfo,"Xuất hàng không thành công: "+ converExportMessage(statusName));
+                    setErrorMessage($lblInfo,"Xuất hàng không thành công: "+ converExportMessage(statusName,key));
                 }else{
                     var totalSuccess = data['success'];
                     setInfoMessage($lblInfo,"Xuất "+ totalSuccess+" hàng thành công");
@@ -617,8 +635,6 @@
         var serial = $('#modal-inp-serial').val();
         var cellCode = $('#modal-inp-cell').val();
 
-        selectedItemArr = $table.bootstrapTable('getSelections');
-        selectedItem    = selectedItemArr[0];
 
         $table.bootstrapTable('updateRow', {index:selectedIndex,row:{
             goodsCode: goodsCode,
@@ -648,15 +664,12 @@
             //
             showAdd();
         }else{
-
             clearContent();
-            alert("cleared content");
             $('select[name=modalCmbGoods]').val(selectedItems['goodsCode']);
             $('select[name=modalCmbGoods]').selectpicker('refresh');
-            alert("1");
 
             $('#modal-inp-amount').val(unFormatFloat(selectedItems['amountValue']));
-            if(selectedItem["goodsState"] =="1"){
+            if(selectedItems["goodsState"] =="1"){
                 $('#cmb-goods-state').bootstrapToggle('on');
             }else{
                 $('#cmb-goods-state').bootstrapToggle('off');

@@ -5,7 +5,7 @@ function trimAtChacter(value,character){
     return value.substring(0,value.indexOf(character));
 }
 
-function converExportMessage(mesageCode){
+function converExportMessage(mesageCode,key){
     switch (mesageCode){
         case "ERROR_TOTAL_NOT_ENOUGH":
             return  "Không đủ số lượng hàng trong kho ";
@@ -15,7 +15,7 @@ function converExportMessage(mesageCode){
         case "ERROR_NOT_FOUND_STOCK_GOODS":
             return "Hàng không có sẵn trong kho ";
         case "ERROR_NOT_FOUND_SERIAL":
-            return "Serial không có sẵn trong kho ";
+            return "Serial không có sẵn trong kho: "+ key;
         case "ERROR_CREATE_STOCK_TRANS_DETAIL":
             return "Lối tạo chi tiết giao dịch ";
         case "ERROR_OVER_GOODS_NUMBER":
@@ -41,7 +41,7 @@ function unFormatFloat(value) {
 }
 
 function formatFloatType(text) {
-    return Number(text).toFixed(0).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+    return text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function setInfoMessage(object,value) {

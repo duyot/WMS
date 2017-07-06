@@ -81,4 +81,18 @@ public class CatStockDTO extends BaseDTO{
         this.managerInfo = managerInfo;
     }
 
+    @Override
+    public String toString() {
+        return "CatStockDTO{" +
+                "code='" + code + '\'' +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", custId='" + custId + '\'' +
+                ", address='" + address + '\'' +
+                ", status='" + status + '\'' +
+                ", managerInfo='" + managerInfo + '\'' +
+                ", custName='" + custName + '\'' +
+                ", statusName='" + statusName + '\'' +
+                '}';
+    }
 }

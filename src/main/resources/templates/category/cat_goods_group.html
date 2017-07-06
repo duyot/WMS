@@ -73,8 +73,10 @@
                     <p></p>
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" th:text="#{btn.search}" class="btn btn-default  btn-primary"
+                            <button type="button" class="btn btn-default  btn-primary"
                                     id="btn-search-cat-group" th:value="@{/workspace/cat_goods_group_ctr/findByCondition}">
+                                <i class="fa fa-search"></i>
+                                <span th:text="#{btn.search}"></span>
                             </button>
                         </div>
                     </div>
@@ -89,7 +91,7 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-add" th:value="@{/workspace/cat_goods_group_ctr/add}" type="button" class="btn btn-default">
+                        <button id="btn-add" th:title="#{btn.add}" th:value="@{/workspace/cat_goods_group_ctr/add}" type="button" class="btn btn-default">
                             <i class="fa fa-plus"></i>
                         </button>
 
@@ -115,9 +117,10 @@
                         <thead>
                         <tr>
                             <th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
-                            <th  class="col-md-7" data-field="name" data-align="left" data-sortable="true">Nhóm hàng hóa</th>
-                            <th  class="col-md-3" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter"></th>
+                            <th  class="col-md-1" data-field="id" data-align="left" data-sortable="true">ID</th>
+                            <th  class="col-md-6" data-field="name" data-align="left" data-sortable="true">Nhóm hàng hóa</th>
+                            <th  class="col-md-4" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
                         </tr>
                         </thead>
                     </table>
@@ -273,7 +276,8 @@
             ignore: ":hidden",
             rules: {
                 name: {
-                    required: true
+                    required: true,
+                    maxlength: 100
                 }
             },
             submitHandler: function (form) {

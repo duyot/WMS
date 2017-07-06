@@ -2,9 +2,8 @@ package com.wms.controller;
 
 import com.wms.constants.Responses;
 import com.wms.dto.AuthTokenInfo;
-import com.wms.dto.ResponseObject;
 import com.wms.dto.CatUserDTO;
-import com.wms.services.interfaces.RoleActionService;
+import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.utils.DataUtil;
 import org.slf4j.Logger;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,9 +37,6 @@ import java.util.Locale;
 
     @Autowired
     CatUserService catUserService;
-
-    @Autowired
-    RoleActionService roleActionService;
 
     @RequestMapping
     public String home(Model model){

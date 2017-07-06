@@ -26,6 +26,7 @@
 
                                 <table  id="tbl-goods-detail"
                                         data-pagination="true"
+                                        data-side-pagination="server"
                                         data-search="true"
                                         data-click-to-select="true"
                                         data-show-columns="true"
@@ -54,7 +55,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="modal-btn-add"     type="submit" class="btn btn-primary" data-dismiss="modal" >Close</button>
+                        <button id="modal-btn-add"     type="submit" class="btn btn-primary" data-dismiss="modal" th:text="#{btn.close}"></button>
                     </div>
                 </div>
         </div>

@@ -493,7 +493,8 @@ public class FunctionUtils {
         return importResult;
     }
 
-    public static ImportFileResultDTO getListGoodsImportFromFile(MultipartFile mpf,Map<String,String> mapGoodsState){
+    public static ImportFileResultDTO getListGoodsImportFromFile(MultipartFile mpf,Map<String,String> mapGoodsState,
+                                                                 Map<String,String> mapGoodsGroup,Map<String,String> mapUnitType){
         ImportFileResultDTO importResult = new ImportFileResultDTO();
         List<CatGoodsDTO> lstGoods = Lists.newArrayList();
         boolean isValid = true;
@@ -571,10 +572,12 @@ public class FunctionUtils {
                 Cell cellUnitType = row.getCell(3);
                 String unitType = getCellValue(cellUnitType);
                 goodsDTO.setUnitType(unitType);
+                goodsDTO.setUnitTypeName(mapUnitType.get(unitType));
                 //GOODS GROUP
                 Cell cellGoodsGroup = row.getCell(4);
                 String goodsGroup = getCellValue(cellGoodsGroup);
                 goodsDTO.setGoodsGroupId(goodsGroup);
+                goodsDTO.setGoodsGroupName(mapGoodsGroup.get(goodsGroup));
                 //In PRICE
                 Cell cellInPrice = row.getCell(7);
                 String price = getCellValue(cellInPrice);

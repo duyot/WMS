@@ -40,10 +40,9 @@ public class BaseController {
     //APP_PARAMS
     public List<AppParamsDTO> lstAppParams;
     public List<AppParamsDTO> lstAppGoodsState;
-    public Map<String,String> mapAppGoodsState   = new HashMap();
+    public Map<String,String> mapAppGoodsState;
     //
-    //
-    public Map<String,String> mapAppStatus = new HashMap();
+    public Map<String,String> mapAppStatus;
     //
     public AuthTokenInfo tokenInfo;
     public CatCustomerDTO selectedCustomer;
@@ -79,10 +78,20 @@ public class BaseController {
         }
         if(lstAppParams == null){
             lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
+        }
+
+        if(lstAppGoodsState == null){
             lstAppGoodsState = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE,lstAppParams);
+        }
+
+        if(mapAppGoodsState == null){
             mapAppGoodsState = FunctionUtils.buildMapAppParams(lstAppGoodsState);
+        }
+
+        if(mapAppStatus == null){
             mapAppStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STATUS,lstAppParams));
         }
+
         return lstAppParams;
     }
 

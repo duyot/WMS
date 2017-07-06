@@ -6,10 +6,10 @@ import java.util.List;
  * Created by duyot on 6/8/2017.
  */
 public class ServerPagingDTO {
-        private int total;
-        private List<MjrStockGoodsTotalDTO> rows;
+        private Long total;
+        private List<MjrStockTransDetailDTO> rows;
 
-    public ServerPagingDTO(int total, List<MjrStockGoodsTotalDTO> rows) {
+    public ServerPagingDTO(Long total, List<MjrStockTransDetailDTO> rows) {
         this.total = total;
         this.rows = rows;
     }
@@ -17,19 +17,19 @@ public class ServerPagingDTO {
     public ServerPagingDTO() {
     }
 
-    public int getTotal() {
+    public Long getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(Long total) {
         this.total = total;
     }
 
-    public List<MjrStockGoodsTotalDTO> getRows() {
+    public List<MjrStockTransDetailDTO> getRows() {
         return rows;
     }
 
-    public void setRows(List<MjrStockGoodsTotalDTO> rows) {
+    public void setRows(List<MjrStockTransDetailDTO> rows) {
         this.rows = rows;
     }
 }

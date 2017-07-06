@@ -58,7 +58,6 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                 <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
-                                <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
@@ -77,8 +76,10 @@
 
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" th:text="#{btn.search}" class="btn btn-default  btn-primary"
+                            <button type="button" class="btn btn-default  btn-primary"
                                     id="btn-search-cat-group" th:value="@{/workspace/cat_stock_ctr/findByCondition}">
+                                <i class="fa fa-search"></i>
+                                <span th:text="#{btn.search}"></span>
                             </button>
                         </div>
                     </div>
@@ -93,13 +94,13 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-add" th:value="@{/workspace/cat_stock_ctr/add}" type="button" class="btn btn-default">
+                        <button id="btn-add" th:title="#{btn.add}" th:value="@{/workspace/cat_stock_ctr/add}" type="button" class="btn btn-default">
                             <i class="fa fa-plus"></i>
                         </button>
-                        <button id="btn-update" th:value="@{/workspace/cat_stock_ctr/update}" type="button" class="btn btn-default">
+                        <button id="btn-update" th:value="@{/workspace/cat_stock_ctr/update}" type="button" class="btn btn-default btn-hide">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button id="btn-delete" th:value="@{/workspace/cat_stock_ctr/delete}" type="button" class="btn btn-default">
+                        <button id="btn-delete" th:value="@{/workspace/cat_stock_ctr/delete}" type="button" class="btn btn-default btn-hide">
                             <i class="fa fa-trash"></i>
                         </button>
 
@@ -121,7 +122,7 @@
                             <th  class="col-md-2" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.stockName}"></th>
                             <th  class="col-md-5" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
                             <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter"></th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
                         </tr>
                         </thead>
                     </table>
@@ -191,7 +192,7 @@
 
         'click .delete-stock': function (e, value, row, index) {
             clearActionInfo()
-            $("#lbl-del-info").text('Xóa thông tin: '+ row['name']);
+            $("#lbl-del-info").text('Xóa thông tin: '+ decodeHtml(row['name']));
             $('#myConfirmModal').modal('show');
 
             $btnDelConfirmed.click(function () {
@@ -232,7 +233,6 @@
             clearActionInfo()
         }
 
-        var customerIdVal   = $('#lbl-customerId').text();
         var statusVal;
         if($('#cmb-status').prop('checked')){
             statusVal = '1';
@@ -243,7 +243,7 @@
         $.ajax({
             type: "GET",
             cache:false,
-            data:{customerId:customerIdVal,status:statusVal},
+            data:{status:statusVal},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             url: $btnSearch.val(),
             dataType: 'json',
@@ -278,10 +278,12 @@
             ignore: ":hidden",
             rules: {
                 name: {
-                    required: true
+                    required: true,
+                    maxlength:50
                 },
                 code: {
-                    required: true
+                    required: true,
+                    maxlength:100
                 }
             },
             submitHandler: function (form) {

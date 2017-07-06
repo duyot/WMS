@@ -70,6 +70,35 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label th:text="#{lbl.goodsCode}"></label>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa  fa-server fa-fw"></i>
+                                                </span>
+                                        <input id="inp-goods-code" class="form-control" type="text"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label th:text="#{lbl.goodsgroup}"></label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group input-group-combo">
+                                    <select id="modal-cmb-goods-group" class="combobox form-control selectpicker" data-live-search="true"
+                                            data-width="100%" name="searchGoodsGroupId">
+                                        <option value="-1" th:text="#{label.all}"></option>
+                                        <option th:each="sopt:${mapGoodsGroup.entrySet()}"
+                                                th:value="${sopt.key}" th:text="${sopt.value}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <p></p>
@@ -77,6 +106,7 @@
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-default  btn-primary" id="btn-search-goods" th:value="@{/workspace/cat_goods_ctr/findByCondition}">
+                                <i class="fa fa-search"></i>
                                 <span th:text="#{btn.search}"></span>
                             </button>
                         </div>
@@ -92,7 +122,7 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-add" th:value="@{/workspace/cat_goods_ctr/add}" type="button" class="btn btn-default">
+                        <button id="btn-add" th:title="#{btn.add}" th:value="@{/workspace/cat_goods_ctr/add}" type="button" class="btn btn-default">
                             <i class="fa fa-plus"></i>
                         </button>
                         <button id="btn-update" th:value="@{/workspace/cat_goods_ctr/update}" type="button" class="btn btn-default btn-hide">
@@ -126,9 +156,9 @@
                             <th  class="col-md-1" data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
                             <th  class="col-md-1" data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
                             <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
-                            <th  class="col-md-1" data-field="inPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
-                            <th  class="col-md-1" data-field="outPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter"></th>
+                            <th  class="col-md-1" data-field="inPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
+                            <th  class="col-md-1" data-field="outPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
                         </tr>
                         </thead>
                     </table>
@@ -191,7 +221,6 @@
 
         search(false);
     });
-    //------------------------------------------------------------------------------------------------------------
     //@FUNCTION-----------------------------------------------------------------------------------------------
     window.operateEvents = {
         'click .update-goods': function (e, value, row, index) {
@@ -205,7 +234,7 @@
 
         'click .delete-goods': function (e, value, row, index) {
             clearActionInfo()
-            $("#lbl-del-info").text('Xóa thông tin: '+ row['name']);
+            $("#lbl-del-info").text('Xóa thông tin: '+ decodeHtml(row['name']));
             $('#myConfirmModal').modal('show');
 
             $btnDelConfirmed.click(function () {
@@ -251,10 +280,12 @@
         }else{
             statusVal = '0';
         }
+        var goodsCodeVal = $('#inp-goods-code').val().trim();
+        var goodsGroupIdVal = $('select[name=searchGoodsGroupId]').val();
         $.ajax({
             type: "GET",
             cache:false,
-            data:{status:statusVal},
+            data:{status:statusVal,goodsCode:goodsCodeVal,goodsGroupId:goodsGroupIdVal},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             url: $btnSearch.val(),
             dataType: 'json',
@@ -373,10 +404,12 @@
             ignore: ":hidden",
             rules: {
                 code: {
-                    required: true
+                    required: true,
+                    maxlength: 50
                 },
                 name: {
-                    required: true
+                    required: true,
+                    maxlength: 100
                 },
                 unitType: {
                     required: true

@@ -6,6 +6,7 @@ import com.wms.dto.CatGoodsDTO;
 import com.wms.dto.ChartDTO;
 import com.wms.services.interfaces.StatisticService;
 import com.wms.utils.DataUtil;
+import com.wms.utils.FunctionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class StatisticServiceImpl implements StatisticService{
         List<ChartDTO> lstChart =  statisticDP.getTopGoods(custId,type,tokenInfo);
         if(!DataUtil.isListNullOrEmpty(lstChart)){
             for(ChartDTO i: lstChart){
-                i.setName(mapGoods.get(i.getName()).getName());
+                i.setName(FunctionUtils.getMapValue(mapGoods,i.getName()));
             }
         }
         //

@@ -105,9 +105,9 @@ public class BaseDP<T> {
     }
 
     public ResponseObject delete(Long id, AuthTokenInfo tokenInfo){
-        String delelteURL = DELETE_URL + id + "?access_token="+ tokenInfo.getAccess_token();
+        String deleteURL = DELETE_URL + id + "?access_token="+ tokenInfo.getAccess_token();
         try {
-            ResponseEntity<ResponseObject> response = restTemplate.exchange(delelteURL, HttpMethod.DELETE, null, ResponseObject.class);
+            ResponseEntity<ResponseObject> response = restTemplate.exchange(deleteURL, HttpMethod.DELETE, null, ResponseObject.class);
             return response.getBody();
         }catch (Exception e){
             e.printStackTrace();

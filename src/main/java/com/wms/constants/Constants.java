@@ -7,7 +7,6 @@ public class Constants {
 
     public static final String STATS_ALL = "-1";
     public static final String IS_SERIAL = "1";
-    public static final String STATS_NONE = "";
     public static final String SUCCES_COLOR = "color:#337ab7;";
 
     public static class APP_PARAMS{
@@ -32,6 +31,8 @@ public class Constants {
 
     public static class STATUS{
         public static String ACTIVE = "1";
+        public static String IN_ACTIVE = "0";
+        public static String DELETED = "-1";
     }
 
     public static class IMPORT_TYPE{

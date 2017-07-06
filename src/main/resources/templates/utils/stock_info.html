@@ -54,6 +54,9 @@
                             <div class="row">
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.usage}"></label>
+                                    <label id="hidden-stock-id"></label>
+                                    <label id="hidden-goods-id"></label>
+                                    <label id="hidden-state-id"></label>
                                 </div>
 
                                 <div class="col-sm-4">
@@ -111,8 +114,10 @@
                     </form>
                     <div class="wrapper text-center" style="text-align: center; margin-top: 3px">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" th:text="#{btn.search}" class="btn btn-default  btn-primary"
+                            <button type="button" class="btn btn-default  btn-primary"
                                     id="btn-search-stock-info" th:value="@{/workspace/utils/stockInfo/findByCondition}">
+                                <i class="fa fa-search"></i>
+                                <span th:text="#{btn.search}"></span>
                             </button>
                         </div>
                     </div>
@@ -143,7 +148,7 @@
                     </div>
                     <table  id="tbl-stock-info"
                             data-pagination="true"
-                            data-side-pagination="server"
+                            data-side-pagination="client"
                             data-search="true"
                             data-click-to-select="true"
                             data-show-columns="true"
@@ -165,7 +170,7 @@
                             <th data-field="stockId" data-align="right" data-sortable="true"></th>
                             <th data-field="goodsState" data-align="right" data-sortable="true"></th>
                             <th data-field="goodsId" data-align="right" data-sortable="true"></th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter"></th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
                         </tr>
                         </thead>
                     </table>
@@ -207,65 +212,51 @@
     $(function () {
         $table.bootstrapTable({
             data: dataInit ,
-            url: $btnDataUrl.val(),
-            pageSize:5,
-            queryParams: function (p) {
-                //
-                var stock_id = $('#cmb-stock').val();
-                var goods_id = $('#cmb-goods').val();
-                var statusVal =  $('#cmb-status').val();
-
-                return { stockId:stock_id,goodsId:goods_id,status:statusVal,limit: p.limit,
-                    offset: p.offset};
-            }
-        });
-        //
-        $tableGoodsDetail.bootstrapTable({
-            data: dataInit,
-            pageList:[5 ,10, 25, 50],
-            pageSize:5
+            pageSize:10
         });
         $table.bootstrapTable('hideColumn', 'stockId');
         $table.bootstrapTable('hideColumn', 'goodsState');
         $table.bootstrapTable('hideColumn', 'goodsId');
+        //
+        $tableGoodsDetail.bootstrapTable({
+            data: dataInit,
+            url: $('#btn-get-goods-detail').val(),
+            pageList:[5 ,10, 25, 50],
+            pageSize:5,
+            queryParams: function (p) {
+                return { stockId:$("#hidden-stock-id").val(),goodsId:$("#hidden-goods-id").val(),goodsState:$("#hidden-state-id").val(),limit: p.limit,offset: p.offset};
+
+            }
+        });
         //
     });
     //
     window.operateEvents = {
         'click .view-goods-detail': function (e, value, row, index) {
             //get goods detail info
-            $body.addClass("loading");
-            $.ajax({
-                type: "GET",
-                cache:false,
-                data:{stockId:row['stockId'],goodsId:row['goodsId'],goodsState:row['goodsState']},
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                url: $('#btn-get-goods-detail').val(),
-                dataType: 'json',
-                timeout: 600000,
-                async:false,
-                success: function (data) {
-                    $tableGoodsDetail.bootstrapTable('load', data);
-                    var $downloadLink = $('#link-download-goods-detail');
-                    var originalLink = $downloadLink.attr("href");
-                    if(originalLink.includes("?")){
-                        originalLink = trimAtChacter(originalLink,"?");
-                    }
-                    $downloadLink.attr("href",originalLink +"?stockId="+row['stockId']);
-                    showModal($('#goods-detail-modal'));
-                },
-                complete: function(){
-                    $body.removeClass("loading");
-                }
-            });
+            //$body.addClass("loading");
+            $("#hidden-stock-id").val(row["stockId"]);
+            $("#hidden-goods-id").val(row["goodsId"]);
+            $("#hidden-state-id").val(row["goodsState"]);
             //
-
+            //$tableGoodsDetail.bootstrapTable('refresh',{ a:row["stockId"],b:row["goodsId"],c:row["goodsState"],limit: 6,offset: 0});
+            $tableGoodsDetail.bootstrapTable('refresh');
+            //
+            var $downloadLink = $('#link-download-goods-detail');
+            var originalLink = $downloadLink.attr("href");
+            if(originalLink.includes("?")){
+                originalLink = trimAtChacter(originalLink,"?");
+            }
+            $downloadLink.attr("href",originalLink +"?stockId="+row['stockId']);
+            showModal($('#goods-detail-modal'));
+            //$body.removeClass("loading");
         }
     };
     //@FUNCTION-----------------------------------------------------------------
     //@Search-----------------------------------------------------------------
     var $btnSearch = $('#btn-search-stock-info');
     $btnSearch.click(function () {
+        $("#action-info").text('');
         search();
     });
 
@@ -273,9 +264,22 @@
         var stock_id = $('#cmb-stock').val();
         var goods_id = $('#cmb-goods').val();
         var statusVal =  $('#cmb-status').val();
-        //
-        $table.bootstrapTable('refresh',{ stockId:stock_id,goodsId:goods_id,status:statusVal,limit: 5,
-            offset: 0});
+//        $table.bootstrapTable('refresh',{ stockId:stock_id,goodsId:goods_id,status:statusVal,limit: 5,offset: 0});
+        $.ajax({
+            type: "GET",
+            cache:false,
+            data:{stockId:stock_id,goodsId:goods_id,status:statusVal},
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $btnSearch.val(),
+            dataType: 'json',
+            timeout: 600000,
+            success: function (data) {
+                $table.bootstrapTable('load', data);
+                if(isTableEmpty($table)){
+                    setInfoMessage($('#action-info'),"Không tìm thấy dữ liệu");
+                }
+            }
+        });
 
     }
     //@Refresh table----------------------------------------------------------
