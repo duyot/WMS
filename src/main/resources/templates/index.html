@@ -1,328 +1,430 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
 	<meta charset="utf-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<title>WMS Portal</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<meta name="description" content="Free HTML5 Website Template by gettemplates.co" />
-	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
-	<meta name="author" content="gettemplates.co" />
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
 
-  	<!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
+	<link rel="stylesheet" th:href="@{/home_page/bootstrap.min.css}"/>
+	<link rel="stylesheet" th:href="@{/home_page/animate.min.css}"/>
+	<link rel="stylesheet" th:href="@{/home_page/et-line-font.css}"/>
+	<link rel="stylesheet" th:href="@{/home_page/nivo-lightbox.css}"/>
+	<link rel="stylesheet" th:href="@{/home_page/nivo_themes/default/default.css}"/>
+	<link rel="stylesheet" th:href="@{/home_page/style.css}"/>
 
-	<link rel="stylesheet" href="css/animate.css" th:href="@{/css/animate.css}"/>
-	<link rel="stylesheet" href="css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
-	<link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}" />
-	<link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-	<!-- jQuery -->
-	<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
-	<script>
-		new WOW().init();
-	</script>
-		<script th:inline="javascript">
-			var registerUrl = '/register';
-			$.get(registerUrl,function (result) {
-				showDialog('dialog title', result);
-			});
-		</script>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'/>
+</head>
+<body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
 
-	<!--script for regigster	-->
-	<script src="js/jquery-1.10.2.min.js" th:href="@{/js/jquery-1.10.2.min.js}"></script>
-	<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js" th:href="@{/js/modernizr-2.6.2.min.js.css}"></script>
-	<link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
-	</head>
-	<body>
-	<div class="fh5co-loader"></div>
+<div class="preloader">
+	<div class="sk-spinner sk-spinner-circle">
+		<div class="sk-circle1 sk-circle"></div>
+		<div class="sk-circle2 sk-circle"></div>
+		<div class="sk-circle3 sk-circle"></div>
+		<div class="sk-circle4 sk-circle"></div>
+		<div class="sk-circle5 sk-circle"></div>
+		<div class="sk-circle6 sk-circle"></div>
+		<div class="sk-circle7 sk-circle"></div>
+		<div class="sk-circle8 sk-circle"></div>
+		<div class="sk-circle9 sk-circle"></div>
+		<div class="sk-circle10 sk-circle"></div>
+		<div class="sk-circle11 sk-circle"></div>
+		<div class="sk-circle12 sk-circle"></div>
+	</div>
+</div>
 
-	<div id="page">
-		<nav class="fh5co-nav" role="navigation">
-			<div class="container">
-				<div class="row">
-					<div class="col-xs-2">
-						<div id="fh5co-logo"><a href="index_boot.html"></a></div>
+<section class="navbar navbar-fixed-top custom-navbar" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+			</button>
+			<a href="#" class="navbar-brand">WMS Team</a>
+		</div>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#home" class="smoothScroll">HOME</a></li>
+				<li><a href="#work" class="smoothScroll">WORK</a></li>
+				<li><a href="#about" class="smoothScroll">ABOUT</a></li>
+				<li><a href="#team" class="smoothScroll">TEAM</a></li>
+				<li><a href="#portfolio" class="smoothScroll">PORTFOLIO</a></li>
+				<li><a href="#pricing" class="smoothScroll">PRICING</a></li>
+				<li><a href="#contact" class="smoothScroll">CONTACT</a></li>
+			</ul>
+		</div>
+	</div>
+</section>
+
+<section id="home">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<h3>WAREHOUSE / IMPORT-EXPORT / REVENUE / STATISTIC</h3>
+				<h1>Warehouse Management System</h1>
+				<hr/>
+				<a th:href="index_boot.html" th:text="#{home.login}" class="smoothScroll btn btn-default"></a>
+				<a href="#contact" th:text="#{home.register}" class="smoothScroll btn btn-default"></a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="work">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<div class="section-title">
+					<strong>01</strong>
+					<h1 class="heading bold">WHAT WE HAVE</h1>
+					<hr/>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.6s">
+				<i class="icon-cloud medium-icon"></i>
+				<h3>WEB MARKETING</h3>
+				<hr/>
+				<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteu sunt in culpa qui officia.</p>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.9s">
+				<i class="icon-mobile medium-icon"></i>
+				<h3>UI &amp; UX DESIGN</h3>
+				<hr/>
+				<p>Digital Team is free responsive Bootstrap v3.3.5 layout from <a rel="nofollow" href="http://www.tooplate.com" target="_parent">Tooplate</a>. Images are from <a rel="nofollow" href="http://pixabay.com" target="_parent">Pixabay</a> free photo website.</p>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
+				<i class="icon-laptop medium-icon"></i>
+				<h3>ECOMMERCE</h3>
+				<hr/>
+				<p>You can edit and use this template for your websites. Please tell your friends about Tooplate. Thank you for visiting our website.</p>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
+				<i class="icon-compass medium-icon"></i>
+				<h3>MOBILE APP</h3>
+				<hr/>
+				<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteu sunt in culpa qui officia.</p>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
+				<i class="icon-chat medium-icon"></i>
+				<h3>SOCIAL MEDIA</h3>
+				<hr/>
+				<p>You can easily change icons by looking at <a href="https://www.elegantthemes.com/blog/resources/how-to-use-and-embed-an-icon-font-on-your-website" target="_blank">ET Line Icons</a>. Excepteu sunt in culpa qui officia. Duis aute irure dolor in reprehenderit.</p>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
+				<i class="icon-browser medium-icon"></i>
+				<h3>RESPONSIVE LAYOUT</h3>
+				<hr/>
+				<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteu sunt in culpa qui officia.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="about">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-center">
+				<div class="section-title">
+					<strong>02</strong>
+					<h1 class="heading bold">OUR AGENCY</h1>
+					<hr/>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<img th:src="@{home_page/images/about-img.jpg}" class="img-responsive" alt="about img"/>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<h3 class="bold">DIGITAL TEAM</h3>
+				<h1 class="heading bold">Best Design Agency from California</h1>
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">DESIGN</a></li>
+					<li><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab">MOBILE</a></li>
+					<li><a href="#social" aria-controls="social" role="tab" data-toggle="tab">SOCIAL</a></li>
+				</ul>
+				<!-- tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="design">
+						<p>Duis aute irure dolor in <a href="#">reprehenderit</a> in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Sed id est tincidunt, iaculis nulla vel, sodales metus. Morbi interdum accumsan augue, in accumsan neque lacinia sed. Fusce cursus eu ligula ut gravida.</p>
+						<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet. Dolore magna aliquam erat volutpat.</p>
 					</div>
-					<div class="col-xs-10 text-right menu-1">
-						<ul>
-							<li><a href="#" th:text="#{home.home}">Home</a></li>
-							<li><a th:href="@{/workspace}" th:text="#{home.workspace}">Workspace</a></li>
-							<li><a th:href="@{/language/en}" th:text="#{home.english}">English</a></li>
-							<li><a th:href="@{/language/vi}" th:text="#{home.vietnamese}">Vietnamese</a></li>
-							<li><a th:href="contact.html" th:text="#{home.info}">About</a></li>
-							<li><a th:href="contact.html" th:text="#{home.contact}"></a></li>
-							<li><a th:href="index_boot.html" th:text="#{home.login}">Login</a></li>
+					<div role="tabpanel" class="tab-pane" id="mobile">
+						<p>Aenean commodo ligula eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+						<p><a href="#">Duis aute irure dolor</a> in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet.</p>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="social">
+						<p>Pellentesque elementum, lacus sit amet <a href="#">hendrerit</a> posuere, quam quam tristique nisi, nec ornare ligula magna id nisl. Donec blandit enim ac semper facilisis. Curabitur eu laoreet mauris, eget fermentum velit.</p>
+						<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet. Dolore magna aliquam erat volutpat.</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="team">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<div class="section-title">
+					<strong>03</strong>
+					<h1 class="heading bold">OUR TALENTED TEAM</h1>
+					<hr/>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 wow fadeIn" data-wow-delay="0.9s">
+				<div class="team-wrapper">
+					<img th:src="@{home_page/images/team1.jpg}" class="img-responsive" alt="team img"/>
+					<div class="team-des">
+						<h4>Cindy</h4>
+						<h3>QA</h3>
+						<hr/>
+						<ul class="social-icon">
+							<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
+							<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
+							<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
 						</ul>
 					</div>
 				</div>
-
 			</div>
-		</nav>
-
-		<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="width:100%;height: 100vh">
-			<img th:src="@{/images/wms_background.jpg}" style="width:100%;height: 100vh"/>
-		</header>
-
-		<div style="clear: both"></div>
-
-		<div id="fh5co-services" style="width:100%;height: 80vh;margin-top: 100px">
-			<div class="container">
-				<div class="col-md-6 col-sm-6 animate-box" style="height: 20vh">
-					<div class="feature-center">
-						<span class="icon icon2">
-							<i class="fa fa-connectdevelop"></i>
-						</span>
-						<div class="desc">
-							<h3 th:text="#{home.bestsolution}"></h3>
-							<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-						</div>
+			<div class="col-md-3 col-sm-6 wow fadeIn" data-wow-delay="1.3s">
+				<div class="team-wrapper">
+					<img th:src="@{home_page/images/team2.jpg}" class="img-responsive" alt="team img"/>
+					<div class="team-des">
+						<h4>Mary</h4>
+						<h3>Core Developer</h3>
+						<hr/>
+						<ul class="social-icon">
+							<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
+							<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
+							<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
+						</ul>
 					</div>
 				</div>
-				<div class="col-md-6 col-sm-6 animate-box" style="height: 20vh">
-					<div class="feature-center">
-						<span class="icon icon2">
-							<i class="fa fa-television"></i>
-						</span>
-						<div class="desc">
-							<h3 th:text="#{home.friendlyui}"></h3>
-							<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-						</div>
+			</div>
+			<div class="col-md-3 col-sm-6 wow fadeIn" data-wow-delay="1.6s">
+				<div class="team-wrapper">
+					<img th:src="@{home_page/images/team3.jpg}" class="img-responsive" alt="team img"/>
+					<div class="team-des">
+						<h4>Linda</h4>
+						<h3>System Admin</h3>
+						<hr/>
+						<ul class="social-icon">
+							<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
+							<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
+							<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
+						</ul>
 					</div>
 				</div>
-				<div class="col-md-6 col-sm-6 animate-box" style="height: 20vh">
-					<div class="feature-center">
-						<span class="icon icon2">
-							<i class="fa fa-leaf"></i>
-						</span>
-						<div class="desc">
-							<h3 th:text="#{home.easy}"></h3>
-							<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6 animate-box" style="height: 20vh">
-					<div class="feature-center">
-						<span class="icon icon2">
-							<i class="fa fa-qrcode"></i>
-						</span>
-						<div class="desc">
-							<h3 th:text="#{home.sercurity}"></h3>
-							<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6 animate-box" style="height: 20vh">
-					<div class="feature-center">
-						<span class="icon icon2">
-							<i class="fa  fa-firefox"></i>
-						</span>
-						<div class="desc">
-							<h3 th:text="#{home.webplatform}"></h3>
-							<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6 animate-box" style="height: 20vh">
-					<div class="feature-center">
-						<span class="icon icon2">
-							<i class="fa fa-support"></i>
-						</span>
-						<div class="desc">
-							<h3 th:text="#{home.support247}"></h3>
-							<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="col-md-6 col-sm-6 animate-box" style="height: 20vh">
-					<div class="feature-center">
-						<span class="icon icon2">
-							<i class="fa  fa-firefox"></i>
-						</span>
-						<div class="desc">
-							<h3 th:text="#{home.webplatform}"></h3>
-							<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6 animate-box" style="height: 20vh">
-					<div class="feature-center">
-						<span class="icon icon2">
-							<i class="fa fa-support"></i>
-						</span>
-						<div class="desc">
-							<h3 th:text="#{home.support247}"></h3>
-							<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-						</div>
+			</div>
+			<div class="col-md-3 col-sm-6 wow fadeIn" data-wow-delay="1.6s">
+				<div class="team-wrapper">
+					<img th:src="@{home_page/images/team4.jpg}" class="img-responsive" alt="team img"/>
+					<div class="team-des">
+						<h4>Sandar</h4>
+						<h3>Tester</h3>
+						<hr/>
+						<ul class="social-icon">
+							<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
+							<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
+							<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</section>
 
-	<div id="fh5co-started" class="register">
-		<div class="container" style="margin-top: 100px">
-			<div class="row animate-box">
-				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-					<h2 th:text="${message}"></h2>
-					<!--login form-->
-					<div class="display-tc animate-box" data-animate-effect="fadeIn">
-							<div class="left">
+<div id="portfolio">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<div class="section-title">
+					<strong>04</strong>
+					<h1 class="heading bold">OUR PORTFOLIO</h1>
+					<hr/>
+				</div>
+				<!-- ISO section -->
+				<div class="iso-section">
+					<ul class="filter-wrapper clearfix">
+						<li><a href="#" data-filter="*" class="selected opc-main-bg">All</a></li>
+						<li><a href="#" class="opc-main-bg" data-filter=".html">HTML</a></li>
+						<li><a href="#" class="opc-main-bg" data-filter=".photoshop">Photoshop</a></li>
+						<li><a href="#" class="opc-main-bg" data-filter=".wordpress">Wordpress</a></li>
+						<li><a href="#" class="opc-main-bg" data-filter=".mobile">Mobile</a></li>
+					</ul>
+					<div class="iso-box-section wow fadeIn" data-wow-delay="0.9s">
+						<div class="iso-box-wrapper col4-iso-box">
 
-								<div class="email">
-									<input type="email" id="register-email"   name="email" class="email" placeholder="Email" required=""/>
-								</div>
-
-								<div class="username">
-									<input type="text"  id="register-username" name="username" class="username" placeholder="Name" required=""/>
-								</div>
-
-								<div class="password">
-									<input type="password" id="register-password" name="password" class="email" placeholder="Password" required=""/>
-								</div>
-								<div>
-									<p id="register-info" style="margin-top: 15px;margin-left:-60px"></p>
-								</div>
-								<div class="row animate-box" >
-									<div class="col-md-8 col-md-offset-2">
-										<div class="col-md-6 col-md-offset-3 col-sm-6">
-											<button id="btn-register" th:text="#{home.register}" th:value="@{/register}" type="submit" class="btn btn-default btn-block"></button>
-										</div>
-									</div>
-								</div>
+							<div class="iso-box html wordpress mobile col-lg-4 col-md-4 col-sm-6">
+								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
 							</div>
-						<!--</form>-->
+							<div class="iso-box wordpress col-lg-4 col-md-4 col-sm-6">
+								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
+							</div>
+
+							<div class="iso-box html mobile col-lg-4 col-md-4 col-sm-6">
+								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
+							</div>
+
+							<div class="iso-box wordpress col-lg-4 col-md-4 col-sm-6">
+								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
+							</div>
+
+							<div class="iso-box html photoshop col-lg-4 col-md-4 col-sm-6">
+								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
+							</div>
+
+							<div class="iso-box photoshop col-lg-4 col-md-4 col-sm-6">
+								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
+							</div>
+
+						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<div id="about-us" class="register">
-		<div class="container" style="margin-top: 100px">
-			<h3 class="title">our Team</h3>
-			<div>
-				<div class="col-md-4 col-sm-4 col-xs-4 team-grid w3_agileits">
-					<img class="img-w3l t1-wthree img-responsive" />
-					<h5>Mercurio</h5>
-					<p>Lorem ipsum dolor sit amet.Cras rutrum iaculis enim, non convallis felis mattis.</p>
-					<div class="social-icons">
+<section id="pricing">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-center">
+				<div class="section-title">
+					<strong>05</strong>
+					<h1 class="heading bold">OUR PRICING</h1>
+					<hr/>
 				</div>
-				<div class="col-md-4 col-sm-4 col-xs-4 team-grid w3_agileits" style="float:left">
-					<img class="img-w3l t1-wthree img-responsive" />
-					<h5>Mercurio</h5>
-					<p>Lorem ipsum dolor sit amet.Cras rutrum iaculis enim, non convallis felis mattis.</p>
-					<div class="social-icons">
+			</div>
+			<div class="col-md-4 col-sm-6">
+				<div class="plan plan-one wow bounceIn" data-wow-delay="0.3s">
+					<div class="plan_title">
+						<i class="icon-mobile medium-icon"></i>
+						<h3>BASIC</h3>
+						<h2>$150 <span>per year</span></h2>
+					</div>
+					<ul>
+						<li>100 GB Cloud Storage</li>
+						<li>5 Pro Websites</li>
+						<li>10 Secured Emails</li>
+						<li>24-hour Support</li>
+					</ul>
+					<button class="btn btn-warning">Get it now</button>
 				</div>
-				<div class="col-md-4 col-sm-4 col-xs-4 team-grid w3_agileits" style="float:left">
-					<img class="img-w3l t1-wthree img-responsive" />
-					<h5>Mercurio</h5>
-					<p>Lorem ipsum dolor sit amet.Cras rutrum iaculis enim, non convallis felis mattis.</p>
-					<div class="social-icons">
+			</div>
+			<div class="col-md-4 col-sm-6">
+				<div class="plan plan-two wow bounceIn" data-wow-delay="0.3s">
+					<div class="plan_title">
+						<i class="icon-desktop medium-icon"></i>
+						<h3>BUSINESS</h3>
+						<h2>$260 <span>per year</span></h2>
+					</div>
+					<ul>
+						<li>200 GB Cloud Storage</li>
+						<li>10 Pro Websites</li>
+						<li>20 Secured Emails</li>
+						<li>30-Minute Support</li>
+					</ul>
+					<button class="btn btn-warning">Take this!</button>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6">
+				<div class="plan plan-three wow bounceIn" data-wow-delay="0.3s">
+					<div class="plan_title">
+						<i class="icon-cloud medium-icon"></i>
+						<h3>PROFESSIONAL</h3>
+						<h2>$380 <span>per year</span></h2>
+					</div>
+					<ul>
+						<li>500 GB Cloud Storage</li>
+						<li>20 Pro Websites</li>
+						<li>40 Secured Emails</li>
+						<li>Live Support</li>
+					</ul>
+					<button class="btn btn-warning">Buy Now</button>
 				</div>
 			</div>
 		</div>
 	</div>
+</section>
 
-	<footer id="fh5co-footer" role="contentinfo" style="height: auto;">
-		<div class="container" style="padding:20px">
-			<div class="row row-pb-md">
-				<div class="col-md-4 col-sm-4 col-xs-6 col-md-push-1">
-					<ul class="fh5co-footer-links">
-						<li><a href="#">About</a></li>
-						<li><a href="#">Help</a></li>
-					</ul>
-				</div>
-
-				<div class="col-md-4 col-sm-4 col-xs-6 col-md-push-1">
-					<ul class="fh5co-footer-links">
-						<li><a href="#">Shop</a></li>
-						<li><a href="#">Privacy</a></li>
-					</ul>
-				</div>
-
-				<div class="col-md-4 col-sm-4 col-xs-6 col-md-push-1">
-					<ul class="fh5co-footer-links">
-						<li><a href="#">Find Designers</a></li>
-						<li><a href="#">Find Developers</a></li>
-					</ul>
+<section id="contact">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-center">
+				<div class="section-title">
+					<strong>06</strong>
+					<h1 class="heading bold">CONTACT US</h1>
+					<hr/>
 				</div>
 			</div>
-
-			<div class="row copyright">
-				<div class="col-md-12 text-center">
-					<p>
-						&copy; 2016 WMS. All Rights Reserved | Design by <a href="#" target="_blank">WMS_Team</a>
-					</p>
-					<p>
-						<ul class="fh5co-social-icons">
-							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-							<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter "></i></a></li>
-						</ul>
-					</p>
+			<div class="col-md-6 col-sm-12 contact-info">
+				<h2 class="heading bold">CONTACT INFO</h2>
+				<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteu sunt in culpa qui officia deserunt mollit anim id.</p>
+				<div class="col-md-6 col-sm-4">
+					<h3><i class="icon-envelope medium-icon wow bounceIn" data-wow-delay="0.6s"></i> EMAIL</h3>
+					<p>hello@company.com</p>
 				</div>
+				<div class="col-md-6 col-sm-4">
+					<h3><i class="icon-phone medium-icon wow bounceIn" data-wow-delay="0.6s"></i> PHONES</h3>
+					<p>010-020-0340 | 090-080-0760</p>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<form action="#" method="get" class="wow fadeInUp" data-wow-delay="0.6s">
+					<div class="col-md-6 col-sm-6">
+						<input type="text" class="form-control" placeholder="Name" name="name"/>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<input type="email" class="form-control" placeholder="Email" name="email"/>
+					</div>
+					<div class="col-md-12 col-sm-12">
+						<textarea class="form-control" placeholder="Message" rows="7" name="message"></textarea>
+					</div>
+					<div class="col-md-offset-4 col-md-8 col-sm-offset-4 col-sm-8">
+						<input type="submit" class="form-control" value="SEND MESSAGE"/>
+					</div>
+				</form>
 			</div>
 		</div>
-	</footer>
-
-	<div class="gototop js-top">
-		<a href="#" class="js-gotop"><i class="fa fa-arrow-up fw"></i></a>
 	</div>
+</section>
 
-	<script>
-		var $btnRegister = $('#btn-register');
-		$(function () {
-			$btnRegister.click(function () {
-				emailVal    = $('#register-email').val();
-				usernameVal = $('#register-username').val();
-				passwordVal = $('#register-password').val();
-
-				$.ajax({
-					type: "POST",
-					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-					url: $btnRegister.val(),
-					data:{username:usernameVal,email:emailVal,password:passwordVal},
-					dataType: 'text',
-					timeout: 600000,
-					success: function (data) {
-						document.getElementById("register-info").innerHTML = data;
-					},
-					error:function (data) {
-						alert('error');
-						alert(data);
-					}
-				});
-			})
-		});
-
-	</script>
-
-
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<p>&copy; 2017 WMS. All Rights Reserved | Design by <a href="#" target="_blank">WMS_Team</a></p>
+				<hr/>
+				<ul class="social-icon">
+					<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
+					<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
+					<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
+					<li><a href="#" class="fa fa-behance wow fadeIn" data-wow-delay="0.9s"></a></li>
+					<li><a href="#" class="fa fa-tumblr wow fadeIn" data-wow-delay="0.9s"></a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
-	</div>
-	</div>
-	<!-- jQuery scroll -->
-	<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
-	<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
+</footer>
 
-	<script src="js/jquery.easing.1.3.js" th:href="@{js/jquery.easing.1.3.js}"></script>
-	<!-- Bootstrap -->
-	<script src="js/bootstrap.min.js" th:href="@{js/bootstrap.min.js}"></script>
-	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js" th:href="@{js/jquery.waypoints.min.js}"></script>
-	<!-- Main -->
-	<script src="js/main.js" th:href="@{js/main.js}"></script>
-	</body>
+<script th:src="@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}" th:href="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/home_page/smoothscroll.js}" th:href="@{/home_page/smoothscroll.js}"></script>
+<script th:src="@{/home_page/isotope.js}" th:href="@{/home_page/isotope.js}"></script>
+<script th:src="@{/home_page/imagesloaded.min.js}" th:href="@{/home_page/imagesloaded.min.js}"></script>
+<script th:src="@{/home_page/nivo-lightbox.min.js}" th:href="@{/home_page/nivo-lightbox.min.js}"></script>
+<script th:src="@{/home_page/jquery.backstretch.min.js}" th:href="@{/home_page/jquery.backstretch.min.js}"></script>
+<script th:src="@{/js/wow.min.js}" th:href="@{/js/wow.min.js}"></script>
+<script th:src="@{/home_page/custom.js}" th:href="@{/home_page/custom.js}"></script>
+
+</body>
 </html>
-

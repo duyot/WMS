@@ -21,11 +21,11 @@
                 new WOW().init();
     </script>
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
     <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
     <script th:attr="src=@{/js/jquery.validate.min.js}"  th:href="@{/js/jquery.validate.min.js}"></script>
     <!--confirmation-->
-    <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
     <!--font and favi icon-->
@@ -179,7 +179,9 @@
     var $btnDel = $('#btn-delete');
     $btn_update = $('#btn-update');
     var $btnDelConfirmed = $('#modal-btn-del-ok');
-    //row function-----------------------------------------------------------------------------------------------
+    //row function------------------------------------------------------------------------------------------------------
+    var deleteItem;
+    var deleteItemCode;
     window.operateEvents = {
         'click .update-stock': function (e, value, row, index) {
             clearActionInfo();
@@ -191,42 +193,43 @@
         },
 
         'click .delete-stock': function (e, value, row, index) {
-            clearActionInfo()
+            clearActionInfo();
             $("#lbl-del-info").text('Xóa thông tin: '+ decodeHtml(row['name']));
             $('#myConfirmModal').modal('show');
-
-            $btnDelConfirmed.click(function () {
-                var idVal = row['id'];
-                $.ajax({
-                    type: "POST",
-                    cache:false,
-                    data:{id:idVal},
-                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    url: $btnDel.val(),
-                    dataType: 'text',
-                    timeout: 600000,
-                    success: function (data) {
-                        resultArr = data.split('|');
-                        resultCode = resultArr[0];
-                        resultName = resultArr[1];
-                        if(resultCode == 1){
-                            setInfoMessage($('#action-info'),resultName);
-                        }else{
-                            setErrorMessage($('#action-info'),resultName);
-                        }
-                        search(false);
-
-                    },
-                    error:function(){
-                        setErrorMessage($('#action-info'),'Lỗi hệ thống');
-                    },
-                });
-                //
-                $('#myConfirmModal').modal('hide');
-                //
-            });
+            deleteItem     = row['id'];
+            deleteItemCode = row['code'];
         }
     };
+
+    $btnDelConfirmed.click(function () {
+        $.ajax({
+            type: "POST",
+            cache:false,
+            data:{id:deleteItem,code:deleteItemCode},
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $btnDel.val(),
+            dataType: 'text',
+            timeout: 600000,
+            success: function (data) {
+                resultArr = data.split('|');
+                resultCode = resultArr[0];
+                resultName = resultArr[1];
+                if(resultCode == 1){
+                    setInfoMessage($('#action-info'),resultName);
+                }else{
+                    setErrorMessage($('#action-info'),resultName);
+                }
+                search(false);
+
+            },
+            error:function(){
+                setErrorMessage($('#action-info'),'Lỗi hệ thống');
+            }
+        });
+        //
+        $('#myConfirmModal').modal('hide');
+        //
+    });
     //-----------------------------------------------------------------------------------------------
     function search(isClear){
         if(isClear){

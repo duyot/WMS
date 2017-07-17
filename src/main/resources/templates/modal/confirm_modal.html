@@ -6,7 +6,7 @@
 
 <div th:fragment="frag-confirm-modal">
     <!-- Modal -->
-    <div class="modal fade" id="myConfirmModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myConfirmModal" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document"  style="width:300px">
                 <div class="modal-content" id="catUserDTO-modal">
                     <div class="modal-header">
@@ -20,8 +20,14 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="modal-btn-del-ok" type="submit" class="btn btn-primary" th:text="#{btn.ok}"></button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{btn.close}"></button>
+                        <button id="modal-btn-del-ok" type="submit" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{btn.ok}"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
                     </div>
                 </div>
         </div>

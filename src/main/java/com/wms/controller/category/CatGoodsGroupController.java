@@ -4,10 +4,11 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
-import com.wms.dto.*;
+import com.wms.dto.CatGoodsGroupDTO;
+import com.wms.dto.Condition;
+import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
-import com.wms.utils.FunctionUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by duyot on 12/6/2016.
@@ -31,9 +31,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/workspace/cat_goods_group_ctr")
 @Scope("session")
 public class CatGoodsGroupController extends BaseCommonController{
-    Logger log = LoggerFactory.getLogger(CatGoodsGroupController.class);
+    private Logger log = LoggerFactory.getLogger(CatGoodsGroupController.class);
     @Autowired
     BaseService catGoodsGroupService;
+
+    @Autowired
+    BaseService catGoodsService;
 
     @RequestMapping()
     public String home(Model model){
@@ -108,9 +111,17 @@ public class CatGoodsGroupController extends BaseCommonController{
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(@RequestParam("id")String id, HttpServletRequest request){
+    public @ResponseBody String delete(@RequestParam("id")String id,@RequestParam("code")String code, HttpServletRequest request){
         try {
+            if (isUsedByGood(id)) {
+                return "0|Xoá không thành công: nhóm đã được sử dụng";
+            }
             Long idL = Long.parseLong(id);
+            if (isDeleteGoodsGroupAvailable(code)) {
+                catGoodsGroupService.delete(idL,tokenInfo);
+                return "1|Xoá thành công";
+            }
+
             CatGoodsGroupDTO deleteObject = (CatGoodsGroupDTO) catGoodsGroupService.findById(idL,tokenInfo);
             deleteObject.setStatus(Constants.STATUS.DELETED);
             ResponseObject response = catGoodsGroupService.update(deleteObject,tokenInfo);
@@ -123,5 +134,22 @@ public class CatGoodsGroupController extends BaseCommonController{
         } catch (NumberFormatException e) {
             return "0|Xoá không thành công lỗi convert long";
         }
+    }
+
+    public boolean isDeleteGoodsGroupAvailable(String code){
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("name",Constants.SQL_OPERATOR.EQUAL,code));
+        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
+        return !DataUtil.isListNullOrEmpty(catGoodsGroupService.findByCondition(lstCon,tokenInfo));
+    }
+
+    public boolean isUsedByGood(String id){
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("goodsGroupId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,id));
+        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        Long count = catGoodsService.countByCondition(lstCon,tokenInfo);
+        return  count != null && count >0;
     }
 }

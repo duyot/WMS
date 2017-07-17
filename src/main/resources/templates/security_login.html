@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
 
     <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans'/>
     <!--script for regigster	-->
-    <link rel="stylesheet" href="css/login.css" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <title>Login - WMS</title>
 </head>
 <body>
@@ -43,7 +43,8 @@
         </div>
     </div>
 </div>
-    <script src="js/jquery-1.10.2.min.js" th:href="@{/js/jquery-1.10.2.min.js}"></script>
+    <script th:href="@{/js/jquery-1.10.2.min.js}"></script>
+    <script th:href="@{/home_page/jquery.backstretch.min.js}"></script>
 <script>
     $(function () {
         $('#username').focus();

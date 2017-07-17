@@ -34,6 +34,7 @@ public class BaseDP<T> {
 
     public  String FIND_BY_ID_URL;
     public  String FIND_CONDITION_URL;
+    public  String COUNT_CONDITION_URL;
     public  String GET_ALL_URL;
 
     public RestTemplate restTemplate;
@@ -61,6 +62,7 @@ public class BaseDP<T> {
 
         FIND_BY_ID_URL     = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.FIND_BY_ID;
         FIND_CONDITION_URL = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.FIND_BY_CONDITION;
+        COUNT_CONDITION_URL = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.COUNT_BY_CONDITION;
         GET_ALL_URL        = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.GET_ALL;
     }
 
@@ -133,6 +135,16 @@ public class BaseDP<T> {
         } catch (RestClientException e) {
             log.error(e.toString());
             return new ArrayList<>();
+        }
+    }
+
+    public Long countByCondition(List<Condition> lstCondition, AuthTokenInfo tokenInfo){
+        try {
+            ResponseEntity<Long> responseEntity = restTemplate.postForEntity(COUNT_CONDITION_URL+ tokenInfo.getAccess_token(), lstCondition,Long.class);
+            return responseEntity.getBody();
+        } catch (RestClientException e) {
+            log.error(e.toString());
+            return 0L;
         }
     }
 

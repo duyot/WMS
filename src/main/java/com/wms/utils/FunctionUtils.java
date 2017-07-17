@@ -155,6 +155,11 @@ public class FunctionUtils {
             CatGoodsDTO currentGoods;
             for(MjrStockTransDetailDTO i: lstGoodsDetail){
                 currentGoods = mapGoodsIdGoods.get(i.getGoodsId());
+                if (currentGoods == null) {
+                    currentGoods = new CatGoodsDTO();
+                    currentGoods.setCode("");
+                    currentGoods.setName("");
+                }
                 //
                 i.setGoodsCode(currentGoods.getCode());
                 i.setGoodsName(currentGoods.getName());
@@ -174,11 +179,7 @@ public class FunctionUtils {
         get stock
      */
     public static List<CatStockDTO> getListStock(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
-        List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentCustomer.getId()));
-        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"asc"));
-        return service.findByCondition(lstCondition,tokenInfo);
+        return service.findByCondition(getBaseConditions(currentCustomer.getId()),tokenInfo);
     }
 
     /*
@@ -188,15 +189,20 @@ public class FunctionUtils {
         return catUserService.getUserByCustomer(currentCustomer.getId(),tokenInfo);
     }
 
+    private static List<Condition> getBaseConditions(String custId){
+        List<Condition> lstCondition = Lists.newArrayList();
+        lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL, custId));
+        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"asc"));
+        return lstCondition;
+    }
+
+
     /*
        get goods
     */
     public static List<CatGoodsDTO> getListGoods(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
-        List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentCustomer.getId()));
-        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"asc"));
-        return service.findByCondition(lstCondition,tokenInfo);
+        return service.findByCondition(getBaseConditions(currentCustomer.getId()),tokenInfo);
     }
 
     /*

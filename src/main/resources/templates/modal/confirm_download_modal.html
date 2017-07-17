@@ -6,7 +6,7 @@
 
 <div th:fragment="frag-confirm-download-error-modal">
     <!-- Modal -->
-    <div class="modal fade" id="myDownloadErrorModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myDownloadErrorModal" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document"  style="width:300px">
             <div class="modal-content" id="catUserDTO-modal">
                 <div class="modal-header">
@@ -22,7 +22,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" th:text="#{btn.ok}"></button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        <i class="fa fa-check"></i>
+                        <span th:text="#{btn.ok}"></span>
+                    </button>
                 </div>
             </div>
         </div>

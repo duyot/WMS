@@ -17,5 +17,6 @@ public interface BaseService<T>{
     ResponseObject delete(Long id,AuthTokenInfo token);
     T findById(Long id,AuthTokenInfo token);
     List<T> findByCondition(List<Condition> lstCondition,AuthTokenInfo token);
+    Long countByCondition(List<Condition> lstCondition,AuthTokenInfo token);
     List<T> getAll(AuthTokenInfo token);
 }

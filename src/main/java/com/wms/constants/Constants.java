@@ -53,7 +53,8 @@ public class Constants {
         public static String UPDATE = "update?access_token=";
         public static String DELETE = "delete/";
         public static String FIND_BY_ID = "find/";
-        public static String FIND_BY_CONDITION = "findByCondition?access_token=";
+        public static String FIND_BY_CONDITION  = "findByCondition?access_token=";
+        public static String COUNT_BY_CONDITION = "countByCondition?access_token=";
         public static String GET_ALL = "getAll?access_token=";
     }
 

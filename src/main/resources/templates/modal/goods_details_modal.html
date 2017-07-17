@@ -6,7 +6,7 @@
 
 <div th:fragment="frag-goods-detail-modal">
     <!-- Modal -->
-    <div class="modal fade" id="goods-detail-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+    <div class="modal fade" id="goods-detail-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
          aria-labelledby="myModalLabel" aria-hidden="true" th:width="500px">
         <div class="modal-dialog" role="document" style="width:85%">
                 <div class="modal-content" id="catUserDTO-modal">
@@ -55,7 +55,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="modal-btn-add"     type="submit" class="btn btn-primary" data-dismiss="modal" th:text="#{btn.close}"></button>
+                        <button id="modal-btn-add" type="submit" class="btn btn-primary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
                     </div>
                 </div>
         </div>

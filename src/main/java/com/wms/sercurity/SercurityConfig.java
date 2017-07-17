@@ -40,7 +40,7 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
         http    .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/WMS","/language/**").permitAll()
-                .antMatchers("/css/**", "/fonts/**","/js/**","/images/**","/workspace_resource/**").permitAll()
+                .antMatchers("/home_page/**","/css/**", "/fonts/**","/js/**","/images/**","/workspace_resource/**").permitAll()
                 .antMatchers("/workspace","/workspace/").permitAll()
                 //for sys_admin
                 .antMatchers("/workspace/sysadmin/**").hasRole("SYS_ADMIN")

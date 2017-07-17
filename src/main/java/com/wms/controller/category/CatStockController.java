@@ -35,6 +35,9 @@ public class CatStockController extends BaseCommonController{
     @Autowired
     BaseService catStockService;
 
+    @Autowired
+    BaseService mjrStockGoodsTotalService;
+
     @RequestMapping()
     public String home(Model model){
         model.addAttribute("menuName","menu.catstock");
@@ -112,10 +115,22 @@ public class CatStockController extends BaseCommonController{
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(@RequestParam("id")String id,HttpServletRequest request){
+    public @ResponseBody String delete(@RequestParam("id")String id,@RequestParam("code")String code,HttpServletRequest request){
         try {
+            //
+            if (isUsed(id)) {
+                return "0|Xoá không thành công: hàng đã được sử dụng";
+            }
+            //
             Long idL = Long.parseLong(id);
+            //
+            if (isDeleteStockAvailable(code)) {
+                catStockService.delete(idL,tokenInfo);
+                return "1|Xoá thành công";
+            }
+            //
             CatStockDTO deleteStock = (CatStockDTO) catStockService.findById(idL,tokenInfo);
+            deleteStock.setStatus(Constants.STATUS.DELETED);
             ResponseObject response = catStockService.update(deleteStock,tokenInfo);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 request.getSession().setAttribute("isStockModifiedImportStock",true);
@@ -128,4 +143,21 @@ public class CatStockController extends BaseCommonController{
             return "0|Xoá không thành công lỗi convert long";
         }
     }
+
+    public boolean isUsed(String id){
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,id));
+        Long count = mjrStockGoodsTotalService.countByCondition(lstCon,tokenInfo);
+        return  count != null && count >0;
+    }
+
+    public boolean isDeleteStockAvailable(String code){
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,code));
+        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
+        return !DataUtil.isListNullOrEmpty(catStockService.findByCondition(lstCon,tokenInfo));
+    }
+
 }

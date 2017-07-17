@@ -5,6 +5,10 @@ function trimAtChacter(value,character){
     return value.substring(0,value.indexOf(character));
 }
 
+function isInteger(str) {
+    return /^\+?(0|[1-9]\d*)$/.test(str);
+}
+
 function converExportMessage(mesageCode,key){
     switch (mesageCode){
         case "ERROR_TOTAL_NOT_ENOUGH":

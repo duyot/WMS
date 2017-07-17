@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input id="cmb-status" checked="true" data-toggle="toggle" type="checkbox"/>
+                                    <input id="cmb-status" checked="true" data-toggle="toggle" type="checkbox" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                 <div class="input-group">
                                     <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    <i class="fa  fa-server fa-fw"></i>
+                                                    <i class="fa fa-server fa-fw"></i>
                                                 </span>
                                         <input id="inp-goods-code" class="form-control" type="text"/>
                                     </div>
@@ -149,16 +149,16 @@
 
                         <thead>
                         <tr>
-                            <th  data-formatter="runningFormatter" data-align="center">STT</th>
-                            <th  class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
+                            <th  data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+                            <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
                             <th  class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
-                            <th  class="col-md-1" data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
-                            <th  class="col-md-1" data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
-                            <th  class="col-md-1" data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
-                            <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
-                            <th  class="col-md-1" data-field="inPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
-                            <th  class="col-md-1" data-field="outPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
+                            <th   data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
+                            <th   data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
+                            <th   data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
+                            <th  data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+                            <th   data-field="inPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
+                            <th   data-field="outPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">TT</th>
                         </tr>
                         </thead>
                     </table>
@@ -222,6 +222,8 @@
         search(false);
     });
     //@FUNCTION-----------------------------------------------------------------------------------------------
+    var deletedItem;
+    var deletedItemCode;
     window.operateEvents = {
         'click .update-goods': function (e, value, row, index) {
             clearActionInfo();
@@ -233,42 +235,43 @@
         },
 
         'click .delete-goods': function (e, value, row, index) {
-            clearActionInfo()
+            clearActionInfo();
             $("#lbl-del-info").text('Xóa thông tin: '+ decodeHtml(row['name']));
             $('#myConfirmModal').modal('show');
 
-            $btnDelConfirmed.click(function () {
-                var idVal = row['id'];
-                $.ajax({
-                    type: "POST",
-                    cache:false,
-                    data:{id:idVal},
-                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    url: $btnDel.val(),
-                    dataType: 'text',
-                    timeout: 600000,
-                    success: function (data) {
-                        resultArr = data.split('|');
-                        resultCode = resultArr[0];
-                        resultName = resultArr[1];
-                        if(resultCode == 1){
-                            setInfoMessage($('#action-info'),resultName);
-                        }else{
-                            setErrorMessage($('#action-info'),resultName);
-                        }
-                        search(false);
-
-                    },
-                    error:function(){
-                        setErrorMessage($('#action-info'),'Lỗi hệ thống');
-                    },
-                });
-                //
-                hideModal($('#myConfirmModal'));
-                //
-            });
+            deletedItem     = row['id'];
+            deletedItemCode = row['code'];
         }
     };
+
+    $btnDelConfirmed.click(function () {
+        $.ajax({
+            type: "POST",
+            cache:false,
+            data:{id:deletedItem,code:deletedItemCode},
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $btnDel.val(),
+            dataType: 'text',
+            timeout: 600000,
+            success: function (data) {
+                var resultArr = data.split('|');
+                var resultCode = resultArr[0];
+                var resultName = resultArr[1];
+                if(resultCode == 1){
+                    setInfoMessage($('#action-info'),resultName);
+                }else{
+                    setErrorMessage($('#action-info'),resultName);
+                }
+                search(false);
+            },
+            error:function(){
+                setErrorMessage($('#action-info'),'Lỗi hệ thống');
+            }
+        });
+        //
+        hideModal($('#myConfirmModal'));
+        //
+    });
     //
     function search(isClear){
         if(isClear){
@@ -416,6 +419,14 @@
                 },
                 goodsGroupId: {
                     required: true
+                },
+                inPrice: {
+                    required: true,
+                    number: true
+                },
+                outPrice: {
+                    required: true,
+                    number: true
                 }
             },
             submitHandler: function (form) {

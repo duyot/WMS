@@ -2,6 +2,7 @@ package com.wms.services.impl;
 
 import com.wms.base.BaseDP;
 import com.wms.dto.AuthTokenInfo;
+import com.wms.dto.Condition;
 import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> 
     @Override
     public T findById(Long id,AuthTokenInfo token) {
         return tdp.findById(id,token);
+    }
+
+    @Override
+    public Long countByCondition(List<Condition> lstCondition, AuthTokenInfo token) {
+        return tdp.countByCondition(lstCondition,token);
     }
 
     @Override

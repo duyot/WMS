@@ -233,8 +233,6 @@
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 <!--switch-->
 <script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
-<!--validation-->
-<script th:attr="src=@{/js/jquery.form-validator.min.js}" th:href="@{/js/jquery.form-validator.min.js}"></script>
 <script>
     //---------------------------------------------------------------------
     $table = $('#tbl-export-goods');
@@ -288,7 +286,7 @@
             clearActionInfo();
             $table.bootstrapTable('remove', {
                 field: 'columnId',
-                values: row["columnId"]
+                values: [row["columnId"]]
             });
         }
     };
@@ -566,9 +564,9 @@
             goodsState: goodsState,
             goodsStateValue: goodsStateValue,
             serial:serial,
-            amountValue: amount,
+            amountValue: formatFloatType(amount),
             amount: amount,
-            outputPriceValue: outputPriceValue,
+            outputPriceValue: formatFloatType(outputPriceValue),
             outputPrice: outputPriceValue,
             cellCode: cellCode,
             columnId:columnId
@@ -631,7 +629,7 @@
             goodsStateValue = "Bình thường";
             goodsState = "1";
         }
-        var inputPriceValue = $('#modal-inp-input-price').val();
+        var outputPriceValue = $('#modal-inp-input-price').val();
         var serial = $('#modal-inp-serial').val();
         var cellCode = $('#modal-inp-cell').val();
 
@@ -642,10 +640,10 @@
             goodsState: goodsState,
             goodsStateValue: goodsStateValue,
             serial:serial,
-            amountValue: amount,
+            amountValue: formatFloatType(amount),
             amount: amount,
-            inputPriceValue: inputPriceValue,
-            inputPrice: inputPriceValue,
+            outputPriceValue: formatFloatType(outputPriceValue),
+            outputPrice: outputPriceValue,
             cellCode: cellCode
         }});
         //

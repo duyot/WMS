@@ -4,7 +4,7 @@
 </head>
 <div th:fragment="frag-cat-goods_group-modal">
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-dialog-mini" role="document">
             <form id="cat-goods-group-insert-update-form">
                 <div class="modal-content" id="catUserDTO-modal">
@@ -55,9 +55,18 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button id="modal-btn-update" type="submit"  class="btn btn-primary"  th:text="#{btn.update}" ></button>
-                        <button id="modal-btn-add"    type="submit"    class="btn btn-primary" th:text="#{btn.add}"></button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{btn.close}"></button>
+                        <button id="modal-btn-update" type="submit"  class="btn btn-primary" >
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{btn.update}"></span>
+                        </button>
+                        <button id="modal-btn-add"    type="submit"    class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            <span th:text="#{btn.add}"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
                     </div>
                 </div>
             </form>

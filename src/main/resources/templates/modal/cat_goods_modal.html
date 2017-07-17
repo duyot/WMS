@@ -6,7 +6,7 @@
 
 <div th:fragment="frag-cat-goods-modal">
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
          aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <form id="cat-goods-insert-update-form">
@@ -38,7 +38,7 @@
                                     <div class="col-sm-12">
                                         <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    <i class="fa  fa-server fa-fw"></i>
+                                                    <i class="fa fa-barcode fa-fw"></i>
                                                 </span>
                                             <input id="modal-inp-code" class="form-control" type="text" required="true" name="code" maxlength="50"/>
                                         </div>
@@ -74,7 +74,7 @@
                                     <div class="col-sm-12">
                                         <div class="input-group input-group-combo">
                                             <span class="input-group-addon">
-                                                 <i class="fa  fa-server fa-fw"></i>
+                                                 <i class="fa fa-th-list fa-fw"></i>
                                             </span>
                                             <select id="modal-cmb-goods-unit" class="combobox form-control selectpicker" name="unitType" data-live-search="true"  data-width="100%"
                                                     th:required="true" autocomplete="off">
@@ -98,7 +98,7 @@
                                     <div class="col-sm-12">
                                         <div class="input-group input-group-combo">
                                                 <span class="input-group-addon">
-                                                    <i class="fa  fa-server fa-fw"></i>
+                                                    <i class="fa fa-tasks fa-fw"></i>
                                                 </span>
                                             <select id="modal-cmb-goods-group" class="combobox form-control selectpicker" data-live-search="true"
                                                     data-width="100%" name="goodsGroupId">
@@ -196,9 +196,18 @@
                                 <div class="row row-content" style="float: right;">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <button id="modal-btn-update"  type="submit" class="btn btn-primary" th:text="#{btn.update}" ></button>
-                                            <button id="modal-btn-add"     type="submit" class="btn btn-primary" th:text="#{btn.add}"></button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{btn.close}"></button>
+                                            <button id="modal-btn-update"  type="submit" class="btn btn-primary">
+                                                <i class="fa fa-check"></i>
+                                                <span th:text="#{btn.update}"></span>
+                                            </button>
+                                            <button id="modal-btn-add"     type="submit" class="btn btn-primary">
+                                                <i class="fa fa-plus"></i>
+                                                <span th:text="#{btn.add}"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                <i class="fa fa-close"></i>
+                                                <span th:text="#{btn.close}"></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
