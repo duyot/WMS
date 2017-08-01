@@ -30,7 +30,7 @@ import java.util.*;
 @RequestMapping("/workspace/stock_management/import")
 @Scope("session")
 public class ImportStockController extends BaseController{
-    Logger log = LoggerFactory.getLogger(ImportStockController.class);
+    private Logger log = LoggerFactory.getLogger(ImportStockController.class);
     //
     @Autowired
     StockManagementService stockManagementService;
@@ -43,7 +43,6 @@ public class ImportStockController extends BaseController{
     //
     @ModelAttribute("setGoodsCode")
     public void setGoodsCode(HttpServletRequest request){
-        //
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
@@ -57,10 +56,8 @@ public class ImportStockController extends BaseController{
             for(CatGoodsDTO i: lstGoods){
                 setGoodsCode.add(i.getCode());
             }
-            //
             request.getSession().setAttribute("isGoodsModifiedImportStock",false);
         }
-        //
     }
 
     @ModelAttribute("getStock")
@@ -79,14 +76,6 @@ public class ImportStockController extends BaseController{
         }
     }
 
-    private boolean isGoodsModified(HttpServletRequest request){
-        return (boolean) request.getSession().getAttribute("isGoodsModifiedImportStock");
-    }
-
-    private boolean isStockModified(HttpServletRequest request){
-        return (boolean) request.getSession().getAttribute("isStockModifiedImportStock");
-    }
-    //
     @RequestMapping()
     public String home(Model model){
         model.addAttribute("menuName","menu.importstock");
@@ -105,7 +94,7 @@ public class ImportStockController extends BaseController{
     }
 
     @RequestMapping(value = "/getErrorImportStockFile/{id}")
-    public void getErrorImportStockFile(@PathVariable("id")String stockTransId,HttpServletRequest request,HttpServletResponse response){
+    public void getErrorImportStockFile(@PathVariable("id")String stockTransId, HttpServletResponse response){
         List<Err$MjrStockGoodsSerialDTO> lstGoodsError = getListImportError(stockTransId);
         //
         if(!DataUtil.isListNullOrEmpty(lstGoodsError)){
@@ -116,19 +105,26 @@ public class ImportStockController extends BaseController{
         }
     }
 
-    @RequestMapping(value = "/isSerial/{code}")
-    public @ResponseBody CatGoodsDTO isSerial(@PathVariable("code")String code){
+    @RequestMapping(value = "/isSerial",method = RequestMethod.GET)
+    public @ResponseBody CatGoodsDTO isSerial(@RequestParam("code")String code){
         CatGoodsDTO catGoodsDTO = mapGoodsCodeGoods.get(code);
         catGoodsDTO.setInPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getInPrice()));
         catGoodsDTO.setOutPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getOutPrice()));
         return catGoodsDTO;
     }
 
-    @RequestMapping(value = "/getCells/{stockId}")
-    public @ResponseBody List<CatStockCellDTO> getCellByStock(@PathVariable("stockId")String stockId){
+    @RequestMapping(value = "/getCells")
+    public @ResponseBody List<CatStockCellDTO> getCellByStock(@RequestParam("stockId")String stockId){
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,stockId));
         return catStockCellService.findByCondition(lstCon,tokenInfo);
+    }
+
+    @RequestMapping(value = "/getListSerialInStock")
+    public @ResponseBody List<String> getListSerialInStock(@RequestParam("stockId")String stockId,
+                                                           @RequestParam("goodsId")String goodsId,@RequestParam("goodsState")String goodsState
+                                                           ){
+        return stockManagementService.getListSerialInStock(selectedCustomer.getId(),stockId,goodsId,goodsState,tokenInfo);
     }
 
 
@@ -172,14 +168,10 @@ public class ImportStockController extends BaseController{
 
     private StockTransDTO initStockTrans(StockManagementDTO stockManagementDTO,String sysdate){
         StockTransDTO stockTrans = new StockTransDTO();
-        //
         MjrStockTransDTO mjrStockTransDTO = initMjrStockTrans(stockManagementDTO.getMjrStockTransDTO(),sysdate);
-        //
         stockTrans.setMjrStockTransDTO(mjrStockTransDTO);
-        //
         List<MjrStockTransDetailDTO> lstStockTransDetails = initListTransDetail(stockManagementDTO.getLstGoods());
         stockTrans.setLstMjrStockTransDetail(lstStockTransDetails);
-        //
         return stockTrans;
     }
 
@@ -209,5 +201,13 @@ public class ImportStockController extends BaseController{
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
         //
         return mjrStockTransDTO;
+    }
+
+    private boolean isGoodsModified(HttpServletRequest request){
+        return (boolean) request.getSession().getAttribute("isGoodsModifiedImportStock");
+    }
+
+    private boolean isStockModified(HttpServletRequest request){
+        return (boolean) request.getSession().getAttribute("isStockModifiedImportStock");
     }
 }

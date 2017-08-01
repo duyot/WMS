@@ -33,7 +33,7 @@ public class WorkSpaceController {
         if(isLogin == null){
             return "index";
         }
-        return "workspace/wms";
+        return "workspace/dashboard";
     }
 
     @ModelAttribute("lstCustomers")

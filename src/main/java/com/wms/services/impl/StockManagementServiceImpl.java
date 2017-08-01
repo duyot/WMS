@@ -8,6 +8,8 @@ import com.wms.services.interfaces.StockManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by duyot on 2/16/2017.
  */
@@ -17,13 +19,17 @@ public class StockManagementServiceImpl implements StockManagementService{
     StockManagementDP stockManagementDP;
 
 
-    @Override
     public ResponseObject importStock(StockTransDTO stockTrans, AuthTokenInfo tokenInfo) {
         return stockManagementDP.importStock(stockTrans,tokenInfo);
     }
 
-    @Override
     public ResponseObject exportStock(StockTransDTO stockTrans,AuthTokenInfo tokenInfo) {
         return stockManagementDP.exportStock(stockTrans,tokenInfo);
+
+    }
+
+    @Override
+    public List<String> getListSerialInStock(String custId, String stockId, String goodsId, String goodsState,AuthTokenInfo tokenInfo){
+        return stockManagementDP.getListSerialInStock(custId,stockId,goodsId,goodsState,tokenInfo);
     }
 }

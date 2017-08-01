@@ -139,6 +139,7 @@ public class FunctionUtils {
                 temp.setOutputPrice(i.getOutputPrice());
                 temp.setStatusValue(mapAppStockStatus.get(i.getStatus()));
                 temp.setStockId(i.getStockId());
+                temp.setCellCode(i.getCellCode());
                 //
                 lstResult.add(temp);
             }

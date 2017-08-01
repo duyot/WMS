@@ -11,7 +11,7 @@
     <link rel='stylesheet' href="css/style.css" th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
     <link rel="stylesheet" href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-
+    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" href="/css/bootstrap-toggle.css" th:href="@{/css/bootstrap-toggle.css}"/>
     <!--script-->
@@ -23,6 +23,7 @@
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
     <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrapbootstrap-select.min.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}"  th:href="@{/js/nprogress.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <script th:attr="src=@{/js/jquery.validate.min.js}"  th:href="@{/js/jquery.validate.min.js}"></script>
@@ -65,7 +66,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input id="cmb-status" checked="true" data-toggle="toggle" type="checkbox" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
+                                    <input id="cmb-status" checked="true" data-toggle="toggle" data-width="110" type="checkbox" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +143,6 @@
                             data-pagination="true"
                             data-search="true"
                             data-click-to-select="true"
-                            data-show-columns="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
                     >
@@ -158,7 +158,7 @@
                             <th  data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
                             <th   data-field="inPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
                             <th   data-field="outPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">TT</th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
                         </thead>
                     </table>
@@ -274,6 +274,9 @@
     });
     //
     function search(isClear){
+        //
+        NProgress.start();
+        //
         if(isClear){
             clearActionInfo()
         }
@@ -295,6 +298,9 @@
             timeout: 600000,
             success: function (data) {
                 $table.bootstrapTable('load', data);
+            },
+            complete: function () {
+                NProgress.done();
             }
         });
     }
@@ -385,7 +391,16 @@
             }
         });
     });
-    //@SEARCH ACTION------------------------------------------------------------------------------------------------
+    //@SEARCH ACTION----------------------------------------------------------------------------------------------------
+    //for enter press ->
+    $('#inp-goods-code').keypress(function (e) {
+        var key = e.which;
+        if(key == 13)  // the enter key code
+        {
+            search(true);
+        }
+    });
+    //
     var $btnSearch = $('#btn-search-goods');
     $btnSearch.click(function () {
         search(true);
@@ -510,7 +525,7 @@
             }else{
                 $('#modal-cmb-serial').bootstrapToggle('on');
             }
-            $("#div-status *").prop('disabled',false);
+            enableElement($('#modal-cmb-status'));
             showUpdate();
         }
     }

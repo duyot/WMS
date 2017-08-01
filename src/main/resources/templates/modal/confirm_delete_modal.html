@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-confirm-delete-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="deleteConfirmModal" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document"  style="width:300px">
+                <div class="modal-content" id="catUserDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{modal.label.confirm}">Confirm</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <p id="modal-del-lbl-del-info"></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-del-btn-ok" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{btn.ok}"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

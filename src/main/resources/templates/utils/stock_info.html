@@ -11,7 +11,7 @@
     <link rel='stylesheet'  th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
     <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-
+    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
     <!--script-->
@@ -23,6 +23,7 @@
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
     <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}"  th:href="@{/js/nprogress.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <!--<script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>-->
@@ -135,13 +136,8 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-refresh-table" type="button"
-                                class="btn btn-default" th:title="#{tooltip.cleartabble}" >
-                            <i class="fa fa-refresh"></i>
-                        </button>
-
                         <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/stockInfo/getTotalFile}">
-                            <i class="fa fa-download"></i>
+                            <i class="fa fa-file-excel-o"></i>
                         </a>
 
                         <label class="action-info action-info-link" id="action-info"></label>
@@ -151,7 +147,6 @@
                             data-side-pagination="client"
                             data-search="true"
                             data-click-to-select="true"
-                            data-show-columns="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
                             style="word-wrap: break-word;  table-layout: fixed;"
@@ -170,7 +165,7 @@
                             <th data-field="stockId" data-align="right" data-sortable="true"></th>
                             <th data-field="goodsState" data-align="right" data-sortable="true"></th>
                             <th data-field="goodsId" data-align="right" data-sortable="true"></th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
                         </thead>
                     </table>
@@ -233,13 +228,10 @@
     //
     window.operateEvents = {
         'click .view-goods-detail': function (e, value, row, index) {
-            //get goods detail info
-            //$body.addClass("loading");
             $("#hidden-stock-id").val(row["stockId"]);
             $("#hidden-goods-id").val(row["goodsId"]);
             $("#hidden-state-id").val(row["goodsState"]);
             //
-            //$tableGoodsDetail.bootstrapTable('refresh',{ a:row["stockId"],b:row["goodsId"],c:row["goodsState"],limit: 6,offset: 0});
             $tableGoodsDetail.bootstrapTable('refresh');
             //
             var $downloadLink = $('#link-download-goods-detail');
@@ -248,8 +240,11 @@
                 originalLink = trimAtChacter(originalLink,"?");
             }
             $downloadLink.attr("href",originalLink +"?stockId="+row['stockId']);
+            //
+            $("#modal-lbl-goods-name-val").text(row["goodsCode"] + " - "+row["goodsName"] );
+            $("#modal-lbl-stock-name-val").text(row["stockName"]);
+            //
             showModal($('#goods-detail-modal'));
-            //$body.removeClass("loading");
         }
     };
     //@FUNCTION-----------------------------------------------------------------
@@ -261,10 +256,10 @@
     });
 
     function search(){
+        NProgress.start();
         var stock_id = $('#cmb-stock').val();
         var goods_id = $('#cmb-goods').val();
         var statusVal =  $('#cmb-status').val();
-//        $table.bootstrapTable('refresh',{ stockId:stock_id,goodsId:goods_id,status:statusVal,limit: 5,offset: 0});
         $.ajax({
             type: "GET",
             cache:false,
@@ -275,19 +270,13 @@
             timeout: 600000,
             success: function (data) {
                 $table.bootstrapTable('load', data);
-                if(isTableEmpty($table)){
-                    setInfoMessage($('#action-info'),"Không tìm thấy dữ liệu");
-                }
+            },
+            complete:function () {
+                NProgress.done();
             }
         });
 
     }
-    //@Refresh table----------------------------------------------------------
-    $('#btn-refresh-table').click(function () {
-        $table.bootstrapTable('removeAll');
-        $("#action-info").text('');
-        //
-    });
     //-------------------------------------------------------------------------
 </script>
 </body>

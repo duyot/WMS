@@ -33,8 +33,6 @@ public class DashBoardController extends BaseController{
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
     }
-
-
     //
     @ModelAttribute("selectedCustomer")
     public void setSelectedCustomer(HttpServletRequest request){

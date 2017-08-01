@@ -41,21 +41,35 @@ function runningFormatter(value, row, index) {
 }
 
 function unFormatFloat(value) {
-    return value.replace(",","");
+    return replaceAll(value,",","");
 }
 
+function replaceAll(value,search, replacement) {
+    return value.replace(new RegExp(search, 'g'), replacement);
+};
+
 function formatFloatType(text) {
-    return text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
 }
 
 function setInfoMessage(object,value) {
     object.text(value);
     object.css('color','#337ab7');
+    //
+    object.fadeIn();
+    setTimeout(function() {
+        object.fadeOut('fast');
+    }, 3000);
 }
 
 function setErrorMessage(object,value) {
     object.text(value);
     object.css('color','#F44336');
+    //
+    object.fadeIn();
+    setTimeout(function() {
+        object.fadeOut('fast');
+    }, 3000);
 }
 
 function isTableEmpty(object) {

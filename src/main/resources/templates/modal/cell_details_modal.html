@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-cell-detail-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="cells-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
+         aria-labelledby="myModalLabel" aria-hidden="true" th:width="250px">
+        <div class="modal-dialog" role="document" style="width:85%">
+                <div class="modal-content" id="catUserDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{modal.label.celldetail}"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <div class="panel-body" style="padding: 0.2em 0.4em;">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label id="lbl-stock-name" class="require"></label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label th:text="#{lbl.cellCode}" class="require" style="padding-right: 20px"></label>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <input id="inp-cell-code" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="wrapper text-center" style="text-align: center; margin-top: 5px">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-default  btn-primary"
+                                                id="btn-add-cell" th:value="@{/workspace/cat_stock_ctr/addCell}">
+                                            <i class="fa fa-plus"></i>
+                                            <span th:text="#{btn.add}"></span>
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                                <div id="modal-cells-detail-toolbar" class="btn-group">
+                                    <button id="btn-delete-cell" th:value="@{/workspace/cat_stock_ctr/deleteCell}" type="button" class="btn btn-default btn-hide">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    <label id="cell-action-info" class="action-info"></label>
+                                </div>
+
+                                <table  id="tbl-cells"
+                                        data-pagination="true"
+                                        data-side-pagination="client"
+                                        data-toolbar="#modal-cells-detail-toolbar"
+                                        class="table-striped"
+                                        style="word-wrap: break-word;  table-layout: fixed;"
+                                >
+
+                                    <thead>
+                                    <tr>
+                                        <th data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+                                        <th class="col-md-4" data-field="id" data-align="left" data-sortable="true">Id</th>
+                                        <th class="col-md-6" data-field="code" data-align="left" data-sortable="true">Mã</th>
+                                        <th data-align="center"  data-events="operateEvents" data-formatter="cellOperateFormatter" th:text="#{lbl.action}"></th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-add" class="btn btn-primary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

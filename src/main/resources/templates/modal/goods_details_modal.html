@@ -17,7 +17,25 @@
                     </div>
                     <div class="modal-body">
                         <div class="container-modal">
-                            <div class="panel-body" style="padding: 0.2em 0.4em;">
+                            <div class="panel-body" style="padding: 0em 0.4em;">
+                                    <div class="row" style="margin-bottom: 10px">
+                                        <div class="col-sm-3">
+                                            <label id="lbl-goods-name" th:text="#{lbl.goodsCode}"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <label id="modal-lbl-goods-name-val"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                                <label id="lbl-stock-name" th:text="#{lbl.stock}"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <label id="modal-lbl-stock-name-val"></label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <div id="modal-goods-detail-toolbar" class="btn-group">
                                     <a class="btn btn-default" id="link-download-goods-detail" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/stockInfo/getGoodsDetailFile}">
                                         <i class="fa fa-download"></i>
@@ -29,7 +47,6 @@
                                         data-side-pagination="server"
                                         data-search="true"
                                         data-click-to-select="true"
-                                        data-show-columns="true"
                                         data-toolbar="#modal-goods-detail-toolbar"
                                         class="table-striped"
                                         style="word-wrap: break-word;  table-layout: fixed;"
@@ -38,16 +55,11 @@
                                     <thead>
                                     <tr>
                                         <th data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
-                                        <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã</th>
-                                        <th class="col-md-2" data-field="goodsName" data-align="left" data-sortable="true">Tên</th>
                                         <th data-field="serial" data-align="left" data-sortable="true">Serial</th>
                                         <th data-field="goodsStateValue" data-align="left" data-sortable="true">TT</th>
-                                        <th data-field="statusValue" data-align="left" data-sortable="true">TT Kho</th>
                                         <th data-field="amountValue" data-align="right" data-sortable="true">SL</th>
                                         <th data-field="importDate" data-align="right" data-sortable="true">TG nhập</th>
-                                        <th data-field="exportDate" data-align="right" data-sortable="true">TG xuất</th>
                                         <th data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
-                                        <th data-field="outputPriceValue" data-align="right" data-sortable="true">Giá xuất</th>
                                     </tr>
                                     </thead>
                                 </table>

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
+import com.wms.dto.CatStockCellDTO;
 import com.wms.dto.CatStockDTO;
 import com.wms.dto.Condition;
 import com.wms.dto.ResponseObject;
@@ -38,6 +39,9 @@ public class CatStockController extends BaseCommonController{
     @Autowired
     BaseService mjrStockGoodsTotalService;
 
+    @Autowired
+    BaseService catStockCellService;
+
     @RequestMapping()
     public String home(Model model){
         model.addAttribute("menuName","menu.catstock");
@@ -65,6 +69,39 @@ public class CatStockController extends BaseCommonController{
         }
 
         return lstCatStock;
+    }
+
+    @RequestMapping(value = "/getCells",method = RequestMethod.GET)
+    public  @ResponseBody List<CatStockCellDTO> getCells(@RequestParam("stockId")String stockId){
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,stockId));
+        lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
+
+        List<CatStockCellDTO> lstCells = catStockCellService.findByCondition(lstCon,tokenInfo);
+        return lstCells;
+    }
+
+    @RequestMapping(value = "/addCell",method = RequestMethod.POST)
+    public @ResponseBody String addCell(@RequestParam("stockId")String stockId,@RequestParam("code")String code){
+        CatStockCellDTO cell = new CatStockCellDTO();
+        cell.setStockId(stockId);
+        cell.setCode(code);
+        ResponseObject response = catStockCellService.add(cell,tokenInfo);
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+            return "1|Thêm mới thành công";
+        }else{
+            return "0|Thông tin đã có trên hệ thống";
+        }
+    }
+
+    @RequestMapping(value = "/deleteCell",method = RequestMethod.POST)
+    public @ResponseBody String deleteCell(@RequestParam("id")String id){
+        ResponseObject response = catStockCellService.delete(Long.parseLong(id),tokenInfo);
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+            return "1|Xóa thành công";
+        }else{
+            return "0|Xóa không thành công";
+        }
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
@@ -119,7 +156,7 @@ public class CatStockController extends BaseCommonController{
         try {
             //
             if (isUsed(id)) {
-                return "0|Xoá không thành công: hàng đã được sử dụng";
+                return "0|Xoá không thành công: kho đã được sử dụng";
             }
             //
             Long idL = Long.parseLong(id);
@@ -140,7 +177,7 @@ public class CatStockController extends BaseCommonController{
                 return "0|Xoá không thành công";
             }
         } catch (NumberFormatException e) {
-            return "0|Xoá không thành công lỗi convert long";
+            return "0|Xoá không thành công";
         }
     }
 

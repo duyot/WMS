@@ -115,8 +115,8 @@ public class ExportStockController extends BaseController{
         }
     }
 
-    @RequestMapping(value = "/isSerial/{code}")
-    public @ResponseBody CatGoodsDTO isSerial(@PathVariable("code")String code){
+    @RequestMapping(value = "/isSerial")
+    public @ResponseBody CatGoodsDTO isSerial(@RequestParam("code")String code){
         CatGoodsDTO catGoodsDTO = mapGoodsCodeGoods.get(code);
         catGoodsDTO.setInPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getInPrice()));
         catGoodsDTO.setOutPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getOutPrice()));

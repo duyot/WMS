@@ -11,8 +11,7 @@
     <link rel='stylesheet' href="css/style.css" th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
     <link rel="stylesheet" href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-
-    <link rel="stylesheet" href="/css/bootstrap-combobox.css" th:href="@{/css/bootstrap-combobox.css}"/>
+    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
     <link rel="stylesheet" href="/css/bootstrap-toggle.css" th:href="@{/css/bootstrap-toggle.css}"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -23,8 +22,8 @@
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
-    <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
     <script th:attr="src=@{/js/jquery.validate.min.js}"  th:href="@{/js/jquery.validate.min.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}"  th:href="@{/js/nprogress.js}"></script>
     <!--confirmation-->
     <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
@@ -65,7 +64,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input id="cmb-status" checked="true" data-toggle="toggle" type="checkbox"/>
+                                    <input id="cmb-status" checked="true" data-toggle="toggle" data-width="110" type="checkbox" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +76,7 @@
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-default  btn-primary"
-                                    id="btn-search-cat-group" th:value="@{/workspace/cat_stock_ctr/findByCondition}">
+                                    id="btn-search" th:value="@{/workspace/cat_stock_ctr/findByCondition}">
                                 <i class="fa fa-search"></i>
                                 <span th:text="#{btn.search}"></span>
                             </button>
@@ -103,14 +102,15 @@
                         <button id="btn-delete" th:value="@{/workspace/cat_stock_ctr/delete}" type="button" class="btn btn-default btn-hide">
                             <i class="fa fa-trash"></i>
                         </button>
-
+                        <button id="btn-cells" th:value="@{/workspace/cat_stock_ctr/getCells}" type="button" class="btn btn-default btn-hide">
+                            <i class="fa fa-trash"></i>
+                        </button>
                         <label id="action-info" class="action-info"></label>
                     </div>
                     <table  id="tbl-stock"
                             data-pagination="true"
                             data-search="true"
                             data-click-to-select="true"
-                            data-show-columns="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
                     >
@@ -118,11 +118,12 @@
                         <thead>
                         <tr>
                             <th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                            <th  data-field="id" data-align="left" data-sortable="true"></th>
                             <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.stockCode}"></th>
                             <th  class="col-md-2" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.stockName}"></th>
                             <th  class="col-md-5" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
                             <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
                         </thead>
                     </table>
@@ -131,8 +132,9 @@
         </div>
     </div>
     <!--modal-->
-        <div th:include="modal/cat_stock_modal :: frag-cat-stock-modal"></div>
+    <div th:include="modal/cat_stock_modal :: frag-cat-stock-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
+    <div th:include="modal/cell_details_modal :: frag-cell-detail-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -147,13 +149,23 @@
     function runningFormatter(value, row, index) {
         return index +1;
     }
-
     function operateFormatter(value, row, index) {
         return [
             '<a class="update-stock row-function" href="javascript:void(0)" title="Sửa">',
             '<i class="fa fa-pencil-square-o"></i>',
             '</a> ',
+            '<a class="show-cell row-function" href="javascript:void(0)" title="Vị trí">',
+            '<i class="fa fa-braille"></i>',
+            '</a> ',
             '<a class="delete-stock row-function" href="javascript:void(0)" title="Xóa">',
+            '<i class="fa fa-trash"></i>',
+            '</a> '
+        ].join('');
+    }
+
+    function cellOperateFormatter(value, row, index) {
+        return [
+            '<a class="delete-cell row-function" href="javascript:void(0)" title="Xóa">',
             '<i class="fa fa-trash"></i>',
             '</a> '
         ].join('');
@@ -161,24 +173,32 @@
     //
     var dataInit = [
     ];
-
+    //
+    var $tblStock = $('#tbl-stock');
+    var $tblCells = $('#tbl-cells');
+    var $modalInsertUpdateStock = $('#stockModal');
+    var $modalCells = $('#cells-modal');
+    var $btnDel = $('#btn-delete');
+    var $btlDelCell = $('#btn-delete-cell');
+    var $btn_update = $('#btn-update');
+    var $btnDelConfirmed = $('#modal-btn-del-ok');
+    var selectedStockId;
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $tblStock.bootstrapTable({
-            data: dataInit
+            data: dataInit,
+            pageSize:10
         });
 
-        $('.combobox').combobox();
+        $tblCells.bootstrapTable({
+            data: dataInit,
+            pageSize:5
+        });
 
+        $tblStock.bootstrapTable('hideColumn', 'id');
         //fill data to table
         search(false);
     });
-    //
-    $tblStock = $('#tbl-stock');
-    $modalInsertUpdateStock = $('#stockModal');
-    var $btnDel = $('#btn-delete');
-    $btn_update = $('#btn-update');
-    var $btnDelConfirmed = $('#modal-btn-del-ok');
     //row function------------------------------------------------------------------------------------------------------
     var deleteItem;
     var deleteItemCode;
@@ -192,14 +212,66 @@
             });
         },
 
+        'click .show-cell': function (e, value, row, index) {
+            selectedStockId = row['id'];
+            $('#lbl-stock-name').text('Kho ' + row['name']);
+            $('#inp-cell-code').val('');
+            $('#inp-cell-code').focus();
+            //
+            loadListCell(selectedStockId);
+            //
+            showModal($modalCells);
+            //
+        },
+
         'click .delete-stock': function (e, value, row, index) {
             clearActionInfo();
             $("#lbl-del-info").text('Xóa thông tin: '+ decodeHtml(row['name']));
             $('#myConfirmModal').modal('show');
             deleteItem     = row['id'];
             deleteItemCode = row['code'];
+        },
+
+        'click .delete-cell': function (e, value, row, index) {
+            $.ajax({
+                type: "POST",
+                cache:false,
+                data:{id:row['id']},
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                url: $btlDelCell.val(),
+                dataType: 'text',
+                timeout: 600000,
+                success: function (data) {
+                    var resultArr = data.split('|');
+                    var resultCode = resultArr[0];
+                    var resultName = resultArr[1];
+                    if(resultCode == 1){
+                        setInfoMessage($('#cell-action-info'),resultName);
+                        //remove item in table
+                        loadListCell(selectedStockId);
+                        //
+                    }else{
+                        setErrorMessage($('#cell-action-info'),resultName);
+                    }
+                }
+            });
         }
     };
+
+    function loadListCell(stockId) {
+        $.ajax({
+            type: "GET",
+            cache:false,
+            data:{stockId:stockId},
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $('#btn-cells').val(),
+            dataType: 'json',
+            timeout: 600000,
+            success: function (data) {
+                $tblCells.bootstrapTable('load', data);
+            }
+        });
+    }
 
     $btnDelConfirmed.click(function () {
         $.ajax({
@@ -211,9 +283,9 @@
             dataType: 'text',
             timeout: 600000,
             success: function (data) {
-                resultArr = data.split('|');
-                resultCode = resultArr[0];
-                resultName = resultArr[1];
+                var resultArr = data.split('|');
+                var resultCode = resultArr[0];
+                var resultName = resultArr[1];
                 if(resultCode == 1){
                     setInfoMessage($('#action-info'),resultName);
                 }else{
@@ -230,19 +302,20 @@
         $('#myConfirmModal').modal('hide');
         //
     });
-    //-----------------------------------------------------------------------------------------------
+    //@SEARCH ACTION------------------------------------------------------------------------------------------------
     function search(isClear){
+        NProgress.start();
+        //
         if(isClear){
             clearActionInfo()
         }
-
         var statusVal;
         if($('#cmb-status').prop('checked')){
             statusVal = '1';
         }else{
             statusVal = '0';
         }
-
+        //
         $.ajax({
             type: "GET",
             cache:false,
@@ -254,10 +327,13 @@
             success: function (data) {
                 $tblStock.bootstrapTable('load', data);
             },
+            complete: function () {
+                NProgress.done();
+            }
         });
     }
-    //@SEARCH ACTION------------------------------------------------------------------------------------------------
-    var $btnSearch = $('#btn-search-cat-group');
+
+    var $btnSearch = $('#btn-search');
     $(function () {
         $btnSearch.click(function () {
             search(true);
@@ -274,6 +350,34 @@
                 $('#modal-inp-code').focus();
             });
         });
+    });
+    //add cell
+    $btn_add_cell = $('#btn-add-cell');
+    $btn_add_cell.click(function () {
+        var cellCode = $('#inp-cell-code').val().trim();
+        if (cellCode == '') {
+            alert("Nhập vào mã vị trí");
+            return;
+        }
+        //
+        $.ajax({
+            type: "POST",
+            url: $btn_add_cell.val(),
+            data: {code:cellCode, stockId: selectedStockId},
+            success: function (data) {
+                var resultArr = data.split('|');
+                var resultCode = resultArr[0];
+                var resultName = resultArr[1];
+                if(resultCode == 1){
+                    setInfoMessage($('#cell-action-info'),resultName);
+                    //refresh list
+                    loadListCell(selectedStockId);
+                }else{
+                    setErrorMessage($('#cell-action-info'),resultName);
+                }
+            }
+        });
+
     });
     //------------------------------------------------------------------------------------------------
     $(document).ready(function () {
@@ -296,9 +400,9 @@
                     url: $("#stock-insert-update-form").attr('action'),
                     data: $(form).serialize(),
                     success: function (data) {
-                        resultArr = data.split('|');
-                        resultCode = resultArr[0];
-                        resultName = resultArr[1];
+                        var resultArr = data.split('|');
+                        var resultCode = resultArr[0];
+                        var resultName = resultArr[1];
                         if(resultCode == 1){
                             setInfoMessage($('#action-info'),resultName);
                         }else{
@@ -310,7 +414,7 @@
                     },
                     error:function(){
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');
-                    },
+                    }
                 });
                 //
                 hideModal($modalInsertUpdateStock);
@@ -348,6 +452,5 @@
         }
     }
 </script>
-
 </body>
 </html>

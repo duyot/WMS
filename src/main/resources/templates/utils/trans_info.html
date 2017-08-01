@@ -11,7 +11,7 @@
     <link rel='stylesheet'  th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
     <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-
+    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
     <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
@@ -27,6 +27,7 @@
     <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
     <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
     <script th:attr="src=@{/js/daterangepicker.js}" th:href="@{/js/daterangepicker.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}"  th:href="@{/js/nprogress.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <!--common-->
@@ -50,7 +51,7 @@
                     <i class="fa fa-search"></i>
                 </div>
                 <div class="panel-body">
-                    <form>
+                    <!--<form>-->
                         <div class="container">
                             <!--row 1: customer + stock-->
                             <div class="row">
@@ -135,7 +136,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    <!--</form>-->
                     <div class="wrapper text-center" style="text-align: center; margin:3px">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-default  btn-primary"
@@ -157,22 +158,15 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-refresh-table" type="button"
-                                class="btn btn-default" th:title="#{tooltip.cleartabble}" >
-                            <i class="fa fa-refresh"></i>
-                        </button>
-
                         <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/trans_info/getListTransFile}">
-                            <i class="fa fa-download"></i>
+                            <i class="fa fa-file-excel-o"></i>
                         </a>
-
                         <label class="action-info action-info-link" id="action-info"></label>
                     </div>
                     <table  id="tbl-stock-info"
                             data-pagination="true"
                             data-search="true"
                             data-click-to-select="true"
-                            data-show-columns="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
                             style="word-wrap: break-word;  table-layout: fixed;"
@@ -181,12 +175,11 @@
                         <thead>
                         <tr>
                             <th data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
-                            <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-width="80px">Mã</th>
-                            <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" data-width="250px">Code</th>
+                            <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" data-width="250px">Mã phiếu</th>
                             <th data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
-                            <th data-field="typeValue" data-align="left" data-sortable="true" data-width="80px">GD</th>
-                            <th data-field="createdDate" data-align="right" data-sortable="true">Ngày tạo</th>
-                            <th data-field="createdUser" data-align="right" data-sortable="true">Người tạo</th>
+                            <th data-field="typeValue" data-align="left" data-sortable="true" data-width="100px">Loại GD</th>
+                            <th data-field="createdDate" data-align="center" data-sortable="true">Ngày tạo</th>
+                            <th data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>
                             <th data-field="contractNumber" data-align="right" data-sortable="true">Số HD</th>
                             <th data-field="invoiceNumber" data-align="right" data-sortable="true">Số invoice</th>
                         </tr>
@@ -225,12 +218,22 @@
         initDateRangeSelect();
     });
     //@Search-----------------------------------------------------------------
+    $('#inp-trans-code').keypress(function (e) {
+        var key = e.which;
+        if(key == 13)  // the enter key code
+        {
+            search();
+        }
+    });
     var $btnSearch = $('#btn-search-serial');
     $btnSearch.click(function () {
         search();
     });
 
     function search(){
+        //
+        NProgress.start();
+        //
         $("#action-info").text('');
         //search info stock_id/goods_group/goods/serial
         var stock_id = $('#cmb-stock').val();
@@ -251,18 +254,12 @@
             timeout: 600000,
             success: function (data) {
                 $table.bootstrapTable('load', data);
-                if(isTableEmpty($table)){
-                    setInfoMessage($('#action-info'),"Không tìm thấy dữ liệu");
-                }
+            },
+            complete:function () {
+                NProgress.done();
             }
         });
     }
-    //@Refresh table----------------------------------------------------------
-    $('#btn-refresh-table').click(function () {
-        $table.bootstrapTable('removeAll');
-        $("#action-info").text('');
-        //
-    });
     //-------------------------------------------------------------------------
 </script>
 </body>

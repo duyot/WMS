@@ -4191,7 +4191,7 @@ div#container-rpm1{
     margin: 0 auto;
 }
 .panel-body {
-    padding:0.8em 1.8em;
+    padding:0.8em 0.6em;
 }
 button.rew:hover {
 	border-color: #ccc !important;

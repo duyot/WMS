@@ -118,7 +118,7 @@
                                         <span class="input-group-addon">
                                                 <i class="fa fa-sticky-note fa-fw"></i>
                                             </span>
-                                        <textarea id="inp-contract-note" class="form-control error" th:rows="2"
+                                        <textarea id="inp-contract-note" class="form-control" th:rows="2"
                                                   data-validation="length" data-validation-length="max500"
                                                   data-validation-error-msg="Quá số kí tự cho phép(500)"
                                         ></textarea>
@@ -186,7 +186,7 @@
                         </button>
                         <button id="btn-refresh-table" th:href="@{/workspace/stock_management/import/getFile}" type="button"
                                 class="btn btn-default" th:title="#{tooltip.cleartabble}" >
-                            <i class="fa  fa-refresh"></i>
+                            <i class="fa fa-trash"></i>
                         </button>
 
                         <label class="toolbar-label-info" id="import-action-info"></label>
@@ -196,7 +196,6 @@
                             data-pagination="true"
                             data-search="true"
                             data-click-to-select="true"
-                            data-show-columns="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
                             style="word-wrap: break-word;  table-layout: fixed;"
@@ -213,7 +212,7 @@
                             <th   data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
                             <th   data-field="cellCode" data-align="left" data-sortable="true">Vị trí</th>
                             <th   data-field="columnId" data-align="left" data-sortable="true" >ColumnId</th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter">Thao tác</th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
                         </thead>
                     </table>
@@ -227,6 +226,7 @@
     <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
     <div th:include="modal/import_stock_add_goods_modal :: frag-add-goods-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
+    <div th:include="modal/confirm_delete_modal :: frag-confirm-delete-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -237,11 +237,13 @@
 <!--switch-->
 <script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
 <script>
-    //---------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------
     $table = $('#tbl-import-goods');
     $modalAddImportGoods = $('#myModal');
     var dataInit = [
     ];
+    selectedIndex = -1;
+    //-------------------------------------------------------------------------------------------------------
     function operateFormatter(value, row, index) {
         return [
             '<a class="update-goods row-function" href="javascript:void(0)" title="Sửa">',
@@ -261,7 +263,7 @@
         $table.bootstrapTable('hideColumn', 'goodsId');
         $table.bootstrapTable('hideColumn', 'isSerial');
         //
-        selectedIndex = -1;
+
         $table.bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
             selectedIndex = $element.attr('data-index');
         });
@@ -345,9 +347,9 @@
             return;
         }
         var stockIdValue = $('#cmb-stock').val();
-    if(stockIdValue == null){
-        alert('Chưa có thông tin kho nhập!');
-        return;
+        if(stockIdValue == null){
+            alert('Chưa có thông tin kho nhập!');
+            return;
         }
         //
         $("#lbl-del-info").text('Nhập hàng lên hệ thống?');
@@ -410,26 +412,28 @@
     var $btnAdd = $('#btn-add');
     $(function () {
         $btnAdd.click(function () {
+            $('#modal-add-result').text('');
             changeModelByType(true,null);
             //
             var isSerial;
             var price;
             //
             $.ajax({
-                url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
+                type: "GET",
+                url: $('#btn-check-serial').val(),
+                data:{code:$('#modal-cmb-goods').val()},
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 cache: false,
-                contentType: false,
-                processData: false,
+                dataType: 'json',
                 async:false,
-                type: 'GET',
                 success: function(data){
                     isSerial = data["isSerial"];
                     price = data["inPrice"];
-                },
+                }
             });
             //
             showElementBySerialType(isSerial);
-            $('#modal-inp-input-price').val(price);
+            $('#modal-inp-input-price').val(formatFloatType(price));
             $('#modal-label-inp-input-price').text(DOCSO.doc(price));
             //
             showModal($('#myModal'));
@@ -437,6 +441,14 @@
     });
     //for enter press ->
     $('#modal-inp-serial').keypress(function (e) {
+        var key = e.which;
+        if(key == 13)  // the enter key code
+        {
+            addImportGoods();
+        }
+    });
+
+    $('#modal-inp-amount').keypress(function (e) {
         var key = e.which;
         if(key == 13)  // the enter key code
         {
@@ -461,10 +473,10 @@
         var goods_code;
         //
         $.ajax({
-            url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
+            url: $('#btn-check-serial').val(),
+            data:{code:$('#modal-cmb-goods').val()},
             cache: false,
             contentType: false,
-            processData: false,
             async:false,
             type: 'GET',
             success: function(data){
@@ -488,7 +500,7 @@
         //get data
         var goodsCode = $('#modal-cmb-goods').val();
         var goodsName = $("#modal-cmb-goods option:selected").text();
-        var amount = $('#modal-inp-amount').val().trim();
+        var amount = unFormatFloat($('#modal-inp-amount').val().trim());
         if(!isInteger(amount)){
             alert("Số lượng phải là số dương");
             return;
@@ -499,10 +511,10 @@
             goodsStateValue = "Bình thường";
             goodsState = "1";
         }
-        var inputPriceValue = $('#modal-inp-input-price').val();
+        var inputPriceValue = unFormatFloat($('#modal-inp-input-price').val());
         if(!isInteger(inputPriceValue)){
             alert("Giá nhập phải là số dương");
-            return;;
+            return;
         }
         var serial =   escapeHtml($('#modal-inp-serial').val());
         var cellCode = escapeHtml($('button[data-id=modal-cmb-cells]').attr('title'));
@@ -529,6 +541,12 @@
         $table.bootstrapTable('append', rows);
         enableElement($('#btn-import'));
         $('#modal-inp-serial').val('');
+        $('#modal-add-result').text("Bổ sung thành công");
+        $('#modal-add-result').fadeIn();
+        setTimeout(function() {
+            $('#modal-add-result').fadeOut('fast');
+        }, 3000);
+        $('#modal-inp-serial').focus();
     }
     //@Update action---------------------------------------------------------------------------------------------------
     var $btnUpdateModal = $('#modal-btn-update');
@@ -570,12 +588,12 @@
         var $cmbCell = $('select[name=modalCmbCells]');
         //set cell for combo box
         $.ajax({
-            url: $('#btn-get-cells').val()+'/'+$('#cmb-stock').val(),
+            type: 'GET',
+            url: $('#btn-get-cells').val(),
+            data:{stockId:$('#cmb-stock').val()},
             cache: false,
             contentType: false,
-            processData: false,
             async:false,
-            type: 'GET',
             success: function(data){
                 if(data.length == 0){
                     disableElement($cmbCell);
@@ -595,13 +613,13 @@
             $('select[name=modalCmbGoods]').val(selectedItems['goodsCode']);
             $('select[name=modalCmbGoods]').selectpicker('refresh');
             //
-            $('#modal-inp-amount').val(unFormatFloat(selectedItems['amountValue']));
+            $('#modal-inp-amount').val(selectedItems['amountValue']);
             if(selectedItems["goodsState"] =="1"){
                 $('#cmb-goods-state').bootstrapToggle('on');
             }else{
                 $('#cmb-goods-state').bootstrapToggle('off');
             }
-            $('#modal-inp-input-price').val(unFormatFloat(selectedItems['inputPriceValue']));
+            $('#modal-inp-input-price').val(selectedItems['inputPriceValue']);
             $('#modal-inp-serial').val(selectedItems['serial']);
             $cmbCell.val(selectedItems['cellCode']);
             //
@@ -633,35 +651,51 @@
     $("#modal-inp-input-price").keyup(function() {
         var currentValue = unFormatFloat($("#modal-inp-input-price").val());
         $('#modal-label-inp-input-price').text(DOCSO.doc(currentValue));
-        $('#modal-inp-input-price').val(currentValue);
+        $('#modal-inp-input-price').val(formatFloatType(currentValue));
     });
 
+    $("#modal-inp-amount").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-amount").val());
+        $('#modal-inp-amount').val(formatFloatType(currentValue));
+    });
+
+    //@Refresh table----------------------------------------------------------
     $('#btn-refresh-table').click(function () {
-        $table.bootstrapTable('removeAll');
-        $('#import-action-info').val("");
+        //
+        $("#modal-del-lbl-del-info").text('Xóa toàn bộ dữ liệu đã nhập?');
+        //
+        showModal($('#deleteConfirmModal'));
     });
 
+    var btnClearTableConfirm = $('#modal-del-btn-ok');
+    btnClearTableConfirm.click(function () {
+        $table.bootstrapTable('removeAll');
+        $("#import-action-info").text('');
+        //
+        hideModal($('#deleteConfirmModal'))
+    });
+    //@Refresh table----------------------------------------------------------
     $("#modal-cmb-goods").change(function () {
-        var inputAmount;
+        var inPrice;
         var isSerial;
         //
         $.ajax({
-            url: $('#btn-check-serial').val()+'/'+$('#modal-cmb-goods').val(),
+            type: 'GET',
+            url: $('#btn-check-serial').val(),
+            data:{code:$('#modal-cmb-goods').val()},
             cache: false,
             contentType: false,
-            processData: false,
             async:false,
-            type: 'GET',
             success: function(data){
                 currentGoods = data;
-                inputAmount = currentGoods['inPrice'];
+                inPrice = currentGoods['inPrice'];
                 isSerial = data["isSerial"];
-            },
+            }
         });
         //
         showElementBySerialType(isSerial);
-        $('#modal-inp-input-price').val(inputAmount);
-        $('#modal-label-inp-input-price').text(DOCSO.doc(inputAmount));
+        $('#modal-inp-input-price').val(formatFloatType(inPrice));
+        $('#modal-label-inp-input-price').text(DOCSO.doc(inPrice));
     });
 
     function showElementBySerialType(serialType) {
@@ -675,6 +709,7 @@
             });
         }else{
             disableElement($('#modal-inp-serial'));
+            $('#modal-inp-serial').val('');
             enableElement($('#modal-inp-amount'));
             $modalAddImportGoods.on('shown.bs.modal', function () {
                 $('#modal-inp-amount').focus();

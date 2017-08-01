@@ -11,7 +11,7 @@
     <link rel='stylesheet'  th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
     <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-
+    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
     <!--script-->
@@ -23,6 +23,7 @@
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
     <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}"  th:href="@{/js/nprogress.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <!--common-->
@@ -133,22 +134,15 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-refresh-table" type="button"
-                                class="btn btn-default" th:title="#{tooltip.cleartabble}" >
-                            <i class="fa fa-refresh"></i>
-                        </button>
-
                         <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/searchSerial/getSerialFile}">
-                            <i class="fa fa-download"></i>
+                            <i class="fa fa-file-excel-o"></i>
                         </a>
-
                         <label class="action-info action-info-link" id="action-info"></label>
                     </div>
                     <table  id="tbl-stock-info"
                             data-pagination="true"
                             data-search="true"
                             data-click-to-select="true"
-                            data-show-columns="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
                             style="word-wrap: break-word;  table-layout: fixed;"
@@ -168,6 +162,7 @@
                             <th data-field="exportDate" data-align="right" data-sortable="true">TG xuất</th>
                             <th data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
                             <th data-field="outputPriceValue" data-align="right" data-sortable="true">Giá xuất</th>
+                            <th data-field="cellCode" data-align="right" data-sortable="true">Vị trí</th>
                         </tr>
                         </thead>
                     </table>
@@ -203,12 +198,21 @@
         //
     });
     //@Search-----------------------------------------------------------------
+    //for enter press ->
+    $('#inp-serial').keypress(function (e) {
+        var key = e.which;
+        if(key == 13)  // the enter key code
+        {
+            search();
+        }
+    });
     var $btnSearch = $('#btn-search-serial');
     $btnSearch.click(function () {
         search();
     });
 
     function search(){
+
         $("#action-info").text('');
         //search info stock_id/goods_group/goods/serial
         var stockIdVal  = $('#cmb-stock').val();
@@ -228,7 +232,7 @@
             alert("Vui lòng nhập số lượng serial nhỏ hơn 900 để tìm kiếm. Số lượng hiện tại: "+ arrLength);
             return;
         }
-
+        NProgress.start();
         $.ajax({
             type: "GET",
             cache:false,
@@ -239,18 +243,12 @@
             timeout: 600000,
             success: function (data) {
                 $table.bootstrapTable('load', data);
-                if(isTableEmpty($table)){
-                    setInfoMessage($('#action-info'),"Không tìm thấy dữ liệu");
-                }
+            },
+            complete:function () {
+                NProgress.done();
             }
         });
     }
-    //@Refresh table----------------------------------------------------------
-    $('#btn-refresh-table').click(function () {
-        $table.bootstrapTable('removeAll');
-        $("#action-info").text('');
-        //
-    });
     //-------------------------------------------------------------------------
 </script>
 </body>
