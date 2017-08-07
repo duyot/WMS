@@ -35,6 +35,10 @@ function converExportMessage(mesageCode,key){
 function isContainXMLCharacter(value){
     return escapeHtml(value) != value;
 }
+
+function isContainSpecialCharacter(value) {
+    return value.includes("<") || value.includes(">");
+}
 //		row num
 function runningFormatter(value, row, index) {
     return index +1;
@@ -59,7 +63,7 @@ function setInfoMessage(object,value) {
     object.fadeIn();
     setTimeout(function() {
         object.fadeOut('fast');
-    }, 3000);
+    }, 5000);
 }
 
 function setErrorMessage(object,value) {
@@ -69,7 +73,7 @@ function setErrorMessage(object,value) {
     object.fadeIn();
     setTimeout(function() {
         object.fadeOut('fast');
-    }, 3000);
+    }, 5000);
 }
 
 function isTableEmpty(object) {

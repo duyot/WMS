@@ -123,6 +123,17 @@ public class ExportStockController extends BaseController{
         return catGoodsDTO;
     }
 
+    @RequestMapping(value = "/getListSerialInStock")
+    public @ResponseBody List<String> getListSerialInStock(@RequestParam("stockId")String stockId,
+                                                           @RequestParam("goodsCode")String goodsCode,@RequestParam("goodsState")String goodsState
+    ){
+       CatGoodsDTO goods = mapGoodsCodeGoods.get(goodsCode);
+        if (goods == null) {
+            return Lists.newArrayList();
+        }
+        return stockManagementService.getListSerialInStock(selectedCustomer.getId(), stockId, goods.getId(), goodsState, tokenInfo);
+    }
+
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody

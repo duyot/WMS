@@ -446,6 +446,16 @@
             },
             submitHandler: function (form) {
                 preprocessInput($("#cat-goods-insert-update-form"));
+                //
+                if (isContainSpecialCharacter($('#modal-inp-code').val())) {
+                    alert("Mã hàng chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                if (isContainSpecialCharacter($('#modal-inp-name').val())) {
+                    alert("Tên hàng chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                //
                 $.ajax({
                     type: "POST",
                     url: $("#cat-goods-insert-update-form").attr('action'),
@@ -465,7 +475,7 @@
                     },
                     error:function(){
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');
-                    },
+                    }
                 });
                 //
                 hideModal($modalAddUpdate);
@@ -491,10 +501,12 @@
             //
             $("#modal-inp-input-price").val('');
             $("#modal-inp-output-price").val('');
+            $('#modal-label-input-price').text("");
+            $('#modal-label-output-price').text("");
+
             $('#modal-cmb-status').bootstrapToggle('on');
             $('#modal-cmb-serial').bootstrapToggle('on');
             disableElement($('#modal-cmb-status'));
-
             showAdd();
         }else{//update
             $("#cat-goods-insert-update-form").attr("action",actionVal);
@@ -507,8 +519,8 @@
             $('select[name=goodsGroupId]').val(selectedItem['goodsGroupId']);
             $('select[name=goodsGroupId]').selectpicker('refresh');
             //
-            $("#modal-inp-input-price").val(selectedItem["inPrice"]);
-            $("#modal-inp-output-price").val(selectedItem["outPrice"]);
+            $("#modal-inp-input-price").val(formatFloatType((selectedItem["inPrice"])));
+            $("#modal-inp-output-price").val(formatFloatType(selectedItem["outPrice"]));
             $('#modal-label-input-price').text(DOCSO.doc(selectedItem["inPrice"]));
             $('#modal-label-output-price').text(DOCSO.doc(selectedItem["outPrice"]));
             //
@@ -529,6 +541,18 @@
             showUpdate();
         }
     }
+
+    $("#modal-inp-input-price").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-input-price").val());
+        $('#modal-label-inp-input-price').text(DOCSO.doc(currentValue));
+        $('#modal-inp-input-price').val(formatFloatType(currentValue));
+    });
+
+    $("#modal-inp-output-price").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-output-price").val());
+        $('#modal-label-output-price').text(DOCSO.doc(currentValue));
+        $('#modal-inp-output-price').val(formatFloatType(currentValue));
+    });
 </script>
 </body>
 </html>

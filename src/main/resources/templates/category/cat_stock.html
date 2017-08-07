@@ -120,8 +120,8 @@
                             <th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
                             <th  data-field="id" data-align="left" data-sortable="true"></th>
                             <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.stockCode}"></th>
-                            <th  class="col-md-2" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.stockName}"></th>
-                            <th  class="col-md-5" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
+                            <th  class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.stockName}"></th>
+                            <th  class="col-md-4" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
                             <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" ></th>
                             <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
@@ -394,7 +394,22 @@
                 }
             },
             submitHandler: function (form) {
-                preprocessInput($("#stock-insert-update-form"))
+                preprocessInput($("#stock-insert-update-form"));
+                if (isContainSpecialCharacter($('#modal-inp-code').val())) {
+                    alert("Mã kho chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    $('#modal-inp-code').focus();
+                    return;
+                }
+                if (isContainSpecialCharacter($('#modal-inp-name').val())) {
+                    alert("Tên kho chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    $('#modal-inp-name').focus();
+                    return;
+                }
+                if (isContainSpecialCharacter($('#modal-inp-address').val())) {
+                    alert("Địa chỉ chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    $('#modal-inp-address').focus();
+                    return;
+                }
                 $.ajax({
                     type: "POST",
                     url: $("#stock-insert-update-form").attr('action'),

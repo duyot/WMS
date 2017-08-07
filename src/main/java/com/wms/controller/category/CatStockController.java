@@ -61,9 +61,9 @@ public class CatStockController extends BaseCommonController{
         List<CatStockDTO> lstCatStock = catStockService.findByCondition(lstCon,tokenInfo);
 
         for(CatStockDTO i: lstCatStock){
-            i.setName(StringEscapeUtils.escapeHtml(i.getName()));
-            i.setCode(StringEscapeUtils.escapeHtml(i.getCode()));
-            i.setAddress(StringEscapeUtils.escapeHtml(i.getAddress()));
+            i.setName(i.getName());
+            i.setCode(i.getCode());
+            i.setAddress(i.getAddress());
             i.setCustName(selectedCustomer.getName());
             i.setStatusName(mapAppStatus.get(i.getStatus()));
         }
@@ -85,7 +85,7 @@ public class CatStockController extends BaseCommonController{
     public @ResponseBody String addCell(@RequestParam("stockId")String stockId,@RequestParam("code")String code){
         CatStockCellDTO cell = new CatStockCellDTO();
         cell.setStockId(stockId);
-        cell.setCode(code);
+        cell.setCode(code.toUpperCase());
         ResponseObject response = catStockCellService.add(cell,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             return "1|Thêm mới thành công";
@@ -108,6 +108,7 @@ public class CatStockController extends BaseCommonController{
     public @ResponseBody String add(CatStockDTO catStockDTO, HttpServletRequest request){
         catStockDTO.setStatus("1");
         catStockDTO.setCustId(this.selectedCustomer.getId());
+        catStockDTO.setCode(catStockDTO.getCode().toUpperCase());
         ResponseObject response = catStockService.add(catStockDTO,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("Add: "+ catStockDTO.toString()+" SUCCESS");
@@ -115,7 +116,7 @@ public class CatStockController extends BaseCommonController{
             request.getSession().setAttribute("isStockModifiedImportStock",true);
             request.getSession().setAttribute("isStockModifiedExportStock",true);
             return "1|Thêm mới thành công";
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode()))
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName()))
         {
             log.info("Add: "+ catStockDTO.toString()+" ERROR");
             return "0|Thông tin đã có trên hệ thống";
@@ -128,7 +129,8 @@ public class CatStockController extends BaseCommonController{
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody  String update(CatStockDTO catStockDTO, HttpServletRequest request){
         log.info("Update cat_stock info: "+ catStockDTO.toString());
-		catStockDTO.setCustId(this.selectedCustomer.getId());
+		catStockDTO.setCustId(selectedCustomer.getId());
+		catStockDTO.setCode(catStockDTO.getCode().toUpperCase());
         if("on".equalsIgnoreCase(catStockDTO.getStatus())){
             catStockDTO.setStatus("1");
         }else{

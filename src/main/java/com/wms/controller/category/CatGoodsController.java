@@ -11,6 +11,7 @@ import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,8 +164,8 @@ public class CatGoodsController extends BaseController {
         List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
 
         for(CatGoodsDTO i: lstCatGoods){
-            i.setCode(StringEscapeUtils.escapeHtml(i.getCode()));
-            i.setName(StringEscapeUtils.escapeHtml(i.getName()));
+            i.setCode(i.getCode());
+            i.setName(i.getName());
             i.setCustName(selectedCustomer.getName());
             i.setGoodsGroupName(mapGoodsGroup.get(i.getGoodsGroupId()));
             i.setIsSerialName(i.getIsSerial().equals("1")? "Có": "Không");
@@ -182,6 +183,9 @@ public class CatGoodsController extends BaseController {
         catGoods.setIsSerial(FunctionUtils.getValueFromToggle(catGoods.getIsSerial()));
         catGoods.setCustId(this.selectedCustomer.getId());
         catGoods.setCreatedDate(catGoodsService.getSysDate(tokenInfo));
+        catGoods.setCode(catGoods.getCode().toUpperCase());
+        catGoods.setInPrice(catGoods.getInPrice().replaceAll(",",""));
+        catGoods.setOutPrice(catGoods.getOutPrice().replaceAll(",",""));
         //
         ResponseObject response = catGoodsService.add(catGoods,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
@@ -258,6 +262,9 @@ public class CatGoodsController extends BaseController {
         catGoods.setStatus(FunctionUtils.getValueFromToggle(catGoods.getStatus()));
         catGoods.setIsSerial(FunctionUtils.getValueFromToggle(catGoods.getIsSerial()));
         catGoods.setCreatedDate(sysdate);
+        catGoods.setCode(catGoods.getCode().toUpperCase());
+        catGoods.setInPrice(catGoods.getInPrice().replaceAll(",",""));
+        catGoods.setOutPrice(catGoods.getOutPrice().replaceAll(",",""));
         log.info("Update cat_goods info: "+ catGoods.toString());
         ResponseObject response = catGoodsService.update(catGoods,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){

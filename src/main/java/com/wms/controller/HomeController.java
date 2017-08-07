@@ -5,11 +5,14 @@ import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatUserDTO;
 import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.CatUserService;
+import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
+import com.wms.utils.FunctionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -89,5 +92,12 @@ import java.util.Locale;
         }
         return "Đăng ký thành công";
 
+    }
+
+    @RequestMapping(value = "/{sitemap:.+}",method = RequestMethod.GET)
+    public void sitemap(HttpServletResponse response){
+        response.setContentType(MediaType.APPLICATION_XML_VALUE);
+        response.setHeader("Content-type","application/xhtml+xml");
+        FunctionUtils.loadFileToClient(response, BundleUtils.getKey("template_url") + "sitemap.xml");
     }
 }

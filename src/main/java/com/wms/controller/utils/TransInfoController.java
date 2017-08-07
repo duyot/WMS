@@ -3,9 +3,11 @@ package com.wms.controller.utils;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
+import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
+import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
@@ -33,12 +35,14 @@ public class TransInfoController extends BaseController{
     @Autowired
     BaseService mjrStockTransService;
     @Autowired
+    StockManagementService stockManagementService;
+    @Autowired
     public CatUserService catUserService;
     //
     private List<MjrStockTransDTO> lstTrans;
     private List<CatUserDTO> lstUsers;
     private List<AppParamsDTO> lstAppTransType;
-    public Map<String,String> mapAppTransType = new HashMap();
+    private Map<String,String> mapAppTransType = new HashMap();
     //
     private String startDate;
     private String endDate;
@@ -93,6 +97,7 @@ public class TransInfoController extends BaseController{
                                       @RequestParam("transType")String transType,@RequestParam("transCode")String transCode
     ){
         List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
 
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         if(!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)){
@@ -109,7 +114,7 @@ public class TransInfoController extends BaseController{
         }
 
         if(!DataUtil.isStringNullOrEmpty(transType) && !transType.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,transType));
+            lstCon.add(new Condition("type",Constants.SQL_OPERATOR.EQUAL,transType));
         }
 
         if(!DataUtil.isStringNullOrEmpty(transCode)){
@@ -139,7 +144,46 @@ public class TransInfoController extends BaseController{
         FunctionUtils.loadFileToClient(response,fileResource);
     }
     //==================================================================================================================
+    @RequestMapping(value = "/cancelTrans")
+    public @ResponseBody String cancelTrans(@RequestParam("transId") String transId){
+        ResponseObject response = stockManagementService.cancelTrans(transId,tokenInfo);
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+            return "1|Hủy phiếu thành công";
+        }else{
+            return "0|Hủy phiếu không thành công";
+        }
+    }
 
+    //==================================================================================================================
+    @RequestMapping(value = "/viewTransInfo")
+    public @ResponseBody List<MjrStockTransDetailDTO> getTransGoodsDetail(@RequestParam("stockId") String stockId,
+                                                                          @RequestParam("transId") String transId,@RequestParam("transType") String transType
+                                                                          ){
+        List<MjrStockTransDetailDTO> lstTransGoodsDetail = stockManagementService.getTransGoodsDetail(selectedCustomer.getId(),stockId,transId,transType,tokenInfo);
+        return initNameInfo(lstTransGoodsDetail);
+    }
+    private List<MjrStockTransDetailDTO> initNameInfo(List<MjrStockTransDetailDTO> lstTransGoodsDetail){
+        if(DataUtil.isListNullOrEmpty(lstTransGoodsDetail)){
+            return  Lists.newArrayList();
+        }
+        //
+        CatGoodsDTO goods = mapGoodsIdGoods.get(lstTransGoodsDetail.get(0).getGoodsId());
+        if (goods == null) {
+            return  Lists.newArrayList();
+        }
+
+        for(MjrStockTransDetailDTO i: lstTransGoodsDetail){
+            i.setGoodsCode(goods.getCode());
+            i.setGoodsName(goods.getName());
+            i.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
+            i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+            i.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
+            i.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
+        }
+
+        return  lstTransGoodsDetail;
+    }
+    //==================================================================================================================
     private List<MjrStockTransDTO> setTransInfoValue(List<MjrStockTransDTO> lstTransDetail){
         for(MjrStockTransDTO i: lstTransDetail){
             i.setStockValue(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()));

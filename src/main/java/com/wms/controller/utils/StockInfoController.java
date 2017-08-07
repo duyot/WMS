@@ -7,6 +7,7 @@ import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.UtilsService;
 import com.wms.utils.*;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +42,12 @@ public class StockInfoController extends BaseController{
     private List<MjrStockGoodsTotalDTO> lstGoodsTotal;
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
     //
-    private List<AppParamsDTO> lstAppTransType;
+    private List<AppParamsDTO> lstAppGoodsState;
     //
-    public Map<String,String> mapAppTransType = new HashMap();
-    public Map<String,String> mapAppStockStatus   = new HashMap();
-    public Map<String,Long> mapGoodsDetailTotal = new HashMap();
-
-    @ModelAttribute("lstAppTransType")
+    @ModelAttribute("lstAppGoodsState")
     public List<AppParamsDTO> setAppGoodsState(HttpServletRequest request) {
-        if (lstAppTransType != null) {
-            return lstAppTransType;
+        if (lstAppGoodsState != null) {
+            return lstAppGoodsState;
         }
 
         if (lstAppParams == null) {
@@ -59,12 +56,9 @@ public class StockInfoController extends BaseController{
             }
             lstAppParams = FunctionUtils.getAppParams(appParamsService, tokenInfo);
         }
-        lstAppTransType = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.TRANS_TYPE, lstAppParams);
+        lstAppGoodsState = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE, lstAppParams);
         //
-        buildMapTransType(lstAppTransType);
-        buildMapStockStatus(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STOCK_STATUS, lstAppParams));
-        //
-        return lstAppTransType;
+        return lstAppGoodsState;
     }
 
     @RequestMapping()
@@ -116,12 +110,7 @@ public class StockInfoController extends BaseController{
         List<MjrStockTransDetailDTO> lstData = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,limit,offset,tokenInfo);
         lstGoodsDetails = setListGoodsDetailNameInfo(lstData,goodsItem);
         data.setRows(lstGoodsDetails);
-        String key = selectedCustomer.getId()+stockId+goodsId+goodsItem.getIsSerial()+goodsState;
-        Long totalItem = mapGoodsDetailTotal.get(key);
-        if (totalItem == null) {
-            totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,tokenInfo);
-            mapGoodsDetailTotal.put(key,totalItem);
-        }
+        Long totalItem =utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,tokenInfo);
         data.setTotal(totalItem);
         return data;
     }
@@ -148,12 +137,7 @@ public class StockInfoController extends BaseController{
         //paging -> re get all goods detail
         MjrStockTransDetailDTO item = lstGoodsDetails.get(0);
         CatGoodsDTO goodsItem = mapGoodsIdGoods.get(item.getGoodsId());
-        String key = selectedCustomer.getId()+stockId+item.getGoodsId()+item.getIsSerial()+item.getGoodsState();
-        Long totalItem = mapGoodsDetailTotal.get(key);
-        if (totalItem == null) {
-            totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),tokenInfo);
-            mapGoodsDetailTotal.put(key,totalItem);
-        }//
+        Long totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),tokenInfo);
         List<MjrStockTransDetailDTO> lstGoodsDetailAlls = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),totalItem+"",0+"",tokenInfo);
         //
         String fileResource = exportGoodsDetails(setListGoodsDetailNameInfo(lstGoodsDetailAlls,goodsItem),prefixFileName,stockId,goodsItem.isSerial());
@@ -171,12 +155,11 @@ public class StockInfoController extends BaseController{
                 temp.setGoodsName(goodsItem.getName());
                 temp.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
                 temp.setGoodsState(i.getGoodsState());
-                temp.setAmountValue(i.getAmount());
+                temp.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
                 temp.setImportDate(i.getImportDate());
                 temp.setExportDate(i.getExportDate());
-                temp.setInputPriceValue(i.getInputPrice());
-                temp.setOutputPriceValue(i.getOutputPrice());
-                temp.setStatusValue(mapAppStockStatus.get(i.getStatus()));
+                temp.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
+                temp.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
                 temp.setSerial(i.getSerial());
                 temp.setIsSerial(goodsItem.getIsSerial());
                 //
@@ -249,19 +232,4 @@ public class StockInfoController extends BaseController{
         return reportFullPath;
     }
     //==================================================================================================================
-    private void buildMapTransType(List<AppParamsDTO> lstAppParams){
-        if(!DataUtil.isListNullOrEmpty(lstAppParams)){
-            for(AppParamsDTO i: lstAppParams){
-                mapAppTransType.put(i.getCode(),i.getName());
-            }
-        }
-    }
-    //
-    private void buildMapStockStatus(List<AppParamsDTO> lstAppParams){
-        if(!DataUtil.isListNullOrEmpty(lstAppParams)){
-            for(AppParamsDTO i: lstAppParams){
-                mapAppStockStatus.put(i.getCode(),i.getName());
-            }
-        }
-    }
 }

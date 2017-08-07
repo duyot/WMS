@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by duyot on 10/30/2016.
  */
-@Controller
+@ControllerAdvice
 public class GlobalExceptionHandler implements ErrorController{
     private static final String PATH = "/error";
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)  // 401
+    @ExceptionHandler(HttpClientErrorException.class)
+    public String handleConflict() {
+        System.out.println("Run in global exception");
+        return "/login";
+
+    }
+
 
     @RequestMapping(value = PATH)
     public String error(HttpServletRequest request) {

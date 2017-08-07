@@ -3,7 +3,6 @@ package com.wms.dataprovider;
 import com.wms.base.BaseDP;
 import com.wms.constants.Constants;
 import com.wms.dto.AuthTokenInfo;
-import com.wms.dto.Condition;
 import com.wms.dto.MjrStockGoodsTotalDTO;
 import com.wms.dto.MjrStockTransDetailDTO;
 import org.slf4j.Logger;
@@ -22,19 +21,19 @@ import java.util.List;
  */
 @Repository
 public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
-    Logger log = LoggerFactory.getLogger(MjrStockGoodsTotalDP.class);
+    private Logger log = LoggerFactory.getLogger(MjrStockGoodsTotalDP.class);
     public MjrStockGoodsTotalDP() {
         super(MjrStockGoodsTotalDTO[].class,MjrStockGoodsTotalDTO.class, Constants.SERVICE_PREFIX.MJR_STOCK_GOODS_TOTAL_SERVICE);
     }
 
     public Long getCountGoodsDetail(String custId,String stockId, String goodsId,String isSerial,String goodsState,AuthTokenInfo tokenInfo){
-        String url = SERVICE_URL + SERVICE_PREFIX + "getCountGoodsDetail?custId="+custId+"&stockId="+stockId+"&goodsId="+goodsId+"&isSerial="+isSerial+
+        String url = SERVICE_URL + "stockManagementServices/" + "getCountGoodsDetail?custId="+custId+"&stockId="+stockId+"&goodsId="+goodsId+"&isSerial="+isSerial+
                             "&goodsState="+goodsState+"&access_token="+ tokenInfo.getAccess_token();
         try {
             return  restTemplate.getForObject(url, Long.class);
         } catch (RestClientException e) {
             log.error(e.toString());
-            return 0l;
+            return 0L;
         }
     }
 

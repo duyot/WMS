@@ -22,7 +22,6 @@
     </script>
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
-    <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
     <script th:attr="src=@{/js/jquery.validate.min.js}"  th:href="@{/js/jquery.validate.min.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
@@ -287,6 +286,12 @@
             },
             submitHandler: function (form) {
                 preprocessInput($("#cat-goods-group-insert-update-form"));
+                //
+                if (isContainSpecialCharacter($('#modal-inp-name').val())) {
+                alert("Nhóm hàng chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                return;
+                }
+                //
                 $.ajax({
                     type: "POST",
                     url: $("#cat-goods-group-insert-update-form").attr('action'),
@@ -300,13 +305,11 @@
                         }else{
                             setErrorMessage($('#action-info'),resultName);
                         }
-
                         search(false);
-
                     },
                     error:function(){
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');
-                    },
+                    }
                 });
                 //
                 hideModal($addUpdateModal);

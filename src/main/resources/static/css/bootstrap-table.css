@@ -178,6 +178,7 @@
 
 .fixed-table-pagination .page-list {
     display: inline-block;
+    font-size: 12px;
 }
 
 .fixed-table-toolbar .columns-left {

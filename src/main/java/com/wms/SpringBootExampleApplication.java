@@ -26,7 +26,6 @@ public class SpringBootExampleApplication extends SpringBootServletInitializer {
 		return slr;
 	}
 
-
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
 		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();

@@ -11,7 +11,7 @@
     <link rel='stylesheet'  th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
     <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/nprogress.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
     <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
@@ -23,7 +23,6 @@
     </script>
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
-    <script th:attr="src=@{/js/bootstrap-combobox.js}"  th:href="@{/js/bootstrap-combobox.js}"></script>
     <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
     <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
     <script th:attr="src=@{/js/daterangepicker.js}" th:href="@{/js/daterangepicker.js}"></script>
@@ -161,6 +160,12 @@
                         <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/trans_info/getListTransFile}">
                             <i class="fa fa-file-excel-o"></i>
                         </a>
+                        <button id="btn-view-info" th:value="@{/workspace/utils/trans_info/viewTransInfo}" style="display: none" type="button" class="btn btn-default">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button id="btn-cancel-trans" th:value="@{/workspace/utils/trans_info/cancelTrans}" style="display: none" type="button" class="btn btn-default">
+                            <i class="fa fa-edit"></i>
+                        </button>
                         <label class="action-info action-info-link" id="action-info"></label>
                     </div>
                     <table  id="tbl-stock-info"
@@ -171,10 +176,12 @@
                             class="table-striped"
                             style="word-wrap: break-word;  table-layout: fixed;"
                     >
-
                         <thead>
                         <tr>
-                            <th data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+                            <th data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+                            <th data-field="id" >Id</th>
+                            <th data-field="type" >Type</th>
+                            <th data-field="stockId" >StockId</th>
                             <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" data-width="250px">Mã phiếu</th>
                             <th data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
                             <th data-field="typeValue" data-align="left" data-sortable="true" data-width="100px">Loại GD</th>
@@ -182,6 +189,7 @@
                             <th data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>
                             <th data-field="contractNumber" data-align="right" data-sortable="true">Số HD</th>
                             <th data-field="invoiceNumber" data-align="right" data-sortable="true">Số invoice</th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
                         </thead>
                     </table>
@@ -190,6 +198,8 @@
         </div>
     </div>
     <div class="modal-loading"><!-- Place at bottom of page --></div>
+    <div th:include="modal/trans_goods_detail_modal :: frag-goods-detail-modal"></div>
+    <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -204,23 +214,124 @@
 <script>
     //---------------------------------------------------------------------
     $table = $('#tbl-stock-info');
+    var $btnDelConfirmed = $('#modal-btn-del-ok');
+    $tableGoodsDetail = $('#tbl-trans-goods-detail');
     var dataInit = [
     ];
+    //
+    function operateFormatter(value, row, index) {
+        var createdDate = row["createdDate"].substring(0,10);
+        if (createdDate !== moment(new Date()).format('DD/MM/YYYY')) {
+            return [
+                '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
+                '<i class="fa fa-info-circle"></i>',
+                '</a> ',
+                '<a class="cancel-trans row-function" style="pointer-events:none; opacity:0.6; " href="javascript:void(0)" title="Hủy phiếu">',
+                '<i class="fa fa-bitbucket"></i>',
+                '</a> '
+            ].join('');
+        }else{
+            return [
+                '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
+                '<i class="fa fa-info-circle"></i>',
+                '</a> ',
+                '<a class="cancel-trans row-function"  href="javascript:void(0)" title="Hủy phiếu">',
+                '<i class="fa fa-bitbucket"></i>',
+                '</a> '
+            ].join('');
+        }
 
+    }
+    //
     $(function () {
         //
         $table.bootstrapTable({
             data: dataInit
         });
-        //
-        $('.combobox').combobox();
+
+        $tableGoodsDetail.bootstrapTable({
+            data: dataInit
+        });
+        $table.bootstrapTable('hideColumn', 'id');
+        $table.bootstrapTable('hideColumn', 'type');
+        $table.bootstrapTable('hideColumn', 'stockId');
         //
         initDateRangeSelect();
     });
-    //@Search-----------------------------------------------------------------
+    //
+    var deleteCommandId;
+    window.operateEvents = {
+        'click .trans-detail': function (e, value, row, index) {
+            //
+            NProgress.start();
+            //
+            var stockId   = row["stockId"];
+            var transId   = row["id"];
+            var transType = row["type"];
+            //
+            $.ajax({
+                type: "GET",
+                cache:false,
+                data:{stockId:stockId,transId:transId,transType:transType},
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                url: $('#btn-view-info').val(),
+                dataType: 'json',
+                timeout: 600000,
+                success: function (data) {
+                    $tableGoodsDetail.bootstrapTable('load', data);
+                    showModal($('#goods-detail-modal'));
+                },
+                complete:function () {
+                    NProgress.done();
+                }
+            });
+        },
+
+        'click .cancel-trans': function (e, value, row, index) {
+            //
+            clearActionInfo();
+            //
+            deleteCommandId   = row["id"];
+            //show confirm
+            $("#lbl-del-info").text('Xóa phiếu: '+ decodeHtml(row["code"]));
+            $('#myConfirmModal').modal('show');
+            //
+        }
+    };
+
+    $btnDelConfirmed.click(function () {
+        $.ajax({
+            type: "POST",
+            cache:false,
+            data:{transId:deleteCommandId},
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $('#btn-cancel-trans').val(),
+            dataType: 'text',
+            timeout: 600000,
+            success: function (data) {
+                var resultArr = data.split('|');
+                var resultCode = resultArr[0];
+                var resultName = resultArr[1];
+                if(resultCode == 1){
+                    setInfoMessage($('#action-info'),resultName);
+                }else{
+                    setErrorMessage($('#action-info'),resultName);
+                }
+                search(false);
+
+            },
+            error:function(){
+                setErrorMessage($('#action-info'),'Lỗi hệ thống');
+            }
+        });
+        //
+        $('#myConfirmModal').modal('hide');
+        //
+    });
+    //@Search--------------------------------------------------------------------------------------------------------
     $('#inp-trans-code').keypress(function (e) {
         var key = e.which;
-        if(key == 13)  // the enter key code
+        if(key === 13)  // the enter key code
         {
             search();
         }

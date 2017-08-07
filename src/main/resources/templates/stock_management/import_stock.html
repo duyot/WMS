@@ -11,23 +11,8 @@
     <link rel='stylesheet'  th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
     <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-
     <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
-    <!--script-->
-    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-    <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
-    <script>
-        new WOW().init();
-    </script>
-    <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
-    <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
-    <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
-    <!--confirmation-->
-    <script th:attr="src=@{/js/jquery.validate.min.js}"  th:href="@{/js/jquery.validate.min.js}"></script>
-    <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
-    <!--common-->
-    <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
     <!--font and favi icon-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
@@ -86,10 +71,8 @@
                                         <span class="input-group-addon">
                                                 <i class="fa fa-book fa-fw"></i>
                                             </span>
-                                        <input id="inp-contract-number" class="form-control" type="text"
-                                               data-validation="length" data-validation-length="max50"
-                                               data-validation-error-msg="Quá số kí tự cho phép(50)"
-                                        />
+                                        <input id="inp-contract-number" class="form-control" maxlength="50" />
+
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
@@ -100,14 +83,10 @@
                                         <span class="input-group-addon">
                                                 <i class="fa fa-table fa-fw"></i>
                                             </span>
-                                        <input id="inp-invoice" class="form-control" type="text"
-                                               data-validation="length" data-validation-length="max50"
-                                               data-validation-error-msg="Quá số kí tự cho phép(50)"
-                                        />
+                                        <input id="inp-invoice" class="form-control" maxlength="50" />
                                     </div>
                                 </div>
                             </div>
-                            <!--note-->
                             <!--row 3: note-->
                             <div class="row">
                                 <div class="col-sm-2">
@@ -118,14 +97,11 @@
                                         <span class="input-group-addon">
                                                 <i class="fa fa-sticky-note fa-fw"></i>
                                             </span>
-                                        <textarea id="inp-contract-note" class="form-control" th:rows="2"
-                                                  data-validation="length" data-validation-length="max500"
-                                                  data-validation-error-msg="Quá số kí tự cho phép(500)"
+                                        <textarea id="inp-contract-note" class="form-control" th:rows="2" maxlength="500"
                                         ></textarea>
                                     </div>
                                 </div>
                             </div>
-
                             <!--row 4: file upload-->
                             <div class="row">
                                 <div class="col-sm-2">
@@ -166,9 +142,7 @@
 
                         </div>
                     </div>
-
                     <p></p>
-
                 </div>
             </div>
             <!--end search panel-->
@@ -220,7 +194,7 @@
             </div>
         </div>
     </div>
-    <div class="modal-loading"><!-- Place at bottom of page --></div>
+    <div class="modal-loading"></div>
     <!--modal-->
     <div th:include="modal/confirm_download_modal :: frag-confirm-download-error-modal"></div>
     <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
@@ -230,493 +204,24 @@
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
-
 <!--FINAL JS-->
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
+<script>
+    new WOW().init();
+</script>
+<!--component-->
+<script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
+<script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
+<script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
+<script th:attr="src=@{/js/jquery.validate.min.js}"  th:href="@{/js/jquery.validate.min.js}"></script>
+<script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
+<script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
+<!--scroll-->
 <script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
-<!--switch-->
-<script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
-<script>
-    //-------------------------------------------------------------------------------------------------------
-    $table = $('#tbl-import-goods');
-    $modalAddImportGoods = $('#myModal');
-    var dataInit = [
-    ];
-    selectedIndex = -1;
-    //-------------------------------------------------------------------------------------------------------
-    function operateFormatter(value, row, index) {
-        return [
-            '<a class="update-goods row-function" href="javascript:void(0)" title="Sửa">',
-            '<i class="fa fa-pencil-square-o"></i>',
-            '</a> ',
-            '<a class="delete-goods row-function" href="javascript:void(0)" title="Xóa">',
-            '<i class="fa fa-trash"></i>',
-            '</a> '
-        ].join('');
-    }
-    $(function () {
-        //
-        $table.bootstrapTable({
-            data: dataInit
-        });
-        $table.bootstrapTable('hideColumn', 'columnId');
-        $table.bootstrapTable('hideColumn', 'goodsId');
-        $table.bootstrapTable('hideColumn', 'isSerial');
-        //
-
-        $table.bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
-            selectedIndex = $element.attr('data-index');
-        });
-        //
-        disableElement($('#btn-import'));
-        //
-    });
-    //ROW FUNCTION------------------------------------------------------------------------------------------------------
-    window.operateEvents = {
-        'click .update-goods': function (e, value, row, index) {
-            changeModelByType(false,row);
-            showModal($('#myModal'))
-        },
-
-        'click .delete-goods': function (e, value, row, index) {
-            clearActionInfo();
-            $table.bootstrapTable('remove', {
-                field: 'columnId',
-                values: [row['columnId']]
-            });
-        }
-    };
-    //@Upload---------------------------------------------------------------------
-    var btnUploadExcel = $('#btn-excel-import');
-    $(function () {
-        btnUploadExcel.click(function () {
-            //
-            $("#import-action-info").text('');
-            //
-            var data = new FormData();
-            jQuery.each(jQuery('#inp-file-import')[0].files, function(i, file) {
-                data.append('file-'+i, file);
-            });
-
-            var fileName = $('#inp-file-import').val();
-            if(fileName == ''){
-                alert('Chưa có file dữ liệu');
-                return;
-            }
-            //
-            $body.addClass("loading");
-            //
-            $.ajax({
-                url: btnUploadExcel.val(),
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                type: 'POST',
-                success: function(data){
-                    if(data == ''){
-                        $('#myDownloadErrorModal').modal('show');
-                        return;
-                    }
-                    $table.bootstrapTable('load', data);
-                    //
-                    enableElement($('#btn-import'));
-                },
-                error: function(data){
-                    alert(data);
-                },
-                complete: function(){
-                    $body.removeClass("loading");
-                }
-            });
-        });
-
-    });
-    //@Import---------------------------------------------------------------------
-    var btnImport = $('#btn-import');
-    btnImport.click(function () {
-        var contractNumber = $('#inp-contract-number').val();
-        if(isContainXMLCharacter(contractNumber)){
-            alert("Mã hợp đồng chứa kí tự đặc biệt!");
-            return;
-        }
-        //validate
-        var import_goods = $table.bootstrapTable('getData');
-        if(import_goods.length == 0){
-            alert('Chưa có thông tin hàng nhập!');
-            return;
-        }
-        var stockIdValue = $('#cmb-stock').val();
-        if(stockIdValue == null){
-            alert('Chưa có thông tin kho nhập!');
-            return;
-        }
-        //
-        $("#lbl-del-info").text('Nhập hàng lên hệ thống?');
-        //
-        showModal($('#myConfirmModal'));
-    });
-
-    var btnImportConfirm = $('#modal-btn-del-ok');
-    $body = $("body");
-    btnImportConfirm.click(function () {
-        //
-        hideModal($('#myConfirmModal'));
-        $body.addClass("loading");
-        var stockIdValue = $('#cmb-stock').val();
-        var contractNumberValue = $('#inp-contract-number').val();
-        var invoiceValue = $('#inp-invoice').val();
-        var descriptionValue = $('#inp-contract-note').val();
-        var stock_trans_info = {contractNumber:contractNumberValue,invoiceNumber:invoiceValue,stockId:stockIdValue,description:descriptionValue};
-        //
-        var importData = JSON.stringify({lstGoods:$table.bootstrapTable('getData'),mjrStockTransDTO:stock_trans_info});
-        //
-        var $lblInfo = $("#import-action-info");
-        //
-        $.ajax({
-            url: btnImport.val(),
-            data:importData,
-            cache: false,
-            contentType: "application/json",
-            dataType: 'json',
-            type: 'POST',
-            success: function(data){
-                //
-                var resultMessage  = data['statusCode'];
-                var stockTransId   = data['key'];
-                var successRecords = data['success'];
-                //
-                if(resultMessage == "SUCCESS_WITH_ERROR"){
-                    var totalRecords   = data['total'];
-                    //show modal upload file
-                    $("#modal-error-import-lbl-info").text('Nhập '+successRecords+'/'+totalRecords+' hàng thành công với mã giao dịch '+ stockTransId);
-                    $("#modal-link-download").attr("href",$("#modal-inp-stock-trans-id").val()+"/"+ stockTransId);
-                    showModal($("#myDownloadErrorImportModal"));
-                }else if(resultMessage == "FAIL"){
-                    setInfoMessage($lblInfo,"Nhập kho không thành công!");
-                }else{
-                    setInfoMessage($lblInfo,"Nhập "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId)
-                }
-                disableElement($('#btn-import'));
-                $table.bootstrapTable('removeAll');
-            },
-            error: function(data){
-                setErrorMessage($lblInfo,JSON.stringify(data))
-            },
-            complete: function(){
-                $body.removeClass("loading");
-            }
-        });
-    });
-    //@Add action---------------------------------------------------------------------------------------------------
-    var $btnAdd = $('#btn-add');
-    $(function () {
-        $btnAdd.click(function () {
-            $('#modal-add-result').text('');
-            changeModelByType(true,null);
-            //
-            var isSerial;
-            var price;
-            //
-            $.ajax({
-                type: "GET",
-                url: $('#btn-check-serial').val(),
-                data:{code:$('#modal-cmb-goods').val()},
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                cache: false,
-                dataType: 'json',
-                async:false,
-                success: function(data){
-                    isSerial = data["isSerial"];
-                    price = data["inPrice"];
-                }
-            });
-            //
-            showElementBySerialType(isSerial);
-            $('#modal-inp-input-price').val(formatFloatType(price));
-            $('#modal-label-inp-input-price').text(DOCSO.doc(price));
-            //
-            showModal($('#myModal'));
-        });
-    });
-    //for enter press ->
-    $('#modal-inp-serial').keypress(function (e) {
-        var key = e.which;
-        if(key == 13)  // the enter key code
-        {
-            addImportGoods();
-        }
-    });
-
-    $('#modal-inp-amount').keypress(function (e) {
-        var key = e.which;
-        if(key == 13)  // the enter key code
-        {
-            addImportGoods();
-        }
-    });
-    //
-    var $btnAddModal = $('#modal-btn-add');
-    $btnAddModal.click(function () {
-        addImportGoods();
-
-    });
-
-    function addImportGoods() {
-        //
-        if(isAllFieldValid($("#form-add-goods")) == false){
-            alert('Nội dung nhập chứa thông tin lỗi');
-            return;
-        }
-        //valid require serial
-        var isSerial;
-        var goods_code;
-        //
-        $.ajax({
-            url: $('#btn-check-serial').val(),
-            data:{code:$('#modal-cmb-goods').val()},
-            cache: false,
-            contentType: false,
-            async:false,
-            type: 'GET',
-            success: function(data){
-                isSerial = data["isSerial"];
-                goods_code = data["code"];
-            }
-        });
-        if(isSerial == '1'){
-            if(($('#modal-inp-amount').val() != "1")){
-                alert(goods_code +" là hàng quản lý serial, số lượng nhập phải là 1.");
-                return;
-            }
-            //
-            if(($('#modal-inp-serial').val().trim().length === 0)){
-                alert(goods_code +" là hàng quản lý serial, cần nhập thông tin serial.");
-                return;
-            }
-        }
-        //
-        preprocessInput($("#form-add-goods"));
-        //get data
-        var goodsCode = $('#modal-cmb-goods').val();
-        var goodsName = $("#modal-cmb-goods option:selected").text();
-        var amount = unFormatFloat($('#modal-inp-amount').val().trim());
-        if(!isInteger(amount)){
-            alert("Số lượng phải là số dương");
-            return;
-        }
-        var goodsStateValue = "Hỏng";
-        var goodsState = "0";
-        if($('#cmb-goods-state').prop('checked')){
-            goodsStateValue = "Bình thường";
-            goodsState = "1";
-        }
-        var inputPriceValue = unFormatFloat($('#modal-inp-input-price').val());
-        if(!isInteger(inputPriceValue)){
-            alert("Giá nhập phải là số dương");
-            return;
-        }
-        var serial =   escapeHtml($('#modal-inp-serial').val());
-        var cellCode = escapeHtml($('button[data-id=modal-cmb-cells]').attr('title'));
-        if(cellCode.includes("selected")){
-            cellCode = "";
-        }
-        //add to table
-        var columnId = ~~(Math.random() * 100) * -1,
-            rows = [];
-        rows.push({
-            goodsCode: goodsCode,
-            goodsName: goodsName,
-            goodsState: goodsState,
-            goodsStateValue: goodsStateValue,
-            serial:serial,
-            amountValue: formatFloatType(amount),
-            amount: amount,
-            inputPriceValue: formatFloatType(inputPriceValue),
-            inputPrice: inputPriceValue,
-            cellCode: cellCode,
-            columnId:columnId
-        });
-        //
-        $table.bootstrapTable('append', rows);
-        enableElement($('#btn-import'));
-        $('#modal-inp-serial').val('');
-        $('#modal-add-result').text("Bổ sung thành công");
-        $('#modal-add-result').fadeIn();
-        setTimeout(function() {
-            $('#modal-add-result').fadeOut('fast');
-        }, 3000);
-        $('#modal-inp-serial').focus();
-    }
-    //@Update action---------------------------------------------------------------------------------------------------
-    var $btnUpdateModal = $('#modal-btn-update');
-    $btnUpdateModal.click(function () {
-        //get data
-        var goodsCode = $('#modal-cmb-goods').val();
-        var goodsName = $("#modal-cmb-goods option:selected").text();
-        var amount = $('#modal-inp-amount').val();
-        var goodsStateValue = "Hỏng";
-        var goodsState = "0";
-        if($('#cmb-goods-state').prop('checked')){
-            goodsStateValue = "Bình thường";
-            goodsState = "1";
-        }
-        var inputPriceValue = $('#modal-inp-input-price').val();
-        var serial = $('#modal-inp-serial').val();
-        var cellCode = escapeHtml($('button[data-id=modal-cmb-cells]').attr('title'));
-        if(cellCode.includes("selected")){
-            cellCode = "";
-        }
-
-        $table.bootstrapTable('updateRow', {index:selectedIndex,row:{
-            goodsCode: goodsCode,
-            goodsName: goodsName,
-            goodsState: goodsState,
-            goodsStateValue: goodsStateValue,
-            serial:serial,
-            amountValue: formatFloatType(amount),
-            amount: amount,
-            inputPriceValue: formatFloatType(inputPriceValue),
-            inputPrice: inputPriceValue,
-            cellCode: cellCode
-        }});
-        //
-        hideModal($('#myModal'));
-    });
-    //OTHERS------------------------------------------------------------------------------------------------------------------
-    function changeModelByType(isAdd,selectedItems) {
-        var $cmbCell = $('select[name=modalCmbCells]');
-        //set cell for combo box
-        $.ajax({
-            type: 'GET',
-            url: $('#btn-get-cells').val(),
-            data:{stockId:$('#cmb-stock').val()},
-            cache: false,
-            contentType: false,
-            async:false,
-            success: function(data){
-                if(data.length == 0){
-                    disableElement($cmbCell);
-                }else{
-                    enableElement($cmbCell);
-                }
-                loadSelectItems($cmbCell,data);
-            },
-        });
-        //
-        if(isAdd){
-            clearContent();
-            //
-            showAdd();
-        }else{
-            clearContent();
-            $('select[name=modalCmbGoods]').val(selectedItems['goodsCode']);
-            $('select[name=modalCmbGoods]').selectpicker('refresh');
-            //
-            $('#modal-inp-amount').val(selectedItems['amountValue']);
-            if(selectedItems["goodsState"] =="1"){
-                $('#cmb-goods-state').bootstrapToggle('on');
-            }else{
-                $('#cmb-goods-state').bootstrapToggle('off');
-            }
-            $('#modal-inp-input-price').val(selectedItems['inputPriceValue']);
-            $('#modal-inp-serial').val(selectedItems['serial']);
-            $cmbCell.val(selectedItems['cellCode']);
-            //
-            $('.selectpicker').selectpicker('refresh')
-            showUpdate();
-            //
-        }
-    }
-
-    function clearContent() {
-        $('#cmb-goods-state').bootstrapToggle('on');
-        $('#modal-inp-input-price').val('');
-        $('#modal-inp-serial').val('');
-        $('select[name=modalCmbCells]').val("");
-        $('#modal-inp-amount').val('');
-    }
-
-    function loadSelectItems(select, items) {
-        select.empty();
-        $.each(items, function(i, item) {
-            var opt = document.createElement('option');
-            opt.value = item.code;
-            opt.innerHTML = item.code;
-            select.append(opt);
-        });
-        select.selectpicker('refresh');
-    }
-
-    $("#modal-inp-input-price").keyup(function() {
-        var currentValue = unFormatFloat($("#modal-inp-input-price").val());
-        $('#modal-label-inp-input-price').text(DOCSO.doc(currentValue));
-        $('#modal-inp-input-price').val(formatFloatType(currentValue));
-    });
-
-    $("#modal-inp-amount").keyup(function() {
-        var currentValue = unFormatFloat($("#modal-inp-amount").val());
-        $('#modal-inp-amount').val(formatFloatType(currentValue));
-    });
-
-    //@Refresh table----------------------------------------------------------
-    $('#btn-refresh-table').click(function () {
-        //
-        $("#modal-del-lbl-del-info").text('Xóa toàn bộ dữ liệu đã nhập?');
-        //
-        showModal($('#deleteConfirmModal'));
-    });
-
-    var btnClearTableConfirm = $('#modal-del-btn-ok');
-    btnClearTableConfirm.click(function () {
-        $table.bootstrapTable('removeAll');
-        $("#import-action-info").text('');
-        //
-        hideModal($('#deleteConfirmModal'))
-    });
-    //@Refresh table----------------------------------------------------------
-    $("#modal-cmb-goods").change(function () {
-        var inPrice;
-        var isSerial;
-        //
-        $.ajax({
-            type: 'GET',
-            url: $('#btn-check-serial').val(),
-            data:{code:$('#modal-cmb-goods').val()},
-            cache: false,
-            contentType: false,
-            async:false,
-            success: function(data){
-                currentGoods = data;
-                inPrice = currentGoods['inPrice'];
-                isSerial = data["isSerial"];
-            }
-        });
-        //
-        showElementBySerialType(isSerial);
-        $('#modal-inp-input-price').val(formatFloatType(inPrice));
-        $('#modal-label-inp-input-price').text(DOCSO.doc(inPrice));
-    });
-
-    function showElementBySerialType(serialType) {
-        if(serialType == '1'){
-            $('#modal-inp-amount').val('1');
-            disableElement($('#modal-inp-amount'));
-            enableElement($('#modal-inp-serial'));
-            //
-            $modalAddImportGoods.on('shown.bs.modal', function () {
-                $('#modal-inp-serial').focus();
-            });
-        }else{
-            disableElement($('#modal-inp-serial'));
-            $('#modal-inp-serial').val('');
-            enableElement($('#modal-inp-amount'));
-            $modalAddImportGoods.on('shown.bs.modal', function () {
-                $('#modal-inp-amount').focus();
-            });
-        }
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-</script>
+<!--functions-->
+<script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
+<script th:attr="src=@{/js/wms-import.js}" th:href="@{/js/wms-import.js}"></script>
 </body>
 </html>

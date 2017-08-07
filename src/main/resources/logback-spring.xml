@@ -7,40 +7,23 @@
             </Pattern>
         </layout>
     </appender>
-    <!--log by time-->
     <appender name="FILEBYTIME" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>/WMS/logs/portal/logFile.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/WMS/logs/portal/logFile.%d.log</fileNamePattern>
-            <maxHistory>365</maxHistory><!--the maximum number of archive files to keep-->
-            <totalSizeCap>10GB</totalSizeCap><!--total size of all archive files-->
-            <!--<maxFileSize>20MB</maxFileSize>-->
+            <fileNamePattern>/WMS/logs/portal/logFile.%d.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!--sift log-->
-    <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
-        <discriminator>
-            <key>userid</key>
-            <defaultValue>unknown</defaultValue>
-        </discriminator>
-        <sift>
-            <appender name="FILE-${userid}" class="ch.qos.logback.core.FileAppender">
-                <file>/WMS/logs/portal/catUserDTO/${userid}.log</file>
-                <append>false</append>
-                <layout class="ch.qos.logback.classic.PatternLayout">
-                    <pattern> %userid %d [%thread] %level %mdc %logger{35} - %msg%n</pattern>
-                </layout>
-            </appender>
-        </sift>
-    </appender>
-    <!--ROOT -->
     <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILEBYTIME"/>
-        <!--<appender-ref ref="SIFT"/>-->
     </root>
 </configuration>

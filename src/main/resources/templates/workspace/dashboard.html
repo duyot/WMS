@@ -11,8 +11,6 @@
     <link href="css/style.css" th:href="@{/workspace_resource/css/style.css}" rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
     <link href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}" rel="stylesheet" type="text/css" media="all"/>
-
-    <link rel="stylesheet" href="/css/bootstrap-combobox.css" th:href="@{/css/bootstrap-combobox.css}"/>
     <!--JS-->
     <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
     <script>
@@ -72,6 +70,10 @@
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
 <script type="text/javascript">
+    //init chart properties
+    Highcharts.setOptions({
+        colors: ['#309be3', '#f0763e', '#8963b0', '#dc5356', '#d1aa41', '#FF9655', '#FFF263','#6AF9C4']
+    });
     //init revenue data------------------------------------------------------------------------------------------------
     var revenueData = null;
     var date = new Date();
@@ -183,9 +185,9 @@
             }
         },
 
-//        tooltip: {
-//            pointFormat: '<b style="color:{point.color}">{point.y:.0f}</b><br/>'
-//        },
+        tooltip: {
+            pointFormat: ''
+        },
 
         series: [{
             colorByPoint: true,

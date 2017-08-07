@@ -120,14 +120,6 @@ public class ImportStockController extends BaseController{
         return catStockCellService.findByCondition(lstCon,tokenInfo);
     }
 
-    @RequestMapping(value = "/getListSerialInStock")
-    public @ResponseBody List<String> getListSerialInStock(@RequestParam("stockId")String stockId,
-                                                           @RequestParam("goodsId")String goodsId,@RequestParam("goodsState")String goodsState
-                                                           ){
-        return stockManagementService.getListSerialInStock(selectedCustomer.getId(),stockId,goodsId,goodsState,tokenInfo);
-    }
-
-
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public List<MjrStockTransDetailDTO> uploadFile(MultipartHttpServletRequest request) {

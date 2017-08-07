@@ -3,6 +3,7 @@ package com.wms.dataprovider;
 import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
 import com.wms.dto.AuthTokenInfo;
+import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.dto.ResponseObject;
 import com.wms.dto.StockTransDTO;
 import com.wms.utils.BundleUtils;
@@ -23,6 +24,8 @@ public class StockManagementDP {
     private final String IMPORT_STOCK_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "import";
     private final String EXPORT_STOCK_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "export";
     private final String GET_SERIAL_IN_STOCK_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "getListSerialInStock";
+    private final String CANCEL_TRANS_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "cancelTransaction";
+    private final String GET_TRANS_GOODS_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "getTransGoodsDetail";
 
     public ResponseObject importStock(StockTransDTO stockTrans, AuthTokenInfo tokenInfo){
         RestTemplate restTemplate = new RestTemplate();
@@ -43,6 +46,22 @@ public class StockManagementDP {
             } catch (RestClientException e) {
                 return Lists.newArrayList();
             }
+    }
+
+    public ResponseObject cancelTrans(String transId, AuthTokenInfo tokenInfo){
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.postForObject(CANCEL_TRANS_URL+"?access_token="+tokenInfo.getAccess_token(),transId,ResponseObject.class);
+    }
+
+    public List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType, AuthTokenInfo tokenInfo){
+        RestTemplate restTemplate = new RestTemplate();
+        String url = GET_TRANS_GOODS_URL + "?custId="+ custId + "&stockId=" + stockId + "&transId=" + transId + "&transType="+ transType + "&access_token="+ tokenInfo.getAccess_token();
+        try {
+            ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,MjrStockTransDetailDTO[].class);
+            return Arrays.asList(responseEntity.getBody());
+        } catch (RestClientException e) {
+            return Lists.newArrayList();
+        }
     }
 
 }

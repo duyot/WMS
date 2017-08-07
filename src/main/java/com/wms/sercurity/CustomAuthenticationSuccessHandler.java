@@ -31,7 +31,6 @@ import java.util.Set;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-    Logger log = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
     @Autowired
     BaseService customerService;
 

@@ -58,7 +58,8 @@ public class CatGoodsGroupController extends BaseCommonController{
         List<CatGoodsGroupDTO> lstCatGoods = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
 
         for(CatGoodsGroupDTO i: lstCatGoods){
-            i.setName(StringEscapeUtils.escapeHtml(i.getName()));
+            //i.setName(StringEscapeUtils.escapeHtml(i.getName()));
+            i.setName(i.getName());
             i.setCustName(selectedCustomer.getName());
             i.setStatusName(mapAppStatus.get(i.getStatus()));
         }

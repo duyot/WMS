@@ -1,6 +1,7 @@
 package com.wms.services.interfaces;
 
 import com.wms.dto.AuthTokenInfo;
+import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.dto.ResponseObject;
 import com.wms.dto.StockTransDTO;
 
@@ -13,4 +14,6 @@ public interface StockManagementService {
     ResponseObject importStock(StockTransDTO stockTrans,AuthTokenInfo tokenInfo);
     ResponseObject exportStock(StockTransDTO stockTrans,AuthTokenInfo tokenInfo);
     List<String> getListSerialInStock(String custId, String stockId, String goodsId, String goodsState, AuthTokenInfo tokenInfo);
+    ResponseObject cancelTrans(String transId, AuthTokenInfo tokenInfo);
+    List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType, AuthTokenInfo tokenInfo);
 }
