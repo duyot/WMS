@@ -338,10 +338,13 @@
                 if(data == ''){
                     //
                     showElement($('#link-upload-goods-error'));
+                    $tableAddListGoods.bootstrapTable('refresh');
+                    clearFileInput('inp-file-import');
                     //
                     return;
                 }
                 hideElement($('#link-upload-goods-error'));
+                clearFileInput('inp-file-import');
                 $tableAddListGoods.bootstrapTable('load', data);
                 //
                 enableElement($('#modal-btn-save-goods'));
@@ -423,10 +426,16 @@
             rules: {
                 code: {
                     required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
                     maxlength: 50
                 },
                 name: {
                     required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
                     maxlength: 100
                 },
                 unitType: {
@@ -437,10 +446,16 @@
                 },
                 inPrice: {
                     required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
                     number: true
                 },
                 outPrice: {
                     required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
                     number: true
                 }
             },
@@ -544,12 +559,14 @@
 
     $("#modal-inp-input-price").keyup(function() {
         var currentValue = unFormatFloat($("#modal-inp-input-price").val());
+        currentValue = currentValue.replace(/\./g,"");
         $('#modal-label-inp-input-price').text(DOCSO.doc(currentValue));
         $('#modal-inp-input-price').val(formatFloatType(currentValue));
     });
 
     $("#modal-inp-output-price").keyup(function() {
         var currentValue = unFormatFloat($("#modal-inp-output-price").val());
+        currentValue = currentValue.replace(/\./g,"");
         $('#modal-label-output-price').text(DOCSO.doc(currentValue));
         $('#modal-inp-output-price').val(formatFloatType(currentValue));
     });

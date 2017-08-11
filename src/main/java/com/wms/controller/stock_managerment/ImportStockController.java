@@ -100,7 +100,7 @@ public class ImportStockController extends BaseController{
         if(!DataUtil.isListNullOrEmpty(lstGoodsError)){
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName ="Error_"+ errorItem.getCustId() + "_"+ errorItem.getStockId() + "_"+ errorItem.getImportStockTransId();
-            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName);
+            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName,true);
             FunctionUtils.loadFileToClient(response,BundleUtils.getKey("temp_url")+ fileName);
         }
     }
@@ -123,7 +123,7 @@ public class ImportStockController extends BaseController{
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public List<MjrStockTransDetailDTO> uploadFile(MultipartHttpServletRequest request) {
-        //1. get the files from the request object
+        //1. get files from request object
         Iterator<String> itr =  request.getFileNames();
         MultipartFile mpf = request.getFile(itr.next());
         //
@@ -131,7 +131,7 @@ public class ImportStockController extends BaseController{
         if(!importFileResult.isValid()){
             //save error file
             String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
-            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(),prefixFileName);
+            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(),prefixFileName,true);
             //save in session
             request.getSession().setAttribute("file_import_error",fileName);
             return null;

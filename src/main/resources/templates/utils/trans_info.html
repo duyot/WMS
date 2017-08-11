@@ -101,7 +101,7 @@
                                                 data-width="100%" name="cmb-user">
                                             <option value="-1" th:text="#{label.all}"></option>
                                             <option  th:each="sopt:${lstUsers}"
-                                                     th:value="${sopt.code}" th:text="${sopt.name}">1</option>
+                                                     th:value="${sopt.code}" th:text="${sopt.code}">1</option>
                                         </select>
                                     </div>
                                 </div>
@@ -318,7 +318,6 @@
                     setErrorMessage($('#action-info'),resultName);
                 }
                 search(false);
-
             },
             error:function(){
                 setErrorMessage($('#action-info'),'Lỗi hệ thống');
@@ -333,19 +332,21 @@
         var key = e.which;
         if(key === 13)  // the enter key code
         {
-            search();
+            search(true);
         }
     });
     var $btnSearch = $('#btn-search-serial');
     $btnSearch.click(function () {
-        search();
+        search(true);
     });
 
-    function search(){
+    function search(isClear){
         //
         NProgress.start();
         //
-        $("#action-info").text('');
+        if(isClear){
+            $("#action-info").text('');
+        }
         //search info stock_id/goods_group/goods/serial
         var stock_id = $('#cmb-stock').val();
         var createdUser = $('#cmb-user').val();

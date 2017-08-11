@@ -28,7 +28,7 @@
                                 <div class="col-sm-12">
                                     <select name="modalCmbGoods" id="modal-cmb-goods" class="form-control selectpicker"  data-live-search="true" data-width="100%" required="true" >
                                         <option  th:each="sopt:${lstGoods}"
-                                                 th:value="${sopt.code}" th:text="${sopt.name}">1</option>
+                                                 th:value="${sopt.code}" th:text="${sopt.code}+' | '+${sopt.name}">1</option>
                                     </select>
                                 </div>
                             </div>
@@ -55,6 +55,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <p id="modal-label-available-amount" style="font-size:0.8em;color: #337ab7;line-height: 1em;"></p>
+                                    </div>
+                                </div>
+                            </div>
                             <!--row 5-->
                             <div class="row row-header">
                                 <div class="col-sm-12">
@@ -67,7 +74,7 @@
                             <div id="div-status" class="row row-content">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input id="cmb-goods-state" checked="true" data-toggle="toggle" type="checkbox"/>
+                                        <input id="cmb-goods-state" checked="true" data-toggle="toggle" type="checkbox" data-width="110" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +93,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-rmb fa-fw"></i>
                                         </span>
-                                        <input id="modal-inp-input-price"  class="form-control" style="text-align: right"
+                                        <input id="modal-inp-input-price"  class="form-control input-number"
                                                name="amount"  placeholder="1,2,1.5..."/>
                                     </div>
                                 </div>

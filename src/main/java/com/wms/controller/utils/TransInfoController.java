@@ -114,7 +114,7 @@ public class TransInfoController extends BaseController{
         }
 
         if(!DataUtil.isStringNullOrEmpty(transType) && !transType.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("type",Constants.SQL_OPERATOR.EQUAL,transType));
+            lstCon.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,transType));
         }
 
         if(!DataUtil.isStringNullOrEmpty(transCode)){

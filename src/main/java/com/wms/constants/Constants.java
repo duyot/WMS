@@ -19,6 +19,7 @@ public class Constants {
 
     public static class FILE_RESOURCE{
         public static String IMPORT_ERROR_TEMPLATE = "File_loi_nhap_hang.xlsx";
+        public static String EXPORT_ERROR_TEMPLATE = "File_loi_xuat_hang.xlsx";
         public static String IMPORT_GOODS_ERROR_TEMPLATE = "File_loi_hang_hoa.xlsx";
         public static String GOODS_TOTAL_TEMPLATE = "Thong_tin_hang_trong_kho.xlsx";
         public static String GOODS_DETAILS_TEMPLATE = "Thong_tin_chi_tiet_hang_trong_kho.xlsx";
@@ -87,6 +88,7 @@ public class Constants {
         public static String IN = "IN";
         public static String LIKE = "LIKE";
         public static String ORDER = "ORDER";
+        public static String VNM_ORDER = "VNM_ORDER";
         public static String BETWEEN = "BETWEEN";
         public static String LIMIT = "LIMIT";
         public static String OFFSET = "OFFSET";

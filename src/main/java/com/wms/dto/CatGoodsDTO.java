@@ -27,6 +27,7 @@ public class CatGoodsDTO extends BaseDTO{
     private String inPriceValue;
     private String outPriceValue;
     private String errorInfo;
+    private String amount;
 
     public String getIsSerialName() {
         return isSerialName;
@@ -209,6 +210,14 @@ public class CatGoodsDTO extends BaseDTO{
 
     public void setCustName(String custName) {
         this.custName = custName;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
     @Override

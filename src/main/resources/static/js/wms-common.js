@@ -1,6 +1,42 @@
 /**
  * Created by duyot on 11/16/2016.
  */
+
+function clearFileInput(id)
+{
+    var oldInput = document.getElementById(id);
+
+    var newInput = document.createElement("input");
+
+    newInput.type = "file";
+    newInput.id = oldInput.id;
+    newInput.name = oldInput.name;
+    newInput.className = oldInput.className;
+    newInput.style.cssText = oldInput.style.cssText;
+    // TODO: copy any other relevant attributes
+
+    oldInput.parentNode.replaceChild(newInput, oldInput);
+}
+
+
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
+//incombo, name like goodsCode | goodsName
+function getGoodsNameInCombo(value){
+    var arr  = value.split("|");
+    return arr[1].trim();
+
+}
+
 function trimAtChacter(value,character){
     return value.substring(0,value.indexOf(character));
 }
@@ -50,7 +86,11 @@ function unFormatFloat(value) {
 
 function replaceAll(value,search, replacement) {
     return value.replace(new RegExp(search, 'g'), replacement);
-};
+}
+
+function replaceAllDot(value, replacement) {
+    value.replace(/\./g,replacement);
+}
 
 function formatFloatType(text) {
     return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");

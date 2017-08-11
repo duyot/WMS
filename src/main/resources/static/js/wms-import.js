@@ -3,10 +3,14 @@ $table = $('#tbl-import-goods');
 $modalAddImportGoods = $('#myModal');
 $inpSerial =  $('#modal-inp-serial');
 $inpAmount =  $('#modal-inp-amount');
+$inpPrice  = $('#modal-inp-input-price');
+$cmbGoods  = $("#modal-cmb-goods")
 var dataInit = [
 ];
+var enteredSerials = [];
 var selectedIndex = -1;
 $body = $("body");
+var isUpdate = false;
 //-------------------------------------------------------------------------------------------------------
 function operateFormatter(value, row, index) {
     return [
@@ -38,6 +42,7 @@ $(function () {
 //ROW FUNCTION------------------------------------------------------------------------------------------------------
 window.operateEvents = {
     'click .update-goods': function (e, value, row, index) {
+        isUpdate = true;
         changeModelByType(false,row);
         showModal($('#myModal'))
     },
@@ -48,6 +53,9 @@ window.operateEvents = {
             field: 'columnId',
             values: [row['columnId']]
         });
+        //
+        var keySerial  = row['goodsCode'] + row["goodsState"]  + row['serial'];
+        enteredSerials = enteredSerials.remove(keySerial);
     }
 };
 //@Upload---------------------------------------------------------------------
@@ -157,7 +165,7 @@ btnImportConfirm.click(function () {
             if(resultMessage == "SUCCESS_WITH_ERROR"){
                 var totalRecords   = data['total'];
                 //show modal upload file
-                $("#modal-error-import-lbl-info").text('Nhập '+successRecords+'/'+totalRecords+' hàng thành công với mã giao dịch '+ stockTransId);
+                $("#modal-error-import-lbl-info").text('Nhập '+successRecords+'/'+totalRecords+' hàng thành công với mã phiếu: '+ stockTransId);
                 $("#modal-link-download").attr("href",$("#modal-inp-stock-trans-id").val()+"/"+ stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             }else if(resultMessage == "FAIL"){
@@ -167,6 +175,7 @@ btnImportConfirm.click(function () {
             }
             disableElement($('#btn-import'));
             $table.bootstrapTable('removeAll');
+	        enteredSerials = [];
         },
         error: function(data){
             setErrorMessage($lblInfo,JSON.stringify(data))
@@ -179,6 +188,8 @@ btnImportConfirm.click(function () {
 
 //@Add action---------------------------------------------------------------------------------------------------
 $('#btn-add').click(function () {
+    //
+    isUpdate = false;
     $('#modal-add-result').text('');
     changeModelByType(true,null);
     //
@@ -188,7 +199,7 @@ $('#btn-add').click(function () {
     $.ajax({
         type: "GET",
         url: $('#btn-check-serial').val(),
-        data:{code:$('#modal-cmb-goods').val()},
+        data:{code:$cmbGoods.val()},
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         cache: false,
         dataType: 'json',
@@ -200,7 +211,7 @@ $('#btn-add').click(function () {
     });
     //
     showElementBySerialType(isSerial);
-    $('#modal-inp-input-price').val(formatFloatType(price));
+    $inpPrice.val(formatFloatType(price));
     $('#modal-label-inp-input-price').text(DOCSO.doc(price));
     //
     showModal($('#myModal'));
@@ -217,7 +228,7 @@ function addImportGoods() {
     //
     $.ajax({
         url: $('#btn-check-serial').val(),
-        data:{code:$('#modal-cmb-goods').val()},
+        data:{code:$cmbGoods.val()},
         cache: false,
         contentType: false,
         async:false,
@@ -241,8 +252,8 @@ function addImportGoods() {
     //
     preprocessInput($("#form-add-goods"));
     //get data
-    var goodsCode = $('#modal-cmb-goods').val();
-    var goodsName = $("#modal-cmb-goods option:selected").text();
+    var goodsCode = $cmbGoods.val();
+    var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
     var amount = unFormatFloat($inpAmount.val());
     if(!isInteger(amount)){
         alert("Số lượng phải là số dương");
@@ -254,7 +265,7 @@ function addImportGoods() {
         goodsStateValue = "Bình thường";
         goodsState = "1";
     }
-    var inputPriceValue = unFormatFloat($('#modal-inp-input-price').val());
+    var inputPriceValue = unFormatFloat($inpPrice.val());
     if(!isInteger(inputPriceValue)){
         alert("Giá nhập phải là số dương");
         return;
@@ -264,7 +275,17 @@ function addImportGoods() {
     if(cellCode.includes("selected")){
         cellCode = "";
     }
-    //add to table
+    //check whether serial is entered before
+    var keySerial = goodsCode + goodsState + serial;
+    if(isSerial == '1' && enteredSerials.indexOf(keySerial) > -1){
+        setErrorMessage($('#modal-add-result').css('color','#F44336'),"Serial đã được nhập");
+        $inpSerial.val('');
+        $inpSerial.focus();
+        return;
+    }else{
+        enteredSerials.push(keySerial);
+    }
+    //everything ok -> add to table
     var columnId = ~~(Math.random() * 100) * -1,
         rows = [];
     rows.push({
@@ -284,34 +305,71 @@ function addImportGoods() {
     $table.bootstrapTable('append', rows);
     enableElement($('#btn-import'));
 
-    $('#modal-add-result').text("Bổ sung thành công");
-    $('#modal-add-result').fadeIn();
-    setTimeout(function() {
-        $('#modal-add-result').fadeOut('fast');
-    }, 3000);
+    setInfoMessage($('#modal-add-result'),"Bổ sung thành công");
     $inpSerial.val('');
     $inpSerial.focus();
 }
 //@Update action---------------------------------------------------------------------------------------------------
 var $btnUpdateModal = $('#modal-btn-update');
 $btnUpdateModal.click(function () {
+    updateGoods();
+});
+
+function updateGoods() {
+    //valid require serial
+    var isSerial = "";
+    var goods_code = "";
+    //
+    $.ajax({
+        url: $('#btn-check-serial').val(),
+        data:{code:$cmbGoods.val()},
+        cache: false,
+        contentType: false,
+        async:false,
+        type: 'GET',
+        success: function(data){
+            isSerial = data["isSerial"];
+            goods_code = data["code"];
+        }
+    });
+    if(isSerial === '1'){
+        if(($inpAmount.val() !== "1")){
+            alert(goods_code +" là hàng quản lý serial, số lượng nhập phải là 1.");
+            return;
+        }
+        //
+        if(($inpSerial.val().trim().length === 0)){
+            alert(goods_code +" là hàng quản lý serial, cần nhập thông tin serial.");
+            return;
+        }
+    }
+    //
+    preprocessInput($("#form-add-goods"));
     //get data
-    var goodsCode = $('#modal-cmb-goods').val();
-    var goodsName = $("#modal-cmb-goods option:selected").text();
-    var amount = $inpAmount.val();
+    var goodsCode = $cmbGoods.val();
+    var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
+    var amount = unFormatFloat($inpAmount.val());
+    if(!isInteger(amount)){
+        alert("Số lượng phải là số dương");
+        return;
+    }
     var goodsStateValue = "Hỏng";
     var goodsState = "0";
     if($('#cmb-goods-state').prop('checked')){
         goodsStateValue = "Bình thường";
         goodsState = "1";
     }
-    var inputPriceValue = $('#modal-inp-input-price').val();
-    var serial = $inpSerial.val();
+    var inputPriceValue = unFormatFloat($inpPrice.val());
+    if(!isInteger(inputPriceValue)){
+        alert("Giá nhập phải là số dương");
+        return;
+    }
+    var serial =   escapeHtml($inpSerial.val());
     var cellCode = escapeHtml($('button[data-id=modal-cmb-cells]').attr('title'));
     if(cellCode.includes("selected")){
         cellCode = "";
     }
-
+    //everything all right -> update row
     $table.bootstrapTable('updateRow', {index:selectedIndex,row:{
         goodsCode: goodsCode,
         goodsName: goodsName,
@@ -326,7 +384,8 @@ $btnUpdateModal.click(function () {
     }});
     //
     hideModal($('#myModal'));
-});
+}
+
 //OTHERS------------------------------------------------------------------------------------------------------------------
 function changeModelByType(isAdd,selectedItems) {
     var $cmbCell = $('select[name=modalCmbCells]');
@@ -363,7 +422,7 @@ function changeModelByType(isAdd,selectedItems) {
         }else{
             $('#cmb-goods-state').bootstrapToggle('off');
         }
-        $('#modal-inp-input-price').val(selectedItems['inputPriceValue']);
+        $inpPrice.val(selectedItems['inputPriceValue']);
         $inpSerial.val(selectedItems['serial']);
         $cmbCell.val(selectedItems['cellCode']);
         //
@@ -375,12 +434,13 @@ function changeModelByType(isAdd,selectedItems) {
 
 $("#modal-inp-input-price").keyup(function() {
     var currentValue = unFormatFloat($("#modal-inp-input-price").val());
+    currentValue = currentValue.replace(/\./g,"");
     $('#modal-label-inp-input-price').text(DOCSO.doc(currentValue));
-    $('#modal-inp-input-price').val(formatFloatType(currentValue));
+    $inpPrice.val(formatFloatType(currentValue));
 });
 
-$("#modal-inp-amount").keyup(function() {
-    var currentValue = unFormatFloat($("#modal-inp-amount").val());
+$inpAmount.keyup(function() {
+    var currentValue = unFormatFloat($inpAmount.val());
     $inpAmount.val(formatFloatType(currentValue));
 });
 
@@ -395,31 +455,31 @@ $('#btn-refresh-table').click(function () {
 var btnClearTableConfirm = $('#modal-del-btn-ok');
 btnClearTableConfirm.click(function () {
     $table.bootstrapTable('removeAll');
+    enteredSerials = [];
     $("#import-action-info").text('');
     //
     hideModal($('#deleteConfirmModal'))
 });
-//changed ini cmb goods----------------------------------------------------------
-$("#modal-cmb-goods").change(function () {
+//on changed cmb goods----------------------------------------------------------
+$cmbGoods.change(function () {
     var inPrice  = "";
     var isSerial = "";
     //
     $.ajax({
         type: 'GET',
         url: $('#btn-check-serial').val(),
-        data:{code:$('#modal-cmb-goods').val()},
+        data:{code:$cmbGoods.val()},
         cache: false,
         contentType: false,
         async:false,
         success: function(data){
-            currentGoods = data;
-            inPrice = currentGoods['inPrice'];
+            inPrice = data['inPrice'];
             isSerial = data["isSerial"];
         }
     });
     //
     showElementBySerialType(isSerial);
-    $('#modal-inp-input-price').val(formatFloatType(inPrice));
+    $inpPrice.val(formatFloatType(inPrice));
     $('#modal-label-inp-input-price').text(DOCSO.doc(inPrice));
 });
 
@@ -446,7 +506,7 @@ function showElementBySerialType(serialType) {
 
 function clearContent() {
         $('#cmb-goods-state').bootstrapToggle('on');
-        $('#modal-inp-input-price').val('');
+        $inpPrice.val('');
         $inpSerial.val('');
         $('select[name=modalCmbCells]').val("");
         $inpAmount.val('');
@@ -467,7 +527,11 @@ $inpSerial.keypress(function (e) {
     var key = e.which;
     if(key == 13)  // the enter key code
     {
-        addImportGoods();
+        if(isUpdate){
+            updateGoods();
+        }else{
+            addImportGoods();
+        }
     }
 });
 
@@ -475,7 +539,11 @@ $inpAmount.keypress(function (e) {
     var key = e.which;
     if(key == 13)  // the enter key code
     {
-        addImportGoods();
+        if(isUpdate){
+            updateGoods();
+        }else{
+            addImportGoods();
+        }
     }
 });
 //-----------------------------------------------------------------------------------------------------------------

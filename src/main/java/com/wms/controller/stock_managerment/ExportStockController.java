@@ -35,6 +35,8 @@ public class ExportStockController extends BaseController{
     @Autowired
     StockManagementService stockManagementService;
     @Autowired
+    BaseService mjrStockGoodsTotalService;
+    @Autowired
     BaseService err$MjrStockGoodsSerialService;
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
@@ -110,17 +112,30 @@ public class ExportStockController extends BaseController{
         if(!DataUtil.isListNullOrEmpty(lstGoodsError)){
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName ="Error_"+ errorItem.getCustId() + "_"+ errorItem.getStockId() + "_"+ errorItem.getImportStockTransId();
-            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName);
+            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName,false);
             FunctionUtils.loadFileToClient(response,BundleUtils.getKey("temp_url")+ fileName);
         }
     }
 
     @RequestMapping(value = "/isSerial")
-    public @ResponseBody CatGoodsDTO isSerial(@RequestParam("code")String code){
+    public @ResponseBody CatGoodsDTO isSerial(@RequestParam("code")String code,@RequestParam("stockId")String stockId){
         CatGoodsDTO catGoodsDTO = mapGoodsCodeGoods.get(code);
         catGoodsDTO.setInPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getInPrice()));
         catGoodsDTO.setOutPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getOutPrice()));
-        return catGoodsDTO;
+        //get current amount in stock
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,stockId));
+        lstCon.add(new Condition("goodsId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,catGoodsDTO.getId()));
+        List<MjrStockGoodsTotalDTO> lstTotal =  mjrStockGoodsTotalService.findByCondition(lstCon,tokenInfo);
+        if (DataUtil.isListNullOrEmpty(lstTotal)) {
+            catGoodsDTO.setAmount("0");
+            return catGoodsDTO;
+        }
+        MjrStockGoodsTotalDTO item = lstTotal.get(0);
+        catGoodsDTO.setAmount(item.getAmount());
+        //
+        return  catGoodsDTO;
     }
 
     @RequestMapping(value = "/getListSerialInStock")
@@ -131,7 +146,8 @@ public class ExportStockController extends BaseController{
         if (goods == null) {
             return Lists.newArrayList();
         }
-        return stockManagementService.getListSerialInStock(selectedCustomer.getId(), stockId, goods.getId(), goodsState, tokenInfo);
+        List<String> lst = stockManagementService.getListSerialInStock(selectedCustomer.getId(), stockId, goods.getId(), goodsState, tokenInfo);
+        return lst;
     }
 
 
@@ -146,7 +162,7 @@ public class ExportStockController extends BaseController{
         if(!importFileResult.isValid()){
             //save error file
             String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
-            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(),prefixFileName);
+            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(),prefixFileName,false);
             //save in session
             request.getSession().setAttribute("file_import_error",fileName);
             return null;

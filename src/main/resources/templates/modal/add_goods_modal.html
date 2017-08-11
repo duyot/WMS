@@ -23,20 +23,22 @@
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.fileupload}" for="modal-btn-upload-excel"></label>
                                 </div>
-                                <div class="col-sm-1">
-                                    <div class="input-group">
-                                        <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload"
-                                                id="modal-btn-upload-excel" th:value="@{/workspace/cat_goods_ctr/upload}">
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
+
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <div class="input-group">
                                             <input id="inp-file-import" data-toggle="toggle" type="file"
                                                    onchange="isValidExcel(this);"
                                             />
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload"
+                                                id="modal-btn-upload-excel" th:value="@{/workspace/cat_goods_ctr/upload}">
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
@@ -69,14 +71,14 @@
                             <thead>
                             <tr>
                                 <th  data-formatter="runningFormatter" data-align="center" data-width="30px">STT</th>
-                                <th  class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
+                                <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
                                 <th  class="col-md-2" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
-                                <th  class="col-md-1" data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
-                                <th  class="col-md-2" data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
-                                <th  class="col-md-1" data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
-                                <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="TT"></th>
-                                <th  class="col-md-2" data-field="inPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
-                                <th  class="col-md-2" data-field="outPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
+                                <th   data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
+                                <th   data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
+                                <th   data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
+                                <th   data-field="statusName" data-align="left" data-sortable="true" th:text="TT"></th>
+                                <th   data-field="inPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
+                                <th   data-field="outPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
                             </tr>
                             </thead>
                             </table>

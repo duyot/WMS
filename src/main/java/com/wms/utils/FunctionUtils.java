@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,8 +47,8 @@ public class FunctionUtils {
     }
 
     //build map app_params
-    public static Map<String,String>  buildMapAppParams(List<AppParamsDTO> lstAppParams){
-        Map<String,String> map   = new HashMap();
+    public static LinkedHashMap<String,String>  buildMapAppParams(List<AppParamsDTO> lstAppParams){
+        LinkedHashMap<String,String> map   = new LinkedHashMap<>();
         for(AppParamsDTO i: lstAppParams){
             map.put(i.getCode(),i.getName());
         }
@@ -60,6 +61,7 @@ public class FunctionUtils {
     public static List<AppParamsDTO> getAppParams(BaseService service,AuthTokenInfo tokenInfo){
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
         return service.findByCondition(lstCondition,tokenInfo);
     }
 
@@ -194,7 +196,7 @@ public class FunctionUtils {
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL, custId));
         lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"asc"));
+        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
         return lstCondition;
     }
 
@@ -230,14 +232,19 @@ public class FunctionUtils {
     /*
         export error when importing
      */
-    public static String exportExcelError(List<MjrStockTransDetailDTO> lstError,String prefixFileName){
-        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_ERROR_TEMPLATE;
+    public static String exportExcelError(List<MjrStockTransDetailDTO> lstError,String prefixFileName, boolean isImportTrans){
+        String templatePath;
+        if (isImportTrans) {
+            templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_ERROR_TEMPLATE;
+        }else{
+            templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.EXPORT_ERROR_TEMPLATE;
+        }
         log.info("Number of Errors: "+ lstError.size());
 
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
 
-        Map<String, Object> beans = new HashMap<String, Object>();
+        Map<String, Object> beans = new HashMap<>();
         beans.put("items", lstError);
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
@@ -356,7 +363,11 @@ public class FunctionUtils {
             return "";
         }
         cell.setCellType(CellType.STRING);
-        return cell.getStringCellValue().trim();
+        return trimNoBreakingSpace(cell.getStringCellValue());
+    }
+
+    public static String trimNoBreakingSpace(String str){
+        return str.replace(String.valueOf((char) 160), "").trim();
     }
 
     public static ImportFileResultDTO getListStockImportFromFile(MultipartFile mpf, HashSet<String> setGoodsCode,
@@ -383,41 +394,55 @@ public class FunctionUtils {
             StringBuilder errorInfo;
             CatGoodsDTO goodsDTO;
             boolean isSerial;
+            String serial;
+            List<String> lstCheckSerial = Lists.newArrayList();
+            String serialCheckKey;
             while(rowIterator.hasNext()) {
                 isSerial = false;
+                goodsDTO = null;
                 count ++;
                 MjrStockTransDetailDTO goodsItem = new MjrStockTransDetailDTO();
                 goodsItem.setColumnId(count+"");
                 errorInfo = new StringBuilder();
                 //
                 Row row = rowIterator.next();
-                //goods serial
-                Cell cellSerial = row.getCell(4);
-                String serial = getCellValue(cellSerial);
-                goodsItem.setSerial(serial);
-                //goods code
+                //CODE
                 Cell cellGoodsCode = row.getCell(1);
                 String goodsCode = getCellValue(cellGoodsCode);
                 if(DataUtil.isStringNullOrEmpty(goodsCode)){
                     errorInfo.append("Chưa có mã hàng");
                     isValid = false;
                 }else{
-                    //check if goods_code is valid
+                    //check whether goods_code is valid
                     if(!setGoodsCode.contains(goodsCode)){
                         errorInfo.append("\n Mã hàng không hợp lệ");
                         isValid = false;
                     }else{
-                        //check serial info
                         goodsDTO = mapGoods.get(goodsCode);
                         isSerial = goodsDTO.isSerial();
-                        if(isSerial && DataUtil.isStringNullOrEmpty(serial)){
-                            errorInfo.append("\n Hàng serial cần nhập thông tin serial");
-                            isValid = false;
-                        }
                     }
                 }
                 goodsItem.setGoodsCode(goodsCode);
-                //goods name
+                //SERIAL
+                if (isSerial) {
+                    Cell cellSerial = row.getCell(4);
+                    serial = getCellValue(cellSerial);
+                    if(DataUtil.isStringNullOrEmpty(serial)){
+                        errorInfo.append("\n Hàng serial cần nhập thông tin serial");
+                        isValid = false;
+                    }else{
+                        //CHECK ENTERED SERIAL
+                        serialCheckKey = goodsCode + goodsCode + serial;
+                        if(lstCheckSerial.contains(serialCheckKey)){
+                            errorInfo.append("\n Serial đã được nhập");
+                            isValid = false;
+                        }else{
+                            lstCheckSerial.add(serialCheckKey);
+                        }
+                    }
+                    goodsItem.setSerial(serial);
+                }
+                //NAME
                 Cell cellGoodsName = row.getCell(2);
                 goodsItem.setGoodsName(getCellValue(cellGoodsName));
                 //STATE
@@ -456,10 +481,7 @@ public class FunctionUtils {
                 //PRICE
                 Cell cellPrice = row.getCell(6);
                 String price = getCellValue(cellPrice);
-                if(DataUtil.isStringNullOrEmpty(price)){
-                    errorInfo.append("\n Chưa có giá");
-                    isValid = false;
-                }else{
+                if(!DataUtil.isStringNullOrEmpty(price)){
                     if(!isNumberFloat(price)){
                         errorInfo.append("\n Giá phải là số và >0");
                         isValid = false;
@@ -470,16 +492,25 @@ public class FunctionUtils {
                             goodsItem.setOutputPriceValue(formatNumber(price));
                         }
                     }
+                }else{
+                    if(goodsDTO != null){
+                        if(isImportTransaction){
+                            goodsItem.setInputPriceValue(formatNumber(goodsDTO.getInPrice()));
+                        }else{
+                            goodsItem.setOutputPriceValue(formatNumber(goodsDTO.getOutPrice()));
+                        }
+                    }
                 }
+
                 if(isImportTransaction){
                     goodsItem.setInputPrice(price);
                 }else{
                     goodsItem.setOutputPrice(price);
                 }
-                //goods cell
+                //CELL
                 Cell cellCells = row.getCell(7);
                 goodsItem.setCellCode(getCellValue(cellCells));
-
+                //
                 if(!isValid){
                     goodsItem.setErrorInfo(errorInfo.toString());
                 }
@@ -578,13 +609,32 @@ public class FunctionUtils {
                 //UNIT TYPE
                 Cell cellUnitType = row.getCell(3);
                 String unitType = getCellValue(cellUnitType);
-                goodsDTO.setUnitType(unitType);
-                goodsDTO.setUnitTypeName(mapUnitType.get(unitType));
+                if (DataUtil.isStringNullOrEmpty(unitType)) {
+                    unitType = "1";
+                }
+                String unitTypeName = mapUnitType.get(unitType);
+                if (unitTypeName == null) {
+                    goodsDTO.setUnitType("1");
+                    goodsDTO.setUnitTypeName(mapUnitType.get("1"));
+                }else{
+                    goodsDTO.setUnitType(unitType);
+                    goodsDTO.setUnitTypeName(unitTypeName);
+                }
                 //GOODS GROUP
                 Cell cellGoodsGroup = row.getCell(4);
                 String goodsGroup = getCellValue(cellGoodsGroup);
-                goodsDTO.setGoodsGroupId(goodsGroup);
-                goodsDTO.setGoodsGroupName(mapGoodsGroup.get(goodsGroup));
+                if (DataUtil.isStringNullOrEmpty(goodsGroup)) {
+                    errorInfo.append("\n Chưa có nhóm hàng");
+                    isValid = false;
+                }else{
+                    String groupName = mapGoodsGroup.get(goodsGroup);
+                    if (DataUtil.isStringNullOrEmpty(groupName)) {
+                        errorInfo.append("\n Nhóm hàng chưa đúng");
+                        isValid = false;
+                    }
+                    goodsDTO.setGoodsGroupId(goodsGroup);
+                    goodsDTO.setGoodsGroupName(groupName);
+                }
                 //In PRICE
                 Cell cellInPrice = row.getCell(7);
                 String price = getCellValue(cellInPrice);
@@ -600,9 +650,10 @@ public class FunctionUtils {
                     }
                 }
                 goodsDTO.setInPrice(price);
-                //In PRICE
+                //Out PRICE
                 Cell cellOutPrice = row.getCell(8);
                 String outPrice = getCellValue(cellOutPrice);
+                outPrice = outPrice.trim();
                 if(DataUtil.isStringNullOrEmpty(outPrice)){
                     errorInfo.append("\n Chưa có giá xuất");
                     isValid = false;
@@ -639,7 +690,16 @@ public class FunctionUtils {
     public static String formatNumber(String number){
         if (!DataUtil.isStringNullOrEmpty(number)) {
             double dNumber = Double.valueOf(number);
-            return String.format("%,.0f", dNumber);
+            return String.format("%,.1f", dNumber);
+        }else{
+            return "";
+        }
+    }
+
+    public static String formatAmountNumber(String number){
+        if (!DataUtil.isStringNullOrEmpty(number)) {
+            double dNumber = Double.valueOf(number);
+            return String.format("%,.1f", dNumber);
         }else{
             return "";
         }

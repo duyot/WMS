@@ -107,20 +107,20 @@
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.fileupload}" for="btn-excel-import"></label>
                                 </div>
-                                <div class="col-sm-1">
-                                    <div class="input-group">
-                                        <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload"
-                                                id="btn-excel-import" th:value="@{/workspace/stock_management/import/upload}">
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <div class="input-group">
                                             <input id="inp-file-import" data-toggle="toggle" type="file"
                                                    onchange="isValidExcel(this);"
                                             />
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload"
+                                                id="btn-excel-import" th:value="@{/workspace/stock_management/import/upload}">
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">

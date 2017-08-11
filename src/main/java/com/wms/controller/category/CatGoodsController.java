@@ -10,6 +10,7 @@ import com.wms.services.interfaces.BaseService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
+import com.wms.utils.JSONUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -25,10 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by duyot on 12/9/2016.
@@ -39,8 +37,8 @@ import java.util.Map;
 public class CatGoodsController extends BaseController {
     Logger log = LoggerFactory.getLogger(CatGoodsController.class);
 
-    public Map<String, String> mapGoodsGroup;
-    public Map<String, String> mapUnitType;
+    public LinkedHashMap<String, String> mapGoodsGroup;
+    public LinkedHashMap<String, String> mapUnitType;
     public Map<String,String> mapAppGoodsState;
 
     @Autowired
@@ -63,12 +61,13 @@ public class CatGoodsController extends BaseController {
         }
 
         if (mapGoodsGroup == null || isGoodsGroupModified(request)) {
-            mapGoodsGroup = new HashMap<>();
+            mapGoodsGroup = new LinkedHashMap<>();
             CatCustomerDTO curCust = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
             List<Condition> lstCon = Lists.newArrayList();
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
             lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,curCust.getId()));
-            lstCon.add(new Condition("name",Constants.SQL_OPERATOR.ORDER,"desc"));
+            lstCon.add(new Condition("name","VNM_ORDER","asc"));
+            log.info(JSONUtils.object2JSONString(lstCon));
             List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
 
             for(CatGoodsGroupDTO i: lstCatGoodsGroup){
