@@ -67,7 +67,6 @@ public class CatGoodsController extends BaseController {
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
             lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,curCust.getId()));
             lstCon.add(new Condition("name","VNM_ORDER","asc"));
-            log.info(JSONUtils.object2JSONString(lstCon));
             List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
 
             for(CatGoodsGroupDTO i: lstCatGoodsGroup){

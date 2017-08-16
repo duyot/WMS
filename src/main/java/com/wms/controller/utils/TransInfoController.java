@@ -167,14 +167,13 @@ public class TransInfoController extends BaseController{
             return  Lists.newArrayList();
         }
         //
-        CatGoodsDTO goods = mapGoodsIdGoods.get(lstTransGoodsDetail.get(0).getGoodsId());
-        if (goods == null) {
-            return  Lists.newArrayList();
-        }
-
+        CatGoodsDTO goods;
         for(MjrStockTransDetailDTO i: lstTransGoodsDetail){
-            i.setGoodsCode(goods.getCode());
-            i.setGoodsName(goods.getName());
+            goods = mapGoodsIdGoods.get(i.getGoodsId());
+            if (goods != null) {
+                i.setGoodsCode(goods.getCode());
+                i.setGoodsName(goods.getName());
+            }
             i.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
             i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
             i.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));

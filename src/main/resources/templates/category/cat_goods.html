@@ -207,6 +207,7 @@
     $btn_update = $('#btn-update');
     var $btnDelConfirmed = $('#modal-btn-del-ok');
     var $btnDel = $('#btn-delete');
+    var validator;
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $table.bootstrapTable({
@@ -226,6 +227,9 @@
     var deletedItemCode;
     window.operateEvents = {
         'click .update-goods': function (e, value, row, index) {
+            validator.resetForm();
+            $("#cat-goods-insert-update-form").find(".error").removeClass("error");
+            //
             clearActionInfo();
             changeModelByType(2,row,$btn_update.val());
             showModal($modalAddUpdate);
@@ -421,7 +425,7 @@
     });
     //------------------------------------------------------------------------------------------------
     $(document).ready(function () {
-        $("#cat-goods-insert-update-form").validate({
+        validator = $("#cat-goods-insert-update-form").validate({
             ignore: ":hidden",
             rules: {
                 code: {

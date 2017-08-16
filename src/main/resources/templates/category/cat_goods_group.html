@@ -165,6 +165,7 @@
     $btn_update = $('#btn-update');
     $btnDel = $('#btn-delete');
     var $btnSearch = $('#btn-search-cat-group');
+    var validator;
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $tblGoodsGroup.bootstrapTable({
@@ -179,6 +180,9 @@
     var $selectedItemCode;
     window.operateEvents = {
         'click .update-goodsgroup': function (e, value, row, index) {
+            validator.resetForm();
+            $("#cat-goods-group-insert-update-form").find(".error").removeClass("error");
+            //
             clearActionInfo();
             changeModelByType(2,row['name'],row['id'],row['status'],$btn_update.val());
             showModal($addUpdateModal);
@@ -276,7 +280,7 @@
     });
     //
     $(document).ready(function () {
-        $("#cat-goods-group-insert-update-form").validate({
+        validator = $("#cat-goods-group-insert-update-form").validate({
             ignore: ":hidden",
             rules: {
                 name: {

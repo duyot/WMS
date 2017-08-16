@@ -183,6 +183,7 @@
     var $btn_update = $('#btn-update');
     var $btnDelConfirmed = $('#modal-btn-del-ok');
     var selectedStockId;
+    var validator;
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $tblStock.bootstrapTable({
@@ -204,6 +205,9 @@
     var deleteItemCode;
     window.operateEvents = {
         'click .update-stock': function (e, value, row, index) {
+            validator.resetForm();
+            $("#stock-insert-update-form").find(".error").removeClass("error");
+            //
             clearActionInfo();
             changeModelByType(2,row,$btn_update.val());
             $modalInsertUpdateStock.modal('show');
@@ -381,7 +385,7 @@
     });
     //------------------------------------------------------------------------------------------------
     $(document).ready(function () {
-        $("#stock-insert-update-form").validate({
+        validator =  $("#stock-insert-update-form").validate({
             ignore: ":hidden",
             rules: {
                 name: {
