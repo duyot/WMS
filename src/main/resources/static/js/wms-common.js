@@ -1,11 +1,42 @@
 /**
  * Created by duyot on 11/16/2016.
  */
+//interger or float
+function isValidAmount(n) {
+    return Number(n) === n && n % 1 === 0 || Number(n) === n && n % 1 !== 0 || Number(n) > 0;
+}
+//format xxxxx.xxxx
+function showPriceDetail(value, price, priceName) {
+    var currentValue = unFormatFloat(value);
+    var need2format = currentValue;
+    if(!isValidPrice(currentValue)){
+        currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+    }
+    if(!currentValue.includes(".")){
+        priceName.text(DOCSO.doc(currentValue));
+        price.val(formatFloatType(currentValue));
+    }else{
+        priceName.text("");
+        price.val(currentValue);
+    }
+}
+
+function isValidPrice(price) {
+    if(!price.includes(".")){
+        return true;
+    }
+        var scale = price.substr(price.indexOf(".")+1,price.length-1);
+
+        if(scale > 9999){
+            return false;
+    }
+    return true;
+
+}
 
 function clearFileInput(id)
 {
     var oldInput = document.getElementById(id);
-
     var newInput = document.createElement("input");
 
     newInput.type = "file";
@@ -13,11 +44,8 @@ function clearFileInput(id)
     newInput.name = oldInput.name;
     newInput.className = oldInput.className;
     newInput.style.cssText = oldInput.style.cssText;
-    // TODO: copy any other relevant attributes
-
     oldInput.parentNode.replaceChild(newInput, oldInput);
 }
-
 
 Array.prototype.remove = function() {
     var what, a = arguments, L = a.length, ax;
@@ -45,7 +73,7 @@ function isInteger(str) {
     return /^\+?(0|[1-9]\d*)$/.test(str);
 }
 
-function converExportMessage(mesageCode,key){
+function convertExportMessage(mesageCode,key){
     switch (mesageCode){
         case "ERROR_TOTAL_NOT_ENOUGH":
             return  "Không đủ số lượng hàng trong kho ";
@@ -93,7 +121,12 @@ function replaceAllDot(value, replacement) {
 }
 
 function formatFloatType(text) {
-    return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
+    if(!text.includes(".")){
+        return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
+    }else{
+        return text;
+    }
+
 }
 
 function setInfoMessage(object,value) {

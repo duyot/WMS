@@ -689,17 +689,13 @@ public class FunctionUtils {
 
     public static String formatNumber(String number){
         if (!DataUtil.isStringNullOrEmpty(number)) {
-            double dNumber = Double.valueOf(number);
-            return String.format("%,.1f", dNumber);
-        }else{
-            return "";
-        }
-    }
-
-    public static String formatAmountNumber(String number){
-        if (!DataUtil.isStringNullOrEmpty(number)) {
-            double dNumber = Double.valueOf(number);
-            return String.format("%,.1f", dNumber);
+            String plainNumber = removeScientificNotation(number);
+            double dNumber = Double.valueOf(plainNumber);
+            if (plainNumber.contains(".")) {
+                return String.format("%,.4f", dNumber);
+            }else{
+                return String.format("%,.0f", dNumber);
+            }
         }else{
             return "";
         }

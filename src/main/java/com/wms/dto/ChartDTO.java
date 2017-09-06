@@ -7,32 +7,32 @@ import java.math.BigInteger;
  */
 public class ChartDTO {
     private String name;
-    private BigInteger[] data;
+    private Double[] data;
     private String [] xAxisData;
-    private BigInteger y;
+    private Double y;
 
     public ChartDTO() {
     }
 
-    public ChartDTO(String name, BigInteger y) {
+    public ChartDTO(String name, Double y) {
         this.name = name;
         this.y = y;
     }
 
-    public ChartDTO(String name, BigInteger[] data, String[] xAxisData, BigInteger y) {
+    public ChartDTO(String name, Double[] data, String[] xAxisData, Double y) {
         this.name = name;
         this.data = data;
         this.xAxisData = xAxisData;
         this.y = y;
     }
 
-    public ChartDTO(String name, BigInteger[] data, String[] xAxisData) {
+    public ChartDTO(String name, Double[] data, String[] xAxisData) {
         this.name = name;
         this.data = data;
         this.xAxisData = xAxisData;
     }
 
-    public ChartDTO(String name, BigInteger [] data) {
+    public ChartDTO(String name, Double [] data) {
         this.name = name;
         this.data = data;
     }
@@ -45,11 +45,11 @@ public class ChartDTO {
         this.name = name;
     }
 
-    public BigInteger[] getData() {
+    public Double[] getData() {
         return data;
     }
 
-    public void setData(BigInteger[] data) {
+    public void setData(Double[] data) {
         this.data = data;
     }
 
@@ -61,11 +61,11 @@ public class ChartDTO {
         this.xAxisData = xAxisData;
     }
 
-    public BigInteger getY() {
+    public Double getY() {
         return y;
     }
 
-    public void setY(BigInteger y) {
+    public void setY(Double y) {
         this.y = y;
     }
 }

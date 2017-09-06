@@ -538,10 +538,25 @@
             $('select[name=goodsGroupId]').val(selectedItem['goodsGroupId']);
             $('select[name=goodsGroupId]').selectpicker('refresh');
             //
-            $("#modal-inp-input-price").val(formatFloatType((selectedItem["inPrice"])));
-            $("#modal-inp-output-price").val(formatFloatType(selectedItem["outPrice"]));
-            $('#modal-label-input-price').text(DOCSO.doc(selectedItem["inPrice"]));
-            $('#modal-label-output-price').text(DOCSO.doc(selectedItem["outPrice"]));
+            var originInput = Number((selectedItem["inPrice"]));
+            var originInputStr = originInput + "";
+            if(!originInputStr.includes(".")){
+                $("#modal-inp-input-price").val(formatFloatType(originInputStr));
+                $('#modal-label-input-price').text(DOCSO.doc(selectedItem["inPrice"]));
+            }else{
+                $("#modal-inp-input-price").val(originInput);
+                $('#modal-label-input-price').text("");
+            }
+            //
+            var originOutput = Number((selectedItem["outPrice"]));
+            var originOutputStr = originOutput + "";
+            if(!originOutputStr.includes(".")){
+                $("#modal-inp-output-price").val(formatFloatType(originOutputStr));
+                $('#modal-label-output-price').text(DOCSO.doc(selectedItem["outPrice"]));
+            }else{
+                $("#modal-inp-output-price").val(originOutput);
+                $('#modal-label-output-price').text("");
+            }
             //
             var currentStatus = selectedItem["status"];
             if(currentStatus == '0'){
@@ -563,16 +578,32 @@
 
     $("#modal-inp-input-price").keyup(function() {
         var currentValue = unFormatFloat($("#modal-inp-input-price").val());
-        currentValue = currentValue.replace(/\./g,"");
-        $('#modal-label-inp-input-price').text(DOCSO.doc(currentValue));
-        $('#modal-inp-input-price').val(formatFloatType(currentValue));
+        var need2format = currentValue;
+        if(!isValidPrice(currentValue)){
+            currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+        }
+        if(!currentValue.includes(".")){
+            $('#modal-label-input-price').text(DOCSO.doc(currentValue));
+            $('#modal-inp-input-price').val(formatFloatType(currentValue));
+        }else{
+            $('#modal-inp-input-price').val(currentValue);
+            $('#modal-label-input-price').text("");
+        }
     });
 
     $("#modal-inp-output-price").keyup(function() {
         var currentValue = unFormatFloat($("#modal-inp-output-price").val());
-        currentValue = currentValue.replace(/\./g,"");
-        $('#modal-label-output-price').text(DOCSO.doc(currentValue));
-        $('#modal-inp-output-price').val(formatFloatType(currentValue));
+        var need2format = currentValue;
+        if(!isValidPrice(currentValue)){
+            currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+        }
+        if(!currentValue.includes(".")){
+            $('#modal-label-output-price').text(DOCSO.doc(currentValue));
+            $('#modal-inp-output-price').val(formatFloatType(currentValue));
+        }else{
+            $('#modal-label-output-price').text("");
+            $('#modal-inp-output-price').val(currentValue);
+        }
     });
 </script>
 </body>

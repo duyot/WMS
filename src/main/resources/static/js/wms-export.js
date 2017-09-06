@@ -158,7 +158,7 @@ btnExportConfirm.click(function () {
             if(resultMessage === "FAIL"){
                 var statusName   = data['statusName'];
                 //show modal upload file
-                setErrorMessage($lblInfo,"Xuất hàng không thành công: "+ converExportMessage(statusName,key));
+                setErrorMessage($lblInfo,"Xuất hàng không thành công: "+ convertExportMessage(statusName,key));
             }else{
                 var totalSuccess = data['success'];
                 setInfoMessage($lblInfo,"Xuất "+ totalSuccess+" hàng thành công với mã phiếu: "+ key);
@@ -224,8 +224,8 @@ $btnAdd.click(function () {
     showElementBySerialType(isSerial);
     //
     $('#modal-lbl-price').text("Giá xuất");
-    $('#modal-inp-input-price').val(formatFloatType(price));
-    $('#modal-label-inp-input-price').text(DOCSO.doc(price));
+    //
+    showPriceDetail(price,$('#modal-inp-input-price'),$('#modal-label-inp-input-price'));
 
     if(isSerial === '1'){
         initSerialSuggestion();
@@ -278,8 +278,7 @@ $cmbGoods.change(function () {
     });
     //
     showElementBySerialType(isSerial);
-    $('#modal-inp-input-price').val(formatFloatType(price));
-    $('#modal-label-inp-input-price').text(DOCSO.doc(price));
+    showPriceDetail(price,$('#modal-inp-input-price'),$('#modal-label-inp-input-price'));
     //
     if(isSerial == '1'){
         $inpSerial.focus();
@@ -360,21 +359,25 @@ function addExportGoods() {
     var goodsCode = $cmbGoods.val();
     var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
     var amount = unFormatFloat($inpAmount.val());
-    if(!isInteger(amount)){
-        alert("Số lượng phải là số dương");
+    //
+    if(!isValidAmount(amount)){
+        alert("Số lượng xuất phải là số");
         return;
     }
+    //
     var goodsStateValue = "Hỏng";
     var goodsState = "0";
     if($('#cmb-goods-state').prop('checked')){
         goodsStateValue = "Bình thường";
         goodsState = "1";
     }
+    //
     var outputPriceValue = unFormatFloat($('#modal-inp-input-price').val());
-    if(!isInteger(outputPriceValue)){
-        alert("Giá xuất phải là số dương");
+    if(!isValidAmount(outputPriceValue)){
+        alert("Giá xuất phải là số");
         return;
     }
+    //
     var serial = escapeHtml($inpSerial.val());
     var cellCode = escapeHtml($('button[data-id=modal-cmb-cells]').attr('title'));
     if(cellCode.includes("selected")){
@@ -448,7 +451,13 @@ function updateExportGoods() {
     //get data
     var goodsCode = $cmbGoods.val();
     var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
-    var amount = $inpAmount.val();
+    var amount = unFormatFloat($inpAmount.val());
+    //
+    if(!isValidAmount(amount)){
+        alert("Số lượng nhập phải là số");
+        return;
+    }
+    //
     var goodsStateValue = "Hỏng";
     var goodsState = "0";
     if($('#cmb-goods-state').prop('checked')){
@@ -456,6 +465,11 @@ function updateExportGoods() {
         goodsState = "1";
     }
     var outputPriceValue = unFormatFloat($('#modal-inp-input-price').val());
+    if(!isValidAmount(amount)){
+        alert("Gía xuất phải là số");
+        return;
+    }
+    //
     var serial = $inpSerial.val();
     var cellCode = $('#modal-inp-cell').val();
 
@@ -525,15 +539,20 @@ function clearContent() {
 }
 
 $("#modal-inp-input-price").keyup(function() {
-    var currentValue = unFormatFloat($("#modal-inp-input-price").val());
-    currentValue = currentValue.replace(/\./g,"");
-    $('#modal-label-inp-input-price').text(DOCSO.doc(currentValue));
-    $('#modal-inp-input-price').val(formatFloatType(currentValue));
+    showPriceDetail($("#modal-inp-input-price").val(),$('#modal-inp-input-price'),$('#modal-label-inp-input-price'));
 });
 
 $inpAmount.keyup(function() {
     var currentValue = unFormatFloat($inpAmount.val());
-    $inpAmount.val(formatFloatType(currentValue));
+    var need2format = currentValue;
+    if(!isValidPrice(currentValue)){
+        currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+    }
+    if(!currentValue.includes(".")){
+        $inpAmount.val(formatFloatType(currentValue));
+    }else{
+        $inpAmount.val(currentValue);
+    }
 });
 
 function initSerialSuggestion() {

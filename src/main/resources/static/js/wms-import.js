@@ -211,8 +211,7 @@ $('#btn-add').click(function () {
     });
     //
     showElementBySerialType(isSerial);
-    $inpPrice.val(formatFloatType(price));
-    $('#modal-label-inp-input-price').text(DOCSO.doc(price));
+    showPriceDetail(price,$inpPrice,$('#modal-label-inp-input-price'));
     //
     showModal($('#myModal'));
 });
@@ -254,22 +253,26 @@ function addImportGoods() {
     //get data
     var goodsCode = $cmbGoods.val();
     var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
+    //
     var amount = unFormatFloat($inpAmount.val());
-    if(!isInteger(amount)){
-        alert("Số lượng phải là số dương");
+    if(!isValidAmount(amount)){
+        alert("Số lượng nhập phải là số");
         return;
     }
+    //
     var goodsStateValue = "Hỏng";
     var goodsState = "0";
     if($('#cmb-goods-state').prop('checked')){
         goodsStateValue = "Bình thường";
         goodsState = "1";
     }
+    //
     var inputPriceValue = unFormatFloat($inpPrice.val());
-    if(!isInteger(inputPriceValue)){
-        alert("Giá nhập phải là số dương");
+    if(!isValidAmount(inputPriceValue)){
+        alert("Giá nhập phải là số");
         return;
     }
+    //
     var serial =   escapeHtml($inpSerial.val());
     var cellCode = escapeHtml($('button[data-id=modal-cmb-cells]').attr('title'));
     if(cellCode.includes("selected")){
@@ -349,8 +352,8 @@ function updateGoods() {
     var goodsCode = $cmbGoods.val();
     var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
     var amount = unFormatFloat($inpAmount.val());
-    if(!isInteger(amount)){
-        alert("Số lượng phải là số dương");
+    if(!isValidAmount(amount)){
+        alert("Số lượng phải là số ");
         return;
     }
     var goodsStateValue = "Hỏng";
@@ -360,7 +363,7 @@ function updateGoods() {
         goodsState = "1";
     }
     var inputPriceValue = unFormatFloat($inpPrice.val());
-    if(!isInteger(inputPriceValue)){
+    if(!isValidAmount(inputPriceValue)){
         alert("Giá nhập phải là số dương");
         return;
     }
@@ -433,15 +436,20 @@ function changeModelByType(isAdd,selectedItems) {
 }
 
 $("#modal-inp-input-price").keyup(function() {
-    var currentValue = unFormatFloat($("#modal-inp-input-price").val());
-    currentValue = currentValue.replace(/\./g,"");
-    $('#modal-label-inp-input-price').text(DOCSO.doc(currentValue));
-    $inpPrice.val(formatFloatType(currentValue));
+    showPriceDetail($("#modal-inp-input-price").val(),$inpPrice,$('#modal-label-inp-input-price'));
 });
 
 $inpAmount.keyup(function() {
     var currentValue = unFormatFloat($inpAmount.val());
-    $inpAmount.val(formatFloatType(currentValue));
+    var need2format = currentValue;
+    if(!isValidPrice(currentValue)){
+        currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+    }
+    if(!currentValue.includes(".")){
+        $inpAmount.val(formatFloatType(currentValue));
+    }else{
+        $inpAmount.val(currentValue);
+    }
 });
 
 //@Refresh table----------------------------------------------------------
@@ -479,8 +487,9 @@ $cmbGoods.change(function () {
     });
     //
     showElementBySerialType(isSerial);
-    $inpPrice.val(formatFloatType(inPrice));
-    $('#modal-label-inp-input-price').text(DOCSO.doc(inPrice));
+    //
+    //
+    showPriceDetail(inPrice,$inpPrice,$('#modal-label-inp-input-price'));
 });
 
 function showElementBySerialType(serialType) {
