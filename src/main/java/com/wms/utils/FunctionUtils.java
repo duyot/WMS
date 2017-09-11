@@ -687,13 +687,21 @@ public class FunctionUtils {
         return importResult;
     }
 
+    /*
+        valid pattern: 123 | 133.000
+     */
+    public static boolean isInteger(String value){
+        double number = Double.parseDouble(value);
+        return number%1 == 0;
+    }
+
     public static String formatNumber(String number){
         if (!DataUtil.isStringNullOrEmpty(number)) {
-            String plainNumber = removeScientificNotation(number);
-            double dNumber = Double.valueOf(plainNumber);
-            if (plainNumber.contains(".")) {
-                return String.format("%,.4f", dNumber);
-            }else{
+                String plainNumber = removeScientificNotation(number);
+                double dNumber = Double.valueOf(plainNumber);
+                if (dNumber%1 != 0) {
+                    return String.format("%,.4f", dNumber);
+                }else{
                 return String.format("%,.0f", dNumber);
             }
         }else{

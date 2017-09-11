@@ -9,7 +9,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 }
 .uppercase-input{
 	text-transform: uppercase;
-	color:##d0ecff
+	color:#d0ecff
 }
 
 .row-function{
@@ -684,7 +684,7 @@ footer  p a:hover{
     display: none;
 }
 div#page-wrapper {
-    padding:0.8em;
+    padding:0.5em;
 }
 .left-side-collapsed .logo-icon {
     height: 51px;

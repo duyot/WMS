@@ -1,6 +1,6 @@
 /**
  * @author zhixin wen <wenzhixin2010@gmail.com>
- * version: 1.11.0
+ * version: 1.11.1
  * https://github.com/wenzhixin/bootstrap-table/
  */
 
@@ -17,7 +17,7 @@
 .bootstrap-table .table:not(.table-condensed) > thead > tr > td,
 .bootstrap-table .table:not(.table-condensed) > tbody > tr > td,
 .bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
-    padding: 4px;
+    padding: 8px;
 }
 
 .bootstrap-table .table.table-no-bordered > thead > tr > th,
@@ -65,6 +65,7 @@
     height: 0;
     padding: 0;
     margin: 0;
+    border-left: 1px solid #dddddd;
 }
 
 .fixed-table-container thead th:focus {
@@ -81,7 +82,7 @@
 .fixed-table-container thead th .th-inner,
 .fixed-table-container tbody td .th-inner {
     padding: 8px;
-    line-height: 16px;
+    line-height: 24px;
     vertical-align: top;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -112,7 +113,7 @@
 }
 
 .fixed-table-container tbody td {
-
+    border-left: 1px solid #dddddd;
 }
 
 .fixed-table-container tbody tr:first-child td {
@@ -125,7 +126,7 @@
 
 /* the same color with .active */
 .fixed-table-container tbody .selected td {
-    background: #bdc3c7;
+    background-color: #f5f5f5;
 }
 
 .fixed-table-container .bs-checkbox {
@@ -147,8 +148,8 @@
 
 .fixed-table-pagination div.pagination,
 .fixed-table-pagination .pagination-detail {
-    margin-top:5px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .fixed-table-pagination div.pagination .pagination {
@@ -163,7 +164,6 @@
 .fixed-table-pagination .pagination-info {
     line-height: 34px;
     margin-right: 5px;
-    font-size: 12px;
 }
 
 .fixed-table-pagination .btn-group {
@@ -178,7 +178,6 @@
 
 .fixed-table-pagination .page-list {
     display: inline-block;
-    font-size: 12px;
 }
 
 .fixed-table-toolbar .columns-left {
@@ -201,8 +200,8 @@
 .fixed-table-toolbar .search,
 .fixed-table-toolbar .columns {
     position: relative;
-    margin-top: -6px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     line-height: 34px;
 }
 
@@ -233,13 +232,11 @@
 /* support bootstrap 2 */
 .fixed-table-body thead th .th-inner {
     box-sizing: border-box;
-    font-size: 13px;
 }
 
 .table th, .table td {
     vertical-align: middle;
     box-sizing: border-box;
-    font-size: 13px;
 }
 
 .fixed-table-toolbar .dropdown-menu {
@@ -269,7 +266,7 @@
 
 .bootstrap-table .table > thead > tr > th {
     vertical-align: bottom;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 /* support bootstrap 3 */
@@ -288,7 +285,7 @@
     padding: 0 !important;
 }
 
-.pull-right .dropdown-menu {
+.bootstrap-table .pull-right .dropdown-menu {
     right: 0;
     left: auto;
 }
@@ -307,12 +304,10 @@ div.fixed-table-scroll-outer {
     height: 150px;
     overflow: hidden;
 }
-.table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > th {
-    background-color: #f9fafe;
-    color: #4b5056;
-}
 
-.table-striped>tr:nth-child(odd){
-    background-color:#8da0aa;
+/* for get correct heights  */
+.fixed-table-toolbar:after, .fixed-table-pagination:after {
+    content: "";
+    display: block;
+    clear: both;
 }
-

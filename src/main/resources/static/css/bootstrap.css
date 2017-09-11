@@ -1807,9 +1807,10 @@ th {
 .table > tfoot > tr > th,
 .table > tfoot > tr > td {
   padding: 8px;
-  line-height: 1.42857;
+  line-height: 1.4;
   vertical-align: top;
   border-top: 1px solid #ddd;
+  vertical-align:middle;
 }
 .table > thead > tr > th {
   vertical-align: bottom;
@@ -2090,10 +2091,10 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 34px;
+  height: 30px;
   padding: 5px 10px;
   font-size: 14px;
-  line-height: 1.42857;
+  line-height: 1.5;
   color: #555555;
   background-color: #fff;
   background-image: none;
@@ -2595,7 +2596,7 @@ select[multiple].input-lg,
   background-image: none;
   border: 1px solid transparent;
   white-space: nowrap;
-  padding: 9px 16px;
+  padding: 8px 14px;
   font-size: 14px;
   line-height: 11px;
   border-radius: 4px;
@@ -3340,7 +3341,7 @@ tbody.collapse.in {
 }
 
 .input-group-addon {
-  padding: 9px 10px;
+  padding: 7px 8px;
   font-size: 14px;
   font-weight: normal;
   line-height: 11px;

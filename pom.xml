@@ -11,7 +11,7 @@
 	<packaging>war</packaging>
 
 	<name>WMS</name>
-	<description>Demo project for Spring Boot</description>
+	<description>WMS application</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

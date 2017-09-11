@@ -1,11 +1,11 @@
 /**
  * Created by duyot on 11/16/2016.
  */
-//interger or float
+//positive integer or float
 function isValidAmount(n) {
     return Number(n) === n && n % 1 === 0 || Number(n) === n && n % 1 !== 0 || Number(n) > 0;
 }
-//format xxxxx.xxxx
+//format xxxxx.xxxx: set specific format for number and read it.
 function showPriceDetail(value, price, priceName) {
     var currentValue = unFormatFloat(value);
     var need2format = currentValue;
@@ -20,7 +20,7 @@ function showPriceDetail(value, price, priceName) {
         price.val(currentValue);
     }
 }
-
+// valid pattern: number or xx.xxxx (scale 4)
 function isValidPrice(price) {
     if(!price.includes(".")){
         return true;
@@ -136,7 +136,7 @@ function setInfoMessage(object,value) {
     object.fadeIn();
     setTimeout(function() {
         object.fadeOut('fast');
-    }, 5000);
+    }, 8000);
 }
 
 function setErrorMessage(object,value) {
@@ -146,7 +146,7 @@ function setErrorMessage(object,value) {
     object.fadeIn();
     setTimeout(function() {
         object.fadeOut('fast');
-    }, 5000);
+    }, 8000);
 }
 
 function isTableEmpty(object) {

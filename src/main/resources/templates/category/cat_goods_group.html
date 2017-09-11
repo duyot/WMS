@@ -32,6 +32,12 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
 
+    <!--editable-->
+    <link rel='stylesheet' href="editable/bootstrap-editable.css" th:href="@{/editable/bootstrap-editable.css}"  type='text/css' />
+    <script th:attr="src=@{/editable/bootstrap-editable.js}"      th:href="@{/editable/bootstrap-editable.js}"></script>
+    <script th:attr="src=@{/editable/bootstrap-table-editable.js}"      th:href="@{/editable/bootstrap-table-editable.js}"></script>
+
+
 </head>
 <body class="sticky-header left-side-collapsed">
 <section>
@@ -112,17 +118,18 @@
                             data-click-to-select="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
+                            data-editable-emptytext="Empty"
                     >
+                        <!--<thead>-->
+                        <!--<tr>-->
+                            <!--<th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>-->
+                            <!--<th  class="col-md-1" data-field="id" data-align="left" data-sortable="true">ID</th>-->
+                            <!--<th  data-editable="true" class="col-md-6" data-field="name" data-align="left" data-sortable="true">Nhóm hàng hóa</th>-->
+                            <!--<th  class="col-md-3" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>-->
+                            <!--<th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
 
-                        <thead>
-                        <tr>
-                            <th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
-                            <th  class="col-md-1" data-field="id" data-align="left" data-sortable="true">ID</th>
-                            <th  class="col-md-6" data-field="name" data-align="left" data-sortable="true">Nhóm hàng hóa</th>
-                            <th  class="col-md-3" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>
-                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
-                        </tr>
-                        </thead>
                     </table>
                 </div>
             </div>
@@ -169,7 +176,31 @@
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $tblGoodsGroup.bootstrapTable({
-            data: dataInit
+            data: dataInit,
+            columns:[{ field: 'name',
+                title: 'Nhóm hàng hóa',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    showbuttons:false,
+                    validate: function(value) {
+                        if($.trim(value) == '') {
+                            return 'This field is required';
+                        }
+                    }
+                }},
+                { field: 'statusName',
+                    title: 'Trạng thái',
+                    editable: {
+                        type: 'select',
+                        mode: 'inline',
+                        showbuttons:false,
+                        source: [
+                            {value: 1, text: 'Hiệu lực'},
+                            {value: 2, text: 'Hết hiệu lực'}
+                        ]
+                    }}
+            ]
         });
         //
         search(false);
