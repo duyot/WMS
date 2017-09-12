@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>WMS Portal</title>
+	<title>Quản lý kho - Bán hàng</title>
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -134,13 +134,13 @@
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#home" class="smoothScroll">HOME</a></li>
-				<li><a href="#work" class="smoothScroll">WORK</a></li>
-				<li><a href="#about" class="smoothScroll">ABOUT</a></li>
-				<li><a href="#team" class="smoothScroll">TEAM</a></li>
-				<li><a href="#portfolio" class="smoothScroll">PORTFOLIO</a></li>
-				<li><a href="#pricing" class="smoothScroll">PRICING</a></li>
-				<li><a href="#contact" class="smoothScroll">CONTACT</a></li>
+				<li><a href="#home" class="smoothScroll">Trang chủ</a></li>
+				<li><a href="#work" class="smoothScroll">Sản phẩm</a></li>
+				<li><a href="#about" class="smoothScroll">Tính năng</a></li>
+				<!--<li><a href="#team" class="smoothScroll">TEAM</a></li>-->
+				<li><a href="#portfolio" class="smoothScroll">Khách hàng</a></li>
+				<li><a href="#pricing" class="smoothScroll">Bảng giá</a></li>
+				<li><a href="#contact" class="smoothScroll">Liên hệ</a></li>
 			</ul>
 		</div>
 	</div>
@@ -150,8 +150,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-sm-12">
-				<h3>WAREHOUSE / IMPORT-EXPORT / REVENUE / STATISTIC</h3>
-				<h1>Warehouse Management System</h1>
+				<h3>Xuất-nhập-tồn / Doanh thu-lợi nhuận / Tiện ích-Báo cáo</h3>
+				<h1>Hệ thống Quản lý kho - Bán hàng</h1>
 				<hr/>
 				<a th:href="@{/login}" th:text="#{home.login}" class="smoothScroll btn btn-default"></a>
 				<a href="#contact" th:text="#{home.register}" class="smoothScroll btn btn-default"></a>
@@ -166,45 +166,45 @@
 			<div class="col-md-12 col-sm-12">
 				<div class="section-title">
 					<strong>01</strong>
-					<h1 class="heading bold">WHAT WE HAVE</h1>
+					<h1 class="heading bold">Sản phẩm</h1>
 					<hr/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.6s">
 				<i class="icon-cloud medium-icon"></i>
-				<h3>WEB MARKETING</h3>
+				<h3>Triển khai</h3>
 				<hr/>
-				<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteu sunt in culpa qui officia.</p>
+				<p>Triển khai dưới dạng cloud, không cần trang bị máy tính cấu hình cao, không cần cài đặt, nâng cấp tự động, sử dụng được mọi nơi.</p>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.9s">
 				<i class="icon-mobile medium-icon"></i>
-				<h3>UI &amp; UX DESIGN</h3>
+				<h3>Thiết kế</h3>
 				<hr/>
-				<p>Digital Team is free responsive Bootstrap v3.3.5 layout from <a rel="nofollow" href="http://www.tooplate.com" target="_parent">Tooplate</a>. Images are from <a rel="nofollow" href="http://pixabay.com" target="_parent">Pixabay</a> free photo website.</p>
+				<p>Giao diện đơn giản, dễ sử dụng, có nhiều tiện ích để người sử dụng thực hiện thao tác nhanh hơn và chính xác hơn.</p>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
 				<i class="icon-laptop medium-icon"></i>
-				<h3>ECOMMERCE</h3>
+				<h3>Bảo mật</h3>
 				<hr/>
-				<p>You can edit and use this template for your websites. Please tell your friends about Tooplate. Thank you for visiting our website.</p>
+				<p>Được bảo mật chặt chẽ. Dữ liệu riêng biệt, được sao lưu định kỳ hàng ngày đảm bảo an toàn, ổn định.</p>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
 				<i class="icon-compass medium-icon"></i>
-				<h3>MOBILE APP</h3>
+				<h3>Đáp ứng</h3>
 				<hr/>
-				<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteu sunt in culpa qui officia.</p>
+				<p>Đầy đủ tính năng nghiệp vụ, tiện ích phục vụ quản lý kho, bán hàng. Quản lý hàng hóa tới từng serial chi tiết, vị trí lưu trữ cụ thể trên giá kệ. Dữ liệu online đảm bảo chính xác, kịp thời</p>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
 				<i class="icon-chat medium-icon"></i>
-				<h3>SOCIAL MEDIA</h3>
+				<h3>Mở rộng</h3>
 				<hr/>
-				<p>You can easily change icons by looking at <a href="https://www.elegantthemes.com/blog/resources/how-to-use-and-embed-an-icon-font-on-your-website" target="_blank">ET Line Icons</a>. Excepteu sunt in culpa qui officia. Duis aute irure dolor in reprehenderit.</p>
+				<p>Dễ dàng mở rộng hàng hóa, kho kinh doanh, kho lưu trữ, cửa hàng bán lẻ, đối tác khách hàng khi có nhu cầu quản lý trên hệ thống</p>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
 				<i class="icon-browser medium-icon"></i>
-				<h3>RESPONSIVE LAYOUT</h3>
+				<h3>Tương thích</h3>
 				<hr/>
-				<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteu sunt in culpa qui officia.</p>
+				<p>Hệ thống tương thích với các trình duyệt khác nhau, các kích thước của thiết bị hiển thị khác nhau như PC, Laptop, Iphone, IPad, Tablet</p>
 			</div>
 		</div>
 	</div>
@@ -216,7 +216,7 @@
 			<div class="col-md-12 col-sm-12 text-center">
 				<div class="section-title">
 					<strong>02</strong>
-					<h1 class="heading bold">OUR AGENCY</h1>
+					<h1 class="heading bold">Tính năng</h1>
 					<hr/>
 				</div>
 			</div>
@@ -224,27 +224,55 @@
 				<img th:src="@{home_page/images/about-img.jpg}" class="img-responsive" alt="about img"/>
 			</div>
 			<div class="col-md-6 col-sm-12">
-				<h3 class="bold">DIGITAL TEAM</h3>
-				<h1 class="heading bold">Best Design Agency from California</h1>
+				<h3 class="bold">Quản lý kho - Bán hàng</h3>
+				<h1 class="heading bold">Quản lý hàng hóa chặt chẽ, hiệu quả</h1>
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
-					<li class="active"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">DESIGN</a></li>
-					<li><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab">MOBILE</a></li>
-					<li><a href="#social" aria-controls="social" role="tab" data-toggle="tab">SOCIAL</a></li>
+					<li class="active"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">Quản lý kho</a></li>
+					<li><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab">Bán hàng</a></li>
+					<li><a href="#social" aria-controls="social" role="tab" data-toggle="tab">Dashboard</a></li>
 				</ul>
 				<!-- tab panes -->
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="design">
-						<p>Duis aute irure dolor in <a href="#">reprehenderit</a> in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Sed id est tincidunt, iaculis nulla vel, sodales metus. Morbi interdum accumsan augue, in accumsan neque lacinia sed. Fusce cursus eu ligula ut gravida.</p>
-						<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet. Dolore magna aliquam erat volutpat.</p>
+                        <ul>
+                            <li>Danh mục
+                                <ul>
+                                    <li>Nhóm hàng hóa</li>
+                                    <li>Hàng hóa</li>
+                                    <li>Kho</li>
+                                    <li>Đối tác</li>
+                                </ul>
+                            </li>
+                            <li>Nhập kho</li>
+                            <li>Xuất kho</li>
+                            <li>Tiện ích
+                                <ul>
+                                    <li>Thông tin tồn kho, thẻ kho</li>
+                                    <li>Tra cứu serial, lịch sử xuất/nhập</li>
+                                    <li>Tra cứu giao dịch xuất/nhập kho</li>
+                                </ul>
+                            </li>
+                            <li>Báo cáo xuất/nhập/tồn</li>
+                        </ul>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="mobile">
-						<p>Aenean commodo ligula eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
-						<p><a href="#">Duis aute irure dolor</a> in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet.</p>
+                        <ul>
+                            <li>Xuất kho bán hàng
+                                <ul>
+                                    <li>Xuất bán</li>
+                                    <li>Tích lũy điểm thưởng</li>
+                                    <li>Chiết khấu</li>
+                                </ul>
+                            </li>
+                            <li>Báo cáo doanh thu</li>
+                        </ul>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="social">
-						<p>Pellentesque elementum, lacus sit amet <a href="#">hendrerit</a> posuere, quam quam tristique nisi, nec ornare ligula magna id nisl. Donec blandit enim ac semper facilisis. Curabitur eu laoreet mauris, eget fermentum velit.</p>
-						<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet. Dolore magna aliquam erat volutpat.</p>
+                        <ul>
+                            <li>Biểu đồ danh sách hàng bán chạy</li>
+                            <li>Biểu đồ doanh thu - lợi nhuận</li>
+                        </ul>
 					</div>
 
 				</div>
@@ -253,6 +281,7 @@
 	</div>
 </section>
 
+<!--
 <section id="team">
 	<div class="container">
 		<div class="row">
@@ -326,6 +355,7 @@
 		</div>
 	</div>
 </section>
+-->
 
 <div id="portfolio">
 	<div class="container">
@@ -333,7 +363,7 @@
 			<div class="col-md-12 col-sm-12">
 				<div class="section-title">
 					<strong>04</strong>
-					<h1 class="heading bold">OUR PORTFOLIO</h1>
+					<h1 class="heading bold">Khách hàng</h1>
 					<hr/>
 				</div>
 				<!-- ISO section -->
@@ -386,7 +416,7 @@
 			<div class="col-md-12 col-sm-12 text-center">
 				<div class="section-title">
 					<strong>05</strong>
-					<h1 class="heading bold">OUR PRICING</h1>
+					<h1 class="heading bold">Bảng giá</h1>
 					<hr/>
 				</div>
 			</div>
@@ -394,48 +424,45 @@
 				<div class="plan plan-one wow bounceIn" data-wow-delay="0.3s">
 					<div class="plan_title">
 						<i class="icon-mobile medium-icon"></i>
-						<h3>BASIC</h3>
-						<h2>100.000 VNĐ <span>/month</span></h2>
+						<h3>CƠ BẢN</h3>
+						<h2>5 USD <span>/month</span></h2>
 					</div>
 					<ul>
-						<li>100 GB Cloud Storage</li>
-						<li>5 Pro Websites</li>
-						<li>10 Secured Emails</li>
-						<li>24-hour Support</li>
+						<li>1 kho/cửa hàng</li>
+						<li> 30 mã hàng</li>
+						<li>1 người dùng</li>
 					</ul>
-					<button class="btn btn-warning">Get it now</button>
+					<button class="btn btn-warning">ĐĂNG KÝ</button>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-6">
 				<div class="plan plan-two wow bounceIn" data-wow-delay="0.3s">
 					<div class="plan_title">
 						<i class="icon-desktop medium-icon"></i>
-						<h3 style="color: #0099e5">AWESOME</h3>
-						<h2 style="color: #0099e5">150.000 VNĐ <span>/month</span></h2>
+						<h3 style="color: #0099e5">NÂNG CAO</h3>
+						<h2 style="color: #0099e5">8 USD <span>/month</span></h2>
 					</div>
 					<ul>
-						<li>200 GB Cloud Storage</li>
-						<li>10 Pro Websites</li>
-						<li>20 Secured Emails</li>
-						<li>30-Minute Support</li>
+                        <li>3 kho/cửa hàng</li>
+                        <li> 100 mã hàng</li>
+                        <li>3 người dùng</li>
 					</ul>
-					<button class="btn btn-warning">Take this!</button>
+					<button class="btn btn-warning">ĐĂNG KÝ</button>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-6">
 				<div class="plan plan-three wow bounceIn" data-wow-delay="0.3s">
 					<div class="plan_title">
 						<i class="icon-cloud medium-icon"></i>
-						<h3 style="color:#b59f38">PRO</h3>
-						<h2 style="color:#b59f38">200.000 VNĐ<span>/month</span></h2>
+						<h3 style="color:#b59f38">CAO CẤP</h3>
+						<h2 style="color:#b59f38">20 USD<span>/month</span></h2>
 					</div>
 					<ul>
-						<li>500 GB Cloud Storage</li>
-						<li>20 Pro Websites</li>
-						<li>40 Secured Emails</li>
-						<li>Live Support</li>
+						<li>Không giới hạn kho hàng</li>
+						<li>Không giới hạn mã hàng</li>
+						<li>Không giới hạn người dùng</li>
 					</ul>
-					<button class="btn btn-warning">Buy Now</button>
+					<button class="btn btn-warning">ĐĂNG KÝ</button>
 				</div>
 			</div>
 		</div>
@@ -448,32 +475,32 @@
 			<div class="col-md-12 col-sm-12 text-center">
 				<div class="section-title">
 					<strong>06</strong>
-					<h1 class="heading bold">CONTACT US</h1>
+					<h1 class="heading bold">Liên hệ</h1>
 					<hr/>
 				</div>
 			</div>
 			<div class="col-md-6 col-sm-12 contact-info">
-				<h2 class="heading bold">CONTACT INFO</h2>
-				<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteu sunt in culpa qui officia deserunt mollit anim id.</p>
+				<h2 class="heading bold">Thông tin liên hệ</h2>
+				<p>Hãy liên hệ với chúng tôi bất kỳ khi nào bạn cần sự trợ giúp. Mọi thông tin chi tiết xin vui lòng liên hệ qua địa chỉ email và số điện thoại.</p>
 				<div class="col-md-6 col-sm-4">
-					<h3><i class="icon-envelope medium-icon wow bounceIn" data-wow-delay="0.6s"></i> EMAIL</h3>
+					<h3><i class="icon-envelope medium-icon wow bounceIn" data-wow-delay="0.6s"></i> Email</h3>
 					<p>wms.teams@gmail.com</p>
 				</div>
 				<div class="col-md-6 col-sm-4">
-					<h3><i class="icon-phone medium-icon wow bounceIn" data-wow-delay="0.6s"></i> PHONES</h3>
-					<p>097-511-4692 | 090-080-0760</p>
+					<h3><i class="icon-phone medium-icon wow bounceIn" data-wow-delay="0.6s"></i> Số điện thoại</h3>
+					<p>+(84)975.114.692 | +(84)983.917.976</p>
 				</div>
 			</div>
 			<div class="col-md-6 col-sm-12">
 				<form action="#" method="get" class="wow fadeInUp" data-wow-delay="0.6s">
 					<div class="col-md-6 col-sm-6">
-						<input type="text" class="form-control" placeholder="Name" name="name"/>
+						<input type="text" class="form-control" placeholder="Họ tên" name="name"/>
 					</div>
 					<div class="col-md-6 col-sm-6">
 						<input type="email" class="form-control" placeholder="Email" name="email"/>
 					</div>
 					<div class="col-md-12 col-sm-12">
-						<textarea class="form-control" placeholder="Message" rows="7" name="message"></textarea>
+						<textarea class="form-control" placeholder="Nội dung" rows="7" name="message"></textarea>
 					</div>
 					<div class="col-md-offset-4 col-md-8 col-sm-offset-4 col-sm-8">
 						<input type="submit" class="form-control" value="SEND MESSAGE"/>
