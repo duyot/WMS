@@ -249,7 +249,7 @@
                             <li>Tiện ích
                                 <ul>
                                     <li>Thông tin tồn kho, thẻ kho</li>
-                                    <li>Tra cứu serial, lịch sử xuất/nhập</li>
+                                    <li>Tra cứu serial, lịch sử xuất/nhập serial</li>
                                     <li>Tra cứu giao dịch xuất/nhập kho</li>
                                 </ul>
                             </li>
@@ -272,6 +272,7 @@
                         <ul>
                             <li>Biểu đồ danh sách hàng bán chạy</li>
                             <li>Biểu đồ doanh thu - lợi nhuận</li>
+                            <li>Biểu đồ tồn kho quá hạn </li>
                         </ul>
 					</div>
 
@@ -362,44 +363,46 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12">
 				<div class="section-title">
-					<strong>04</strong>
-					<h1 class="heading bold">Khách hàng</h1>
+					<strong>03</strong>
+					<h1 class="heading bold">Áp dụng phù hợp</h1>
 					<hr/>
 				</div>
 				<!-- ISO section -->
 				<div class="iso-section">
 					<ul class="filter-wrapper clearfix">
-						<li><a href="#" data-filter="*" class="selected opc-main-bg">All</a></li>
-						<li><a href="#" class="opc-main-bg" data-filter=".html">HTML</a></li>
-						<li><a href="#" class="opc-main-bg" data-filter=".photoshop">Photoshop</a></li>
-						<li><a href="#" class="opc-main-bg" data-filter=".wordpress">Wordpress</a></li>
-						<li><a href="#" class="opc-main-bg" data-filter=".mobile">Mobile</a></li>
+                        <!--<li><a href="#" class="selected opc-main-bg" data-filter="*" >Tất cả</a></li>-->
+						<li><a href="#" class="selected opc-main-bg" data-filter=".shop">Cửa hàng</a></li>
+                        <li><a href="#" class="opc-main-bg" data-filter=".stock" >Kho</a></li>
+						<li><a href="#" class="opc-main-bg" data-filter=".supermarket">Siêu thị</a></li>
+						<li><a href="#" class="opc-main-bg" data-filter=".bar">Quán bar</a></li>
+						<!--<li><a href="#" class="opc-main-bg" data-filter=".mobile">Mobile</a></li>-->
 					</ul>
 					<div class="iso-box-section wow fadeIn" data-wow-delay="0.9s">
 						<div class="iso-box-wrapper col4-iso-box">
 
-							<div class="iso-box html wordpress mobile col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
-							</div>
-							<div class="iso-box wordpress col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
+							<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+								<a th:href="@{/home_page/images/shop-img1.jpeg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img1.jpeg}" alt="portfolio img"/></a>
 							</div>
 
-							<div class="iso-box html mobile col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
+							<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+								<a th:href="@{/home_page/images/shop-img2.jpeg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img2.jpeg}" alt="portfolio img"/></a>
 							</div>
 
-							<div class="iso-box wordpress col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
+							<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+								<a th:href="@{/home_page/images/shop-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img3.jpg}" alt="portfolio img"/></a>
 							</div>
 
-							<div class="iso-box html photoshop col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
-							</div>
+                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/shop-img4.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img4.jpg}" alt="portfolio img"/></a>
+                            </div>
 
-							<div class="iso-box photoshop col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/portfolio-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/portfolio-img1.jpg}" alt="portfolio img"/></a>
-							</div>
+                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/shop-img5.jpeg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img5.jpeg}" alt="portfolio img"/></a>
+                            </div>
+
+                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/shop-img6.jpeg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img6.jpeg}" alt="portfolio img"/></a>
+                            </div>
 
 						</div>
 					</div>
@@ -415,7 +418,7 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12 text-center">
 				<div class="section-title">
-					<strong>05</strong>
+					<strong>04</strong>
 					<h1 class="heading bold">Bảng giá</h1>
 					<hr/>
 				</div>
@@ -474,7 +477,7 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12 text-center">
 				<div class="section-title">
-					<strong>06</strong>
+					<strong>05</strong>
 					<h1 class="heading bold">Liên hệ</h1>
 					<hr/>
 				</div>
@@ -503,7 +506,7 @@
 						<textarea class="form-control" placeholder="Nội dung" rows="7" name="message"></textarea>
 					</div>
 					<div class="col-md-offset-4 col-md-8 col-sm-offset-4 col-sm-8">
-						<input type="submit" class="form-control" value="SEND MESSAGE"/>
+						<input type="submit" class="form-control" value="GỬI THÔNG ĐIỆP"/>
 					</div>
 				</form>
 			</div>
