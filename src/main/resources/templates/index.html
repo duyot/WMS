@@ -180,7 +180,7 @@
 				<i class="icon-mobile medium-icon"></i>
 				<h3>Thiết kế</h3>
 				<hr/>
-				<p>Giao diện đơn giản, dễ sử dụng, có nhiều tiện ích để người sử dụng thực hiện thao tác nhanh hơn và chính xác hơn.</p>
+				<p>Giao diện đơn giản, dễ sử dụng, có nhiều tiện ích để thực hiện thao tác nhanh và chính xác hơn.</p>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
 				<i class="icon-laptop medium-icon"></i>
@@ -198,7 +198,7 @@
 				<i class="icon-chat medium-icon"></i>
 				<h3>Mở rộng</h3>
 				<hr/>
-				<p>Dễ dàng mở rộng hàng hóa, kho kinh doanh, kho lưu trữ, cửa hàng bán lẻ, đối tác khách hàng khi có nhu cầu quản lý trên hệ thống</p>
+				<p>Dễ dàng mở rộng hàng hóa, kho kinh doanh, kho lưu trữ, cửa hàng bán lẻ, đối tác, khách hàng khi có nhu cầu quản lý trên hệ thống</p>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
 				<i class="icon-browser medium-icon"></i>
@@ -374,35 +374,58 @@
 						<li><a href="#" class="selected opc-main-bg" data-filter=".shop">Cửa hàng</a></li>
                         <li><a href="#" class="opc-main-bg" data-filter=".stock" >Kho</a></li>
 						<li><a href="#" class="opc-main-bg" data-filter=".supermarket">Siêu thị</a></li>
-						<li><a href="#" class="opc-main-bg" data-filter=".bar">Quán bar</a></li>
+						<!--<li><a href="#" class="opc-main-bg" data-filter=".bar">Quán bar</a></li>-->
 						<!--<li><a href="#" class="opc-main-bg" data-filter=".mobile">Mobile</a></li>-->
 					</ul>
 					<div class="iso-box-section wow fadeIn" data-wow-delay="0.9s">
 						<div class="iso-box-wrapper col4-iso-box">
 
 							<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/shop-img1.jpeg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img1.jpeg}" alt="portfolio img"/></a>
+								<a th:href="@{/home_page/images/shop-img1.jpg}" data-lightbox-gallery="portfolio-gallery" ><img th:src="@{/home_page/images/shop-img1.jpg}" alt="portfolio img"/></a>
 							</div>
-
-							<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/shop-img2.jpeg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img2.jpeg}" alt="portfolio img"/></a>
-							</div>
-
-							<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/shop-img2.jpg}" data-lightbox-gallery="portfolio-gallery" ><img th:src="@{/home_page/images/shop-img2.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
 								<a th:href="@{/home_page/images/shop-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img3.jpg}" alt="portfolio img"/></a>
 							</div>
-
                             <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/shop-img4.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img4.jpg}" alt="portfolio img"/></a>
+                                <a th:href="@{/home_page/images/shop-img4.jpg}" data-lightbox-gallery="portfolio-gallery" ><img th:src="@{/home_page/images/shop-img4.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/shop-img5.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img5.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/shop-img6.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img6.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/stock-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img1.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/stock-img2.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img2.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/stock-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img3.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/stock-img4.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img4.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/stock-img5.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img5.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/stock-img6.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img6.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box supermarket col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/supermarket-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/supermarket-img1.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box supermarket col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/supermarket-img2.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/supermarket-img2.jpg}" alt="portfolio img"/></a>
+                            </div>
+                            <div class="iso-box supermarket col-lg-4 col-md-4 col-sm-6">
+                                <a th:href="@{/home_page/images/supermarket-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/supermarket-img3.jpg}" alt="portfolio img"/></a>
                             </div>
 
-                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/shop-img5.jpeg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img5.jpeg}" alt="portfolio img"/></a>
-                            </div>
-
-                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/shop-img6.jpeg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img6.jpeg}" alt="portfolio img"/></a>
-                            </div>
 
 						</div>
 					</div>
@@ -428,7 +451,7 @@
 					<div class="plan_title">
 						<i class="icon-mobile medium-icon"></i>
 						<h3>CƠ BẢN</h3>
-						<h2>5 USD <span>/month</span></h2>
+						<h2>1 USD <span>/month</span></h2>
 					</div>
 					<ul>
 						<li>1 kho/cửa hàng</li>
@@ -443,7 +466,7 @@
 					<div class="plan_title">
 						<i class="icon-desktop medium-icon"></i>
 						<h3 style="color: #0099e5">NÂNG CAO</h3>
-						<h2 style="color: #0099e5">8 USD <span>/month</span></h2>
+						<h2 style="color: #0099e5">5 USD <span>/month</span></h2>
 					</div>
 					<ul>
                         <li>3 kho/cửa hàng</li>
@@ -506,7 +529,7 @@
 						<textarea class="form-control" placeholder="Nội dung" rows="7" name="message"></textarea>
 					</div>
 					<div class="col-md-offset-4 col-md-8 col-sm-offset-4 col-sm-8">
-						<input type="submit" class="form-control" value="GỬI THÔNG ĐIỆP"/>
+						<input type="submit" class="form-control" value="GỬI NỘI DUNG"/>
 					</div>
 				</form>
 			</div>
