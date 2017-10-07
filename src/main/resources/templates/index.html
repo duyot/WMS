@@ -141,6 +141,7 @@
 				<li><a href="#portfolio" class="smoothScroll">Khách hàng</a></li>
 				<li><a href="#pricing" class="smoothScroll">Bảng giá</a></li>
 				<li><a href="#contact" class="smoothScroll">Liên hệ</a></li>
+                <li><a href="#register" class="smoothScroll">Đăng ký</a></li>
 			</ul>
 		</div>
 	</div>
@@ -154,7 +155,7 @@
 				<h1>Hệ thống Quản lý kho - Bán hàng</h1>
 				<hr/>
 				<a th:href="@{/login}" th:text="#{home.login}" class="smoothScroll btn btn-default"></a>
-				<a href="#contact" th:text="#{home.register}" class="smoothScroll btn btn-default"></a>
+				<a href="#register" th:text="#{home.register}" class="smoothScroll btn btn-default"></a>
 			</div>
 		</div>
 	</div>
@@ -225,7 +226,6 @@
 			</div>
 			<div class="col-md-6 col-sm-12">
 				<h3 class="bold">Quản lý kho - Bán hàng</h3>
-				<h1 class="heading bold">Quản lý hàng hóa chặt chẽ, hiệu quả</h1>
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="active"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">Quản lý kho</a></li>
@@ -281,82 +281,6 @@
 		</div>
 	</div>
 </section>
-
-<!--
-<section id="team">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12">
-				<div class="section-title">
-					<strong>03</strong>
-					<h1 class="heading bold">OUR TALENTED TEAM</h1>
-					<hr/>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 wow fadeIn" data-wow-delay="0.9s">
-				<div class="team-wrapper">
-					<img th:src="@{home_page/images/team1.jpg}" class="img-responsive" alt="team img"/>
-					<div class="team-des">
-						<h4>Cindy</h4>
-						<h3>QA</h3>
-						<hr/>
-						<ul class="social-icon">
-							<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
-							<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
-							<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 wow fadeIn" data-wow-delay="1.3s">
-				<div class="team-wrapper">
-					<img th:src="@{home_page/images/team2.jpg}" class="img-responsive" alt="team img"/>
-					<div class="team-des">
-						<h4>Mary</h4>
-						<h3>Core Developer</h3>
-						<hr/>
-						<ul class="social-icon">
-							<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
-							<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
-							<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 wow fadeIn" data-wow-delay="1.6s">
-				<div class="team-wrapper">
-					<img th:src="@{home_page/images/team3.jpg}" class="img-responsive" alt="team img"/>
-					<div class="team-des">
-						<h4>Linda</h4>
-						<h3>System Admin</h3>
-						<hr/>
-						<ul class="social-icon">
-							<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
-							<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
-							<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 wow fadeIn" data-wow-delay="1.6s">
-				<div class="team-wrapper">
-					<img th:src="@{home_page/images/team4.jpg}" class="img-responsive" alt="team img"/>
-					<div class="team-des">
-						<h4>Sandar</h4>
-						<h3>Tester</h3>
-						<hr/>
-						<ul class="social-icon">
-							<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
-							<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
-							<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
--->
 
 <div id="portfolio">
 	<div class="container">
@@ -536,6 +460,47 @@
 		</div>
 	</div>
 </section>
+
+
+<section id="register">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 text-center">
+                <div class="section-title">
+                    <strong>06</strong>
+                    <h1 class="heading bold">Đăng ký</h1>
+                    <hr/>
+                    </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div id="login-box">
+                    <div class="left">
+                        <h3>Đăng ký</h3>
+
+                        <input type="text" name="username" placeholder="Tên đăng nhập" />
+                        <input type="text" name="email" placeholder="E-mail" />
+                        <input type="password" name="password" placeholder="Password" />
+                        <input type="password" name="password2" placeholder="Gõ lại password" />
+
+                        <input type="submit" name="signup_submit" value="Ghi lại" />
+                    </div>
+
+                    <div class="right">
+                        <span class="loginwith">Đăng nhập với <br />mạng xã hội</span>
+
+                        <button class="social-signin facebook">Đăng nhập với Facebook</button>
+                        <button class="social-signin twitter">Đăng nhập với Twitter</button>
+                        <button class="social-signin google">Đăng nhập với Google+</button>
+                    </div>
+                    <div class="or">Or</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
 
 <footer>
 	<div class="container">
