@@ -557,7 +557,7 @@ $inpAmount.keyup(function() {
 
 function initSerialSuggestion() {
     //get current serial in stock
-    var serial;
+    var serial = null;
     var stockId = $('#cmb-stock').val();
     var goodsCode = $cmbGoods.val();
     var goodsState = '0';

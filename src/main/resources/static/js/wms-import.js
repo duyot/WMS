@@ -3,8 +3,10 @@ $table = $('#tbl-import-goods');
 $modalAddImportGoods = $('#myModal');
 $inpSerial =  $('#modal-inp-serial');
 $inpAmount =  $('#modal-inp-amount');
+$inpGoodsCode =  $('#inp-goods-code');
+$inpGoodsSerial =  $('#inp-serial');
 $inpPrice  = $('#modal-inp-input-price');
-$cmbGoods  = $("#modal-cmb-goods")
+$cmbGoods  = $("#modal-cmb-goods");
 var dataInit = [
 ];
 var enteredSerials = [];
@@ -14,9 +16,6 @@ var isUpdate = false;
 //-------------------------------------------------------------------------------------------------------
 function operateFormatter(value, row, index) {
     return [
-        '<a class="update-goods row-function" href="javascript:void(0)" title="Sửa">',
-        '<i class="fa fa-pencil-square-o"></i>',
-        '</a> ',
         '<a class="delete-goods row-function" href="javascript:void(0)" title="Xóa">',
         '<i class="fa fa-trash"></i>',
         '</a> '
@@ -25,7 +24,99 @@ function operateFormatter(value, row, index) {
 $(function () {
     //
     $table.bootstrapTable({
-        data: dataInit
+        data: dataInit,
+        columns:[
+            {
+                field: 'id',
+                title: 'STT',
+                formatter:'runningFormatter',
+                align:'center',
+                width:'40px'
+            },
+            {
+                field: 'goodsCode',
+                title: 'Mã hàng'
+            },
+            {
+                field: 'goodsName',
+                title: 'Tên hàng'
+            },
+            {
+                field: 'goodsStateValue',
+                title: 'Trạng thái',
+                editable: {
+                    type: 'select',
+                    mode: 'inline',
+                    showbuttons:false,
+                    source: [
+                        {value: 1, text: 'Bình thường'},
+                        {value: 2, text: 'Hỏng'}
+                    ]
+                }
+            },
+            {   field: 'serial',
+                title: 'Serial',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    showbuttons:false
+                    // validate: function(value) {
+                    //     if($.trim(value) == '') {
+                    //         return 'This field is required';
+                    //     }
+                    // }
+                }
+            },
+            {   field: 'amount',
+                title: 'Số lượng',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    showbuttons:false,
+                    validate: function(value) {
+                        var amountValue = unFormatFloat(value);
+                        if(!isValidAmount(amountValue)){
+                            return 'Số lượng nhập phải là số';
+                        }
+                    },
+                    display: function(value) {
+                        $(this).text(formatFloatType(value));
+                    }
+                }
+            },
+            {   field: 'inputPrice',
+                title: 'Giá nhập',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    showbuttons:false,
+                    validate: function(value) {
+                        var amount = unFormatFloat(value);
+                        if(!isValidAmount(amount)){
+                            return 'Giá nhập nhập phải là số';
+                        }
+                    },
+                    display: function(value) {
+                        $(this).text(formatFloatType(value));
+                    }
+                }
+            },
+            {   field: 'cellCode',
+                title: 'Vị trí',
+                editable: {
+                    type: 'select',
+                    mode: 'inline',
+                    showbuttons:false,
+                    source:$('#btn-get-cells').val() + '?stockId='+ $('#cmb-stock').val()
+                }
+            },
+            {
+                title: 'Thao tác',
+                formatter:'operateFormatter',
+                events:'operateEvents',
+                align:'center'
+            }
+        ]
     });
     $table.bootstrapTable('hideColumn', 'columnId');
     $table.bootstrapTable('hideColumn', 'goodsId');
@@ -37,6 +128,8 @@ $(function () {
     });
     //
     disableElement($('#btn-import'));
+    //
+    loadGoodsCodeSuggestion();
     //
 });
 //ROW FUNCTION------------------------------------------------------------------------------------------------------
@@ -133,7 +226,7 @@ btnImport.click(function () {
     //
     showModal($('#myConfirmModal'));
 });
-
+//@Import---------------------------------------------------------------------
 var btnImportConfirm = $('#modal-btn-del-ok');
 btnImportConfirm.click(function () {
     //
@@ -281,7 +374,7 @@ function addImportGoods() {
     //check whether serial is entered before
     var keySerial = goodsCode + goodsState + serial;
     if(isSerial == '1' && enteredSerials.indexOf(keySerial) > -1){
-        setErrorMessage($('#modal-add-result').css('color','#F44336'),"Serial đã được nhập");
+        setErrorMessage($('#modal-add-result'),"Serial đã được nhập");
         $inpSerial.val('');
         $inpSerial.focus();
         return;
@@ -493,7 +586,7 @@ $cmbGoods.change(function () {
 });
 
 function showElementBySerialType(serialType) {
-    if(serialType == '1'){
+    if(serialType === '1'){
         $inpAmount.val('1');
         disableElement($inpAmount);
         enableElement($inpSerial);
@@ -532,6 +625,70 @@ function loadSelectItems(select, items) {
     select.selectpicker('refresh');
 }
 //for enter press ->
+$inpGoodsCode.keypress(function (e) {
+    var key = e.which;
+    var goodsItem;
+    if(key == 13)  // the enter key code
+    {
+        //1. check goods serial: serial:focus to serial field, no_serial: append to table
+        $.ajax({
+            type: 'GET',
+            url: $('#btn-check-serial').val(),
+            data:{code:$inpGoodsCode.val()},
+            cache: false,
+            contentType: false,
+            async:false,
+            success: function(data){
+                goodsItem = data;
+            }
+        });
+        if(goodsItem == null){
+            alert("Không có mặt hàng tương ứng");
+            return;
+        }
+        //
+        if(goodsItem["isSerial"] == '1'){
+            $inpGoodsSerial.focus();
+        }else{
+            var columnId = ~~(Math.random() * 100) * -1,
+            rows = [];
+            rows.push({
+                goodsCode: goodsItem['code'],
+                goodsName:  goodsItem['name'],
+                goodsState: '1',
+                goodsStateValue: '1',
+                serial:'',
+                amount: '1',
+                inputPrice: formatFloatType(goodsItem['inPrice']),
+                cellCode: $('#cmb-cells').val(),
+                columnId:columnId
+            });
+            //
+            $table.bootstrapTable('append', rows);
+            enableElement($('#btn-import'));
+
+            setInfoMessage($('#modal-add-result'),"Bổ sung thành công");
+            $inpSerial.val('');
+            $inpSerial.focus();
+        }
+    }
+});
+
+function getGoodsObject() {
+    $.ajax({
+        type: 'GET',
+        url: $('#btn-check-serial').val(),
+        data:{code:$inpGoodsCode.val()},
+        cache: false,
+        contentType: false,
+        async:false,
+        success: function(data){
+        alert(data);
+        return data;
+        }
+    });
+}
+
 $inpSerial.keypress(function (e) {
     var key = e.which;
     if(key == 13)  // the enter key code
@@ -546,7 +703,7 @@ $inpSerial.keypress(function (e) {
 
 $inpAmount.keypress(function (e) {
     var key = e.which;
-    if(key == 13)  // the enter key code
+    if(key === 13)  // the enter key code
     {
         if(isUpdate){
             updateGoods();
@@ -555,4 +712,21 @@ $inpAmount.keypress(function (e) {
         }
     }
 });
+
+function loadGoodsCodeSuggestion() {
+    var goodsCode = null;
+    $.ajax({
+        type: 'GET',
+        url: $('#btn-get-goods-code').val(),
+        cache: false,
+        contentType: false,
+        async:false,
+        success: function(data){
+            goodsCode = data;
+        }
+    });
+    $('#inp-goods-code').autocomplete({
+        source: goodsCode
+    });
+}
 //-----------------------------------------------------------------------------------------------------------------

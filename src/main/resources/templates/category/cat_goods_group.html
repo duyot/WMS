@@ -18,7 +18,7 @@
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
     <script>
-                new WOW().init();
+        new WOW().init();
     </script>
     <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
@@ -31,12 +31,6 @@
     <!--font and favi icon-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
-
-    <!--editable-->
-    <link rel='stylesheet' href="editable/bootstrap-editable.css" th:href="@{/editable/bootstrap-editable.css}"  type='text/css' />
-    <script th:attr="src=@{/editable/bootstrap-editable.js}"      th:href="@{/editable/bootstrap-editable.js}"></script>
-    <script th:attr="src=@{/editable/bootstrap-table-editable.js}"      th:href="@{/editable/bootstrap-table-editable.js}"></script>
-
 
 </head>
 <body class="sticky-header left-side-collapsed">
@@ -63,7 +57,7 @@
 
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                    <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
@@ -118,26 +112,25 @@
                             data-click-to-select="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
-                            data-editable-emptytext="Empty"
                     >
-                        <!--<thead>-->
-                        <!--<tr>-->
-                            <!--<th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>-->
-                            <!--<th  class="col-md-1" data-field="id" data-align="left" data-sortable="true">ID</th>-->
-                            <!--<th  data-editable="true" class="col-md-6" data-field="name" data-align="left" data-sortable="true">Nhóm hàng hóa</th>-->
-                            <!--<th  class="col-md-3" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>-->
-                            <!--<th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>-->
-                        <!--</tr>-->
-                        <!--</thead>-->
 
+                        <thead>
+                        <tr>
+                            <th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                            <th  class="col-md-1" data-field="id" data-align="left" data-sortable="true">ID</th>
+                            <th  class="col-md-6" data-field="name" data-align="left" data-sortable="true">Nhóm hàng hóa</th>
+                            <th  class="col-md-3" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
+                        </tr>
+                        </thead>
                     </table>
                 </div>
             </div>
         </div>
     </div>
     <!--modal-->
-        <div th:include="modal/cat_goods_group_modal :: frag-cat-goods_group-modal"></div>
-        <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
+    <div th:include="modal/cat_goods_group_modal :: frag-cat-goods_group-modal"></div>
+    <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -176,31 +169,7 @@
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $tblGoodsGroup.bootstrapTable({
-            data: dataInit,
-            columns:[{ field: 'name',
-                title: 'Nhóm hàng hóa',
-                editable: {
-                    type: 'text',
-                    mode: 'inline',
-                    showbuttons:false,
-                    validate: function(value) {
-                        if($.trim(value) == '') {
-                            return 'This field is required';
-                        }
-                    }
-                }},
-                { field: 'statusName',
-                    title: 'Trạng thái',
-                    editable: {
-                        type: 'select',
-                        mode: 'inline',
-                        showbuttons:false,
-                        source: [
-                            {value: 1, text: 'Hiệu lực'},
-                            {value: 2, text: 'Hết hiệu lực'}
-                        ]
-                    }}
-            ]
+            data: dataInit
         });
         //
         search(false);
@@ -326,8 +295,8 @@
                 preprocessInput($("#cat-goods-group-insert-update-form"));
                 //
                 if (isContainSpecialCharacter($('#modal-inp-name').val())) {
-                alert("Nhóm hàng chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
-                return;
+                    alert("Nhóm hàng chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
                 }
                 //
                 $.ajax({

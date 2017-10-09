@@ -41,6 +41,10 @@ public class ImportStockController extends BaseController{
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
     //
+    private int previousStockId = -1;
+    Map<String,String> mapCellIdCellCode = new HashMap<>();
+    List<ComboSourceDTO> cells;
+    //
     @ModelAttribute("setGoodsCode")
     public void setGoodsCode(HttpServletRequest request){
         if(selectedCustomer == null){
@@ -76,6 +80,40 @@ public class ImportStockController extends BaseController{
         }
     }
 
+    @ModelAttribute("cells")
+    public List<ComboSourceDTO> getCells(HttpServletRequest request){
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        //
+        if(lstStock == null || isStockModified(request)){
+            lstStock = FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
+            buildMapStock();
+            request.getSession().setAttribute("isStockModifiedImportStock",false);
+        }
+        //
+        int currentStockId = Integer.parseInt(lstStock.get(0).getId());
+        if (cells == null || previousStockId != currentStockId) {
+            cells = Lists.newArrayList();
+            previousStockId = currentStockId;
+            List<Condition> conditions = Lists.newArrayList();
+            conditions.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentStockId + ""));
+            List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions,tokenInfo);
+            if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
+                for (CatStockCellDTO i: cellsDTO) {
+                    cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()),i.getCode(),i.getId(),i.getCode()));
+                    mapCellIdCellCode.put(i.getId(),i.getCode());
+                }
+            }
+        }
+
+        return cells;
+
+    }
+
     @RequestMapping()
     public String home(Model model){
         model.addAttribute("menuName","menu.importstock");
@@ -89,8 +127,8 @@ public class ImportStockController extends BaseController{
 
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request,HttpServletResponse response){
-        String fileResource = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_import_error");
-        FunctionUtils.loadFileToClient(response,fileResource);
+        String fileLocation = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_import_error");
+        FunctionUtils.loadFileToClient(response,fileLocation);
     }
 
     @RequestMapping(value = "/getErrorImportStockFile/{id}")
@@ -114,16 +152,28 @@ public class ImportStockController extends BaseController{
     }
 
     @RequestMapping(value = "/getCells")
-    public @ResponseBody List<CatStockCellDTO> getCellByStock(@RequestParam("stockId")String stockId){
-        List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,stockId));
-        return catStockCellService.findByCondition(lstCon,tokenInfo);
+    public @ResponseBody List<ComboSourceDTO> getCellByStock(@RequestParam("stockId")String stockId){
+        if (cells == null || previousStockId != Integer.parseInt(stockId)) {
+            cells = Lists.newArrayList();
+            previousStockId = Integer.parseInt(stockId);
+            //
+            List<Condition> conditions = Lists.newArrayList();
+            conditions.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,stockId));
+            List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions,tokenInfo);
+            if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
+                for (CatStockCellDTO i: cellsDTO) {
+                    cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()),i.getCode(),i.getId(),i.getCode()));
+                    mapCellIdCellCode.put(i.getId(),i.getCode());
+                }
+            }
+        }
+        return cells;
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public List<MjrStockTransDetailDTO> uploadFile(MultipartHttpServletRequest request) {
-        //1. get files from request object
+        //
         Iterator<String> itr =  request.getFileNames();
         MultipartFile mpf = request.getFile(itr.next());
         //
@@ -176,6 +226,9 @@ public class ImportStockController extends BaseController{
                 i.setIsSerial(goodsItem.getIsSerial());
             }
             //
+            i.setInputPrice(FunctionUtils.unformatFloat(i.getInputPrice()));
+            i.setAmount(FunctionUtils.unformatFloat(i.getAmount()));
+            i.setCellCode(mapCellIdCellCode.get(i.getCellCode()));
             i.setAmountValue(null);
             i.setInputPriceValue(null);
             i.setOutputPriceValue(null);
@@ -201,5 +254,14 @@ public class ImportStockController extends BaseController{
 
     private boolean isStockModified(HttpServletRequest request){
         return (boolean) request.getSession().getAttribute("isStockModifiedImportStock");
+    }
+
+    @RequestMapping(value = "/getGoodsCode")
+    public @ResponseBody List<String> getGoodsCodes(){
+        List<String> lstGoodsCode = Lists.newArrayList();
+        for(CatGoodsDTO i: lstGoods){
+            lstGoodsCode.add(i.getCode());
+        }
+        return lstGoodsCode;
     }
 }

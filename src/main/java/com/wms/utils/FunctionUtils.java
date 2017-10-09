@@ -722,6 +722,11 @@ public class FunctionUtils {
         }
     }
 
+    //13,000 -> 13000
+    public static String unformatFloat(String input){
+        return input.replaceAll(",","");
+    }
+
     public static void main(String[] args) {
         System.out.println(Float.valueOf("20.5"));
     }
