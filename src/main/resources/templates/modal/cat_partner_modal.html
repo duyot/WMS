@@ -8,8 +8,8 @@
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-mini" role="document">
-            <form id="cat-insert-update-form" action="" method="post">
-                <div class="modal-content" id="catUserDTO-modal">
+            <form id="cat-partner-insert-update-form" action="" method="post">
+                <div class="modal-content" id="catPartnerDTO-modal">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
                         </button>
@@ -113,7 +113,7 @@
         </div>
     </div>
     <script>
-        $('#cat-insert-update-form').submit(function() {
+        $('#cat-partner-insert-update-form').submit(function() {
             $(this).find('input:text').each(function(){
                 $(this).val($.trim($(this).val()));
             });

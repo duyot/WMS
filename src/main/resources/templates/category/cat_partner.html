@@ -178,7 +178,7 @@
         $tblPartner.bootstrapTable({
             data: dataInit,
             columns:[{ field: 'name',
-                title: 'Nhóm hàng hóa',
+                title: 'Đối tác',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -210,7 +210,7 @@
     var $selectedItemId;
     var $selectedItemCode;
     window.operateEvents = {
-        'click .update-goodsgroup': function (e, value, row, index) {
+        'click .update-partner': function (e, value, row, index) {
             validator.resetForm();
             $("#cat-partner-insert-update-form").find(".error").removeClass("error");
             //
@@ -222,7 +222,7 @@
             });
         },
 
-        'click .delete-goodsgroup': function (e, value, row, index) {
+        'click .delete-partner': function (e, value, row, index) {
             clearActionInfo();
             $("#lbl-del-info").text('Xóa thông tin: '+ decodeHtml(row['name']));
             $('#myConfirmModal').modal('show');
@@ -283,7 +283,7 @@
             dataType: 'json',
             timeout: 600000,
             success: function (data) {
-                $tblpartner.bootstrapTable('load', data);
+                $tblPartner.bootstrapTable('load', data);
             },
             complete:function () {
                 NProgress.done();
@@ -326,7 +326,7 @@
                 preprocessInput($("#cat-partner-insert-update-form"));
                 //
                 if (isContainSpecialCharacter($('#modal-inp-name').val())) {
-                    alert("Nhóm hàng chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    alert("Đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
                     return;
                 }
                 //
