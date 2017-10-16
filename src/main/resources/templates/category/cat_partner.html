@@ -118,7 +118,6 @@
                             data-click-to-select="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
-                            data-editable-emptytext="Empty"
                             >
                         <thead>
                         <tr>
@@ -141,6 +140,7 @@
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
+
 
 <!--FINAL JS-->
 <script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
@@ -176,31 +176,7 @@
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $tblPartner.bootstrapTable({
-            data: dataInit,
-            columns:[{ field: 'name',
-                title: 'Đối tác',
-                editable: {
-                    type: 'text',
-                    mode: 'inline',
-                    showbuttons:false,
-                    validate: function(value) {
-                        if($.trim(value) == '') {
-                            return 'This field is required';
-                        }
-                    }
-                }},
-                { field: 'statusName',
-                    title: 'Trạng thái',
-                    editable: {
-                        type: 'select',
-                        mode: 'inline',
-                        showbuttons:false,
-                        source: [
-                            {value: 1, text: 'Hiệu lực'},
-                            {value: 2, text: 'Hết hiệu lực'}
-                        ]
-                    }}
-            ]
+            data: dataInit
         });
         //
         search(false);
@@ -326,7 +302,7 @@
                 preprocessInput($("#cat-partner-insert-update-form"));
                 //
                 if (isContainSpecialCharacter($('#modal-inp-name').val())) {
-                    alert("Đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    alert("Tên đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
                     return;
                 }
                 //
