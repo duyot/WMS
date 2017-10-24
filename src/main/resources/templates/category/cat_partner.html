@@ -32,12 +32,6 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
 
-    <!--editable-->
-    <link rel='stylesheet' href="editable/bootstrap-editable.css" th:href="@{/editable/bootstrap-editable.css}"  type='text/css' />
-    <script th:attr="src=@{/editable/bootstrap-editable.js}"      th:href="@{/editable/bootstrap-editable.js}"></script>
-    <script th:attr="src=@{/editable/bootstrap-table-editable.js}"      th:href="@{/editable/bootstrap-table-editable.js}"></script>
-
-
 </head>
 <body class="sticky-header left-side-collapsed">
 <section>
@@ -98,15 +92,15 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-add" th:title="#{btn.add}" th:value="@{/workspace/cat_parner_ctr/add}" type="button" class="btn btn-default">
+                        <button id="btn-add" th:title="#{btn.add}" th:value="@{/workspace/cat_partner_ctr/add}" type="button" class="btn btn-default">
                             <i class="fa fa-plus"></i>
                         </button>
 
-                        <button id="btn-update" th:value="@{/workspace/cat_parner_ctr/update}" style="display: none" type="button" class="btn btn-default">
+                        <button id="btn-update" th:value="@{/workspace/cat_partner_ctr/update}" style="display: none" type="button" class="btn btn-default">
                             <i class="fa fa-edit"></i>
                         </button>
 
-                        <button id="btn-delete" th:value="@{/workspace/cat_parner_ctr/delete}" style="display: none" type="button" class="btn btn-default">
+                        <button id="btn-delete" th:value="@{/workspace/cat_partner_ctr/delete}" style="display: none" type="button" class="btn btn-default">
                             <i class="fa fa-trash"></i>
                         </button>
 
@@ -122,9 +116,13 @@
                         <thead>
                         <tr>
                             <th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
-                            <th  class="col-md-1" data-field="id" data-align="left" data-sortable="true">ID</th>
-                            <th  class="col-md-6" data-field="name" data-align="left" data-sortable="true">Đối tác</th>
-                            <th  class="col-md-3" data-field="statusName" data-align="left" data-sortable="true">Trạng thái</th>
+                            <th  class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.partnerCode}"></th>
+                            <th  class="col-md-4" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.partnerName}"></th>
+                            <th  class="col-md-2" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
+                            <th  class="col-md-3" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
+                            <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
                             <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
                         </thead>
@@ -191,10 +189,10 @@
             $("#cat-partner-insert-update-form").find(".error").removeClass("error");
             //
             clearActionInfo();
-            changeModelByType(2,row['name'],row['id'],row['status'],$btn_update.val());
+            changeModelByType(2,row['code'],row['name'],row['telNumber'],row['address'],row['id'],row['status'],$btn_update.val());
             showModal($addUpdateModal);
             $addUpdateModal.on('shown.bs.modal', function () {
-                $('#modal-inp-name').focus();
+                $('#modal-inp-code').focus();
             });
         },
 
@@ -278,10 +276,10 @@
     $(function () {
         $btn_add.click(function () {
             clearActionInfo();
-            changeModelByType(1,null,null,null,$btn_add.val());
+            changeModelByType(1,null,null,null,null,null,null,$btn_add.val());
             $addUpdateModal.modal('show');
             $addUpdateModal.on('shown.bs.modal', function () {
-                $('#modal-inp-name').focus();
+                $('#modal-inp-code').focus();
             });
         });
     });
@@ -332,10 +330,13 @@
         });
     });
     //
-    function changeModelByType(type,name,id,status,actionVal) {
+    function changeModelByType(type,code,name,telNumber,address,id,status,actionVal) {
         if(type == 1){//add
             $("#cat-partner-insert-update-form").attr("action",actionVal);
+            $("#modal-inp-code").val('');
             $("#modal-inp-name").val('');
+            $("#modal-inp-telNumber").val('');
+            $("#modal-inp-address").val('');
             //set default active-disable combo status
             $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
@@ -344,7 +345,10 @@
             $("#myModalLabel").text('Thêm mới');
         }else{//update
             $("#cat-partner-insert-update-form").attr("action",actionVal);
+            $("#modal-inp-code").val(decodeHtml(code));
             $("#modal-inp-name").val(decodeHtml(name));
+            $("#modal-inp-telNumber").val(decodeHtml(telNumber));
+            $("#modal-inp-address").val(decodeHtml(address));
             $("#modal-inp-id").val(id);
             var currentStatus = status;
             if(currentStatus == '0'){

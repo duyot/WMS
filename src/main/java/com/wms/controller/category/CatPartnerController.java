@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -31,13 +33,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/workspace/cat_partner_ctr")
 @Scope("session")
 public class CatPartnerController extends BaseCommonController{
-    Logger log = LoggerFactory.getLogger(CatPartnerController.class);
-
-    @Autowired
-    BaseService customerService;
+    private Logger log = LoggerFactory.getLogger(CatPartnerController.class);
 
     @Autowired
     BaseService catPartnerService;
+
 
     @RequestMapping()
     public String home(Model model){
@@ -46,17 +46,14 @@ public class CatPartnerController extends BaseCommonController{
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public  @ResponseBody List<CatPartnerDTO> findByCondition(@RequestParam("customerId")String custId, @RequestParam("status")String status){
+    public  @ResponseBody List<CatPartnerDTO> findByCondition( @RequestParam("status")String status){
         List<Condition> lstCon = Lists.newArrayList();
-
-        if(!DataUtil.isStringNullOrEmpty(custId) && !custId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("custId", Constants.SQL_OPERATOR.EQUAL,custId));
-        }
+        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.NOT_EQUAL,Constants.STATUS.DELETED));
 
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
         }
-
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         List<CatPartnerDTO> lstCatPartner = catPartnerService.findByCondition(lstCon,tokenInfo);
@@ -71,28 +68,26 @@ public class CatPartnerController extends BaseCommonController{
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(CatPartnerDTO catPartnerDTO, RedirectAttributes redirectAttributes){
+    public @ResponseBody  String add(CatPartnerDTO catPartnerDTO, HttpServletRequest request){
         catPartnerDTO.setStatus("1");
         catPartnerDTO.setCustId(this.selectedCustomer.getId());
         ResponseObject response = catPartnerService.add(catPartnerDTO,tokenInfo);
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
-            redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("Add: "+ catPartnerDTO.toString()+" SUCCESS");
+            request.getSession().setAttribute("isCatPartnerModified",true);
+            return "1|Thêm mới thành công";
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName()))
         {
             log.info("Add: "+ catPartnerDTO.toString()+" ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
+            return "0|Thông tin đã có trên hệ thống";
         }else{
             log.info("Add: "+ catPartnerDTO.toString()+" ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
+            return "0|Thêm mới không thành công";
         }
-
-        return "redirect:/workspace/cat_partner_ctr";
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String update(CatPartnerDTO catPartnerDTO, RedirectAttributes redirectAttributes){
+    public @ResponseBody String update(CatPartnerDTO catPartnerDTO, HttpServletRequest request){
         log.info("Update cat_partner info: "+ catPartnerDTO.toString());
         catPartnerDTO.setCustId(this.selectedCustomer.getId());
         if("on".equalsIgnoreCase(catPartnerDTO.getStatus())){
@@ -103,25 +98,30 @@ public class CatPartnerController extends BaseCommonController{
         ResponseObject response = catPartnerService.update(catPartnerDTO,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
-            redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
-            redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusCode())){
+            request.getSession().setAttribute("isPartnerModified", true);
+            return "1|Cập nhật thành công";
+        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.constraint");
+            return "0|Thông tin đã có trên hệ thống";
         }
         else{
             log.info("ERROR");
-            redirectAttributes.addFlashAttribute("actionInfo","result.fail.contact");
+            return "0|Cập nhật không thành công";
         }
-        return  "redirect:/workspace/cat_partner_ctr";
+
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(@RequestParam("id")String id){
+    public @ResponseBody String delete(@RequestParam("id")String id,@RequestParam("code")String code, HttpServletRequest request){
         try {
+
             Long idL = Long.parseLong(id);
-            ResponseObject response = catPartnerService.delete(idL,tokenInfo);
-            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
+
+            CatPartnerDTO deleteObject = (CatPartnerDTO) catPartnerService.findById(idL,tokenInfo);
+            deleteObject.setStatus(Constants.STATUS.DELETED);
+            ResponseObject response = catPartnerService.update(deleteObject, tokenInfo);
+            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+                request.getSession().setAttribute("isCatPartnerModified",true);
                 return "1|Xoá thành công";
             }else{
                 return "0|Xoá không thành công";

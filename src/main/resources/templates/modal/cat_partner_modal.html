@@ -2,22 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 </head>
-<body>
-
 <div th:fragment="frag-cat-partner-modal">
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-dialog-mini" role="document">
-            <form id="cat-partner-insert-update-form" action="" method="post">
+            <form id="cat-partner-insert-update-form">
                 <div class="modal-content" id="catPartnerDTO-modal">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
                         </button>
                         <h4 class="modal-title" id="myModalLabel" th:text="#{btn.add}"></h4>
                     </div>
+
                     <div class="modal-body">
                         <div class="container-modal">
+                            <!--hidden fields-->
                             <input id="modal-inp-id" hidden="true" name="id"/>
+
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
@@ -30,8 +31,8 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
-                                        </span>
-                                        <input id="modal-inp-code" class="form-control" type="text" th:required="true" name="code" maxlength="30" />
+                                    </span>
+                                        <input id="modal-inp-code" class="form-control" type="text" th:required="true" name="code"  maxlength="100"/>
                                     </div>
                                 </div>
                             </div>
@@ -47,8 +48,8 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
-                                        </span>
-                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name" maxlength="1000"  />
+                                    </span>
+                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name"  maxlength="100"/>
                                     </div>
                                 </div>
                             </div>
@@ -64,8 +65,8 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
-                                        </span>
-                                        <input id="modal-inp-telNumber" class="form-control" type="text" name="telNumber" maxlength="50" />
+                                    </span>
+                                        <input id="modal-inp-telNumber" class="form-control" type="text" name="telNumber"  maxlength="100"/>
                                     </div>
                                 </div>
                             </div>
@@ -80,9 +81,9 @@
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <span class="input-group-addon">
-                                            <i class="fa  fa-server fa-fw"></i>
-                                        </span>
-                                        <input id="modal-inp-address" class="form-control" type="text" name="address" maxlength="1000" />
+                                            <i class="fa fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-address" class="form-control" type="text" name="address"  maxlength="100"/>
                                     </div>
                                 </div>
                             </div>
@@ -90,36 +91,38 @@
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label class="control-label " th:text="#{lbl.status}"></label>
+                                        <label class="control-label" th:text="#{lbl.status}"></label>
                                     </div>
                                 </div>
                             </div>
+
                             <div id="div-status" class="row row-content">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input id="modal-cmb-status" name="status" data-toggle="toggle" type="checkbox"/>
+                                        <input id="modal-cmb-status" name="status" data-toggle="toggle" type="checkbox" data-width="110" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button id="modal-btn-update"  type="submit" class="btn btn-primary" th:text="#{btn.update}" ></button>
-                        <button id="modal-btn-add"     type="submit" class="btn btn-primary" th:text="#{btn.add}"></button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{btn.close}"></button>
+                        <button id="modal-btn-update" class="btn btn-primary" >
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{btn.update}"></span>
+                        </button>
+                        <button id="modal-btn-add" class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            <span th:text="#{btn.add}"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <script>
-        $('#cat-partner-insert-update-form').submit(function() {
-            $(this).find('input:text').each(function(){
-                $(this).val($.trim($(this).val()));
-            });
-        });
-    </script>
 </div>
-
-</body>
 </html>
