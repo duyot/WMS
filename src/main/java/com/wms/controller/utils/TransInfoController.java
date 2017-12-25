@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,8 @@ import java.util.Map;
 public class TransInfoController extends BaseController{
     @Autowired
     BaseService mjrStockTransService;
+    @Autowired
+    BaseService mjrStockTransDetailService;
     @Autowired
     StockManagementService stockManagementService;
     @Autowired
@@ -92,7 +95,7 @@ public class TransInfoController extends BaseController{
     //==================================================================================================================
     @RequestMapping(value = "/findTrans",method = RequestMethod.GET)
     public @ResponseBody
-    List<MjrStockTransDTO> findSerial(@RequestParam("stockId")String stockId, @RequestParam("createdUser")String createdUser,
+    List<MjrStockTransDTO> findTrans(@RequestParam("stockId")String stockId, @RequestParam("createdUser")String createdUser,
                                       @RequestParam("startDate")String startDate, @RequestParam("endDate")String endDate,
                                       @RequestParam("transType")String transType,@RequestParam("transCode")String transCode
     ){
@@ -131,16 +134,38 @@ public class TransInfoController extends BaseController{
     }
     //==================================================================================================================
     @RequestMapping(value = "/getListTransFile")
-    public void getGoodsDetailFile(HttpServletResponse response){
+    public void getListTransFile(HttpServletResponse response){
         if(DataUtil.isListNullOrEmpty(lstTrans)){
             lstTrans.add(new MjrStockTransDTO("","","","","","","","","","","","","","","","",""));
             startDate = "";
             endDate = "";
         }
-    //
-        String prefixFileName = "Thong_tin_ds_giao_dich_";
-        //
+        String prefixFileName = "Thongtin_ds_giaodich_";
         String fileResource = exportListStockTrans(lstTrans,prefixFileName);
+        FunctionUtils.loadFileToClient(response,fileResource);
+    }
+    //==================================================================================================================
+    @RequestMapping(value = "/getListTransDetailFile")
+    public void getListTransDetailFile(HttpServletResponse response){
+        int size = 0;
+        StringBuilder lstStockTransId = new StringBuilder();
+        if(!DataUtil.isListNullOrEmpty(lstTrans)){
+            size = lstTrans.size();
+        }
+        for (int i = 0; i<size;i++){
+            lstStockTransId.append(lstTrans.get(i).getId());
+            if(i!=size -1){
+                lstStockTransId.append(",");
+            }
+        }
+        List<MjrStockTransDetailDTO> lstTransDetail = stockManagementService.getListTransGoodsDetail(lstStockTransId.toString(),tokenInfo);
+        if(DataUtil.isListNullOrEmpty(lstTransDetail)){
+            lstTransDetail.add(new MjrStockTransDetailDTO());
+            startDate = "";
+            endDate = "";
+        }
+        String prefixFileName = "Thongtin_chitiet_giaodich_";
+        String fileResource = exportListStockTransDetail(lstTransDetail,prefixFileName);
         FunctionUtils.loadFileToClient(response,fileResource);
     }
     //==================================================================================================================
@@ -151,7 +176,7 @@ public class TransInfoController extends BaseController{
             return "1|Hủy phiếu thành công";
         }else{
             return "0|Hủy phiếu không thành công";
-        }
+          }
     }
 
     //==================================================================================================================
@@ -207,6 +232,24 @@ public class TransInfoController extends BaseController{
 
         Map<String, Object> beans = new HashMap<>();
         beans.put("items", lstTrans);
+        beans.put("startDate", startDate);
+        beans.put("endDate", endDate);
+
+        String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
+        //
+        FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
+        return reportFullPath;
+    }
+    //==================================================================================================================
+    private  String exportListStockTransDetail(List<MjrStockTransDetailDTO> lstTransDetail,String prefixFileName){
+        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.LIST_TRANS_DETAIL_TEMPLATE;
+        //
+        File file = new File(templatePath);
+        String templateAbsolutePath = file.getAbsolutePath();
+
+        Map<String, Object> beans = new HashMap<>();
+        beans.put("items", lstTransDetail);
         beans.put("startDate", startDate);
         beans.put("endDate", endDate);
 

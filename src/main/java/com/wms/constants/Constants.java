@@ -28,6 +28,7 @@ public class Constants {
         public static String IMPORT_TEMPLATE = "Bieu_mau_nhap_hang.xlsx";
         public static String IMPORT_GOODS_TEMPLATE = "Bieu_mau_hang_hoa.xlsx";
         public static String LIST_TRANS_TEMPLATE = "Thong_tin_ds_giao_dich.xlsx";
+        public static String LIST_TRANS_DETAIL_TEMPLATE = "Thong_tin_chitiet_giao_dich.xlsx";
     }
 
     public static class STATUS{
@@ -74,6 +75,7 @@ public class Constants {
         public static String MJR_STOCK_GOODS_SERIAL_SERVICE = "mjrStockGoodsSerialServices/";
         public static String MJR_STOCK_GOODS_TOTAL_SERVICE = "mjrStockGoodsTotalServices/";
         public static String MJR_STOCK_TRANS_SERVICE = "mjrStockTransServices/";
+        public static String MJR_STOCK_TRANS_DETAIL_SERVICE = "mjrStockTransDetailServices/";
         public static String APP_PARAMS_SERVICE = "appParamsServices/";
         public static String CAT_STOCK_CELL_SERVICE = "catStockCellServices/";
     }

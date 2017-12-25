@@ -30,6 +30,9 @@ public class MjrStockTransDetailDTO {
     private String status;
     private String stockId;
     private String stockValue;
+    private String unitName;
+
+
 
     public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String inputPrice, String outputPrice, String cellCode, String goodsName, String stockId, String importDate, String exportDate, String statusValue) {
         this.id = id;
@@ -132,6 +135,14 @@ public class MjrStockTransDetailDTO {
 
     public void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
     }
 
     public String getInputPrice() {

@@ -1,9 +1,6 @@
 package com.wms.services.interfaces;
 
-import com.wms.dto.AuthTokenInfo;
-import com.wms.dto.MjrStockTransDetailDTO;
-import com.wms.dto.ResponseObject;
-import com.wms.dto.StockTransDTO;
+import com.wms.dto.*;
 
 import java.util.List;
 
@@ -16,4 +13,5 @@ public interface StockManagementService {
     List<String> getListSerialInStock(String custId, String stockId, String goodsId, String goodsState, AuthTokenInfo tokenInfo);
     ResponseObject cancelTrans(String transId, AuthTokenInfo tokenInfo);
     List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType, AuthTokenInfo tokenInfo);
+    List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId, AuthTokenInfo tokenInfo);
 }
