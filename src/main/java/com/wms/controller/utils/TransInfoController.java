@@ -235,6 +235,8 @@ public class TransInfoController extends BaseController{
         beans.put("startDate", startDate);
         beans.put("endDate", endDate);
 
+
+
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
         String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
         //
@@ -252,6 +254,11 @@ public class TransInfoController extends BaseController{
         beans.put("items", lstTransDetail);
         beans.put("startDate", startDate);
         beans.put("endDate", endDate);
+        try{
+            beans.put("exportedTime", DateTimeUtils.getSysDateTime());
+        }catch (Exception ex){
+            System.out.println(ex.fillInStackTrace());
+        }
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
         String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;

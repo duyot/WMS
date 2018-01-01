@@ -30,7 +30,54 @@ public class MjrStockTransDetailDTO {
     private String status;
     private String stockId;
     private String stockValue;
+    private String stockTransCode;
+    private String stockName;
+    private String stockTransType;
     private String unitName;
+    private String stockTransCreatedDate;
+    private String stockTransCreatedUser;
+
+    public String getStockTransCode() {
+        return stockTransCode;
+    }
+
+    public void setStockTransCode(String stockTransCode) {
+        this.stockTransCode = stockTransCode;
+    }
+
+    public String getStockName() {
+        return stockName;
+    }
+
+    public void setStockName(String stockName) {
+        this.stockName = stockName;
+    }
+
+    public String getStockTransType() {
+        return stockTransType;
+    }
+
+    public void setStockTransType(String stockTransType) {
+        this.stockTransType = stockTransType;
+    }
+
+
+
+    public String getStockTransCreatedDate() {
+        return stockTransCreatedDate;
+    }
+
+    public void setStockTransCreatedDate(String stockTransCreatedDate) {
+        this.stockTransCreatedDate = stockTransCreatedDate;
+    }
+
+    public String getStockTransCreatedUser() {
+        return stockTransCreatedUser;
+    }
+
+    public void setStockTransCreatedUser(String stockTransCreatedUser) {
+        this.stockTransCreatedUser = stockTransCreatedUser;
+    }
 
 
 
