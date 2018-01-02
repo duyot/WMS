@@ -1,10 +1,7 @@
 package com.wms.services.impl;
 
 import com.wms.dataprovider.StockManagementDP;
-import com.wms.dto.AuthTokenInfo;
-import com.wms.dto.MjrStockTransDetailDTO;
-import com.wms.dto.ResponseObject;
-import com.wms.dto.StockTransDTO;
+import com.wms.dto.*;
 import com.wms.services.interfaces.StockManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +38,9 @@ public class StockManagementServiceImpl implements StockManagementService{
     @Override
     public List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType, AuthTokenInfo tokenInfo) {
         return stockManagementDP.getTransGoodsDetail(custId,stockId,transId,transType,tokenInfo);
+    }
+    @Override
+    public List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId, AuthTokenInfo tokenInfo) {
+        return stockManagementDP.getListTransGoodsDetail(lstStockTransId,tokenInfo);
     }
 }

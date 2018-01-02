@@ -30,6 +30,56 @@ public class MjrStockTransDetailDTO {
     private String status;
     private String stockId;
     private String stockValue;
+    private String stockTransCode;
+    private String stockName;
+    private String stockTransType;
+    private String unitName;
+    private String stockTransCreatedDate;
+    private String stockTransCreatedUser;
+
+    public String getStockTransCode() {
+        return stockTransCode;
+    }
+
+    public void setStockTransCode(String stockTransCode) {
+        this.stockTransCode = stockTransCode;
+    }
+
+    public String getStockName() {
+        return stockName;
+    }
+
+    public void setStockName(String stockName) {
+        this.stockName = stockName;
+    }
+
+    public String getStockTransType() {
+        return stockTransType;
+    }
+
+    public void setStockTransType(String stockTransType) {
+        this.stockTransType = stockTransType;
+    }
+
+
+
+    public String getStockTransCreatedDate() {
+        return stockTransCreatedDate;
+    }
+
+    public void setStockTransCreatedDate(String stockTransCreatedDate) {
+        this.stockTransCreatedDate = stockTransCreatedDate;
+    }
+
+    public String getStockTransCreatedUser() {
+        return stockTransCreatedUser;
+    }
+
+    public void setStockTransCreatedUser(String stockTransCreatedUser) {
+        this.stockTransCreatedUser = stockTransCreatedUser;
+    }
+
+
 
     public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String inputPrice, String outputPrice, String cellCode, String goodsName, String stockId, String importDate, String exportDate, String statusValue) {
         this.id = id;
@@ -132,6 +182,14 @@ public class MjrStockTransDetailDTO {
 
     public void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
     }
 
     public String getInputPrice() {

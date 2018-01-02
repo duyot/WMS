@@ -102,12 +102,15 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group input-group-combo">
-                                        <select id="cmb-status" class="selectpicker form-control" data-live-search="true"
-                                                data-width="100%" name="cmb-status">
-                                            <option value="-1" th:text="#{label.all}"></option>
-                                            <option  th:each="sopt:${lstAppGoodsState}"
-                                                     th:value="${sopt.code}" th:text="${sopt.name}">1</option>
-                                        </select>
+                                        <!--<select id="cmb-status" class="selectpicker form-control" data-live-search="true"-->
+                                                <!--data-width="100%" name="cmb-status">-->
+                                            <!--<option value="-1" th:text="#{label.all}"></option>-->
+                                            <!--<option  th:each="sopt:${lstAppGoodsState}"-->
+                                                     <!--th:value="${sopt.code}" th:text="${sopt.name}">1</option>-->
+                                        <!--</select>-->
+                                        <input type="radio" name="cmb-status" value="-1" th:text="#{label.all}" checked="true"></input>&nbsp;&nbsp;
+                                        <input type="radio" name="cmb-status" value="1" th:text="#{lbl.goodsstate.normal}"></input>&nbsp;&nbsp;
+                                        <input type="radio" name="cmb-status" value="2" th:text="#{lbl.goodsstate.innormal}"></input>
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +262,8 @@
         NProgress.start();
         var stock_id = $('#cmb-stock').val();
         var goods_id = $('#cmb-goods').val();
-        var statusVal =  $('#cmb-status').val();
+//        var statusVal =  $('#cmb-status').val();
+        var statusVal = $("input[name='cmb-status']:checked").val()
         $.ajax({
             type: "GET",
             cache:false,

@@ -59,10 +59,8 @@ public class CatGoodsGroupController extends BaseCommonController{
 
         for(CatGoodsGroupDTO i: lstCatGoods){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
-            i.setName(i.getName());
             i.setCustName(selectedCustomer.getName());
             i.setStatusName(mapAppStatus.get(i.getStatus()));
-            i.setStatusName(i.getStatus());
         }
 
         return lstCatGoods;

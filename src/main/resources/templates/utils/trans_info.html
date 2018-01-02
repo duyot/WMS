@@ -121,16 +121,20 @@
                                 </div>
 
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.transtype}" for="cmb-trans-type"></label>
+                                    <label th:text="#{lbl.transtype}"></label>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group input-group-combo">
-                                        <select id="cmb-trans-type" class="selectpicker form-control" data-live-search="true"
-                                                data-width="100%" name="cmb-trans-type">
-                                            <option value="-1" th:text="#{label.all}"></option>
-                                            <option  th:each="sopt:${lstAppTransType}"
-                                                     th:value="${sopt.code}" th:text="${sopt.name}">1</option>
-                                        </select>
+                                        <!--<select id="cmb-trans-type" class="selectpicker form-control" data-live-search="true"-->
+                                                <!--data-width="100%" name="cmb-trans-type">-->
+                                            <!--<option value="-1" th:text="#{label.all}"></option>-->
+                                            <!--<option  th:each="sopt:${lstAppTransType}"-->
+                                                     <!--th:value="${sopt.code}" th:text="${sopt.name}">1</option>-->
+                                        <!--</select>-->
+
+                                        <input type="radio" name="cmb-trans-type" value="-1" th:text="#{label.all}" checked="true"></input>&nbsp;&nbsp;
+                                        <input type="radio" name="cmb-trans-type" value="1" th:text="#{lbl.input.trans}"></input>&nbsp;&nbsp;
+                                        <input type="radio" name="cmb-trans-type" value="2" th:text="#{lbl.output.trans}"></input>
                                     </div>
                                 </div>
                             </div>
@@ -157,8 +161,11 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/trans_info/getListTransFile}">
+                        <a class="btn btn-default" th:title="#{link.report.trans}" th:href="@{/workspace/utils/trans_info/getListTransFile}">
                             <i class="fa fa-file-excel-o"></i>
+                        </a>
+                        <a class="btn btn-default" th:title="#{link.report.transdetail}" th:href="@{/workspace/utils/trans_info/getListTransDetailFile}">
+                            <i class="fa fa-table"></i>
                         </a>
                         <button id="btn-view-info" th:value="@{/workspace/utils/trans_info/viewTransInfo}" style="display: none" type="button" class="btn btn-default">
                             <i class="fa fa-edit"></i>
@@ -183,12 +190,10 @@
                             <th data-field="type" >Type</th>
                             <th data-field="stockId" >StockId</th>
                             <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" data-width="250px">Mã phiếu</th>
-                            <th data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
-                            <th data-field="typeValue" data-align="left" data-sortable="true" data-width="100px">Loại GD</th>
-                            <th data-field="createdDate" data-align="center" data-sortable="true">Ngày tạo</th>
-                            <th data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>
-                            <th data-field="contractNumber" data-align="right" data-sortable="true">Số HD</th>
-                            <th data-field="invoiceNumber" data-align="right" data-sortable="true">Số invoice</th>
+                            <th class="col-md-5" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
+                            <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true" data-width="100px">Loại GD</th>
+                            <th class="col-md-2" data-field="createdDate" data-align="center" data-sortable="true">Ngày tạo</th>
+                            <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>
                             <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
                         </thead>
@@ -353,7 +358,7 @@
         var drp = $('#create-date-range').data('daterangepicker');
         var startDateVal = drp.startDate.format("DD/MM/YYYY");
         var endDateVal   = drp.endDate.format("DD/MM/YYYY");
-        var transType =  $('#cmb-trans-type').val();
+        var transType = $("input[name='cmb-trans-type']:checked").val()
         var transCode =  $('#inp-trans-code').val().trim();
 
         $.ajax({
