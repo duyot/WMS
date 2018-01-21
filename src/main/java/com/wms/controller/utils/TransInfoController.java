@@ -184,29 +184,22 @@ public class TransInfoController extends BaseController{
     public @ResponseBody List<MjrStockTransDetailDTO> getTransGoodsDetail(@RequestParam("stockId") String stockId,
                                                                           @RequestParam("transId") String transId,@RequestParam("transType") String transType
                                                                           ){
-        List<MjrStockTransDetailDTO> lstTransGoodsDetail = stockManagementService.getTransGoodsDetail(selectedCustomer.getId(),stockId,transId,transType,tokenInfo);
-        return initNameInfo(lstTransGoodsDetail);
-    }
-    private List<MjrStockTransDetailDTO> initNameInfo(List<MjrStockTransDetailDTO> lstTransGoodsDetail){
+//        List<MjrStockTransDetailDTO> lstTransGoodsDetail = stockManagementService.getTransGoodsDetail(selectedCustomer.getId(),stockId,transId,transType,tokenInfo);
+        List<MjrStockTransDetailDTO> lstTransGoodsDetail = stockManagementService.getListTransGoodsDetail(transId,tokenInfo);
         if(DataUtil.isListNullOrEmpty(lstTransGoodsDetail)){
             return  Lists.newArrayList();
         }
-        //
-        CatGoodsDTO goods;
-        for(MjrStockTransDetailDTO i: lstTransGoodsDetail){
-            goods = mapGoodsIdGoods.get(i.getGoodsId());
-            if (goods != null) {
-                i.setGoodsCode(goods.getCode());
-                i.setGoodsName(goods.getName());
-            }
-            i.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
-            i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-            i.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
-            i.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
-        }
-
         return  lstTransGoodsDetail;
     }
+
+
+    //==================================================================================================================
+    @RequestMapping(value = "/exportTransInfo")
+    public void exportTransInfo(@RequestParam("transId") String transId){
+        String test =transId;
+    }
+
+
     //==================================================================================================================
     private List<MjrStockTransDTO> setTransInfoValue(List<MjrStockTransDTO> lstTransDetail){
         for(MjrStockTransDTO i: lstTransDetail){
