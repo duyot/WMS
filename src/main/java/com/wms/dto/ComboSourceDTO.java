@@ -1,8 +1,10 @@
 package com.wms.dto;
 
 public class ComboSourceDTO {
+    //item in editable
     private int value;
     private String text;
+    //
     private String code;
     private String name;
 
