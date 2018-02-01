@@ -40,123 +40,124 @@
                 <div class="panel-body">
                     <!--<form>-->
                         <div class="container" style="width:100%">
+                            <div class="panel panel-primary">
+                                <div class="panel-body">
                             <!--row 1: customer + stock-->
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.usage}"></label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
-                                        <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
-                                        <button id="btn-check-serial" style="display: none" th:value="@{/workspace/stock_management/import/isSerial}"></button>
-                                        <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
-                                        <button id="btn-get-goods-code" style="display: none" th:value="@{/workspace/stock_management/import/getGoodsCode}"></button>
-                                    </div>
-                                </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <label th:text="#{lbl.usage}"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                                <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
+                                                <button id="btn-check-serial" style="display: none" th:value="@{/workspace/stock_management/import/isSerial}"></button>
+                                                <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
+                                                <button id="btn-get-goods-code" style="display: none" th:value="@{/workspace/stock_management/import/getGoodsCode}"></button>
+                                            </div>
+                                        </div>
 
-                                <div class="col-sm-2">
-                                    <label class="label-require" for="cmb-stock" th:text="#{lbl.stock}"></label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group" style="width: 100%;">
-                                        <select id="cmb-stock" class="form-control selectpicker" data-live-search="true"  data-width="100%">
-                                            <option  th:each="sopt:${lstStock}"
-                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
-                                        </select>
+                                        <div class="col-sm-2">
+                                            <label class="label-require" for="cmb-stock" th:text="#{lbl.stock}"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group" style="width: 100%;">
+                                                <select id="cmb-stock" class="form-control selectpicker" data-live-search="true"  data-width="100%">
+                                                    <option  th:each="sopt:${lstStock}"
+                                                             th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!--row 2: goods + contract number-->
-                            <div class="row">
-                                <!--ma hang-->
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.goodsCode}" for="inp-goods-code"></label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                                <i class="fa fa-book fa-fw"></i>
-                                            </span>
-                                        <input id="inp-goods-code" class="form-control" maxlength="50" />
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <label class="control-label" for="cmb-cells" th:text="#{lbl.cellCode}"></label>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <div class="input-group" style="width: 100%;">
-                                        <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
-                                            <option  th:each="sopt:${cells}"
-                                                     th:value="${sopt.code}" th:text="${sopt.name}"></option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--row 3: file hang hoa + invoice-->
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.serial}" for="inp-serial"></label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                                <i class="fa fa-book fa-fw"></i>
-                                            </span>
-                                        <input id="inp-serial" class="form-control" maxlength="50" />
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.invoice}" for="inp-invoice"></label>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <div class="input-group">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <label th:text="#{lbl.note}" for="inp-contract-note"></label>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <div class="input-group">
                                             <span class="input-group-addon">
-                                                    <i class="fa fa-table fa-fw"></i>
+                                                    <i class="fa fa-sticky-note fa-fw"></i>
                                                 </span>
-                                        <input id="inp-invoice" class="form-control" maxlength="50" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!--file - note-->
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.fileupload}" for="btn-excel-import"></label>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="input-group">
-                                        <div class="input-group">
-                                            <input id="inp-file-import" data-toggle="toggle" type="file"
-                                                   onchange="isValidExcel(this);"
-                                            />
+                                                <textarea id="inp-contract-note" class="form-control" th:rows="1" maxlength="500"
+                                                ></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="col-sm-1">
-                                    <div class="input-group" style="float:right">
-                                        <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload" style="float:left"
-                                                id="btn-excel-import" th:value="@{/workspace/stock_management/import/upload}">
-                                        </button>
-                                        <!--<a class="link-label" style="float:left" th:text="#{link.downloadtemplate}" th:href="@{/workspace/stock_management/import/getTemplateFile}">-->
-                                        <!--</a>-->
+                            <div class="panel panel-primary">
+                                <div class="panel-body">
+                                    <!--row 2: goods + contract number-->
+                                    <div class="row">
+                                        <!--ma hang-->
+                                        <div class="col-sm-2">
+                                            <label th:text="#{lbl.goodsCode}" for="inp-goods-code"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                    </span>
+                                                <input id="inp-goods-code" class="form-control" maxlength="50" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <label th:text="#{lbl.serial}" for="inp-serial"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                    </span>
+                                                <input id="inp-serial" class="form-control" maxlength="50" />
+                                            </div>
+                                        </div>
+
+
+
                                     </div>
-                                </div>
 
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.note}" for="inp-contract-note"></label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                                <i class="fa fa-sticky-note fa-fw"></i>
-                                            </span>
-                                        <textarea id="inp-contract-note" class="form-control" th:rows="1" maxlength="500"
-                                        ></textarea>
+                                    <div class="row">
+
+                                        <div class="col-sm-2">
+                                            <label th:text="#{lbl.fileupload}" for="btn-excel-import"></label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <div class="input-group">
+                                                    <input id="inp-file-import" data-toggle="toggle" type="file"
+                                                           onchange="isValidExcel(this);"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <div class="input-group" style="float:right">
+                                                <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload" style="float:left"
+                                                        id="btn-excel-import" th:value="@{/workspace/stock_management/import/upload}">
+                                                </button>
+                                                <a class="link-label" style="float:left" th:text="#{link.downloadtemplate}" th:href="@{/workspace/stock_management/import/getTemplateFile}">
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <label class="control-label" for="cmb-cells" th:text="#{lbl.cellCode}"></label>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="input-group" style="width: 100%;">
+                                                <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                                    <option  th:each="sopt:${cells}"
+                                                             th:value="${sopt.code}" th:text="${sopt.name}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
