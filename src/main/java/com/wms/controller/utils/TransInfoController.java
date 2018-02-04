@@ -168,6 +168,31 @@ public class TransInfoController extends BaseController{
         String fileResource = exportListStockTransDetail(lstTransDetail,prefixFileName);
         FunctionUtils.loadFileToClient(response,fileResource);
     }
+
+    //==================================================================================================================
+    @RequestMapping(value = "/getListTransDetailFile2")
+    public void getListTransDetailFile2(HttpServletResponse response, @RequestParam("transId") String transId){
+        int size = 0;
+        StringBuilder lstStockTransId = new StringBuilder();
+        if(!DataUtil.isListNullOrEmpty(lstTrans)){
+            size = lstTrans.size();
+        }
+        for (int i = 0; i<size;i++){
+            lstStockTransId.append(lstTrans.get(i).getId());
+            if(i!=size -1){
+                lstStockTransId.append(",");
+            }
+        }
+        List<MjrStockTransDetailDTO> lstTransDetail = stockManagementService.getListTransGoodsDetail(lstStockTransId.toString(),tokenInfo);
+        if(DataUtil.isListNullOrEmpty(lstTransDetail)){
+            lstTransDetail.add(new MjrStockTransDetailDTO());
+            startDate = "";
+            endDate = "";
+        }
+        String prefixFileName = "Thongtin_chitiet_giaodich_";
+        String fileResource = exportListStockTransDetail(lstTransDetail,prefixFileName);
+        FunctionUtils.loadFileToClient(response,fileResource);
+    }
     //==================================================================================================================
     @RequestMapping(value = "/cancelTrans")
     public @ResponseBody String cancelTrans(@RequestParam("transId") String transId){
