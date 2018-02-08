@@ -196,11 +196,6 @@ var btnUploadExcel = $('#btn-excel-import');
 var btnImport = $('#btn-import');
 btnImport.click(function () {
     //validate
-    var invoice = $('#inp-invoice').val();
-    if(isContainXMLCharacter(invoice)){
-        alert("Số invoce/Mã lô hàng chứa kí tự đặc biệt");
-        return;
-    }
     var import_goods = $table.bootstrapTable('getData');
     if(import_goods.length == 0){
         alert('Chưa có thông tin hàng nhập!');

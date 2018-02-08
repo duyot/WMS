@@ -15,13 +15,14 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
     <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
+    <link href="/css/awesome-bootstrap-checkbox.css"  th:href="@{/css/awesome-bootstrap-checkbox.css}" rel="stylesheet" type="text/css" media="all"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
     <script>
         new WOW().init();
     </script>
-    <script th:attr="src=@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
+    <script th:attr="src=@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
     <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
     <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
@@ -125,16 +126,18 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group input-group-combo">
-                                        <!--<select id="cmb-trans-type" class="selectpicker form-control" data-live-search="true"-->
-                                                <!--data-width="100%" name="cmb-trans-type">-->
-                                            <!--<option value="-1" th:text="#{label.all}"></option>-->
-                                            <!--<option  th:each="sopt:${lstAppTransType}"-->
-                                                     <!--th:value="${sopt.code}" th:text="${sopt.name}">1</option>-->
-                                        <!--</select>-->
-
-                                        <input type="radio" name="cmb-trans-type" value="-1" th:text="#{label.all}" checked="true"></input>&nbsp;&nbsp;
-                                        <input type="radio" name="cmb-trans-type" value="1" th:text="#{lbl.input.trans}"></input>&nbsp;&nbsp;
-                                        <input type="radio" name="cmb-trans-type" value="2" th:text="#{lbl.output.trans}"></input>
+                                        <div class="radio radio-inline radio-primary">
+                                            <input value="-1" type="radio" id="radio-all" name="cmb-trans-type" checked="checked"/>
+                                            <label for="radio-all" th:text="#{label.all}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="1" type="radio" id="radio-normal" name="cmb-trans-type"/>
+                                            <label for="radio-normal" th:text="#{lbl.input.trans}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-danger">
+                                            <input value="2" type="radio" id="radio-innormal" name="cmb-trans-type"/>
+                                            <label for="radio-innormal" th:text="#{lbl.output.trans}"></label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

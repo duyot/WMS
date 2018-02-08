@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface CatUserService {
     ResponseObject register(CatUserDTO catUserDTO,AuthTokenInfo tokenInfo);
+    ResponseObject updateUser(CatUserDTO catUserDTO,AuthTokenInfo tokenInfo);
+    ResponseObject updateCustomer(CatCustomerDTO catCustomerDTO,AuthTokenInfo tokenInfo);
     CatUserDTO login(CatUserDTO catUserDTO);
     List<CatCustomerDTO> getCustomer(String userId, AuthTokenInfo tokenInfo );
     List<CatUserDTO> getUserByCustomer(String custId, AuthTokenInfo tokenInfo );

@@ -139,6 +139,16 @@ function setInfoMessage(object,value) {
     }, 8000);
 }
 
+function setInfoMessageWithTime(object,value,timeout) {
+    object.text(value);
+    object.css('color','#337ab7');
+    //
+    object.fadeIn();
+    setTimeout(function() {
+        object.fadeOut('fast');
+    }, timeout);
+}
+
 function setErrorMessage(object,value) {
     object.text(value);
     object.css('color','#F44336');
@@ -147,6 +157,16 @@ function setErrorMessage(object,value) {
     setTimeout(function() {
         object.fadeOut('fast');
     }, 8000);
+}
+
+function setErrorMessageWithTime(object,value,timeout) {
+    object.text(value);
+    object.css('color','#F44336');
+    //
+    object.fadeIn();
+    setTimeout(function() {
+        object.fadeOut('fast');
+    }, timeout);
 }
 
 function isTableEmpty(object) {
