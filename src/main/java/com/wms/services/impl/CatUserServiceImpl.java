@@ -29,6 +29,16 @@ public class CatUserServiceImpl extends BaseServiceImpl<CatUserDTO,CatUserDP> im
     }
 
     @Override
+    public ResponseObject updateUser(CatUserDTO catUserDTO, AuthTokenInfo tokenInfo) {
+        return catUserDP.updateUser(catUserDTO,tokenInfo);
+    }
+
+    @Override
+    public ResponseObject updateCustomer(CatCustomerDTO catCustomerDTO, AuthTokenInfo tokenInfo) {
+        return catUserDP.updateCustomer(catCustomerDTO,tokenInfo);
+    }
+
+    @Override
     public CatUserDTO login(CatUserDTO catUserDTO) {
         return catUserDP.login(catUserDTO);
     }

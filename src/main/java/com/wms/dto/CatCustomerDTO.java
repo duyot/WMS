@@ -15,8 +15,10 @@ public class CatCustomerDTO {
     private String address;
     private String status;
     private String createDate;
+    private String mailReport;
 
-    public CatCustomerDTO(String id, String code, String name, String type, String telNumber, String email, String bankName, String bankAccountCode, String address, String status, String createDate) {
+    public CatCustomerDTO(String id, String code, String name, String type, String telNumber, String email,
+                          String bankName, String bankAccountCode, String address, String status, String createDate, String mailReport) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -28,6 +30,7 @@ public class CatCustomerDTO {
         this.address = address;
         this.status = status;
         this.createDate = createDate;
+        this.mailReport = mailReport;
     }
 
     public CatCustomerDTO() {
@@ -121,6 +124,13 @@ public class CatCustomerDTO {
         this.createDate = createDate;
     }
 
+    public String getMailReport() {
+        return mailReport;
+    }
+
+    public void setMailReport(String mailReport) {
+        this.mailReport = mailReport;
+    }
 
     @Override
     public String toString() {

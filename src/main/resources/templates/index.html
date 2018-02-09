@@ -25,29 +25,6 @@
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
 
-
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '{270830153448377}',
-            cookie     : true,
-            xfbml      : true,
-            version    : '{v2.11}'
-        });
-
-        FB.AppEvents.logPageView();
-
-    };
-
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-
 <script type="application/ld+json">
 {
    "@context":"http://schema.org",
@@ -505,7 +482,7 @@
 	</div>
 </footer>
 
-<script th:src="@{/js/jquery-1.10.2.min.js}" th:href="@{/js/jquery-1.10.2.min.js}"></script>
+<script th:src="@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}" th:href="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/home_page/smoothscroll.js}" th:href="@{/home_page/smoothscroll.js}"></script>
 <script th:src="@{/home_page/isotope.js}" th:href="@{/home_page/isotope.js}"></script>

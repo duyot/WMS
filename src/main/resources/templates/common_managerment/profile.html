@@ -1,0 +1,518 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title>WMS - Workspace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="WMS" />
+    <!--CSS-->
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link rel='stylesheet' th:href="@{/css/bootstrap.css}"  type='text/css' />
+    <link href="workspace_resource/css/style.css" th:href="@{/workspace_resource/css/style.css}" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+    <link href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="/css/awesome-bootstrap-checkbox.css"  th:href="@{/css/awesome-bootstrap-checkbox.css}" rel="stylesheet" type="text/css" media="all"/>
+
+    <!--JS-->
+    <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <script th:attr="src=@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
+    <!--confirmation-->
+    <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
+    <!--validation-->
+    <script th:attr="src=@{/js/jquery.validate.min.js}"  th:href="@{/js/jquery.validate.min.js}"></script>
+    <!--FONT & FAVI ICON-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+    <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
+
+    <style type="text/css">
+        #container {
+            min-width: 310px;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto
+        }
+        /* Tabs panel */
+        .tabbable-panel {
+            border:1px solid #eee;
+            padding: 10px;
+        }
+
+        /* Default mode */
+        .tabbable-line > .nav-tabs {
+            border: none;
+            margin: 0px;
+        }
+        .tabbable-line > .nav-tabs > li {
+            margin-right: 2px;
+        }
+        .tabbable-line > .nav-tabs > li > a {
+            border: 0;
+            margin-right: 0;
+            color: #737373;
+        }
+        .tabbable-line > .nav-tabs > li > a > i {
+            color: #a6a6a6;
+        }
+        .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+            border-bottom: 4px solid #fbcdcf;
+        }
+        .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
+            border: 0;
+            background: none !important;
+            color: #333333;
+        }
+        .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
+            color: #a6a6a6;
+        }
+        .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+            margin-top: 0px;
+        }
+        .tabbable-line > .nav-tabs > li.active {
+            border-bottom: 4px solid #f3565d;
+            position: relative;
+        }
+        .tabbable-line > .nav-tabs > li.active > a {
+            border: 0;
+            color: #333333;
+        }
+        .tabbable-line > .nav-tabs > li.active > a > i {
+            color: #404040;
+        }
+        .tabbable-line > .tab-content {
+            margin-top: -3px;
+            background-color: #fff;
+            border: 0;
+            border-top: 1px solid #eee;
+            padding: 15px 0;
+        }
+        .portlet .tabbable-line > .tab-content {
+            padding-bottom: 0;
+        }
+
+        /* Below tabs mode */
+
+        .tabbable-line.tabs-below > .nav-tabs > li {
+            border-top: 4px solid transparent;
+        }
+        .tabbable-line.tabs-below > .nav-tabs > li > a {
+            margin-top: 0;
+        }
+        .tabbable-line.tabs-below > .nav-tabs > li:hover {
+            border-bottom: 0;
+            border-top: 4px solid #fbcdcf;
+        }
+        .tabbable-line.tabs-below > .nav-tabs > li.active {
+            margin-bottom: -2px;
+            border-bottom: 0;
+            border-top: 4px solid #f3565d;
+        }
+        .tabbable-line.tabs-below > .tab-content {
+            margin-top: -10px;
+            border-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+    </style>
+
+</head>
+<body class="sticky-header left-side-collapsed">
+<section>
+    <!--left menu-->
+    <div th:include="common/workspace_leftmenu :: frag-leftmenu"></div>
+    <!--main content-->
+    <div class="main-content main-content2 main-content2copy">
+        <div th:include="common/header :: frag-headermneu"></div>
+        <div id="page-wrapper" style="margin-top:10px">
+            <div class="container">
+                <h2 id="h2-user-name" th:text="${session.user.name}" style="font-weight: bold"></h2>
+                <input id="inp-user-id" th:value="${session.user.id}" style="display: none"/>
+                <input id="inp-customer-id" th:value="${session.selectedCustomer.id}" style="display: none"/>
+                <h3 id="h3-user-email" th:text="${session.user.email}"></h3>
+                <hr/>
+        <div class="tabbable-panel" style="background: white">
+            <div class="tabbable-line">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#profile">Thông tin cá nhân</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" th:if="${session.user.getRoleCode()} == 'ADMIN'" href="#customer-info">Thông tin doanh nghiệp</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="profile" class="tab-pane fade in active">
+                        <form id="form-update-user">
+                            <div class="panel-body" style="margin:0px auto; width:70%">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="inp-user-full-name" th:text="#{lbl.fullname }"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                </span>
+                                        <input id="inp-user-full-name" class="form-control medium-text-input" name="user_name"
+                                               th:value="${session.user.name}" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="inp-username" th:text="#{lbl.username}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                </span>
+                                        <input id="inp-username" class="form-control medium-text-input" name="user_code" th:value="${session.user.code}" maxlength="50" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label  for="inp-password" th:text="#{lbl.password}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                </span>
+                                        <input id="inp-password" type="password" name="user_password" class="form-control medium-text-input" maxlength="50" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label  for="inp-email" th:text="#{lbl.email}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                </span>
+                                        <input id="inp-email" class="form-control medium-text-input" name="user_email"
+                                               data-validation="email"
+                                               th:value="${session.user.email}" maxlength="50" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="inp-phonenumber" th:text="#{lbl.telNumber}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                </span>
+                                        <input id="inp-phonenumber" class="form-control medium-text-input" name="user_tel_number"
+                                               th:value="${session.user.telNumber}" maxlength="15" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12" th:colspan="2">
+                                    <label id="lbl-update-status" style="float:left"></label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12" th:colspan="2">
+                                    <div class="btn-group">
+                                        <button id="btn-update-user" class="btn btn-default  btn-primary" th:value="@{/workspace/profile/updateuser}">Cập nhật</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+
+                    <div id="customer-info" class="tab-pane fade in">
+                        <form id="form-update-customer">
+                            <div class="panel-body" style="margin:0px auto; width:75%">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="inp-customer" th:text="#{lbl.customer}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                </span>
+                                        <input id="inp-customer" class="form-control medium-text-input"
+                                               name="cus_name"
+                                               th:value="${session.selectedCustomer.name}" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="inp-customer-email" th:text="#{lbl.email}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                </span>
+                                        <input id="inp-customer-email" class="form-control medium-text-input"
+                                               name="cust_email"
+                                               th:value="${session.selectedCustomer.email}" maxlength="50" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label  for="inp-customer-phone" th:text="#{lbl.telNumber}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                </span>
+                                        <input id="inp-customer-phone" type="text" class="form-control medium-text-input"
+                                               name="cus_tel_number" data-validation="number"
+                                               th:value="${session.selectedCustomer.telNumber}" maxlength="15" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label  for="inp-customer-address" th:text="#{lbl.address}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                </span>
+                                        <input id="inp-customer-address" class="form-control medium-text-input"
+                                               name="cust_address"
+                                               th:value="${session.selectedCustomer.address}" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-4">
+                                    <div class="checkbox checkbox-primary" style="float:left">
+                                        <input id="chb-is-receive-mail" class="styled" type="checkbox" th:checked="${session.selectedCustomer.mailReport} == '1'"/>
+                                        <label for="chb-is-receive-mail" th:text="#{lbl.isreceivedmail}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12" th:colspan="2">
+                                    <label id="lbl-update-customer-status" style="float:left"></label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12" th:colspan="2">
+                                    <div class="btn-group">
+                                        <button id="btn-update-customer" class="btn btn-default  btn-primary" th:value="@{/workspace/profile/updatecustomer}">Cập nhật</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            </div>
+        </div>
+    </div>
+    <!--footer-->
+    <div th:include="common/footer :: frag-footer"></div>
+</section>
+<script type="text/javascript">
+    //start add validation
+    $(document).ready(function () {
+        //form update user
+        var validatorUpdateUser = $("#form-update-user").validate({
+            ignore: ":hidden",
+            rules: {
+                user_name: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 100
+                },
+                user_code: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 50
+                },
+                user_password: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 50
+                },
+                user_email: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 50,
+                    email:true
+                },
+                user_tel_number: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    number:true,
+                    maxlength: 15
+                }
+            },
+            submitHandler: function (form) {
+                preprocessInput($("#form-update-user"));
+                //
+                performUpdateUser();
+                //
+                return false; // required to block normal submit since you used ajax
+            }
+        });
+        //form update customer
+        var validatorUpdateCustomer = $("#form-update-customer").validate({
+            ignore: ":hidden",
+            rules: {
+                cus_name: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 100
+                },
+                cust_email: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    email:true,
+                    maxlength: 50
+                },
+                cus_tel_number: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    number:true,
+                    maxlength: 15
+                },
+                cust_address: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 100,
+                }
+            },
+            submitHandler: function (form) {
+                preprocessInput($("#form-update-customer"));
+                //
+                performUpdateCustomer();
+                //
+                return false; // required to block normal submit since you used ajax
+            }
+        });
+
+    });
+
+    function performUpdateUser() {
+        var userId      = $('#inp-user-id').val();
+        var fullName    = $('#inp-user-full-name').val();
+        var username    = $('#inp-username').val();
+        var password    = $('#inp-password').val();
+        var email       = $('#inp-email').val();
+        var phone       = $('#inp-phonenumber').val();
+
+        var user = {id: userId,name:fullName,code:username,password:password,email:email,telNumber:phone};
+        var profileData = JSON.stringify(user);
+        $.ajax({
+            url: $('#btn-update-user').val(),
+            data:profileData,
+            cache: false,
+            contentType: "application/json",
+            dataType: 'text',
+            type: 'POST',
+            success: function(data){
+                if(data === 'SUCCESS'){
+                    setInfoMessageWithTime($('#lbl-update-status'),"Cập nhật thành công",2500);
+                    //
+                    $('#inp-user-full-name').val(fullName);
+                    $('#inp-username').val(username);
+                    $('#inp-password').val(password);
+                    $('#inp-email').val(email);
+                    $('#inp-phonenumber').val(phone);
+                    $('#h2-user-name').text(username);
+                    $('#h3-user-email').text(email);
+                    //
+                }else if(data === 'USER_AVAILABLE'){
+                    setErrorMessageWithTime($('#lbl-update-status'),"Tên đăng nhập đã tồn tại",2500);
+                }else{
+                    setErrorMessageWithTime($('#lbl-update-status'),"Cập nhật không thành công",2500);
+                }
+            },
+            error: function(data){
+                alert('error'+ JSON.stringify(data ));
+            }
+        });
+    }
+
+    function performUpdateCustomer() {
+        var customerId  = $('#inp-customer-id').val();
+        var name        = $('#inp-customer').val();
+        var email       = $('#inp-customer-email').val();
+        var phone       = $('#inp-customer-phone').val();
+        var address     = $('#inp-customer-address').val();
+
+        var mailReport  =  $('#chb-is-receive-mail').prop('checked')?1:0;
+        var customer = {id: customerId,name:name,email:email,telNumber:phone,address:address,mailReport:mailReport};
+        var customerData = JSON.stringify(customer);
+        $.ajax({
+            url:$('#btn-update-customer').val(),
+            data:customerData,
+            cache: false,
+            contentType: "application/json",
+            dataType: 'text',
+            type: 'POST',
+            success: function(data){
+                if(data === 'SUCCESS'){
+                    setInfoMessageWithTime($('#lbl-update-customer-status'),"Cập nhật thành công",2500);
+                    //
+                    $('#inp-customer').val(name);
+                    $('#inp-customer-email').val(email);
+                    $('#inp-customer-phone').val(phone);
+                    $('#inp-customer-address').val(address);
+                    $('#chb-is-receive-mail').prop('checked', (mailReport === 1));
+                }else{
+                    setErrorMessageWithTime($('#lbl-update-customer-status'),"Cập nhật không thành công",2500);
+                }
+            },
+            error: function(data){
+                alert('error'+ JSON.stringify(data ));
+            }
+        });
+    }
+</script>
+<!--FINAL JS-->
+<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
+<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
+<script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
