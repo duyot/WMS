@@ -37,6 +37,7 @@ public class BaseController {
     public Map<String,CatGoodsDTO> mapGoodsCodeGoods;
     public Map<String,CatGoodsDTO> mapGoodsIdGoods;
     public List<CatGoodsDTO> lstGoods;
+
     //APP_PARAMS
     public List<AppParamsDTO> lstAppParams;
     public List<AppParamsDTO> lstAppGoodsState;
@@ -111,6 +112,8 @@ public class BaseController {
 
         return lstGoods;
     }
+
+
     //==================================================================================================================
     public void buildMapGoods(){
         mapGoodsCodeGoods = new HashMap<>();

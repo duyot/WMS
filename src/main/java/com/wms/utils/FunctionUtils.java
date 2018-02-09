@@ -209,6 +209,14 @@ public class FunctionUtils {
     }
 
     /*
+      get goods
+   */
+    public static List<CatPartnerDTO> getListPartner(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
+        return service.findByCondition(getBaseConditions(currentCustomer.getId()),tokenInfo);
+    }
+
+
+    /*
 
      */
      public static void loadFileToClient(HttpServletResponse response, String fileResource){
