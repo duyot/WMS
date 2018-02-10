@@ -6,7 +6,7 @@ $inpSerial =  $('#modal-inp-serial');
 $inpAmount =  $('#modal-inp-amount');
 $inpGoodsCode   =  $('#inp-goods-code');
 $inpGoodsSerial =  $('#inp-serial');
-$inpPrice  = $('#modal-inp-input-price');
+$outPrice  = $('#modal-inp-input-price');
 //combobox
 $cmbGoods       = $("#modal-cmb-goods");
 
@@ -78,7 +78,7 @@ $(function () {
                     }
                 }
             },
-            {   field: 'inputPrice',
+            {   field: 'outputPrice',
                 title: 'Giá xuất',
                 editable: {
                     type: 'text',
@@ -112,7 +112,7 @@ $(function () {
         selectedIndex = $element.attr('data-index');
     });
     //
-    disableElement($('#btn-import'));
+    disableElement($('#btn-export'));
     //
     loadGoodsCodeSuggestion();
     loadPartnerSuggestion();
@@ -209,6 +209,7 @@ btnExportConfirm.click(function () {
     var stockIdValue        = $('#cmb-stock').val();
     var contractNumberValue = $('#inp-contract-number').val();
     var descriptionValue = $('#inp-contract-note').val();
+
     var stock_trans_info = {contractNumber:contractNumberValue,stockId:stockIdValue,description:descriptionValue};
     //
     var importData = JSON.stringify({lstGoods:$table.bootstrapTable('getData'),mjrStockTransDTO:stock_trans_info});
@@ -227,7 +228,6 @@ btnExportConfirm.click(function () {
             var resultMessage  = data['statusCode'];
             var stockTransId   = data['key'];
             var successRecords = data['success'];
-            alert (resultMessage);
             //
             if(resultMessage == "SUCCESS_WITH_ERROR"){
                 var totalRecords   = data['total'];
@@ -251,6 +251,7 @@ btnExportConfirm.click(function () {
             $body.removeClass("loading");
         }
     });
+    clearContent();
 });
 //@Add show modal---------------------------------------------------------------------------------------------------
 $('#btn-add').click(function () {
@@ -513,7 +514,7 @@ btnClearTableConfirm.click(function () {
 });
 //on changed cmb goods----------------------------------------------------------
 $cmbGoods.change(function () {
-    var inPrice  = "";
+    var outPrice  = "";
     var isSerial = "";
     //
     $.ajax({
@@ -524,7 +525,7 @@ $cmbGoods.change(function () {
         contentType: false,
         async:false,
         success: function(data){
-            inPrice = data['outPrice'];
+            outPrice = data['outPrice'];
             isSerial = data["isSerial"];
         }
     });
@@ -532,7 +533,7 @@ $cmbGoods.change(function () {
     showElementBySerialType(isSerial);
     //
     //
-    showPriceDetail(inPrice,$inpPrice,$('#modal-label-inp-input-price'));
+    showPriceDetail(outPrice,$outPrice,$('#modal-label-inp-input-price'));
 });
 
 function showElementBySerialType(serialType) {
@@ -558,7 +559,7 @@ function showElementBySerialType(serialType) {
 
 function clearContent() {
     $('#cmb-goods-state').bootstrapToggle('on');
-    $inpPrice.val('');
+    $outPrice.val('');
     $inpSerial.val('');
     //$('select[name=modalCmbCells]').val("");
     $inpAmount.val('');
@@ -609,12 +610,12 @@ $inpGoodsCode.keypress(function (e) {
                 goodsStateValue: '1',
                 serial:'',
                 amount: '1',
-                inputPrice: formatFloatType(goodsItem['outPrice']),
+                outputPrice: formatFloatType(goodsItem['outPrice']),
                 columnId:columnId
             });
             //
             $table.bootstrapTable('append', rows);
-            enableElement($('#btn-import'));
+            enableElement($('#btn-export'));
 
             setInfoMessage($('#modal-add-result'),"Bổ sung thành công");
             $inpSerial.val('');
@@ -660,12 +661,12 @@ $inpGoodsSerial.keypress(function (e) {
             goodsStateValue: '1',
             serial:$inpGoodsSerial.val(),
             amount: '1',
-            inputPrice: formatFloatType(goodsItem['outPrice']),
+            outputPrice: formatFloatType(goodsItem['outPrice']),
             columnId:columnId
         });
         //
         $table.bootstrapTable('append', rows);
-        enableElement($('#btn-import'));
+        enableElement($('#btn-export'));
 
         setInfoMessage($('#modal-add-result'),"Bổ sung thành công");
         $inpSerial.val('');
@@ -682,7 +683,6 @@ function getGoodsObject() {
         contentType: false,
         async:false,
         success: function(data){
-            alert(data);
             return data;
         }
     });
@@ -704,7 +704,6 @@ $inpAmount.keypress(function (e) {
     var key = e.which;
     if(key === 13)  // the enter key code
     {
-        alert ("1");
         if(isUpdate){
             updateGoods();
         }else{
