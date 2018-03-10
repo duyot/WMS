@@ -9,6 +9,7 @@ $inpGoodsSerial =  $('#inp-serial');
 $outPrice  = $('#modal-inp-input-price');
 //combobox
 $cmbGoods       = $("#modal-cmb-goods");
+$inpPartnerName =  $('#inp-partner-name');
 
 //
 var dataInit = [
@@ -209,8 +210,9 @@ btnExportConfirm.click(function () {
     var stockIdValue        = $('#cmb-stock').val();
     var contractNumberValue = $('#inp-contract-number').val();
     var descriptionValue = $('#inp-contract-note').val();
+    var partnerValue = $('#inp-partner-name').val();
 
-    var stock_trans_info = {contractNumber:contractNumberValue,stockId:stockIdValue,description:descriptionValue};
+    var stock_trans_info = {contractNumber:contractNumberValue,stockId:stockIdValue,description:descriptionValue,partnerName: partnerValue };
     //
     var importData = JSON.stringify({lstGoods:$table.bootstrapTable('getData'),mjrStockTransDTO:stock_trans_info});
     //
@@ -236,7 +238,7 @@ btnExportConfirm.click(function () {
                 $("#modal-link-download").attr("href",$("#modal-inp-stock-trans-id").val()+"/"+ stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             }else if(resultMessage == "FAIL"){
-                setInfoMessage($lblInfo,"Xuất kho không thành công!");
+                setErrorMessage($lblInfo,"Xuất kho không thành công!");
             }else{
                 setInfoMessage($lblInfo,"Xuất "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId)
             }
@@ -563,6 +565,9 @@ function clearContent() {
     $inpSerial.val('');
     //$('select[name=modalCmbCells]').val("");
     $inpAmount.val('');
+    $inpGoodsCode.val('');
+    $inpGoodsSerial.val('');
+    $inpPartnerName.val('');
 }
 
 function loadSelectItems(select, items) {

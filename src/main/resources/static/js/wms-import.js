@@ -244,7 +244,7 @@ btnImportConfirm.click(function () {
                 $("#modal-link-download").attr("href",$("#modal-inp-stock-trans-id").val()+"/"+ stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             }else if(resultMessage == "FAIL"){
-                setInfoMessage($lblInfo,"Nhập kho không thành công!");
+                setErrorMessage($lblInfo,"Nhập kho không thành công!");
             }else{
                 setInfoMessage($lblInfo,"Nhập "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId)
             }

@@ -27,6 +27,24 @@ public class MjrStockTransDTO {
     //
     private String stockValue;
     private String typeValue;
+    private String partnerName;
+    private String partnerId;
+
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    public String getPartnerName() {
+        return partnerName;
+    }
+
+    public void setPartnerName(String partnerName) {
+        this.partnerName = partnerName;
+    }
 
     public MjrStockTransDTO() {
     }

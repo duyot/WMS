@@ -81,7 +81,6 @@ public class ExportStockController extends BaseController{
         if(lstPartner == null || isGoodsModified(request)){
             lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
 
-            request.getSession().setAttribute("isGoodsModifiedExportStock",false);
         }
 
     }
@@ -249,6 +248,14 @@ public class ExportStockController extends BaseController{
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
+        if (mjrStockTransDTO.getPartnerName() != null){
+            String [] splitPartner = mjrStockTransDTO.getPartnerName().split("\\|");
+            if (splitPartner.length > 0 ){
+                String partnerCode = splitPartner[0];
+                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,tokenInfo,selectedCustomer.getId(), partnerCode );
+                mjrStockTransDTO.setPartnerId(catPartnerDTO.getId());
+            }
+        }
         //
         return mjrStockTransDTO;
     }
@@ -256,8 +263,11 @@ public class ExportStockController extends BaseController{
     @RequestMapping(value = "/getPartnerName")
     public @ResponseBody List<String> getPartnerName(){
         List<String> lstPartneName = Lists.newArrayList();
+        StringBuilder namePlus = new StringBuilder();
         for(CatPartnerDTO i: lstPartner){
-            lstPartneName.add(i.getName());
+            namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
+            lstPartneName.add(namePlus.toString());
+            namePlus.setLength(0);
         }
         return lstPartneName;
     }

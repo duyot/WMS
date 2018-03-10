@@ -154,9 +154,9 @@ function setErrorMessage(object,value) {
     object.css('color','#F44336');
     //
     object.fadeIn();
-    setTimeout(function() {
-        object.fadeOut('fast');
-    }, 8000);
+    // setTimeout(function() {
+    //     object.fadeOut('fast');
+    // }, 80000);
 }
 
 function setErrorMessageWithTime(object,value,timeout) {
