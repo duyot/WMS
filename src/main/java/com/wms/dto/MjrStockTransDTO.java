@@ -49,7 +49,8 @@ public class MjrStockTransDTO {
     public MjrStockTransDTO() {
     }
 
-    public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoiceNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String transMoneyReceive, String transMoneyResponse, String description) {
+    public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoiceNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String transMoneyReceive, String transMoneyResponse, String description,
+                            String partnerId, String partnerName) {
         this.id = id;
         this.code = code;
         this.custId = custId;
@@ -67,6 +68,8 @@ public class MjrStockTransDTO {
         this.transMoneyReceive = transMoneyReceive;
         this.transMoneyResponse = transMoneyResponse;
         this.description = description;
+        this.partnerId = partnerId;
+        this.partnerName = partnerName;
     }
 
     public String getId() {
