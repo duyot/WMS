@@ -9,42 +9,68 @@
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <title>Login - WMS</title>
     <script th:src="@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
-    <script th:src="@{/home_page/jquery.backstretch.min.js}" th:href="@{/home_page/jquery.backstretch.min.js}"></script>
+    <!--<script th:src="@{/home_page/jquery.backstretch.min.js}" th:href="@{/home_page/jquery.backstretch.min.js}"></script>-->
 </head>
 <body>
-<div class="cont">
-    <div class="demo">
-        <div class="login">
-            <form name="f" th:action="@{/login}" method="post">
-                <div class="login__check"></div>
-                <div class="login__form">
-                    <div class="login__row">
-                        <svg class="login__icon name svg-icon" viewBox="0 0 20 20">
-                            <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8" />
-                        </svg>
-                        <input type="text" class="login__input name" placeholder="Username" id="username" name="username"/>
+
+
+<div id="particles-js">
+    <div class="cont">
+        <div class="demo">
+            <div class="login">
+                <form name="f" th:action="@{/login}" method="post">
+                    <div class="login__check"></div>
+                    <div class="login__form">
+                        <div class="login__row">
+                            <svg class="login__icon name svg-icon" viewBox="0 0 20 20">
+                                <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8" />
+                            </svg>
+                            <input type="text" class="login__input name" placeholder="Username" id="username" name="username"/>
+                        </div>
+                        <div class="login__row">
+                            <svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
+                                <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0" />
+                            </svg>
+                            <input type="password" class="login__input pass" placeholder="Password" id="password" name="password"/>
+                        </div>
+                        <div th:if="${param.error}" class="alert alert-error">
+                            Tên đăng nhập hoặc mật khẩu không đúng
+                        </div>
+                        <div th:if="${param.logout}" class="alert alert-success">
+                            You have been logged out.
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="login__submit" th:text="#{btn.login}"></button>
+                            <p class="login__signup">Chưa có tài khoản? &nbsp;<a>Đăng ký ngay</a></p>
+                        </div>
                     </div>
-                    <div class="login__row">
-                        <svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
-                            <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0" />
-                        </svg>
-                        <input type="password" class="login__input pass" placeholder="Password" id="password" name="password"/>
-                    </div>
-                    <div th:if="${param.error}" class="alert alert-error">
-                        Tên đăng nhập hoặc mật khẩu không đúng
-                    </div>
-                    <div th:if="${param.logout}" class="alert alert-success">
-                        You have been logged out.
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="login__submit" th:text="#{btn.login}"></button>
-                        <p class="login__signup">Chưa có tài khoản? &nbsp;<a>Đăng ký ngay</a></p>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+<script th:src="@{/js//login/particles.min.js}" th:href="@{/js/login/particles.min.js}"></script>
+<script th:src="@{/js//login/app.js}" th:href="@{/js/login/app.js}"></script>
+<script th:src="@{/js//login/stats.js}" th:href="@{/js/login/stats.js}"></script>
+<script>
+    var count_particles, stats, update;
+    stats = new Stats;
+    stats.setMode(0);
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+    document.body.appendChild(stats.domElement);
+    count_particles = document.querySelector('.js-count-particles');
+    update = function() {
+        stats.begin();
+        stats.end();
+        if (window.pJSDom[0].pJS.particles  &amp;&amp; window.pJSDom[0].pJS.particles.array) {
+            count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+        }
+        requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+</script>
 
 <script>
     $(function () {

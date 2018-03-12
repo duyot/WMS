@@ -21,6 +21,23 @@
 	<link rel="stylesheet" th:href="@{/home_page/nivo_themes/default/default.css}"/>
 	<link rel="stylesheet" th:href="@{/home_page/style.css}"/>
 
+	<link rel="stylesheet" th:href="@{/home_page/jquery.fullPage.css}"/>
+
+	<script th:src="@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
+
+	<script th:src="@{/home_page/jquery.fullPage.js}" th:href="@{/home_page/jquery.fullPage.js}"></script>
+	<script th:src="@{/js/wow.min.js}" th:href="@{/js/wow.min.js}"></script>
+
+	<script type="text/javascript">
+        $(document).ready(function() {
+            $('#fullpage').fullpage({
+                sectionsColor: ['#f2f2f2', '#ffffff', '#ffffff', 'ffffff', '#ffffff'],
+                navigation: true,
+                navigationPosition: 'right'
+            });
+        });
+	</script>
+
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'/>
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
@@ -123,373 +140,382 @@
 	</div>
 </div>
 
-<section class="navbar navbar-fixed-top custom-navbar" role="navigation">
-	<div class="container">
-		<div class="navbar-header">
-			<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="icon icon-bar"></span>
-				<span class="icon icon-bar"></span>
-				<span class="icon icon-bar"></span>
-			</button>
-			<a href="#" class="navbar-brand">394Solutions</a>
-		</div>
-		<div class="collapse navbar-collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#home" class="smoothScroll">Trang chủ</a></li>
-				<li><a href="#work" class="smoothScroll">Sản phẩm</a></li>
-				<li><a href="#about" class="smoothScroll">Tính năng</a></li>
-				<!--<li><a href="#team" class="smoothScroll">TEAM</a></li>-->
-				<li><a href="#portfolio" class="smoothScroll">Khách hàng</a></li>
-				<li><a href="#pricing" class="smoothScroll">Bảng giá</a></li>
-				<li><a href="#contact" class="smoothScroll">Liên hệ</a></li>
-                <li><a href="#pricing" class="smoothScroll">Đăng ký</a></li>
-			</ul>
-		</div>
-	</div>
-</section>
+<div id="fullpage">
 
-<section id="home">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12">
-				<h3>Xuất-nhập-tồn / Doanh thu-lợi nhuận / Tiện ích-Báo cáo</h3>
-				<h1>Hệ thống Quản lý kho - Bán hàng</h1>
-				<hr/>
-				<a th:href="@{/login}" th:text="#{home.login}" class="smoothScroll btn btn-default"></a>
-				<a href="#register" th:text="#{home.register}" class="smoothScroll btn btn-default"></a>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section id="work">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12">
-				<div class="section-title">
-					<strong>01</strong>
-					<h1 class="heading bold">Sản phẩm</h1>
-					<hr/>
+	<div class="section active" id="section0">
+		<section class="navbar navbar-fixed-top custom-navbar" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon icon-bar"></span>
+						<span class="icon icon-bar"></span>
+						<span class="icon icon-bar"></span>
+					</button>
+					<a href="#" class="navbar-brand">394Solutions</a>
 				</div>
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.6s">
-				<i class="icon-cloud medium-icon"></i>
-				<h3>Triển khai</h3>
-				<hr/>
-				<p>Triển khai dưới dạng cloud, không cần trang bị máy tính cấu hình cao, không cần cài đặt, nâng cấp tự động, sử dụng được mọi nơi.</p>
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.9s">
-				<i class="icon-mobile medium-icon"></i>
-				<h3>Thiết kế</h3>
-				<hr/>
-				<p>Giao diện đơn giản, dễ sử dụng, có nhiều tiện ích để thực hiện thao tác nhanh và chính xác hơn.</p>
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
-				<i class="icon-laptop medium-icon"></i>
-				<h3>Bảo mật</h3>
-				<hr/>
-				<p>Được bảo mật chặt chẽ. Dữ liệu riêng biệt, được sao lưu định kỳ hàng ngày đảm bảo an toàn, ổn định.</p>
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
-				<i class="icon-compass medium-icon"></i>
-				<h3>Đáp ứng</h3>
-				<hr/>
-				<p>Đầy đủ tính năng nghiệp vụ, tiện ích phục vụ quản lý kho, bán hàng. Quản lý hàng hóa tới từng serial chi tiết, vị trí lưu trữ cụ thể trên giá kệ. Dữ liệu online đảm bảo chính xác, kịp thời</p>
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
-				<i class="icon-chat medium-icon"></i>
-				<h3>Mở rộng</h3>
-				<hr/>
-				<p>Dễ dàng mở rộng hàng hóa, kho kinh doanh, kho lưu trữ, cửa hàng bán lẻ, đối tác, khách hàng khi có nhu cầu quản lý trên hệ thống</p>
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="1s">
-				<i class="icon-browser medium-icon"></i>
-				<h3>Tương thích</h3>
-				<hr/>
-				<p>Hệ thống tương thích với các trình duyệt khác nhau, các kích thước của thiết bị hiển thị khác nhau như PC, Laptop, Iphone, IPad, Tablet</p>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section id="about">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12 text-center">
-				<div class="section-title">
-					<strong>02</strong>
-					<h1 class="heading bold">Tính năng</h1>
-					<hr/>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-12">
-				<img th:src="@{home_page/images/about-img.jpg}" class="img-responsive" alt="about img"/>
-			</div>
-			<div class="col-md-6 col-sm-12">
-				<h3 class="bold">Quản lý kho - Bán hàng</h3>
-				<!-- Nav tabs -->
-				<ul class="nav nav-tabs" role="tablist">
-					<li class="active"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">Quản lý kho</a></li>
-					<li><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab">Bán hàng</a></li>
-					<li><a href="#social" aria-controls="social" role="tab" data-toggle="tab">Dashboard</a></li>
-				</ul>
-				<!-- tab panes -->
-				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane active" id="design">
-                        <ul>
-                            <li>Danh mục
-                                <ul>
-                                    <li>Nhóm hàng hóa</li>
-                                    <li>Hàng hóa</li>
-                                    <li>Kho</li>
-                                    <li>Đối tác</li>
-                                </ul>
-                            </li>
-                            <li>Nhập kho</li>
-                            <li>Xuất kho</li>
-                            <li>Tiện ích
-                                <ul>
-                                    <li>Thông tin tồn kho, thẻ kho</li>
-                                    <li>Tra cứu serial, lịch sử xuất/nhập serial</li>
-                                    <li>Tra cứu giao dịch xuất/nhập kho</li>
-                                </ul>
-                            </li>
-                            <li>Báo cáo xuất/nhập/tồn</li>
-                        </ul>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="mobile">
-                        <ul>
-                            <li>Xuất kho bán hàng
-                                <ul>
-                                    <li>Xuất bán</li>
-                                    <li>Tích lũy điểm thưởng</li>
-                                    <li>Chiết khấu</li>
-                                </ul>
-                            </li>
-                            <li>Báo cáo doanh thu</li>
-                        </ul>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="social">
-                        <ul>
-                            <li>Biểu đồ danh sách hàng bán chạy</li>
-                            <li>Biểu đồ doanh thu - lợi nhuận</li>
-                            <li>Biểu đồ tồn kho quá hạn </li>
-                        </ul>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<div id="portfolio">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12">
-				<div class="section-title">
-					<strong>03</strong>
-					<h1 class="heading bold">Áp dụng phù hợp</h1>
-					<hr/>
-				</div>
-				<!-- ISO section -->
-				<div class="iso-section">
-					<ul class="filter-wrapper clearfix">
-                        <!--<li><a href="#" class="selected opc-main-bg" data-filter="*" >Tất cả</a></li>-->
-						<li><a href="#" class="selected opc-main-bg" data-filter=".shop">Cửa hàng</a></li>
-                        <li><a href="#" class="opc-main-bg" data-filter=".stock" >Kho</a></li>
-						<li><a href="#" class="opc-main-bg" data-filter=".supermarket">Siêu thị</a></li>
-						<!--<li><a href="#" class="opc-main-bg" data-filter=".bar">Quán bar</a></li>-->
-						<!--<li><a href="#" class="opc-main-bg" data-filter=".mobile">Mobile</a></li>-->
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#home" class="smoothScroll">Trang chủ</a></li>
+						<li><a href="#work" class="smoothScroll">Sản phẩm</a></li>
+						<li><a href="#about" class="smoothScroll">Tính năng</a></li>
+						<!--<li><a href="#team" class="smoothScroll">TEAM</a></li>-->
+						<li><a href="#portfolio" class="smoothScroll">Khách hàng</a></li>
+						<li><a href="#pricing" class="smoothScroll">Bảng giá</a></li>
+						<li><a href="#contact" class="smoothScroll">Liên hệ</a></li>
+						<li><a href="#section5" class="smoothScroll">Đăng ký</a></li>
 					</ul>
-					<div class="iso-box-section wow fadeIn" data-wow-delay="0.9s">
-						<div class="iso-box-wrapper col4-iso-box">
+				</div>
+			</div>
+		</section>
 
-							<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/shop-img1.jpg}" data-lightbox-gallery="portfolio-gallery" ><img th:src="@{/home_page/images/shop-img1.jpg}" alt="portfolio img"/></a>
-							</div>
-                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/shop-img2.jpg}" data-lightbox-gallery="portfolio-gallery" ><img th:src="@{/home_page/images/shop-img2.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-								<a th:href="@{/home_page/images/shop-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img3.jpg}" alt="portfolio img"/></a>
-							</div>
-                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/shop-img4.jpg}" data-lightbox-gallery="portfolio-gallery" ><img th:src="@{/home_page/images/shop-img4.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/shop-img5.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img5.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/shop-img6.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img6.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/stock-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img1.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/stock-img2.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img2.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/stock-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img3.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/stock-img4.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img4.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/stock-img5.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img5.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/stock-img6.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img6.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box supermarket col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/supermarket-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/supermarket-img1.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box supermarket col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/supermarket-img2.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/supermarket-img2.jpg}" alt="portfolio img"/></a>
-                            </div>
-                            <div class="iso-box supermarket col-lg-4 col-md-4 col-sm-6">
-                                <a th:href="@{/home_page/images/supermarket-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/supermarket-img3.jpg}" alt="portfolio img"/></a>
-                            </div>
+		<section id="home">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-12">
+						<h3>Xuất-nhập-tồn / Doanh thu-lợi nhuận / Tiện ích-Báo cáo</h3>
+						<h1>Hệ thống Quản lý kho - Bán hàng</h1>
+						<hr/>
+						<a th:href="@{/login}" th:text="#{home.login}" class="smoothScroll btn btn-default"></a>
+						<a href="#register" th:text="#{home.register}" class="smoothScroll btn btn-default"></a>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
 
+	<div class="section" id="section1">
+		<div id="work" style="height: 100%; padding: 0px 10px">
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+					<div class="section-title">
+						<strong>03</strong>
+						<h3 class="heading bold fadeInUp">Sản phẩm</h3>
+						<hr/>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 fadeInUp" data-wow-delay="0.9s">
+					<i class="icon-cloud medium-icon"></i>
+					<h3>Triển khai</h3>
+					<hr/>
+					<p>Triển khai dưới dạng cloud, không cần trang bị máy tính cấu hình cao, không cần cài đặt, nâng cấp tự động, sử dụng được mọi nơi.</p>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 fadeInUp" data-wow-delay="0.9s">
+					<i class="icon-mobile medium-icon"></i>
+					<h3>Thiết kế</h3>
+					<hr/>
+					<p>Giao diện đơn giản, dễ sử dụng, có nhiều tiện ích để thực hiện thao tác nhanh và chính xác hơn.</p>
+				</div>
+
+				<div class="col-lg-4 col-md-4 col-sm-4  fadeInUp" data-wow-delay="1s">
+					<i class="icon-laptop medium-icon"></i>
+					<h3>Bảo mật</h3>
+					<hr/>
+					<p>Được bảo mật chặt chẽ. Dữ liệu riêng biệt, được sao lưu định kỳ hàng ngày đảm bảo an toàn, ổn định.</p>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4  fadeInUp" data-wow-delay="1s">
+					<i class="icon-compass medium-icon"></i>
+					<h3>Đáp ứng</h3>
+					<hr/>
+					<p>Đầy đủ tính năng nghiệp vụ, tiện ích phục vụ quản lý kho, bán hàng. Quản lý hàng hóa tới từng serial chi tiết, vị trí lưu trữ cụ thể trên giá kệ. Dữ liệu online đảm bảo chính xác, kịp thời</p>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4  fadeInUp" data-wow-delay="1s">
+					<i class="icon-chat medium-icon"></i>
+					<h3>Mở rộng</h3>
+					<hr/>
+					<p>Dễ dàng mở rộng hàng hóa, kho kinh doanh, kho lưu trữ, cửa hàng bán lẻ, đối tác, khách hàng khi có nhu cầu quản lý trên hệ thống</p>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4  fadeInUp" data-wow-delay="1s">
+					<i class="icon-browser medium-icon"></i>
+					<h3>Tương thích</h3>
+					<hr/>
+					<p>Hệ thống tương thích với các trình duyệt khác nhau, các kích thước của thiết bị hiển thị khác nhau như PC, Laptop, Iphone, IPad, Tablet</p>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
+	<div class="section" id="section2">
+			<div id="about" style="height: 100%">
+				<div class="row">
+					<div class="col-md-12 col-sm-12 text-center">
+						<div class="section-title">
+							<strong>02</strong>
+							<h1 class="heading bold">Tính năng</h1>
+							<hr/>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<img th:src="@{home_page/images/about-img.jpg}" class="img-responsive" alt="about img"/>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<h3 class="bold">Quản lý kho - Bán hàng</h3>
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="active"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">Quản lý kho</a></li>
+							<li><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab">Bán hàng</a></li>
+							<li><a href="#social" aria-controls="social" role="tab" data-toggle="tab">Dashboard</a></li>
+						</ul>
+						<!-- tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="design">
+								<ul>
+									<li>Danh mục
+										<ul>
+											<li>Nhóm hàng hóa</li>
+											<li>Hàng hóa</li>
+											<li>Kho</li>
+											<li>Đối tác</li>
+										</ul>
+									</li>
+									<li>Nhập kho</li>
+									<li>Xuất kho</li>
+									<li>Tiện ích
+										<ul>
+											<li>Thông tin tồn kho, thẻ kho</li>
+											<li>Tra cứu serial, lịch sử xuất/nhập serial</li>
+											<li>Tra cứu giao dịch xuất/nhập kho</li>
+										</ul>
+									</li>
+									<li>Báo cáo xuất/nhập/tồn</li>
+								</ul>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="mobile">
+								<ul>
+									<li>Xuất kho bán hàng
+										<ul>
+											<li>Xuất bán</li>
+											<li>Tích lũy điểm thưởng</li>
+											<li>Chiết khấu</li>
+										</ul>
+									</li>
+									<li>Báo cáo doanh thu</li>
+								</ul>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="social">
+								<ul>
+									<li>Biểu đồ danh sách hàng bán chạy</li>
+									<li>Biểu đồ doanh thu - lợi nhuận</li>
+									<li>Biểu đồ tồn kho quá hạn </li>
+								</ul>
+							</div>
 
 						</div>
 					</div>
+				</div>
+			</div>
+	</div>
 
+	<div class="section" id="section3">
+		<div id="portfolio" style="height: 100%">
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+					<div class="section-title">
+						<strong>03</strong>
+						<h1 class="heading bold">Áp dụng phù hợp</h1>
+						<hr/>
+					</div>
+					<!-- ISO section -->
+					<div class="iso-section">
+						<ul class="filter-wrapper clearfix">
+							<!--<li><a href="#" class="selected opc-main-bg" data-filter="*" >Tất cả</a></li>-->
+							<li><a href="#" class="selected opc-main-bg" data-filter=".shop">Cửa hàng</a></li>
+							<li><a href="#" class="opc-main-bg" data-filter=".stock" >Kho</a></li>
+							<li><a href="#" class="opc-main-bg" data-filter=".supermarket">Siêu thị</a></li>
+							<!--<li><a href="#" class="opc-main-bg" data-filter=".bar">Quán bar</a></li>-->
+							<!--<li><a href="#" class="opc-main-bg" data-filter=".mobile">Mobile</a></li>-->
+						</ul>
+						<div class="iso-box-section fadeIn" data-wow-delay="0.9s">
+							<div class="iso-box-wrapper col4-iso-box">
+
+								<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/shop-img1.jpg}" data-lightbox-gallery="portfolio-gallery" ><img th:src="@{/home_page/images/shop-img1.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/shop-img2.jpg}" data-lightbox-gallery="portfolio-gallery" ><img th:src="@{/home_page/images/shop-img2.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/shop-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img3.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/shop-img4.jpg}" data-lightbox-gallery="portfolio-gallery" ><img th:src="@{/home_page/images/shop-img4.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/shop-img5.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img5.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box shop col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/shop-img6.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/shop-img6.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/stock-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img1.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/stock-img2.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img2.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/stock-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img3.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/stock-img4.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img4.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/stock-img5.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img5.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box stock col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/stock-img6.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/stock-img6.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box supermarket col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/supermarket-img1.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/supermarket-img1.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box supermarket col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/supermarket-img2.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/supermarket-img2.jpg}" alt="portfolio img"/></a>
+								</div>
+								<div class="iso-box supermarket col-lg-4 col-md-4 col-sm-6">
+									<a th:href="@{/home_page/images/supermarket-img3.jpg}" data-lightbox-gallery="portfolio-gallery"><img th:src="@{/home_page/images/supermarket-img3.jpg}" alt="portfolio img"/></a>
+								</div>
+
+
+							</div>
+						</div>
+
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="section" id="section4">
+			<div id="pricing" style="height: 100%; padding: 0px 100px">
+				<div class="row">
+					<div class="col-md-12 col-sm-12 text-center">
+						<div class="section-title">
+							<strong>04</strong>
+							<h1 class="heading bold">Bảng giá</h1>
+							<hr/>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4">
+						<div class="plan plan-one bounceIn" data-wow-delay="0.3s">
+							<div class="plan_title">
+								<i class="icon-mobile medium-icon"></i>
+								<h3>CƠ BẢN</h3>
+								<h2>1 USD <span>/month</span></h2>
+							</div>
+							<ul>
+								<li>1 kho/cửa hàng</li>
+								<li> 30 mã hàng</li>
+								<li>1 người dùng</li>
+							</ul>
+							<button class="btn btn-warning">ĐĂNG KÝ</button>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4">
+						<div class="plan plan-two bounceIn" data-wow-delay="0.3s">
+							<div class="plan_title">
+								<i class="icon-desktop medium-icon"></i>
+								<h3 style="color: #0099e5">NÂNG CAO</h3>
+								<h2 style="color: #0099e5">5 USD <span>/month</span></h2>
+							</div>
+							<ul>
+								<li>3 kho/cửa hàng</li>
+								<li> 100 mã hàng</li>
+								<li>3 người dùng</li>
+							</ul>
+							<button class="btn btn-warning">ĐĂNG KÝ</button>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4">
+						<div class="plan plan-three bounceIn" data-wow-delay="0.3s">
+							<div class="plan_title">
+								<i class="icon-cloud medium-icon"></i>
+								<h3 style="color:#b59f38">CAO CẤP</h3>
+								<h2 style="color:#b59f38">20 USD<span>/month</span></h2>
+							</div>
+							<ul>
+								<li>Không giới hạn kho hàng</li>
+								<li>Không giới hạn mã hàng</li>
+								<li>Không giới hạn người dùng</li>
+							</ul>
+							<button class="btn btn-warning">ĐĂNG KÝ</button>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+
+	<div class="section" id="section5">
+		<div id="contact" style="height: 100%; padding:0px 100px;">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 text-center">
+					<div class="section-title">
+						<strong>05</strong>
+						<h1 class="heading bold">Liên hệ</h1>
+						<hr/>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12 contact-info">
+					<h2 class="heading bold">Thông tin liên hệ</h2>
+					<p>Hãy liên hệ với chúng tôi bất kỳ khi nào bạn cần sự trợ giúp. Mọi thông tin chi tiết xin vui lòng liên hệ qua địa chỉ email và số điện thoại.</p>
+					<div class="col-md-6 col-sm-4">
+						<h3><i class="icon-envelope medium-icon bounceIn" data-wow-delay="0.6s"></i> Email</h3>
+						<p>wms.teams@gmail.com</p>
+					</div>
+					<div class="col-md-6 col-sm-4">
+						<h3><i class="icon-phone medium-icon  bounceIn" data-wow-delay="0.6s"></i> Số điện thoại</h3>
+						<p>+(84)975.114.692 | +(84)983.917.976</p>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<form action="#" method="get" class=" fadeInUp" data-wow-delay="0.6s">
+						<div class="col-md-6 col-sm-6">
+							<input type="text" class="form-control" placeholder="Họ tên" name="name"/>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<input type="email" class="form-control" placeholder="Email" name="email"/>
+						</div>
+						<div class="col-md-12 col-sm-12">
+							<textarea class="form-control" placeholder="Nội dung" rows="7" name="message"></textarea>
+						</div>
+						<div class="col-md-offset-4 col-md-8 col-sm-offset-4 col-sm-8">
+							<input type="submit" class="form-control" value="GỬI NỘI DUNG"/>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="section" id="section6">
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-12">
+						<p>&copy; 2017 WMS. All Rights Reserved | Design by <a href="#" target="_blank">394Solutions Team</a></p>
+						<hr/>
+						<ul class="social-icon">
+							<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
+							<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
+							<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
+							<li><a href="#" class="fa fa-behance wow fadeIn" data-wow-delay="0.9s"></a></li>
+							<li><a href="#" class="fa fa-tumblr wow fadeIn" data-wow-delay="0.9s"></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
 </div>
 
-<section id="pricing">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12 text-center">
-				<div class="section-title">
-					<strong>04</strong>
-					<h1 class="heading bold">Bảng giá</h1>
-					<hr/>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6">
-				<div class="plan plan-one wow bounceIn" data-wow-delay="0.3s">
-					<div class="plan_title">
-						<i class="icon-mobile medium-icon"></i>
-						<h3>CƠ BẢN</h3>
-						<h2>1 USD <span>/month</span></h2>
-					</div>
-					<ul>
-						<li>1 kho/cửa hàng</li>
-						<li> 30 mã hàng</li>
-						<li>1 người dùng</li>
-					</ul>
-					<button class="btn btn-warning">ĐĂNG KÝ</button>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6">
-				<div class="plan plan-two wow bounceIn" data-wow-delay="0.3s">
-					<div class="plan_title">
-						<i class="icon-desktop medium-icon"></i>
-						<h3 style="color: #0099e5">NÂNG CAO</h3>
-						<h2 style="color: #0099e5">5 USD <span>/month</span></h2>
-					</div>
-					<ul>
-                        <li>3 kho/cửa hàng</li>
-                        <li> 100 mã hàng</li>
-                        <li>3 người dùng</li>
-					</ul>
-					<button class="btn btn-warning">ĐĂNG KÝ</button>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6">
-				<div class="plan plan-three wow bounceIn" data-wow-delay="0.3s">
-					<div class="plan_title">
-						<i class="icon-cloud medium-icon"></i>
-						<h3 style="color:#b59f38">CAO CẤP</h3>
-						<h2 style="color:#b59f38">20 USD<span>/month</span></h2>
-					</div>
-					<ul>
-						<li>Không giới hạn kho hàng</li>
-						<li>Không giới hạn mã hàng</li>
-						<li>Không giới hạn người dùng</li>
-					</ul>
-					<button class="btn btn-warning">ĐĂNG KÝ</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
 
-<section id="contact">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12 text-center">
-				<div class="section-title">
-					<strong>05</strong>
-					<h1 class="heading bold">Liên hệ</h1>
-					<hr/>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-12 contact-info">
-				<h2 class="heading bold">Thông tin liên hệ</h2>
-				<p>Hãy liên hệ với chúng tôi bất kỳ khi nào bạn cần sự trợ giúp. Mọi thông tin chi tiết xin vui lòng liên hệ qua địa chỉ email và số điện thoại.</p>
-				<div class="col-md-6 col-sm-4">
-					<h3><i class="icon-envelope medium-icon wow bounceIn" data-wow-delay="0.6s"></i> Email</h3>
-					<p>wms.teams@gmail.com</p>
-				</div>
-				<div class="col-md-6 col-sm-4">
-					<h3><i class="icon-phone medium-icon wow bounceIn" data-wow-delay="0.6s"></i> Số điện thoại</h3>
-					<p>+(84)975.114.692 | +(84)983.917.976</p>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-12">
-				<form action="#" method="get" class="wow fadeInUp" data-wow-delay="0.6s">
-					<div class="col-md-6 col-sm-6">
-						<input type="text" class="form-control" placeholder="Họ tên" name="name"/>
-					</div>
-					<div class="col-md-6 col-sm-6">
-						<input type="email" class="form-control" placeholder="Email" name="email"/>
-					</div>
-					<div class="col-md-12 col-sm-12">
-						<textarea class="form-control" placeholder="Nội dung" rows="7" name="message"></textarea>
-					</div>
-					<div class="col-md-offset-4 col-md-8 col-sm-offset-4 col-sm-8">
-						<input type="submit" class="form-control" value="GỬI NỘI DUNG"/>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</section>
-
-
-
-<footer>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12">
-				<p>&copy; 2017 WMS. All Rights Reserved | Design by <a href="#" target="_blank">394Solutions Team</a></p>
-				<hr/>
-				<ul class="social-icon">
-					<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>
-					<li><a href="#" class="fa fa-twitter wow fadeIn" data-wow-delay="0.6s"></a></li>
-					<li><a href="#" class="fa fa-dribbble wow fadeIn" data-wow-delay="0.9s"></a></li>
-					<li><a href="#" class="fa fa-behance wow fadeIn" data-wow-delay="0.9s"></a></li>
-					<li><a href="#" class="fa fa-tumblr wow fadeIn" data-wow-delay="0.9s"></a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</footer>
-
-<script th:src="@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}" th:href="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/home_page/smoothscroll.js}" th:href="@{/home_page/smoothscroll.js}"></script>
 <script th:src="@{/home_page/isotope.js}" th:href="@{/home_page/isotope.js}"></script>
 <script th:src="@{/home_page/imagesloaded.min.js}" th:href="@{/home_page/imagesloaded.min.js}"></script>
 <script th:src="@{/home_page/nivo-lightbox.min.js}" th:href="@{/home_page/nivo-lightbox.min.js}"></script>
 <script th:src="@{/home_page/jquery.backstretch.min.js}" th:href="@{/home_page/jquery.backstretch.min.js}"></script>
-<script th:src="@{/js/wow.min.js}" th:href="@{/js/wow.min.js}"></script>
+
 <script th:src="@{/home_page/custom.js}" th:href="@{/home_page/custom.js}"></script>
 
 </body>
