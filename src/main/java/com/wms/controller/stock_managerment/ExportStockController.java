@@ -252,8 +252,11 @@ public class ExportStockController extends BaseController{
             String [] splitPartner = mjrStockTransDTO.getPartnerName().split("\\|");
             if (splitPartner.length > 0 ){
                 String partnerCode = splitPartner[0];
+                String partnerName = splitPartner[1]==null? "": splitPartner[1];
+                String partnerTelNumber = splitPartner[2]==null? "": splitPartner[2];
                 CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,tokenInfo,selectedCustomer.getId(), partnerCode );
                 mjrStockTransDTO.setPartnerId(catPartnerDTO.getId());
+                mjrStockTransDTO.setPartnerName(partnerName+"|" + partnerTelNumber);
             }
         }
         //
