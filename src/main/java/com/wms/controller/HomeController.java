@@ -54,6 +54,11 @@ import java.util.Locale;
         return "security_login";
     }
 
+    @RequestMapping(value = "/register",method = RequestMethod.GET)
+    public String register(){
+        return "register";
+    }
+
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

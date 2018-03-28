@@ -328,12 +328,7 @@ function addImportGoods() {
     //get data
     var goodsCode = $cmbGoods.val();
     var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
-    //
-    var amount = unFormatFloat($inpAmount.val());
-    if(!isValidAmount(amount)){
-        alert("Số lượng nhập phải là số");
-        return;
-    }
+
     //
     var goodsStateValue = "0";
     var goodsState = "0";
