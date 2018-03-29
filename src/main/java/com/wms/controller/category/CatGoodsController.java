@@ -159,6 +159,8 @@ public class CatGoodsController extends BaseController {
 
         lstCon.add(new Condition("createdDate",Constants.SQL_OPERATOR.ORDER,"desc"));
 
+        log.info(JSONUtils.object2JSONString(lstCon));
+
         List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
 
         for(CatGoodsDTO i: lstCatGoods){

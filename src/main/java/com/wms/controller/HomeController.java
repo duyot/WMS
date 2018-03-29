@@ -34,6 +34,7 @@ import java.util.Locale;
     @Scope("session")
     public class HomeController {
     Logger log = LoggerFactory.getLogger(HomeController.class);
+    Logger logError = LoggerFactory.getLogger("ERROR");
 
     @Autowired
     CatUserService catUserService;
@@ -65,6 +66,7 @@ import java.util.Locale;
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
+
         return "redirect:/login?logout";
     }
 
