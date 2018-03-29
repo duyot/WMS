@@ -208,6 +208,14 @@ public class FunctionUtils {
     }
 
     /*
+      get Partner
+   */
+    public static List<CatPartnerDTO> getListPartner(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
+        return service.findByCondition(getBaseConditions(currentCustomer.getId()),tokenInfo);
+    }
+
+
+    /*
 
      */
      public static void loadFileToClient(HttpServletResponse response, String fileResource){
@@ -726,8 +734,26 @@ public class FunctionUtils {
         return input.replaceAll(",","");
     }
 
+    /*
+       get partnerId from
+    */
+    public static CatPartnerDTO getPartner (BaseService service,AuthTokenInfo tokenInfo, String custId, String partnerCode){
+        List<Condition> lstCondition = Lists.newArrayList();
+        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCondition.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,partnerCode));
+        lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,custId));
+        CatPartnerDTO catPartnerDTO = new CatPartnerDTO();
+        List<CatPartnerDTO> lstPartnerDTOS = service.findByCondition(lstCondition,tokenInfo);
+        if (!DataUtil.isListNullOrEmpty(lstPartnerDTOS)){
+            catPartnerDTO = lstPartnerDTOS.get(0);
+        }
+        return catPartnerDTO;
+    }
+
     public static void main(String[] args) {
         System.out.println(Float.valueOf("20.5"));
     }
+
+
 
 }

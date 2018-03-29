@@ -38,6 +38,11 @@ public class ExportStockController extends BaseController{
     BaseService mjrStockGoodsTotalService;
     @Autowired
     BaseService err$MjrStockGoodsSerialService;
+
+    public List<CatPartnerDTO> lstPartner;
+
+    @Autowired
+    public BaseService catPartnerService;
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
     //
@@ -61,6 +66,23 @@ public class ExportStockController extends BaseController{
             request.getSession().setAttribute("isGoodsModifiedExportStock",false);
         }
         //
+    }
+
+    //
+    @ModelAttribute("setPartnerName")
+    public void setPartnerName(HttpServletRequest request){
+        //
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        if(lstPartner == null || isGoodsModified(request)){
+            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
+
+        }
+
     }
 
     private boolean isGoodsModified(HttpServletRequest request){
@@ -95,7 +117,7 @@ public class ExportStockController extends BaseController{
 
     @RequestMapping(value = "/getTemplateFile")
     public void getTemplateFile(HttpServletResponse response){
-        String fileResource = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_TEMPLATE;
+        String fileResource = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.EXPORT_TEMPLATE;
         FunctionUtils.loadFileToClient(response,fileResource);
     }
 
@@ -226,8 +248,28 @@ public class ExportStockController extends BaseController{
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
+        if (mjrStockTransDTO.getPartnerName() != null){
+            String [] splitPartner = mjrStockTransDTO.getPartnerName().split("\\|");
+            if (splitPartner.length > 0 ){
+                String partnerCode = splitPartner[0];
+                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,tokenInfo,selectedCustomer.getId(), partnerCode );
+                mjrStockTransDTO.setPartnerId(catPartnerDTO.getId());
+            }
+        }
         //
         return mjrStockTransDTO;
+    }
+
+    @RequestMapping(value = "/getPartnerName")
+    public @ResponseBody List<String> getPartnerName(){
+        List<String> lstPartneName = Lists.newArrayList();
+        StringBuilder namePlus = new StringBuilder();
+        for(CatPartnerDTO i: lstPartner){
+            namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
+            lstPartneName.add(namePlus.toString());
+            namePlus.setLength(0);
+        }
+        return lstPartneName;
     }
 
 }

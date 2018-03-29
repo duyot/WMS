@@ -58,11 +58,6 @@ $(function () {
                     type: 'text',
                     mode: 'inline',
                     showbuttons:false
-                    // validate: function(value) {
-                    //     if($.trim(value) == '') {
-                    //         return 'This field is required';
-                    //     }
-                    // }
                 }
             },
             {   field: 'amount',
@@ -76,6 +71,7 @@ $(function () {
                         if(!isValidAmount(amountValue)){
                             return 'Số lượng nhập phải là số';
                         }
+
                     },
                     display: function(value) {
                         $(this).text(formatFloatType(value));
@@ -118,7 +114,7 @@ $(function () {
     });
     $table.bootstrapTable('hideColumn', 'columnId');
     $table.bootstrapTable('hideColumn', 'goodsId');
-    $table.bootstrapTable('hideColumn', 'isSerial');
+    //$table.bootstrapTable('hideColumn', 'isSerial');
     //
 
     $table.bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
@@ -196,6 +192,7 @@ var btnUploadExcel = $('#btn-excel-import');
 var btnImport = $('#btn-import');
 btnImport.click(function () {
     //validate
+
     var import_goods = $table.bootstrapTable('getData');
     if(import_goods.length == 0){
         alert('Chưa có thông tin hàng nhập!');
@@ -219,9 +216,9 @@ btnImportConfirm.click(function () {
     $body.addClass("loading");
     var stockIdValue        = $('#cmb-stock').val();
     var contractNumberValue = $('#inp-contract-number').val();
-    var invoiceValue     = $('#inp-invoice').val();
+    // var invoiceValue     = $('#inp-invoice').val();
     var descriptionValue = $('#inp-contract-note').val();
-    var stock_trans_info = {contractNumber:contractNumberValue,invoiceNumber:invoiceValue,stockId:stockIdValue,description:descriptionValue};
+    var stock_trans_info = {contractNumber:contractNumberValue,stockId:stockIdValue,description:descriptionValue};
     //
     var importData = JSON.stringify({lstGoods:$table.bootstrapTable('getData'),mjrStockTransDTO:stock_trans_info});
     //
@@ -247,7 +244,7 @@ btnImportConfirm.click(function () {
                 $("#modal-link-download").attr("href",$("#modal-inp-stock-trans-id").val()+"/"+ stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             }else if(resultMessage == "FAIL"){
-                setInfoMessage($lblInfo,"Nhập kho không thành công!");
+                setErrorMessage($lblInfo,"Nhập kho không thành công!");
             }else{
                 setInfoMessage($lblInfo,"Nhập "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId)
             }
@@ -677,6 +674,16 @@ $inpGoodsSerial.keypress(function (e) {
             alert("Không có mặt hàng tương ứng");
             return;
         }
+        if(goodsItem["isSerial"] == '1' ){
+            if  ($inpGoodsSerial.val().trim() =='') {
+                alert("Mặt hàng bắt buộc phải nhập serial");
+                $inpGoodsSerial.focus();
+                return;
+            }
+            //Set gia tri de goi vao ham addImportGoods() khong bi tra ve fail
+            $inpAmount.value = '1';
+        }
+        addImportGoods();
         //
         var columnId = ~~(Math.random() * 100) * -1,
             rows = [];
