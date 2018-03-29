@@ -1473,10 +1473,7 @@ h1 {
 	width:100%;
 	margin:0 auto;
 }
-.register .container{
-  width:65%;
-  margin:0 auto;
-}
+
 .left{
 	width:100%;
 	float:left;
@@ -1782,3 +1779,5 @@ p.para {
 		margin: 40px 0 0 127px;
 	}
 }
+
+
