@@ -37,7 +37,7 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
 
     public ResponseObject register(CatUserDTO registerCatUserDTO){
         try {
-            return restTemplate.postForObject(ADD_URL, registerCatUserDTO,ResponseObject.class);
+            return restTemplate.postForObject(LOGIN_URL, registerCatUserDTO,ResponseObject.class);
         } catch (RestClientException e) {
             log.info(e.toString());
             return null;

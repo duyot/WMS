@@ -92,7 +92,7 @@
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                        <i class="fa fa-plus"></i>
+                                                    <i class="fa fa-plus" id="btn-add-partner" th:value="@{/workspace/cat_partner_ctr/add}"></i>
                                                     </span>
                                                 <input id="inp-partner-name" class="form-control" maxlength="50" />
                                             </div>
@@ -188,10 +188,11 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <button id="btn-add" th:value="@{/workspace/stock_management/export/add}" type="button"
-                                class="btn btn-default" th:title="#{tooltip.addgoods}" >
-                            <i class="fa fa-plus"></i>
-                        </button>
+                        <!--<button id="btn-add" th:value="@{/workspace/stock_management/export/add}" type="button"-->
+                                <!--class="btn btn-default" th:title="#{tooltip.addgoods}" >-->
+                            <!--<i class="fa fa-plus"></i>-->
+                        <!--</button>-->
+
                         <button id="btn-refresh-table" th:href="@{/workspace/stock_management/export/getFile}" type="button"
                                 class="btn btn-default" th:title="#{tooltip.cleartabble}" >
                             <i class="fa fa-trash"></i>
@@ -233,9 +234,11 @@
     <!--modal-->
     <div th:include="modal/confirm_download_modal :: frag-confirm-download-error-modal"></div>
     <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
-    <div th:include="modal/import_stock_add_goods_modal :: frag-add-goods-modal"></div>
+   <!--<div th:include="modal/import_stock_add_goods_modal :: frag-add-goods-modal"></div>-->
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <div th:include="modal/confirm_delete_modal :: frag-confirm-delete-modal"></div>
+    <!--modal-->
+    <div th:include="modal/cat_partner_modal :: frag-cat-partner-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
