@@ -30,7 +30,7 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="name" id="name"  placeholder="Nhập họ tên"/>
+                            <input type="text" class="form-control" name="name" id="name" th:required="true"  placeholder="Nhập họ tên" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-phone fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="telNumber" id="telNumber"  placeholder="Nhập số điện thoại"/>
+                            <input type="text" class="form-control" name="telNumber" id="telNumber" th:required="true" placeholder="Nhập số điện thoại" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
@@ -51,17 +51,18 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="password" id="password"  placeholder="Nhập mật khẩu"/>
+                            <input type="password" class="form-control" name="password" id="password" th:required="true"  placeholder="Nhập mật khẩu" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="confirm" class="cols-sm-2 control-label">Nhập lại mật khẩu <a th:style="${'color: red;'}">*</a></label>
+                    <label for="confirm" class="cols-sm-2 control-label">Nhập lại mật khẩu <a th:style="${'color: red;'}">*</a></label> <br></br>
+                    <span id='message'></span>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Nhập lại mật khẩu"/>
+                            <input type="password" class="form-control" name="confirm" id="confirm" th:required="true" placeholder="Nhập lại mật khẩu" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
@@ -76,6 +77,87 @@
         </div>
     </div>
 </div>
+
+<script>
+    //------------------------------------------------------------------------------------------------
+    $('#confirm').on('keyup', function () {
+        if ($('#password').val() == $('#confirm').val()) {
+            $('#message').html('Mật khẩu khớp').css('color', 'green');
+        } else
+            $('#message').html('Mật khẩu không khớp').css('color', 'red');
+    });
+
+    $(document).ready(function () {
+
+        validator = $("#form-horizontal").validate({
+            ignore: ":hidden",
+            rules: {
+                name: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 50
+                },
+                telNumber: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 15
+                },
+                password: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 30
+                },
+                confirm: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 30
+                }
+            },
+
+            submitHandler: function (form) {
+                preprocessInput($("#form-horizontal"));
+                //
+                if (isContainSpecialCharacter($('#name').val())) {
+                    alert("Họ tên chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                if (isContainSpecialCharacter($('#telnumber').val())) {
+                    alert("Số điện thoại chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                //
+                $.ajax({
+                    type: "POST",
+                    url: "/register",
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        resultArr = data.split('|');
+                        resultCode = resultArr[0];
+                        resultName = resultArr[1];
+                        if(resultCode == 1){
+                            setInfoMessage($('#action-info'),resultName);
+                        }else{
+                            setErrorMessage($('#action-info'),resultName);
+                        }
+
+                    },
+                    error:function(){
+                        setErrorMessage($('#action-info'),'Lỗi hệ thống');
+                    }
+                });
+                return false; // required to block normal submit since you used ajax
+            }
+        });
+    });
+    //
+</script>
 
 </body>
 </html>

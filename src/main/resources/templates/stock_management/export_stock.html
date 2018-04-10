@@ -116,7 +116,7 @@
                                                 <span class="input-group-addon">
                                                         <i class="fa fa-book fa-fw"></i>
                                                     </span>
-                                            <input id="inp-goods-code" class="form-control" maxlength="50"  placeholder="Nhập mã hàng hóa tại đây" />
+                                            <input id="inp-goods-code" class="form-control" maxlength="50"  placeholder="Nhập mã hàng hóa tại đây và enter" />
                                         </div>
                                     </div>
 
@@ -328,14 +328,15 @@
                         }
 
                         //search(false);
-                        $('#inp-partner-name').value = $('#modal-inp-code').val();
+
 
                     },
                     error:function(){
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');
                     }
                 });
-                //
+                $('#inp-partner-name').val ($('#modal-inp-code').val()+"|" +$('#modal-inp-name').val()+"|"+$('#modal-inp-telNumber').val());
+
                 hideModal($modalAddUpdate);
                 return false; // required to block normal submit since you used ajax
             }
