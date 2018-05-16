@@ -18,74 +18,146 @@
     <div class="row main">
         <div class="panel-heading">
             <div class="panel-title text-center">
-                <h1 class="title">Company Name</h1>
+                <h1 class="title">X8 STORE</h1>
                 <hr />
             </div>
         </div>
         <div class="main-login main-center">
-            <form class="form-horizontal" method="post" action="#">
+            <form class="form-horizontal" method="post" th:action="@{/register}" >
 
                 <div class="form-group">
-                    <label for="name" class="cols-sm-2 control-label">Your Name</label>
+                    <label for="name" class="cols-sm-2 control-label">Họ tên <a th:style="${'color: red;'}">*</a></label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+                            <input type="text" class="form-control" name="name" id="name" th:required="true"  placeholder="Nhập họ tên" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="form-group">
-                    <label for="email" class="cols-sm-2 control-label">Your Email</label>
+                    <label for="telNumber" class="cols-sm-2 control-label">Số điện thoại <a th:style="${'color: red;'}">*</a></label>
                     <div class="cols-sm-10">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+                            <span class="input-group-addon"><i class="fa fa-phone fa" aria-hidden="true"></i></span>
+                            <input type="text" class="form-control" name="telNumber" id="telNumber" th:required="true" placeholder="Nhập số điện thoại" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="username" class="cols-sm-2 control-label">Username</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username"/>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password" class="cols-sm-2 control-label">Password</label>
+                    <label for="password" class="cols-sm-2 control-label">Mật khẩu <a th:style="${'color: red;'}">*</a></label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+                            <input type="password" class="form-control" name="password" id="password" th:required="true"  placeholder="Nhập mật khẩu" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                    <label for="confirm" class="cols-sm-2 control-label">Nhập lại mật khẩu <a th:style="${'color: red;'}">*</a></label> <br></br>
+                    <span id='message'></span>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+                            <input type="password" class="form-control" name="confirm" id="confirm" th:required="true" placeholder="Nhập lại mật khẩu" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group ">
-                    <button type="button" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Đăng ký</button>
                 </div>
                 <div class="login-register">
-                    <a href="index.php">Login</a>
+                    <a href="http://localhost:8020">Trang chủ</a> &nbsp;&nbsp; &nbsp;&nbsp; <a href="http://localhost:8020/login">Đăng nhập</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<script type="text/javascript" src="assets/js/bootstrap.js"></script>
+<script>
+    //------------------------------------------------------------------------------------------------
+    $('#confirm').on('keyup', function () {
+        if ($('#password').val() == $('#confirm').val()) {
+            $('#message').html('Mật khẩu khớp').css('color', 'green');
+        } else
+            $('#message').html('Mật khẩu không khớp').css('color', 'red');
+    });
+
+    $(document).ready(function () {
+
+        validator = $("#form-horizontal").validate({
+            ignore: ":hidden",
+            rules: {
+                name: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 50
+                },
+                telNumber: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 15
+                },
+                password: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 30
+                },
+                confirm: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 30
+                }
+            },
+
+            submitHandler: function (form) {
+                preprocessInput($("#form-horizontal"));
+                //
+                if (isContainSpecialCharacter($('#name').val())) {
+                    alert("Họ tên chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                if (isContainSpecialCharacter($('#telnumber').val())) {
+                    alert("Số điện thoại chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                //
+                $.ajax({
+                    type: "POST",
+                    url: "/register",
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        resultArr = data.split('|');
+                        resultCode = resultArr[0];
+                        resultName = resultArr[1];
+                        if(resultCode == 1){
+                            setInfoMessage($('#action-info'),resultName);
+                        }else{
+                            setErrorMessage($('#action-info'),resultName);
+                        }
+
+                    },
+                    error:function(){
+                        setErrorMessage($('#action-info'),'Lỗi hệ thống');
+                    }
+                });
+                return false; // required to block normal submit since you used ajax
+            }
+        });
+    });
+    //
+</script>
+
 </body>
 </html>

@@ -131,7 +131,7 @@
 				<span class="icon icon-bar"></span>
 				<span class="icon icon-bar"></span>
 			</button>
-			<a href="#" class="navbar-brand">394Solutions</a>
+			<a href="#" class="navbar-brand">x8Store</a>
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
@@ -142,7 +142,7 @@
 				<li><a href="#portfolio" class="smoothScroll">Khách hàng</a></li>
 				<li><a href="#pricing" class="smoothScroll">Bảng giá</a></li>
 				<li><a href="#contact" class="smoothScroll">Liên hệ</a></li>
-                <li><a href="#pricing" class="smoothScroll">Đăng ký</a></li>
+                <li><a th:href="@{/register}" >Đăng ký</a></li>
 			</ul>
 		</div>
 	</div>
@@ -167,7 +167,7 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12">
 				<div class="section-title">
-					<strong>03</strong>
+					<strong>01</strong>
 					<h1 class="heading bold">Sản phẩm</h1>
 					<hr/>
 				</div>
@@ -218,7 +218,7 @@
 			<div class="col-md-12 col-sm-12 text-center">
 				<div class="section-title">
 					<strong>02</strong>
-					<h1 class="heading bold">Tính năng</h1>
+					<h1 class="heading bold">Tính năng nổi bật</h1>
 					<hr/>
 				</div>
 			</div>
@@ -226,56 +226,46 @@
 				<img th:src="@{home_page/images/about-img.jpg}" class="img-responsive" alt="about img"/>
 			</div>
 			<div class="col-md-6 col-sm-12">
-				<h3 class="bold">Quản lý kho - Bán hàng</h3>
+				<!--<h3 class="bold">Tính năng nổi bật</h3>-->
 				<!-- Nav tabs -->
-				<ul class="nav nav-tabs" role="tablist">
-					<li class="active"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">Quản lý kho</a></li>
-					<li><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab">Bán hàng</a></li>
-					<li><a href="#social" aria-controls="social" role="tab" data-toggle="tab">Dashboard</a></li>
-				</ul>
+				<!--<ul class="nav nav-tabs" role="tablist">-->
+					<!--<li class="active"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">Quản lý kho</a></li>-->
+					<!--<li><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab">Bán hàng</a></li>-->
+					<!--<li><a href="#social" aria-controls="social" role="tab" data-toggle="tab">Dashboard</a></li>-->
+				<!--</ul>-->
 				<!-- tab panes -->
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="design">
                         <ul>
-                            <li>Danh mục
-                                <ul>
-                                    <li>Nhóm hàng hóa</li>
-                                    <li>Hàng hóa</li>
-                                    <li>Kho</li>
-                                    <li>Đối tác</li>
-                                </ul>
-                            </li>
-                            <li>Nhập kho</li>
-                            <li>Xuất kho</li>
-                            <li>Tiện ích
-                                <ul>
-                                    <li>Thông tin tồn kho, thẻ kho</li>
-                                    <li>Tra cứu serial, lịch sử xuất/nhập serial</li>
-                                    <li>Tra cứu giao dịch xuất/nhập kho</li>
-                                </ul>
-                            </li>
-                            <li>Báo cáo xuất/nhập/tồn</li>
+                            <li>Quản lý hàng hóa tồn kho theo vị trí</li>
+                            <li>Quản lý hàng hóa theo serial</li>
+                            <li>Tra cứu lịch sử xuất/nhập của serial</li>
+                            <li>Thẻ kho điện tử</li>
+                            <li>Quản lý chiết khấu cho khách hàng</li>
+							<li>Cảnh báo tồn kho quá hạn</li>
+							<li>Báo cáo chi tiết xuất/nhập theo kỳ</li>
+							<li>Báo cáo tổng hợp xuất/nhập/tồn</li>
                         </ul>
 					</div>
-					<div role="tabpanel" class="tab-pane" id="mobile">
-                        <ul>
-                            <li>Xuất kho bán hàng
-                                <ul>
-                                    <li>Xuất bán</li>
-                                    <li>Tích lũy điểm thưởng</li>
-                                    <li>Chiết khấu</li>
-                                </ul>
-                            </li>
-                            <li>Báo cáo doanh thu</li>
-                        </ul>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="social">
-                        <ul>
-                            <li>Biểu đồ danh sách hàng bán chạy</li>
-                            <li>Biểu đồ doanh thu - lợi nhuận</li>
-                            <li>Biểu đồ tồn kho quá hạn </li>
-                        </ul>
-					</div>
+					<!--<div role="tabpanel" class="tab-pane" id="mobile">-->
+                        <!--<ul>-->
+                            <!--<li>Xuất kho bán hàng-->
+                                <!--<ul>-->
+                                    <!--<li>Xuất bán</li>-->
+                                    <!--<li>Tích lũy điểm thưởng</li>-->
+                                    <!--<li>Chiết khấu</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
+                            <!--<li>Báo cáo doanh thu</li>-->
+                        <!--</ul>-->
+					<!--</div>-->
+					<!--<div role="tabpanel" class="tab-pane" id="social">-->
+                        <!--<ul>-->
+                            <!--<li>Biểu đồ danh sách hàng bán chạy</li>-->
+                            <!--<li>Biểu đồ doanh thu - lợi nhuận</li>-->
+                            <!--<li>Biểu đồ tồn kho quá hạn </li>-->
+                        <!--</ul>-->
+					<!--</div>-->
 
 				</div>
 			</div>
@@ -435,11 +425,11 @@
 				<p>Hãy liên hệ với chúng tôi bất kỳ khi nào bạn cần sự trợ giúp. Mọi thông tin chi tiết xin vui lòng liên hệ qua địa chỉ email và số điện thoại.</p>
 				<div class="col-md-6 col-sm-4">
 					<h3><i class="icon-envelope medium-icon wow bounceIn" data-wow-delay="0.6s"></i> Email</h3>
-					<p>wms.teams@gmail.com</p>
+					<p>support@x8store.com</p>
 				</div>
 				<div class="col-md-6 col-sm-4">
 					<h3><i class="icon-phone medium-icon wow bounceIn" data-wow-delay="0.6s"></i> Số điện thoại</h3>
-					<p>+(84)975.114.692 | +(84)983.917.976</p>
+					<p>+(84)975.114.692 ||   +(84)983.917.976</p>
 				</div>
 			</div>
 			<div class="col-md-6 col-sm-12">
@@ -468,7 +458,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-sm-12">
-				<p>&copy; 2017 WMS. All Rights Reserved | Design by <a href="#" target="_blank">394Solutions Team</a></p>
+				<p>&copy; 2017 WMS. All Rights Reserved | Design by x8Store Team</p>
 				<hr/>
 				<ul class="social-icon">
 					<li><a href="#" class="fa fa-facebook wow fadeIn" data-wow-delay="0.3s"></a></li>

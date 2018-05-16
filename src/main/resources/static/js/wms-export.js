@@ -1,6 +1,6 @@
 //GLOBAL VAR-------------------------------------------------------------------------------------------------------
 $table = $('#tbl-export-goods');
-$modalAddImportGoods = $('#myModal');
+$addUpdateModal = $('#myModal');
 //input
 $inpSerial =  $('#modal-inp-serial');
 $inpAmount =  $('#modal-inp-amount');
@@ -280,9 +280,30 @@ $('#btn-add').click(function () {
     });
     //
     showElementBySerialType(isSerial);
-    showPriceDetail(price,$inpPrice,$('#modal-label-inp-input-price'));
+    showPriceDetail(price,$outPrice,$('#modal-label-inp-input-price'));
     //
     showModal($('#myModal'));
+});
+
+//@Add action---------------------------------------------------------------------------------------------------
+$btn_add_partner = $('#btn-add-partner');
+$(function () {
+    $btn_add_partner.click(function () {
+
+        $addUpdateModal.modal('show');
+        $("#cat-partner-insert-update-form").attr("action",$btn_add_partner.val());
+        $("#modal-inp-code").val('');
+        $("#modal-inp-name").val('');
+        $("#modal-inp-telNumber").val('');
+        $("#modal-inp-address").val('');
+        //set default active-disable combo status
+        $('#modal-cmb-status').bootstrapToggle('on');
+        $("#div-status *").prop('disabled',true);
+        showAdd();
+        $addUpdateModal.on('shown.bs.modal', function () {
+            $('#modal-inp-code').focus();
+        });
+    });
 });
 
 //#modal #add #confirm
