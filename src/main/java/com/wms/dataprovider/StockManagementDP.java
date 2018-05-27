@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.wms.constants.Constants;
 import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.MjrStockTransDetailDTO;
+import com.wms.dto.MjrStockTransDTO;
 import com.wms.dto.ResponseObject;
 import com.wms.dto.StockTransDTO;
 import com.wms.utils.BundleUtils;
@@ -27,6 +28,7 @@ public class StockManagementDP {
     private final String CANCEL_TRANS_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "cancelTransaction";
     private final String GET_TRANS_GOODS_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "getTransGoodsDetail";
     private final String GET_LIST_TRANS_GOODS_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "getListTransGoodsDetail";
+    private final String GET_LIST_TRANS_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "getStockTransInfo";
 
     public ResponseObject importStock(StockTransDTO stockTrans, AuthTokenInfo tokenInfo){
         RestTemplate restTemplate = new RestTemplate();
@@ -70,6 +72,17 @@ public class StockManagementDP {
         String url = GET_LIST_TRANS_GOODS_URL + "?lstStockTransId="+ lstStockTransId + "&access_token="+ tokenInfo.getAccess_token();
         try {
             ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,MjrStockTransDetailDTO[].class);
+            return Arrays.asList(responseEntity.getBody());
+        } catch (RestClientException e) {
+            return Lists.newArrayList();
+        }
+    }
+
+    public List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId, AuthTokenInfo tokenInfo){
+        RestTemplate restTemplate = new RestTemplate();
+        String url = GET_LIST_TRANS_URL + "?lstStockTransId="+ lstStockTransId + "&access_token="+ tokenInfo.getAccess_token();
+        try {
+            ResponseEntity<MjrStockTransDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,MjrStockTransDTO[].class);
             return Arrays.asList(responseEntity.getBody());
         } catch (RestClientException e) {
             return Lists.newArrayList();

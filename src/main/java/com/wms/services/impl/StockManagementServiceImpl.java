@@ -43,4 +43,7 @@ public class StockManagementServiceImpl implements StockManagementService{
     public List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId, AuthTokenInfo tokenInfo) {
         return stockManagementDP.getListTransGoodsDetail(lstStockTransId,tokenInfo);
     }
+    public List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId, AuthTokenInfo tokenInfo) {
+        return stockManagementDP.getStockTransInfo(lstStockTransId,tokenInfo);
+    }
 }
