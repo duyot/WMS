@@ -14,4 +14,5 @@ public interface StockManagementService {
     ResponseObject cancelTrans(String transId, AuthTokenInfo tokenInfo);
     List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType, AuthTokenInfo tokenInfo);
     List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId, AuthTokenInfo tokenInfo);
+    List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId, AuthTokenInfo tokenInfo);
 }

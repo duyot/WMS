@@ -171,7 +171,7 @@
                             <i class="fa fa-table"></i>
                         </a>
 
-                        <button id="btn-export-info" th:value="@{/workspace/utils/trans_info/getListTransDetailFile2}" style="display: none" type="button" class="btn btn-default">
+                        <button id="btn-export-info" th:value="@{/workspace/utils/trans_info/exportTransInfo}" style="display: none" type="button" class="btn btn-default">
                             <i class="fa fa-edit"></i>
                         </button>
                         <button id="btn-view-info" th:value="@{/workspace/utils/trans_info/viewTransInfo}" style="display: none" type="button" class="btn btn-default">
@@ -282,15 +282,15 @@
     window.operateEvents = {
 
         'click .trans-export': function (e, value, row, index) {
-            //
+
             NProgress.start();
-//            //
+
             var transId   = row["id"];
             var url = $('#btn-export-info').val() + "?transId="+ transId;
-//
             $('.trans-export').attr('href',url);
             $('.trans-export').click();
             NProgress.done();
+
         },
 
        'click .trans-detail': function (e, value, row, index) {

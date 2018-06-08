@@ -20,12 +20,25 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.Document;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 /**
  * Created by duyot on 3/31/2017.
  */
@@ -169,30 +182,7 @@ public class TransInfoController extends BaseController{
         FunctionUtils.loadFileToClient(response,fileResource);
     }
 
-    //==================================================================================================================
-    @RequestMapping(value = "/getListTransDetailFile2")
-    public void getListTransDetailFile2(HttpServletResponse response, @RequestParam("transId") String transId){
-        int size = 0;
-        StringBuilder lstStockTransId = new StringBuilder();
-        if(!DataUtil.isListNullOrEmpty(lstTrans)){
-            size = lstTrans.size();
-        }
-        for (int i = 0; i<size;i++){
-            lstStockTransId.append(lstTrans.get(i).getId());
-            if(i!=size -1){
-                lstStockTransId.append(",");
-            }
-        }
-        List<MjrStockTransDetailDTO> lstTransDetail = stockManagementService.getListTransGoodsDetail(lstStockTransId.toString(),tokenInfo);
-        if(DataUtil.isListNullOrEmpty(lstTransDetail)){
-            lstTransDetail.add(new MjrStockTransDetailDTO());
-            startDate = "";
-            endDate = "";
-        }
-        String prefixFileName = "Thongtin_chitiet_giaodich_";
-        String fileResource = exportListStockTransDetail(lstTransDetail,prefixFileName);
-        FunctionUtils.loadFileToClient(response,fileResource);
-    }
+
     //==================================================================================================================
     @RequestMapping(value = "/cancelTrans")
     public @ResponseBody String cancelTrans(@RequestParam("transId") String transId){
@@ -204,24 +194,70 @@ public class TransInfoController extends BaseController{
           }
     }
 
+
+    //==================================================================================================================
+    @RequestMapping(value = "/exportTransInfo")
+    public void exportTransInfo(HttpServletResponse response,@RequestParam("transId") String transId){
+        //Lay thong tin chung giao dich xuat kho
+        List<MjrStockTransDTO> lstStockTrans = stockManagementService.getStockTransInfo(transId.toString(),tokenInfo);
+        MjrStockTransDTO mjrStockTransDTO = null;
+        if (lstStockTrans != null && lstStockTrans.size() >0){
+            mjrStockTransDTO = lstStockTrans.get(0);
+        }
+        //Lay thong tin danh sach hang hoa thuoc giao dich
+        List<MjrStockTransDetailDTO> lstStockTransDetail = stockManagementService.getListTransGoodsDetail(transId.toString(),tokenInfo);
+
+        String templatePath = BundleUtils.getKey("template_url") +"\\PXK\\"+ Constants.FILE_RESOURCE.EXPORT_TRANS_TEMPLATE;
+        String prefixFileName = "Thongtin_chitiet_giaodich_";
+//        JasperReport jasperReport;
+        try {
+            /*
+            jasperReport = JasperCompileManager.compileReport(templatePath);
+            Map parameters = new HashMap();
+
+            parameters.put("stockName", mjrStockTransDTO.getStockName());
+            parameters.put("stockName", mjrStockTransDTO.getStockCode());
+                        //
+            List<MjrStockTransDetailDTO> listItems = new ArrayList<>();
+            int lstGoodsSize = lstStockTransDetail.size();
+            for (int i = 0; i< lstGoodsSize ; i++){
+                MjrStockTransDetailDTO mjrStockTransDetailDTO =  lstStockTransDetail.get(i);
+                listItems.add(new MjrStockTransDetailDTO(mjrStockTransDetailDTO.getGoodsCode(), mjrStockTransDetailDTO.getGoodsName()));
+            }
+
+            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(listItems);
+            parameters.put("goodsDataSource", itemsJRBean);
+            // DataSource
+            JRDataSource dataSource = new JREmptyDataSource();
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
+                    parameters, dataSource);
+            //
+            // Export to docx.
+            JRDocxExporter exporter = new JRDocxExporter();
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "D:\\WMS\\report\\myreport.docx");
+            exporter.exportReport();
+            */
+
+            System.out.println("Done!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     //==================================================================================================================
     @RequestMapping(value = "/viewTransInfo")
     public @ResponseBody List<MjrStockTransDetailDTO> getTransGoodsDetail(@RequestParam("stockId") String stockId,
                                                                           @RequestParam("transId") String transId,@RequestParam("transType") String transType
                                                                           ){
-//        List<MjrStockTransDetailDTO> lstTransGoodsDetail = stockManagementService.getTransGoodsDetail(selectedCustomer.getId(),stockId,transId,transType,tokenInfo);
         List<MjrStockTransDetailDTO> lstTransGoodsDetail = stockManagementService.getListTransGoodsDetail(transId,tokenInfo);
         if(DataUtil.isListNullOrEmpty(lstTransGoodsDetail)){
             return  Lists.newArrayList();
         }
         return  lstTransGoodsDetail;
-    }
-
-
-    //==================================================================================================================
-    @RequestMapping(value = "/exportTransInfo")
-    public void exportTransInfo(@RequestParam("transId") String transId){
-        String test =transId;
     }
 
 

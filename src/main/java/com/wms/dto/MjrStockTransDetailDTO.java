@@ -117,6 +117,11 @@ public class MjrStockTransDetailDTO {
         this.statusValue = statusValue;
     }
 
+    public MjrStockTransDetailDTO(String goodsName, String goodsCode) {
+        this.goodsName = goodsName;
+        this.goodsCode = goodsCode;
+    }
+
     public MjrStockTransDetailDTO() {
     }
 

@@ -124,6 +124,7 @@ public class FunctionUtils {
     }
     /*
 
+
      */
     public static List<MjrStockTransDetailDTO> convertGoodsSerialToDetail(List<MjrStockGoodsSerialDTO> lstStockGoodsSerial, Map<String,String> mapAppStockStatus){
         List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
@@ -749,11 +750,6 @@ public class FunctionUtils {
         }
         return catPartnerDTO;
     }
-
-    public static void main(String[] args) {
-        System.out.println(Float.valueOf("20.5"));
-    }
-
 
 
 }
