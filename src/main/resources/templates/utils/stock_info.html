@@ -98,6 +98,23 @@
                                 </div>
 
                                 <div class="col-sm-2">
+                                    <label th:text="#{lbl.parter}" for="cmb-partner"></label>
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-partner" class="selectpicker form-control"  data-live-search="true"
+                                                data-width="100%" name="cmb-partner">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstPartner}"
+                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row 3: goods state -->
+                            <div class="row">
+                                <div class="col-sm-2">
                                     <label>Trạng thái</label>
 
                                 </div>
@@ -117,6 +134,14 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-2">
+
+                                </div>
+                                <div class="col-sm-4">
+
+                                </div>
+
                             </div>
                         </div>
                     </form>
@@ -266,12 +291,13 @@
         NProgress.start();
         var stock_id = $('#cmb-stock').val();
         var goods_id = $('#cmb-goods').val();
+        var partner_id = $('#cmb-partner').val();
 //        var statusVal =  $('#cmb-status').val();
         var statusVal = $("input[name='cmb-status']:checked").val()
         $.ajax({
             type: "GET",
             cache:false,
-            data:{stockId:stock_id,goodsId:goods_id,status:statusVal},
+            data:{stockId:stock_id,partnerId:partner_id,goodsId:goods_id,status:statusVal},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             url: $btnSearch.val(),
             dataType: 'json',

@@ -54,6 +54,7 @@
                                                 <button id="btn-check-serial" style="display: none" th:value="@{/workspace/stock_management/import/isSerial}"></button>
                                                 <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
                                                 <button id="btn-get-goods-code" style="display: none" th:value="@{/workspace/stock_management/import/getGoodsCode}"></button>
+                                                <button id="btn-get-partner" style="display: none" th:value="@{/workspace/stock_management/import/getPartnerName}"></button>
                                             </div>
                                         </div>
 
@@ -73,13 +74,26 @@
                                         <div class="col-sm-2">
                                             <label th:text="#{lbl.note}" for="inp-contract-note"></label>
                                         </div>
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-4">
                                             <div class="input-group">
                                             <span class="input-group-addon">
                                                     <i class="fa fa-sticky-note fa-fw"></i>
                                                 </span>
                                                 <textarea id="inp-contract-note" class="form-control" th:rows="1" maxlength="500"
                                                 ></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <label th:text="#{lbl.partner}" for="inp-partner-name"></label>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-plus" id="btn-add-partner" th:value="@{/workspace/cat_partner_ctr/add}"></i>
+                                                    </span>
+                                                <input id="inp-partner-name" class="form-control" maxlength="50" placeholder="Nhấn vào + để bổ sung đối tác"  />
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +113,7 @@
                                                 <span class="input-group-addon">
                                                         <i class="fa fa-book fa-fw"></i>
                                                     </span>
-                                                <input id="inp-goods-code" class="form-control" maxlength="50" />
+                                                <input id="inp-goods-code" class="form-control" maxlength="50" placeholder="Nhập mã hàng hóa tại đây và enter" />
                                             </div>
                                         </div>
 
@@ -230,8 +244,10 @@
     <!--modal-->
     <div th:include="modal/confirm_download_modal :: frag-confirm-download-error-modal"></div>
     <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
-    <div th:include="modal/import_stock_add_goods_modal :: frag-add-goods-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
+    <!--<div th:include="modal/import_stock_add_goods_modal :: frag-add-goods-modal"></div>-->
+    <!--modal-->
+    <div th:include="modal/cat_partner_modal :: frag-cat-partner-modal"></div>
     <div th:include="modal/confirm_delete_modal :: frag-confirm-delete-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
@@ -259,5 +275,84 @@
 <!--editable-->
 <script th:attr="src=@{/editable/bootstrap-editable.js}"      th:href="@{/editable/bootstrap-editable.js}"></script>
 <script th:attr="src=@{/editable/bootstrap-table-editable.js}"      th:href="@{/editable/bootstrap-table-editable.js}"></script>
+<script>
+    //------------------------------------------------------------------------------------------------
+    $(document).ready(function () {
+        $modalAddUpdate = $('#myModal');
+
+        validator = $("#cat-partner-insert-update-form").validate({
+            ignore: ":hidden",
+            rules: {
+                code: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 50
+                },
+                name: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 100
+                },
+                telNumber: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 100
+                },
+                address: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 100
+                }
+            },
+            submitHandler: function (form) {
+                preprocessInput($("#cat-partner-insert-update-form"));
+                //
+                if (isContainSpecialCharacter($('#modal-inp-code').val())) {
+                    alert("Mã đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                if (isContainSpecialCharacter($('#modal-inp-name').val())) {
+                    alert("Tên đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                //
+                $.ajax({
+                    type: "POST",
+                    url: "/workspace/cat_partner_ctr/add",
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        resultArr = data.split('|');
+                        resultCode = resultArr[0];
+                        resultName = resultArr[1];
+                        if(resultCode == 1){
+                            setInfoMessage($('#action-info'),resultName);
+                        }else{
+                            setErrorMessage($('#action-info'),resultName);
+                        }
+
+                        //search(false);
+
+
+                    },
+                    error:function(){
+                        setErrorMessage($('#action-info'),'Lỗi hệ thống');
+                    }
+                });
+                $('#inp-partner-name').val ($('#modal-inp-code').val()+"|" +$('#modal-inp-name').val()+"|"+$('#modal-inp-telNumber').val());
+
+                hideModal($modalAddUpdate);
+                return false; // required to block normal submit since you used ajax
+            }
+        });
+    });
+    //
+</script>
 </body>
 </html>

@@ -74,7 +74,7 @@ public class StockInfoController extends BaseController{
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public @ResponseBody List<MjrStockGoodsTotalDTO> getStockInfo(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
+    public @ResponseBody List<MjrStockGoodsTotalDTO> getStockInfo(@RequestParam("stockId")String stockId,@RequestParam("stockId")String partnerId, @RequestParam("goodsId")String goodsId,
                                                                   @RequestParam("status")String status
                                                      ){
         List<Condition> lstCon = Lists.newArrayList();
@@ -83,6 +83,9 @@ public class StockInfoController extends BaseController{
 
         if(!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,stockId));
+        }
+        if(!DataUtil.isStringNullOrEmpty(partnerId) && !partnerId.equals(Constants.STATS_ALL)){
+            lstCon.add(new Condition("partnerId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,partnerId));
         }
         if(!DataUtil.isStringNullOrEmpty(goodsId) && !goodsId.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("goodsId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,goodsId));

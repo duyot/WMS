@@ -94,33 +94,21 @@
                                 </div>
 
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.createuser}" for="cmb-user"></label>
+                                    <label th:text="#{lbl.partner}" for="cmb-user"></label>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group input-group-combo">
-                                        <select id="cmb-user" class="selectpicker form-control" data-live-search="true"
-                                                data-width="100%" name="cmb-user">
+                                        <select id="cmb-partner" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-partner">
                                             <option value="-1" th:text="#{label.all}"></option>
-                                            <option  th:each="sopt:${lstUsers}"
-                                                     th:value="${sopt.code}" th:text="${sopt.code}">1</option>
+                                            <option  th:each="sopt:${lstPartner}"
+                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <!--row 3 :trans_code + trans_type -->
+                            <!--row 3 : trans_type -->
                             <div class="row">
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.transcode}" for="inp-trans-code"></label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group">
-										<span class="input-group-addon">
-											<i class="fa fa-code"></i>
-										</span>
-                                        <input type="text" id="inp-trans-code" class="form-control" />
-                                    </div>
-                                </div>
-
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.transtype}"></label>
                                 </div>
@@ -140,6 +128,22 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.createuser}" for="cmb-user"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-user" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-user">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstUsers}"
+                                                     th:value="${sopt.code}" th:text="${sopt.code}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     <!--</form>-->
@@ -199,6 +203,7 @@
                             <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" data-width="250px">Mã phiếu</th>
                             <th data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
                             <th class="col-md-2" data-field="partnerName" data-align="left" data-sortable="true">Đối tác</th>
+                            <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
                             <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true" data-width="100px">Loại GD</th>
                             <th class="col-md-2" data-field="createdDate" data-align="center" data-sortable="true">Thời gian</th>
                             <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>

@@ -54,9 +54,13 @@ public class TransInfoController extends BaseController{
     StockManagementService stockManagementService;
     @Autowired
     public CatUserService catUserService;
+    @Autowired
+    public BaseService catPartnerService;
+
     //
     private List<MjrStockTransDTO> lstTrans;
     private List<CatUserDTO> lstUsers;
+    public List<CatPartnerDTO> lstPartner;
     private List<AppParamsDTO> lstAppTransType;
     private Map<String,String> mapAppTransType = new HashMap();
     //
@@ -83,6 +87,7 @@ public class TransInfoController extends BaseController{
         return lstAppTransType;
     }
 
+
     @RequestMapping()
     public String home(Model model){
         lstTrans   = Lists.newArrayList();
@@ -104,6 +109,22 @@ public class TransInfoController extends BaseController{
         }
         return lstUsers;
     }
+
+    @ModelAttribute("lstPartner")
+    public List<CatPartnerDTO> setPartner(HttpServletRequest request){
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        //
+        if(lstPartner == null){
+            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
+        }
+        return lstPartner;
+    }
+
 
     //==================================================================================================================
     @RequestMapping(value = "/findTrans",method = RequestMethod.GET)

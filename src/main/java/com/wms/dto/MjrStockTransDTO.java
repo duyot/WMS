@@ -38,6 +38,16 @@ public class MjrStockTransDTO {
     private String partnerTelNumber;
     private String partnerAddress;
 
+    //Khach hang nhan trong cac giao dich xuat
+    private String receiveName;
+
+    public String getReceiveName() {
+        return receiveName;
+    }
+
+    public void setReceiveName(String receiveName) {
+        this.receiveName = receiveName;
+    }
 
     public String getCustomerName() {
         return customerName;

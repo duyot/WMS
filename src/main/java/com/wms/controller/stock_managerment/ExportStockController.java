@@ -85,6 +85,11 @@ public class ExportStockController extends BaseController{
 
     }
 
+    @ModelAttribute("lstPartner")
+    public List<CatPartnerDTO> setPartner(HttpServletRequest request){
+        return lstPartner;
+    }
+
     private boolean isGoodsModified(HttpServletRequest request){
         return (boolean) request.getSession().getAttribute("isGoodsModifiedExportStock");
     }

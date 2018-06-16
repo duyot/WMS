@@ -71,6 +71,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-sm-2">
                                         <label th:text="#{lbl.note}" for="inp-contract-note"></label>
@@ -80,13 +81,12 @@
                                             <span class="input-group-addon">
                                                     <i class="fa fa-sticky-note fa-fw"></i>
                                                 </span>
-                                            <textarea id="inp-contract-note" class="form-control" th:rows="1" maxlength="500"
-                                            ></textarea>
+                                            <textarea id="inp-contract-note" class="form-control" th:rows="1" maxlength="500"></textarea>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-2">
-                                        <label th:text="#{lbl.customer}" for="inp-partner-name"></label>
+                                        <label th:text="#{lbl.receiveName}" for="inp-receive-name"></label>
                                     </div>
 
                                         <div class="col-sm-4">
@@ -94,10 +94,9 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-plus" id="btn-add-partner" th:value="@{/workspace/cat_partner_ctr/add}"></i>
                                                     </span>
-                                                <input id="inp-partner-name" class="form-control" maxlength="50" placeholder="Nhấn vào + để bổ sung đối tác"  />
+                                                <input id="inp-receive-name" class="form-control" maxlength="50" placeholder="Nhấn vào + để bổ sung khách hàng nhận"  />
                                             </div>
                                         </div>
-
 
                                 </div>
                             </div>
@@ -158,6 +157,19 @@
                                             </button>
                                             <a class="link-label" style="float:left" th:text="#{link.downloadtemplate}" th:href="@{/workspace/stock_management/export/getTemplateFile}">
                                             </a>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-2">
+                                        <label class="label-require" for="cmb-partner" th:text="#{lbl.partner}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group" style="width: 100%;">
+                                            <select id="cmb-partner" class="form-control selectpicker" data-live-search="true"  data-width="100%">
+                                                <option  th:each="sopt:${lstPartner}"
+                                                         th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                            </select>
                                         </div>
                                     </div>
 

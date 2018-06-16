@@ -1,6 +1,6 @@
 //GLOBAL VAR-------------------------------------------------------------------------------------------------------
 $table = $('#tbl-import-goods');
-$modalAddImportGoods = $('#myModal');
+$addUpdateModal = $('#myModal');
 //input
 $inpSerial =  $('#modal-inp-serial');
 $inpAmount =  $('#modal-inp-amount');
@@ -9,7 +9,7 @@ $inpGoodsSerial =  $('#inp-serial');
 $inpPrice  = $('#modal-inp-input-price');
 //combobox
 $cmbGoods       = $("#modal-cmb-goods");
-$modalCmbCells  = $("#modal-cmb-cells");
+$inpPartnerName =  $('#inp-partner-name');
 //
 var dataInit = [
 ];
@@ -124,6 +124,7 @@ $(function () {
     disableElement($('#btn-import'));
     //
     loadGoodsCodeSuggestion();
+    loadPartnerSuggestion();
     //
 });
 //ROW FUNCTION------------------------------------------------------------------------------------------------------
@@ -218,7 +219,8 @@ btnImportConfirm.click(function () {
     var contractNumberValue = $('#inp-contract-number').val();
     // var invoiceValue     = $('#inp-invoice').val();
     var descriptionValue = $('#inp-contract-note').val();
-    var stock_trans_info = {contractNumber:contractNumberValue,stockId:stockIdValue,description:descriptionValue};
+    var partnerValue = $('#inp-partner-name').val();
+    var stock_trans_info = {contractNumber:contractNumberValue,stockId:stockIdValue,description:descriptionValue,partnerName: partnerValue };
     //
     var importData = JSON.stringify({lstGoods:$table.bootstrapTable('getData'),mjrStockTransDTO:stock_trans_info});
     //
@@ -258,6 +260,27 @@ btnImportConfirm.click(function () {
         complete: function(){
             $body.removeClass("loading");
         }
+    });
+});
+
+//@Add action---------------------------------------------------------------------------------------------------
+$btn_add_partner = $('#btn-add-partner');
+$(function () {
+    $btn_add_partner.click(function () {
+
+        $addUpdateModal.modal('show');
+        $("#cat-partner-insert-update-form").attr("action",$btn_add_partner.val());
+        $("#modal-inp-code").val('');
+        $("#modal-inp-name").val('');
+        $("#modal-inp-telNumber").val('');
+        $("#modal-inp-address").val('');
+        //set default active-disable combo status
+        $('#modal-cmb-status').bootstrapToggle('on');
+        $("#div-status *").prop('disabled',true);
+        showAdd();
+        $addUpdateModal.on('shown.bs.modal', function () {
+            $('#modal-inp-code').focus();
+        });
     });
 });
 //@Add show modal---------------------------------------------------------------------------------------------------
@@ -327,9 +350,10 @@ function addImportGoods() {
     preprocessInput($("#form-add-goods"));
     //get data
     var goodsCode = $cmbGoods.val();
-    var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
 
-    //
+    var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
+    // var goodsName = "";
+
     var goodsStateValue = "0";
     var goodsState = "0";
     if($('#cmb-goods-state').prop('checked')){
@@ -344,12 +368,9 @@ function addImportGoods() {
     }
     //
     var serial =   escapeHtml($inpSerial.val());
-    var cellCode = $modalCmbCells.val();
-    if(cellCode.includes("selected")){
-        cellCode = "";
-    }
+
     //check whether serial is entered before
-    var keySerial = goodsCode + goodsState + serial;
+    var keySerial = goodsCode + serial;
     if(isSerial == '1' && enteredSerials.indexOf(keySerial) > -1){
         setErrorMessage($('#modal-add-result'),"Serial đã được nhập");
         $inpSerial.val('');
@@ -588,6 +609,7 @@ function clearContent() {
         $inpSerial.val('');
         //$('select[name=modalCmbCells]').val("");
         $inpAmount.val('');
+        $inpPartnerName.val('');
 }
 
 function loadSelectItems(select, items) {
@@ -644,8 +666,10 @@ $inpGoodsCode.keypress(function (e) {
             enableElement($('#btn-import'));
 
             setInfoMessage($('#modal-add-result'),"Bổ sung thành công");
-            $inpSerial.val('');
-            $inpSerial.focus();
+
+            $inpGoodsCode.val('');
+            $inpGoodsSerial.val('');
+            $inpGoodsCode.focus();
         }
     }
 });
@@ -678,8 +702,7 @@ $inpGoodsSerial.keypress(function (e) {
             //Set gia tri de goi vao ham addImportGoods() khong bi tra ve fail
             $inpAmount.value = '1';
         }
-        addImportGoods();
-        //
+
         var columnId = ~~(Math.random() * 100) * -1,
             rows = [];
         rows.push({
@@ -698,8 +721,8 @@ $inpGoodsSerial.keypress(function (e) {
         enableElement($('#btn-import'));
 
         setInfoMessage($('#modal-add-result'),"Bổ sung thành công");
-        $inpSerial.val('');
-        $inpSerial.focus();
+        $inpGoodsSerial.val('');
+        $inpGoodsSerial.focus();
     }
 });
 
@@ -756,6 +779,22 @@ function loadGoodsCodeSuggestion() {
     });
     $('#inp-goods-code').autocomplete({
         source: goodsCode
+    });
+}
+function loadPartnerSuggestion() {
+    var partnerName = null;
+    $.ajax({
+        type: 'GET',
+        url: $('#btn-get-partner').val(),
+        cache: false,
+        contentType: false,
+        async:false,
+        success: function(data){
+            partnerName = data;
+        }
+    });
+    $('#inp-partner-name').autocomplete({
+        source: partnerName
     });
 }
 

@@ -30,7 +30,7 @@ public class StockManagementDP {
     private final String GET_LIST_TRANS_GOODS_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "getListTransGoodsDetail";
     private final String GET_LIST_TRANS_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE + "getStockTransInfo";
 
-    public ResponseObject importStock(StockTransDTO stockTrans, AuthTokenInfo tokenInfo){
+    public ResponseObject  importStock(StockTransDTO stockTrans, AuthTokenInfo tokenInfo){
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForObject(IMPORT_STOCK_URL+"?access_token="+tokenInfo.getAccess_token(),stockTrans,ResponseObject.class);
     }

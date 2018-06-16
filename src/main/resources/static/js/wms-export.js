@@ -343,7 +343,9 @@ function addImportGoods() {
     preprocessInput($("#form-add-goods"));
     //get data
     var goodsCode = $cmbGoods.val();
+    alert("vao day");
     var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
+    alert (goodsName);
     //
     var amount = unFormatFloat($inpAmount.val());
     if(!isValidAmount(amount)){
@@ -360,14 +362,14 @@ function addImportGoods() {
     //
     var inputPriceValue = unFormatFloat($inpPrice.val());
     if(!isValidAmount(inputPriceValue)){
-        alert("Giá nhập phải là số");
+        alert("Giá xuất phải là số");
         return;
     }
     //
     var serial =   escapeHtml($inpSerial.val());
 
     //check whether serial is entered before
-    var keySerial = goodsCode + goodsState + serial;
+    var keySerial = goodsCode + serial;
     if(isSerial == '1' && enteredSerials.indexOf(keySerial) > -1){
         setErrorMessage($('#modal-add-result'),"Serial đã được nhập");
         $inpSerial.val('');
@@ -437,7 +439,7 @@ function updateGoods() {
     preprocessInput($("#form-add-goods"));
     //get data
     var goodsCode = $cmbGoods.val();
-    var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
+    //var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
     var amount = unFormatFloat($inpAmount.val());
     if(!isValidAmount(amount)){
         alert("Số lượng phải là số ");
@@ -644,8 +646,9 @@ $inpGoodsCode.keypress(function (e) {
             enableElement($('#btn-export'));
 
             setInfoMessage($('#modal-add-result'),"Bổ sung thành công");
-            $inpSerial.val('');
-            $inpSerial.focus();
+            $inpGoodsCode.val('');
+            $inpGoodsSerial.val('');
+            $inpGoodsCode.focus();
         }
     }
 });
@@ -695,8 +698,8 @@ $inpGoodsSerial.keypress(function (e) {
         enableElement($('#btn-export'));
 
         setInfoMessage($('#modal-add-result'),"Bổ sung thành công");
-        $inpSerial.val('');
-        $inpSerial.focus();
+        $inpGoodsSerial.val('');
+        $inpGoodsSerial.focus();
     }
 });
 

@@ -3,7 +3,7 @@
  */
 //positive integer or float
 function isValidAmount(n) {
-    return Number(n) === n && n % 1 === 0 || Number(n) === n && n % 1 !== 0 || Number(n) > 0;
+    return Number(n) === n && n % 1 === 0 || Number(n) === n && n % 1 !== 0 || Number(n) >= 0;
 }
 //format xxxxx.xxxx: set specific format for number and read it.
 function showPriceDetail(value, price, priceName) {

@@ -38,6 +38,10 @@ public class ImportStockController extends BaseController{
     BaseService err$MjrStockGoodsSerialService;
     @Autowired
     BaseService catStockCellService;
+    public List<CatPartnerDTO> lstPartner;
+
+    @Autowired
+    public BaseService catPartnerService;
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
     //
@@ -62,6 +66,22 @@ public class ImportStockController extends BaseController{
             }
             request.getSession().setAttribute("isGoodsModifiedImportStock",false);
         }
+    }
+    //
+    @ModelAttribute("setPartnerName")
+    public void setPartnerName(HttpServletRequest request){
+        //
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        if(lstPartner == null || isGoodsModified(request)){
+            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
+
+        }
+
     }
 
     @ModelAttribute("getStock")
@@ -263,6 +283,17 @@ public class ImportStockController extends BaseController{
             lstGoodsCode.add(i.getCode());
         }
         return lstGoodsCode;
+    }
+    @RequestMapping(value = "/getPartnerName")
+    public @ResponseBody List<String> getPartnerName(){
+        List<String> lstPartneName = Lists.newArrayList();
+        StringBuilder namePlus = new StringBuilder();
+        for(CatPartnerDTO i: lstPartner){
+            namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
+            lstPartneName.add(namePlus.toString());
+            namePlus.setLength(0);
+        }
+        return lstPartneName;
     }
 
 }
