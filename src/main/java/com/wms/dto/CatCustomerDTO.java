@@ -16,9 +16,11 @@ public class CatCustomerDTO {
     private String status;
     private String createDate;
     private String mailReport;
+    //DoanLV4 doi tac co bat buoc chon khong khi nhap/xuat kho
+    private String partnerRequire;
 
     public CatCustomerDTO(String id, String code, String name, String type, String telNumber, String email,
-                          String bankName, String bankAccountCode, String address, String status, String createDate, String mailReport) {
+                          String bankName, String bankAccountCode, String address, String status, String createDate, String mailReport, String partnerRequire) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -31,6 +33,7 @@ public class CatCustomerDTO {
         this.status = status;
         this.createDate = createDate;
         this.mailReport = mailReport;
+        this.partnerRequire = partnerRequire;
     }
 
     public CatCustomerDTO() {
@@ -130,6 +133,14 @@ public class CatCustomerDTO {
 
     public void setMailReport(String mailReport) {
         this.mailReport = mailReport;
+    }
+
+    public String getPartnerRequire() {
+        return partnerRequire;
+    }
+
+    public void setPartnerRequire(String partnerRequire) {
+        this.partnerRequire = partnerRequire;
     }
 
     @Override

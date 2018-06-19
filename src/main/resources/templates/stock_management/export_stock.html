@@ -56,6 +56,7 @@
                                             <button id="btn-get-goods-code" style="display: none" th:value="@{/workspace/stock_management/import/getGoodsCode}"></button>
                                             <button id="btn-get-serial" style="display: none" th:value="@{/workspace/stock_management/export/getListSerialInStock}"></button>
                                             <button id="btn-get-partner" style="display: none" th:value="@{/workspace/stock_management/export/getPartnerName}"></button>
+                                            <label id="partnerRequire" th:utext="${session.selectedCustomer.partnerRequire}"></label>
                                         </div>
                                     </div>
 
@@ -162,11 +163,12 @@
 
 
                                     <div class="col-sm-2">
-                                        <label class="label-require" for="cmb-partner" th:text="#{lbl.partner}"></label>
+                                        <label for="cmb-partner" th:text="#{lbl.partner}"></label>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="input-group" style="width: 100%;">
                                             <select id="cmb-partner" class="form-control selectpicker" data-live-search="true"  data-width="100%">
+                                                <option value="-1" th:text="#{label.choose}"></option>
                                                 <option  th:each="sopt:${lstPartner}"
                                                          th:value="${sopt.id}" th:text="${sopt.name}">1</option>
                                             </select>
@@ -347,7 +349,7 @@
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');
                     }
                 });
-                $('#inp-partner-name').val ($('#modal-inp-code').val()+"|" +$('#modal-inp-name').val()+"|"+$('#modal-inp-telNumber').val());
+                $('#inp-receive-name').val ($('#modal-inp-code').val()+"|" +$('#modal-inp-name').val()+"|"+$('#modal-inp-telNumber').val());
 
                 hideModal($modalAddUpdate);
                 return false; // required to block normal submit since you used ajax

@@ -48,6 +48,8 @@ public class BaseController {
     public AuthTokenInfo tokenInfo;
     public CatCustomerDTO selectedCustomer;
     public CatUserDTO currentUser;
+
+
     //
     @ModelAttribute("currentUser")
     public void setCurrentUser(HttpServletRequest request){
@@ -68,6 +70,7 @@ public class BaseController {
             buildMapStock();
             request.getSession().setAttribute("isStockModified",false);
         }
+
         //
         return lstStock;
     }

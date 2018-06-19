@@ -200,13 +200,13 @@
                             <th data-field="id" >Id</th>
                             <th data-field="type" >Type</th>
                             <th data-field="stockId" >StockId</th>
-                            <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" data-width="250px">Mã phiếu</th>
-                            <th data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
-                            <th class="col-md-2" data-field="partnerName" data-align="left" data-sortable="true">Đối tác</th>
+                            <th class="col-md-1" data-field="code" data-align="left" data-sortable="true" data-width="250px">Mã phiếu</th>
+                            <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
+                            <th class="" data-field="partnerName" data-align="left" data-sortable="true">Đối tác cung cấp</th>
                             <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
                             <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true" data-width="100px">Loại GD</th>
-                            <th class="col-md-2" data-field="createdDate" data-align="center" data-sortable="true">Thời gian</th>
-                            <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>
+                            <th class="col-md-1" data-field="createdDate" data-align="center" data-sortable="true">Thời gian</th>
+                            <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người thực hiện</th>
                             <th class="col-md-1" data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
                         </thead>
@@ -365,13 +365,13 @@
         //
     });
     //@Search--------------------------------------------------------------------------------------------------------
-    $('#inp-trans-code').keypress(function (e) {
-        var key = e.which;
-        if(key === 13)  // the enter key code
-        {
-            search(true);
-        }
-    });
+//    $('#inp-trans-code').keypress(function (e) {
+//        var key = e.which;
+//        if(key === 13)  // the enter key code
+//        {
+//            search(true);
+//        }
+//    });
     var $btnSearch = $('#btn-search-serial');
     $btnSearch.click(function () {
         search(true);
@@ -387,16 +387,17 @@
         //search info stock_id/goods_group/goods/serial
         var stock_id = $('#cmb-stock').val();
         var createdUser = $('#cmb-user').val();
+        var partnerId = $('#cmb-partner').val();
         var drp = $('#create-date-range').data('daterangepicker');
         var startDateVal = drp.startDate.format("DD/MM/YYYY");
         var endDateVal   = drp.endDate.format("DD/MM/YYYY");
         var transType = $("input[name='cmb-trans-type']:checked").val()
-        var transCode =  $('#inp-trans-code').val().trim();
+//        var transCode =  $('#inp-trans-code').val().trim();
 
         $.ajax({
             type: "GET",
             cache:false,
-            data:{stockId:stock_id,createdUser:createdUser,startDate:startDateVal,endDate:endDateVal,transType:transType,transCode:transCode},
+            data:{stockId:stock_id,createdUser:createdUser,startDate:startDateVal,endDate:endDateVal,transType:transType, partnerId: partnerId},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             url: $btnSearch.val(),
             dataType: 'json',

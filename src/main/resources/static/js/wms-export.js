@@ -185,7 +185,7 @@ btnUploadExcel.click(function () {
 var btnExport = $('#btn-export');
 btnExport.click(function () {
     //validate
-
+    alert ("1");
     var export_goods = $table.bootstrapTable('getData');
     if(export_goods.length == 0){
         alert('Chưa có thông tin hàng xuất!');
@@ -194,6 +194,14 @@ btnExport.click(function () {
     var stockIdValue = $('#cmb-stock').val();
     if(stockIdValue == null){
         alert('Chưa có thông tin kho xuất!');
+        return;
+    }
+    var partnerIdValue = $('#cmb-partner').val();
+    var partnerRequire = $('#partnerRequire').val();
+    alert (partnerIdValue);
+    alert (partnerRequire);
+    if (partnerRequire != null && partnerRequire ==1 && partnerIdValue == -1){
+        alert('Chưa có thông tin đối tác!');
         return;
     }
     //
@@ -210,9 +218,10 @@ btnExportConfirm.click(function () {
     var stockIdValue        = $('#cmb-stock').val();
     var contractNumberValue = $('#inp-contract-number').val();
     var descriptionValue = $('#inp-contract-note').val();
-    var partnerValue = $('#inp-partner-name').val();
+    var receiveValue = $('#inp-receive-name').val();
+    var partnerIdValue = $('#cmb-partner').val();
 
-    var stock_trans_info = {contractNumber:contractNumberValue,stockId:stockIdValue,description:descriptionValue,partnerName: partnerValue };
+    var stock_trans_info = {contractNumber:contractNumberValue,stockId:stockIdValue,description:descriptionValue,receiveName: receiveValue,partnerId:partnerIdValue };
     //
     var importData = JSON.stringify({lstGoods:$table.bootstrapTable('getData'),mjrStockTransDTO:stock_trans_info});
     //
@@ -758,7 +767,7 @@ function loadGoodsCodeSuggestion() {
     });
 }
 function loadPartnerSuggestion() {
-    var partnerName = null;
+    var receiveName = null;
     $.ajax({
         type: 'GET',
         url: $('#btn-get-partner').val(),
@@ -766,11 +775,11 @@ function loadPartnerSuggestion() {
         contentType: false,
         async:false,
         success: function(data){
-            partnerName = data;
+            receiveName = data;
         }
     });
-    $('#inp-partner-name').autocomplete({
-        source: partnerName
+    $('#inp-receive-name').autocomplete({
+        source: receiveName
     });
 }
 

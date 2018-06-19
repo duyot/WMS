@@ -79,7 +79,6 @@ public class ImportStockController extends BaseController{
         }
         if(lstPartner == null || isGoodsModified(request)){
             lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
-
         }
 
     }
@@ -264,6 +263,21 @@ public class ImportStockController extends BaseController{
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
+
+        //Doi tac cung cap
+        if (mjrStockTransDTO.getPartnerName() != null && !mjrStockTransDTO.getPartnerName().trim().equals("")){
+            String [] splitPartner = mjrStockTransDTO.getPartnerName().split("\\|");
+            if (splitPartner.length > 0 ){
+                String partnerCode = splitPartner[0];
+                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,tokenInfo,selectedCustomer.getId(), partnerCode, null );
+                if (catPartnerDTO != null){
+                    String partnerName = catPartnerDTO.getName()==null? "": catPartnerDTO.getName();
+                    String partnerTelNumber = catPartnerDTO.getTelNumber()==null? "": catPartnerDTO.getTelNumber();
+                    mjrStockTransDTO.setReceiveId(catPartnerDTO.getId());
+                    mjrStockTransDTO.setReceiveName(partnerName+"|" + partnerTelNumber);
+                }
+            }
+        }
         //
         return mjrStockTransDTO;
     }

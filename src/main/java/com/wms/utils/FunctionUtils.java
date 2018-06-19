@@ -738,10 +738,15 @@ public class FunctionUtils {
     /*
        get partnerId from
     */
-    public static CatPartnerDTO getPartner (BaseService service,AuthTokenInfo tokenInfo, String custId, String partnerCode){
+    public static CatPartnerDTO getPartner (BaseService service,AuthTokenInfo tokenInfo, String custId, String partnerCode, String partnerId){
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCondition.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,partnerCode));
+        if (partnerCode != null && partnerCode.trim() !=""){
+            lstCondition.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,partnerCode.trim()));
+        }
+        if(partnerId != null){
+            lstCondition.add(new Condition("id",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,partnerId));
+        }
         lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,custId));
         CatPartnerDTO catPartnerDTO = new CatPartnerDTO();
         List<CatPartnerDTO> lstPartnerDTOS = service.findByCondition(lstCondition,tokenInfo);

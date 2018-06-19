@@ -67,7 +67,6 @@ public class ExportStockController extends BaseController{
         }
         //
     }
-
     //
     @ModelAttribute("setPartnerName")
     public void setPartnerName(HttpServletRequest request){
@@ -253,15 +252,28 @@ public class ExportStockController extends BaseController{
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
-        if (mjrStockTransDTO.getPartnerName() != null){
-            String [] splitPartner = mjrStockTransDTO.getPartnerName().split("\\|");
+        //Nguoi nhan khi xuat
+        if (mjrStockTransDTO.getReceiveName() != null && !mjrStockTransDTO.getReceiveName().trim().equals("")){
+            String [] splitPartner = mjrStockTransDTO.getReceiveName().split("\\|");
             if (splitPartner.length > 0 ){
                 String partnerCode = splitPartner[0];
-                String partnerName = splitPartner[1]==null? "": splitPartner[1];
-                String partnerTelNumber = splitPartner[2]==null? "": splitPartner[2];
-                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,tokenInfo,selectedCustomer.getId(), partnerCode );
+                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,tokenInfo,selectedCustomer.getId(), partnerCode, null );
+                if (catPartnerDTO != null){
+                    String partnerName = catPartnerDTO.getName()==null? "": catPartnerDTO.getName();
+                    String partnerTelNumber = catPartnerDTO.getTelNumber()==null? "": catPartnerDTO.getTelNumber();
+                    mjrStockTransDTO.setReceiveId(catPartnerDTO.getId());
+                    mjrStockTransDTO.setReceiveName(partnerName+"|" + partnerTelNumber);
+                }
+            }
+        }
+        //Xuat hang cua doi tac
+        if (mjrStockTransDTO.getPartnerId() != null){
+            CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,tokenInfo,selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId() );
+            if (catPartnerDTO != null) {
+                String partnerName = catPartnerDTO.getName() == null ? "" : catPartnerDTO.getName();
+                String partnerTelNumber = catPartnerDTO.getTelNumber() == null ? "" : catPartnerDTO.getTelNumber();
                 mjrStockTransDTO.setPartnerId(catPartnerDTO.getId());
-                mjrStockTransDTO.setPartnerName(partnerName+"|" + partnerTelNumber);
+                mjrStockTransDTO.setPartnerName(partnerName + "|" + partnerTelNumber);
             }
         }
         //

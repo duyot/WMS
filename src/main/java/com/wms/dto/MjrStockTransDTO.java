@@ -40,6 +40,15 @@ public class MjrStockTransDTO {
 
     //Khach hang nhan trong cac giao dich xuat
     private String receiveName;
+    private String receiveId;
+
+    public String getReceiveId() {
+        return receiveId;
+    }
+
+    public void setReceiveId(String receiveId) {
+        this.receiveId = receiveId;
+    }
 
     public String getReceiveName() {
         return receiveName;
@@ -117,7 +126,7 @@ public class MjrStockTransDTO {
     }
 
     public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoiceNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String transMoneyReceive, String transMoneyResponse, String description,
-                            String partnerId, String partnerName) {
+                            String partnerId, String partnerName, String receiveId, String receiveName) {
         this.id = id;
         this.code = code;
         this.custId = custId;
@@ -137,6 +146,8 @@ public class MjrStockTransDTO {
         this.description = description;
         this.partnerId = partnerId;
         this.partnerName = partnerName;
+        this.receiveId = receiveId;
+        this.receiveName = receiveName;
     }
 
     public String getId() {
