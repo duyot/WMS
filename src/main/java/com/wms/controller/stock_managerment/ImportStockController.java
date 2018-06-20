@@ -273,8 +273,8 @@ public class ImportStockController extends BaseController{
                 if (catPartnerDTO != null){
                     String partnerName = catPartnerDTO.getName()==null? "": catPartnerDTO.getName();
                     String partnerTelNumber = catPartnerDTO.getTelNumber()==null? "": catPartnerDTO.getTelNumber();
-                    mjrStockTransDTO.setReceiveId(catPartnerDTO.getId());
-                    mjrStockTransDTO.setReceiveName(partnerName+"|" + partnerTelNumber);
+                    mjrStockTransDTO.setPartnerId(catPartnerDTO.getId());
+                    mjrStockTransDTO.setPartnerName(partnerName+"|" + partnerTelNumber);
                 }
             }
         }
