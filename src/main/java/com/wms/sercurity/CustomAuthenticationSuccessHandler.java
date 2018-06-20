@@ -42,6 +42,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         HttpSession session = httpServletRequest.getSession();
+        //
+        session.setMaxInactiveInterval(60*60*3);
 
 		/*Set some session variables*/
         WMSUserDetails authUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
