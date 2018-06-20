@@ -185,23 +185,21 @@ btnUploadExcel.click(function () {
 var btnExport = $('#btn-export');
 btnExport.click(function () {
     //validate
-    alert ("1");
     var export_goods = $table.bootstrapTable('getData');
     if(export_goods.length == 0){
-        alert('Chưa có thông tin hàng xuất!');
+        alert('Bạn chưa nhập thông tin hàng xuất!');
         return;
     }
     var stockIdValue = $('#cmb-stock').val();
     if(stockIdValue == null){
-        alert('Chưa có thông tin kho xuất!');
+        alert('Bạn chưa chọn kho xuất!');
         return;
     }
     var partnerIdValue = $('#cmb-partner').val();
-    var partnerRequire = $('#partnerRequire').val();
-    alert (partnerIdValue);
-    alert (partnerRequire);
-    if (partnerRequire != null && partnerRequire ==1 && partnerIdValue == -1){
-        alert('Chưa có thông tin đối tác!');
+    var partnerRequireValue = $('#partnerRequire').text();
+    if (partnerRequireValue != null && partnerRequireValue ==1 && partnerIdValue == -1){
+        alert('Bạn chưa chọn đối tác!');
+        $('#cmb-partner').focus();
         return;
     }
     //
@@ -352,9 +350,7 @@ function addImportGoods() {
     preprocessInput($("#form-add-goods"));
     //get data
     var goodsCode = $cmbGoods.val();
-    alert("vao day");
     var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
-    alert (goodsName);
     //
     var amount = unFormatFloat($inpAmount.val());
     if(!isValidAmount(amount)){
