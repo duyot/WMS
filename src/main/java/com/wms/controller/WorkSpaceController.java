@@ -154,4 +154,9 @@ public class WorkSpaceController {
     public String redirectDashboard(){
         return "redirect:/workspace/dashboard_ctr";
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping("/cat_menu")
+    public String redirectCatMenu(){ return "redirect:/workspace/cat_menu_ctr";
+    }
 }

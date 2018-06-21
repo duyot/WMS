@@ -13,6 +13,9 @@ public class SysMenuDTO {
     private String levels;
     private String orders;
     private String imgClass;
+    private String parentMenu;
+    private String statusName;
+    private String localizationName;
 
     public SysMenuDTO(String id, String name, String code, String parentId, String url, String status, String levels, String orders, String imgClass) {
         this.id = id;
@@ -102,4 +105,27 @@ public class SysMenuDTO {
         this.imgClass = imgClass;
     }
 
+    public String getParentMenu() {
+        return parentMenu;
+    }
+
+    public void setParentMenu(String parentMenu) {
+        this.parentMenu = parentMenu;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
+    public String getLocalizationName() {
+        return localizationName;
+    }
+
+    public void setLocalizationName(String localizationName) {
+        this.localizationName = localizationName;
+    }
 }
