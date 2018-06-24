@@ -3,20 +3,18 @@ package com.wms.dto;
 /**
  * Created by duyot on 11/2/2016.
  */
-public class SysRoleMenuDTO {
+public class SysRoleMenuDTO extends BaseDTO {
     private String id;
-    private String roleCode;
     private String menuId;
-    private String cusId;
-
-    public SysRoleMenuDTO(String id, String roleId, String menuId,String cusId) {
-        this.id = id;
-        this.roleCode = roleId;
-        this.menuId = menuId;
-        this.cusId= cusId;
-    }
+    private String roleId;
 
     public SysRoleMenuDTO() {
+    }
+
+    public SysRoleMenuDTO(String id, String menuId, String roleId) {
+        this.id = id;
+        this.menuId = menuId;
+        this.roleId = roleId;
     }
 
     public String getId() {
@@ -27,14 +25,6 @@ public class SysRoleMenuDTO {
         this.id = id;
     }
 
-    public String getRoleCode() {
-        return roleCode;
-    }
-
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-    }
-
     public String getMenuId() {
         return menuId;
     }
@@ -43,11 +33,11 @@ public class SysRoleMenuDTO {
         this.menuId = menuId;
     }
 
-    public String getCusId() {
-        return cusId;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setCusId(String cusId) {
-        this.cusId = cusId;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 }

@@ -46,49 +46,44 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        //set timeout
         HttpSession session = httpServletRequest.getSession();
-        //
         session.setMaxInactiveInterval(60*60*3);
-
 		/*Set some session variables*/
         WMSUserDetails authUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         session.setAttribute("user", authUser.getCatUserDTO());
-        List<CatCustomerDTO> lstCustomers = getCustomer(authUser.getCatUserDTO().getId(),authUser.getTokenInfo());
-        if(!DataUtil.isListNullOrEmpty(lstCustomers)){
-            if(lstCustomers.size() > 1){
-                session.setAttribute("lstCustomers",lstCustomers);
-            }else{
-                CatCustomerDTO customer = lstCustomers.get(0);
-                customer.setName(StringEscapeUtils.escapeHtml(customer.getName()));
-                session.setAttribute("selectedCustomer",customer);
-            }
-        }
-        List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(authUser.getCatUserDTO().getRoleCode(),authUser.getCatUserDTO().getCustId(),authUser.getTokenInfo());
-
+        //
+        CatCustomerDTO customer = getCustomer(authUser.getCatUserDTO().getId(),authUser.getTokenInfo());
+        customer.setName(StringEscapeUtils.escapeHtml(customer.getName()));
+        session.setAttribute("selectedCustomer",customer);
+        //
+        List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(authUser.getCatUserDTO().getRoleId(),authUser.getCatUserDTO().getCustId(),authUser.getTokenInfo());
+        //
         session.setAttribute("authorities", authentication.getAuthorities());
         session.setAttribute("lstUserAction", lstMenu);
         session.setAttribute("isLogin", true);
         session.setAttribute("tokenInfo", authUser.getTokenInfo());
-        //
+        //redirect
         String targetUrl = determineTargetUrl(authentication);
         redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, targetUrl);
     }
 
-    private List<CatCustomerDTO> getCustomer(String userId, AuthTokenInfo tokenInfo){
-        return catUserServices.getCustomer(userId,tokenInfo);
+    private CatCustomerDTO getCustomer(String custId, AuthTokenInfo tokenInfo){
+        return (CatCustomerDTO) customerService.findById(Long.parseLong(custId),tokenInfo);
     }
 
     protected String determineTargetUrl(Authentication authentication) {
-                Set<String> authorities = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-                if (authorities.contains("ROLE_SYS_ADMIN")) {
-                    return "/workspace";
-                } else if (authorities.contains("ROLE_CUS_ADMIN")) {
-                    return "/workspace";
-                } else if (authorities.contains("ROLE_ADMIN")) {
-                    return "/workspace";
-                }else{
-                    return "/workspace";
-        }
+//            Set<String> authorities = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+//            if (authorities.contains("ROLE_SYS_ADMIN")) {
+//                return "/workspace";
+//            } else if (authorities.contains("ROLE_CUS_ADMIN")) {
+//                return "/workspace";
+//            } else if (authorities.contains("ROLE_ADMIN")) {
+//                return "/workspace";
+//            }else{
+//                return "/workspace";
+//            }
+        return "/workspace";
     }
 
     public RedirectStrategy getRedirectStrategy() {

@@ -20,25 +20,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.Document;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 /**
  * Created by duyot on 3/31/2017.
  */
@@ -105,7 +91,7 @@ public class TransInfoController extends BaseController{
         }
         //
         if(lstUsers == null){
-            lstUsers = FunctionUtils.getListUser(catUserService,selectedCustomer,tokenInfo);
+            lstUsers = FunctionUtils.getCustomerUsers(catUserService,selectedCustomer,tokenInfo);
         }
         return lstUsers;
     }

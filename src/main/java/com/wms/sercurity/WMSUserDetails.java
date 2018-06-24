@@ -24,15 +24,16 @@ public class WMSUserDetails implements UserDetails,CredentialsContainer {
 
     public WMSUserDetails(CatUserDTO catUserDTO, List<ActionMenuDTO> lstMenu,AuthTokenInfo tokenInfo) {
         this.catUserDTO = catUserDTO;
-        this.lstAuthorities = getLstAuthorities(catUserDTO.getRoleCode());
+        this.lstAuthorities = getLstAuthorities(catUserDTO.getRoleId());
         this.lstMenu = lstMenu;
         this.tokenInfo = tokenInfo;
     }
 
     public Set<GrantedAuthority> getLstAuthorities(String roleName){
         Set<GrantedAuthority> authorities = new HashSet<>();
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_"+roleName);
-        authorities.add(grantedAuthority);
+        //todo
+        //GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_"+roleName);
+        //authorities.add(grantedAuthority);
         return authorities;
     }
 

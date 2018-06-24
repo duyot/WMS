@@ -1,9 +1,10 @@
 package com.wms.dto;
 
+
 /**
- * Created by duyot on 10/18/2016.
+ * Created by duyot on 8/30/2016.
  */
-public class CatUserDTO {
+public class CatUserDTO extends BaseDTO {
     private String id;
     private String deptId;
     private String custId;
@@ -17,10 +18,12 @@ public class CatUserDTO {
     private String createdDate;
     private String imgUrl;
     private String roleName;
-    private String roleCode;
     private String logReason;
+    //
+    private String roleId;
+    private String block;
 
-    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String roleCode, String logReason) {
+    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block) {
         this.id = id;
         this.deptId = deptId;
         this.custId = custId;
@@ -34,8 +37,9 @@ public class CatUserDTO {
         this.createdDate = createdDate;
         this.imgUrl = imgUrl;
         this.roleName = roleName;
-        this.roleCode = roleCode;
         this.logReason = logReason;
+        this.roleId = roleId;
+        this.block = block;
     }
 
     public CatUserDTO() {
@@ -145,20 +149,29 @@ public class CatUserDTO {
         this.roleName = roleName;
     }
 
-    public String getRoleCode() {
-        return roleCode;
-    }
-
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-    }
-
     public String getLogReason() {
         return logReason;
     }
 
     public void setLogReason(String logReason) {
         this.logReason = logReason;
+    }
+
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getBlock() {
+        return block;
+    }
+
+    public void setBlock(String block) {
+        this.block = block;
     }
 
     @Override
@@ -177,8 +190,9 @@ public class CatUserDTO {
                 ", createdDate='" + createdDate + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", roleName='" + roleName + '\'' +
-                ", roleCode='" + roleCode + '\'' +
                 ", logReason='" + logReason + '\'' +
+                ", roleId='" + roleId + '\'' +
+                ", block='" + block + '\'' +
                 '}';
     }
 }
