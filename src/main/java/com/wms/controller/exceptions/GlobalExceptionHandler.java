@@ -28,6 +28,13 @@ public class GlobalExceptionHandler implements ErrorController{
 
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleResourceNotFoundException() {
+        return "common/error/page_404";
+    }
+
+
 
     @RequestMapping(value = PATH)
     public String error(HttpServletRequest request) {
@@ -62,21 +69,5 @@ public class GlobalExceptionHandler implements ErrorController{
         }
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
-
-//    @ExceptionHandler(Exception.class)
-//    public String handleCommonException(){
-//        return "common/error";
-//    }
-//
-//    @ExceptionHandler()
-//    public String handleAccessDenied() {
-//        return "common/page_403";
-//    }
-//
-//    @ExceptionHandler(NoHandlerFoundException.class)
-//    public String handleNotfound() {
-//        return "common/page_404";
-//    }
-
 
 }

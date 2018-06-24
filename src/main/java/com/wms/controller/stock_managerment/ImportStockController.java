@@ -84,12 +84,17 @@ public class ImportStockController extends BaseController{
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
+        //
         if(tokenInfo == null){
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
         //
+        if (currentUser == null) {
+            this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
+        }
+        //
         if(lstStock == null || isStockModified(request)){
-            lstStock = FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
+            lstStock = FunctionUtils.getListStock(stockService,currentUser,tokenInfo);
             buildMapStock();
             request.getSession().setAttribute("isStockModifiedImportStock",false);
         }
@@ -104,23 +109,29 @@ public class ImportStockController extends BaseController{
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
         //
+        if (currentUser == null) {
+            this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
+        }
+        //
         if(lstStock == null || isStockModified(request)){
-            lstStock = FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
+            lstStock = FunctionUtils.getListStock(stockService,currentUser,tokenInfo);
             buildMapStock();
             request.getSession().setAttribute("isStockModifiedImportStock",false);
         }
         //
-        int currentStockId = Integer.parseInt(lstStock.get(0).getId());
-        if (cells == null || previousStockId != currentStockId) {
-            cells = Lists.newArrayList();
-            previousStockId = currentStockId;
-            List<Condition> conditions = Lists.newArrayList();
-            conditions.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentStockId + ""));
-            List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions,tokenInfo);
-            if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
-                for (CatStockCellDTO i: cellsDTO) {
-                    cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()),i.getCode(),i.getId(),i.getCode()));
-                    mapCellIdCellCode.put(i.getId(),i.getCode());
+        if (!DataUtil.isListNullOrEmpty(lstStock)) {
+            int currentStockId = Integer.parseInt(lstStock.get(0).getId());
+            if (cells == null || previousStockId != currentStockId) {
+                cells = Lists.newArrayList();
+                previousStockId = currentStockId;
+                List<Condition> conditions = Lists.newArrayList();
+                conditions.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentStockId + ""));
+                List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions,tokenInfo);
+                if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
+                    for (CatStockCellDTO i: cellsDTO) {
+                        cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()),i.getCode(),i.getId(),i.getCode()));
+                        mapCellIdCellCode.put(i.getId(),i.getCode());
+                    }
                 }
             }
         }
