@@ -106,8 +106,12 @@ public class ExportStockController extends BaseController{
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
         //
+        if (currentUser == null) {
+            this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
+        }
+        //
         if(lstStock == null || isStockModified(request)){
-            lstStock = FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
+            lstStock = FunctionUtils.getListStock(stockService,currentUser,tokenInfo);
             buildMapStock();
             request.getSession().setAttribute("isStockModifiedExportStock",false);
         }

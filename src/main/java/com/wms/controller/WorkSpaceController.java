@@ -48,7 +48,7 @@ public class WorkSpaceController {
     @ModelAttribute("mapCustomer")
     public Map<String, String> mapCustomer(HttpServletRequest request){
         List<CatCustomerDTO> lstCustomers = (List<CatCustomerDTO>) request.getSession().getAttribute("lstCustomers");
-        if(lstCustomers == null){//has just only one customer
+        if(lstCustomers == null){//has just only one customer for myself
             return new HashMap<>();
         }
         return lstCustomers.stream().collect(Collectors.toMap(CatCustomerDTO::getId, CatCustomerDTO::getName));
