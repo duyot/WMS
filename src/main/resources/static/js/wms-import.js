@@ -204,6 +204,7 @@ btnImport.click(function () {
         alert('Chưa có thông tin kho nhập!');
         return;
     }
+
     //
     $("#lbl-del-info").text('Nhập hàng lên hệ thống?');
     //

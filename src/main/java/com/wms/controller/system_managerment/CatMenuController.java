@@ -33,14 +33,14 @@ import java.util.*;
 @Scope("session")
 public class CatMenuController extends BaseCommonController {
 
-    private Logger log = LoggerFactory.getLogger(CatPartnerController.class);
+    private Logger log = LoggerFactory.getLogger(CatMenuController.class);
 
     @Autowired
     BaseService menuService;
     Map<String,SysMenuDTO> mapIdSysMenu = new HashMap<>();
     @RequestMapping()
     public String home(Model model){
-        model.addAttribute("menuName","menu.catMenu");
+        model.addAttribute("menuName","menu.catmenu");
         return "system_managerment/cat_menu";
     }
 

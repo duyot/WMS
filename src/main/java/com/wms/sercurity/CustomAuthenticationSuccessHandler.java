@@ -1,9 +1,11 @@
 package com.wms.sercurity;
 
+import com.wms.dto.ActionMenuDTO;
 import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatCustomerDTO;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
+import com.wms.services.interfaces.RoleActionService;
 import com.wms.utils.DataUtil;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
@@ -35,6 +37,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     BaseService customerService;
 
     @Autowired
+    RoleActionService roleActionService;
+
+    @Autowired
     CatUserService catUserServices;
 
 
@@ -56,8 +61,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 session.setAttribute("selectedCustomer",customer);
             }
         }
+        List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(authUser.getCatUserDTO().getRoleCode(),authUser.getCatUserDTO().getCustId(),authUser.getTokenInfo());
+
         session.setAttribute("authorities", authentication.getAuthorities());
-        session.setAttribute("lstUserAction", authUser.getLstMenu());
+        session.setAttribute("lstUserAction", lstMenu);
         session.setAttribute("isLogin", true);
         session.setAttribute("tokenInfo", authUser.getTokenInfo());
         //

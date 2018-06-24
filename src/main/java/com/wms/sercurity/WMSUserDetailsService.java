@@ -44,9 +44,8 @@ public class WMSUserDetailsService implements UserDetailsService {
             }
             //
             AuthTokenInfo tokenInfo = getAuthenTokenInfo(loggedUser);
-            List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(loggedUser.getRoleCode(),tokenInfo);
 
-            return new WMSUserDetails(loggedUser,lstMenu,tokenInfo);
+            return new WMSUserDetails(loggedUser,null,tokenInfo);
         } catch (Exception e) {
             throw new UsernameNotFoundException("CatUserDTO not found");
         }

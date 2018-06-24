@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WMS - Workspace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="WMS"/>
+    <!--CSS-->
+    <link rel='stylesheet' href="css/bootstrap.css" th:href="@{/css/bootstrap.css}" type='text/css'/>
+    <link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/css/bootstrap-table.css}"/>
+    <link rel='stylesheet' href="css/style.css" th:href="@{/workspace_resource/css/style.css}" type='text/css'/>
+    <link rel="stylesheet" href="css/animate.css" th:href="@{/workspace_resource/css/animate.css}" type="text/css"
+          media="all"/>
+    <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css"
+          th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+
+    <link rel="stylesheet" href="/css/bootstrap-toggle.css" th:href="@{/css/bootstrap-toggle.css}"/>
+    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet" href="/css/jquery.tree-multiselect.min.css" th:href="@{/css/jquery.tree-multiselect.min.css}"/>
+    <link rel='stylesheet' href="css/cat-role.css" th:href="@{/css/cat-role.css}" type='text/css'/>
+    <!--script-->
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!--<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>-->
+    <!--<script>-->
+    <!--new WOW().init();-->
+    <!--</script>-->
+    <script th:attr="src=@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-table.js}" th:href="@{/js/bootstrap-table.js}"></script>
+    <script th:attr="src=@{/js/jquery.validate.min.js}" th:href="@{/js/jquery.validate.min.js}"></script>
+    <!--confirmation-->
+    <script th:attr="src=@{/js/bootstrap.min.js}" th:href="@{/js/bootstrap.min.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}" th:href="@{/js/nprogress.js}"></script>
+    <!--common-->
+    <script th:attr="src=@{/js/wms-common.js}" th:href="@{/js/wms-common.js}"></script>
+    <script th:attr="src=@{/js/validate.js}" th:href="@{/js/validate.js}"></script>
+    <script th:attr="src=@{/js/multiselect-tree/jquery.tree-multiselect.min.js}" th:href="@{/js/multiselect-tree/jquery.tree-multiselect.min.js}"></script>
+    <!--font and favi icon-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+    <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
+
+</head>
+<body class="sticky-header left-side-collapsed">
+<section>
+    <!--left menu-->
+    <div th:include="common/workspace_leftmenu :: frag-leftmenu"></div>
+    <!--main content-->
+    <div class="main-content main-content2 main-content2copy">
+        <div th:include="common/header :: frag-headermneu"></div>
+        <div id="page-wrapper">
+            <!--search panel-->
+            <div id="panel-search-content" class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa  fa-search"></i>
+                </div>
+                <div class="panel-body">
+                    <div class="container">
+                        <!--row 1: username + status-->
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label th:text="#{lbl.usage}"></label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group" style="width: 100%;">
+                                    <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label th:text="#{lbl.status}"></label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input id="cmb-status" checked="true" data-toggle="toggle" type="checkbox"
+                                           data-width="110" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label th:text="#{lbl.keyword}" for="inp-keyword"></label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                            <i class="fa fa-book fa-fw"></i>
+                                                        </span>
+                                    <input id="inp-keyword" class="form-control" maxlength="50"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="wrapper text-center" style="text-align: center; margin-top: 10px;">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-default  btn-primary"
+                                    id="btn-search" th:value="@{/workspace/cat_role_ctr/findByCondition}">
+                                <i class="fa fa-search"></i>
+                                <span th:text="#{btn.search}"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!--end search panel-->
+        <div id="panel-search-result" class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-database"></i>
+                <!--Result-->
+            </div>
+            <div class="panel-body">
+                <!--toolbar-->
+                <div id="toolbar" class="btn-group">
+                    <button id="btn-add" th:title="#{btn.add}" th:value="@{/workspace/cat_role_ctr/add}"
+                            type="button" class="btn btn-default">
+                        <i class="fa fa-plus"></i>
+                    </button>
+
+                    <button id="btn-update" th:value="@{/workspace/cat_role_ctr/update}" style="display: none"
+                            type="button" class="btn btn-default">
+                        <i class="fa fa-edit"></i>
+                    </button>
+
+                    <button id="btn-delete" th:value="@{/workspace/cat_role_ctr/delete}" style="display: none"
+                            type="button" class="btn btn-default">
+                        <i class="fa fa-trash"></i>
+                    </button>
+
+                    <label id="action-info" class="action-info"></label>
+                </div>
+                <table id="tbl-table"
+                       data-pagination="true"
+                       data-search="true"
+                       data-click-to-select="true"
+                       data-toolbar="#toolbar"
+                       class="table-striped"
+                >
+                    <thead>
+                    <tr>
+                        <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                        <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
+                        <th class="col-md-1" data-field="cusId" data-align="left" data-sortable="true" data-visible="false"></th>
+                        <th class="col-md-4" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.roletable.code}"></th>
+                        <th class="col-md-4" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.roletable.name}"></th>
+                        <th class="col-md-2" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
+                        <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+                        <th data-align="center" data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
+                    </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--modal-->
+    <div th:include="modal/cat_role_modal :: frag-cat-role-modal"></div>
+    <div th:include="modal/map_role_menu :: frag-map-role-menu"></div>
+    <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
+    <!--footer-->
+    <div th:include="common/footer :: frag-footer"></div>
+</section>
+
+
+<!--FINAL JS-->
+<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
+<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
+<!--switch-->
+<script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
+<script th:attr="src=@{/js/cat_role.js}" th:href="@{/js/cat_role.js}"></script>
+
+</body>
+</html>
