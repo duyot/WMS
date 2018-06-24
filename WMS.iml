@@ -103,5 +103,6 @@
     <orderEntry type="library" name="Maven: org.codehaus.castor:castor:1.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.3" level="project" />
+    <orderEntry type="library" name="repositories.xml" level="project" />
   </component>
 </module>
