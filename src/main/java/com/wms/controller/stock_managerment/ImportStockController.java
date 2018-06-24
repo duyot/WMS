@@ -38,7 +38,6 @@ public class ImportStockController extends BaseController{
     BaseService err$MjrStockGoodsSerialService;
     @Autowired
     BaseService catStockCellService;
-    public List<CatPartnerDTO> lstPartner;
 
     @Autowired
     public BaseService catPartnerService;
@@ -76,9 +75,6 @@ public class ImportStockController extends BaseController{
         }
         if(tokenInfo == null){
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
-        if(lstPartner == null || isGoodsModified(request)){
-            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
         }
 
     }

@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by duyot on 3/21/2017.
@@ -39,12 +36,14 @@ public class StockInfoController extends BaseController{
     @Autowired
     UtilsService utilsService;
 
+
     Logger log = LoggerFactory.getLogger(StockInfoController.class);
     //
     private List<MjrStockGoodsTotalDTO> lstGoodsTotal;
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
     //
     private List<AppParamsDTO> lstAppGoodsState;
+
     //
     @ModelAttribute("lstAppGoodsState")
     public List<AppParamsDTO> setAppGoodsState(HttpServletRequest request) {
@@ -63,6 +62,7 @@ public class StockInfoController extends BaseController{
         return lstAppGoodsState;
     }
 
+
     @RequestMapping()
     public String home(Model model){
         //clear previous data
@@ -74,29 +74,40 @@ public class StockInfoController extends BaseController{
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public @ResponseBody List<MjrStockGoodsTotalDTO> getStockInfo(@RequestParam("stockId")String stockId,@RequestParam("stockId")String partnerId, @RequestParam("goodsId")String goodsId,
+    public @ResponseBody List<MjrStockGoodsTotalDTO> getStockInfo(@RequestParam("stockId")String stockId,@RequestParam("partnerId")String partnerId, @RequestParam("goodsId")String goodsId,
                                                                   @RequestParam("status")String status
                                                      ){
         List<Condition> lstCon = Lists.newArrayList();
+        MjrStockGoodsTotalDTO searchGoodsTotalDTO = new MjrStockGoodsTotalDTO();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCon.add(new Condition("amount",Constants.SQL_OPERATOR.GREATER,0D));
 
+        searchGoodsTotalDTO.setCustId(selectedCustomer.getId());
+
         if(!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,stockId));
-        }
-        if(!DataUtil.isStringNullOrEmpty(partnerId) && !partnerId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("partnerId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,partnerId));
+            searchGoodsTotalDTO.setStockId(stockId);
         }
         if(!DataUtil.isStringNullOrEmpty(goodsId) && !goodsId.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("goodsId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,goodsId));
+            searchGoodsTotalDTO.setGoodsId(goodsId);
         }
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("goodsState",Constants.SQL_OPERATOR.EQUAL,status));
+            searchGoodsTotalDTO.setGoodsState(status);
         }
         //
+        lstCon.add(new Condition("stockId",Constants.SQL_OPERATOR.ORDER,"desc"));
         lstCon.add(new Condition("changeDate",Constants.SQL_OPERATOR.ORDER,"desc"));
-        //
-        List<MjrStockGoodsTotalDTO> lstResult = mjrStockGoodsTotalService.findByCondition(lstCon,tokenInfo);
+        List<MjrStockGoodsTotalDTO> lstResult = new ArrayList<>();
+        //Tim theo doi tac gui hang
+        if(!DataUtil.isStringNullOrEmpty(partnerId) && !partnerId.equals(Constants.STATS_ALL)){
+            searchGoodsTotalDTO.setPartnerId(partnerId);
+            lstResult = utilsService.findMoreCondition(searchGoodsTotalDTO,tokenInfo);
+        }else{
+            lstResult = mjrStockGoodsTotalService.findByCondition(lstCon,tokenInfo);
+        }
+
         lstGoodsTotal = setNameValueInfo(lstResult);
         return lstGoodsTotal;
     }
@@ -167,6 +178,9 @@ public class StockInfoController extends BaseController{
                 temp.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
                 temp.setSerial(i.getSerial());
                 temp.setIsSerial(goodsItem.getIsSerial());
+                if(i.getPartnerId() != null && mapPartnerIdParter.get(i.getPartnerId())!= null) {
+                    temp.setPartnerName(mapPartnerIdParter.get(i.getPartnerId()).getName());
+                }
                 //
                 lstResult.add(temp);
             }

@@ -30,9 +30,18 @@ public class BaseController {
     public BaseService catGoodsService;
     @Autowired
     public BaseService appParamsService;
+
+    @Autowired
+    public BaseService catPartnerService;
+
     //STOCK
     public List<CatStockDTO> lstStock;
     public Map<String,CatStockDTO> mapStockIdStock;
+
+    //STOCK
+    public List<CatPartnerDTO> lstPartner;
+    public Map<String,CatPartnerDTO> mapPartnerIdParter;
+
     //GOODS
     public Map<String,CatGoodsDTO> mapGoodsCodeGoods;
     public Map<String,CatGoodsDTO> mapGoodsIdGoods;
@@ -116,6 +125,22 @@ public class BaseController {
         return lstGoods;
     }
 
+    @ModelAttribute("lstPartner")
+    public List<CatPartnerDTO> setPartner(HttpServletRequest request){
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        //
+        if(lstPartner == null){
+            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
+            buildMapPartner();
+        }
+        return lstPartner;
+    }
+
 
     //==================================================================================================================
     public void buildMapGoods(){
@@ -134,6 +159,15 @@ public class BaseController {
         if(!DataUtil.isListNullOrEmpty(lstStock)){
             for(CatStockDTO i: lstStock){
                 mapStockIdStock.put(i.getId(),i);
+            }
+        }
+    }
+
+    public void buildMapPartner(){
+        mapPartnerIdParter = new HashMap<>();
+        if(!DataUtil.isListNullOrEmpty(lstPartner)){
+            for(CatPartnerDTO i: lstPartner){
+                mapPartnerIdParter.put(i.getId(),i);
             }
         }
     }
