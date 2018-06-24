@@ -81,6 +81,9 @@ public class Constants {
         public static String MJR_STOCK_TRANS_DETAIL_SERVICE = "mjrStockTransDetailServices/";
         public static String APP_PARAMS_SERVICE = "appParamsServices/";
         public static String CAT_STOCK_CELL_SERVICE = "catStockCellServices/";
+        public static String SYS_ROLE_MENU_SERVICE = "sysRoleMenuServices/";
+        public static String SYS_ROLE_SERVICE = "sysRoleServices/";
+        public static String SYS_MENU_SERVICE = "sysMenuServices/";
     }
 
     public static class SQL_OPERATOR{

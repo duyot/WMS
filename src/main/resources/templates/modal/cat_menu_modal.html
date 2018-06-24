@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<div th:fragment="frag-cat-menu-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-mini" role="document">
+            <form id="cat-menu-insert-update-form">
+                <div class="modal-content" id="catMenuDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{btn.add}"></h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--hidden fields-->
+                            <input id="modal-menu-id" hidden="true" name="id"/>
+
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-menu-name" class="control-label label-require" th:text="#{lbl.menutable.name}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-menu-name" class="form-control" type="text" th:required="true" name="name"  maxlength="100"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-menu-parentMenu" class="control-label label-require" th:text="#{lbl.menutable.parentmenu}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12" >
+                                    <div class="input-group" style="width: 100%">
+                                        <div class="dropdown dropdown-tree"  id="modal-menu-parentMenu"></div>
+                                        <input id="parentId"  name="parentId" style="display: none"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-menu-code" class="control-label label-require" th:text="#{lbl.menutable.code}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-menu-code" class="form-control" type="text" th:required="true" name="code"  maxlength="100"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-menu-path" class="control-label" th:text="#{lbl.menutable.path}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-menu-path" class="form-control" type="text" name="url"  maxlength="100"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-menu-imgclass" class="control-label" th:text="#{lbl.menutable.imgclass}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-menu-imgclass" class="form-control" type="text" name="imgClass" maxlength="100"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-menu-order" class="control-label label-require" th:text="#{lbl.menutable.orders}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-menu-order" class="form-control number-modal" type="number" name="orders" th:required="true"   maxlength="100"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row 3-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label" th:text="#{lbl.menutable.status}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="div-status" class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input id="modal-cmb-status" name="status" data-toggle="toggle" type="checkbox" data-width="110" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button id="modal-btn-update" class="btn btn-primary" >
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{btn.update}"></span>
+                        </button>
+                        <button id="modal-btn-add" class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            <span th:text="#{btn.add}"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

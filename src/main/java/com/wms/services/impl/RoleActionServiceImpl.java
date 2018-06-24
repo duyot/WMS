@@ -19,7 +19,7 @@ public class RoleActionServiceImpl implements RoleActionService{
     ActionMenuDP actionMenuDP;
 
     @Override
-    public List<ActionMenuDTO> getUserActionService(String roleCode, AuthTokenInfo tokenInfo) {
-        return actionMenuDP.getActionMenu(roleCode,tokenInfo);
+    public List<ActionMenuDTO> getUserActionService(String roleCode,String cusId, AuthTokenInfo tokenInfo) {
+        return actionMenuDP.getActionMenu(roleCode, cusId,tokenInfo);
     }
 }

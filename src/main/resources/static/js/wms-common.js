@@ -329,5 +329,105 @@ function removeSpecialCharForNumber(sText) {
     return sText.replace(/[^0-9.,]/g, '');
 }
 
+function search(isClear,table,btnSearch, data){
+    NProgress.start();
+    if(isClear){
+        clearActionInfo();
+    }
+
+    $.ajax({
+        type: "GET",
+        cache:false,
+        data:data,
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        url: btnSearch.val(),
+        dataType: 'json',
+        timeout: 600000,
+        success: function (data) {
+            table.bootstrapTable('load', data);
+        },
+        complete:function () {
+            NProgress.done();
+        }
+    });
+}
+function sendEvent(type,url,jsonData,callback){
+    NProgress.start();
+
+    $.ajax({
+        type: type,
+        cache:false,
+        data:jsonData,
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        url: url,
+        dataType: 'json',
+        timeout: 600000,
+        success: function (data) {
+            callback(data);
+        },
+        complete:function () {
+            NProgress.done();
+        }
+    });
+}
+function runningFormatter(value, row, index) {
+    return index + 1;
+}
+function emptyForm(form){
+    form.find(":text").each(function(){
+        var $itm = $(this);
+        $itm.val('')
+    });
+    form.find(":checkbox").each(function(){
+        var $itm = $(this);
+        $itm.bootstrapToggle('on');
+    });
+    form.find('.number-modal').each(function(){
+        var $itm = $(this);
+        $itm.val('')
+    });
+}
+function deleteRow(rowId) {
+    $.ajax({
+        type: "POST",
+        cache: false,
+        data: {id: rowId},
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        url: $btnDel.val(),
+        dataType: 'text',
+        timeout: 600000,
+        success: function (data) {
+            showNotificationAndSearch(data);
+        },
+        error: function () {
+            setErrorMessage($('#action-info'), 'Lỗi hệ thống');
+        },
+    });
+    //
+    $('#myConfirmModal').modal('hide');
+}
+function getTreeCheckedList(formId) {
+    var selectobject = $(formId).find("[id*=treemultiselect-0-]:checked");
+    var ids = '';
+    for(i=0;i<selectobject.length;i++) {
+     var id =   $(selectobject[i]).parent().data("value");
+        ids += ',' + id;
+    }
+    return ids.replace(',','');
+}
+function showNotification( data) {
+    resultArr = data.split('|');
+    resultCode = resultArr[0];
+    resultName = resultArr[1];
+    if (resultCode == 1) {
+        setInfoMessage($('#action-info'), resultName);
+    } else {
+        setErrorMessage($('#action-info'), resultName);
+    }
+}
+function showNotificationAndSearch(data) {
+    showNotification( data);
+    doSearch();
+}
 var DOCSO=function(){var t=["không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"],r=function(r,n){var o="",a=Math.floor(r/10),e=r%10;return a>1?(o=" "+t[a]+" mươi",1==e&&(o+=" mốt")):1==a?(o=" mười",1==e&&(o+=" một")):n&&e>0&&(o=" lẻ"),5==e&&a>=1?o+=" lăm":4==e&&a>=1?o+=" tư":(e>1||1==e&&0==a)&&(o+=" "+t[e]),o},n=function(n,o){var a="",e=Math.floor(n/100),n=n%100;return o||e>0?(a=" "+t[e]+" trăm",a+=r(n,!0)):a=r(n,!1),a},o=function(t,r){var o="",a=Math.floor(t/1e6),t=t%1e6;a>0&&(o=n(a,r)+" triệu",r=!0);var e=Math.floor(t/1e3),t=t%1e3;return e>0&&(o+=n(e,r)+" nghìn",r=!0),t>0&&(o+=n(t,r)),o};return{doc:function(r){if(0==r)return t[0];var n="",a="";do ty=r%1e9,r=Math.floor(r/1e9),n=r>0?o(ty,!0)+a+n:o(ty,!1)+a+n,a=" tỷ";while(r>0);return n.trim()}}}();
 

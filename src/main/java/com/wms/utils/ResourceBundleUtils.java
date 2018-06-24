@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -32,12 +34,13 @@ public class ResourceBundleUtils {
             InputStream input = null;
             String filename = "lang_vi.properties";
             input = ResourceBundleUtils.class.getClassLoader().getResourceAsStream(filename);
+            Reader reader = new InputStreamReader(input, "UTF-8");
             if (input == null) {
                 log.error("Sorry, unable to find " + filename);
                 return "";
             }
             Properties prop = new Properties();
-            prop.load(input);
+            prop.load(reader);
             return prop.getProperty(key);
         } catch (IOException ex) {
             log.error(ex.toString());
