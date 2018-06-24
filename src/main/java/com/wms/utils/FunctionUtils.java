@@ -5,6 +5,7 @@ import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
+import com.wms.services.interfaces.StockService;
 import net.sf.jxls.transformer.Configuration;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -181,8 +182,8 @@ public class FunctionUtils {
     /*
         get stock
      */
-    public static List<CatStockDTO> getListStock(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
-        return service.findByCondition(getBaseConditions(currentCustomer.getId()),tokenInfo);
+    public static List<CatStockDTO> getListStock(StockService stockService, CatUserDTO currentUser, AuthTokenInfo tokenInfo){
+        return stockService.getStockByUser(Long.parseLong(currentUser.getId()),tokenInfo);
     }
 
     /*

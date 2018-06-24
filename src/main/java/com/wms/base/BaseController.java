@@ -5,6 +5,7 @@ import com.wms.constants.Constants;
 import com.wms.controller.category.CatGoodsController;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.StockService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class BaseController {
     public BaseService catGoodsService;
     @Autowired
     public BaseService appParamsService;
+    //
+    @Autowired
+    public StockService stockService;
     //STOCK
     public List<CatStockDTO> lstStock;
     public Map<String,CatStockDTO> mapStockIdStock;
@@ -53,7 +57,9 @@ public class BaseController {
     //
     @ModelAttribute("currentUser")
     public void setCurrentUser(HttpServletRequest request){
-        this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
+        if (currentUser == null) {
+            this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
+        }
     }
 
     @ModelAttribute("lstStock")
@@ -64,13 +70,15 @@ public class BaseController {
         if(tokenInfo == null){
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
+        if (currentUser == null) {
+            this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
+        }
         //
         if(lstStock == null){
-            lstStock = FunctionUtils.getListStock(catStockService,selectedCustomer,tokenInfo);
+            lstStock = FunctionUtils.getListStock(stockService,currentUser,tokenInfo);
             buildMapStock();
             request.getSession().setAttribute("isStockModified",false);
         }
-
         //
         return lstStock;
     }
