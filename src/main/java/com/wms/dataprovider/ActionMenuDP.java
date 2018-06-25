@@ -25,9 +25,9 @@ public class ActionMenuDP {
 
     private  String GET_ACTION_MENU_URL    = SERVICE_URL+SERVICE_PREFIX  + "getUserAction/";
 
-    public List<ActionMenuDTO> getActionMenu(String roleCode,String cusId, AuthTokenInfo tokenInfo){
+    public List<ActionMenuDTO> getActionMenu(String roleId,String cusId, AuthTokenInfo tokenInfo){
         RestTemplate restTemplate = new RestTemplate();
-        String getActionMenuURL =   GET_ACTION_MENU_URL + roleCode +"/" + cusId + "?access_token="+tokenInfo.getAccess_token();
+        String getActionMenuURL =   GET_ACTION_MENU_URL + roleId +"/" + cusId + "?access_token="+tokenInfo.getAccess_token();
         try {
             ResponseEntity<ActionMenuDTO[]> responseEntity = restTemplate.getForEntity(getActionMenuURL,ActionMenuDTO[].class);
             if(responseEntity.getBody() != null){

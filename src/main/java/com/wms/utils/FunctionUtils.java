@@ -189,7 +189,7 @@ public class FunctionUtils {
     /*
         get user
      */
-    public static List<CatUserDTO> getListUser(CatUserService catUserService, CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
+    public static List<CatUserDTO> getCustomerUsers(CatUserService catUserService, CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
         return catUserService.getUserByCustomer(currentCustomer.getId(),tokenInfo);
     }
 

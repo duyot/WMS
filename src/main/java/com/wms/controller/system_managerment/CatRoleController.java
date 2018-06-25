@@ -49,55 +49,56 @@ public class CatRoleController extends BaseCommonController {
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
     public  @ResponseBody
     List<SysRoleDTO> findByCondition(@RequestParam("status")String status , @RequestParam("keyword")String keyword){
-        List<Condition> lstCon = Lists.newArrayList();
-        if (currentUser.getRoleCode().equalsIgnoreCase("ROOT")){
-//            user has root role can only seach admin roles
-            lstCon.add(new Condition("code", Constants.SQL_OPERATOR.EQUAL,"ADMIN"));
-        }else{
-//            admin and other roles only seach roles belong its customer except admin role.
-            lstCon.add(new Condition("code", Constants.SQL_OPERATOR.NOT_EQUAL,"ADMIN"));
-            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        }
-        if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
-        }
-        if(!DataUtil.isStringNullOrEmpty(keyword) && !status.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("name", Constants.SQL_OPERATOR.LIKE,keyword));
-            lstCon.add(new Condition("code", Constants.SQL_OPERATOR.LIKE,keyword));
-        }
-
-        lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
-        List<SysRoleDTO> lstRole = roleServiceImpl.findByCondition(lstCon,tokenInfo);
-        StringBuilder roles = new StringBuilder();
-        for (SysRoleDTO sysRoleDTO :lstRole){
-            sysRoleDTO.setStatusName(mapAppStatus.get(sysRoleDTO.getStatus()));
-            roles.append(",").append(sysRoleDTO.getCode());
-        }
-        List<Condition> lstRoleCondition = new ArrayList<>();
-        lstRoleCondition.add(new Condition("roleCode",Constants.SQL_OPERATOR.IN,roles.toString().replaceFirst(",","")));
-        lstRoleCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL ,selectedCustomer.getId()));
-        lstRoleCondition.add(new Condition("roleCode",Constants.SQL_OPERATOR.ORDER ,"desc"));
-        List<SysRoleMenuDTO> lstRoleMenu = sysRoleMenuServiceImpl.findByCondition(lstRoleCondition,tokenInfo);
-//        map role list menu
-        String previousRole = "";
-        String menuList = "";
-        for (SysRoleMenuDTO roleMenu : lstRoleMenu){
-            if (!previousRole.equalsIgnoreCase(roleMenu.getRoleCode())&&!DataUtil.isNullOrEmpty(previousRole)){
-
-               mapRoleMenu.put(previousRole,menuList.replaceFirst(",",""));
-                menuList = "";
-            }
-               previousRole = roleMenu.getRoleCode();
-               menuList = menuList + "," + roleMenu.getMenuId();
-
-
-        }
-         mapRoleMenu.put(previousRole,menuList.replaceFirst(",",""));
-        for (SysRoleMenuDTO sysRoleMenuDTO : lstRoleMenu){
-             sysRoleMenuDTO.setMenuId(mapRoleMenu.get(sysRoleMenuDTO.getRoleCode()));
-        }
-        return lstRole;
-    }
+        return null;
+//        List<Condition> lstCon = Lists.newArrayList();
+//        if (currentUser.getRoleCode().equalsIgnoreCase("ROOT")){
+////            user has root role can only seach admin roles
+//            lstCon.add(new Condition("code", Constants.SQL_OPERATOR.EQUAL,"ADMIN"));
+//        }else{
+////            admin and other roles only seach roles belong its customer except admin role.
+//            lstCon.add(new Condition("code", Constants.SQL_OPERATOR.NOT_EQUAL,"ADMIN"));
+//            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+//        }
+//        if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
+//            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
+//        }
+//        if(!DataUtil.isStringNullOrEmpty(keyword) && !status.equals(Constants.STATS_ALL)){
+//            lstCon.add(new Condition("name", Constants.SQL_OPERATOR.LIKE,keyword));
+//            lstCon.add(new Condition("code", Constants.SQL_OPERATOR.LIKE,keyword));
+//        }
+//
+//        lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
+//        List<SysRoleDTO> lstRole = roleServiceImpl.findByCondition(lstCon,tokenInfo);
+//        StringBuilder roles = new StringBuilder();
+//        for (SysRoleDTO sysRoleDTO :lstRole){
+//            sysRoleDTO.setStatusName(mapAppStatus.get(sysRoleDTO.getStatus()));
+//            roles.append(",").append(sysRoleDTO.getCode());
+//        }
+//        List<Condition> lstRoleCondition = new ArrayList<>();
+//        lstRoleCondition.add(new Condition("roleCode",Constants.SQL_OPERATOR.IN,roles.toString().replaceFirst(",","")));
+//        lstRoleCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL ,selectedCustomer.getId()));
+//        lstRoleCondition.add(new Condition("roleCode",Constants.SQL_OPERATOR.ORDER ,"desc"));
+//        List<SysRoleMenuDTO> lstRoleMenu = sysRoleMenuServiceImpl.findByCondition(lstRoleCondition,tokenInfo);
+////        map role list menu
+//        String previousRole = "";
+//        String menuList = "";
+//        for (SysRoleMenuDTO roleMenu : lstRoleMenu){
+//            if (!previousRole.equalsIgnoreCase(roleMenu.getRoleCode())&&!DataUtil.isNullOrEmpty(previousRole)){
+//
+//               mapRoleMenu.put(previousRole,menuList.replaceFirst(",",""));
+//                menuList = "";
+//            }
+//               previousRole = roleMenu.getRoleCode();
+//               menuList = menuList + "," + roleMenu.getMenuId();
+//
+//
+//        }
+//         mapRoleMenu.put(previousRole,menuList.replaceFirst(",",""));
+//        for (SysRoleMenuDTO sysRoleMenuDTO : lstRoleMenu){
+//             sysRoleMenuDTO.setMenuId(mapRoleMenu.get(sysRoleMenuDTO.getRoleCode()));
+//        }
+//        return lstRole;
+//    }
 
 //    @RequestMapping(value = "/getMapRoleMenu",method = RequestMethod.GET)
 //    public  @ResponseBody
@@ -112,25 +113,27 @@ public class CatRoleController extends BaseCommonController {
 //            sysRoleDTO.setStatusName(mapAppStatus.get(sysRoleDTO.getStatus()));
 //        }
 //        return lstRole;
-//    }
+    }
+
+
     @ModelAttribute("lstTreeModel")
     public  @ResponseBody
     List<TreeModel> getMenuData(HttpServletRequest request){
 
         List<SysMenuDTO> lstMenu ;
         List<TreeModel> lstTreeModel = new ArrayList<>();
-        if (currentUser.getRoleCode().equalsIgnoreCase("ROOT")){
-//            get full menu
-            List<Condition> lstCon = Lists.newArrayList();
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-            lstCon.add(new Condition("levels",Constants.SQL_OPERATOR.ORDER,"desc"));
-            if(tokenInfo == null){
-                this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-            }
-            lstMenu = menuService.findByCondition(lstCon,tokenInfo);
-        }else{
-//            only get roles whichs be assigned to customer'admin
-        }
+//        if (currentUser.getRoleCode().equalsIgnoreCase("ROOT")){
+////            get full menu
+//            List<Condition> lstCon = Lists.newArrayList();
+//            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+//            lstCon.add(new Condition("levels",Constants.SQL_OPERATOR.ORDER,"desc"));
+//            if(tokenInfo == null){
+//                this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+//            }
+//            lstMenu = menuService.findByCondition(lstCon,tokenInfo);
+//        }else{
+////            only get roles whichs be assigned to customer'admin
+//        }
 
 //        for (SysMenuDTO menuitem : lstMenu){
 //            menuitem.setLocalizationName(ResourceBundleUtils.getkey(menuitem.getName()) == null ?menuitem.getName(): ResourceBundleUtils.getkey(menuitem.getName()));
