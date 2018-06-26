@@ -183,7 +183,7 @@ public class FunctionUtils {
         get stock
      */
     public static List<CatStockDTO> getListStock(StockService stockService, CatUserDTO currentUser, AuthTokenInfo tokenInfo){
-        return stockService.getStockByUser(Long.parseLong(currentUser.getId()),tokenInfo);
+        return stockService.getStockByUser(Long.parseLong(currentUser.getId()), tokenInfo);
     }
 
     /*
@@ -197,7 +197,7 @@ public class FunctionUtils {
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL, custId));
         lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
+        lstCondition.add(new Condition("name",  Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
         return lstCondition;
     }
 

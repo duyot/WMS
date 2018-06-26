@@ -63,7 +63,7 @@ public class Constants {
         public static String GET_ALL = "getAll?access_token=";
     }
 
-    public static class SERVICE_PREFIX{
+    public static class SERVICE_PREFIX {
         public static String ROLE_SERVICE = "sysRoleServices/";
         public static String USER_SERVICE = "catUserServices/";
         public static String CUSTOMER_SERVICE = "catCustomerServices/";
@@ -86,11 +86,11 @@ public class Constants {
         public static String SYS_MENU_SERVICE = "sysMenuServices/";
     }
 
-    public static class SQL_OPERATOR{
+    public static class SQL_OPERATOR {
         public static String EQUAL = "EQUAL";
         public static String NOT_EQUAL = "NOT_EQUAL";
         public static String GREATER = "GREATER";
-        public static String GREATER_EQAL = "GREATER_EQUAL";
+        public static String GREATER_EQUAL = "GREATER_EQUAL";
         public static String LOWER = "LOWER";
         public static String LOWER_EQUAL = "LOWER_EQUAL";
         public static String IN = "IN";

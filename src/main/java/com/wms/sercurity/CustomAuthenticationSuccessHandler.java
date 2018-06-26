@@ -53,7 +53,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         WMSUserDetails authUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         session.setAttribute("user", authUser.getCatUserDTO());
         //
-        CatCustomerDTO customer = getCustomer(authUser.getCatUserDTO().getId(),authUser.getTokenInfo());
+        CatCustomerDTO customer = getCustomer(authUser.getCatUserDTO().getCustId(),authUser.getTokenInfo());
         customer.setName(StringEscapeUtils.escapeHtml(customer.getName()));
         session.setAttribute("selectedCustomer",customer);
         //
