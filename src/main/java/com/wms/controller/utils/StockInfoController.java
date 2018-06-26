@@ -178,8 +178,8 @@ public class StockInfoController extends BaseController{
                 temp.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
                 temp.setSerial(i.getSerial());
                 temp.setIsSerial(goodsItem.getIsSerial());
-                if(i.getPartnerId() != null && mapPartnerIdParter.get(i.getPartnerId())!= null) {
-                    temp.setPartnerName(mapPartnerIdParter.get(i.getPartnerId()).getName());
+                if(i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId())!= null) {
+                    temp.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
                 }
                 //
                 lstResult.add(temp);
