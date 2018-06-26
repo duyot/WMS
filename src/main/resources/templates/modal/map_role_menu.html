@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <input id="modal-rolecode" hidden="true" name="rolecode"/>
+                        <input id="modal-roleId" hidden="id" name="rolecode"/>
                         <div class="container-modal">
                             <select id="map-role-menu" class="form-control selectpicker" multiple="multiple"  data-width="100%">
                                 <option  th:each="item:${lstTreeModel}"
@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button id="modal-btn-execuse" class="btn btn-primary" th:value="@{/workspace/cat_role_ctr/assignRoleMenu}">
+                        <button id="modal-btn-execuse"  type="button" class="btn btn-primary" th:value="@{/workspace/cat_role_ctr/assignRoleMenu}">
                             <i class="fa fa-check"></i>
                             <span th:text="#{btn.execuse}"></span>
                         </button>

@@ -29,11 +29,13 @@ public class BaseDP<T> {
     public  String GET_SYSDATE_WITH_PATTERN_URL;
 
     public  String ADD_URL;
+    public  String ADD_LIST_URL;
     public  String UPDATE_URL;
     public  String DELETE_URL;
 
     public  String FIND_BY_ID_URL;
     public  String FIND_CONDITION_URL;
+    public  String DELETE_CONDITION_URL;
     public  String COUNT_CONDITION_URL;
     public  String GET_ALL_URL;
 
@@ -57,10 +59,12 @@ public class BaseDP<T> {
         GET_SYSDATE_WITH_PATTERN_URL  = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.GET_SYS_DATE_PATTERN;
 
         ADD_URL    = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.ADD;
+        ADD_LIST_URL    = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.ADD_LIST;
         UPDATE_URL = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.UPDATE;
         DELETE_URL = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.DELETE;
 
         FIND_BY_ID_URL     = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.FIND_BY_ID;
+        DELETE_CONDITION_URL     = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.DELETE_BY_CONDITION;
         FIND_CONDITION_URL = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.FIND_BY_CONDITION;
         COUNT_CONDITION_URL = SERVICE_URL+SERVICE_PREFIX + Constants.SERVICE_METHOD.COUNT_BY_CONDITION;
         GET_ALL_URL        = SERVICE_URL+SERVICE_PREFIX  + Constants.SERVICE_METHOD.GET_ALL;
@@ -89,6 +93,15 @@ public class BaseDP<T> {
     public ResponseObject add(T tObject, AuthTokenInfo tokenInfo){
         try {
             return restTemplate.postForObject(ADD_URL + tokenInfo.getAccess_token(), tObject,ResponseObject.class);
+        } catch (RestClientException e) {
+            log.info(e.toString());
+            e.printStackTrace();
+            return  new ResponseObject(Responses.ERROR.getName(),Responses.ERROR.getName(),"");
+        }
+    }
+    public ResponseObject addList(List<T> tObject, AuthTokenInfo tokenInfo){
+        try {
+            return restTemplate.postForObject(ADD_LIST_URL + tokenInfo.getAccess_token(), tObject,ResponseObject.class);
         } catch (RestClientException e) {
             log.info(e.toString());
             e.printStackTrace();
@@ -137,7 +150,15 @@ public class BaseDP<T> {
             return new ArrayList<>();
         }
     }
-
+    public String deleteByCondition(List<Condition> lstCondition, AuthTokenInfo tokenInfo){
+        try {
+            return restTemplate.postForObject(DELETE_CONDITION_URL + tokenInfo.getAccess_token(), lstCondition,String.class);
+        } catch (RestClientException e) {
+            log.info(e.toString());
+            e.printStackTrace();
+            return "";
+        }
+    }
     public Long countByCondition(List<Condition> lstCondition, AuthTokenInfo tokenInfo){
         try {
             ResponseEntity<Long> responseEntity = restTemplate.postForEntity(COUNT_CONDITION_URL+ tokenInfo.getAccess_token(), lstCondition,Long.class);

@@ -36,4 +36,8 @@ public class MjrStockGoodsTotalServiceImpl extends BaseServiceImpl<MjrStockGoods
                                                             String isSerial, String goodsState, String limit, String offset,AuthTokenInfo tokenInfo) {
         return mjrStockGoodsTotalDP.getGoodsDetail(custId,stockId,goodsId,isSerial,goodsState,limit,offset,tokenInfo);
     }
+    @Override
+    public List<MjrStockGoodsTotalDTO> findMoreCondition(MjrStockGoodsTotalDTO searchGoodsTotalDTO,AuthTokenInfo tokenInfo) {
+        return mjrStockGoodsTotalDP.findMoreCondition(searchGoodsTotalDTO,tokenInfo);
+    }
 }

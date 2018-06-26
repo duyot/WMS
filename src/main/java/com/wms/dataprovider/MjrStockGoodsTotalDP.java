@@ -50,4 +50,16 @@ public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
             return new ArrayList<>();
         }
     }
+
+    public List<MjrStockGoodsTotalDTO> findMoreCondition(MjrStockGoodsTotalDTO searchGoodsTotalDTO,AuthTokenInfo tokenInfo) {
+        String url = SERVICE_URL + SERVICE_PREFIX + "findMoreCondition&access_token="+ tokenInfo.getAccess_token();
+        try {
+            ResponseEntity<MjrStockGoodsTotalDTO[]> responseEntity = restTemplate.postForEntity(url+ tokenInfo.getAccess_token(), searchGoodsTotalDTO,valueArrayClass);
+            return Arrays.asList(responseEntity.getBody());
+        } catch (RestClientException e) {
+            log.error(e.toString());
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }

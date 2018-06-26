@@ -220,7 +220,7 @@ public class FunctionUtils {
     /*
 
      */
-     public static void loadFileToClient(HttpServletResponse response, String fileResource){
+    public static void loadFileToClient(HttpServletResponse response, String fileResource){
         try {
             File file = new File(fileResource);
             //
@@ -706,11 +706,11 @@ public class FunctionUtils {
 
     public static String formatNumber(String number){
         if (!DataUtil.isStringNullOrEmpty(number)) {
-                String plainNumber = removeScientificNotation(number);
-                double dNumber = Double.valueOf(plainNumber);
-                if (dNumber%1 != 0) {
-                    return String.format("%,.4f", dNumber);
-                }else{
+            String plainNumber = removeScientificNotation(number);
+            double dNumber = Double.valueOf(plainNumber);
+            if (dNumber%1 != 0) {
+                return String.format("%,.4f", dNumber);
+            }else{
                 return String.format("%,.0f", dNumber);
             }
         }else{

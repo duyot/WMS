@@ -55,10 +55,12 @@ public class Constants {
         public static String GET_SYS_DATE_PATTERN = "getSysDateWithPattern?access_token=";
 
         public static String ADD = "add?access_token=";
+        public static String ADD_LIST = "addList?access_token=";
         public static String UPDATE = "update?access_token=";
         public static String DELETE = "delete/";
         public static String FIND_BY_ID = "find/";
         public static String FIND_BY_CONDITION  = "findByCondition?access_token=";
+        public static String DELETE_BY_CONDITION  = "deleteByCondition?access_token=";
         public static String COUNT_BY_CONDITION = "countByCondition?access_token=";
         public static String GET_ALL = "getAll?access_token=";
     }
@@ -103,7 +105,9 @@ public class Constants {
     }
 
     public static class SQL_PRO_TYPE{
+        public static String STRING = "string";
         public static String LONG   = "long";
+        public static String DATE   = "date";
     }
 
 }

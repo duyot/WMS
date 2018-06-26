@@ -30,6 +30,8 @@ public class BaseController {
     @Autowired
     public BaseService catGoodsService;
     @Autowired
+    public BaseService catPartnerService;
+    @Autowired
     public BaseService appParamsService;
     //
     @Autowired
@@ -37,6 +39,10 @@ public class BaseController {
     //STOCK
     public List<CatStockDTO> lstStock;
     public Map<String,CatStockDTO> mapStockIdStock;
+
+    //PARTNER
+    public List<CatPartnerDTO> lstPartner;
+    public Map<String,CatPartnerDTO> mapPartnerIdPartner;
     //GOODS
     public Map<String,CatGoodsDTO> mapGoodsCodeGoods;
     public Map<String,CatGoodsDTO> mapGoodsIdGoods;
@@ -81,6 +87,26 @@ public class BaseController {
         }
         //
         return lstStock;
+    }
+
+    @ModelAttribute("lstPartner")
+    public List<CatPartnerDTO> getListPartner(HttpServletRequest request){
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        if (currentUser == null) {
+            this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
+        }
+        //
+        if(lstPartner == null || lstPartner.isEmpty()){
+            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
+            buildMapPartner();
+        }
+        //
+        return lstPartner;
     }
 
     @ModelAttribute("lstAppParams")
@@ -142,6 +168,14 @@ public class BaseController {
         if(!DataUtil.isListNullOrEmpty(lstStock)){
             for(CatStockDTO i: lstStock){
                 mapStockIdStock.put(i.getId(),i);
+            }
+        }
+    }
+    public void buildMapPartner(){
+        mapPartnerIdPartner = new HashMap<>();
+        if(!DataUtil.isListNullOrEmpty(lstPartner)){
+            for(CatPartnerDTO i: lstPartner){
+                mapPartnerIdPartner.put(i.getId(),i);
             }
         }
     }

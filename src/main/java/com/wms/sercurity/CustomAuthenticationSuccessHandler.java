@@ -3,6 +3,7 @@ package com.wms.sercurity;
 import com.wms.dto.ActionMenuDTO;
 import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatCustomerDTO;
+import com.wms.dto.SysRoleDTO;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.RoleActionService;
@@ -42,7 +43,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Autowired
     CatUserService catUserServices;
 
-
+    @Autowired
+    BaseService roleServiceImpl;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
@@ -51,6 +53,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         session.setMaxInactiveInterval(60*60*3);
 		/*Set some session variables*/
         WMSUserDetails authUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SysRoleDTO sysRoleDTO = (SysRoleDTO)roleServiceImpl.findById(Long.parseLong(authUser.getCatUserDTO().getRoleId()),authUser.getTokenInfo());
+        authUser.getCatUserDTO().setSysRoleDTO(sysRoleDTO);
         session.setAttribute("user", authUser.getCatUserDTO());
         //
         CatCustomerDTO customer = getCustomer(authUser.getCatUserDTO().getCustId(),authUser.getTokenInfo());

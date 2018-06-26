@@ -17,6 +17,16 @@ public class MjrStockGoodsTotalDTO{
     private String goodsStateName;
     private String stockName;
     private String amountValue;
+    //Chi de phuc vu add tham so vao tim kiem chu ko luu vao database
+    private String partnerId;
+
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
 
     public MjrStockGoodsTotalDTO(String id, String custId, String goodsId, String goodsCode, String goodsName, String goodsState, String stockId, String amount, String changeDate) {
         this.id = id;

@@ -22,6 +22,7 @@ public class CatUserDTO extends BaseDTO {
     //
     private String roleId;
     private String block;
+    private SysRoleDTO sysRoleDTO ;
 
     public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block) {
         this.id = id;
@@ -172,6 +173,14 @@ public class CatUserDTO extends BaseDTO {
 
     public void setBlock(String block) {
         this.block = block;
+    }
+
+    public SysRoleDTO getSysRoleDTO() {
+        return sysRoleDTO;
+    }
+
+    public void setSysRoleDTO(SysRoleDTO sysRoleDTO) {
+        this.sysRoleDTO = sysRoleDTO;
     }
 
     @Override

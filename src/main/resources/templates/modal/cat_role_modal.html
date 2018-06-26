@@ -18,8 +18,7 @@
                         <div class="container-modal">
                             <!--hidden fields-->
                             <input id="modal-id" hidden="true" name="id"/>
-                            <input id="modal-cusId"  name="cusId" style="display: none"/>
-
+                            <input id="modal-type"  name="type" style="display: none"/>
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
@@ -48,6 +47,25 @@
                                 <div class="col-sm-12" >
                                     <div class="input-group" style="width: 100%">
                                         <input id="modal-name" class="form-control" type="text" th:required="true" name="name"  maxlength="100"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="div-root" th:if="${isRoot}">
+                                <div class="row row-header">
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <label for="modal-cmb-custId" class="control-label label-require" th:text="#{lbl.customer}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-content">
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-group-combo">
+                                            <select id="modal-cmb-custId" class="combobox form-control" name="custId" th:required="true">
+                                                <option th:each="sopt:${lstCustomer}"
+                                                        th:value="${sopt.id}" th:text="${sopt.name}">Admin</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -96,20 +96,6 @@ public class TransInfoController extends BaseController{
         return lstUsers;
     }
 
-    @ModelAttribute("lstPartner")
-    public List<CatPartnerDTO> setPartner(HttpServletRequest request){
-        if(selectedCustomer == null){
-            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
-        //
-        if(lstPartner == null){
-            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
-        }
-        return lstPartner;
-    }
 
 
     //==================================================================================================================
