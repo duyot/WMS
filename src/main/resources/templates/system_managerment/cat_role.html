@@ -133,6 +133,10 @@
                             type="button" class="btn btn-default">
                         <i class="fa fa-trash"></i>
                     </button>
+                    <button id="btn-root" th:value="@{session.isRoot}" style="display: none"
+                            type="button" class="btn btn-default">
+                        <i class="fa fa-trash"></i>
+                    </button>
 
                     <label id="action-info" class="action-info"></label>
                 </div>
@@ -147,11 +151,26 @@
                     <tr>
                         <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
                         <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
-                        <th class="col-md-1" data-field="cusId" data-align="left" data-sortable="true" data-visible="false"></th>
-                        <th class="col-md-4" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.roletable.code}"></th>
-                        <th class="col-md-4" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.roletable.name}"></th>
-                        <th class="col-md-2" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
-                        <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+                        <th class="col-md-1" data-field="menuIds" data-align="left" data-sortable="true" data-visible="false"></th>
+                        <th class="col-md-1" data-field="type" data-align="left" data-sortable="true" data-visible="false"></th>
+                        <div th:if="${isRoot}">
+                            <th class="col-md-3" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.roletable.code}"></th>
+                            <th class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.roletable.name}"></th>
+                            <th class="col-md-2" data-field="custId" data-align="left" data-sortable="true" data-visible="false" th:text="#{lbl.customer}"></th>
+                            <th class="col-md-2" data-field="custName" data-align="left" data-sortable="true" data-visible="true" th:text="#{lbl.customer}"></th>
+                            <th class="col-md-2" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+
+                        </div>
+                        <div th:unless="${isRoot}">
+                            <th class="col-md-4" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.roletable.code}"></th>
+                            <th class="col-md-4" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.roletable.name}"></th>
+                            <th class="col-md-2" data-field="custId" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th class="col-md-2" data-field="custName" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th class="col-md-2" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+                        </div>
+
                         <th data-align="center" data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                     </tr>
                     </thead>

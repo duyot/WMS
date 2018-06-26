@@ -21,6 +21,7 @@ public class Condition {
         this.property = property;
         this.operator = operator;
         this.value = value;
+        this.propertyType = Constants.SQL_PRO_TYPE.STRING;
     }
 
     public Condition(String property, String propertyType, String operator, Object value) {

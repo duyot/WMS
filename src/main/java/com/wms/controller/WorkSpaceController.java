@@ -153,11 +153,11 @@ public class WorkSpaceController {
         return "redirect:/workspace/dashboard_ctr";
     }
 
-
+//    @PreAuthorize("hasAnyRole('ROOT')")
     @RequestMapping("/cat_menu")
     public String redirectCatMenu(){ return "redirect:/workspace/cat_menu_ctr";
     }
-
+//    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     @RequestMapping("/cat_role")
     public String redirectCatRole(){ return "redirect:/workspace/cat_role_ctr";
     }

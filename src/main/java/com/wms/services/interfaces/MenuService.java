@@ -1,4 +1,6 @@
 package com.wms.services.interfaces;
 
-public interface MenuService {
+import com.wms.dto.SysMenuDTO;
+
+public interface MenuService extends BaseService<SysMenuDTO>{
 }
