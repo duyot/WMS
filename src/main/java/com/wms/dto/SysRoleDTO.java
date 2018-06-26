@@ -12,11 +12,13 @@ public class SysRoleDTO{
     private String statusName;
     private String custId;
     private String menuIds;
+    private String type;
+    private String custName;
 
     public SysRoleDTO() {
     }
 
-    public SysRoleDTO(String id, String code, String name, String status, String statusName, String custId, String menuIds) {
+    public SysRoleDTO(String id, String code, String name, String status, String statusName, String custId, String menuIds,String type) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -24,6 +26,7 @@ public class SysRoleDTO{
         this.statusName = statusName;
         this.custId = custId;
         this.menuIds = menuIds;
+        this.type = type;
     }
 
     public String getId() {
@@ -80,5 +83,21 @@ public class SysRoleDTO{
 
     public void setMenuIds(String menuIds) {
         this.menuIds = menuIds;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName;
     }
 }

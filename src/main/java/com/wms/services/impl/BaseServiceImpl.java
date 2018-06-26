@@ -60,4 +60,14 @@ public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> 
     public List findByCondition(List lstCondition,AuthTokenInfo token) {
         return tdp.findByCondition(lstCondition,token);
     }
+
+    @Override
+    public String deleteByCondition(List<Condition> lstCondition, AuthTokenInfo token) {
+        return tdp.deleteByCondition(lstCondition,token);
+    }
+
+    @Override
+    public ResponseObject addList(List<T> tObject, AuthTokenInfo token) {
+        return tdp.addList(tObject,token);
+    }
 }

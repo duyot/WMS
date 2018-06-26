@@ -353,22 +353,26 @@ function search(isClear,table,btnSearch, data){
 }
 function sendEvent(type,url,jsonData,callback){
     NProgress.start();
-
     $.ajax({
         type: type,
-        cache:false,
-        data:jsonData,
+        cache: false,
+        data: jsonData,
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         url: url,
-        dataType: 'json',
+        dataType: 'text',
         timeout: 600000,
         success: function (data) {
-            callback(data);
+            if (typeof window[callback] === "function") {
+                window[callback](data);
+            }
         },
-        complete:function () {
+        error: function () {
+            setErrorMessage($('#action-info'), 'Lỗi hệ thống');
             NProgress.done();
-        }
+        },
     });
+    //
+
 }
 function runningFormatter(value, row, index) {
     return index + 1;

@@ -3,7 +3,7 @@ package com.wms.dto;
 /**
  * Created by duyot on 11/2/2016.
  */
-public class SysRoleMenuDTO extends BaseDTO {
+public class SysRoleMenuDTO  {
     private String id;
     private String menuId;
     private String roleId;
