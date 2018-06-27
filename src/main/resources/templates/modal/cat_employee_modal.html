@@ -6,9 +6,9 @@
 
 <div th:fragment="frag-cat-emp-modal">
     <!-- Modal -->
-    <div class="modal fade" id="stockModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-mini" role="document">
-            <form id="stock-insert-update-form" method="post">
+            <form id="emp-insert-update-form" method="post">
                 <div class="modal-content" id="catUserDTO-modal">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
@@ -19,10 +19,11 @@
                         <div class="container-modal">
                             <!--hidden fields-->
                             <input id="modal-inp-id" hidden="true" name="id"/>
+                            <!---->
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label for="modal-inp-code" class="control-label label-require" th:text="#{lbl.stockCode}"></label>
+                                        <label for="modal-inp-code" class="control-label label-require" th:text="#{lbl.userCode}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -36,10 +37,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--name-->
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label for="modal-inp-name" class="control-label label-require" th:text="#{lbl.stockName}"></label>
+                                        <label for="modal-inp-name" class="control-label label-require" th:text="#{lbl.fullname}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -53,10 +55,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--email-->
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label for="modal-inp-address" class="control-label" th:text="#{lbl.address}"></label>
+                                        <label for="modal-inp-email" class="control-label" th:text="#{lbl.email }"></label>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +69,25 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-address-card-o fa-fw"></i>
                                         </span>
-                                        <input id="modal-inp-address" class="form-control" type="text" th:required="true" name="address" maxlength="200"  />
+                                        <input id="modal-inp-email" class="form-control" type="text" name="email" maxlength="200"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--msisdn-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-msisdn" class="control-label" th:text="#{lbl.telNumber}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-address-card-o fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-msisdn" class="form-control" type="text" name="email" maxlength="200"  />
                                     </div>
                                 </div>
                             </div>
@@ -80,8 +101,15 @@
                             </div>
                             <div id="div-status" class="row row-content">
                                 <div class="col-sm-12">
-                                    <div class="input-group">
-                                        <input id="modal-cmb-status" name="status" data-toggle="toggle" data-width="110" type="checkbox" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
+                                        <div class="input-group input-group-combo">
+                                            <div class="radio radio-inline radio-info">
+                                                <input value="1" type="radio" id="radio-normal" name="cmb-status"/>
+                                                <label for="radio-normal" th:text="#{lbl.active}"></label>
+                                            </div>
+                                            <div class="radio radio-inline radio-danger">
+                                                <input value="2" type="radio" id="radio-innormal" name="cmb-status"/>
+                                                <label for="radio-innormal" th:text="#{lbl.inactive}"></label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
