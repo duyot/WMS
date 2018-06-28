@@ -183,7 +183,7 @@ public class FunctionUtils {
         get stock
      */
     public static List<CatStockDTO> getListStock(StockService stockService, CatUserDTO currentUser, AuthTokenInfo tokenInfo){
-        return stockService.getStockByUser(Long.parseLong(currentUser.getId()),tokenInfo);
+        return stockService.getStockByUser(Long.parseLong(currentUser.getId()), tokenInfo);
     }
 
     /*
@@ -197,7 +197,7 @@ public class FunctionUtils {
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL, custId));
         lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
+        lstCondition.add(new Condition("name",  Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
         return lstCondition;
     }
 
@@ -220,7 +220,7 @@ public class FunctionUtils {
     /*
 
      */
-     public static void loadFileToClient(HttpServletResponse response, String fileResource){
+    public static void loadFileToClient(HttpServletResponse response, String fileResource){
         try {
             File file = new File(fileResource);
             //
@@ -706,11 +706,11 @@ public class FunctionUtils {
 
     public static String formatNumber(String number){
         if (!DataUtil.isStringNullOrEmpty(number)) {
-                String plainNumber = removeScientificNotation(number);
-                double dNumber = Double.valueOf(plainNumber);
-                if (dNumber%1 != 0) {
-                    return String.format("%,.4f", dNumber);
-                }else{
+            String plainNumber = removeScientificNotation(number);
+            double dNumber = Double.valueOf(plainNumber);
+            if (dNumber%1 != 0) {
+                return String.format("%,.4f", dNumber);
+            }else{
                 return String.format("%,.0f", dNumber);
             }
         }else{

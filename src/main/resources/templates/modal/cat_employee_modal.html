@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-cat-emp-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-mini" role="document">
+            <form id="emp-insert-update-form" method="post">
+                <div class="modal-content" id="catUserDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{btn.add}"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--hidden fields-->
+                            <input id="modal-inp-id" hidden="true" name="id"/>
+                            <!---->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-code" class="control-label label-require" th:text="#{lbl.userCode}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-barcode fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-code" class="form-control uppercase-input" type="text" th:required="true" name="code" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--name-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-name" class="control-label label-require" th:text="#{lbl.fullname}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name" maxlength="100"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--email-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-email" class="control-label" th:text="#{lbl.email }"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-address-card-o fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-email" class="form-control" type="text" name="email" maxlength="200"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--msisdn-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-msisdn" class="control-label" th:text="#{lbl.telNumber}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-address-card-o fa-fw"></i>
+                                        </span>
+                                        <input id="modal-inp-msisdn" class="form-control" type="text" name="email" maxlength="200"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row 3-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label" th:text="#{lbl.status}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="div-status" class="row row-content">
+                                <div class="col-sm-12">
+                                        <div class="input-group input-group-combo">
+                                            <div class="radio radio-inline radio-info">
+                                                <input value="1" type="radio" id="radio-normal" name="cmb-status"/>
+                                                <label for="radio-normal" th:text="#{lbl.active}"></label>
+                                            </div>
+                                            <div class="radio radio-inline radio-danger">
+                                                <input value="2" type="radio" id="radio-innormal" name="cmb-status"/>
+                                                <label for="radio-innormal" th:text="#{lbl.inactive}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-update"  type="submit" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{btn.update}"></span>
+                        </button>
+                        <button id="modal-btn-add"     type="submit" class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            <span th:text="#{btn.add}"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

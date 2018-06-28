@@ -49,7 +49,10 @@ public class ListEmployeeController {
     }
 
     @ModelAttribute("mapRoles")
-    public Map<String,String> mapRoles(){
+    public Map<String,String> mapRoles(HttpServletRequest request){
+        if (tokenInfo == null) {
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
         Map<String,String> mapRole = new HashMap<>();
         List<RoleDTO> lstRole = roleService.getAll(tokenInfo);
         if(DataUtil.isListNullOrEmpty(lstRole)){

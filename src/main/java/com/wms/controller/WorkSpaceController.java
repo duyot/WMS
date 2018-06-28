@@ -82,13 +82,11 @@ public class WorkSpaceController {
         return "Success";
     }
 
-    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     @RequestMapping("/cat_goods_group")
     public String redirectCatGoodsGroup(){
         return "redirect:/workspace/cat_goods_group_ctr";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/cat_goods")
     public String redirectCatGoods(){
         return "redirect:/workspace/cat_goods_ctr";

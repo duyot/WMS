@@ -64,7 +64,7 @@
                                         <div class="col-sm-4">
                                             <div class="input-group" style="width: 100%;">
                                                 <select id="cmb-stock" class="form-control selectpicker" data-live-search="true"  data-width="100%">
-                                                    <option  th:each="sopt:${}"
+                                                    <option  th:each="sopt:${lstStock}"
                                                              th:value="${sopt.id}" th:text="${sopt.name}">1</option>
                                                 </select>
                                             </div>

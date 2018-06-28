@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
 	<link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
     <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
+	<link href="/css/awesome-bootstrap-checkbox.css"  th:href="@{/css/awesome-bootstrap-checkbox.css}" rel="stylesheet" type="text/css" media="all"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>
@@ -22,7 +23,7 @@
     <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
-    <script th:attr="src=@{/js/validator.js}"      th:href="@{/js/validator.js}"></script>
+    <script th:attr="src=@{/js/validate.js}"      th:href="@{/js/validate.js}"></script>
     <!--datetime-->
     <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
     <script th:attr="src=@{/js/daterangepicker.js}" th:href="@{/js/daterangepicker.js}"></script>
@@ -165,9 +166,11 @@
 								<th  class="col-md-1" data-checkbox="true"></th>
 								<th  class="col-md-1" data-formatter="runningFormatter" data-align="center">STT</th>
 								<th  class="col-md-1" data-field="userId" data-align="center" data-sortable="true">ID</th>
-								<th  class="col-md-3" data-field="username" data-align="left" data-sortable="true">Tài khoản </th>
+								<th  class="col-md-3" data-field="code" data-align="left" data-sortable="true">Mã nhân viên</th>
+								<th  class="col-md-3" data-field="name" data-align="left" data-sortable="true">Họ tên</th>
 								<th  class="col-md-3" data-field="email" data-align="left" data-sorter="true">Email</th>
-								<th  class="col-md-2" data-field="roleName" data-align="left" data-sorter="true">Vai trò</th>
+								<th  class="col-md-2" data-field="tel_number" data-align="left" data-sorter="true">Số điện thoại</th>
+								<th  class="col-md-1" data-field="tel_number" data-align="left" data-sorter="true">Phòng ban</th>
 								<th  class="col-md-1" data-field="status" data-align="left" data-sorter="true">Trạng thái</th>
 							</tr>
 							</thead>
@@ -177,7 +180,7 @@
 			</div>
 		</div>
 		<!--modal-->
-		<div th:include="modal/add_user_modal :: frag-add-catUserDTO-modal"></div>
+		<div th:include="modal/cat_employee_modal :: frag-cat-emp-modal"></div>
 		<div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
 		<!--footer-->
 		<div th:include="common/footer :: frag-footer"></div>
@@ -188,11 +191,11 @@
 	<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 
 	<script>
-//		row num
+		//row num
 		function runningFormatter(value, row, index) {
 			return index +1;
 		}
-//		init empty data
+		//init empty data
 		var dataInit = [
 		];
 
@@ -201,8 +204,8 @@
 			$('#table-pagination').bootstrapTable({
 				data: dataInit
 			});
-
             initDateRangeSelect();
+
 		});
 
         $btnShowTime = $('#btn-show-time');
@@ -287,30 +290,17 @@
 				});
 			});
 		});
-		//@Login action-------------------------------------------------------------------------------------------------
-		var $btnLogin = $('#login');
-		$(function () {
-			$btnLogin.click(function () {
-				$.ajax({
-					type: "GET",
-					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-					url: $btnLogin.val(),
-					dataType: 'text',
-					timeout: 600000,
-					success: function (data) {
-						document.getElementById("login-info").innerHTML = data;
-					}
-				});
-			});
-		});
-
 		//@Add action---------------------------------------------------------------------------------------------------
 		$btn_add = $('#btn-add');
+		var $modalAddUpdate = $('#myModal');
 		$(function () {
 			$btn_add.click(function () {
-                clearActionInfo();
+				clearActionInfo();
 				changeModelByType(1,null,$btn_add.val());
-				$('#myModal').modal('show');
+                $modalAddUpdate.modal('show');
+				$modalInsertUpdateStock.on('shown.bs.modal', function () {
+					$('#modal-inp-code').focus();
+				});
 			});
 		});
 		//@Update action------------------------------------------------------------------------------------------------
@@ -333,29 +323,25 @@
 		function changeModelByType(type,selectedItem,actionVal) {
             $("#catUserDTO-insert-update-form").attr("th:object",actionVal);
 			if(type == 1){//add
-                $("#catUserDTO-insert-update-form").attr("action",actionVal);
+                $("#emp-insert-update-form").attr("action",actionVal);
 
 				$("#myModalLabel").text('Thêm mới');
-				$("#modal-inp-username").val('');
+				$("#modal-inp-code").val('');
+				$("#modal-inp-name").val('');
 				$("#modal-inp-email").val('');
+				$("#modal-inp-msisdn").val('');
 
 				$("#modal-btn-update").hide();
 				$("#modal-btn-add").show();
 			}else{//update
-                $("#catUserDTO-insert-update-form").attr("action",actionVal);
-				$("#myModalLabel").text('Cập nhật');
-				$("#modal-inp-username").val(selectedItem["username"]);
-				$("#modal-inp-email").val(selectedItem["email"]);
-                //
-				$("#modal-inp-userId").val(selectedItem["userId"]);
-				$("#modal-inp-password").val(selectedItem["password"]);
-				$("#modal-inp-createdDate").val(selectedItem["createdDate"]);
-				$("#modal-inp-imgUrl").val(selectedItem["imgUrl"]);
-				$("#modal-inp-roleName").val(selectedItem["roleName"]);
-				$("#modal-cmb-roleundefined").val(selectedItem["roleName"]);
-				var statusValue = selectedItem["status"] == 1?'Hiệu lực':"Hết hiệu lực";
-				$("#modal-cmb-statusundefined").val(statusValue);
-
+                $("#emp-insert-update-form").attr("action",actionVal);
+                $("#myModalLabel").text('Cập nhật');
+                //code
+                $("#modal-inp-code").val(selectedItem["code"]);
+                $("#modal-inp-name").val(selectedItem["name"]);
+                $("#modal-inp-email").val(selectedItem["email"]);
+                $("#modal-inp-msisdn").val(selectedItem["tel_number"]);
+				//
 				$("#modal-btn-update").show();
 				$("#modal-btn-add").hide();
 			}
