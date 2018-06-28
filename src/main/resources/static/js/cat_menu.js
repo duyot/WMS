@@ -110,7 +110,6 @@ function changeModelByType(type, name, code, url, imgclass,order, id, status, ac
         $('#modal-cmb-status').bootstrapToggle('on');
         $("#div-status *").prop('disabled', true);
         showAdd();
-        $("#myModalLabel").text('Thêm mới');
     } else {//update
         $("#cat-menu-insert-update-form").attr("action", actionVal);
         $("#modal-menu-name").val(decodeHtml(name));

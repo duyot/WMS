@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 </head>
-<div th:fragment="frag-assign-role-user-modal">
+<div th:fragment="frag-assign-stock-user-modal">
     <!-- Modal -->
-    <div class="modal fade" id="assygnRoleUser" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" >
+    <div class="modal fade" id="assygnStockUser" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" >
         <div class="modal-dialog modal-dialog-mini" role="document" style="width: 700px">
-            <form id="assign-role-user-form">
+            <form id="assign-stock-user-form">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
                         </button>
-                        <h4 class="modal-title" th:text="#{title.assygn.role.user}"></h4>
+                        <h4 class="modal-title" th:text="#{title.assygn.stock.user}"></h4>
                     </div>
 
                     <div class="modal-body">
@@ -19,29 +19,19 @@
                             <!--hidden fields-->
                             <input id="modal-role-id" hidden="true" name="id"/>
                             <div class="row">
-                                <div class="col-sm-3">
-                                        <label th:text="#{lbl.allow}"></label>
+                                <div class="col-sm-3" style="margin-bottom: 10px">
+                                        <label style="font-weight: bold" th:text="#{lbl.signin.user}"></label>
                                 </div>
 
                                 <div class="col-sm-7">
-                                    <div class="input-group input-group-combo">
-                                        <div class="radio radio-inline radio-info" style="margin-top: 0px">
-                                            <input value="1" type="radio" id="radio-allow" name="rad-block" checked="checked"/>
-                                            <label for="radio-allow" th:text="#{lbl.yes}"></label>
-                                        </div>
-                                        <div class="radio radio-inline radio-info">
-                                            <input value="0" type="radio" id="radio-not-allow" name="rad-block"/>
-                                            <label for="radio-not-allow" th:text="#{lbl.no}"></label>
-                                        </div>
-
-                                    </div>
+                                    <label style="float: left" id="assign-stock-user-code"></label>
                                 </div>
 
                             </div>
 
                      </div>
 
-                        <table id="tbl-table-role"
+                        <table id="tbl-table-stock"
                                data-pagination="true"
                                data-search="false"
                                data-click-to-select="true"
@@ -52,9 +42,10 @@
                             <tr>
                                 <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
                                 <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
-                                <th class="col-md-2" data-field="radio" data-align="left" data-sortable="true"  data-radio = "true" th:text="#{lbl.sellect}"></th>
-                                <th class="col-md-5" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.roletable.code}"></th>
-                                <th class="col-md-5" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.roletable.name}"></th>
+                                <th class="col-md-2" data-field="radio" data-align="left" data-sortable="true"  data-checkbox = "true" th:text="#{lbl.sellect}"></th>
+                                <th class="col-md-3" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.stock.code}"></th>
+                                <th class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.stock.name}"></th>
+                                <th class="col-md-4" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.stock.address}"></th>
                             </tr>
                             </thead>
 
@@ -62,7 +53,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button id="modal-update-assign-role"  type="button" th:value="@{${controller}+'updateUserRole'}" class="btn btn-primary" >
+                        <button id="modal-update-assign-stock"  type="button" th:value="@{${controller}+'updateUserStock'}" class="btn btn-primary" >
                             <i class="fa fa-check"></i>
                             <span th:text="#{btn.update}"></span>
                         </button>

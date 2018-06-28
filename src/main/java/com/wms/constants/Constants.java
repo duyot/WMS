@@ -86,6 +86,7 @@ public class Constants {
         public static String SYS_ROLE_MENU_SERVICE = "sysRoleMenuServices/";
         public static String SYS_ROLE_SERVICE = "sysRoleServices/";
         public static String SYS_MENU_SERVICE = "sysMenuServices/";
+        public static String MAP_USER_STOCK = "mapUserStockServices/";
     }
 
     public static class SQL_OPERATOR {

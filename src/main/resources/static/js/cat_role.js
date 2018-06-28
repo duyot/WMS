@@ -121,20 +121,19 @@ function changeModelByType( changeType,name, code, id , status,type,custId , act
     if (changeType == 1) {//add
         $("#cat-insert-update-form").attr("action", actionVal);
         emptyForm($("#cat-insert-update-form"));
-        if(isRoot){
+        if(isRoot == "true"){
             $('#modal-cmb-custId').val($('#modal-cmb-custId option:first ').val());
             $("#div-root").css("display","block");
         }
         $('#modal-cmb-status').bootstrapToggle('on');
         $("#div-status *").prop('disabled', true);
         showAdd();
-        $("#myModalLabel").text('Thêm mới');
     } else {//update
         $("#cat-insert-update-form").attr("action", actionVal);
         $("#modal-name").val(decodeHtml(name));
         $("#modal-code").val(decodeHtml(code));
         $("#modal-id").val(id);
-        if(isRoot){
+        if(isRoot == true){
             $('#modal-cmb-custId').val(custId);
             $("#div-root").css("display","none");
         }

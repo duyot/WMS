@@ -379,10 +379,10 @@ function sendEvent(type,url,jsonData,callback,dataType,clearInfor){
 
 }
 function searchEvent(type,url,jsonData,callback) {
-    sendEvent(type,url,jsonData,callback,'json',"true");
+    sendEvent(type,url,jsonData,callback,'json',true);
 }
 function updateEvent(type,url,jsonData,callback) {
-    sendEvent(type,url,jsonData,callback,'text',"false");
+    sendEvent(type,url,jsonData,callback,'text',false);
 }
 function runningFormatter(value, row, index) {
     return index + 1;
@@ -404,7 +404,7 @@ function emptyForm(form){
 function deleteRow(rowId) {
     var jsonData={id: rowId} ;
     var url = $btnDel.val();
-    sendEvent("POST",url,jsonData,"showNotificationAndSearch",'text');
+    sendEvent("POST",url,jsonData,"showNotificationAndSearch",'text',false);
     // $.ajax({
     //     type: "POST",
     //     cache: false,

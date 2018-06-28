@@ -141,16 +141,11 @@
                         <i class="fa fa-plus"></i>
                     </button>
 
-                    <button id="btn-update" th:value="@{${controller} + 'update'}" style="display: none"
-                            type="button" class="btn btn-default">
-                        <i class="fa fa-edit"></i>
-                    </button>
-
                     <button id="btn-delete" th:value="@{${controller} + 'delete'}" style="display: none"
                             type="button" class="btn btn-default">
                         <i class="fa fa-trash"></i>
                     </button>
-                    <button id="btn-root" th:value="@{isRoot}" style="display: none"
+                    <button id="btn-root" th:value="${isRoot}" style="display: none"
                             type="button" class="btn btn-default">
                         <i class="fa fa-trash"></i>
                     </button>
@@ -205,7 +200,8 @@
     </div>
     <!--modal-->
     <div th:include="modal/assign_role_user :: frag-assign-role-user-modal"></div>
-    <div th:include="modal/map_role_menu :: frag-map-role-menu"></div>
+    <div th:include="modal/assign_stock_user :: frag-assign-stock-user-modal"></div>
+    <div th:include="modal/cat_employee_modal :: frag-cat-emp-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>

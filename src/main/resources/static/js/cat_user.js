@@ -2,21 +2,20 @@
 
 var dataInit = [];
 //---------------------------------------------------------------------
-$addUpdateModal = $('#myModal');
+$addUpdateModal = $('#insert-update-modal');
 
 $btnDelConfirmed = $('#modal-btn-del-ok');
 var $btnSearch = $('#btn-search');
 var mainTable = $('#tbl-table');
-$btn_add = $('#btn-add');
 var isRoot =$('#btn-root').val();
-$btn_update = $('#btn-update');
 $btnDel = $('#btn-delete');
 var $selectedItemId;
-var $selectedItemCode;
+var $btn_add = $('#btn-add')
 var validator;
 var searchDeptLink = $('#btn-getListDept').val();
 var btnExecuse = $('#modal-btn-execuse');
 var tableAssignRole = $('#tbl-table-role');
+var tableAssignStock = $('#tbl-table-stock');
 var tree = [];
 var mapKeyValue;
 var currentRoleId = '';
@@ -25,7 +24,8 @@ var currentUserId='';
 //button link
 var url = $('#btn-url').val();
 var url_getRoles = url+"getRoles";
-
+var url_getStock = url+"getListStock";
+var url_update = url+"update";
 //@Init component-----------------------------------------------------------------------------------------------
 $(function () {
     searchDept();
@@ -35,14 +35,17 @@ $(function () {
     tableAssignRole.bootstrapTable({
         data: dataInit
     });
+    tableAssignStock.bootstrapTable({
+        data: dataInit
+    });
     //
     $btn_add.click(function () {
-        // clearActionInfo();
-        // changeModelByType(1, null, null,null,null,null,null, $btn_add.val());
-        // $addUpdateModal.modal('show');
-        // $addUpdateModal.on('shown.bs.modal', function () {
-        //     $('#modal-code').focus();
-        // });
+        clearActionInfo();
+        changeModelByType(1, null, null,null,null,null,null,null, $btn_add.val());
+        showModal($addUpdateModal);
+        $addUpdateModal.on('shown.bs.modal', function () {
+            $('#modal-code').focus();
+        });
 
     });
     $btnSearch.click(function () {
@@ -61,10 +64,11 @@ $(function () {
     })
     $('#modal-update-assign-role').click(function () {
         doUpdateUserRole();
+        })
 
-        }
-
-    )
+    $('#modal-update-assign-stock').click(function () {
+        doUpdateUserStock();
+    })
     doSearch();
 
 
@@ -96,8 +100,8 @@ window.operateEvents = {
     'click .update-row': function (e, value, row, index) {
         validator.resetForm();
         clearActionInfo();
-        changeModelByType(2, row['name'], row['code'], row['id'], row['status'],row["type"],row["custId"] ,$btn_update.val());
-        $("#cat-insert-update-form").find(".error").removeClass("error");
+        changeModelByType(2, row['name'], row['code'], row['id'], row['status'],row["telNumber"],row["email"] ,row['custId'],url_update);
+        $("#emp-insert-update-form").find(".error").removeClass("error");
         showModal($addUpdateModal);
         $addUpdateModal.on('shown.bs.modal', function () {
             $('modal-code').focus();
@@ -107,14 +111,18 @@ window.operateEvents = {
     'click .delete-row': function (e, value, row, index) {
         clearActionInfo();
         $("#lbl-del-info").text('Xóa thông tin: ' + decodeHtml(row['name']));
-        $('#assygnRoleUser').modal('show');
+        $('#myConfirmModal').modal('show');
         $selectedItemId = row['id'];
     },
 
     'click .assign-role': function (e, value, row, index) {
-        doGetDataAndShowform(row['custId']);
         currentRoleId = row['roleId'];
-        currentUserId = row['id']
+        currentUserId = row['id'];
+        doGetDataAndShowform(row['custId']);
+    },
+    'click .assign-stock': function (e, value, row, index) {
+        currentUserId = row['id'];
+        processAssignStock(row['custId'], row['code']);
     },
 
 };
@@ -122,7 +130,7 @@ window.operateEvents = {
 
 //
 $(document).ready(function () {
-    validator = createValidate("#cat-insert-update-form",$addUpdateModal,mainTable,$btnSearch)
+    validator = createValidate("#emp-insert-update-form",$addUpdateModal,mainTable,$btnSearch)
 
 });
 
@@ -140,28 +148,29 @@ function doSearch(clearInfor) {
 }
 
 //
-function changeModelByType( changeType,name, code, id , status,type,custId , actionVal) {
+function changeModelByType( changeType,name, code, id , status, tel,email ,custId,actionVal) {
     if (changeType == 1) {//add
-        $("#cat-insert-update-form").attr("action", actionVal);
-        emptyForm($("#cat-insert-update-form"));
-        if(isRoot){
-            $('#modal-cmb-custId').val($('#modal-cmb-custId option:first ').val());
-            $("#div-root").css("display","block");
+        $("#emp-insert-update-form").attr("action", actionVal);
+        emptyForm($("#emp-insert-update-form"));
+        if(isRoot == "true"){
+            // $('#modal-cmb-custId').val($('#modal-cmb-custId option:first ').val());
+            // $("#div-root").css("display","block");
         }
         $('#modal-cmb-status').bootstrapToggle('on');
         $("#div-status *").prop('disabled', true);
         showAdd();
-        $("#myModalLabel").text('Thêm mới');
     } else {//update
-        $("#cat-insert-update-form").attr("action", actionVal);
+        $("#emp-insert-update-form").attr("action", actionVal);
         $("#modal-name").val(decodeHtml(name));
         $("#modal-code").val(decodeHtml(code));
         $("#modal-id").val(id);
-        if(isRoot){
+        $("#modal-email").val(decodeHtml(email));
+        $("#modal-tel").val(decodeHtml(tel));
+        $("#modal-custId").val(decodeHtml(custId));
+        if(isRoot == "true"){
             $('#modal-cmb-custId').val(custId);
             $("#div-root").css("display","none");
         }
-        $("#modal-type").val(decodeHtml(type));
 
         var currentStatus = status;
         if (currentStatus == '0') {
@@ -239,11 +248,15 @@ function configTree(id){
     return options;
 }
 function doGetDataAndShowform(custId) {
-    var custIdVal = custId;
-    var data = {custId : custIdVal};
+    var data = {custId : custId};
 
     searchEvent("GET",url_getRoles , data,'getRoleDataDone')
 
+}
+function processAssignStock(custId ,code ) {
+    var data = {custId : custId,userId : currentUserId};
+    $('#assign-stock-user-code').text(code);
+    searchEvent("GET",url_getStock , data,'getStocksDataDone')
 }
 function getRoleDataDone( data) {
     showModal($('#assygnRoleUser'));
@@ -251,13 +264,29 @@ function getRoleDataDone( data) {
     tableAssignRole.bootstrapTable('load', data);
     if (currentRoleId!= undefined && currentRoleId != null && data!= null){
         for(i = 0 ; i <data.length ; i++){
-          if(data[i]['id'] == currentRoleId){
-              tableAssignRole.bootstrapTable('check', i);
-          }
+            if(data[i]['id'] == currentRoleId){
+                tableAssignRole.bootstrapTable('check', i);
+            }
         }
     }
 }
 
+function getStocksDataDone(data) {
+    showModal($('#assygnStockUser'));
+    tableAssignStock.bootstrapTable('load', data.lstCatStocks);
+    var listStocks = data.lstCatStocks;
+    var sellectedStock = data.userStocks;
+    for(i = 0 ; i <listStocks.length ; i++){
+
+        for( j = 0 ; j <sellectedStock.length; j++){
+            if(listStocks[i]['id'] == sellectedStock[j]){
+                tableAssignStock.bootstrapTable('check', i);
+                break;
+            }
+        }
+
+    }
+}
 
 function doUpdateUserRole() {
     var role = tableAssignRole.bootstrapTable('getSelections');
@@ -265,4 +294,14 @@ function doUpdateUserRole() {
     var data = {roleId : role[0]['id'] , block : block , userId : currentUserId};
     updateEvent("GET",  $('#modal-update-assign-role').val(),data,"showNotificationAndSearch",false);
     hideModal($('#assygnRoleUser'));
+}
+function doUpdateUserStock() {
+    var stock = tableAssignStock.bootstrapTable('getSelections');
+    var stocks = '';
+    for(i = 0 ; i <stock.length ; i ++){
+        stocks = stocks + ',' + stock[i]['id'];
+    }
+    var data = {userId : currentUserId, stockId: stocks};
+    updateEvent("GET",  $('#modal-update-assign-stock').val(),data,"showNotificationAndSearch",false);
+    hideModal($('#assygnStockUser'));
 }

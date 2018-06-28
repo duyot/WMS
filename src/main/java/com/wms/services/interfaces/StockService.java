@@ -5,6 +5,6 @@ import com.wms.dto.CatStockDTO;
 
 import java.util.List;
 
-public interface StockService {
+public interface StockService extends BaseService<CatStockDTO>{
     List<CatStockDTO> getStockByUser(Long userId, AuthTokenInfo tokenInfo);
 }
