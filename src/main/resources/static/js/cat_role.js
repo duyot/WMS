@@ -44,7 +44,7 @@ $(function () {
      var roleCode =   $("#modal-roleId").val();
      var data = {id : roleCode,menuIds:ids};
 
-     sendEvent("POST",btnExecuse.val(),data,"afterAssignRollSuccess");
+     updateEvent("POST",btnExecuse.val(),data,"afterAssignRollSuccess");
 
     })
     doSearch();
@@ -113,7 +113,7 @@ function doSearch() {
     }
     var keyword = $('#inp-keyword').val().trim();
     var data = {status:statusVal,keyword:keyword};
-    search(true,mainTable,$btnSearch,data);
+    searchAndUpdateMainTable(false,mainTable,$btnSearch,data);
 }
 
 //

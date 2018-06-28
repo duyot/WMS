@@ -113,10 +113,10 @@ public class WorkSpaceController {
     }
 
 
-    @RequestMapping("/cat_user")
-    public String redirectCatUser(){
-        return "redirect:/workspace/cat_user_ctr";
-    }
+//    @RequestMapping("/cat_user")
+//    public String redirectCatUser(){
+//        return "redirect:/workspace/cat_user_ctr";
+//    }
 
 
     @RequestMapping("/import_stock")
@@ -160,5 +160,8 @@ public class WorkSpaceController {
 //    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     @RequestMapping("/cat_role")
     public String redirectCatRole(){ return "redirect:/workspace/cat_role_ctr";
+    }
+    @RequestMapping("/cat_user")
+    public String redirectCatUser(){ return "redirect:/workspace/cat_user_ctr";
     }
 }

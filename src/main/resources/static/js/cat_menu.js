@@ -98,7 +98,7 @@ function doSearch() {
     }
     var keyword = $('#inp-keyword').val().trim();
     var data = {status:statusVal,keyword:keyword};
-    search(true,$tblMenu,$btnSearch,data);
+    searchAndUpdateMainTable(true,$tblMenu,$btnSearch,data);
     searchFullMenu();
 }
 

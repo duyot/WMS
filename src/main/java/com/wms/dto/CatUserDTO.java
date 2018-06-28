@@ -15,11 +15,13 @@ public class CatUserDTO extends BaseDTO {
     private String email;
     private String telNumber;
     private String status;
+    private String statusName;
     private String createdDate;
     private String imgUrl;
     private String roleName;
     private String logReason;
     //
+    private String deptName;
     private String roleId;
     private String block;
     private SysRoleDTO sysRoleDTO ;
@@ -181,6 +183,22 @@ public class CatUserDTO extends BaseDTO {
 
     public void setSysRoleDTO(SysRoleDTO sysRoleDTO) {
         this.sysRoleDTO = sysRoleDTO;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
     @Override
