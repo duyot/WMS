@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.*;
 
@@ -78,11 +79,13 @@ public class StockInfoController extends BaseController{
                                                                   @RequestParam("status")String status
                                                      ){
         List<Condition> lstCon = Lists.newArrayList();
+
         MjrStockGoodsTotalDTO searchGoodsTotalDTO = new MjrStockGoodsTotalDTO();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCon.add(new Condition("amount",Constants.SQL_OPERATOR.GREATER,0D));
 
         searchGoodsTotalDTO.setCustId(selectedCustomer.getId());
+        searchGoodsTotalDTO.setUserId(currentUser.getId());
 
         if(!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,stockId));
