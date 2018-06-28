@@ -257,6 +257,7 @@ function getRoleDataDone( data) {
         }
     }
 }
+
 function doUpdateUserRole() {
     var role = tableAssignRole.bootstrapTable('getSelections');
     var block = $('input[name=rad-block]:checked').val();
