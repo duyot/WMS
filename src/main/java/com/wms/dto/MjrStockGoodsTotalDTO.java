@@ -19,6 +19,7 @@ public class MjrStockGoodsTotalDTO{
     private String amountValue;
     //Chi de phuc vu add tham so vao tim kiem chu ko luu vao database
     private String partnerId;
+    private String userId;
 
     public String getPartnerId() {
         return partnerId;
@@ -41,6 +42,14 @@ public class MjrStockGoodsTotalDTO{
     }
 
     public MjrStockGoodsTotalDTO() {
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getId() {
