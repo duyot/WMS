@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by duyot on 10/17/2016.
  */
-public interface CatUserService {
+public interface CatUserService extends BaseService<CatUserDTO> {
     ResponseObject register(CatUserDTO catUserDTO,AuthTokenInfo tokenInfo);
     ResponseObject updateUser(CatUserDTO catUserDTO,AuthTokenInfo tokenInfo);
     ResponseObject updateCustomer(CatCustomerDTO catCustomerDTO,AuthTokenInfo tokenInfo);

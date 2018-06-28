@@ -329,7 +329,7 @@ function removeSpecialCharForNumber(sText) {
     return sText.replace(/[^0-9.,]/g, '');
 }
 
-function search(isClear,table,btnSearch, data){
+function searchAndUpdateMainTable(isClear,table,btnSearch, data){
     NProgress.start();
     if(isClear){
         clearActionInfo();
@@ -351,7 +351,7 @@ function search(isClear,table,btnSearch, data){
         }
     });
 }
-function sendEvent(type,url,jsonData,callback){
+function sendEvent(type,url,jsonData,callback,dataType,clearInfor){
     NProgress.start();
     $.ajax({
         type: type,
@@ -359,20 +359,30 @@ function sendEvent(type,url,jsonData,callback){
         data: jsonData,
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         url: url,
-        dataType: 'text',
+        dataType: dataType,
         timeout: 600000,
         success: function (data) {
             if (typeof window[callback] === "function") {
-                window[callback](data);
+                window[callback](data,clearInfor);
             }
         },
-        error: function () {
+        error: function (request, error) {
             setErrorMessage($('#action-info'), 'Lỗi hệ thống');
-            NProgress.done();
+            console.log(error);
+
         },
+        complete:function () {
+            NProgress.done();
+        }
     });
     //
 
+}
+function searchEvent(type,url,jsonData,callback) {
+    sendEvent(type,url,jsonData,callback,'json',"true");
+}
+function updateEvent(type,url,jsonData,callback) {
+    sendEvent(type,url,jsonData,callback,'text',"false");
 }
 function runningFormatter(value, row, index) {
     return index + 1;
@@ -392,21 +402,24 @@ function emptyForm(form){
     });
 }
 function deleteRow(rowId) {
-    $.ajax({
-        type: "POST",
-        cache: false,
-        data: {id: rowId},
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        url: $btnDel.val(),
-        dataType: 'text',
-        timeout: 600000,
-        success: function (data) {
-            showNotificationAndSearch(data);
-        },
-        error: function () {
-            setErrorMessage($('#action-info'), 'Lỗi hệ thống');
-        },
-    });
+    var jsonData={id: rowId} ;
+    var url = $btnDel.val();
+    sendEvent("POST",url,jsonData,"showNotificationAndSearch",'text');
+    // $.ajax({
+    //     type: "POST",
+    //     cache: false,
+    //     data: {id: rowId},
+    //     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+    //     url: $btnDel.val(),
+    //     dataType: 'text',
+    //     timeout: 600000,
+    //     success: function (data) {
+    //         showNotificationAndSearch(data,false);
+    //     },
+    //     error: function () {
+    //         setErrorMessage($('#action-info'), 'Lỗi hệ thống');
+    //     },
+    // });
     //
     $('#myConfirmModal').modal('hide');
 }
@@ -429,9 +442,9 @@ function showNotification( data) {
         setErrorMessage($('#action-info'), resultName);
     }
 }
-function showNotificationAndSearch(data) {
+function showNotificationAndSearch(data,clearInfor) {
     showNotification( data);
-    doSearch();
+    doSearch(clearInfor);
 }
 var DOCSO=function(){var t=["không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"],r=function(r,n){var o="",a=Math.floor(r/10),e=r%10;return a>1?(o=" "+t[a]+" mươi",1==e&&(o+=" mốt")):1==a?(o=" mười",1==e&&(o+=" một")):n&&e>0&&(o=" lẻ"),5==e&&a>=1?o+=" lăm":4==e&&a>=1?o+=" tư":(e>1||1==e&&0==a)&&(o+=" "+t[e]),o},n=function(n,o){var a="",e=Math.floor(n/100),n=n%100;return o||e>0?(a=" "+t[e]+" trăm",a+=r(n,!0)):a=r(n,!1),a},o=function(t,r){var o="",a=Math.floor(t/1e6),t=t%1e6;a>0&&(o=n(a,r)+" triệu",r=!0);var e=Math.floor(t/1e3),t=t%1e3;return e>0&&(o+=n(e,r)+" nghìn",r=!0),t>0&&(o+=n(t,r)),o};return{doc:function(r){if(0==r)return t[0];var n="",a="";do ty=r%1e9,r=Math.floor(r/1e9),n=r>0?o(ty,!0)+a+n:o(ty,!1)+a+n,a=" tỷ";while(r>0);return n.trim()}}}();
 

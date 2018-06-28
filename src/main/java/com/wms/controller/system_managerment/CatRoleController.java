@@ -279,24 +279,24 @@ public class CatRoleController extends BaseCommonController {
 //        if user is root role then delete all menus whichs belong to subrole(type = 3)
       if (isRoot && !DataUtil.isNullOrEmpty(deleteMenus)){
 //            search all submenu of this customer
-          List<Condition> lstCon = Lists.newArrayList();
-          lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,sysRoleDTO.getCustId()));
-          lstCon.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,"3"));
-          List<SysRoleDTO> lstSubmenu= roleServiceImpl.findByCondition(lstCon,tokenInfo);
-          String roleIds = "";
-          for (SysRoleDTO item : lstSubmenu){
-              roleIds = roleIds +","+item.getId();
-          }
-          if (!DataUtil.isNullOrEmpty(roleIds)){
-              List<Condition> lstDelCon = Lists.newArrayList();
-              lstDelCon.add(new Condition("roleId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN,roleIds.replaceFirst(",","")));
-              lstDelCon.add(new Condition("menuId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN,deleteMenus));
-              String result = sysRoleMenuServiceImpl.deleteByCondition(lstDelCon,tokenInfo);
-              if(Responses.ERROR.getName().equalsIgnoreCase(result)){
-                  log.info("ERROR");
-                  return "0|Gán quyền không thành công";
-              }
-          }
+//          List<Condition> lstCon = Lists.newArrayList();
+//          lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,sysRoleDTO.getCustId()));
+//          lstCon.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,"3"));
+//          List<SysRoleDTO> lstSubmenu= roleServiceImpl.findByCondition(lstCon,tokenInfo);
+//          String roleIds = "";
+//          for (SysRoleDTO item : lstSubmenu){
+//              roleIds = roleIds +","+item.getId();
+//          }
+//          if (!DataUtil.isNullOrEmpty(roleIds)){
+//              List<Condition> lstDelCon = Lists.newArrayList();
+//              lstDelCon.add(new Condition("roleId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN,roleIds.replaceFirst(",","")));
+//              lstDelCon.add(new Condition("menuId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN,deleteMenus));
+//              String result = sysRoleMenuServiceImpl.deleteByCondition(lstDelCon,tokenInfo);
+//              if(Responses.ERROR.getName().equalsIgnoreCase(result)){
+//                  log.info("ERROR");
+//                  return "0|Gán quyền không thành công";
+//              }
+//          }
       }
         log.info("SUCCESS");
         return "1|Gán quyền thành công";
