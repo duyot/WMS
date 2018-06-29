@@ -4,12 +4,20 @@ public class TreeModel {
     String id;
     String path;
     String name;
+    boolean isSellected;
 
 
     public TreeModel(String id, String path, String name) {
         this.id = id;
         this.path = path;
         this.name = name;
+    }
+
+    public TreeModel(String id, String path, String name, boolean isSellected) {
+        this.id = id;
+        this.path = path;
+        this.name = name;
+        this.isSellected = isSellected;
     }
 
     public String getId() {
@@ -34,5 +42,13 @@ public class TreeModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isSellected() {
+        return isSellected;
+    }
+
+    public void setSellected(boolean sellected) {
+        isSellected = sellected;
     }
 }

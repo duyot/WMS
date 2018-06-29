@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 </head>
-<div th:fragment="frag-map-role-menu">
+<div th:fragment="frag-update-department">
     <!-- Modal -->
-    <div class="modal fade" id="mapRoleMenu" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="updateDepartment" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-dialog-mini" role="document">
-            <form id="cat-insert-update-form">
+            <form id="update-department-form">
                 <div class="modal-content" id="cat-form-modal">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
@@ -15,9 +15,8 @@
                     </div>
 
                     <div class="modal-body">
-                        <input id="modal-roleId" hidden="id" name="rolecode"/>
                         <div class="container-modal">
-                            <select id="map-role-menu" class="form-control selectpicker" multiple="multiple"  data-width="100%">
+                            <select id="update-dept" class="form-control selectpicker" multiple="multiple"  data-width="100%">
                                 <option  th:each="item:${lstTreeModel}"
                                          th:value="${item.id}" th:text="${item.name}" th:attr="data-section=${item.path}">1</option>
                             </select>
@@ -26,7 +25,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button id="modal-btn-execuse"  type="button" class="btn btn-primary" th:value="@{/workspace/cat_role_ctr/assignRoleMenu}">
+                        <button id="update-department-execuse"  type="button" class="btn btn-primary" th:value="@{${controller} + 'updateDepartment'}">
                             <i class="fa fa-check"></i>
                             <span th:text="#{btn.execuse}"></span>
                         </button>

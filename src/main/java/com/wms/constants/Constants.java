@@ -17,6 +17,14 @@ public class Constants {
         public static String STATUS = "STATUS";
     }
 
+    public static class RESPONSE{
+        public static String UPDATE_SUSSESS = "update.success";
+        public static String UPDATE_ERROR = "update.error";
+        public static String INSERT_SUSSESS = "insert.success";
+        public static String INSERT_ERROR = "insert.error";
+        public static String DELETE_SUSSESS = "delete.success";
+        public static String DELETE_ERROR = "delete.error";
+    }
     public static class FILE_RESOURCE{
         public static String IMPORT_ERROR_TEMPLATE = "File_loi_nhap_hang.xlsx";
         public static String EXPORT_ERROR_TEMPLATE = "File_loi_xuat_hang.xlsx";

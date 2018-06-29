@@ -13,14 +13,13 @@ var $selectedItemId;
 var $btn_add = $('#btn-add')
 var validator;
 var searchDeptLink = $('#btn-getListDept').val();
-var btnExecuse = $('#modal-btn-execuse');
 var tableAssignRole = $('#tbl-table-role');
 var tableAssignStock = $('#tbl-table-stock');
 var tree = [];
 var mapKeyValue;
 var currentRoleId = '';
 var currentUserId='';
-
+var btnUpdateDept = $('#update-department-execuse');
 //button link
 var url = $('#btn-url').val();
 var url_getRoles = url+"getRoles";
@@ -54,12 +53,13 @@ $(function () {
     $btnDelConfirmed.click(function () {
         deleteRow($selectedItemId);}
     );
-    btnExecuse.click(function () {
-     // var ids= getTreeCheckedList("#mapRoleMenu");
-     // var roleCode =   $("#modal-roleId").val();
-     // var data = {id : roleCode,menuIds:ids};
-     //
-     // sendEvent("POST",btnExecuse.val(),data,"afterAssignRollSuccess");
+
+
+    btnUpdateDept.click(function () {
+        var ids= getTreeCheckedList("#updateDepartment");
+        var data = {userId : currentUserId,deptId:ids};
+
+        updateEvent("GET",btnUpdateDept.val(),data,"afterAssignDeptSuccess");
 
     })
     $('#modal-update-assign-role').click(function () {
@@ -69,29 +69,60 @@ $(function () {
     $('#modal-update-assign-stock').click(function () {
         doUpdateUserStock();
     })
+    $('#modal-btn-reset').click(function () {
+        doResetPass();
+        
+    })
     doSearch();
+
 
 
 });
 
+$('#confirm').on('keyup', function () {
+    if ($('#password').val() == $('#confirm').val()) {
+        $('#message').html('Mật khẩu khớp').css('color', 'green');
+    } else
+        $('#message').html('Mật khẩu không khớp').css('color', 'red');
+});
 function operateFormatter(value, row, index) {
-    return [
-        '<a class="update-row row-function" href="javascript:void(0)" title="Sửa">',
-        '<i class="fa fa-pencil-square-o"></i>',
-        '</a> ',
-        '<a class="delete-row row-function" href="javascript:void(0)" title="Xóa">',
-        '<i class="fa fa-trash"></i>',
-        '</a> ',
-        '<a class="assign-role row-function" href="javascript:void(0)" title="Gán vai trò">',
-        '<i class="fa  fa-user-circle-o"></i>',
-        '</a> ',
-        '<a class="assign-stock row-function" href="javascript:void(0)" title="Gán kho">',
-        '<i class="fa  fa-home"></i>',
-        '</a> ',
-        '<a class="resetkey row-function" href="javascript:void(0)" title="Reset mật khẩu">',
-        '<i class="fa  fa-key"></i>',
-        '</a> '
-    ].join('');
+    if(isRoot == "true"){
+        return [
+            '<a class="update-row row-function" href="javascript:void(0)" title="Sửa">',
+            '<i class="fa fa-pencil-square-o"></i>',
+            '</a> ',
+            '<a class="delete-row row-function" href="javascript:void(0)" title="Xóa">',
+            '<i class="fa fa-trash"></i>',
+            '</a> ',
+            '<a class="assign-role row-function" href="javascript:void(0)" title="Gán vai trò">',
+            '<i class="fa  fa-user-circle-o"></i>',
+            '</a> ',
+            '<a class="resetkey row-function" href="javascript:void(0)" title="Đổi mật khẩu">',
+            '<i class="fa  fa-key"></i>',
+            '</a> '
+        ].join('');
+    }else{
+        return [
+            '<a class="update-row row-function" href="javascript:void(0)" title="Sửa">',
+            '<i class="fa fa-pencil-square-o"></i>',
+            '</a> ',
+            '<a class="delete-row row-function" href="javascript:void(0)" title="Xóa">',
+            '<i class="fa fa-trash"></i>',
+            '</a> ',
+            '<a class="assign-role row-function" href="javascript:void(0)" title="Gán vai trò">',
+            '<i class="fa  fa-user-circle-o"></i>',
+            '</a> ',
+            '<a class="assign-stock row-function" href="javascript:void(0)" title="Gán kho">',
+            '<i class="fa  fa-home"></i>',
+            '</a> ',
+            '<a class="resetkey row-function" href="javascript:void(0)" title="Đổi mật khẩu">',
+            '<i class="fa  fa-key"></i>',
+            '</a> ',
+            '<a class="assynDept row-function" href="javascript:void(0)" title="Gán phong ban">',
+            '<i class="fa  fa-building"></i>',
+            '</a> '
+        ].join('');
+    }
 }
 
 //@FUNCTION-----------------------------------------------------------------------------------------------
@@ -124,13 +155,20 @@ window.operateEvents = {
         currentUserId = row['id'];
         processAssignStock(row['custId'], row['code']);
     },
-
+    'click .resetkey': function (e, value, row, index) {
+      doPrepareShowForm(row['code'],row['id']);
+    },
+    'click .assynDept': function (e, value, row, index) {
+        currentUserId = row['id']
+        doPrepareShowDept(row['deptId']);
+    },
 };
 
 
 //
 $(document).ready(function () {
     validator = createValidate("#emp-insert-update-form",$addUpdateModal,mainTable,$btnSearch)
+    var tree1 = $("#update-dept").treeMultiselect({ enableSelectAll: true ,hideSidePanel:true,maxSelections: '1'});
 
 });
 
@@ -256,7 +294,7 @@ function doGetDataAndShowform(custId) {
 function processAssignStock(custId ,code ) {
     var data = {custId : custId,userId : currentUserId};
     $('#assign-stock-user-code').text(code);
-    searchEvent("GET",url_getStock , data,'getStocksDataDone')
+    searchEvent("GET",url_getStock , data,'getStocksDataDone');
 }
 function getRoleDataDone( data) {
     showModal($('#assygnRoleUser'));
@@ -279,7 +317,7 @@ function getStocksDataDone(data) {
     for(i = 0 ; i <listStocks.length ; i++){
 
         for( j = 0 ; j <sellectedStock.length; j++){
-            if(listStocks[i]['id'] == sellectedStock[j]){
+            if(listSt4ocks[i]['id'] == sellectedStock[j]){
                 tableAssignStock.bootstrapTable('check', i);
                 break;
             }
@@ -287,11 +325,19 @@ function getStocksDataDone(data) {
 
     }
 }
+function doPrepareShowDept(deptId) {
+    $("#updateDepartment").find(":checkbox").each(function (item) {
+        $(this).prop('checked', false);
+    })
+    showModal($('#updateDepartment'));
+    if( deptId != '');
+      $("#updateDepartment").find("[data-value= "+deptId+"]").children(":checkbox").prop('checked', true);
+}
 
 function doUpdateUserRole() {
     var role = tableAssignRole.bootstrapTable('getSelections');
     var block = $('input[name=rad-block]:checked').val();
-    var data = {roleId : role[0]['id'] , block : block , userId : currentUserId};
+    var data = {roleId : role[0]['id'] ,roleName : role[0]['name'], block : block , userId : currentUserId};
     updateEvent("GET",  $('#modal-update-assign-role').val(),data,"showNotificationAndSearch",false);
     hideModal($('#assygnRoleUser'));
 }
@@ -304,4 +350,25 @@ function doUpdateUserStock() {
     var data = {userId : currentUserId, stockId: stocks};
     updateEvent("GET",  $('#modal-update-assign-stock').val(),data,"showNotificationAndSearch",false);
     hideModal($('#assygnStockUser'));
+}
+function doPrepareShowForm(code,id) {
+    $('#modal-reset-code').text(decodeHtml(code));
+    emptyForm($('#reset-password-form'));
+    $('#modal-userId').val(id);
+    $('#message').text('');
+    showModal($('#resetpasss'));
+}
+function doResetPass() {
+    if ($('#password').val() != $('#confirm').val()) {
+        $('#message').html('Mật khẩu không khớp').css('color', 'red');
+    } else{
+    updateEvent("POST",$('#modal-btn-reset').val(),$('#reset-password-form').serialize(),"showNotification");
+        hideModal($('#resetpasss'));
+    }
+
+}
+function afterAssignDeptSuccess(data) {
+    showNotificationAndSearch(data,false);
+    hideModal($('#updateDepartment'))
+
 }

@@ -33,6 +33,7 @@ public class BaseCommonController {
     //
     public Map<String,String> mapAppStatus;
     //
+
     @ModelAttribute("currentUser")
     public void setCurrentUser(HttpServletRequest request){
         if (currentUser == null) {

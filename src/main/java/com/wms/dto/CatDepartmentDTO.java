@@ -12,6 +12,7 @@ public class CatDepartmentDTO {
     private String custId;
     private String path;
     private String parentId;
+    private boolean isSellected;
 
     public CatDepartmentDTO(String id, String code, String name, String status, String custId, String path, String parentId ) {
         this.id = id;
@@ -80,6 +81,14 @@ public class CatDepartmentDTO {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    public boolean isSellected() {
+        return isSellected;
+    }
+
+    public void setSellected(boolean sellected) {
+        isSellected = sellected;
     }
 
     @Override
