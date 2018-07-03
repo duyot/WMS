@@ -54,7 +54,7 @@ public class CatStockController extends BaseCommonController{
 
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
+            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,status));
         }
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
@@ -195,7 +195,7 @@ public class CatStockController extends BaseCommonController{
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCon.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,code));
-        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
         return !DataUtil.isListNullOrEmpty(catStockService.findByCondition(lstCon,tokenInfo));
     }
 

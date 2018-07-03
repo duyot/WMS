@@ -65,7 +65,7 @@ public class CatRoleController extends BaseCommonController {
             lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         }
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
+            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE ,Constants.SQL_OPERATOR.EQUAL,status));
         }
         if(!DataUtil.isStringNullOrEmpty(keyword) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("name", Constants.SQL_OPERATOR.LIKE,keyword));
@@ -140,7 +140,7 @@ public class CatRoleController extends BaseCommonController {
         if (currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1")){
 //            get full menu;
             List<Condition> lstCon = Lists.newArrayList();
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
             lstCon.add(new Condition("levels",Constants.SQL_OPERATOR.ORDER,"desc"));
 
             lstMenu = menuService.findByCondition(lstCon,tokenInfo);
@@ -189,7 +189,7 @@ public class CatRoleController extends BaseCommonController {
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
         List<Condition>lstCon = new ArrayList<>();
-        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
         lstCustomer= customerService.findByCondition(lstCon,tokenInfo);
         for (CatCustomerDTO catCustomerDTO :lstCustomer){
             mapCustIdName.put(catCustomerDTO.getId(),catCustomerDTO.getName());

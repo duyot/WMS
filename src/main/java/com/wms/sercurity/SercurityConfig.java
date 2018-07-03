@@ -37,8 +37,8 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
                 //for sys_admin
                 .antMatchers("/workspace/sysadmin/**").hasRole("SYS_ADMIN")
                 //for each function
-                .antMatchers("/workspace/cat_goods_group_ctr","/workspace/cat_goods_group_ctr/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN","ADMIN")
-                .antMatchers("/workspace/user/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN","ADMIN","USER")
+                //.antMatchers("/workspace/cat_goods_group_ctr","/workspace/cat_goods_group_ctr/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN","ADMIN")
+                //.antMatchers("/workspace/user/**").hasAnyRole("SYS_ADMIN","CUS_ADMIN","ADMIN","USER")
                 //
                 .anyRequest().authenticated()
             .and()

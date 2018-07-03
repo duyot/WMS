@@ -47,11 +47,11 @@ public class CatGoodsGroupController extends BaseCommonController{
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
     public  @ResponseBody List<CatGoodsGroupDTO> findByCondition(@RequestParam("status")String status){
         List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.NOT_EQUAL,Constants.STATUS.DELETED));
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        //lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.NOT_EQUAL, Constants.STATUS.DELETED));
 
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
+            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,status));
         }
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
@@ -138,9 +138,9 @@ public class CatGoodsGroupController extends BaseCommonController{
 
     public boolean isDeleteGoodsGroupAvailable(String code){
         List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        lstCon.add(new Condition("name",Constants.SQL_OPERATOR.EQUAL,code));
-        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("name", Constants.SQL_OPERATOR.EQUAL,code));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
         return !DataUtil.isListNullOrEmpty(catGoodsGroupService.findByCondition(lstCon,tokenInfo));
     }
 

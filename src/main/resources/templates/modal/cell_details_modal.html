@@ -20,15 +20,15 @@
                             <div class="panel-body" style="padding: 0.2em 0.4em;">
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <label id="lbl-stock-name" class="require"></label>
+                                        <label id="lbl-stock-name" class="require break-word"></label>
                                     </div>
                                     <div class="col-sm-3">
-                                        <label th:text="#{lbl.cellCode}" class="require" style="padding-right: 20px"></label>
+                                        <label th:text="#{lbl.cellCode}" class="control-label label-require"   style="padding-right: 20px"></label>
                                     </div>
 
                                     <div class="col-sm-5">
                                         <div class="input-group">
-                                            <input id="inp-cell-code" class="form-control uppercase-input"/>
+                                            <input id="inp-cell-code" class="form-control uppercase-input" th:required="true" maxlength="50"/>
                                         </div>
                                     </div>
                                 </div>

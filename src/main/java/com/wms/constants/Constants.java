@@ -116,6 +116,7 @@ public class Constants {
     public static class SQL_PRO_TYPE{
         public static String STRING = "string";
         public static String LONG   = "long";
+        public static String BYTE   = "byte";
         public static String DATE   = "date";
     }
 

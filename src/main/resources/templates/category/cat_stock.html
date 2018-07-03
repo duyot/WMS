@@ -363,6 +363,10 @@
             alert("Nhập vào mã vị trí");
             return;
         }
+        if (isContainsNonLatinCharacter(cellCode)){
+            alert("Nhập vào nội dung k dấu");
+            return;
+        }
         //
         $.ajax({
             type: "POST",
@@ -388,20 +392,21 @@
         validator =  $("#stock-insert-update-form").validate({
             ignore: ":hidden",
             rules: {
-                name: {
+                code: {
                     required: true,
                     normalizer: function( value ) {
                         return $.trim( value );
                     },
                     maxlength:50
                 },
-                code: {
+                name: {
                     required: true,
                     normalizer: function( value ) {
                         return $.trim( value );
                     },
                     maxlength:100
                 }
+
             },
             submitHandler: function (form) {
                 preprocessInput($("#stock-insert-update-form"));
@@ -420,6 +425,13 @@
                     $('#modal-inp-address').focus();
                     return;
                 }
+                //
+                if (isContainsNonLatinCharacter($('#modal-inp-code').val())){
+                    alert("Vui lòng nhập nội dung không dấu");
+                    $('#modal-inp-code').focus();
+                    return;
+                }
+                //
                 $.ajax({
                     type: "POST",
                     url: $("#stock-insert-update-form").attr('action'),
@@ -433,9 +445,9 @@
                         }else{
                             setErrorMessage($('#action-info'),resultName);
                         }
-
+                        //
                         search(false);
-
+                        //
                     },
                     error:function(){
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');
