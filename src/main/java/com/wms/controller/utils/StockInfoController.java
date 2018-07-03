@@ -117,7 +117,7 @@ public class StockInfoController extends BaseController{
 
     @RequestMapping(value = "/getGoodsDetail",method = RequestMethod.GET)
     public @ResponseBody  ServerPagingDTO getGoodsDetail(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
-                                                         @RequestParam("goodsState")String goodsState,@RequestParam("limit")String limit,
+                                                         @RequestParam("goodsState")String goodsState,@RequestParam("partnerId")String partnerId,@RequestParam("limit")String limit,
                                                          @RequestParam("offset")String offset
     ){
         if (DataUtil.isStringNullOrEmpty(goodsId)) {
@@ -126,7 +126,7 @@ public class StockInfoController extends BaseController{
         CatGoodsDTO goodsItem = mapGoodsIdGoods.get(goodsId);
 
         ServerPagingDTO data = new ServerPagingDTO();
-        List<MjrStockTransDetailDTO> lstData = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,limit,offset,tokenInfo);
+        List<MjrStockTransDetailDTO> lstData = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId,limit,offset,tokenInfo);
         lstGoodsDetails = setListGoodsDetailNameInfo(lstData,goodsItem);
         data.setRows(lstGoodsDetails);
         Long totalItem =utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,tokenInfo);
@@ -147,7 +147,7 @@ public class StockInfoController extends BaseController{
     }
 
     @RequestMapping(value = "/getGoodsDetailFile")
-    public void getGoodsDetailFile(HttpServletResponse response,@RequestParam("stockId") String stockId){
+    public void getGoodsDetailFile(HttpServletResponse response,@RequestParam("stockId") String stockId,@RequestParam("partnerId") String partnerId){
         if(DataUtil.isListNullOrEmpty(lstGoodsDetails)){
             lstGoodsDetails.add(new MjrStockTransDetailDTO("","","","","","","","","","","",""));
         }
@@ -157,7 +157,7 @@ public class StockInfoController extends BaseController{
         MjrStockTransDetailDTO item = lstGoodsDetails.get(0);
         CatGoodsDTO goodsItem = mapGoodsIdGoods.get(item.getGoodsId());
         Long totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),tokenInfo);
-        List<MjrStockTransDetailDTO> lstGoodsDetailAlls = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),totalItem+"",0+"",tokenInfo);
+        List<MjrStockTransDetailDTO> lstGoodsDetailAlls = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),partnerId,totalItem+"",0+"",tokenInfo);
         //
         String fileResource = exportGoodsDetails(setListGoodsDetailNameInfo(lstGoodsDetailAlls,goodsItem),prefixFileName,stockId,goodsItem.isSerial());
         FunctionUtils.loadFileToClient(response,fileResource);

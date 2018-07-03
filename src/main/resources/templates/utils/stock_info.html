@@ -251,7 +251,7 @@
             pageList:[5 ,10, 25, 50],
             pageSize:5,
             queryParams: function (p) {
-                return { stockId:$("#hidden-stock-id").val(),goodsId:$("#hidden-goods-id").val(),goodsState:$("#hidden-state-id").val(),limit: p.limit,offset: p.offset};
+                return { stockId:$("#hidden-stock-id").val(),goodsId:$("#hidden-goods-id").val(),goodsState:$("#hidden-state-id").val(),partnerId:$("#cmb-partner").val(),limit: p.limit,offset: p.offset};
 
             }
         });
@@ -263,6 +263,7 @@
             $("#hidden-stock-id").val(row["stockId"]);
             $("#hidden-goods-id").val(row["goodsId"]);
             $("#hidden-state-id").val(row["goodsState"]);
+            var partnerId = $('#cmb-partner').val();
             //
             $tableGoodsDetail.bootstrapTable('refresh');
             //
@@ -271,7 +272,7 @@
             if(originalLink.includes("?")){
                 originalLink = trimAtChacter(originalLink,"?");
             }
-            $downloadLink.attr("href",originalLink +"?stockId="+row['stockId']);
+            $downloadLink.attr("href",originalLink +"?stockId="+row['stockId']+"&partnerId="+partnerId);
             //
             $("#modal-lbl-goods-name-val").text(row["goodsCode"] + " - "+row["goodsName"] );
             $("#modal-lbl-stock-name-val").text(row["stockName"]);

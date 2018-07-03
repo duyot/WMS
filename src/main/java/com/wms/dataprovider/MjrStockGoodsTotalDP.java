@@ -36,11 +36,11 @@ public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
             return 0L;
         }
     }
-
+    //Lay theo partnerId
     public List<MjrStockTransDetailDTO> getGoodsDetail(String custId, String stockId, String goodsId,
-                                                       String isSerial, String goodsState, String limit, String offset,AuthTokenInfo tokenInfo) {
+                                                       String isSerial, String goodsState,String partnerId, String limit, String offset,AuthTokenInfo tokenInfo) {
         String url = SERVICE_URL + SERVICE_PREFIX + "getGoodsDetail?custId="+custId+"&stockId="+stockId+"&goodsId="+goodsId+"&isSerial="+isSerial+
-                "&goodsState="+goodsState+"&limit="+limit+"&offset="+offset+"&access_token="+ tokenInfo.getAccess_token();
+                "&goodsState="+goodsState+"&partnerId="+partnerId+"&limit="+limit+"&offset="+offset+"&access_token="+ tokenInfo.getAccess_token();
         try {
             ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null ,MjrStockTransDetailDTO[].class);
             return Arrays.asList(responseEntity.getBody());
@@ -50,6 +50,7 @@ public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
             return new ArrayList<>();
         }
     }
+
 
     public List<MjrStockGoodsTotalDTO> findMoreCondition(MjrStockGoodsTotalDTO searchGoodsTotalDTO,AuthTokenInfo tokenInfo) {
         String url = SERVICE_URL + SERVICE_PREFIX + "findMoreCondition?access_token="+ tokenInfo.getAccess_token();
