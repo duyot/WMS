@@ -1,0 +1,79 @@
+<Screen
+	CID = "1891321202"
+	AppID = "2"
+	AppVer = "4.6.155.0"
+	DocID = ""
+	HasCanvas = "0"
+	Width = "640"
+	Height = "480"
+	NextCID = "6"
+	RepresentativeRefID = "0"
+	UseDefRepresentative = "1">
+	<Elements
+		CID = "1">
+		<Element
+			CID = "752647612"
+			Type = "Bitmap"
+			X = "-25"
+			Y = "292"
+			Width = "511"
+			Height = "486"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			FileID = "6CC81D53-8987-467A-B7341CD8BB915478"
+			RootPath = "$Container"
+			Filename = "..\Images\TimKiemNhanVien.png"
+			Placement = "Stretch"
+			HorzAlign = "Left"
+			VertAlign = "Top"
+			ClipLeft = "0"
+			ClipRight = "0"
+			ClipTop = "0"
+			ClipBottom = "0"
+			SliceLeft = "0"
+			SliceRight = "0"
+			SliceTop = "0"
+			SliceBottom = "0"/>
+		<Element
+			CID = "752636913"
+			Type = "StoryboardCloseBox"
+			X = "590"
+			Y = "355"
+			Width = "90"
+			Height = "30"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""/>
+	</Elements>
+	<Connections
+		CID = "2">
+		<Connection
+			CID = "752623395"
+			Layer = "Storyboard"
+			Trigger = "LeftClick"
+			Type = "Close"
+			SubType = ""
+			SourceSubItemID = ""
+			SourceRefID = "752647612"
+			TargetRefID = "752636913"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+	</Connections>
+	<Groups
+		CID = "3"/>
+	<SelectionGroups
+		CID = "4"/>
+	<Notes
+		CID = "5">
+		<Note
+			CID = "1891330446"
+			Name = "Description"
+			NextCID = "2">
+			<Text
+				CID = "1">
+				
+			</Text>
+		</Note>
+	</Notes>
+</Screen>

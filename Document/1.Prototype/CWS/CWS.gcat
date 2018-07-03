@@ -1,0 +1,1543 @@
+<Catalogue
+	CID = "1"
+	NextCID = "2">
+	<Files
+		CID = "1">
+		<FileInfo
+			ID = "00549A77-8915-4C26-9E7DCEF03178A0FC"
+			RelativePath = "QuanTriHeThong\VaiTro\1.2.CapNhatVaiTro.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\1.2.CapNhatVaiTro.gui"/>
+		<FileInfo
+			ID = "018505FA-34F3-409F-8764B8245A27765B"
+			RelativePath = "Images\Dashboard_GiaoDich.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\Dashboard_GiaoDich.png"/>
+		<FileInfo
+			ID = "01BBA85C-F649-483C-B75E705B4C37430E"
+			RelativePath = "QuanTriHeThong\NguoiDung\1.1.NguoiDung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\1.1.NguoiDung.gui"/>
+		<FileInfo
+			ID = "030CD39C-71BF-445A-881FA55875A07F7E"
+			RelativePath = "KinhDoanh\HopDong\2.6.BaoVeGia.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.6.BaoVeGia.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "045A9182-B8D6-47BE-A23A89E450D37E13"
+			RelativePath = "Images\btn_save.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_save.png"/>
+		<FileInfo
+			ID = "05CB2801-5CCF-42D1-BBBE0BAB55AA0C18"
+			RelativePath = "Masters\Header.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Header.gui"/>
+		<FileInfo
+			ID = "061B4EE6-956F-4E41-A33D4A6A53332CDA"
+			RelativePath = "TienIch\XemKhoHang\1.4.ChiTietHangHoa.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "TienIch\XemKhoHang\1.4.ChiTietHangHoa.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "06390A2E-D032-4CB8-BBEC4C08AF854CF8"
+			RelativePath = "Images\tiendo.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\tiendo.png"/>
+		<FileInfo
+			ID = "068733D1-E74C-41FA-8454A755A383D60D"
+			RelativePath = "BanHang\QuanLyGiaoHang\2.2.GiaoHang_ThuTien.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "BanHang\QuanLyGiaoHang\2.2ThuTien.gui"/>
+		<FileInfo
+			ID = "0755A218-966C-49E7-8A6F9C2347E92111"
+			RelativePath = "Images\date_icon.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\date_icon.png"/>
+		<FileInfo
+			ID = "07652C78-40BD-4646-B9040C65DDC4CA2E"
+			RelativePath = "Images\copy_icon.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\copy_icon.png"/>
+		<FileInfo
+			ID = "08C10FD9-109B-4D15-8E50D4989493F2FF"
+			RelativePath = "Images\winzar_4_2.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\winzar_4_2.png"/>
+		<FileInfo
+			ID = "09DA496E-FCD9-4854-8F4EB5592E3B95F1"
+			RelativePath = "Images\home.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\home.png"/>
+		<FileInfo
+			ID = "0A21E570-597D-492C-B0FCCF51D47A6455"
+			RelativePath = "XuatKho_TrucTiep\1.1.Xuatkho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "XuatKho_TrucTiep\1.1.Xuatkho.gui"/>
+		<FileInfo
+			ID = "0A70B8E5-10B9-4C0C-9D334FE06DDDAE90"
+			RelativePath = "Images\96.rollback.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\96.rollback.png"/>
+		<FileInfo
+			ID = "0B207D47-F51B-428B-997E430B2593C403"
+			RelativePath = "KinhDoanh\HopDong\2.1.HopDong_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.1.HopDong_ThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "0B329A9B-53C6-471D-B970C141C799F33C"
+			RelativePath = "QuanLyChung\DanhSachPhongBan\2.1.PhongBan_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachPhongBan\2.1.PhongBan_ThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "0B85A095-3E93-4648-854A5ADE8F2E009D"
+			RelativePath = "QuanTriHeThong\NguoiDung\2.3.Khoa_NguoiDung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\2.3.Khoa_NguoiDung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "0CB61BFD-2C29-40D3-9703D2C6D3E91E15"
+			RelativePath = "Images\close _black.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\close _black.png"/>
+		<FileInfo
+			ID = "0D417B0C-4BFA-4D87-8B7F6DCC91D999B9"
+			RelativePath = "Images\arrow_down.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\arrow_down.png"/>
+		<FileInfo
+			ID = "0E65B4D1-810C-405C-BFE6AE0FC408B074"
+			RelativePath = "Images\close.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\close.png"/>
+		<FileInfo
+			ID = "0F2D929B-3028-40CA-AB272BBEE0C4EFAF"
+			RelativePath = "Images\BatBuoc.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\BatBuoc.png"/>
+		<FileInfo
+			ID = "0F9CC905-CED6-4FC2-9B3EBF11F2BC455D"
+			RelativePath = "Images\btn_xuatfile.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_xuatfile.png"/>
+		<FileInfo
+			ID = "112E993F-DC18-4C69-988C13027C26D6B4"
+			RelativePath = "Images\95.commit.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\95.commit.png"/>
+		<FileInfo
+			ID = "12B2196E-843B-4026-AC65B4FAD757033A"
+			RelativePath = "KinhDoanh\HopDong\1.0.DanhSachHopDong_CB.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\1.0.DanhSachHopDong_CB.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "12EAD181-1970-45EE-BDC22B8EAABC54CE"
+			RelativePath = "QuanTriHeThong\TinhNang\1.1.TaoTinhNang.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\TinhNang\1.1.TaoTinhNang.gui"/>
+		<FileInfo
+			ID = "13129778-2D50-4845-9BC9304CBFD454D1"
+			RelativePath = "QuanLyChung\DanhSachKho\1.2.CapNhatKho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\1.2.CapNhatKho.gui"/>
+		<FileInfo
+			ID = "13701B18-62D6-4253-B8CC0D66080F524E"
+			RelativePath = "QuanLyChung\DanhSachPhongBan\2.0.PhongBan_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachPhongBan\2.0.PhongBan_ChiTiet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "15BF8281-2A6B-47A7-99555046F86463C5"
+			RelativePath = "DanhMuc\DanhMuc.NhomCongViec.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "DanhMuc\DanhMuc.NhomCongViec.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "17DE4A1F-2F6D-4FAB-ADA6565CF59F1F1B"
+			RelativePath = "QuanTriHeThong\VaiTro\2.1.Vtr_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\2.1.Vtr_ThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "18D3CDA0-35A1-4411-9D0AB4F083B40717"
+			RelativePath = "Util\TimKiemKhachHang.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\TimKiemKhachHang.gui"/>
+		<FileInfo
+			ID = "18E22E7A-89FD-4542-B1897769F9964ADF"
+			RelativePath = "QuanLyChung\DanhSachKho\1.1.DanhSachKho_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\1.1.DanhSachKho_NC.gui"/>
+		<FileInfo
+			ID = "1AE4E220-B41C-4D9F-AE9404210FB7FE6A"
+			RelativePath = "Images\6.back.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\6.back.png"/>
+		<FileInfo
+			ID = "1BEBD291-5FE0-456F-808B1EDBFBA48150"
+			RelativePath = "QuanLyChung\DanhSachNhanVien\1.1.DanhSachPhongBan_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachNhanVien\1.1.DanhSachPhongBan_NC.gui"/>
+		<FileInfo
+			ID = "1CCA4025-E9A3-49C0-BF2DAC1FD04DA158"
+			RelativePath = "Images\winzar_2_1.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\winzar_2_1.png"/>
+		<FileInfo
+			ID = "1D46EE3E-4D62-43EC-A601FC5D355B3F3B"
+			RelativePath = "Images\1.LOGO.jpeg"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\1.LOGO.jpeg"/>
+		<FileInfo
+			ID = "1E861DF9-4479-41AE-8A4DFDEE90F31E95"
+			RelativePath = "TienIch\TimKiemSerial\1.5.LichSuXuatNhap.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "TienIch\TimKiemSerial\1.5.LichSuXuatNhap.gui"/>
+		<FileInfo
+			ID = "20252253-45E5-4F8B-8162574D6A14B455"
+			RelativePath = "Masters\Layout_NoCapTion.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Layout_NoCapTion.gui"/>
+		<FileInfo
+			ID = "229E5D4A-1B79-467C-83E9B2009356F157"
+			RelativePath = "Images\arrow_down_small.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\arrow_down_small.png"/>
+		<FileInfo
+			ID = "231A0A17-FF19-4469-90F9F0D35DE8E774"
+			RelativePath = "Images\right_arrow.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\right_arrow.png"/>
+		<FileInfo
+			ID = "2338A2A4-99B7-406D-993F022C0E6B10B1"
+			RelativePath = "Images\bienbanghinho.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\bienbanghinho.png"/>
+		<FileInfo
+			ID = "23684E29-FE1F-454A-95A64F65F8A456C3"
+			RelativePath = "KinhDoanh\HopDong\2.7.HopDong_KetThuc.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.7.HopDong_KetThuc.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "23802E69-578F-444C-83F117B598F21C22"
+			RelativePath = "Util\DeTai_LichSuTienDo.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\DeTai_LichSuTienDo.gui"/>
+		<FileInfo
+			ID = "239CE7F8-2446-412A-9633839B93BC3B54"
+			RelativePath = "TienIch\XemGiaoDich\1.1.XemGiaoDich.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "TienIch\XemGiaoDich\1.1.XemGiaoDich.gui"/>
+		<FileInfo
+			ID = "241DF861-DF6F-42D3-A8477F4257CE699D"
+			RelativePath = "QuanTriHeThong\NguoiDung\1.2.SuaVaiTro.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\1.2.SuaVaiTro.gui"/>
+		<FileInfo
+			ID = "24425D2D-5349-433B-81734E9A74D27938"
+			RelativePath = "KinhDoanh\HopDong\2.3.HopDong_Gia.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.3.HopDong_Gia.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "2481069F-E743-4C1D-AB3CCBF8E80E941F"
+			RelativePath = "Images\historySerial.jpg"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\historySerial.jpg"/>
+		<FileInfo
+			ID = "24C6C2B8-059A-442D-BCC96D84B70F65F6"
+			RelativePath = "QuanTriHeThong\Menu\2.0.PhongBan_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\Menu\2.0.PhongBan_ChiTiet.gui"/>
+		<FileInfo
+			ID = "2769E32A-840C-460C-A650FBC4982ADE90"
+			RelativePath = "QuanLyChung\DanhSachKho\1.1.DanhSachDoiTac_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\1.1.DanhSachDoiTac_NC.gui"/>
+		<FileInfo
+			ID = "27F1487F-78F4-4585-9689BEE70CF03BE6"
+			RelativePath = "Images\map.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\map.png"/>
+		<FileInfo
+			ID = "285270A7-C451-4EE2-B176BB761436D13F"
+			RelativePath = "Images\LoHang_Buoc2.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\LoHang_Buoc2.png"/>
+		<FileInfo
+			ID = "28F3A872-E047-462D-B071A115CF0162B3"
+			RelativePath = "Images\search.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\search.png"/>
+		<FileInfo
+			ID = "2B67D29C-9EF8-4900-AD8B5DAB38D5FFBE"
+			RelativePath = "Images\winzar_ok.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\winzar_ok.png"/>
+		<FileInfo
+			ID = "2E197361-BA71-4B85-B3FA10909E6A3543"
+			RelativePath = "Images\exce2l.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\exce2l.png"/>
+		<FileInfo
+			ID = "2F1F308D-184C-4EC8-85B502F028F75145"
+			RelativePath = "Masters\Menu\menu.Tienich.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.Tienich.gui"/>
+		<FileInfo
+			ID = "31848CA3-7981-41D4-86593C2F6335C4F6"
+			RelativePath = "BanHang\DoanhSoBanHang\1.1.XemDoanhSo.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "BanHang\DoanhSoBanHang\1.1.XemDoanhSo.gui"/>
+		<FileInfo
+			ID = "32326E52-9190-4476-9DBDCDC60290C4B2"
+			RelativePath = "Util\TimKiemNhanVien.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\TimKiemNhanVien.gui"/>
+		<FileInfo
+			ID = "32C101DC-61E6-475C-822A0900222A0BB2"
+			RelativePath = "Images\btn_close.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_close.png"/>
+		<FileInfo
+			ID = "3325D4FF-BFAC-4517-BCC635AE5451EFF4"
+			RelativePath = "QuanLyChung\DanhSachPhongBan\1.1.TaoPhongBan.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachPhongBan\1.1.TaoPhongBan.gui"/>
+		<FileInfo
+			ID = "33567DBC-5B4C-4F02-8E7B0C7E24860BDE"
+			RelativePath = "Masters\Menu\menu.QuanLyChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.QuanLyChung.gui"/>
+		<FileInfo
+			ID = "347B29E1-0C4F-4C86-B0AE971E6E23FA2B"
+			RelativePath = "QuanLyChung\DoiTac\2.2.DoiTac_PheDuyet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DoiTac\2.2.DoiTac_PheDuyet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "359A2B50-7E93-4DA5-951CBF3C88B93026"
+			RelativePath = "QuanLyChung\DanhSachPhongBan\2.0.Kho_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachPhongBan\2.0.Kho_ChiTiet.gui"/>
+		<FileInfo
+			ID = "381AB240-B1D6-4E10-8CCCCF88053201DF"
+			RelativePath = "QuanTriHeThong\NguoiDung\1.1.TaoVaiTro.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\1.1.TaoVaiTro.gui"/>
+		<FileInfo
+			ID = "3833B389-545A-49E2-9EF98DA00C3FAA7C"
+			RelativePath = "Util\TimKiemSanPham.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\TimKiemSanPham.gui"/>
+		<FileInfo
+			ID = "38973DD7-0BA8-4A05-8ECCBD3253876F9D"
+			RelativePath = "Images\department.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\department.png"/>
+		<FileInfo
+			ID = "390BD853-ED0D-4A61-B4031C85A733D0EF"
+			RelativePath = "QuanLyChung\DanhSachPhongBan\1.2.CapnhatPhongBan.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachPhongBan\1.2.CapnhatPhongBan.gui"/>
+		<FileInfo
+			ID = "39557B50-37BA-4578-8B81420AD0C1C584"
+			RelativePath = "Images\search_blue.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\search_blue.png"/>
+		<FileInfo
+			ID = "3A350236-4E7E-4A53-A2B17A5AF65DD6DA"
+			RelativePath = "Images\accept.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\accept.png"/>
+		<FileInfo
+			ID = "3A47E076-FC27-4DD3-AFCD5DE1583935FE"
+			RelativePath = "QuanTriHeThong\Menu\1.3.Taomenu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\Menu\1.3.Taomenu.gui"/>
+		<FileInfo
+			ID = "3AC456C5-B1BB-4FEF-BE3FCB0B95E734D2"
+			RelativePath = "Util\ImportExcel.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\ImportExcel.gui"/>
+		<FileInfo
+			ID = "3C17F2F5-CC1D-4025-8C5E64C9BF99AA7A"
+			RelativePath = "Images\bangke.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\bangke.png"/>
+		<FileInfo
+			ID = "3C72678E-FCC4-4988-87169A952A148371"
+			RelativePath = "Util\DeTai_CapNhatTienDo.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\DeTai_CapNhatTienDo.gui"/>
+		<FileInfo
+			ID = "3CA8F6D2-8A00-49DF-A365B5D95494428B"
+			RelativePath = "DanhMuc\DanhMuc_NguonQuy.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "DanhMuc\DanhMuc_NguonQuy.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "3D1548BF-06B1-45A2-83CBF18060ECBAAB"
+			RelativePath = "TienIch\XemKhoHang\1.5.ImportExcel.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "TienIch\XemKhoHang\1.5.ImportExcel.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "3E6E2932-9B6D-45F4-AAE196ACB4565B7E"
+			RelativePath = "KinhDoanh\YeuCauDatHang\1.1.YeuCauDatHang_CB.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\YeuCauDatHang\1.1.YeuCauDatHang_CB.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "4085F586-8959-44CE-85DC450681F1012F"
+			RelativePath = "Images\LoHang_Buoc1.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\LoHang_Buoc1.png"/>
+		<FileInfo
+			ID = "40EF1645-5CE9-4C09-99F3EDFEDB1AD72E"
+			RelativePath = "Images\TimKiemNhanVien.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\TimKiemNhanVien.png"/>
+		<FileInfo
+			ID = "419749D3-7AC6-4BE8-8265911358F98020"
+			RelativePath = "Images\btn_timkiem.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_timkiem.png"/>
+		<FileInfo
+			ID = "41C1A883-04BB-4CBB-893E5ACFECEFE180"
+			RelativePath = "Util\DeTai_PheDuyetTienDo.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\DeTai_PheDuyetTienDo.gui"/>
+		<FileInfo
+			ID = "43091C08-D49D-4F88-B710B457C21C2AA1"
+			RelativePath = "KinhDoanh\YeuCauDatHang\2.0.YCDH_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\YeuCauDatHang\2.0.YCDH_ChiTiet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "43AFB29C-8797-4B26-96809AE89D22B678"
+			RelativePath = "QuanLyChung\DanhSachPhongBan\1.1.TaoKho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachPhongBan\1.1.TaoKho.gui"/>
+		<FileInfo
+			ID = "4515E1B1-B894-4972-98EF6F312D447CFB"
+			RelativePath = "Images\TieuChiTimKiem.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\TieuChiTimKiem.png"/>
+		<FileInfo
+			ID = "46CA19E8-B767-4E0D-82D1B52E65ACB583"
+			RelativePath = "Images\3.Modify.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\3.Modify.png"/>
+		<FileInfo
+			ID = "4819238B-B925-4591-8F47DB614008B087"
+			RelativePath = "CWS.autosave"
+			OriginalRoot = "$Project"
+			OriginalPath = "CWS.autosave"/>
+		<FileInfo
+			ID = "483A9AA1-F821-4804-A4EFD9E1E36E79D4"
+			RelativePath = "TienIch\XemGiaoDich\1.2.ChiTietGiaoDich.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "TienIch\XemGiaoDich\1.2.ChiTietGiaoDich.gui"/>
+		<FileInfo
+			ID = "4958BCA2-56AF-4F78-B640DEA6F6577543"
+			RelativePath = "QuanTriHeThong\VaiTro\1.1.Tinhnang.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\1.1.Tinhnang.gui"/>
+		<FileInfo
+			ID = "4A5F1C73-C95E-4BDA-85CD4D7DA1243832"
+			RelativePath = "Images\thongke.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\thongke.png"/>
+		<FileInfo
+			ID = "4A655021-6EF8-40C3-B4134038A037B897"
+			RelativePath = "Masters\Layout.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Layout.gui"/>
+		<FileInfo
+			ID = "4C140098-7B2F-4B46-BED8157991EF7BAE"
+			RelativePath = "Images\previous.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\previous.png"/>
+		<FileInfo
+			ID = "4C4CDB64-E83D-4AC2-8832A6455EF94357"
+			RelativePath = "Images\bienbanbangiao.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\bienbanbangiao.png"/>
+		<FileInfo
+			ID = "4E005FFB-F350-45B5-AA23CF63BC6F188F"
+			RelativePath = "QuanLyChung\DanhSachNhanVien\1.1.TaoNhanVien.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachNhanVien\1.1.TaoNhanVien.gui"/>
+		<FileInfo
+			ID = "50735C53-D1E5-46C9-963AA54AAB64D1E8"
+			RelativePath = "Masters\images\Clip001.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\images\Clip001.png"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "50FA6D79-1D9D-48D3-8CDD415358BBD931"
+			RelativePath = "Images\KetQuaTimKiem.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\KetQuaTimKiem.png"/>
+		<FileInfo
+			ID = "51895624-9D32-471C-99F9B163AB125BCF"
+			RelativePath = "KinhDoanh\HopDong\1.1.TaoHopDong.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\1.1.TaoHopDong.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "51C1F961-7E90-41BC-A0D1969D890F48A7"
+			RelativePath = "CWS.zip"
+			OriginalRoot = "$Project"
+			OriginalPath = "CWS.zip"/>
+		<FileInfo
+			ID = "524F71B0-3650-4937-AAE06EB8349371AE"
+			RelativePath = "QuanLyChung\QuanLySanPham\2.0.SanPham_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\QuanLySanPham\2.0.SanPham_ChiTiet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "52CEBD7C-BEBB-45B1-9E6C3A8A13D49BA1"
+			RelativePath = "Images\Close-icon.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\Close-icon.png"/>
+		<FileInfo
+			ID = "53341B3F-6AEC-4E4C-80D5016F40AC6246"
+			RelativePath = "Images\Topbanchay.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\Topbanchay.png"/>
+		<FileInfo
+			ID = "5377A99F-7A58-4BEC-B67F54B762E09217"
+			RelativePath = "BanHang\XuatKho_BanHang\1.1.XuatkhoBH.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "XuatKho_BanHang\1.1.Xuatkho.gui"/>
+		<FileInfo
+			ID = "543F4D68-D57E-4F2E-9723C552C857B305"
+			RelativePath = "Images\winzar_2_2.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\winzar_2_2.png"/>
+		<FileInfo
+			ID = "553638F3-6FA5-4DDD-91D4E2DDDDFC0A56"
+			RelativePath = "Util\TimKiemDonVi.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\TimKiemDonVi.gui"/>
+		<FileInfo
+			ID = "55C96FA8-AA9F-4ABA-BDB87E7BD2325BEF"
+			RelativePath = "QuanLyChung\DanhSachKho\1.1.TaoDoiTac.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\1.1.TaoDoiTac.gui"/>
+		<FileInfo
+			ID = "56789378-29A4-47DE-BE4674325C032BDD"
+			RelativePath = "Images\Stop-01-128.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\Stop-01-128.png"/>
+		<FileInfo
+			ID = "57541786-2924-4DAD-8337AB7A6607157A"
+			RelativePath = "QuanTriHeThong\VaiTro\1.2.SuaVaiTro.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\1.2.SuaVaiTro.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "580227C6-55E3-4F46-A5CF79F713EA85D7"
+			RelativePath = "QuanLyChung\DanhSachNhanVien\1.2.CapNhatNhanVien.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachNhanVien\1.2.CapNhatNhanVien.gui"/>
+		<FileInfo
+			ID = "58E909C0-2073-4720-96EB572D45A6B89D"
+			RelativePath = "KinhDoanh\KeHoachDoanhThu\2.0.KeHoach_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\KeHoachDoanhThu\2.0.KeHoach_ChiTiet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "58E9A071-07CF-45B5-AC17B3F81C291AF5"
+			RelativePath = "QuanTriHeThong\VaiTro\1.1.VaiTro.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\1.1.VaiTro.gui"/>
+		<FileInfo
+			ID = "5936ADBB-A64A-4AF5-901CA65840CAC7E4"
+			RelativePath = "KinhDoanh\YeuCauDatHang\2.2.YCDH_QDGNV.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\YeuCauDatHang\2.2.YCDH_QDGNV.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "5A4B6568-1D12-499B-8E7B1ABA9659A2C1"
+			RelativePath = "QuanLyChung\DanhSachNhanVien\2.1.NVThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachNhanVien\2.1.NVThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "5D969B40-B727-4AF2-B5644F560EAA97DE"
+			RelativePath = "Images\the_kho.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\the_kho.png"/>
+		<FileInfo
+			ID = "5E0208F7-547A-4DB2-81EB62DAD847D407"
+			RelativePath = "QuanLyChung\DoiTac\2.0.DoiTac_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DoiTac\2.0.DoiTac_ChiTiet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "604E56CF-8153-46D0-A0FADF312EA68963"
+			RelativePath = "KinhDoanh\KeHoachDoanhThu\1.2.SaoChepKeHoach.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\KeHoachDoanhThu\1.2.SaoChepKeHoach.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "60C0E67A-C12C-4B0B-83E63284A76F9A84"
+			RelativePath = "QuanTriHeThong\NguoiDung\2.1.GanKho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\2.1.GanKho.gui"/>
+		<FileInfo
+			ID = "61505E9A-38CB-44DA-BA8EA45225933650"
+			RelativePath = "Images\18.filter.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\18.filter.png"/>
+		<FileInfo
+			ID = "62B59C69-C50A-40F1-A1B74059D07FA40E"
+			RelativePath = "Images\btn_NutBaoCao.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_NutBaoCao.png"/>
+		<FileInfo
+			ID = "63487A6C-8CE2-4E68-BEFE866E46EB45F6"
+			RelativePath = "DanhMuc\DM_DanhMucLinhVuc.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "DanhMuc\DM_DanhMucLinhVuc.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "63494DCC-1BC3-4FE8-816DE49575C1633D"
+			RelativePath = "Images\pdf.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\pdf.png"/>
+		<FileInfo
+			ID = "6432B0F7-8C91-4A1C-9360BF8FF89AF381"
+			RelativePath = "Images\5.review.jpg"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\5.review.jpg"/>
+		<FileInfo
+			ID = "64A0C6A4-B504-48B1-85D8D3A73B5DE40C"
+			RelativePath = "QuanTriHeThong\NguoiDung\1.1.TaoNguoiDung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\1.1.TaoNguoiDung.gui"/>
+		<FileInfo
+			ID = "64FD3DA3-EA79-4860-84D6FD76AB8D27B4"
+			RelativePath = "Images\31.ThongBao_Co.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\31.ThongBao_Co.png"/>
+		<FileInfo
+			ID = "653EF6FB-0487-43EF-951661B957E8EDA0"
+			RelativePath = "Images\Dashboard.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\Dashboard.png"/>
+		<FileInfo
+			ID = "657C51CD-270B-4518-830A6A579AB9DCDB"
+			RelativePath = "Masters\TrangChu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\TrangChu.gui"/>
+		<FileInfo
+			ID = "65970061-B342-4383-B455BDEF4B232398"
+			RelativePath = "Images\lock_blue.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\lock_blue.png"/>
+		<FileInfo
+			ID = "65B489D1-D768-4C73-93CBE95DDA87759C"
+			RelativePath = "Masters\images\Clip003.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\images\Clip003.png"/>
+		<FileInfo
+			ID = "65FAE63D-DC03-4520-BCDFCB9347549209"
+			RelativePath = "QuanLyChung\DoiTac\1.1.DanhSachDoiTac_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DoiTac\1.1.DanhSachDoiTac_NC.gui"/>
+		<FileInfo
+			ID = "68954085-AC6E-46AF-9DBCC27BA023EBAF"
+			RelativePath = "Images\user_detail.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\user_detail.png"/>
+		<FileInfo
+			ID = "6BA73DBA-833D-4719-B360F1B5F9E5654E"
+			RelativePath = "KinhDoanh\YeuCauDatHang\1.2.TaoYCDH.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\YeuCauDatHang\1.2.TaoYCDH.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "6C343E7B-B70B-4209-A86155F228B875B4"
+			RelativePath = "KinhDoanh\KeHoachDoanhThu\1.0.DanhSachKeHoach_CB.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\KeHoachDoanhThu\1.0.DanhSachKeHoach_CB.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "6C40E3EA-EDB9-4709-85B7775B39B5540F"
+			RelativePath = "Masters\Menu\menu.Nhapkho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.Nhapkho.gui"/>
+		<FileInfo
+			ID = "6DC391FD-0D50-4114-BD42093116271574"
+			RelativePath = "Images\btn_reject.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_reject.png"/>
+		<FileInfo
+			ID = "6E72F874-1911-42FE-82FA41E7C32480A8"
+			RelativePath = "QuanLyChung\DanhSachNhanVien\2.0.NV_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachNhanVien\2.0.NV_ChiTiet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "6F285D8B-C9EE-4C79-99F8695898FF59B1"
+			RelativePath = "KinhDoanh\KeHoachDoanhThu\1.1.DanhSachKeHoach_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\KeHoachDoanhThu\1.1.DanhSachKeHoach_NC.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "70745EE4-2157-495F-A0C917DBD739538F"
+			RelativePath = "QuanLyChung\DanhSachPhongBan\2.1.Kho_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachPhongBan\2.1.Kho_ThongTinChung.gui"/>
+		<FileInfo
+			ID = "70DBAD41-6077-4104-A14A15837D952D29"
+			RelativePath = "Images\Start.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\Start.png"/>
+		<FileInfo
+			ID = "728176A7-20E4-4893-BBE440140340AAFE"
+			RelativePath = "QuanTriHeThong\VaiTro\2.4.Vtr_Tinhnang.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\2.4.Vtr_Tinhnang.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "729BF088-D7D0-48B0-8DD395A4341A186D"
+			RelativePath = "Images\edit.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\edit.png"/>
+		<FileInfo
+			ID = "72ADDB6A-80DD-4E8E-95F9C1AEDCD5794F"
+			RelativePath = "QuanTriHeThong\VaiTro\1.2.SuaTinhNang.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\1.2.SuaTinhNang.gui"/>
+		<FileInfo
+			ID = "731565C4-2913-4FBE-B4BDC260A65EFBAD"
+			RelativePath = "BanHang\XuatKho_BanHang\1.5.ImportExcel.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "XuatKho_BanHang\1.5.ImportExcel.gui"/>
+		<FileInfo
+			ID = "731F3B14-A17F-4274-90C8516118FCB1F2"
+			RelativePath = "Images\DM paragraph 1_0.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\DM paragraph 1_0.png"/>
+		<FileInfo
+			ID = "73364A02-2F5C-49C4-B3F2DE2A6B850098"
+			RelativePath = "Images\7.ChonDonVi.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\7.ChonDonVi.png"/>
+		<FileInfo
+			ID = "7594DD11-7A04-46A0-B27E9943F496F691"
+			RelativePath = "QuanTriHeThong\Menu\1.1.TaoMenu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\Menu\1.1.TaoMenu.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "75DEB7D8-65FF-4100-A118490E997DF32E"
+			RelativePath = "Images\undo.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\undo.png"/>
+		<FileInfo
+			ID = "7650A3D0-6195-4FE7-8E6C8EE9E012831F"
+			RelativePath = "Masters\Menu\menu.Xuatkho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.Xuatkho.gui"/>
+		<FileInfo
+			ID = "7727BAC9-4CE3-4B63-BDB26F5798C1D5B4"
+			RelativePath = "Images\6.arrow-32-xl.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\6.arrow-32-xl.png"/>
+		<FileInfo
+			ID = "779480C1-74DE-4C82-9A79987A6252A81D"
+			RelativePath = "NhapKho\1.3.ThemHangHoa.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\QuanLySanPham\1.3.ThemHangHoa.gui"/>
+		<FileInfo
+			ID = "77D40EFC-903D-4950-98AA4FE34F8625B4"
+			RelativePath = "QuanTriHeThong\Menu\1.1.TaoPhongBan.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\Menu\1.1.TaoPhongBan.gui"/>
+		<FileInfo
+			ID = "7B78C6A7-C7A9-410C-93D3115DDB15C17A"
+			RelativePath = "Images\LoHang_Buoc4.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\LoHang_Buoc4.png"/>
+		<FileInfo
+			ID = "7BC4DEF0-0371-4865-9FC7381E8118E8E2"
+			RelativePath = "Images\Update.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\Update.png"/>
+		<FileInfo
+			ID = "7D8138C2-F5E8-4409-B10C89D34F6B8878"
+			RelativePath = "Images\Header.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\Header.png"/>
+		<FileInfo
+			ID = "7D9F9B8C-00E2-4A74-983D7A9D34E8FFC0"
+			RelativePath = "TienIch\XemKhoHang\1.3.ThemHangHoa.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "TienIch\XemKhoHang\1.3.ThemHangHoa.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "7DBED472-4D02-4668-B3CFC9B1760D808D"
+			RelativePath = "QuanTriHeThong\Menu\1.1.Menu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\Menu\1.1.Menu.gui"/>
+		<FileInfo
+			ID = "7E240A1A-F8E0-403B-8E7D16B917DA4A66"
+			RelativePath = "Images\forward.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\forward.png"/>
+		<FileInfo
+			ID = "7FBAB683-C0EF-4053-990386A3F70E2181"
+			RelativePath = "Images\9.arrow.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\9.arrow.png"/>
+		<FileInfo
+			ID = "8000F58E-365B-404F-99D7D773D9A842F2"
+			RelativePath = "Images\8.export_excel.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\8.export_excel.png"/>
+		<FileInfo
+			ID = "806788E4-1C82-46A9-B705D5ABFC45C93C"
+			RelativePath = "XuatKho_TrucTiep\1.4.ChiTietHangHoa.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "XuatKho_TrucTiep\1.4.ChiTietHangHoa.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "80BAE759-8B48-4442-A4949A8F12FD74DE"
+			RelativePath = "QuanLyChung\QuanLySanPham\DanhSachSanPham.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\QuanLySanPham\DanhSachSanPham.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "80FDB05E-9514-4DBD-AFA4FA7B46CF3F35"
+			RelativePath = "Masters\Layout1.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Layout1.gui"/>
+		<FileInfo
+			ID = "81B16466-F43B-4F47-A28EAF2171D10085"
+			RelativePath = "QuanLyChung\DanhSachNhanVien\2.1.PhongBan_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachNhanVien\2.1.PhongBan_ThongTinChung.gui"/>
+		<FileInfo
+			ID = "821A652F-0B33-43E2-8E84DE0DF5A528C6"
+			RelativePath = "NhapKho\1.1.Nhapkho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "NhapKho\1.1.Nhapkho.gui"/>
+		<FileInfo
+			ID = "823B2CF3-E399-4BAA-A8023B752023A31C"
+			RelativePath = "Images\thutien.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\thutien.png"/>
+		<FileInfo
+			ID = "860BE71F-107D-4FF6-B9227A4EF14D6A60"
+			RelativePath = "QuanLyChung\QuanLySanPham\1.1.DanhSachSanPham_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\QuanLySanPham\1.1.DanhSachSanPham_NC.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "8857E864-2EBD-485F-B7DFF39735FE0220"
+			RelativePath = "QuanTriHeThong\TinhNang\1.2.SuaTinhNang.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\TinhNang\1.2.SuaTinhNang.gui"/>
+		<FileInfo
+			ID = "892264E1-3FD0-438B-82176A2E4D52060E"
+			RelativePath = "Masters\Menu\menu.QuanTriHeThong.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.QuanTriHeThong.gui"/>
+		<FileInfo
+			ID = "89FBDBD1-CCDF-4323-BD0F712E84460535"
+			RelativePath = "Images\move.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\move.png"/>
+		<FileInfo
+			ID = "8B62D519-60A8-4A29-B335780A81572862"
+			RelativePath = "QuanLyChung\QuanLySanPham\1.2.TaoSanPham.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\QuanLySanPham\1.2.TaoSanPham.gui"/>
+		<FileInfo
+			ID = "8BB26340-7674-4345-8FE2F604CC938E74"
+			RelativePath = "Images\KeHoachDoanhThu.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\KeHoachDoanhThu.png"/>
+		<FileInfo
+			ID = "8BF15A79-CCB0-4C28-A4FE2CC5CB6F3619"
+			RelativePath = "KinhDoanh\HopDong\2.5.1.GhiNhanDoanhThu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.5.1.GhiNhanDoanhThu.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "8C037225-0087-4C69-AE911F1BB970A9A8"
+			RelativePath = "Images\btn_setttin.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_setttin.png"/>
+		<FileInfo
+			ID = "8DDFF7F0-0160-4C95-995BFA4CECD19005"
+			RelativePath = "QuanLyChung\DanhSachPhongBan\1.1.DanhSachPhongBan_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachPhongBan\1.1.DanhSachPhongBan_NC.gui"/>
+		<FileInfo
+			ID = "8E1B767D-EA27-40BC-8A12FD1415957276"
+			RelativePath = "TienIch\TimKiemSerial\1.0.TimSerial.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "TienIch\TimKiemSerial\1.0.TimSerial.gui"/>
+		<FileInfo
+			ID = "8E4F578D-D2F4-490F-889B76CCA30CA937"
+			RelativePath = "DanhMuc\DM_NhomHopDong.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "DanhMuc\DM_NhomHopDong.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "8EED3BD2-B260-4B8A-AA7B3AAB15F7AB24"
+			RelativePath = "Masters\Menu\menu.DanhMuc.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.DanhMuc.gui"/>
+		<FileInfo
+			ID = "8F07EF1C-EAE4-4F25-8131BE52E3984CC6"
+			RelativePath = "Images\settings.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\settings.png"/>
+		<FileInfo
+			ID = "8F2C0104-71FE-41E7-8A568533A6D7701B"
+			RelativePath = "XuatKho_TrucTiep\1.5.ImportExcel.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "XuatKho_TrucTiep\1.5.ImportExcel.gui"/>
+		<FileInfo
+			ID = "8FB61E41-FC7F-4C2B-BDBF00500C06D72F"
+			RelativePath = "QuanTriHeThong\TinhNang\1.1.Tinhnang.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\TinhNang\1.1.Tinhnang.gui"/>
+		<FileInfo
+			ID = "9166E4CA-BB31-4F7F-A5EAFCF8F6D1FF66"
+			RelativePath = "Images\btn_tiep.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_tiep.png"/>
+		<FileInfo
+			ID = "9170EA10-D4F3-45DA-BAC877525E780337"
+			RelativePath = "Images\30.home.jpg"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\30.home.jpg"/>
+		<FileInfo
+			ID = "918B8B67-500A-4E9F-A6EDF37E35CA13E4"
+			RelativePath = "BanHang\QuanLyGiaoHang\1.1.XemGiaoDich.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "BanHang\QuanLyGiaoHang\1.1.XemGiaoDich.gui"/>
+		<FileInfo
+			ID = "925C92BE-0AEB-4BF0-86E07E523198D3A8"
+			RelativePath = "QuanTriHeThong\Menu\2.1.PhongBan_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\Menu\2.1.PhongBan_ThongTinChung.gui"/>
+		<FileInfo
+			ID = "9519076B-19CA-426B-B744E6D566613DD4"
+			RelativePath = "Util\DeTai_MenuChuotPhai.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\DeTai_MenuChuotPhai.gui"/>
+		<FileInfo
+			ID = "98065667-FA95-4D90-B4F346A6E8FE2F32"
+			RelativePath = "QuanTriHeThong\NguoiDung\1.1.VaiTro.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\1.1.VaiTro.gui"/>
+		<FileInfo
+			ID = "9960542A-E54A-4DF4-8DDB3B5FED4F2738"
+			RelativePath = "BanHang\QuanLyGiaoHang\1.2.ChiTietGiaoDich.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "BanHang\QuanLyGiaoHang\1.2.ChiTietGiaoDich.gui"/>
+		<FileInfo
+			ID = "9CA7F3C3-BFB1-4D12-88AF33F809D66006"
+			RelativePath = "KinhDoanh\HopDong\2.2.HopDong_SanPham.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.2.HopDong_SanPham.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "9CF674DA-59BB-4D9E-AA489CB79A046E0C"
+			RelativePath = "Images\map_hang_hoa.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\map_hang_hoa.png"/>
+		<FileInfo
+			ID = "9E77A53C-872A-4B30-B124EC20AEC6E64A"
+			RelativePath = "QuanLyChung\QuanLySanPham\1.3.CapNhatSanPham.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\QuanLySanPham\1.3.CapNhatSanPham.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "9FBF9807-2F75-46C7-BCB291C486F47BC2"
+			RelativePath = "QuanLyChung\DanhSachKho\2.0.DoiTac_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\2.0.DoiTac_ChiTiet.gui"/>
+		<FileInfo
+			ID = "9FFF146B-AD32-44A9-B7CA6CBBF8FBEF22"
+			RelativePath = "KinhDoanh\YeuCauDatHang\2.1.YCDH_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\YeuCauDatHang\2.1.YCDH_ThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "A00C1751-FCAB-4A88-8C29AF8BE8DD554D"
+			RelativePath = "Images\Stop.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\Stop.png"/>
+		<FileInfo
+			ID = "A509DBBF-6DBD-4691-A968047AA1C9E338"
+			RelativePath = "Images\SearchToolBar.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\SearchToolBar.png"/>
+		<FileInfo
+			ID = "A5958317-BF1C-4FBC-9CF42052F64701C3"
+			RelativePath = "Images\date_popup.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\date_popup.png"/>
+		<FileInfo
+			ID = "A5FCCFA0-FAC8-4237-9414F133DF5259B7"
+			RelativePath = "Util\PheDuyetTienDo.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\PheDuyetTienDo.gui"/>
+		<FileInfo
+			ID = "A659E79F-9AE0-4A7A-9C68E8DAF11539D1"
+			RelativePath = "Masters\Menu\menu.HopTacQuocTe.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.HopTacQuocTe.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "A7536266-FCB6-4EB8-B7C7AD4DA328DA94"
+			RelativePath = "QuanLyChung\DanhSachKho\2.1.DoiTac_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\2.1.DoiTac_ThongTinChung.gui"/>
+		<FileInfo
+			ID = "A837DC2D-3466-431E-8A11EA5632E50272"
+			RelativePath = "Images\6.arrow_small.jpg"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\6.arrow_small.jpg"/>
+		<FileInfo
+			ID = "A9433FC1-0FE1-48CB-9F8ACE45782BDA54"
+			RelativePath = "Masters\Menu\menu.KinhDoanh.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.KinhDoanh.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "A9F51D50-F490-48C1-AC4CB913B248A7D9"
+			RelativePath = "Images\dossierbleu_documents.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\dossierbleu_documents.png"/>
+		<FileInfo
+			ID = "AA9DCE90-F393-4D4E-9F5E69BC7EA1BA88"
+			RelativePath = "DanhMuc\DM_HangMucKinhPhi.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "DanhMuc\DM_HangMucKinhPhi.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "AAA20C25-2451-4354-9EC0D51CBD601358"
+			RelativePath = "BanHang\DoanhSoBanHang\images\Clip001.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "BanHang\DoanhSoBanHang\images\Clip001.png"/>
+		<FileInfo
+			ID = "AC37A8C9-09BC-4093-B573884205EB1426"
+			RelativePath = "Images\excel.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\excel.png"/>
+		<FileInfo
+			ID = "ADB417C4-5869-4C5B-82E0CD25ECAAD3FA"
+			RelativePath = "KinhDoanh\HopDong\2.4.1.TaoNghiemThu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.4.1.TaoNghiemThu.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "AE027BFA-966B-4F3C-A705039848A4EB66"
+			RelativePath = "Images\reset_password.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\reset_password.png"/>
+		<FileInfo
+			ID = "AE4C0299-805B-4070-8DE859E0C6518DE1"
+			RelativePath = "Images\search_advances.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\search_advances.png"/>
+		<FileInfo
+			ID = "AEDE5752-6D5E-43B7-83C4C894830C6D21"
+			RelativePath = "Masters\Menu\menu.QuyTrinh.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.QuyTrinh.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "AF2D50BC-B758-4EE1-BDE11DB0839E4AFF"
+			RelativePath = "Images\4.Attach_file.jpg"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\4.Attach_file.jpg"/>
+		<FileInfo
+			ID = "AFE59EC7-5506-424F-B5D926F75244D980"
+			RelativePath = "KinhDoanh\HopDong\2.4.HopDong_BanGiao.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.4.HopDong_BanGiao.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "B2E18904-772C-4BFB-945A1E0A9AF97D27"
+			RelativePath = "XuatKho_TrucTiep\1.1.Nhapkho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "XuatKho_TrucTiep\1.1.Nhapkho.gui"/>
+		<FileInfo
+			ID = "B31DAA09-D717-4661-9A1246049867FD56"
+			RelativePath = "Images\clone-icon.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\clone-icon.png"/>
+		<FileInfo
+			ID = "B5A93488-ECAB-43F8-B4EE084FB613287D"
+			RelativePath = "XuatKho_TrucTiep\1.3.ThemHangHoa.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "XuatKho_TrucTiep\1.3.ThemHangHoa.gui"/>
+		<FileInfo
+			ID = "B67F5098-330E-46C5-8F7AD4DAA12EC113"
+			RelativePath = "QuanLyChung\QuanLySanPham\2.2.SanPham_GiaSanXuat.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\QuanLySanPham\2.2.SanPham_GiaSanXuat.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "B8289E3B-A042-41AF-A36644B8F7336A54"
+			RelativePath = "QuanTriHeThong\VaiTro\2.2.Vtr_Menu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\2.2.Vtr_Menu.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "B866399C-9DA7-43D2-AA7500225EBEF26E"
+			RelativePath = "Images\PhanTrang.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\PhanTrang.png"/>
+		<FileInfo
+			ID = "B94AE9DC-467B-4476-8A477A51411581AB"
+			RelativePath = "Masters\Menu\menu.Banhang.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.Banhang.gui"/>
+		<FileInfo
+			ID = "B97A2F12-3D94-43FF-BA45EDA4A58B9A3D"
+			RelativePath = "QuanTriHeThong\VaiTro\2.0.VTr_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\2.0.VTr_ChiTiet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "BB531984-FE84-4896-847F722BB6542CF1"
+			RelativePath = "QuanTriHeThong\VaiTro\1.1.TaoTinhNang.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\1.1.TaoTinhNang.gui"/>
+		<FileInfo
+			ID = "BB764F8B-374D-4024-A62D04A78E7334E5"
+			RelativePath = "NhapKho\1.5.ImportExcel.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "NhapKho\1.5.ImportExcel.gui"/>
+		<FileInfo
+			ID = "BBCA05A2-F97C-457C-90CC66D3FC3BBBCD"
+			RelativePath = "Images\language_detail.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\language_detail.png"/>
+		<FileInfo
+			ID = "BC37DF81-4201-4969-A294FAFAE5E7DC93"
+			RelativePath = "Images\attach_file.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\attach_file.png"/>
+		<FileInfo
+			ID = "BF56FC08-AB02-4035-AAC10DDF87BB131B"
+			RelativePath = "Masters\Header_NoCaption.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Header_NoCaption.gui"/>
+		<FileInfo
+			ID = "C00BF0E6-9AB5-4FAE-BD65FD04CD0ACDBB"
+			RelativePath = "QuanTriHeThong\VaiTro\1.1.TaoVaiTro.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\VaiTro\1.1.TaoVaiTro.gui"/>
+		<FileInfo
+			ID = "C14A4DED-3560-439F-8E84ADF3628B3478"
+			RelativePath = "Images\2.SoBanGhi.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\2.SoBanGhi.png"/>
+		<FileInfo
+			ID = "C1711C06-2EFD-4CE7-A49E084748A0DF3B"
+			RelativePath = "DanhMuc\DM_NhomHangHoa.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "DanhMuc\DM_NhomHangHoa.gui"/>
+		<FileInfo
+			ID = "C22AC571-742F-4DBA-ADB9066A088FC8D2"
+			RelativePath = "QuanTriHeThong\NguoiDung\2.1.ND_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\2.1.ND_ThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "C23DC66D-D3DE-4852-BEDC12E1CAB0349F"
+			RelativePath = "BanHang\XuatKho_BanHang\1.3.ThemHangHoa.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "XuatKho_BanHang\1.3.ThemHangHoa.gui"/>
+		<FileInfo
+			ID = "C2449D0B-5102-49E1-AA2D48E9D3FA7BDF"
+			RelativePath = "KinhDoanh\HopDong\2.5.HopDong_LenDoanhThu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.5.HopDong_LenDoanhThu.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "C496ADF3-2151-438D-94911D9823712B5C"
+			RelativePath = "TienIch\XemKhoHang\1.1.Xemkho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "TienIch\XemKhoHang\1.1.Xemkho.gui"/>
+		<FileInfo
+			ID = "C837B7D2-C130-42EC-9E2E6AB591A59AC3"
+			RelativePath = "QuanTriHeThong\Menu\1.2.SuaMenu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\Menu\1.2.SuaMenu.gui"/>
+		<FileInfo
+			ID = "CA574DEC-644F-4F9E-B20301AFC2839A60"
+			RelativePath = "Images\unfinish_icon.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\unfinish_icon.png"/>
+		<FileInfo
+			ID = "CA8F9D16-52AF-4829-A067B2E1D14809AF"
+			RelativePath = "KinhDoanh\HopDong\2.5.HopDong_ThanhToan.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.5.HopDong_ThanhToan.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "CB13D96B-7561-4E82-9FB3683E86205FC4"
+			RelativePath = "QuanLyChung\DanhSachNhanVien\1.1.TaoPhongBan.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachNhanVien\1.1.TaoPhongBan.gui"/>
+		<FileInfo
+			ID = "CCDC997A-A849-4F22-A4157C0D5B858B38"
+			RelativePath = "Images\insert_update.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\insert_update.png"/>
+		<FileInfo
+			ID = "CCF8E564-E0C2-422D-A13CC6AD0D60C71B"
+			RelativePath = "QuanLyChung\QuanLySanPham\1.0.DanhSachSanPham_CB.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\QuanLySanPham\1.0.DanhSachSanPham_CB.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "CFDA30C0-B4C6-4E40-A5A141BD0C4EBBFB"
+			RelativePath = "Images\search_hide_advance.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\search_hide_advance.png"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "D021FBB3-D403-4F9B-BDC25A3ADCA9E167"
+			RelativePath = "Masters\images\Clip002.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\images\Clip002.png"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "D0DAF925-B940-43C0-89E839E677A628A6"
+			RelativePath = "QuanLyChung\DanhSachPhongBan\1.1.DanhSachKho_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachPhongBan\1.1.DanhSachKho_NC.gui"/>
+		<FileInfo
+			ID = "D1B893EC-D877-4900-BFE459AD326F4794"
+			RelativePath = "Images\7.Arrow_insert.jpg"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\7.Arrow_insert.jpg"/>
+		<FileInfo
+			ID = "D2C91C71-89C7-485B-ACC91C717AC6D511"
+			RelativePath = "Images\shipping.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\shipping.png"/>
+		<FileInfo
+			ID = "D4F416C9-03AD-4E6F-BC4AC3A3DBAEF930"
+			RelativePath = "Util\TimKiemDoiTac.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\TimKiemDoiTac.gui"/>
+		<FileInfo
+			ID = "D56071C3-40BE-49BA-84F38AA294520603"
+			RelativePath = "Images\dola.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\dola.png"/>
+		<FileInfo
+			ID = "D62D7C86-C340-49B3-88F7E078B22E38D7"
+			RelativePath = "KinhDoanh\YeuCauDatHang\1.1.YeuCauDatHang_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\YeuCauDatHang\1.1.YeuCauDatHang_NC.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "D9732217-09C5-42D4-96D112ECE56EE36B"
+			RelativePath = "QuanLyChung\DanhSachNhanVien\1.1.Nhanvien.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachNhanVien\1.1.Nhanvien.gui"/>
+		<FileInfo
+			ID = "D9B6FFF1-D19A-4550-947FCA3128ADAACF"
+			RelativePath = "Masters\Menu\menu.SanXuat.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.SanXuat.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "DA25B624-3F0C-447A-A699D357F5CED752"
+			RelativePath = "Images\char.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\char.png"/>
+		<FileInfo
+			ID = "DA9057E4-2DCF-48FE-91608945AEDFCCF6"
+			RelativePath = "QuanLyChung\DoiTac\1.2.CapNhatDoiTac.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DoiTac\1.2.CapNhatDoiTac.gui"/>
+		<FileInfo
+			ID = "DACBF0BE-7FEA-4E3D-ADBDF33D727D64D9"
+			RelativePath = "Images\refresh.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\refresh.png"/>
+		<FileInfo
+			ID = "DC4651D7-EC86-42B2-A1AD5C5B74383FCA"
+			RelativePath = "QuanTriHeThong\NguoiDung\1.2.CapNhatNguoiDung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\1.2.CapNhatNguoiDung.gui"/>
+		<FileInfo
+			ID = "DCD954BB-C729-4904-800CC846AFE8A693"
+			RelativePath = "Images\LoHang_Buoc3.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\LoHang_Buoc3.png"/>
+		<FileInfo
+			ID = "DE896BD0-659F-40B6-BF708308FE4B7BC6"
+			RelativePath = "QuanTriHeThong\NguoiDung\2.2.ND_VaiTro.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\2.2.ND_VaiTro.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "DECF6180-B3CA-473C-B5D15F5E567195E8"
+			RelativePath = "Masters\Menu\menu.DeTai.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Menu\menu.DeTai.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "DFAA5F70-85A5-4898-A146A83B7463A0CD"
+			RelativePath = "Images\winzar_4_1.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\winzar_4_1.png"/>
+		<FileInfo
+			ID = "E0012D2B-763C-4C47-A148495D77F90FA4"
+			RelativePath = "Images\winzar_4_4.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\winzar_4_4.png"/>
+		<FileInfo
+			ID = "E0271677-02CE-4FE5-8C9D654FADE8AA83"
+			RelativePath = "QuanLyChung\DanhSachKho\2.1.Kho_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\2.1.Kho_ThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "E02A9BD5-32AF-46F5-A2DF3B34E712D440"
+			RelativePath = "Images\3.Login.jpg"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\3.Login.jpg"/>
+		<FileInfo
+			ID = "E07532FE-BD39-4B89-95120D5E55BB451F"
+			RelativePath = "DanhMuc\DM_LyDoXuatNhapKho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "DanhMuc\DM_LyDoXuatNhapKho.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "E0858D43-CA91-416F-ABD745DDC006006F"
+			RelativePath = "Images\winzar_2_0.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\winzar_2_0.png"/>
+		<FileInfo
+			ID = "E1FECEAE-94A1-4E60-A2C4C19FDE0EC7AF"
+			RelativePath = "Images\2.PhanTrang.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\2.PhanTrang.png"/>
+		<FileInfo
+			ID = "E253B734-B249-4891-B198F3A2E5B1E215"
+			RelativePath = "QuanLyChung\DoiTac\1.1.TaoDoiTac.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DoiTac\1.1.TaoDoiTac.gui"/>
+		<FileInfo
+			ID = "E2B4CB22-8C49-4717-BBBB941C07DE2FA3"
+			RelativePath = "QuanTriHeThong\NguoiDung\1.2.ResetMatKhau.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\1.2.ResetMatKhau.gui"/>
+		<FileInfo
+			ID = "E3206C00-EF8B-4BC4-BFD78239F914F954"
+			RelativePath = "KinhDoanh\HopDong\2.0.HopDong_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.0.HopDong_ChiTiet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "E35854A9-D75A-4E68-B6FAF33780306F70"
+			RelativePath = "Masters\Footer.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Masters\Footer.gui"/>
+		<FileInfo
+			ID = "E380F1CE-AA8F-45AC-B82AEF70B2C90187"
+			RelativePath = "Images\greater.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\greater.png"/>
+		<FileInfo
+			ID = "E3BA642E-12B4-42A9-BC0A1FA5E11256CA"
+			RelativePath = "KinhDoanh\HopDong\1.1.DanhSachHopDong_NC.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\1.1.DanhSachHopDong_NC.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "E42429A5-5971-42ED-8F4CA48514DFF0AF"
+			RelativePath = "QuanTriHeThong\NguoiDung\1.2.SuaNguoiDung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\1.2.SuaNguoiDung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "E5605D45-1E86-49AC-91CA5C67B689DA35"
+			RelativePath = "Util\QuyTrinh.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\QuyTrinh.gui"/>
+		<FileInfo
+			ID = "E69DFD3C-82D5-447B-91DF55454FC04FC4"
+			RelativePath = "QuanLyChung\QuanLySanPham\2.1.SanPham_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\QuanLySanPham\2.1.SanPham_ThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "E6ED6807-C7F1-44E8-A1F2603DAD54B048"
+			RelativePath = "QuanLyChung\DoiTac\1.0.DanhSachDoiTac_CB.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DoiTac\1.0.DanhSachDoiTac_CB.gui"/>
+		<FileInfo
+			ID = "E7902E3D-02E2-401F-9A9CEB1170433573"
+			RelativePath = "QuanLyChung\DanhSachKho\2.0.Kho_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\2.0.Kho_ChiTiet.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "E7AF9D68-8598-484E-ADFC071B3C4B05F0"
+			RelativePath = "QuanLyChung\DanhSachKho\2.2.Kho_ViTri.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\2.2.Kho_ViTri.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "E7BB0C68-E2BB-4747-BE162C00F9844417"
+			RelativePath = "NhapKho\1.4.ChiTietHangHoa.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "NhapKho\1.4.ChiTietHangHoa.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "E7FDD0C9-9CBF-4A9D-88D44CFE8F4F565D"
+			RelativePath = "Images\doc.gif"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\doc.gif"/>
+		<FileInfo
+			ID = "E8018AF4-29B5-480E-9D21AD961B04C7BB"
+			RelativePath = "Util\images\Clip001.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Util\images\Clip001.png"/>
+		<FileInfo
+			ID = "E81EDAF2-9967-48CA-A493E725FDC83C70"
+			RelativePath = "Images\login_form.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\login_form.png"/>
+		<FileInfo
+			ID = "E87930CB-584A-400A-A68DCBABAC4BAD5D"
+			RelativePath = "Images\logout.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\logout.png"/>
+		<FileInfo
+			ID = "E8F4FD64-BCD0-49B3-97336EFBD133EB48"
+			RelativePath = "Images\LichSu_Xem.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\LichSu_Xem.png"/>
+		<FileInfo
+			ID = "EB0294AC-101F-425F-8AC733CD8FF73E87"
+			RelativePath = "QuanLyChung\DanhSachKho\1.1.TaoKho.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachKho\1.1.TaoKho.gui"/>
+		<FileInfo
+			ID = "EBED6397-7490-422E-9FE190DBD239B089"
+			RelativePath = "Images\TinhTrangHangHoa.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\TinhTrangHangHoa.png"/>
+		<FileInfo
+			ID = "ECCB1138-0D85-49F8-A64B04BE0AB34B7A"
+			RelativePath = "Images\5.download.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\5.download.png"/>
+		<FileInfo
+			ID = "ECFD46B7-1E11-4873-9BC9E2DD86D664FC"
+			RelativePath = "QuanTriHeThong\NguoiDung\2.0.ND_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanTriHeThong\NguoiDung\2.0.ND_ChiTiet.gui"/>
+		<FileInfo
+			ID = "EE1C82E5-721F-464B-B7A2E0D230862EBE"
+			RelativePath = "KinhDoanh\KeHoachDoanhThu\1.1.TaoKeHoach.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\KeHoachDoanhThu\1.1.TaoKeHoach.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "EE570EFD-FCE1-4238-9BE56E1C3AAACCD5"
+			RelativePath = "BanHang\XuatKho_BanHang\1.4.ChiTietHangHoa.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "XuatKho_BanHang\1.4.ChiTietHangHoa.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "EE9E3B3D-1768-4693-87BD59B935D3E78A"
+			RelativePath = "KinhDoanh\HopDong\2.3.HopDong_NghiemThu.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\HopDong\2.3.HopDong_NghiemThu.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "EEC20953-BC7B-4E9B-A0862F9708EDBF16"
+			RelativePath = "Images\winzar_4_3.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\winzar_4_3.png"/>
+		<FileInfo
+			ID = "EFD89FCF-1A6F-4152-A435A675527249FE"
+			RelativePath = "DanhMuc\DanhMuc.DungChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "DanhMuc\DanhMuc.DungChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "F34C9088-8796-4386-ABDEEB201D1991EA"
+			RelativePath = "QuanLyChung\DoiTac\2.1.DoiTac_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DoiTac\2.1.DoiTac_ThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "F510039A-61CC-449C-936BC427BA81EEF2"
+			RelativePath = "Images\94. refesh_icon.jpg"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\94. refesh_icon.jpg"/>
+		<FileInfo
+			ID = "F917B9C4-CA01-49D7-A7CE7065E97D7961"
+			RelativePath = "KinhDoanh\KeHoachDoanhThu\2.1.KeHoach_ThongTinChung.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "KinhDoanh\KeHoachDoanhThu\2.1.KeHoach_ThongTinChung.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "F9348D3E-A46A-4571-99F19DC99D0BBEAC"
+			RelativePath = "DanhMuc\DM_LoaiHopDong.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "DanhMuc\DanhMuc_NhomDeTai.gui"
+			IsDeleted = "1"/>
+		<FileInfo
+			ID = "FAA58DD8-7309-4E30-9C05082C70C9ACDE"
+			RelativePath = "QuanLyChung\DanhSachNhanVien\2.0.PhongBan_ChiTiet.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "QuanLyChung\DanhSachNhanVien\2.0.PhongBan_ChiTiet.gui"/>
+		<FileInfo
+			ID = "FBC429ED-6EC2-48A9-B6BBB4B41D44400E"
+			RelativePath = "Images\btn_Reset.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_Reset.png"/>
+		<FileInfo
+			ID = "FCE2589D-2138-442A-B187D5EE3D2BCFF7"
+			RelativePath = "Images\decline.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\decline.png"/>
+		<FileInfo
+			ID = "FDEB3759-93D3-45DB-9EC93EBEEF5642A2"
+			RelativePath = "Images\btn_truoc.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\btn_truoc.png"/>
+		<FileInfo
+			ID = "FE4F528E-D4A1-45A4-A40DE52186388F3E"
+			RelativePath = "Images\save.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\save.png"/>
+		<FileInfo
+			ID = "FF0BDC62-50F2-453D-AE7C49C587CAF13C"
+			RelativePath = "Images\process.png"
+			OriginalRoot = "$Project"
+			OriginalPath = "Images\process.png"/>
+	</Files>
+</Catalogue>

@@ -1,0 +1,22 @@
+<Project
+	CID = "1"
+	NextCID = "4">
+	<Links
+		CID = "1">
+		<Link
+			RootPath = "$Application"
+			Filename = "Web Widgets Library.gdp"
+			RelativePath = "Libraries\Web Widgets Library\"/>
+		<Link
+			RootPath = "$Application"
+			Filename = "Windows Library.gdp"
+			RelativePath = "Libraries\Windows Library\"/>
+	</Links>
+	<Options
+		CID = "2"/>
+	<MainDesign
+		CID = "3"
+		FileID = "657C51CD-270B-4518-830A6A579AB9DCDB"
+		RootPath = "$Container"
+		RelativePathname = "Masters\TrangChu.gui"/>
+</Project>

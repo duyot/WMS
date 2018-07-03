@@ -1,0 +1,422 @@
+<Screen
+	CID = "1"
+	AppID = "2"
+	AppVer = "4.6.155.0"
+	DocID = ""
+	HasCanvas = "0"
+	Width = "1127"
+	Height = "819"
+	NextCID = "6"
+	RepresentativeRefID = "1341342396"
+	UseDefRepresentative = "0">
+	<Elements
+		CID = "1">
+		<Element
+			CID = "1934910925"
+			Type = "StoryboardMessageBox"
+			X = "1102"
+			Y = "93"
+			Width = "180"
+			Height = "75"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			Title = "Thông báo từ hệ thống!"
+			Message = "Thao tác được thực hiện thành công"/>
+		<Element
+			CID = "1341342396"
+			Type = "Shape"
+			X = "591"
+			Y = "228"
+			Width = "450"
+			Height = "502"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			TextColour = "0,0,0,0,9"
+			FillColour = "212,214,186,0,4"
+			GradientColour = "212,214,186,0,4"
+			BorderColour = "28,81,128,0,7"
+			Typeface = ""
+			FontAttributes = "0"
+			TextSize = "Normal"
+			Opacity = "255"
+			DropShadow = "0"
+			AutoCorners = "1"
+			CornerRadii = "6,6,6,6,6,6,6,6"
+			Text = ""
+			BorderWidth = "1"
+			Shape = "Rectangle"
+			Fill = "VerticalGradient"
+			Border = "Single"
+			LineStyle = "Solid"
+			HorzAlign = "Centre"
+			VertAlign = "Centre"
+			MarginLeft = "0"
+			MarginRight = "0"
+			MarginTop = "0"
+			MarginBottom = "0"/>
+		<Element
+			CID = "1342393956"
+			Type = "WebPanel"
+			X = "597"
+			Y = "232"
+			Width = "437"
+			Height = "495"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			TextColour = "255,255,255,0,10"
+			HeaderLineColour = "172,168,153,0,11"
+			HeaderFillColour = "139,161,105,0,3"
+			HeaderGradientColour = "198,210,162,0,28"
+			BoxLineColour = "172,168,153,0,11"
+			BoxFillColour = "255,255,255,0,6"
+			BoxGradientColour = "243,238,219,0,31"
+			Typeface = ""
+			FontAttributes = "0"
+			TextSize = "Normal"
+			MarginLeft = "0"
+			MarginRight = "0"
+			MarginTop = "0"
+			MarginBottom = "0"
+			Text = "Gán menu cho vai trò"
+			HasHeader = "1"
+			HasSeparatorLine = "1"
+			HeaderHeight = "18"
+			TextMargin = "10"
+			HeaderLineWidth = "0"
+			BoxLineWidth = "1"
+			HeaderFill = "Solid"
+			BoxFill = "Solid"
+			CornerStyleTL = "Round"
+			CornerStyleTR = "Round"
+			CornerStyleBL = "Round"
+			CornerStyleBR = "Round"
+			CornerSizeTL = "Medium"
+			CornerSizeTR = "Medium"
+			CornerSizeBL = "Medium"
+			CornerSizeBR = "Medium"
+			HorzAlign = "Left"
+			VertAlign = "Centre"/>
+		<Element
+			CID = "1342400335"
+			Type = "Icon"
+			X = "1016"
+			Y = "233"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmCross.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "1342404122"
+			Type = "StoryboardCloseBox"
+			X = "1232"
+			Y = "215"
+			Width = "90"
+			Height = "30"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""/>
+		<Element
+			CID = "1342395783"
+			Type = "StoryboardCloseBox"
+			X = "949"
+			Y = "789"
+			Width = "90"
+			Height = "30"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""/>
+		<Element
+			CID = "1342376581"
+			Type = "StoryboardMessageBox"
+			X = "734"
+			Y = "775"
+			Width = "180"
+			Height = "75"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			Title = "Thông báo từ hệ thống!"
+			Message = "Thao tác được thực hiện thành công"/>
+		<Element
+			CID = "1342393767"
+			Type = "Shape"
+			X = "789"
+			Y = "685"
+			Width = "70"
+			Height = "32"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			TextColour = "0,0,0,0,9"
+			FillColour = "122,164,71,0,36"
+			GradientColour = "212,214,186,0,4"
+			BorderColour = "28,81,128,0,7"
+			Typeface = ""
+			FontAttributes = "0"
+			TextSize = "Normal"
+			Opacity = "255"
+			DropShadow = "0"
+			AutoCorners = "1"
+			CornerRadii = "6,6,6,6,6,6,6,6"
+			Text = "Ghi lại"
+			BorderWidth = "2"
+			Shape = "RoundedRectangle"
+			Fill = "VerticalGradient"
+			Border = "Single"
+			LineStyle = "Solid"
+			HorzAlign = "Centre"
+			VertAlign = "Centre"
+			MarginLeft = "0"
+			MarginRight = "0"
+			MarginTop = "0"
+			MarginBottom = "0"/>
+		<Element
+			CID = "968172673"
+			Type = "CheckTree"
+			X = "616"
+			Y = "259"
+			Width = "402"
+			Height = "415"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			TextColour = "0,0,0,0,9"
+			HighlightColour = "147,160,112,0,14"
+			HighlightTextColour = "255,255,255,0,15"
+			Typeface = ""
+			FontAttributes = "0"
+			TextSize = "Normal"
+			NextItemID = "16"
+			IsDisabled = "0"
+			IsTransparent = "0"
+			HasBorder = "1"
+			HasButtons = "1"
+			HasLines = "1"
+			HasLinesAtRoot = "0"
+			HasHorzScrollBar = "0"
+			HasVertScrollBar = "1"
+			Mirror = "0"
+			WordWrap = "0"
+			IconMargin = "0"
+			ItemHeight = "16"
+			Icons = ""
+			SelectionHighlight = "Text">
+			<TreeItem
+				ItemID = "1"
+				Text = "Quản lý kho"
+				IsBold = "1"
+				IsItalic = "0"
+				IsChecked = "1"
+				IsExpanded = "1"
+				IsSelected = "0"
+				HasCustomTextColour = "0"
+				TextColour = "0,0,0,0,0">
+				<TreeItem
+					ItemID = "2"
+					Text = "Quản trị hệ thống"
+					IsBold = "1"
+					IsItalic = "0"
+					IsChecked = "1"
+					IsExpanded = "1"
+					IsSelected = "0"
+					HasCustomTextColour = "0"
+					TextColour = "0,0,0,0,0">
+					<TreeItem
+						ItemID = "5"
+						Text = "Quản lý vai trò"
+						IsBold = "0"
+						IsItalic = "0"
+						IsChecked = "1"
+						IsExpanded = "0"
+						IsSelected = "0"
+						HasCustomTextColour = "0"
+						TextColour = "0,0,0,0,0"/>
+					<TreeItem
+						ItemID = "6"
+						Text = "Quản lý người dùng"
+						IsBold = "0"
+						IsItalic = "0"
+						IsChecked = "1"
+						IsExpanded = "0"
+						IsSelected = "0"
+						HasCustomTextColour = "0"
+						TextColour = "0,0,0,0,0"/>
+				</TreeItem>
+				<TreeItem
+					ItemID = "3"
+					Text = "Danh mục"
+					IsBold = "1"
+					IsItalic = "0"
+					IsChecked = "0"
+					IsExpanded = "1"
+					IsSelected = "0"
+					HasCustomTextColour = "0"
+					TextColour = "0,0,0,0,0">
+					<TreeItem
+						ItemID = "7"
+						Text = "Danh mục lý do xuất/nhập kho"
+						IsBold = "0"
+						IsItalic = "0"
+						IsChecked = "0"
+						IsExpanded = "0"
+						IsSelected = "0"
+						HasCustomTextColour = "0"
+						TextColour = "0,0,0,0,0"/>
+				</TreeItem>
+				<TreeItem
+					ItemID = "4"
+					Text = "Quản lý chung"
+					IsBold = "1"
+					IsItalic = "0"
+					IsChecked = "1"
+					IsExpanded = "1"
+					IsSelected = "0"
+					HasCustomTextColour = "0"
+					TextColour = "0,0,0,0,0">
+					<TreeItem
+						ItemID = "8"
+						Text = "Quản lý đối tác"
+						IsBold = "0"
+						IsItalic = "0"
+						IsChecked = "0"
+						IsExpanded = "0"
+						IsSelected = "0"
+						HasCustomTextColour = "0"
+						TextColour = "0,0,0,0,0"/>
+					<TreeItem
+						ItemID = "9"
+						Text = "Quản lý phòng ban"
+						IsBold = "0"
+						IsItalic = "0"
+						IsChecked = "1"
+						IsExpanded = "0"
+						IsSelected = "0"
+						HasCustomTextColour = "0"
+						TextColour = "0,0,0,0,0"/>
+					<TreeItem
+						ItemID = "10"
+						Text = "Quản lý nhân viên"
+						IsBold = "0"
+						IsItalic = "0"
+						IsChecked = "0"
+						IsExpanded = "0"
+						IsSelected = "0"
+						HasCustomTextColour = "0"
+						TextColour = "0,0,0,0,0"/>
+				</TreeItem>
+				<TreeItem
+					ItemID = "11"
+					Text = "Quản lý  kho"
+					IsBold = "1"
+					IsItalic = "0"
+					IsChecked = "0"
+					IsExpanded = "1"
+					IsSelected = "0"
+					HasCustomTextColour = "0"
+					TextColour = "0,0,0,0,0">
+					<TreeItem
+						ItemID = "13"
+						Text = "Quản lý nhập kho"
+						IsBold = "0"
+						IsItalic = "0"
+						IsChecked = "0"
+						IsExpanded = "0"
+						IsSelected = "0"
+						HasCustomTextColour = "0"
+						TextColour = "0,0,0,0,0"/>
+					<TreeItem
+						ItemID = "14"
+						Text = "Quản lý xuất kho"
+						IsBold = "0"
+						IsItalic = "0"
+						IsChecked = "0"
+						IsExpanded = "0"
+						IsSelected = "0"
+						HasCustomTextColour = "0"
+						TextColour = "0,0,0,0,0"/>
+				</TreeItem>
+				<TreeItem
+					ItemID = "12"
+					Text = "Tiện ích"
+					IsBold = "1"
+					IsItalic = "0"
+					IsChecked = "0"
+					IsExpanded = "1"
+					IsSelected = "0"
+					HasCustomTextColour = "0"
+					TextColour = "0,0,0,0,0">
+					<TreeItem
+						ItemID = "15"
+						Text = "Dồn dịch kho"
+						IsBold = "1"
+						IsItalic = "0"
+						IsChecked = "1"
+						IsExpanded = "0"
+						IsSelected = "0"
+						HasCustomTextColour = "0"
+						TextColour = "0,0,0,0,0"/>
+				</TreeItem>
+			</TreeItem>
+		</Element>
+	</Elements>
+	<Connections
+		CID = "2">
+		<Connection
+			CID = "1342376474"
+			Layer = "Storyboard"
+			Trigger = "LeftClick"
+			Type = "Close"
+			SubType = ""
+			SourceSubItemID = ""
+			SourceRefID = "1342400335"
+			TargetRefID = "1342404122"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "1342406315"
+			Layer = "Storyboard"
+			Trigger = "LeftClick"
+			Type = "Close"
+			SubType = ""
+			SourceSubItemID = ""
+			SourceRefID = "1342376581"
+			TargetRefID = "1342395783"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "1342386416"
+			Layer = "Storyboard"
+			Trigger = "LeftClick"
+			Type = "MessageBox"
+			SubType = ""
+			SourceSubItemID = ""
+			SourceRefID = "1342393767"
+			TargetRefID = "1342376581"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+	</Connections>
+	<Groups
+		CID = "3"/>
+	<SelectionGroups
+		CID = "4"/>
+	<Notes
+		CID = "5">
+		<Note
+			CID = "1"
+			Name = "Description"
+			NextCID = "2">
+			<Text
+				CID = "1">
+				
+			</Text>
+		</Note>
+	</Notes>
+</Screen>
