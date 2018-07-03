@@ -64,7 +64,7 @@ public class CatGoodsController extends BaseController {
             mapGoodsGroup = new LinkedHashMap<>();
             CatCustomerDTO curCust = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
             List<Condition> lstCon = Lists.newArrayList();
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+            lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE ,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
             lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,curCust.getId()));
             lstCon.add(new Condition("name","VNM_ORDER","asc"));
             List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
@@ -146,7 +146,7 @@ public class CatGoodsController extends BaseController {
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
 
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
+            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Byte.parseByte(status)));
         }
 
         if(!DataUtil.isStringNullOrEmpty(goodsGroupId) && !goodsGroupId.equals(Constants.STATS_ALL)){
@@ -324,7 +324,7 @@ public class CatGoodsController extends BaseController {
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCon.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,code));
-        lstCon.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
         return !DataUtil.isListNullOrEmpty(catGoodsService.findByCondition(lstCon,tokenInfo));
     }
 }

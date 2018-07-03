@@ -99,4 +99,18 @@ public class CatPartnerDTO {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "CatPartnerDTO{" +
+                "id='" + id + '\'' +
+                ", custId='" + custId + '\'' +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", status='" + status + '\'' +
+                ", custName='" + custName + '\'' +
+                ", telNumber='" + telNumber + '\'' +
+                ", statusName='" + statusName + '\'' +
+                '}';
+    }
 }

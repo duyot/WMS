@@ -1,6 +1,10 @@
 /**
  * Created by duyot on 11/16/2016.
  */
+//
+function isContainsNonLatinCharacter(s) {
+    return /[^\u0000-\u00ff]/.test(s);
+}
 //positive integer or float
 function isValidAmount(n) {
     return Number(n) === n && n % 1 === 0 || Number(n) === n && n % 1 !== 0 || Number(n) >= 0;
@@ -154,9 +158,9 @@ function setErrorMessage(object,value) {
     object.css('color','#F44336');
     //
     object.fadeIn();
-    // setTimeout(function() {
-    //     object.fadeOut('fast');
-    // }, 80000);
+    setTimeout(function() {
+        object.fadeOut('fast');
+    }, 8000);
 }
 
 function setErrorMessageWithTime(object,value,timeout) {

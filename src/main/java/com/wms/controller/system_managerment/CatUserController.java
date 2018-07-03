@@ -50,7 +50,7 @@ public class CatUserController extends BaseCommonController {
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
     public  @ResponseBody List<CatUserDTO> findByCondition(@RequestParam("status")String status , @RequestParam("keyword")String keyword, @RequestParam("deptId")String deptId){
         List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,status));
         if(!DataUtil.isStringNullOrEmpty(keyword)){
             lstCon.add(new Condition("name", Constants.SQL_OPERATOR.LIKE,keyword));
             lstCon.add(new Condition("code", Constants.SQL_OPERATOR.LIKE,keyword));
@@ -88,7 +88,7 @@ public class CatUserController extends BaseCommonController {
     public  @ResponseBody List<SysRoleDTO> getRoles(@RequestParam("custId")String custId ){
 
         List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
         if (isRoot){
             lstCon.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "2"));
         }else {
@@ -161,8 +161,8 @@ public class CatUserController extends BaseCommonController {
     @RequestMapping(value = "/getListStock",method = RequestMethod.GET)
     public @ResponseBody UserStock getListStock(@RequestParam("custId")String custId,@RequestParam("userId")String userId){
         List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("custId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,custId));
-        lstCon.add(new Condition("status" ,Constants.SQL_OPERATOR.EQUAL,"1"));
+        lstCon.add(new Condition("custId" , Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,custId));
+        lstCon.add(new Condition("status" , Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
         List<CatStockDTO> lstStock = catStockService.findByCondition(lstCon,tokenInfo);
 //        get current stocks of this user
         List<Condition> lstConUserStock = new ArrayList<>();
