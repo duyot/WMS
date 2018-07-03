@@ -396,6 +396,10 @@ function emptyForm(form){
         var $itm = $(this);
         $itm.val('')
     });
+    form.find(":password").each(function(){
+        var $itm = $(this);
+        $itm.val('')
+    });
     form.find(":checkbox").each(function(){
         var $itm = $(this);
         $itm.bootstrapToggle('on');

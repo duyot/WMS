@@ -7,6 +7,7 @@ import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.StockService;
 import com.wms.utils.DataUtil;
+import com.wms.utils.ResourceBundleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/workspace/cat_user_ctr")
@@ -36,7 +39,9 @@ public class CatUserController extends BaseCommonController {
     StockService catStockService;
     @Autowired
     BaseService mapUserStockServiceImpl;
-
+    List<TreeModel> lstTreeModal = new ArrayList<>();
+    Map<String,CatDepartmentDTO> mapIdDept = new HashMap<>();
+    List<String> lstParentDeptId = new ArrayList<>();
     boolean isRoot = false;
     @RequestMapping()
     public String home(Model model){
@@ -64,8 +69,24 @@ public class CatUserController extends BaseCommonController {
         }
 
         List<CatUserDTO> lstUsers = catUserServices.findByCondition(lstCon,tokenInfo);
+            mapIdDept.clear();
+            List<Condition> lstConDept = new ArrayList<>();
+            lstConDept.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+            List<CatDepartmentDTO> lstDepts = new ArrayList<>();
+            if (!isRoot){
+                lstConDept.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+            }
+            lstDepts = catDeptServicesImpl.findByCondition(lstConDept,tokenInfo);
+            for (CatDepartmentDTO item : lstDepts){
+                mapIdDept.put(item.getId(),item);
+            }
+
         for (CatUserDTO catUserDTO :lstUsers){
             catUserDTO.setStatusName(mapAppStatus.get(catUserDTO.getStatus()));
+            if (!DataUtil.isNullOrEmpty(catUserDTO.getDeptId())){
+                catUserDTO.setDeptName(mapIdDept.get(catUserDTO.getDeptId()).getName());
+            }
+
         }
         return lstUsers;
     }
@@ -75,14 +96,56 @@ public class CatUserController extends BaseCommonController {
     public  @ResponseBody List<CatDepartmentDTO> getAllDepartment(@RequestParam("status")String status ){
 
         List<Condition> lstCon = new ArrayList<>();
+        List<CatDepartmentDTO> lstDepts = new ArrayList<>();
         lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
         if (!isRoot){
             lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
 
+            lstDepts = catDeptServicesImpl.findByCondition(lstCon,tokenInfo);
+        }
+
+        return lstDepts;
+    }
+    @ModelAttribute("lstTreeModel")
+    public  @ResponseBody List<TreeModel> getTreeDepartment(HttpServletRequest request){
+        if (isRoot){
+            return new ArrayList<>();
+        }
+        lstTreeModal = new ArrayList<>();
+
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        List<Condition> lstCon = new ArrayList<>();
+        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
         List<CatDepartmentDTO> lstDepts = new ArrayList<>();
         lstDepts = catDeptServicesImpl.findByCondition(lstCon,tokenInfo);
-        return lstDepts;
+
+        mapIdDept.clear();
+        for (CatDepartmentDTO item : lstDepts){
+            mapIdDept.put(item.getId(),item);
+        }
+        lstParentDeptId.clear();
+        for (CatDepartmentDTO item : lstDepts){
+            String path = buildPath(item,mapIdDept);
+            if (!DataUtil.isNullOrEmpty(path)){
+                TreeModel treeModel;
+                treeModel = new TreeModel(item.getId(),path.replaceFirst("/",""),item.getName());
+                lstTreeModal.add(treeModel);
+            }
+        }
+        List<TreeModel> lstRemoveTree = new ArrayList<>();
+        for (TreeModel item:lstTreeModal){
+            if (lstParentDeptId.contains(item.getId())){
+                lstRemoveTree.add(item);
+            }
+        }
+        lstTreeModal.removeAll(lstRemoveTree);
+        return lstTreeModal;
     }
     @RequestMapping(value = "/getRoles",method = RequestMethod.GET)
     public  @ResponseBody List<SysRoleDTO> getRoles(@RequestParam("custId")String custId ){
@@ -102,11 +165,12 @@ public class CatUserController extends BaseCommonController {
 
 
     @RequestMapping(value = "/updateUserRole",method = RequestMethod.GET)
-    public @ResponseBody String updateUserRole(@RequestParam("userId")String userId,@RequestParam("roleId")String roleId , @RequestParam("block")String block){
+    public @ResponseBody String updateUserRole(@RequestParam("userId")String userId,@RequestParam("roleId")String roleId , @RequestParam("roleName")String roleName ,@RequestParam("block")String block){
         try {
             Long idL = Long.parseLong(userId);
             CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL,tokenInfo);
             catUserDTO.setRoleId(roleId);
+            catUserDTO.setRoleName(roleName);
             if (block.equalsIgnoreCase("0")){
                 catUserDTO.setBlock("1");
             }else {
@@ -115,12 +179,30 @@ public class CatUserController extends BaseCommonController {
 
             ResponseObject response = catUserServices.update(catUserDTO, tokenInfo);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
-                return "1|update thành công";
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
             }else{
-                return "0|update không thành công";
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
             }
         } catch (NumberFormatException e) {
-            return "0|update không thành công lỗi convert long";
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
+        }
+    }
+    @RequestMapping(value = "/updateDepartment",method = RequestMethod.GET)
+    public @ResponseBody String updateDepartment(@RequestParam("userId")String userId,@RequestParam("deptId")String deptId){
+        try {
+            Long idL = Long.parseLong(userId);
+            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL,tokenInfo);
+            catUserDTO.setDeptId(deptId);
+            catUserDTO.setDeptName(mapIdDept.get(deptId).getName());
+            ResponseObject response = catUserServices.update(catUserDTO, tokenInfo);
+            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
+            }else{
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
+            }
+        } catch (NumberFormatException e) {
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
     }
     @RequestMapping(value = "/updateUserStock",method = RequestMethod.GET)
@@ -149,13 +231,13 @@ public class CatUserController extends BaseCommonController {
                 isError = true;
             }
                 if(!isError){
-                    return "1|update thành công";
+                    return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
                 }else{
-                    return "0|update không thành công";
+                    return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
                 }
 
         } catch (NumberFormatException e) {
-            return "0|update không thành công lỗi convert long";
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
     }
     @RequestMapping(value = "/getListStock",method = RequestMethod.GET)
@@ -183,12 +265,12 @@ public class CatUserController extends BaseCommonController {
             catUserDTO.setStatus(Constants.STATUS.IN_ACTIVE);
             ResponseObject response = catUserServices.update(catUserDTO, tokenInfo);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
-                return "1|Xoá thành công";
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.DELETE_SUSSESS);
             }else{
-                return "0|Xoá không thành công";
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.DELETE_ERROR);
             }
         } catch (NumberFormatException e) {
-            return "0|Xoá không thành công lỗi convert long";
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.DELETE_ERROR);
         }
     }
 
@@ -203,9 +285,9 @@ public class CatUserController extends BaseCommonController {
         ResponseObject response = catUserServices.add(catUserDTO,tokenInfo);
         try {
             Long idL = Long.parseLong(response.getStatusCode());
-            return "1|Thêm mới thành công";
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.INSERT_SUSSESS);
           }  catch (NumberFormatException e) {
-            return "0|Thêm mới không thành công";
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.INSERT_ERROR);
          }
     }
 
@@ -222,16 +304,44 @@ public class CatUserController extends BaseCommonController {
         ResponseObject response = catUserServices.update(catUserDTO,tokenInfo);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
-            return "1|Cập nhật thành công";
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
         }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
             log.info("ERROR");
-            return "0|Thông tin đã có trên hệ thống";
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
         else{
             log.info("ERROR");
-            return "0|Cập nhật không thành công";
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
 
     }
 
+
+    @RequestMapping(value = "/resetPassWord",method = RequestMethod.POST)
+    public @ResponseBody String register(CatUserDTO registerCatUserDTO){
+        log.info("Register user info: "+ registerCatUserDTO.toString());
+       String userId =  registerCatUserDTO.getId();
+       Long id =Long.parseLong(userId);
+        CatUserDTO catUserDTO =  (CatUserDTO)catUserServices.findById(id,tokenInfo);
+        if (catUserDTO == null){
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
+        }
+        catUserDTO.setPassword(DataUtil.BCryptPasswordEncoder(registerCatUserDTO.getPassword()));
+        ResponseObject responseObject = catUserServices.update(catUserDTO,tokenInfo);
+        if(responseObject == null || !Responses.SUCCESS.getName().equalsIgnoreCase(responseObject.getStatusCode())){
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
+        }
+        return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
+
+    }
+
+    public String buildPath(CatDepartmentDTO item,Map<String,CatDepartmentDTO>  mapIdDept){
+        String path = "";
+        CatDepartmentDTO parrentItem =mapIdDept.get(item.getParentId());
+        if (parrentItem!=null){
+            path = buildPath(parrentItem,mapIdDept) +"/"+ parrentItem.getName();
+            lstParentDeptId.add(parrentItem.getId());
+        }
+        return path;
+    }
 }

@@ -5,6 +5,8 @@ import com.wms.utils.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * Created by duyot on 10/24/2016.
  */
@@ -13,7 +15,8 @@ public class Condition {
     private String propertyType;
     private String operator;
     private Object value;
-
+    private List<Condition> lstCondition;
+    private  String expType ;
     public Condition() {
     }
 
@@ -73,6 +76,22 @@ public class Condition {
 
     public void setPropertyType(String propertyType) {
         this.propertyType = propertyType;
+    }
+
+    public List<Condition> getLstCondition() {
+        return lstCondition;
+    }
+
+    public void setLstCondition(List<Condition> lstCondition) {
+        this.lstCondition = lstCondition;
+    }
+
+    public String getExpType() {
+        return expType;
+    }
+
+    public void setExpType(String expType) {
+        this.expType = expType;
     }
 
     @Override

@@ -2,7 +2,7 @@ div.tree-multiselect>div.selections.no-border {
   width: 100%;
   max-height: 400px;
 }
-#mapRoleMenu .tree-multiselect label{
+#updateDepartment .tree-multiselect label{
    float: none !important;
  }
 

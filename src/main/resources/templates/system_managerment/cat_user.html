@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="/css/bootstrap-toggle.css" th:href="@{/css/bootstrap-toggle.css}"/>
     <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
     <link rel="stylesheet" href="/css/dropdowntree.css" th:href="@{/css/dropdowntree.css}"/>
-    <link rel='stylesheet' href="css/cat-role.css" th:href="@{/css/cat-user.css}" type='text/css'/>
+    <link rel="stylesheet" href="/css/jquery.tree-multiselect.min.css" th:href="@{/css/jquery.tree-multiselect.min.css}"/>
+    <link rel='stylesheet' href="css/cat-user.css" th:href="@{/css/cat-user.css}" type='text/css'/>
     <!--<link rel='stylesheet' href="css/cat-role.css" th:href="@{/css/cat-role.css}" type='text/css'/>-->
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function () {
@@ -41,6 +42,7 @@
     <script th:attr="src=@{/js/wms-common.js}" th:href="@{/js/wms-common.js}"></script>
     <script th:attr="src=@{/js/validate.js}" th:href="@{/js/validate.js}"></script>
     <script th:attr="src=@{/js/tree-dropdown/dropdowntree.js}" th:href="@{/js/tree-dropdown/dropdowntree.js}"></script>
+    <script th:attr="src=@{/js/multiselect-tree/jquery.tree-multiselect.min.js}" th:href="@{/js/multiselect-tree/jquery.tree-multiselect.min.js}"></script>
     <!--font and favi icon-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
@@ -72,7 +74,7 @@
                                     <label th:text="#{lbl.usage}"></label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="input-group" style="width: 100%;">
+                                    <div class="input-group">
                                         <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                     </div>
                                 </div>
@@ -202,6 +204,8 @@
     <div th:include="modal/assign_role_user :: frag-assign-role-user-modal"></div>
     <div th:include="modal/assign_stock_user :: frag-assign-stock-user-modal"></div>
     <div th:include="modal/cat_employee_modal :: frag-cat-emp-modal"></div>
+    <div th:include="modal/reset_password :: frag-reset-password"></div>
+    <div th:include="modal/add_department_modal :: frag-update-department"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
