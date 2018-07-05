@@ -26,9 +26,9 @@ public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
         super(MjrStockGoodsTotalDTO[].class,MjrStockGoodsTotalDTO.class, Constants.SERVICE_PREFIX.MJR_STOCK_GOODS_TOTAL_SERVICE);
     }
 
-    public Long getCountGoodsDetail(String custId,String stockId, String goodsId,String isSerial,String goodsState,AuthTokenInfo tokenInfo){
+    public Long getCountGoodsDetail(String custId,String stockId, String goodsId,String isSerial,String goodsState,String partnerId,AuthTokenInfo tokenInfo){
         String url = SERVICE_URL + "stockManagementServices/" + "getCountGoodsDetail?custId="+custId+"&stockId="+stockId+"&goodsId="+goodsId+"&isSerial="+isSerial+
-                            "&goodsState="+goodsState+"&access_token="+ tokenInfo.getAccess_token();
+                            "&goodsState="+goodsState+"&partnerId="+partnerId+"&access_token="+ tokenInfo.getAccess_token();
         try {
             return  restTemplate.getForObject(url, Long.class);
         } catch (RestClientException e) {
