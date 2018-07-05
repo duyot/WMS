@@ -71,7 +71,7 @@ public class CatUserController extends BaseCommonController {
         List<CatUserDTO> lstUsers = catUserServices.findByCondition(lstCon,tokenInfo);
             mapIdDept.clear();
             List<Condition> lstConDept = new ArrayList<>();
-            lstConDept.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+            lstConDept.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
             List<CatDepartmentDTO> lstDepts = new ArrayList<>();
             if (!isRoot){
                 lstConDept.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
@@ -117,7 +117,7 @@ public class CatUserController extends BaseCommonController {
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
         List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         if(tokenInfo == null){
             this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");

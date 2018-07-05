@@ -49,7 +49,7 @@ public class AppParamsController extends BaseCommonController {
         List<Condition> lstCon = Lists.newArrayList();
 
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
+            lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,status));
         }
 
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));

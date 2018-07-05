@@ -106,7 +106,7 @@ public class TransInfoController extends BaseController{
                                       @RequestParam("transType")String transType, @RequestParam("partnerId")String partnerId
     ){
         List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE ,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
 
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         if(!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)){

@@ -42,7 +42,8 @@ $(function () {
     btnExecuse.click(function () {
      var ids= getTreeCheckedList("#mapRoleMenu");
      var roleCode =   $("#modal-roleId").val();
-     var data = {id : roleCode,menuIds:ids};
+     var custId =   $("#modal-custId").val();
+     var data = {id : roleCode,menuIds:ids , custId :custId};
 
      updateEvent("POST",btnExecuse.val(),data,"afterAssignRollSuccess");
 
@@ -91,6 +92,7 @@ window.operateEvents = {
     },
     'click .assign-row': function (e, value, row, index) {
         $("#modal-roleId").val(row['id']);
+        $("#modal-custId").val(row['custId']);
         bindDataToTree(row["menuIds"]);
       showModal(mapRoleMenu);
     }

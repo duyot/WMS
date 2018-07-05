@@ -60,7 +60,7 @@ public class FunctionUtils {
     */
     public static List<AppParamsDTO> getAppParams(BaseService service,AuthTokenInfo tokenInfo){
         List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
         lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
         return service.findByCondition(lstCondition,tokenInfo);
     }
@@ -196,7 +196,7 @@ public class FunctionUtils {
     private static List<Condition> getBaseConditions(String custId){
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL, custId));
-        lstCondition.add(new Condition("status",Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
         lstCondition.add(new Condition("name",  Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
         return lstCondition;
     }
@@ -741,8 +741,8 @@ public class FunctionUtils {
     */
     public static CatPartnerDTO getPartner (BaseService service,AuthTokenInfo tokenInfo, String custId, String partnerCode, String partnerId){
         List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        if (partnerCode != null && partnerCode.trim() !=""){
+        lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        if (partnerCode != null && !partnerCode.trim().equalsIgnoreCase("")){
             lstCondition.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,partnerCode.trim()));
         }
         if(partnerId != null){
