@@ -27,8 +27,8 @@ public class MjrStockGoodsTotalServiceImpl extends BaseServiceImpl<MjrStockGoods
     }
 
     @Override
-    public Long getCountGoodsDetail(String custId, String stockId, String goodsId, String isSerial, String goodsState,AuthTokenInfo tokenInfo) {
-        return mjrStockGoodsTotalDP.getCountGoodsDetail(custId,stockId,goodsId,isSerial,goodsState,tokenInfo);
+    public Long getCountGoodsDetail(String custId, String stockId, String goodsId, String isSerial, String goodsState,String partnerId,AuthTokenInfo tokenInfo) {
+        return mjrStockGoodsTotalDP.getCountGoodsDetail(custId,stockId,goodsId,isSerial,goodsState,partnerId,tokenInfo);
     }
 
     @Override

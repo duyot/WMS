@@ -129,7 +129,7 @@ public class StockInfoController extends BaseController{
         List<MjrStockTransDetailDTO> lstData = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId,limit,offset,tokenInfo);
         lstGoodsDetails = setListGoodsDetailNameInfo(lstData,goodsItem);
         data.setRows(lstGoodsDetails);
-        Long totalItem =utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,tokenInfo);
+        Long totalItem =utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId,tokenInfo);
         data.setTotal(totalItem);
         return data;
     }
@@ -156,7 +156,7 @@ public class StockInfoController extends BaseController{
         //paging -> re get all goods detail
         MjrStockTransDetailDTO item = lstGoodsDetails.get(0);
         CatGoodsDTO goodsItem = mapGoodsIdGoods.get(item.getGoodsId());
-        Long totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),tokenInfo);
+        Long totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),partnerId,tokenInfo);
         List<MjrStockTransDetailDTO> lstGoodsDetailAlls = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),partnerId,totalItem+"",0+"",tokenInfo);
         //
         String fileResource = exportGoodsDetails(setListGoodsDetailNameInfo(lstGoodsDetailAlls,goodsItem),prefixFileName,stockId,goodsItem.isSerial());
