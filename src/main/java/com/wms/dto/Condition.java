@@ -27,6 +27,11 @@ public class Condition {
         this.propertyType = Constants.SQL_PRO_TYPE.STRING;
     }
 
+    public Condition( String expType , List<Condition> lstCondition) {
+        this.lstCondition = lstCondition;
+        this.expType = expType;
+    }
+
     public Condition(String property, String propertyType, String operator, Object value) {
         this.property = property;
         this.propertyType = propertyType;

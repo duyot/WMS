@@ -1,5 +1,7 @@
 package com.wms.dto;
 
+import oracle.net.aso.i;
+
 /**
  * Created by duyot on 12/6/2016.
  */
@@ -18,6 +20,11 @@ public class CatCustomerDTO {
     private String mailReport;
     //DoanLV4 doi tac co bat buoc chon khong khi nhap/xuat kho
     private String partnerRequire;
+
+    public CatCustomerDTO(String id ,String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public CatCustomerDTO(String id, String code, String name, String type, String telNumber, String email,
                           String bankName, String bankAccountCode, String address, String status, String createDate, String mailReport, String partnerRequire) {

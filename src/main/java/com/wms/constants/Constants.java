@@ -119,5 +119,8 @@ public class Constants {
         public static String BYTE   = "byte";
         public static String DATE   = "date";
     }
-
+    public static class SQL_LOGIC{
+        public static String OR = " or ";
+        public static String AND = " and ";
+    }
 }

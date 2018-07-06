@@ -15,3 +15,6 @@ div.tree-multiselect>div.selections.no-border {
 #modal-dept  .caret{
     float: right;
 }
+#usageUnit option:first-child{
+    display: none;
+}
