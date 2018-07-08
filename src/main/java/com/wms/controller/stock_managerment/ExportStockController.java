@@ -9,6 +9,7 @@ import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
+import com.wms.utils.JSONUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,6 +209,7 @@ public class ExportStockController extends BaseController{
         log.info(currentUser.getCode() +" export: " + stockManagementDTO.getLstGoods().size() + " items.");
         String sysdate = catStockService.getSysDate(tokenInfo);
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO,sysdate);
+        System.out.println("Export request: "+ JSONUtils.object2JSONString(stockTrans));
         ResponseObject response = stockManagementService.exportStock(stockTrans,tokenInfo);
         log.info("Result "+ response.getStatusCode() +" in "+ (System.currentTimeMillis() - startTime) + "ms");
         return response;
