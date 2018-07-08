@@ -408,6 +408,10 @@ function emptyForm(form){
         var $itm = $(this);
         $itm.val('')
     });
+
+    $("#emp-insert-update-form").find('label.error').each(function(){
+        $(this).css("display", "none");
+    });
 }
 function deleteRow(rowId) {
     var jsonData={id: rowId} ;

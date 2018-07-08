@@ -73,6 +73,7 @@ $(function () {
         doResetPass();
         
     })
+    $('#search-usageUnit').val("0");
     doSearch();
 
 
@@ -181,7 +182,10 @@ function doSearch(clearInfor) {
     }
     var keyword = $('#inp-keyword').val().trim();
     var deptId =   $("#deptId").val();
-    var data = {status:statusVal,keyword:keyword , deptId: deptId};
+    if(isRoot == "true"){
+        var usageUnit = $('#search-usageUnit').val();
+    }
+    var data = {status:statusVal,keyword:keyword , deptId: deptId,usageUnit :usageUnit};
     searchAndUpdateMainTable(clearInfor,mainTable,$btnSearch,data);
 }
 
@@ -194,9 +198,14 @@ function changeModelByType( changeType,name, code, id , status, tel,email ,custI
             // $('#modal-cmb-custId').val($('#modal-cmb-custId option:first ').val());
             // $("#div-root").css("display","block");
         }
+        // var new_element = $("#emp-insert-update-form").clone();
+        // $("#emp-insert-update-form").replaceWith(new_element);
+
         $('#modal-cmb-status').bootstrapToggle('on');
         $("#div-status *").prop('disabled', true);
         showAdd();
+        $("#modal-usage").css("display","block");
+        $("#usageUnit").val($("#usageUnit option").eq(1).val());
     } else {//update
         $("#emp-insert-update-form").attr("action", actionVal);
         $("#modal-name").val(decodeHtml(name));
@@ -205,6 +214,7 @@ function changeModelByType( changeType,name, code, id , status, tel,email ,custI
         $("#modal-email").val(decodeHtml(email));
         $("#modal-tel").val(decodeHtml(tel));
         $("#modal-custId").val(decodeHtml(custId));
+        $("#modal-usage").css("display","none");
         if(isRoot == "true"){
             $('#modal-cmb-custId').val(custId);
             $("#div-root").css("display","none");

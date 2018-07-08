@@ -6,7 +6,9 @@ import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.StockService;
+import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
+import com.wms.utils.FunctionUtils;
 import com.wms.utils.ResourceBundleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,40 +37,66 @@ public class CatUserController extends BaseCommonController {
 
     @Autowired
     BaseService roleServiceImpl;
+
     @Autowired
     StockService catStockService;
+
+    @Autowired
+    BaseService catCustServicesImpl;
+
     @Autowired
     BaseService mapUserStockServiceImpl;
     List<TreeModel> lstTreeModal = new ArrayList<>();
     Map<String,CatDepartmentDTO> mapIdDept = new HashMap<>();
     List<String> lstParentDeptId = new ArrayList<>();
+    Map<String,CatCustomerDTO> mapIdCust = new HashMap<>();
     boolean isRoot = false;
     @RequestMapping()
     public String home(Model model){
         model.addAttribute("menuName","menu.catuser");
         model.addAttribute("controller","/workspace/cat_user_ctr/");
         isRoot = currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1")?true:false ;
+        if (isRoot){
+            buildMapIdCustomer();
+            model.addAttribute("mapIdCust",mapIdCust);
+        }
         model.addAttribute("isRoot",isRoot);
         return "system_managerment/cat_user";
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public  @ResponseBody List<CatUserDTO> findByCondition(@RequestParam("status")String status , @RequestParam("keyword")String keyword, @RequestParam("deptId")String deptId){
+    public  @ResponseBody List<CatUserDTO> findByCondition(@RequestParam("status")String status , @RequestParam("keyword")String keyword, @RequestParam("deptId")String deptId, @RequestParam("usageUnit")String usageUnit){
         List<Condition> lstCon = new ArrayList<>();
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,status));
         if(!DataUtil.isStringNullOrEmpty(keyword)){
-            lstCon.add(new Condition("name", Constants.SQL_OPERATOR.LIKE,keyword));
-            lstCon.add(new Condition("code", Constants.SQL_OPERATOR.LIKE,keyword));
+            List<Condition> lstOrCondition = new ArrayList<>();
+            lstOrCondition.add(new Condition("name", Constants.SQL_OPERATOR.LIKE,keyword));
+            lstOrCondition.add(new Condition("code", Constants.SQL_OPERATOR.LIKE,keyword));
+            lstCon.add(new Condition(Constants.SQL_LOGIC.OR,lstOrCondition));
         }
         if (!DataUtil.isStringNullOrEmpty(deptId)&& !deptId.equalsIgnoreCase("0")){{
             lstCon.add(new Condition("deptId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,deptId));
         }}
+        if (!DataUtil.isStringNullOrEmpty(usageUnit)&& !usageUnit.equalsIgnoreCase("0")){{
+            lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,usageUnit));
+        }}
         if (!isRoot){
             lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
 
+        }else{
+            List<Condition> lstCondition = new ArrayList<>();
+            lstCondition.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,"2"));
+            lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,"1"));
+            List<SysRoleDTO> lstRoles = roleServiceImpl.findByCondition(lstCondition,tokenInfo);
+            String roleId = "";
+            for (SysRoleDTO role :lstRoles){
+                roleId = roleId + ","+role.getId();
+            }
+            lstCon.add(new Condition("roleId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.IN,roleId.replaceFirst(",","")));
         }
 
         List<CatUserDTO> lstUsers = catUserServices.findByCondition(lstCon,tokenInfo);
+        if (!isRoot){
             mapIdDept.clear();
             List<Condition> lstConDept = new ArrayList<>();
             lstConDept.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
@@ -81,13 +109,22 @@ public class CatUserController extends BaseCommonController {
                 mapIdDept.put(item.getId(),item);
             }
 
-        for (CatUserDTO catUserDTO :lstUsers){
-            catUserDTO.setStatusName(mapAppStatus.get(catUserDTO.getStatus()));
-            if (!DataUtil.isNullOrEmpty(catUserDTO.getDeptId())){
-                catUserDTO.setDeptName(mapIdDept.get(catUserDTO.getDeptId()).getName());
+            for (CatUserDTO catUserDTO :lstUsers){
+                catUserDTO.setStatusName(mapAppStatus.get(catUserDTO.getStatus()));
+                if (!DataUtil.isNullOrEmpty(catUserDTO.getDeptId())){
+                    catUserDTO.setDeptName(mapIdDept.get(catUserDTO.getDeptId()).getName());
+                }
+
+            }
+
+        }else {
+            for (CatUserDTO catUserDTO :lstUsers){
+                catUserDTO.setStatusName(mapAppStatus.get(catUserDTO.getStatus()));
+                catUserDTO.setCustName(mapIdCust.get(catUserDTO.getCustId()).getName());
             }
 
         }
+
         return lstUsers;
     }
 
@@ -280,6 +317,9 @@ public class CatUserController extends BaseCommonController {
         catUserDTO.setBlock("0");
         if (!isRoot){
             catUserDTO.setCustId(selectedCustomer.getId());
+        }else{
+            catUserDTO.setRoleId(BundleUtils.getKey("defaulRoleId"));
+            catUserDTO.setRoleName(BundleUtils.getKey("defaulRoleName"));
         }
 
         ResponseObject response = catUserServices.add(catUserDTO,tokenInfo);
@@ -343,5 +383,15 @@ public class CatUserController extends BaseCommonController {
             lstParentDeptId.add(parrentItem.getId());
         }
         return path;
+    }
+    public void buildMapIdCustomer(){
+        List<Condition> lstCon = new ArrayList<>();
+        lstCon.add(new Condition("status" , Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        List<CatCustomerDTO> lstCustomer = catCustServicesImpl.findByCondition(lstCon,tokenInfo);
+        mapIdCust.clear();
+        mapIdCust.put("0",new CatCustomerDTO("0",ResourceBundleUtils.getkey("label.choose")));
+        for (CatCustomerDTO catCustomerDTO : lstCustomer){
+            mapIdCust.put(catCustomerDTO.getId(),catCustomerDTO);
+        }
     }
 }

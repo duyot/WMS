@@ -19,7 +19,30 @@
                         <div class="container-modal">
                             <!--hidden fields-->
                             <input id="modal-id" hidden="true" name="id"/>
-                            <input id="modal-custId" hidden="true" name="custId"/>
+
+
+                            <div  id = "modal-usage" th:if="${isRoot}">
+                                <div class="row row-header">
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <label for="modal-code" class="control-label label-require" th:text="#{lbl.usage}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-content">
+                                    <div class="col-sm-12">
+                                        <div class="input-group" style=" width: 100%">
+                                            <select name="custId" id="usageUnit" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                                <option  th:each="sopt:${mapIdCust.values()}"
+                                                         th:value="${sopt.id}" th:text="${sopt.name}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:unless="${isRoot}">
+                                <input id="modal-custId" hidden="true" name="custId"/>
+                            </div>
                             <!---->
                             <div class="row row-header">
                                 <div class="col-sm-12">
@@ -34,7 +57,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-barcode fa-fw"></i>
                                         </span>
-                                        <input id="modal-code" class="form-control uppercase-input" type="text" th:required="true" name="code" />
+                                        <input id="modal-code" class="form-control" type="text" th:required="true" name="code" />
                                     </div>
                                 </div>
                             </div>

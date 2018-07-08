@@ -63,21 +63,30 @@
                 </div>
                 <div class="panel-body">
                     <div class="container">
-                        <!--row 1: username + status-->
-                        <div th:if="${isRoot}">
-                    <!--root here-->
 
-                            </div>
-                        <div th:unless="${isRoot}">
+
                             <div class="row">
+                                <!--row 1: username + status-->
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.usage}"></label>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+
+                               <div class="col-sm-4">
+                                    <div th:if="${isRoot}">
+                                        <div class="input-group" style="width: 100%;">
+                                            <select name="search-usageUnit" id="search-usageUnit" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                                <option  th:each="sopt:${mapIdCust.values()}"
+                                                         th:value="${sopt.id}" th:text="${sopt.name}"></option>
+                                            </select>
+                                        </div>
+                                     </div>
+                                     <div th:unless="${isRoot}">
+                                        <div class="input-group">
+                                            <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                        </div>
                                     </div>
                                 </div>
+
 
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.status}"></label>
@@ -89,7 +98,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
                         <div class="row">
                             <div class="col-sm-2">
                                 <label th:text="#{lbl.keyword}" for="inp-keyword"></label>
@@ -179,7 +188,13 @@
                         <th class="col-md-2" data-field="deptId" data-align="left" data-sortable="true"  data-visible="false" ></th>
                         <th class="col-md-2" data-field="roleId" data-align="left" data-sortable="true"  data-visible="false" ></th>
                         <div th:if="${isRoot}">
-
+                            <th class="col-md-2" data-field="custName" data-align="left" data-sortable="true" th:text="#{lbl.customer}"></th>
+                            <th class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.usercode}"></th>
+                            <th class="col-md-2" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.user.fullname}"></th>
+                            <th class="col-md-1" data-field="email" data-align="left" data-sortable="true" th:text="#{lbl.email}"></th>
+                            <th class="col-md-1" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
+                            <th class="col-md-1" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
 
                         </div>
                         <div th:unless="${isRoot}">
