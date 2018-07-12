@@ -34,6 +34,7 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/home_page/**","/css/**", "/fonts/**","/js/**","/images/**","/workspace_resource/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/workspace","/workspace/").permitAll()
+                .antMatchers("/login1").permitAll()
                 //for sys_admin
                 .antMatchers("/workspace/sysadmin/**").hasRole("SYS_ADMIN")
                 //for each function

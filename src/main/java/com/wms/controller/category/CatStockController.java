@@ -4,12 +4,11 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
-import com.wms.dto.CatStockCellDTO;
-import com.wms.dto.CatStockDTO;
-import com.wms.dto.Condition;
-import com.wms.dto.ResponseObject;
+import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.StockService;
 import com.wms.utils.DataUtil;
+import com.wms.utils.FunctionUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by duyot on 12/6/2016.
@@ -42,6 +40,31 @@ public class CatStockController extends BaseCommonController{
     @Autowired
     BaseService catStockCellService;
 
+    @Autowired
+    public StockService stockService;
+
+    public List<CatStockDTO> lstStock;
+
+    @ModelAttribute("lstStock")
+    public List<CatStockDTO> getListStock(HttpServletRequest request){
+        if(selectedCustomer == null){
+            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if(tokenInfo == null){
+            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
+        if (currentUser == null) {
+            this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
+        }
+        //
+        if(lstStock == null){
+            lstStock = FunctionUtils.getListStock(stockService,currentUser,tokenInfo);
+        }
+        //
+        return lstStock;
+    }
+
+
     @RequestMapping()
     public String home(Model model){
         model.addAttribute("menuName","menu.catstock");
@@ -50,25 +73,26 @@ public class CatStockController extends BaseCommonController{
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
     public  @ResponseBody List<CatStockDTO> findByCondition(@RequestParam("status")String status){
-        List<Condition> lstCon = Lists.newArrayList();
-
-        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,status));
+        if (status.equals(Constants.STATS_ALL) || DataUtil.isStringNullOrEmpty(status)) {
+            return lstStock;
         }
-        lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
+        //
 
-        List<CatStockDTO> lstCatStock = catStockService.findByCondition(lstCon,tokenInfo);
+//        for(CatStockDTO i: lstStock){
+//            if (i.getStatus().equalsIgnoreCase(status)) {
+//                stocks.add(i);
+//            }
+//        }
 
-        for(CatStockDTO i: lstCatStock){
-            i.setName(i.getName());
-            i.setCode(i.getCode());
-            i.setAddress(i.getAddress());
-            i.setCustName(selectedCustomer.getName());
-            i.setStatusName(mapAppStatus.get(i.getStatus()));
-        }
+        return lstStock.stream().filter(i -> i.getStatus().equalsIgnoreCase(status)).collect(Collectors.toList());
 
-        return lstCatStock;
+//        for(CatStockDTO i: lstCatStock){
+//            i.setName(i.getName());
+//            i.setCode(i.getCode());
+//            i.setAddress(i.getAddress());
+//            i.setCustName(selectedCustomer.getName());
+//            i.setStatusName(mapAppStatus.get(i.getStatus()));
+//        }
     }
 
     @RequestMapping(value = "/getCells",method = RequestMethod.GET)
