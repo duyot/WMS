@@ -47,10 +47,16 @@ import java.util.Locale;
         this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
     }
 
-//    @RequestMapping(value = "/login",method = RequestMethod.GET)
-//    public String login(){
-//        return "security_login";
-//    }
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public String login() {
+        return "security_login";
+    }
+    @RequestMapping(value = "/failureLogin",method = RequestMethod.GET)
+    public String failureLogin(@RequestParam(value = "message") String message, final Model model) {
+        model.addAttribute("message", message);
+        return "security_login";
+    }
+
 
     @RequestMapping(value = "/register",method = RequestMethod.GET)
     public String register(){
@@ -93,25 +99,6 @@ import java.util.Locale;
         }
         return "Đăng ký thành công";
 
-    }
-
-    @RequestMapping(value = "/login1",method = RequestMethod.GET)
-    public String login(@RequestParam(value = "message", required = false) String message, final Model model) {
-        if (message != null && !message.isEmpty()) {
-            if (message.equals("timeout")) {
-                model.addAttribute("message", "Time out");
-            }
-            if (message.equals("max_session")) {
-                model.addAttribute("message", "This accout has been login from another device!");
-            }
-            if (message.equals("logout")) {
-                model.addAttribute("message", "Logout!");
-            }
-            if (message.equals("error")) {
-                model.addAttribute("message", "Login Failed!");
-            }
-        }
-        return "security_login";
     }
 
 //    @RequestMapping(value = "/{sitemap:.+}",method = RequestMethod.GET)
