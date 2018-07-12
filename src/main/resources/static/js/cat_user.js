@@ -175,6 +175,7 @@ $(document).ready(function () {
 
 function doSearch(clearInfor) {
     var statusVal;
+    var usageUnit = '0';
     if($('#cmb-status').prop('checked')){
         statusVal = '1';
     }else{
