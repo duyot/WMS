@@ -30,9 +30,7 @@
                         </svg>
                         <input type="password" class="login__input pass" placeholder="Mật khẩu" id="password" name="password"/>
                     </div>
-                    <div th:if="${param.error}" class="alert alert-error">
-                        Tên đăng nhập hoặc mật khẩu không đúng
-                    </div>
+                    <p th:if="${message != null}" th:text="#{${message}}"  class="alert alert-error"></p>
                     <div th:if="${param.logout}" class="alert alert-success">
                         You have been logged out.
                     </div>

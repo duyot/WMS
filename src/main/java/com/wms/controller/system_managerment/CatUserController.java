@@ -77,9 +77,9 @@ public class CatUserController extends BaseCommonController {
         if (!DataUtil.isStringNullOrEmpty(deptId)&& !deptId.equalsIgnoreCase("0")){{
             lstCon.add(new Condition("deptId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,deptId));
         }}
-        if (!DataUtil.isStringNullOrEmpty(usageUnit)&& !usageUnit.equalsIgnoreCase("0")){{
+        if (!DataUtil.isStringNullOrEmpty(usageUnit)&& !usageUnit.equalsIgnoreCase("0")){
             lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,usageUnit));
-        }}
+        }
         if (!isRoot){
             lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
 
@@ -114,7 +114,6 @@ public class CatUserController extends BaseCommonController {
                 if (!DataUtil.isNullOrEmpty(catUserDTO.getDeptId())){
                     catUserDTO.setDeptName(mapIdDept.get(catUserDTO.getDeptId()).getName());
                 }
-
             }
 
         }else {
@@ -122,7 +121,6 @@ public class CatUserController extends BaseCommonController {
                 catUserDTO.setStatusName(mapAppStatus.get(catUserDTO.getStatus()));
                 catUserDTO.setCustName(mapIdCust.get(catUserDTO.getCustId()).getName());
             }
-
         }
 
         return lstUsers;
@@ -134,7 +132,7 @@ public class CatUserController extends BaseCommonController {
 
         List<Condition> lstCon = new ArrayList<>();
         List<CatDepartmentDTO> lstDepts = new ArrayList<>();
-        lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
         if (!isRoot){
             lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
 

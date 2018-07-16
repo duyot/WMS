@@ -175,6 +175,7 @@ $(document).ready(function () {
 
 function doSearch(clearInfor) {
     var statusVal;
+    var usageUnit = '0';
     if($('#cmb-status').prop('checked')){
         statusVal = '1';
     }else{
@@ -182,10 +183,13 @@ function doSearch(clearInfor) {
     }
     var keyword = $('#inp-keyword').val().trim();
     var deptId =   $("#deptId").val();
+    var usageUnit;
     if(isRoot == "true"){
-        var usageUnit = $('#search-usageUnit').val();
+        usageUnit = $('#search-usageUnit').val();
+    }else{
+        usageUnit = "";
     }
-    var data = {status:statusVal,keyword:keyword , deptId: deptId,usageUnit :usageUnit};
+    var data = {status:statusVal, keyword:keyword , deptId: deptId,usageUnit :usageUnit};
     searchAndUpdateMainTable(clearInfor,mainTable,$btnSearch,data);
 }
 
