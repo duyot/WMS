@@ -28,7 +28,7 @@ public class StatisticServiceImpl implements StatisticService{
 
     @Override
     public List<ChartDTO> getTopGoods(String custId, String type, AuthTokenInfo tokenInfo, Map<String,CatGoodsDTO> mapGoods ) {
-        List<ChartDTO> lstChart =  statisticDP.getTopGoods(custId,type,tokenInfo);
+        List<ChartDTO> lstChart =  statisticDP.getTransaction(custId,type,tokenInfo);
         if(!DataUtil.isListNullOrEmpty(lstChart)){
             for(ChartDTO i: lstChart){
                 i.setName(FunctionUtils.getMapValue(mapGoods,i.getName()));
@@ -37,4 +37,30 @@ public class StatisticServiceImpl implements StatisticService{
         //
         return lstChart;
     }
+
+
+    @Override
+    public List<ChartDTO> getKPIStorage(String custId, String type, AuthTokenInfo tokenInfo, Map<String,CatGoodsDTO> mapGoods ) {
+        List<ChartDTO> lstChart =  statisticDP.getKPIStorage(custId,type,tokenInfo);
+        if(!DataUtil.isListNullOrEmpty(lstChart)){
+            for(ChartDTO i: lstChart){
+                i.setName(FunctionUtils.getMapValue(mapGoods,i.getName()));
+            }
+        }
+        //
+        return lstChart;
+    }
+
+    @Override
+    public List<ChartDTO> getTransaction(String custId, String type, AuthTokenInfo tokenInfo, Map<String,CatGoodsDTO> mapGoods ) {
+        List<ChartDTO> lstChart =  statisticDP.getTransaction(custId,type,tokenInfo);
+        if(!DataUtil.isListNullOrEmpty(lstChart)){
+            for(ChartDTO i: lstChart){
+                i.setName(FunctionUtils.getMapValue(mapGoods,i.getName()));
+            }
+        }
+        //
+        return lstChart;
+    }
+
 }

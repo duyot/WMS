@@ -54,4 +54,36 @@ public class StatisticDP {
             return new ArrayList<>();
         }
     }
+
+    public List<ChartDTO> getKPIStorage(String custId,String type, AuthTokenInfo tokenInfo){
+        RestTemplate restTemplate = new RestTemplate();
+        String getActionMenuURL =   GET_TOP_GOODS_URL + "?" + "custId="+custId+"&type="+type + "&access_token="+tokenInfo.getAccess_token();
+        try {
+            ResponseEntity<ChartDTO[]> responseEntity = restTemplate.getForEntity(getActionMenuURL,ChartDTO[].class);
+            if(responseEntity.getBody() != null){
+                return Arrays.asList(responseEntity.getBody());
+            }else{
+                return new ArrayList<>();
+            }
+        } catch (RestClientException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public List<ChartDTO> getTransaction(String custId,String type, AuthTokenInfo tokenInfo){
+        RestTemplate restTemplate = new RestTemplate();
+        String getActionMenuURL =   GET_TOP_GOODS_URL + "?" + "custId="+custId+"&type="+type + "&access_token="+tokenInfo.getAccess_token();
+        try {
+            ResponseEntity<ChartDTO[]> responseEntity = restTemplate.getForEntity(getActionMenuURL,ChartDTO[].class);
+            if(responseEntity.getBody() != null){
+                return Arrays.asList(responseEntity.getBody());
+            }else{
+                return new ArrayList<>();
+            }
+        } catch (RestClientException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }

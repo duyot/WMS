@@ -13,4 +13,6 @@ import java.util.Map;
 public interface StatisticService {
     List<ChartDTO> getRevenue(String custId, String type, AuthTokenInfo tokenInfo);
     List<ChartDTO> getTopGoods(String custId, String type, AuthTokenInfo tokenInfo, Map<String,CatGoodsDTO> mapGoods);
+    List<ChartDTO> getKPIStorage(String custId, String type, AuthTokenInfo tokenInfo,Map<String,CatGoodsDTO> mapGoods);
+    List<ChartDTO> getTransaction(String custId, String type, AuthTokenInfo tokenInfo, Map<String,CatGoodsDTO> mapGoods);
 }

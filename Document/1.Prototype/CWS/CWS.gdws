@@ -4,7 +4,7 @@
 	NextCID = "2">
 	<OpenFiles
 		CID = "1"
-		LastActive = "5">
+		LastActive = "15">
 		<File
 			FileID = "657C51CD-270B-4518-830A6A579AB9DCDB"
 			RootPath = "$Container"
@@ -24,11 +24,6 @@
 			FileID = "B94AE9DC-467B-4476-8A477A51411581AB"
 			RootPath = "$Container"
 			RelativePathname = "Masters\Menu\menu.Banhang.gui"
-			ViewSettings = ""/>
-		<File
-			FileID = "5377A99F-7A58-4BEC-B67F54B762E09217"
-			RootPath = "$Container"
-			RelativePathname = "BanHang\XuatKho_BanHang\1.1.XuatkhoBH.gui"
 			ViewSettings = ""/>
 		<File
 			FileID = "01BBA85C-F649-483C-B75E705B4C37430E"
@@ -79,6 +74,11 @@
 			FileID = "C23DC66D-D3DE-4852-BEDC12E1CAB0349F"
 			RootPath = "$Container"
 			RelativePathname = "BanHang\XuatKho_BanHang\1.3.ThemHangHoa.gui"
+			ViewSettings = ""/>
+		<File
+			FileID = "5377A99F-7A58-4BEC-B67F54B762E09217"
+			RootPath = "$Container"
+			RelativePathname = "BanHang\XuatKho_BanHang\1.1.XuatkhoBH.gui"
 			ViewSettings = ""/>
 	</OpenFiles>
 </Workspace>

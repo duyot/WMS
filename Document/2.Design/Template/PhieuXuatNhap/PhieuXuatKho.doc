@@ -1,0 +1,810 @@
+{\rtf1\adeflang1025\ansi\ansicpg1258\uc1\adeff0\deff0\stshfdbch0\stshfloch31506\stshfhich31506\stshfbi31506\deflang1066\deflangfe1066\themelang1033\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset163\fprq2{\*\panose 02020603050405020304}Times New Roman{\*\falt Times New Roman};}
+{\f34\fbidi \froman\fcharset163\fprq2{\*\panose 02040503050406030204}Cambria Math;}{\f37\fbidi \fswiss\fcharset163\fprq2{\*\panose 00000000000000000000}Calibri{\*\falt Century Gothic};}
+{\f38\fbidi \fswiss\fcharset163\fprq2{\*\panose 00000000000000000000}Tahoma;}{\flomajor\f31500\fbidi \froman\fcharset163\fprq2{\*\panose 02020603050405020304}Times New Roman{\*\falt Times New Roman};}
+{\fdbmajor\f31501\fbidi \froman\fcharset163\fprq2{\*\panose 02020603050405020304}Times New Roman{\*\falt Times New Roman};}{\fhimajor\f31502\fbidi \froman\fcharset163\fprq2{\*\panose 02040503050406030204}Cambria;}
+{\fbimajor\f31503\fbidi \froman\fcharset163\fprq2{\*\panose 02020603050405020304}Times New Roman{\*\falt Times New Roman};}{\flominor\f31504\fbidi \froman\fcharset163\fprq2{\*\panose 02020603050405020304}Times New Roman{\*\falt Times New Roman};}
+{\fdbminor\f31505\fbidi \froman\fcharset163\fprq2{\*\panose 02020603050405020304}Times New Roman{\*\falt Times New Roman};}{\fhiminor\f31506\fbidi \fswiss\fcharset163\fprq2{\*\panose 00000000000000000000}Calibri{\*\falt Century Gothic};}
+{\fbiminor\f31507\fbidi \froman\fcharset163\fprq2{\*\panose 02020603050405020304}Times New Roman{\*\falt Times New Roman};}{\f42\fbidi \froman\fcharset0\fprq2 Times New Roman{\*\falt Times New Roman};}
+{\f40\fbidi \froman\fcharset238\fprq2 Times New Roman CE{\*\falt Times New Roman};}{\f41\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr{\*\falt Times New Roman};}{\f43\fbidi \froman\fcharset161\fprq2 Times New Roman Greek{\*\falt Times New Roman};}
+{\f44\fbidi \froman\fcharset162\fprq2 Times New Roman Tur{\*\falt Times New Roman};}{\f45\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew){\*\falt Times New Roman};}
+{\f46\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic){\*\falt Times New Roman};}{\f47\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic{\*\falt Times New Roman};}{\f382\fbidi \froman\fcharset0\fprq2 Cambria Math;}
+{\f380\fbidi \froman\fcharset238\fprq2 Cambria Math CE;}{\f381\fbidi \froman\fcharset204\fprq2 Cambria Math Cyr;}{\f383\fbidi \froman\fcharset161\fprq2 Cambria Math Greek;}{\f384\fbidi \froman\fcharset162\fprq2 Cambria Math Tur;}
+{\f387\fbidi \froman\fcharset186\fprq2 Cambria Math Baltic;}{\f412\fbidi \fswiss\fcharset0\fprq2 Calibri{\*\falt Century Gothic};}{\f410\fbidi \fswiss\fcharset238\fprq2 Calibri CE{\*\falt Century Gothic};}
+{\f411\fbidi \fswiss\fcharset204\fprq2 Calibri Cyr{\*\falt Century Gothic};}{\f413\fbidi \fswiss\fcharset161\fprq2 Calibri Greek{\*\falt Century Gothic};}{\f414\fbidi \fswiss\fcharset162\fprq2 Calibri Tur{\*\falt Century Gothic};}
+{\f415\fbidi \fswiss\fcharset177\fprq2 Calibri (Hebrew){\*\falt Century Gothic};}{\f416\fbidi \fswiss\fcharset178\fprq2 Calibri (Arabic){\*\falt Century Gothic};}{\f417\fbidi \fswiss\fcharset186\fprq2 Calibri Baltic{\*\falt Century Gothic};}
+{\f422\fbidi \fswiss\fcharset0\fprq2 Tahoma;}{\f420\fbidi \fswiss\fcharset238\fprq2 Tahoma CE;}{\f421\fbidi \fswiss\fcharset204\fprq2 Tahoma Cyr;}{\f423\fbidi \fswiss\fcharset161\fprq2 Tahoma Greek;}{\f424\fbidi \fswiss\fcharset162\fprq2 Tahoma Tur;}
+{\f425\fbidi \fswiss\fcharset177\fprq2 Tahoma (Hebrew);}{\f426\fbidi \fswiss\fcharset178\fprq2 Tahoma (Arabic);}{\f427\fbidi \fswiss\fcharset186\fprq2 Tahoma Baltic;}{\f429\fbidi \fswiss\fcharset222\fprq2 Tahoma (Thai);}
+{\flomajor\f31510\fbidi \froman\fcharset0\fprq2 Times New Roman{\*\falt Times New Roman};}{\flomajor\f31508\fbidi \froman\fcharset238\fprq2 Times New Roman CE{\*\falt Times New Roman};}
+{\flomajor\f31509\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr{\*\falt Times New Roman};}{\flomajor\f31511\fbidi \froman\fcharset161\fprq2 Times New Roman Greek{\*\falt Times New Roman};}
+{\flomajor\f31512\fbidi \froman\fcharset162\fprq2 Times New Roman Tur{\*\falt Times New Roman};}{\flomajor\f31513\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew){\*\falt Times New Roman};}
+{\flomajor\f31514\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic){\*\falt Times New Roman};}{\flomajor\f31515\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic{\*\falt Times New Roman};}
+{\fdbmajor\f31520\fbidi \froman\fcharset0\fprq2 Times New Roman{\*\falt Times New Roman};}{\fdbmajor\f31518\fbidi \froman\fcharset238\fprq2 Times New Roman CE{\*\falt Times New Roman};}
+{\fdbmajor\f31519\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr{\*\falt Times New Roman};}{\fdbmajor\f31521\fbidi \froman\fcharset161\fprq2 Times New Roman Greek{\*\falt Times New Roman};}
+{\fdbmajor\f31522\fbidi \froman\fcharset162\fprq2 Times New Roman Tur{\*\falt Times New Roman};}{\fdbmajor\f31523\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew){\*\falt Times New Roman};}
+{\fdbmajor\f31524\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic){\*\falt Times New Roman};}{\fdbmajor\f31525\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic{\*\falt Times New Roman};}
+{\fhimajor\f31530\fbidi \froman\fcharset0\fprq2 Cambria;}{\fhimajor\f31528\fbidi \froman\fcharset238\fprq2 Cambria CE;}{\fhimajor\f31529\fbidi \froman\fcharset204\fprq2 Cambria Cyr;}{\fhimajor\f31531\fbidi \froman\fcharset161\fprq2 Cambria Greek;}
+{\fhimajor\f31532\fbidi \froman\fcharset162\fprq2 Cambria Tur;}{\fhimajor\f31535\fbidi \froman\fcharset186\fprq2 Cambria Baltic;}{\fbimajor\f31540\fbidi \froman\fcharset0\fprq2 Times New Roman{\*\falt Times New Roman};}
+{\fbimajor\f31538\fbidi \froman\fcharset238\fprq2 Times New Roman CE{\*\falt Times New Roman};}{\fbimajor\f31539\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr{\*\falt Times New Roman};}
+{\fbimajor\f31541\fbidi \froman\fcharset161\fprq2 Times New Roman Greek{\*\falt Times New Roman};}{\fbimajor\f31542\fbidi \froman\fcharset162\fprq2 Times New Roman Tur{\*\falt Times New Roman};}
+{\fbimajor\f31543\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew){\*\falt Times New Roman};}{\fbimajor\f31544\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic){\*\falt Times New Roman};}
+{\fbimajor\f31545\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic{\*\falt Times New Roman};}{\flominor\f31550\fbidi \froman\fcharset0\fprq2 Times New Roman{\*\falt Times New Roman};}
+{\flominor\f31548\fbidi \froman\fcharset238\fprq2 Times New Roman CE{\*\falt Times New Roman};}{\flominor\f31549\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr{\*\falt Times New Roman};}
+{\flominor\f31551\fbidi \froman\fcharset161\fprq2 Times New Roman Greek{\*\falt Times New Roman};}{\flominor\f31552\fbidi \froman\fcharset162\fprq2 Times New Roman Tur{\*\falt Times New Roman};}
+{\flominor\f31553\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew){\*\falt Times New Roman};}{\flominor\f31554\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic){\*\falt Times New Roman};}
+{\flominor\f31555\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic{\*\falt Times New Roman};}{\fdbminor\f31560\fbidi \froman\fcharset0\fprq2 Times New Roman{\*\falt Times New Roman};}
+{\fdbminor\f31558\fbidi \froman\fcharset238\fprq2 Times New Roman CE{\*\falt Times New Roman};}{\fdbminor\f31559\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr{\*\falt Times New Roman};}
+{\fdbminor\f31561\fbidi \froman\fcharset161\fprq2 Times New Roman Greek{\*\falt Times New Roman};}{\fdbminor\f31562\fbidi \froman\fcharset162\fprq2 Times New Roman Tur{\*\falt Times New Roman};}
+{\fdbminor\f31563\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew){\*\falt Times New Roman};}{\fdbminor\f31564\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic){\*\falt Times New Roman};}
+{\fdbminor\f31565\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic{\*\falt Times New Roman};}{\fhiminor\f31570\fbidi \fswiss\fcharset0\fprq2 Calibri{\*\falt Century Gothic};}
+{\fhiminor\f31568\fbidi \fswiss\fcharset238\fprq2 Calibri CE{\*\falt Century Gothic};}{\fhiminor\f31569\fbidi \fswiss\fcharset204\fprq2 Calibri Cyr{\*\falt Century Gothic};}
+{\fhiminor\f31571\fbidi \fswiss\fcharset161\fprq2 Calibri Greek{\*\falt Century Gothic};}{\fhiminor\f31572\fbidi \fswiss\fcharset162\fprq2 Calibri Tur{\*\falt Century Gothic};}
+{\fhiminor\f31573\fbidi \fswiss\fcharset177\fprq2 Calibri (Hebrew){\*\falt Century Gothic};}{\fhiminor\f31574\fbidi \fswiss\fcharset178\fprq2 Calibri (Arabic){\*\falt Century Gothic};}
+{\fhiminor\f31575\fbidi \fswiss\fcharset186\fprq2 Calibri Baltic{\*\falt Century Gothic};}{\fbiminor\f31580\fbidi \froman\fcharset0\fprq2 Times New Roman{\*\falt Times New Roman};}
+{\fbiminor\f31578\fbidi \froman\fcharset238\fprq2 Times New Roman CE{\*\falt Times New Roman};}{\fbiminor\f31579\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr{\*\falt Times New Roman};}
+{\fbiminor\f31581\fbidi \froman\fcharset161\fprq2 Times New Roman Greek{\*\falt Times New Roman};}{\fbiminor\f31582\fbidi \froman\fcharset162\fprq2 Times New Roman Tur{\*\falt Times New Roman};}
+{\fbiminor\f31583\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew){\*\falt Times New Roman};}{\fbiminor\f31584\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic){\*\falt Times New Roman};}
+{\fbiminor\f31585\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic{\*\falt Times New Roman};}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;
+\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;
+\ctextone\ctint255\cshade255\red0\green0\blue0;}{\*\defchp \f31506\fs22 }{\*\defpap \ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 }\noqfpromote {\stylesheet{
+\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \snext0 \sqformat \spriority0 \styrsid14420224 Normal;}{\*\cs10 
+\additive \ssemihidden \sunhideused \spriority1 Default Paragraph Font;}{\*
+\ts11\tsrowd\trftsWidthB3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblind0\tblindtype3\tsvertalt\tsbrdrt\tsbrdrl\tsbrdrb\tsbrdrr\tsbrdrdgl\tsbrdrdgr\tsbrdrh\tsbrdrv 
+\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af31506\afs22\alang1025 \ltrch\fcs0 \f31506\fs22\lang1066\langfe1066\cgrid\langnp1066\langfenp1066 \snext11 \ssemihidden \sunhideused Normal Table;}{\*
+\ts15\tsrowd\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 \trbrdrh\brdrs\brdrw10\brdrcf17 \trbrdrv\brdrs\brdrw10\brdrcf17 
+\trftsWidthB3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblind0\tblindtype3\tsvertalt\tsbrdrt\tsbrdrl\tsbrdrb\tsbrdrr\tsbrdrdgl\tsbrdrdgr\tsbrdrh\tsbrdrv 
+\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f31506\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon11 \snext15 \spriority59 \styrsid14420224 
+Table Grid;}{\s16\ql \li0\ri0\widctlpar\tqc\tx4680\tqr\tx9360\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+\sbasedon0 \snext16 \slink17 \ssemihidden \sunhideused \styrsid14420224 header;}{\*\cs17 \additive \rtlch\fcs1 \af0 \ltrch\fcs0 \f37 \sbasedon10 \slink16 \slocked \ssemihidden \styrsid14420224 Header Char;}{\s18\ql \li0\ri0\widctlpar
+\tqc\tx4680\tqr\tx9360\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext18 \slink19 \sunhideused \styrsid14420224 
+footer;}{\*\cs19 \additive \rtlch\fcs1 \af0 \ltrch\fcs0 \f37 \sbasedon10 \slink18 \slocked \styrsid14420224 Footer Char;}{\s20\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1025 
+\ltrch\fcs0 \f37\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext20 \slink21 \ssemihidden \sunhideused \styrsid5202784 endnote text;}{\*\cs21 \additive \rtlch\fcs1 \af0\afs20 \ltrch\fcs0 \f37\fs20 
+\sbasedon10 \slink20 \slocked \ssemihidden \styrsid5202784 Endnote Text Char;}{\*\cs22 \additive \rtlch\fcs1 \af0 \ltrch\fcs0 \super \sbasedon10 \ssemihidden \sunhideused \styrsid5202784 endnote reference;}{
+\s23\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af38\afs16\alang1025 \ltrch\fcs0 \f38\fs16\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+\sbasedon0 \snext23 \slink24 \ssemihidden \sunhideused \styrsid12519468 Document Map;}{\*\cs24 \additive \rtlch\fcs1 \af38\afs16 \ltrch\fcs0 \f38\fs16 \sbasedon10 \slink23 \slocked \ssemihidden \styrsid12519468 Document Map Char;}{
+\s25\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af38\afs16\alang1025 \ltrch\fcs0 \f38\fs16\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext25 \slink26 \styrsid14165629 
+Balloon Text;}{\*\cs26 \additive \rtlch\fcs1 \af38\afs16 \ltrch\fcs0 \f38\fs16 \sbasedon10 \slink25 \slocked \styrsid14165629 Balloon Text Char;}}{\*\pgptbl {\pgp\ipgp0\itap0\li0\ri0\sb0\sa0}{\pgp\ipgp0\itap0\li0\ri0\sb0\sa0}{\pgp\ipgp0\itap0\li0\ri0\sb0
+\sa0}{\pgp\ipgp0\itap0\li0\ri0\sb0\sa0}}{\*\rsidtbl \rsid77080\rsid526315\rsid539950\rsid604242\rsid609070\rsid683352\rsid751446\rsid801567\rsid1209235\rsid1406369\rsid1515906\rsid1727304\rsid1796960\rsid1837867\rsid1865963\rsid1910583\rsid1919349
+\rsid1930879\rsid1972427\rsid1972745\rsid2109520\rsid2297423\rsid2444215\rsid2635306\rsid2698879\rsid2705790\rsid2757370\rsid2824057\rsid2838926\rsid2897882\rsid3026929\rsid3169702\rsid3621553\rsid3633979\rsid3690778\rsid3755841\rsid3816848\rsid3819390
+\rsid3831801\rsid3888180\rsid4021675\rsid4130737\rsid4211178\rsid4287668\rsid4335151\rsid4351118\rsid4404713\rsid4474035\rsid4476539\rsid4533426\rsid4545088\rsid4588968\rsid4600290\rsid4808577\rsid4858232\rsid5074077\rsid5123487\rsid5200623\rsid5202784
+\rsid5391620\rsid5399186\rsid5583687\rsid5638808\rsid5860065\rsid6106046\rsid6170340\rsid6295783\rsid6300991\rsid6388705\rsid6553922\rsid6622481\rsid6624483\rsid6641741\rsid6822736\rsid6826791\rsid6902861\rsid7022324\rsid7039717\rsid7087275\rsid7277667
+\rsid7280752\rsid7290004\rsid7603561\rsid7738312\rsid7825499\rsid7935847\rsid7936287\rsid8478326\rsid8526153\rsid8548560\rsid8608328\rsid8855764\rsid8864626\rsid8930749\rsid8942482\rsid9129453\rsid9181459\rsid9182605\rsid9266205\rsid9326806\rsid9440989
+\rsid9568930\rsid9577183\rsid9646914\rsid9767930\rsid9923229\rsid10056817\rsid10056868\rsid10225150\rsid10291799\rsid10369964\rsid10508196\rsid10515339\rsid10643994\rsid10751847\rsid10765895\rsid10950319\rsid10960345\rsid11207373\rsid11229784\rsid11418907
+\rsid11469204\rsid11489962\rsid11671030\rsid11677657\rsid11743254\rsid11743524\rsid11892170\rsid12347814\rsid12402291\rsid12519468\rsid12660313\rsid12661770\rsid12667886\rsid12738000\rsid12802305\rsid12932111\rsid12983331\rsid12991854\rsid13064601
+\rsid13203091\rsid13336281\rsid13503632\rsid13648779\rsid13652870\rsid13784619\rsid13786997\rsid13849144\rsid14050022\rsid14110901\rsid14165629\rsid14289898\rsid14372013\rsid14420224\rsid14445978\rsid14501246\rsid14501466\rsid14511527\rsid14557988
+\rsid14575101\rsid14639160\rsid14708067\rsid14762486\rsid14777999\rsid14882598\rsid14909274\rsid15081669\rsid15401461\rsid15629313\rsid15870749\rsid15884227\rsid15937644\rsid16018053\rsid16147153\rsid16216204\rsid16260788\rsid16264284\rsid16337007
+\rsid16385099\rsid16405601\rsid16541918\rsid16545393\rsid16584483\rsid16586533\rsid16598504\rsid16666632}{\mmathPr\mmathFont34\mbrkBin0\mbrkBinSub0\msmallFrac0\mdispDef1\mlMargin0\mrMargin0\mdefJc1\mwrapIndent1440\mintLim0\mnaryLim1}{\info{\author User}
+{\operator MyPC}{\creatim\yr2010\mo1\dy8\hr18\min55}{\revtim\yr2018\mo7\dy16\hr10\min10}{\printim\yr2010\mo1\dy6\hr16\min11}{\version96}{\edmins124}{\nofpages1}{\nofwords128}{\nofchars731}{\nofcharsws858}{\vern57435}}{\*\xmlnstbl {\xmlns1 http://schemas.m
+icrosoft.com/office/word/2003/wordml}}\paperw11909\paperh16834\margl562\margr144\margt630\margb1440\gutter0\ltrsect 
+\widowctrl\ftnbj\aenddoc\trackmoves0\trackformatting1\donotembedsysfont1\relyonvml0\donotembedlingdata0\grfdocevents0\validatexml1\showplaceholdtext0\ignoremixedcontent0\saveinvalidxml0\showxmlerrors1\noxlattoyen
+\expshrtn\noultrlspc\dntblnsbdb\nospaceforul\formshade\horzdoc\dgmargin\dghspace110\dgvspace180\dghorigin562\dgvorigin630\dghshow2\dgvshow1
+\jexpand\viewkind1\viewscale100\pgbrdrhead\pgbrdrfoot\splytwnine\ftnlytwnine\htmautsp\nolnhtadjtbl\useltbaln\alntblind\lytcalctblwd\lyttblrtgr\lnbrkrule\nobrkwrptbl\snaptogridincell\allowfieldendsel\wrppunct
+\asianbrkrule\rsidroot14420224\newtblstyruls\nogrowautofit\usenormstyforlist\noindnmbrts\felnbrelev\nocxsptable\indrlsweleven\noafcnsttbl\afelev\utinl\hwelev\spltpgpar\notcvasp\notbrkcnstfrctbl\notvatxbx\krnprsnet\cachedcolbal \nouicompat \fet0
+{\*\wgrffmtfilter 2450}\nofeaturethrottle1\ilfomacatclnup0{\*\ftnsep \ltrpar \pard\plain \ltrpar\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid14420224 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid8608328 \chftnsep 
+\par }}{\*\ftnsepc \ltrpar \pard\plain \ltrpar\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid14420224 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid8608328 \chftnsepc 
+\par }}{\*\aftnsep \ltrpar \pard\plain \ltrpar\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid14420224 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid8608328 \chftnsep 
+\par }}{\*\aftnsepc \ltrpar \pard\plain \ltrpar\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid14420224 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid8608328 \chftnsepc 
+\par }}\ltrpar \sectd \ltrsect\psz9\linex0\headery270\footery330\endnhere\sectlinegrid360\sectdefaultcl\sectrsid13652870\sftnbj {\headerl \ltrpar \pard\plain \ltrpar\s16\ql \li0\ri0\widctlpar
+\tqc\tx4680\tqr\tx9360\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\lang1024\langfe1024\noproof\langnp1066\langfenp1066\insrsid8608328 {\shp{\*\shpinst\shpleft0\shptop0\shpright6630\shpbottom1305\shpfhdr0\shpbxcolumn\shpbxignore\shpbypara\shpbyignore\shpwr3\shpwrk0\shpfblwtxt0\shpz1\shplid2049
+{\sp{\sn shapeType}{\sv 136}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}{\sp{\sn rotation}{\sv 20643840}}{\sp{\sn gtextUNICODE}{\sv PM TICH HOP}}{\sp{\sn gtextSize}{\sv 3538944}}{\sp{\sn gtextFont}{\sv 
+Tahoma}}{\sp{\sn gtextFReverseRows}{\sv 0}}{\sp{\sn fGtext}{\sv 1}}{\sp{\sn gtextFNormalize}{\sv 0}}{\sp{\sn fillColor}{\sv 15921906}{\*\hsv \cbackgroundone\ctint255\cshade242}}{\sp{\sn fFilled}{\sv 1}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn wzName}{\sv 
+PowerPlusWaterMarkObject24597204}}{\sp{\sn posh}{\sv 2}}{\sp{\sn posrelh}{\sv 0}}{\sp{\sn posv}{\sv 2}}{\sp{\sn posrelv}{\sv 0}}{\sp{\sn dhgt}{\sv 251657728}}{\sp{\sn fLayoutInCell}{\sv 0}}{\sp{\sn fBehindDocument}{\sv 1}}{\sp{\sn fPseudoInline}{\sv 0}}
+{\sp{\sn fLayoutInCell}{\sv 0}}}{\shprslt\par\pard\ql \li0\ri0\widctlpar\phmrg\posxc\posyc\dxfrtext180\dfrmtxtx180\dfrmtxty0\wraparound\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 
+{\pict\picscalex100\picscaley100\piccropl0\piccropr0\piccropt0\piccropb0\picw8842\pich9148\picwgoal5013\pichgoal5186\wmetafile8\bliptag1756253499\blipupi-60{\*\blipuid 68ae4d3b7bbbe03d58df261d5e2a1a97}
+0100090000039607000006000e02000000000400000003010800050000000b0200000000050000000c027a082f08040000002e011800030000001e0007000000
+fc020000f2f2f2000000040000002d010000040000000601010008000000fa02050000000000ffffff00040000002d010100ee0000003805020042003200e800
+1b07f0002407f8002e07ff00380705014207070148070a014d070c0152070d0158070f015d07100162071101680712016d071201740712017a07120180071101
+870710018d070f0193070d0199070b019f070801a5070601ab070201b107fe00b707fa00bd07f500c307ef00c907e900cf07cf00e90737015208180171080100
+59073b001f0740001a07450015074a0011074f000d0754000907590005075e000207620000076c00fb067100f9067500f7067a00f6067f00f5068400f4068900
+f3068f00f3069500f3069b00f306a100f406a700f506ad00f606b300f806b900fa06bf00fd06c4000007ca000307d0000707d6000b07dc001007e2001507e800
+1b07e8001b07c9003c07c5003807c1003507ba002f07b3002a07ab002707a8002507a4002407a00023079c00220799002207950021078d002207870023078000
+25077a00270774002b0771002c076e002f076700340760003a075900400740005a07af00ca07c400b507c900b007cd00ab07d100a707d400a307d8009f07da00
+9a07dd009707df009307e1008f07e2008b07e3008707e4008307e5007f07e5007b07e5007707e5007307e4006b07e2006407e0005d07dd005607d9005007d400
+4907cf004207c9003c07c9003c0708000000fa0200000000000000000000040000002d010200040000000601010007000000fc020000ffffff00000004000000
+2d010300040000002d0100000400000006010100040000002d0101003800000024031a009002f90671021807800127069a015f06b3019806cd01d006e7010807
+d4011a079c0100076401e7062c01cd06f400b306e501a307c801c007b100a906db007f06100197064601af067b01c806b101e0069801ab067f01760666014106
+4d010d067801e2059002f906040000002d0102000400000006010100040000002d010300040000002d0100000400000006010100040000002d01010016000000
+240309005903300662023a0514028805f3016605ae02ac04cf02cd0481021b057803110659033006040000002d0102000400000006010100040000002d010300
+040000002d0100000400000006010100040000002d0101001e00000024030d002e045b05d403b505b7039805d5037b05f7029c04d902ba04bc029d0417034304
+3303600416037d04f4035c0512043e052e045b05040000002d0102000400000006010100040000002d010300040000002d010000040000000601010004000000
+2d010100840100002403c000b404df04ae04e404a804e904a204ee049c04f2049604f6048f04fa048804fd048104ff047a040205730403056b04050564040605
+5c040605540406054d040605450405053d040405340402052c0400052404fd041b04fa041304f6040a04f2040204ed04f903e804f003e204e703dc04df03d604
+d603cf04cd03c704c403bf04bb03b604b303ae04ab03a504a3039c049d03940496038b04900383048b037a0486037204810369047d0361047a03590476035004
+7403480471033f046f0337046e032f046d0327046c031f046c0317046c030f046d0307046e0300047003f8037203f1037503ea037703e3037b03dc037f03d603
+8303cf038803c9038d03c3039303bd039903b7039f03b203a503ad03ab03a903b103a503b703a103bd039e03c3039b03ce039703d4039503da039303e6038f03
+f2038d031f04b9031d04bc031804bc031304bc030d04bc030704bc030104bc03fa03bc03f303bd03eb03bf03e403c003dd03c203d503c503ce03c803c703cc03
+c003d103b903d603b203dd03af03e003ac03e403a803e903a603ed03a303f103a103f6039f03fb039e0300049c0305049b030b049b0310049a0316049a031b04
+9a0321049b0327049c032d049d0333049f033904a1033f04a3034604a6034c04a9035304ad035904b0036004b5036704b9036e04be037404c3037b04c9038204
+cf038904d5038f04dc039604e3039d04ea03a404f103aa04f803af04ff03b5040504b9040c04be041304c2041904c5042004c9042604cc042d04ce043304d004
+3904d2044004d4044604d5044b04d6045104d7045704d7045c04d7046204d6046704d6046c04d4047104d3047604d2047b04d0048004ce048404cb048804c804
+8c04c5049004c2049404bf049a04b804a004b104a504a904a904a204ac049a04af049304b2048b04b3048404b5047c04b5047604b6046f04b6046904b6046304
+b6045e04b6045904b6045504b8045204e4047f04e1048a04de049504dd049b04db04a104d804a704d504ad04d204b404cf04bb04cc04c104c904c604c504cc04
+c004d204bb04d804b404df04040000002d0102000400000006010100040000002d010300040000002d0100000400000006010100040000002d0101001e000000
+24030d00bd05cc039e05eb0315056203aa04cd033305560414057504fd035d031b043e038904ac03f40441038604d302a504b402bd05cc03040000002d010200
+0400000006010100040000002d010300040000002d0100000400000006010100040000002d0101001e00000024030d00f8069002d906af0251062602e6059102
+6f061a03500639033805210257050302c505700230060502c2059801e1057901f8069002040000002d0102000400000006010100040000002d01030004000000
+2d0100000400000006010100040000002d0101000e0200003805020082008200d406c600dc06c700e406c900ec06cb00f506ce00fd06d2000607d5000e07da00
+1707df001f07e4002807ea003107f0003907f6004207fd004b07050153070d015c07150164071e016c07260174072f017b07380181074001870749018d075101
+92075a01970763019b076b019f077401a3077c01a5078401a8078d01aa079501ab079d01ad07a501ad07ad01ad07b501ad07bd01ac07c501ab07cc01a907d301
+a707db01a507e201a207e8019e07ef019a07f6019607fc01910702028c07080287070e02810713027b07190274071d026e07220267072602610729025a072c02
+53072f024c073102440732023d073302350734022d073402260734021e073402160732020e07310206072f02fd062c02f5062a02ed062602e4062202dc061e02
+d3061902cb061402c2060e02ba060802b1060202a806fb01a006f3019706eb018f06e3018606da017e06d1017606c9016f06c0016906b7016306af015d06a601
+58069e01530695014f068d014b06840148067c014506740143066c01400663013f065b013e0653013d064b013d0644013d063c013e0635013f062d0141062601
+43061e0145061701480610014c060a01500603015406fd005906f7005e06f0006406eb006a06e5007006e0007606db007d06d6008306d3008a06cf009106cc00
+9806ca00a006c800a706c600ae06c500b606c400bd06c400c506c400cd06c500d406c600d406c6003c07360135072f012e0728012707220120071d011a071701
+130712010c070e0106070901ff060501f9060201f206ff00ec06fc00e606f900e006f700da06f500d406f400ce06f300c906f200c306f100bd06f100b806f200
+b306f200ad06f300a806f400a306f6009e06f8009a06fa009506fd00900600018c0603018806070184060a0180060f017c0613017906170176061c0173062101
+710625016f062a016d062f016c0634016b0639016b063e016a0644016b0649016b064f016c0655016d065b016f0661017006670173066d017506730178067901
+7b0680017f06860183068d01870694018c069a019106a1019606a8019c06ae01a206b501a806bc01af06c301b606c901bc06d001c306d601ca06db01d006e101
+d706e601de06ea01e406ee01ea06f201f106f601f706f901fd06fc010407fe010a07000210070202160704021c07050222070602280706022d07060233070602
+380705023d07040242070302470702024c0700025107fe015607fb015a07f8015e07f5016307f1016707ed016b07e9016e07e5017107e1017407dc017707d801
+7907d3017b07ce017d07c9017e07c4017f07bf017f07b9017f07b4017f07ae017f07a8017e07a3017d079d017b0797017a07910178078a017507840172077e01
+6f0778016b07710168076b01630764015f075e015a075701550751014f074a014907430143073c013c0736013c073601040000002d0102000400000006010100
+040000002d010300040000002d0100000400000006010100040000002d010100ec0000003805020042003100d9072900e2073300e9073c00f0074700f6075100
+f9075600fb075c00fd076100ff07670000086c00010871000208770003087c00030882000308890003088f000208950001089c000008a200fe07a800fc07ae00
+fa07b400f707b900f307bf00ef07c500eb07cc00e607d200e007d800db07de00c007f800290860010a087f01f20668002c072d0032072800370724003c071f00
+40071b00450718004a0714004f07110054070e005d070a0062070800670706006c07050071070400750703007b07020080070200860702008c07020092070300
+980704009e070500a4070700aa070900b0070b00b6070e00bc071200c2071600c7071a00cd071f00d3072400d9072900d9072900ba074a00b3074400ab073e00
+a40739009d0735009907340095073300910732008e0731008a073000860730007f07310078073200720733006b0736006507390062073b005f073d0058074200
+520748004a074f0031076900a107d800b607c300ba07bf00be07ba00c207b600c607b200c907ad00cc07a900ce07a500d007a100d2079e00d3079a00d5079600
+d6079200d6078e00d7078a00d7078500d6078100d5077a00d3077200d1076b00ce076500ca075e00c5075800c0075100ba074a00ba074a00040000002d010200
+0400000006010100040000002d010300040000002701ffff1c000000fb02a4ff0000000000009001000000a304400022417269616c0000000000000000000000
+00000000000000000000000000000000040000002d010400040000002d010400040000002d0104000400000002010100050000000902000000020d000000320a
+51004a00010004004a00fcff7808750820003100050000000902000000021c000000fb021000070000000000bc02000000a30102022253797374656d00ff780875083bed57dcf97f0000ad6f6c1add21000020000000040000002d010500040000002d010500030000000000}\par}}}{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\insrsid4130737 
+\par }}{\headerr \ltrpar \pard\plain \ltrpar\s16\qr \li0\ri0\widctlpar\tqc\tx4680\tqr\tx9360\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid3690778 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\langnp1066\langfenp1066\insrsid8608328 
+{\shp{\*\shpinst\shpleft0\shptop0\shpright6630\shpbottom1305\shpfhdr0\shpbxcolumn\shpbxignore\shpbypara\shpbyignore\shpwr3\shpwrk0\shpfblwtxt0\shpz2\shplid2050{\sp{\sn shapeType}{\sv 136}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}
+{\sp{\sn rotation}{\sv 20643840}}{\sp{\sn gtextUNICODE}{\sv PM TICH HOP}}{\sp{\sn gtextSize}{\sv 3538944}}{\sp{\sn gtextFont}{\sv Tahoma}}{\sp{\sn gtextFReverseRows}{\sv 0}}{\sp{\sn fGtext}{\sv 1}}
+{\sp{\sn gtextFNormalize}{\sv 0}}{\sp{\sn fillColor}{\sv 15921906}{\*\hsv \cbackgroundone\ctint255\cshade242}}{\sp{\sn fFilled}{\sv 1}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn wzName}{\sv 
+PowerPlusWaterMarkObject24597205}}{\sp{\sn posh}{\sv 2}}{\sp{\sn posrelh}{\sv 0}}{\sp{\sn posv}{\sv 2}}{\sp{\sn posrelv}{\sv 0}}{\sp{\sn dhgt}{\sv 251658752}}{\sp{\sn fLayoutInCell}{\sv 0}}{\sp{\sn fBehindDocument}{\sv 1}}{\sp{\sn fPseudoInline}{\sv 0}}
+{\sp{\sn fLayoutInCell}{\sv 0}}}{\shprslt\par\pard\ql \li0\ri0\widctlpar\phmrg\posxc\posyc\dxfrtext180\dfrmtxtx180\dfrmtxty0\wraparound\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 
+{\pict\picscalex100\picscaley100\piccropl0\piccropr0\piccropt0\piccropb0\picw8842\pich9148\picwgoal5013\pichgoal5186\wmetafile8\bliptag-1837919886\blipupi-60{\*\blipuid 92739172f608ccfea135ec3f0ec514e9}
+0100090000039e07000006000e02000000000400000003010800050000000b0200000000050000000c027a082f08040000002e0118001c000000fb0210000700
+00000000bc02000000a30102022253797374656d000000000000a0595adcf97f000070134ee334000000e08155dc040000002d010000040000002d0100000300
+00001e0007000000fc020000f2f2f2000000040000002d010100040000000601010008000000fa02050000000000ffffff00040000002d010200ee0000003805
+020042003200e8001b07f0002407f8002e07ff00380705014207070148070a014d070c0152070d0158070f015d07100162071101680712016d07120174071201
+7a07120180071101870710018d070f0193070d0199070b019f070801a5070601ab070201b107fe00b707fa00bd07f500c307ef00c907e900cf07cf00e9073701
+520818017108010059073b001f0740001a07450015074a0011074f000d0754000907590005075e000207620000076c00fb067100f9067500f7067a00f6067f00
+f5068400f4068900f3068f00f3069500f3069b00f306a100f406a700f506ad00f606b300f806b900fa06bf00fd06c4000007ca000307d0000707d6000b07dc00
+1007e2001507e8001b07e8001b07c9003c07c5003807c1003507ba002f07b3002a07ab002707a8002507a4002407a00023079c00220799002207950021078d00
+220787002307800025077a00270774002b0771002c076e002f076700340760003a075900400740005a07af00ca07c400b507c900b007cd00ab07d100a707d400
+a307d8009f07da009a07dd009707df009307e1008f07e2008b07e3008707e4008307e5007f07e5007b07e5007707e5007307e4006b07e2006407e0005d07dd00
+5607d9005007d4004907cf004207c9003c07c9003c0708000000fa0200000000000000000000040000002d010300040000000601010007000000fc020000ffff
+ff000000040000002d010400040000002d0101000400000006010100040000002d0102003800000024031a009002f90671021807800127069a015f06b3019806
+cd01d006e7010807d4011a079c0100076401e7062c01cd06f400b306e501a307c801c007b100a906db007f06100197064601af067b01c806b101e0069801ab06
+7f017606660141064d010d067801e2059002f906040000002d0103000400000006010100040000002d010400040000002d010100040000000601010004000000
+2d01020016000000240309005903300662023a0514028805f3016605ae02ac04cf02cd0481021b057803110659033006040000002d0103000400000006010100
+040000002d010400040000002d0101000400000006010100040000002d0102001e00000024030d002e045b05d403b505b7039805d5037b05f7029c04d902ba04
+bc029d04170343043303600416037d04f4035c0512043e052e045b05040000002d0103000400000006010100040000002d010400040000002d01010004000000
+06010100040000002d010200840100002403c000b404df04ae04e404a804e904a204ee049c04f2049604f6048f04fa048804fd048104ff047a04020573040305
+6b040505640406055c040605540406054d040605450405053d040405340402052c0400052404fd041b04fa041304f6040a04f2040204ed04f903e804f003e204
+e703dc04df03d604d603cf04cd03c704c403bf04bb03b604b303ae04ab03a504a3039c049d03940496038b04900383048b037a0486037204810369047d036104
+7a035904760350047403480471033f046f0337046e032f046d0327046c031f046c0317046c030f046d0307046e0300047003f8037203f1037503ea037703e303
+7b03dc037f03d6038303cf038803c9038d03c3039303bd039903b7039f03b203a503ad03ab03a903b103a503b703a103bd039e03c3039b03ce039703d4039503
+da039303e6038f03f2038d031f04b9031d04bc031804bc031304bc030d04bc030704bc030104bc03fa03bc03f303bd03eb03bf03e403c003dd03c203d503c503
+ce03c803c703cc03c003d103b903d603b203dd03af03e003ac03e403a803e903a603ed03a303f103a103f6039f03fb039e0300049c0305049b030b049b031004
+9a0316049a031b049a0321049b0327049c032d049d0333049f033904a1033f04a3034604a6034c04a9035304ad035904b0036004b5036704b9036e04be037404
+c3037b04c9038204cf038904d5038f04dc039604e3039d04ea03a404f103aa04f803af04ff03b5040504b9040c04be041304c2041904c5042004c9042604cc04
+2d04ce043304d0043904d2044004d4044604d5044b04d6045104d7045704d7045c04d7046204d6046704d6046c04d4047104d3047604d2047b04d0048004ce04
+8404cb048804c8048c04c5049004c2049404bf049a04b804a004b104a504a904a904a204ac049a04af049304b2048b04b3048404b5047c04b5047604b6046f04
+b6046904b6046304b6045e04b6045904b6045504b8045204e4047f04e1048a04de049504dd049b04db04a104d804a704d504ad04d204b404cf04bb04cc04c104
+c904c604c504cc04c004d204bb04d804b404df04040000002d0103000400000006010100040000002d010400040000002d010100040000000601010004000000
+2d0102001e00000024030d00bd05cc039e05eb0315056203aa04cd033305560414057504fd035d031b043e038904ac03f40441038604d302a504b402bd05cc03
+040000002d0103000400000006010100040000002d010400040000002d0101000400000006010100040000002d0102001e00000024030d00f8069002d906af02
+51062602e60591026f061a03500639033805210257050302c505700230060502c2059801e1057901f8069002040000002d010300040000000601010004000000
+2d010400040000002d0101000400000006010100040000002d0102000e0200003805020082008200d406c600dc06c700e406c900ec06cb00f506ce00fd06d200
+0607d5000e07da001707df001f07e4002807ea003107f0003907f6004207fd004b07050153070d015c07150164071e016c07260174072f017b07380181074001
+870749018d07510192075a01970763019b076b019f077401a3077c01a5078401a8078d01aa079501ab079d01ad07a501ad07ad01ad07b501ad07bd01ac07c501
+ab07cc01a907d301a707db01a507e201a207e8019e07ef019a07f6019607fc01910702028c07080287070e02810713027b07190274071d026e07220267072602
+610729025a072c0253072f024c073102440732023d073302350734022d073402260734021e073402160732020e07310206072f02fd062c02f5062a02ed062602
+e4062202dc061e02d3061902cb061402c2060e02ba060802b1060202a806fb01a006f3019706eb018f06e3018606da017e06d1017606c9016f06c0016906b701
+6306af015d06a60158069e01530695014f068d014b06840148067c014506740143066c01400663013f065b013e0653013d064b013d0644013d063c013e063501
+3f062d014106260143061e0145061701480610014c060a01500603015406fd005906f7005e06f0006406eb006a06e5007006e0007606db007d06d6008306d300
+8a06cf009106cc009806ca00a006c800a706c600ae06c500b606c400bd06c400c506c400cd06c500d406c600d406c6003c07360135072f012e07280127072201
+20071d011a071701130712010c070e0106070901ff060501f9060201f206ff00ec06fc00e606f900e006f700da06f500d406f400ce06f300c906f200c306f100
+bd06f100b806f200b306f200ad06f300a806f400a306f6009e06f8009a06fa009506fd00900600018c0603018806070184060a0180060f017c06130179061701
+76061c0173062101710625016f062a016d062f016c0634016b0639016b063e016a0644016b0649016b064f016c0655016d065b016f0661017006670173066d01
+75067301780679017b0680017f06860183068d01870694018c069a019106a1019606a8019c06ae01a206b501a806bc01af06c301b606c901bc06d001c306d601
+ca06db01d006e101d706e601de06ea01e406ee01ea06f201f106f601f706f901fd06fc010407fe010a07000210070202160704021c0705022207060228070602
+2d07060233070602380705023d07040242070302470702024c0700025107fe015607fb015a07f8015e07f5016307f1016707ed016b07e9016e07e5017107e101
+7407dc017707d8017907d3017b07ce017d07c9017e07c4017f07bf017f07b9017f07b4017f07ae017f07a8017e07a3017d079d017b0797017a07910178078a01
+7507840172077e016f0778016b07710168076b01630764015f075e015a075701550751014f074a014907430143073c013c0736013c073601040000002d010300
+0400000006010100040000002d010400040000002d0101000400000006010100040000002d010200ec0000003805020042003100d9072900e2073300e9073c00
+f0074700f6075100f9075600fb075c00fd076100ff07670000086c00010871000208770003087c00030882000308890003088f000208950001089c000008a200
+fe07a800fc07ae00fa07b400f707b900f307bf00ef07c500eb07cc00e607d200e007d800db07de00c007f800290860010a087f01f20668002c072d0032072800
+370724003c071f0040071b00450718004a0714004f07110054070e005d070a0062070800670706006c07050071070400750703007b0702008007020086070200
+8c07020092070300980704009e070500a4070700aa070900b0070b00b6070e00bc071200c2071600c7071a00cd071f00d3072400d9072900d9072900ba074a00
+b3074400ab073e00a40739009d0735009907340095073300910732008e0731008a073000860730007f07310078073200720733006b0736006507390062073b00
+5f073d0058074200520748004a074f0031076900a107d800b607c300ba07bf00be07ba00c207b600c607b200c907ad00cc07a900ce07a500d007a100d2079e00
+d3079a00d5079600d6079200d6078e00d7078a00d7078500d6078100d5077a00d3077200d1076b00ce076500ca075e00c5075800c0075100ba074a00ba074a00
+040000002d0103000400000006010100040000002d010400040000002701ffff04000000020101001c000000fb02a4ff0000000000009001000000a304400022
+417269616c000000000000000000000000000000000000000000000000000000040000002d010500040000002d010500040000002d010500050000000902000000020d000000320a51004a00010004004a00fcff780875082000310005000000090200000002040000002d010000040000002d010000030000000000}\par}}
+}{\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\insrsid1837867\charrsid6388705 
+\par \ltrrow}\trowd \irow0\irowband0\lastrow \ltrrow\ts15\trgaph108\trleft-900\trftsWidth3\trwWidth12870\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid11489962\tbllkhdrrows\tbllkhdrcols\tbllknocolband
+\tblind-792\tblindtype3 \clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth6570\clshdrawnil \cellx5670\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl 
+\cltxlrtb\clftsWidth3\clwWidth6300\clshdrawnil \cellx11970\pard\plain \ltrpar\qc \li237\ri0\nowidctlpar\intbl
+\tx225\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4680\tx5040\tx5400\wrapdefault\faauto\rin0\lin237\pararsid1837867\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid4600290 T\'ean kh\'e1ch h\'e0ng
+\par T\'ean kho }{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid1837867\charrsid9326806 (}{\rtlch\fcs1 \af42 \ltrch\fcs0 \f42\cf6\insrsid4600290 M\'e3 kho}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid1837867\charrsid9326806 )
+\par }\pard \ltrpar\qc \li450\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4680\tx5040\tx5400\wrapdefault\faauto\rin0\lin450\pararsid1837867\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf1\insrsid1837867\charrsid6388705 ---------------------------- }{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid1837867\charrsid6388705 
+\par }\pard \ltrpar\ql \li450\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin450\pararsid1837867\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid1837867\charrsid6388705 \cell }\pard \ltrpar\qc \li0\ri0\nowidctlpar\intbl
+\tx360\tx720\tx1080\tx1440\wrapdefault\faauto\rin0\lin0\pararsid1837867\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\cf1\insrsid1837867\charrsid6388705 M\uc1\u7851\'3fu s\u7889\'3f: 02-VT
+\par }\pard \ltrpar\qc \li0\ri0\sb120\sa120\nowidctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\lisb50\lisa50\pararsid12932111\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf1\insrsid1837867\charrsid6388705 (}{\rtlch\fcs1 \af0\afs24 
+\ltrch\fcs0 \f0\fs24\cf1\lang1043\langfe1033\langnp1043\insrsid12932111 Ban h\'e0nh theo Th\'f4ng t\'fd s\uc1\u7889\'3f: }{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \f0\fs24\cf1\insrsid12932111 200}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 
+\f0\fs24\cf1\lang1043\langfe1033\langnp1043\insrsid12932111 /2014/TT-BTC
+\par }\pard \ltrpar\qc \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\wrapdefault\faauto\rin0\lin0\pararsid12932111\yts15 {\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 
+\f0\fs24\cf1\lang1043\langfe1033\langnp1043\insrsid12932111 Ng\'e0y}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \f0\fs24\cf1\insrsid12932111  22}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \f0\fs24\cf1\lang1043\langfe1033\langnp1043\insrsid12932111 /}{\rtlch\fcs1 
+\af0\afs24 \ltrch\fcs0 \f0\fs24\cf1\insrsid12932111 12}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \f0\fs24\cf1\lang1043\langfe1033\langnp1043\insrsid12932111 /2014 c\uc1\u7911\'3fa BTC}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf1\insrsid1837867\charrsid6388705 )}{
+\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid1837867\charrsid6388705 
+\par }\pard \ltrpar\qc \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\wrapdefault\faauto\rin0\lin0\pararsid1837867\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf1\insrsid1837867\charrsid6388705 
+------------------------}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid1837867\charrsid6388705 
+\par }\pard \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\pararsid1837867\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid1837867\charrsid6388705 \cell }\pard\plain \ltrpar
+\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\insrsid1837867\charrsid6388705 \trowd \irow0\irowband0\lastrow \ltrrow
+\ts15\trgaph108\trleft-900\trftsWidth3\trwWidth12870\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid11489962\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind-792\tblindtype3 \clvertalt\clbrdrt
+\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth6570\clshdrawnil \cellx5670\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth6300\clshdrawnil \cellx11970
+\row }\pard \ltrpar\qc \li0\ri0\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4680\tx5040\tx5400\tx5760\tx6120\wrapdefault\faauto\rin0\lin0\itap0\pararsid1837867 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\b\f0\cf1\insrsid1837867\charrsid6388705 PHI\uc1\u7870\'3fU XU\u7844\'3fT KHO V\u7852\'3fT T\'dd}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid1837867\charrsid6388705 
+\par }\pard \ltrpar\qc \li0\ri0\nowidctlpar
+\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4680\tx5040\tx5400\tx5760\tx6120\tx6480\tx6840\tx7200\tx7560\tx7920\tx8280\tx8640\tx9000\tx9360\tx9720\tx10080\tx10440\tx10800\tx11160
+\wrapdefault\faauto\rin0\lin0\itap0\pararsid1837867 {\rtlch\fcs1 \af0 \ltrch\fcs0 \b\i\f0\cf1\insrsid1837867\charrsid6388705 S\uc1\u7889\'3f: }{\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\cf6\insrsid1837867\charrsid4600290 PXKVTM/17/028375
+\par }\pard \ltrpar\qc \li0\ri0\nowidctlpar
+\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4680\tx5040\tx5400\tx5760\tx6120\tx6480\tx6840\tx7200\tx7560\tx7920\tx8280\tx8640\tx9000\tx9360\tx9720\tx10080\tx10440\tx10800\tx11160
+\wrapdefault\faauto\rin0\lin0\itap0\pararsid14708067 {\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\cf1\lang1024\langfe1024\noproof\langnp1066\langfenp1066\insrsid8608328\charrsid8608328 {\*\shppict
+{\pict{\*\picprop\shplid1025{\sp{\sn shapeType}{\sv 75}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}{\sp{\sn fLockRotation}{\sv 0}}{\sp{\sn fLockAspectRatio}{\sv 1}}{\sp{\sn fLockPosition}{\sv 0}}{\sp{\sn fLockAgainstSelect}{\sv 0}}
+{\sp{\sn fLockCropping}{\sv 0}}{\sp{\sn fLockVerticies}{\sv 0}}{\sp{\sn fLockAgainstGrouping}{\sv 0}}{\sp{\sn pictureGray}{\sv 0}}{\sp{\sn pictureBiLevel}{\sv 0}}{\sp{\sn fFilled}{\sv 0}}
+{\sp{\sn fNoFillHitTest}{\sv 0}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn wzName}{\sv Picture 2}}{\sp{\sn dhgt}{\sv 251658240}}{\sp{\sn fHidden}{\sv 0}}{\sp{\sn fLayoutInCell}{\sv 1}}}\picscalex104\picscaley88\piccropl0\piccropr0\piccropt0\piccropb0
+\picw4801\pich991\picwgoal2722\pichgoal562\jpegblip\bliptag-1838630238{\*\blipuid 9268baa25d807b1d38e8b1d3fd176f20}ffd8ffe000104a46494600010201006400640000ffdb004300080606070605080707070909080a0c140d0c0b0b0c1912130f141d1a1f1e1d1a1c1c20242e2720
+222c231c1c2837292c30313434341f27393d38323c2e333432ffdb0043010909090c0b0c180d0d1832211c213232323232323232323232323232323232323232
+323232323232323232323232323232323232323232323232323232323232ffc0001108002700bd03012200021101031101ffc4001f0000010501010101010100
+000000000000000102030405060708090a0bffc400b5100002010303020403050504040000017d01020300041105122131410613516107227114328191a10823
+42b1c11552d1f02433627282090a161718191a25262728292a3435363738393a434445464748494a535455565758595a636465666768696a737475767778797a
+838485868788898a92939495969798999aa2a3a4a5a6a7a8a9aab2b3b4b5b6b7b8b9bac2c3c4c5c6c7c8c9cad2d3d4d5d6d7d8d9dae1e2e3e4e5e6e7e8e9eaf1
+f2f3f4f5f6f7f8f9faffc4001f0100030101010101010101010000000000000102030405060708090a0bffc400b5110002010204040304070504040001027700
+0102031104052131061241510761711322328108144291a1b1c109233352f0156272d10a162434e125f11718191a262728292a35363738393a43444546474849
+4a535455565758595a636465666768696a737475767778797a82838485868788898a92939495969798999aa2a3a4a5a6a7a8a9aab2b3b4b5b6b7b8b9bac2c3c4
+c5c6c7c8c9cad2d3d4d5d6d7d8d9dae2e3e4e5e6e7e8e9eaf2f3f4f5f6f7f8f9faffda000c03010002110311003f004f871ff22459ff00dc1bff004f57347c5c
+ff0092bd07fd8a97dffa4f7947c38ff9122cff00ee0dff00a7ab9a3e2e7fc95e83fec54beffd27bca00e03fe648ffb953ff7355dff008fbfe490f877fec544ff
+00d28d36b80ff9923fee54ff00dcd577fe3eff009243e1dffb1513ff004a34da00e83c1bff0025aae7fec15a97fe9de6af20f087fcc81ff635cbff00b635ebfe
+0dff0092d573ff0060ad4bff004ef357907843fe640ffb1ae5ff00db1a00effc25ff0022c7c45ffb1534cffd36b51f08ff00e4af4fff0062a58ffe93d9d1e12f
+f9163e22ff00d8a9a67fe9b5a8f847ff00257a7ffb152c7ff49ece80301ffe439f0e3fec2b65ff00a45a5d6fe9dff26f5e1cff00b8affe926a1580ff00f21cf8
+71ff00615b2ffd22d2eb7f4eff00937af0e7fdc57ff49350a003e1ff00fcd1dffb8d7fecd468bff257be16ff00d8a907fe93cf47c3ff00f9a3bff71aff00d9a8
+d17fe4af7c2dff00b1520ffd279e80380d3bfe65cffb15355ffdc85741e15ff9286bff0060ad03ff0046e9b5cfe9dff32e7fd8a9aaff00ee42ba0f0aff00c943
+5ffb05681ffa374da003c09ff24f3c35ff006502d7ff00452d1e2aff009286dff60ad7ff00f46ea547813fe49e786bfeca05affe8a5a3c55ff00250dbfec15af
+ff00e8dd4a800f83dff21cf04ffd85757ffd228288bfe49e780ffec15e24ff00d152d1f07bfe439e09ff00b0aeafff00a4505117fc93cf01ff00d82bc49ffa2a
+5a00347ff9287f16bfec15ac7fe8d15ebfe12ff92bdf117fee19ff00a4ed5e41a3ff00c943f8b5ff0060ad63ff00468af5ff00097fc95ef88bff0070cffd276a
+00e7fc35ff0021cf037fd82b4aff00d22d4e8f10ff00c80fc27ff65024ff00d2dbaa3c35ff0021cf037fd82b4aff00d22d4e8f10ff00c80fc27ff65024ff00d2
+dbaa00e03c43ff0026bde13ffb0ac9ff00a15d573ff173fe46783fedfbff004e5795d07887fe4d7bc27ff61593ff0042baae7fe2e7fc8cf07fdbf7fe9caf2803
+bff871ff0022459ffdc1bff4f57347c5cff92bd07fd8a97dff00a4f7947c38ff009122cffee0dffa7ab9a3e2e7fc95e83fec54beff00d27bca00e03fe648ff00
+b953ff007355dff8fbfe490f877fec544ffd28d36b80ff009923fee54ffdcd577fe3eff9243e1dff00b1513ff4a34da00e83c1bff25aae7fec15a97fe9de6af2
+0f087fcc81ff00635cbffb635ebfe0dff92d573ff60ad4bff4ef357907843fe640ff00b1ae5ffdb1a00eff00c25ff22c7c45ff00b1534cff00d36b51f08ffe4a
+f4ff00f62a58ff00e93d9d1e12ff009163e22ffd8a9a67fe9b5a8f847ff257a7ff00b152c7ff0049ece80301ff00e439f0e3fec2b65ffa45a5d6fe9dff0026f5
+e1cffb8aff00e926a1580fff0021cf871ff615b2ff00d22d2eb7f4eff937af0e7fdc57ff0049350a003e1fff00cd1dff00b8d7fecd468bff00257be16ffd8a90
+7fe93cf47c3fff009a3bff0071affd9a8d17fe4af7c2dffb1520ff00d279e80380d3bfe65cff00b15355ff00dc85741e15ff009286bff60ad03ff46e9b5cfe9d
+ff0032e7fd8a9aaffee42ba0f0affc9435ff00b05681ff00a374da003c09ff0024f3c35ff6502d7ff452d1e2aff9286dff0060ad7fff0046ea547813fe49e786
+bfeca05aff00e8a5a3c55ff250dbfec15aff00fe8dd4a800f83dff0021cf04ff00d85757ff00d228288bfe49e780ff00ec15e24ffd152d1f07bfe439e09ffb0a
+eaff00fa4505117fc93cf01ffd82bc49ff00a2a5a00347ff009287f16bfec15ac7fe8d15ebfe12ff0092bdf117fee19ffa4ed5e41a3ffc943f8b5ff60ad63ff4
+68af5ff097fc95ef88bff70cff00d276a00e7fc35ff21cf037fd82b4affd22d4e8f10ffc80fc27ff0065024ffd2dbaa3c35ff21cf037fd82b4affd22d4e8f10f
+fc80fc27ff0065024ffd2dbaa00e03c43ff26bde13ff00b0ac9ffa15d573ff00173fe46783fedfbff4e5795d07887fe4d7bc27ff0061593ff42baae7fe2e7fc8
+cf07fdbf7fe9caf2803bff00871ff22459ff00dc1bff004f57347c5cff0092bd07fd8a97dffa4f79451401c07fcc91ff0072a7fee6abbff1f7fc921f0eff00d8
+a89ffa51a6d14500741e0dff0092d573ff0060ad4bff004ef357907843fe640ffb1ae5ff00db1a28a00eff00c25ff22c7c45ff00b1534cff00d36b51f08ffe4a
+f4ff00f62a58ff00e93d9d14500603ff00c873e1c7fd856cbff48b4badfd3bfe4debc39ff715ff00d24d428a2800f87fff003477fee35ffb351a2ffc95ef85bf
+f62a41ff00a4f3d14500701a77fccb9ff62a6abffb90ae83c2bff250d7fec15a07fe8dd368a2800f027fc93cf0d7fd940b5ffd14b478abfe4a1b7fd82b5fff00
+d1ba95145001f07bfe439e09ff00b0aeafff00a4505117fc93cf01ff00d82bc49ffa2a5a28a00347ff009287f16bfec15ac7fe8d15ebfe12ff0092bdf117fee1
+9ffa4ed451401cff0086bfe439e06ffb05695ffa45a9d1e21ff901f84ffeca049ffa5b75451401c07887fe4d7bc27ff61593ff0042baae7fe2e7fc8cf07fdbf7fe9caf28a2803fffd9}}{\nonshppict{\pict\picscalex104\picscaley88\piccropl0\piccropr0\piccropt0\piccropb0
+\picw4801\pich991\picwgoal2722\pichgoal562\wmetafile8\bliptag-1838630238\blipupi100{\*\blipuid 9268baa25d807b1d38e8b1d3fd176f20}
+010009000003ba07000000009107000000000400000003010800050000000b0200000000050000000c022600b600030000001e00040000000701040004000000
+0701040091070000410b2000cc002700bd00000000002500b5000000000028000000bd0000002700000001000400000000000000000000000000000000000000
+00000000000000000000ffffff00fdfdfd00fefefe0001010100fafafa000404040002020200fbfbfb00fcfcfc00030303000505050000000000000000000000
+00000000000000102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017004300102101213400100010010001120100145603130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560313040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017004400102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017004400102101213400100010010001120100145601130401000101701130010043120102704107811010049107210184001107300a107140a8a37073
+14013a8a0417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017004300102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017004300102101213400100010010001120100145603130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560313040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017004300102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701130010043120102704107811010049107210184001107300a107140a8a37073
+14013a8a0417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145603130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560313040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701130010043120102704107811010049107210184001107300a107140a8a37073
+14013a8a0417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145603130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560313040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701130010043120102704107811010049107210184001107300a107140a8a37073
+14013a8a0417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145603130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560313040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701330010043120102704107811010049107210184001107300a10714078a37073
+14013a870417407100134012a4341a044214210018114214301310131043401110b0101700010010210121340010001001000112010014560113040100010170
+1330010043120102704107811010049107210184001107300a10714078a3707314013a870417407100134012a4341a0442142100181142143013101310434011
+10b01017000000102101213400100010010001120100145601130401000101701130010043120102704107811010049107210184001107300a107140a8a3707314013a8a0417407100134012a4341a044214210018114214301310131043401110b010170001040000002701ffff030000000000}}}{\rtlch\fcs1 \af0 
+\ltrch\fcs0 \b\f0\cf1\insrsid1837867\charrsid6388705 
+\par \ltrrow}\trowd \irow0\irowband0\lastrow \ltrrow\ts15\trgaph108\trleft2880\trftsWidth1\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid11489962\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind2988
+\tblindtype3 \clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth5490\clshdrawnil \cellx8246\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl 
+\cltxlrtb\clftsWidth3\clwWidth3078\clshdrawnil \cellx11311\pard\plain \ltrpar\qc \li0\ri0\nowidctlpar\intbl
+\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4680\tx5040\tx5400\tx5760\tx6120\tx6480\tx6840\tx7200\tx7560\tx7920\tx8280\tx8640\tx9000\tx9360\tx9720\tx10080\tx10440\tx10800\tx11160
+\wrapdefault\faauto\rin0\lin0\pararsid1837867\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf1\insrsid4533426 Th\uc1\u7921\'3fc xu\u7845\'3ft}{
+\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf1\insrsid1837867\charrsid6388705  ng\'e0y }{\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf6\insrsid1837867\charrsid9181459 14}{\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf1\insrsid1837867\charrsid6388705  th\'e1ng }{\rtlch\fcs1 \af0 
+\ltrch\fcs0 \i\f0\cf6\insrsid1837867\charrsid9181459 07}{\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf1\insrsid1837867\charrsid6388705  n\'e3m }{\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf6\insrsid1837867\charrsid9181459 2017}{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf1\insrsid1837867\charrsid6388705  }{\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf1\insrsid1837867\charrsid6388705           }{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid1837867\charrsid6388705 \cell }\pard \ltrpar\ql \li0\ri0\nowidctlpar\intbl
+\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4680\tx5040\tx5400\tx5760\tx6120\tx6480\tx6840\tx7200\tx7560\tx7920\tx8280\tx8640\tx9000\tx9360\tx9720\tx10080\tx10440\tx10800\tx11160
+\wrapdefault\faauto\rin0\lin0\pararsid1837867\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf1\insrsid1837867\charrsid6388705 N\uc1\u7907\'3f:....................................
+\par }\pard \ltrpar\ql \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\wrapdefault\faauto\rin0\lin0\pararsid1837867\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf1\insrsid1837867\charrsid6388705 C\'f3:.....................................
+}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid1837867\charrsid6388705 \cell }\pard\plain \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid1837867\charrsid6388705 \trowd \irow0\irowband0\lastrow \ltrrow
+\ts15\trgaph108\trleft2880\trftsWidth1\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid11489962\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind2988\tblindtype3 \clvertalt\clbrdrt\brdrtbl \clbrdrl
+\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth5490\clshdrawnil \cellx8246\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth3078\clshdrawnil \cellx11311\row 
+}\pard\plain \ltrpar\s16\qr \li0\ri0\widctlpar\tqc\tx4680\tqr\tx9360\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid3690778 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\insrsid3690778\charrsid6388705 
+\par }}{\footerr \ltrpar \pard\plain \ltrpar\s18\qr \li0\ri0\widctlpar\tqc\tx4680\tqr\tx9360\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid9646914 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ai\af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid9646914 Trang }{\field{\*\fldinst {\rtlch\fcs1 \ai\af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid9646914  PAGE }}{\fldrslt {\rtlch\fcs1 
+\ai\af0\afs18 \ltrch\fcs0 \i\f0\fs18\lang1024\langfe1024\noproof\insrsid11469204 1}}}\sectd \ltrsect\linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \ai\af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid9646914  | }{\field{\*\fldinst {\rtlch\fcs1 \ai\af0\afs18 
+\ltrch\fcs0 \i\f0\fs18\insrsid9646914  NUMPAGES  }}{\fldrslt {\rtlch\fcs1 \ai\af0\afs18 \ltrch\fcs0 \i\f0\fs18\lang1024\langfe1024\noproof\insrsid11469204 1}}}\sectd \ltrsect\linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\insrsid14420224\charrsid9646914 
+\par }}{\headerf \ltrpar \pard\plain \ltrpar\s16\ql \li0\ri0\widctlpar\tqc\tx4680\tqr\tx9360\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\langnp1066\langfenp1066\insrsid8608328 
+{\shp{\*\shpinst\shpleft-562\shptop-270\shpright6068\shpbottom1035\shpfhdr0\shpbxcolumn\shpbxignore\shpbypara\shpbyignore\shpwr3\shpwrk0\shpfblwtxt0\shpz0\shplid2051{\sp{\sn shapeType}{\sv 136}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}
+{\sp{\sn rotation}{\sv 20643840}}{\sp{\sn gtextUNICODE}{\sv PM TICH HOP}}{\sp{\sn gtextSize}{\sv 3538944}}{\sp{\sn gtextFont}{\sv Tahoma}}{\sp{\sn gtextFReverseRows}{\sv 0}}{\sp{\sn fGtext}{\sv 1}}
+{\sp{\sn gtextFNormalize}{\sv 0}}{\sp{\sn fillColor}{\sv 15921906}{\*\hsv \cbackgroundone\ctint255\cshade242}}{\sp{\sn fFilled}{\sv 1}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn wzName}{\sv 
+PowerPlusWaterMarkObject24597203}}{\sp{\sn posh}{\sv 2}}{\sp{\sn posrelh}{\sv 0}}{\sp{\sn posv}{\sv 2}}{\sp{\sn posrelv}{\sv 0}}{\sp{\sn dhgt}{\sv 251656704}}{\sp{\sn fLayoutInCell}{\sv 0}}{\sp{\sn fBehindDocument}{\sv 1}}{\sp{\sn fPseudoInline}{\sv 0}}
+{\sp{\sn fLayoutInCell}{\sv 0}}}{\shprslt\par\pard\ql \li0\ri0\widctlpar\phmrg\posxc\posyc\dxfrtext180\dfrmtxtx180\dfrmtxty0\wraparound\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 
+{\pict\picscalex100\picscaley100\piccropl0\piccropr0\piccropt0\piccropb0\picw8842\pich9148\picwgoal5013\pichgoal5186\wmetafile8\bliptag-1837919886\blipupi-60{\*\blipuid 92739172f608ccfea135ec3f0ec514e9}
+0100090000039e07000006000e02000000000400000003010800050000000b0200000000050000000c027a082f08040000002e0118001c000000fb0210000700
+00000000bc02000000a30102022253797374656d000000000000a0595adcf97f000070134ee334000000e08155dc040000002d010000040000002d0100000300
+00001e0007000000fc020000f2f2f2000000040000002d010100040000000601010008000000fa02050000000000ffffff00040000002d010200ee0000003805
+020042003200e8001b07f0002407f8002e07ff00380705014207070148070a014d070c0152070d0158070f015d07100162071101680712016d07120174071201
+7a07120180071101870710018d070f0193070d0199070b019f070801a5070601ab070201b107fe00b707fa00bd07f500c307ef00c907e900cf07cf00e9073701
+520818017108010059073b001f0740001a07450015074a0011074f000d0754000907590005075e000207620000076c00fb067100f9067500f7067a00f6067f00
+f5068400f4068900f3068f00f3069500f3069b00f306a100f406a700f506ad00f606b300f806b900fa06bf00fd06c4000007ca000307d0000707d6000b07dc00
+1007e2001507e8001b07e8001b07c9003c07c5003807c1003507ba002f07b3002a07ab002707a8002507a4002407a00023079c00220799002207950021078d00
+220787002307800025077a00270774002b0771002c076e002f076700340760003a075900400740005a07af00ca07c400b507c900b007cd00ab07d100a707d400
+a307d8009f07da009a07dd009707df009307e1008f07e2008b07e3008707e4008307e5007f07e5007b07e5007707e5007307e4006b07e2006407e0005d07dd00
+5607d9005007d4004907cf004207c9003c07c9003c0708000000fa0200000000000000000000040000002d010300040000000601010007000000fc020000ffff
+ff000000040000002d010400040000002d0101000400000006010100040000002d0102003800000024031a009002f90671021807800127069a015f06b3019806
+cd01d006e7010807d4011a079c0100076401e7062c01cd06f400b306e501a307c801c007b100a906db007f06100197064601af067b01c806b101e0069801ab06
+7f017606660141064d010d067801e2059002f906040000002d0103000400000006010100040000002d010400040000002d010100040000000601010004000000
+2d01020016000000240309005903300662023a0514028805f3016605ae02ac04cf02cd0481021b057803110659033006040000002d0103000400000006010100
+040000002d010400040000002d0101000400000006010100040000002d0102001e00000024030d002e045b05d403b505b7039805d5037b05f7029c04d902ba04
+bc029d04170343043303600416037d04f4035c0512043e052e045b05040000002d0103000400000006010100040000002d010400040000002d01010004000000
+06010100040000002d010200840100002403c000b404df04ae04e404a804e904a204ee049c04f2049604f6048f04fa048804fd048104ff047a04020573040305
+6b040505640406055c040605540406054d040605450405053d040405340402052c0400052404fd041b04fa041304f6040a04f2040204ed04f903e804f003e204
+e703dc04df03d604d603cf04cd03c704c403bf04bb03b604b303ae04ab03a504a3039c049d03940496038b04900383048b037a0486037204810369047d036104
+7a035904760350047403480471033f046f0337046e032f046d0327046c031f046c0317046c030f046d0307046e0300047003f8037203f1037503ea037703e303
+7b03dc037f03d6038303cf038803c9038d03c3039303bd039903b7039f03b203a503ad03ab03a903b103a503b703a103bd039e03c3039b03ce039703d4039503
+da039303e6038f03f2038d031f04b9031d04bc031804bc031304bc030d04bc030704bc030104bc03fa03bc03f303bd03eb03bf03e403c003dd03c203d503c503
+ce03c803c703cc03c003d103b903d603b203dd03af03e003ac03e403a803e903a603ed03a303f103a103f6039f03fb039e0300049c0305049b030b049b031004
+9a0316049a031b049a0321049b0327049c032d049d0333049f033904a1033f04a3034604a6034c04a9035304ad035904b0036004b5036704b9036e04be037404
+c3037b04c9038204cf038904d5038f04dc039604e3039d04ea03a404f103aa04f803af04ff03b5040504b9040c04be041304c2041904c5042004c9042604cc04
+2d04ce043304d0043904d2044004d4044604d5044b04d6045104d7045704d7045c04d7046204d6046704d6046c04d4047104d3047604d2047b04d0048004ce04
+8404cb048804c8048c04c5049004c2049404bf049a04b804a004b104a504a904a904a204ac049a04af049304b2048b04b3048404b5047c04b5047604b6046f04
+b6046904b6046304b6045e04b6045904b6045504b8045204e4047f04e1048a04de049504dd049b04db04a104d804a704d504ad04d204b404cf04bb04cc04c104
+c904c604c504cc04c004d204bb04d804b404df04040000002d0103000400000006010100040000002d010400040000002d010100040000000601010004000000
+2d0102001e00000024030d00bd05cc039e05eb0315056203aa04cd033305560414057504fd035d031b043e038904ac03f40441038604d302a504b402bd05cc03
+040000002d0103000400000006010100040000002d010400040000002d0101000400000006010100040000002d0102001e00000024030d00f8069002d906af02
+51062602e60591026f061a03500639033805210257050302c505700230060502c2059801e1057901f8069002040000002d010300040000000601010004000000
+2d010400040000002d0101000400000006010100040000002d0102000e0200003805020082008200d406c600dc06c700e406c900ec06cb00f506ce00fd06d200
+0607d5000e07da001707df001f07e4002807ea003107f0003907f6004207fd004b07050153070d015c07150164071e016c07260174072f017b07380181074001
+870749018d07510192075a01970763019b076b019f077401a3077c01a5078401a8078d01aa079501ab079d01ad07a501ad07ad01ad07b501ad07bd01ac07c501
+ab07cc01a907d301a707db01a507e201a207e8019e07ef019a07f6019607fc01910702028c07080287070e02810713027b07190274071d026e07220267072602
+610729025a072c0253072f024c073102440732023d073302350734022d073402260734021e073402160732020e07310206072f02fd062c02f5062a02ed062602
+e4062202dc061e02d3061902cb061402c2060e02ba060802b1060202a806fb01a006f3019706eb018f06e3018606da017e06d1017606c9016f06c0016906b701
+6306af015d06a60158069e01530695014f068d014b06840148067c014506740143066c01400663013f065b013e0653013d064b013d0644013d063c013e063501
+3f062d014106260143061e0145061701480610014c060a01500603015406fd005906f7005e06f0006406eb006a06e5007006e0007606db007d06d6008306d300
+8a06cf009106cc009806ca00a006c800a706c600ae06c500b606c400bd06c400c506c400cd06c500d406c600d406c6003c07360135072f012e07280127072201
+20071d011a071701130712010c070e0106070901ff060501f9060201f206ff00ec06fc00e606f900e006f700da06f500d406f400ce06f300c906f200c306f100
+bd06f100b806f200b306f200ad06f300a806f400a306f6009e06f8009a06fa009506fd00900600018c0603018806070184060a0180060f017c06130179061701
+76061c0173062101710625016f062a016d062f016c0634016b0639016b063e016a0644016b0649016b064f016c0655016d065b016f0661017006670173066d01
+75067301780679017b0680017f06860183068d01870694018c069a019106a1019606a8019c06ae01a206b501a806bc01af06c301b606c901bc06d001c306d601
+ca06db01d006e101d706e601de06ea01e406ee01ea06f201f106f601f706f901fd06fc010407fe010a07000210070202160704021c0705022207060228070602
+2d07060233070602380705023d07040242070302470702024c0700025107fe015607fb015a07f8015e07f5016307f1016707ed016b07e9016e07e5017107e101
+7407dc017707d8017907d3017b07ce017d07c9017e07c4017f07bf017f07b9017f07b4017f07ae017f07a8017e07a3017d079d017b0797017a07910178078a01
+7507840172077e016f0778016b07710168076b01630764015f075e015a075701550751014f074a014907430143073c013c0736013c073601040000002d010300
+0400000006010100040000002d010400040000002d0101000400000006010100040000002d010200ec0000003805020042003100d9072900e2073300e9073c00
+f0074700f6075100f9075600fb075c00fd076100ff07670000086c00010871000208770003087c00030882000308890003088f000208950001089c000008a200
+fe07a800fc07ae00fa07b400f707b900f307bf00ef07c500eb07cc00e607d200e007d800db07de00c007f800290860010a087f01f20668002c072d0032072800
+370724003c071f0040071b00450718004a0714004f07110054070e005d070a0062070800670706006c07050071070400750703007b0702008007020086070200
+8c07020092070300980704009e070500a4070700aa070900b0070b00b6070e00bc071200c2071600c7071a00cd071f00d3072400d9072900d9072900ba074a00
+b3074400ab073e00a40739009d0735009907340095073300910732008e0731008a073000860730007f07310078073200720733006b0736006507390062073b00
+5f073d0058074200520748004a074f0031076900a107d800b607c300ba07bf00be07ba00c207b600c607b200c907ad00cc07a900ce07a500d007a100d2079e00
+d3079a00d5079600d6079200d6078e00d7078a00d7078500d6078100d5077a00d3077200d1076b00ce076500ca075e00c5075800c0075100ba074a00ba074a00
+040000002d0103000400000006010100040000002d010400040000002701ffff04000000020101001c000000fb02a4ff0000000000009001000000a304400022
+417269616c000000000000000000000000000000000000000000000000000000040000002d010500040000002d010500040000002d010500050000000902000000020d000000320a51004a00010004004a00fcff780875082000310005000000090200000002040000002d010000040000002d010000030000000000}\par}}
+}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid4130737 
+\par }}{\footerf \ltrpar \pard\plain \ltrpar\qc \li0\ri313\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\wrapdefault\faauto\rin313\lin0\itap0\pararsid2297423 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf1\insrsid3690778\charrsid16018053 \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab }{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\i\f0\cf1\insrsid14501246\charrsid16018053  }{\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf1\insrsid9182605\charrsid16018053 \tab   \tab     }{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid3633979\charrsid16018053 
+\par }\pard\plain \ltrpar\s18\qr \li0\ri0\sb240\widctlpar\tqc\tx4680\tqr\tx9360\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid8855764 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid7603561\charrsid3690778 Trang }{\field{\*\fldinst {\rtlch\fcs1 \af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid7603561\charrsid3690778  PAGE }
+}{\fldrslt {\rtlch\fcs1 \af0\afs18 \ltrch\fcs0 \i\f0\fs18\lang1024\langfe1024\noproof\insrsid13652870 1}}}\sectd \ltrsect\linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid7603561\charrsid3690778  | }
+{\field{\*\fldinst {\rtlch\fcs1 \af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid7603561\charrsid3690778  }{\rtlch\fcs1 \af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid6300991 NUM}{\rtlch\fcs1 \af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid1406369 PAGES}{\rtlch\fcs1 
+\af0\afs18 \ltrch\fcs0 \i\f0\fs18\insrsid7603561\charrsid3690778   }}{\fldrslt {\rtlch\fcs1 \af0\afs18 \ltrch\fcs0 \i\f0\fs18\lang1024\langfe1024\noproof\insrsid13652870 1}}}\sectd \ltrsect\linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 
+\ltrch\fcs0 \insrsid7603561 
+\par }}{\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang {\pntxta )}}
+{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl8
+\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}\pard\plain \ltrpar\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid14165629 
+\rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid4287668 
+\par \ltrrow}\trowd \irow0\irowband0\ltrrow\ts15\trgaph108\trrh-340\trleft-108\trftsWidth1\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid751446\tbllkhdrrows\tbllkhdrcols\tbllknocolband
+\tblind0\tblindtype3 \clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2358\clshdrawnil \cellx2250\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl 
+\cltxlrtb\clftsWidth3\clwWidth9061\clshdrawnil \cellx11311\pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\wrapdefault\faauto\rin0\lin0\pararsid1727304\yts15 \rtlch\fcs1 
+\af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\insrsid4600290 \'d0\u7889\'3fi t\'e1c g\u7917\'3fi h\'e0ng}{\rtlch\fcs1 \ai\af0 \ltrch\fcs0 
+\f0\cf1\insrsid4533426\charrsid14050022 \cell }{\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\cf6\insrsid4600290 DT9046 | Anh Thi\u7879\'3fn | 0983917976}{\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\cf6\insrsid4533426\charrsid9923229  \tab }{\rtlch\fcs1 \ai\af0 
+\ltrch\fcs0 \i\f0\cf1\insrsid4533426 \cell }\pard\plain \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\rtlch\fcs1 \ai\af0 \ltrch\fcs0 \i\f0\cf1\insrsid4533426 \trowd \irow0\irowband0\ltrrow
+\ts15\trgaph108\trrh-340\trleft-108\trftsWidth1\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid751446\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalt\clbrdrt\brdrtbl 
+\clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2358\clshdrawnil \cellx2250\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth9061\clshdrawnil \cellx11311\row 
+\ltrrow}\pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\wrapdefault\faauto\rin0\lin0\pararsid1727304\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\insrsid4600290 Ng\'fd\u7901\'3fi nh\u7853\'3fn}{\rtlch\fcs1 \ai\af0 \ltrch\fcs0 \f0\cf1\insrsid4533426\charrsid14050022 \cell }\pard \ltrpar
+\ql \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\wrapdefault\faauto\rin0\lin0\pararsid4600290\yts15 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\cf6\insrsid4600290 DT0023 | Nguy\'ean V\'e3
+n A | 0986432679}{\rtlch\fcs1 \ai\af0 \ltrch\fcs0 \i\f0\cf1\insrsid4533426 \cell }\pard\plain \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ai\af0 \ltrch\fcs0 \i\f0\cf1\insrsid4533426 \trowd \irow1\irowband1\ltrrow
+\ts15\trgaph108\trrh-340\trleft-108\trftsWidth1\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid751446\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalt\clbrdrt\brdrtbl 
+\clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2358\clshdrawnil \cellx2250\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth9061\clshdrawnil \cellx11311\row 
+\ltrrow}\pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\wrapdefault\faauto\rin0\lin0\pararsid1727304\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\insrsid4533426 Kho xu\u7845\'3ft}{\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\insrsid4533426\charrsid14050022 \cell }{\rtlch\fcs1 \ab\af0 \ltrch\fcs0 
+\f0\cf6\insrsid4533426\charrsid9923229 T\u7892\'3fNG C\'d4NG TY M\u7840\'3fNG L\'dd\u7898\'3fI VIETTEL (VTN-A)\cell }\pard\plain \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 
+\ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\cf6\insrsid4533426\charrsid9923229 \trowd \irow2\irowband2\ltrrow
+\ts15\trgaph108\trrh-340\trleft-108\trftsWidth1\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid751446\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalt\clbrdrt\brdrtbl 
+\clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2358\clshdrawnil \cellx2250\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth9061\clshdrawnil \cellx11311\row 
+\ltrrow}\pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\wrapdefault\faauto\rin0\lin0\pararsid1727304\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\ai\af0 \ltrch\fcs0 \f0\cf1\insrsid4600290 Ng\'fd\u7901\'3fi xu\u7845\'3ft}{\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\insrsid4533426\charrsid14050022 \cell }\pard \ltrpar
+\ql \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\wrapdefault\faauto\rin0\lin0\pararsid4600290\yts15 {\rtlch\fcs1 \ab\ai\af0 \ltrch\fcs0 \f0\cf6\insrsid4600290 Tr\u7847\'3fn V\'e3
+n C | 0967325786}{\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\cf6\insrsid4533426\charrsid9923229 \cell }\pard\plain \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\cf6\insrsid4533426\charrsid9923229 \trowd \irow3\irowband3\ltrrow
+\ts15\trgaph108\trrh-340\trleft-108\trftsWidth1\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid751446\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalt\clbrdrt\brdrtbl 
+\clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2358\clshdrawnil \cellx2250\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth9061\clshdrawnil \cellx11311\row 
+\ltrrow}\pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\wrapdefault\faauto\rin0\lin0\pararsid4600290\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\ai\af0 \ltrch\fcs0 \f0\cf1\insrsid4600290\charrsid14050022 Ghi ch\'fa}{\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\insrsid4600290\charrsid14050022 \cell }{\rtlch\fcs1 \ab\ai\af0 
+\ltrch\fcs0 \f0\cf6\insrsid4600290\charrsid9923229 Nh\u7853\'3fp h\'e0ng mua m\u7899\'3fi}{\rtlch\fcs1 \ab\ai\af0 \ltrch\fcs0 \f0\cf6\insrsid4600290  t\u7915\'3f b\'ean Li\'ean X\'f4}{\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \f0\cf6\insrsid4600290\charrsid9923229 
+\cell }\pard\plain \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 
+\f0\cf6\insrsid4600290\charrsid9923229 \trowd \irow4\irowband4\lastrow \ltrrow
+\ts15\trgaph108\trrh-340\trleft-108\trftsWidth1\trftsWidthB3\trftsWidthA3\trautofit1\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid751446\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalt\clbrdrt\brdrtbl 
+\clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2358\clshdrawnil \cellx2250\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth9061\clshdrawnil \cellx11311\row 
+}\pard \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0\pararsid3621553 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 
+\par \ltrrow}\trowd \irow0\irowband0\ltrrow\ts15\trgaph108\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 \trbrdrh\brdrs\brdrw10\brdrcf17 \trbrdrv
+\brdrs\brdrw10\brdrcf17 \trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860
+\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1944\clshdrawnil \cellx6804\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070\pard\plain \ltrpar\qc \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid12738000\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 STT\cell }{\rtlch\fcs1 \af42 \ltrch\fcs0 \b\f42\insrsid12738000\charrsid6388705 T\'ean, nh\'e3n hi}{\rtlch\fcs1 \af0 
+\ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 \u7879\'3fu, quy c\'e1ch ph\u7849\'3fm ch\u7845\'3ft v\u7853\'3ft t\'fd}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 \cell }{\rtlch\fcs1 \af42 \ltrch\fcs0 
+\b\f42\insrsid12738000\charrsid6388705 M\'e3 s}{\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 \u7889\'3f}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 \cell }{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\b\f0\insrsid12738000\charrsid6388705 \'d0VT}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 \cell }{\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 S\u7889\'3f l\'fd\u7907\'3fng}{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\insrsid12738000\charrsid6388705 \cell }{\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\cf1\insrsid12738000\charrsid6388705 Seri No.}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 \cell }\pard \ltrpar\qc \li0\ri0\sl360\slmult1
+\nowidctlpar\intbl\wrapdefault\faauto\rin0\lin0\pararsid12738000\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid16541918\charrsid6388705 \'d0\'f5}{\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 n gi\'e1
+\par }\pard \ltrpar\qc \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid12738000\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 (VN\'d0)}{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\insrsid12738000\charrsid6388705 \cell }\pard \ltrpar\qc \li0\ri0\sl360\slmult1\nowidctlpar\intbl\wrapdefault\faauto\rin0\lin0\pararsid12738000\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 Th\'e0nh ti\u7873\'3fn
+\par }\pard \ltrpar\qc \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid12738000\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 (VN\'d0)}{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\insrsid12738000\charrsid6388705 \cell }\pard\plain \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 \trowd \irow0\irowband0\ltrrow\ts15\trgaph108\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 
+\trbrdrh\brdrs\brdrw10\brdrcf17 \trbrdrv\brdrs\brdrw10\brdrcf17 \trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalc
+\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1944\clshdrawnil \cellx6804
+\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070\row \ltrrow}\trowd \irow1\irowband1\ltrrow\ts15\trgaph108\trrh278\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb
+\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 \trbrdrh\brdrs\brdrw10\brdrcf17 \trbrdrv\brdrs\brdrw10\brdrcf17 
+\trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 
+\clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr
+\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860
+\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth952\clshdrawnil \cellx5812\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth992\clshdrawnil \cellx6804\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070
+\pard\plain \ltrpar\qc \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid12738000\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 
+\af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 \cell \cell \cell \cell }{\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 Y.C\u7847\'3fu}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 \cell }{\rtlch\fcs1 \af0 
+\ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 T.Xu\u7845\'3ft}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 \cell \cell \cell \cell }\pard\plain \ltrpar
+\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\insrsid12738000\charrsid6388705 \trowd \irow1\irowband1\ltrrow\ts15\trgaph108\trrh278\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 \trbrdrh
+\brdrs\brdrw10\brdrcf17 \trbrdrv\brdrs\brdrw10\brdrcf17 \trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalc\clbrdrt
+\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 
+\clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr
+\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth952\clshdrawnil \cellx5812
+\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth992\clshdrawnil \cellx6804\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070\row \ltrrow}\trowd \irow2\irowband2\ltrrow\ts15\trgaph108\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 
+\trbrdrh\brdrs\brdrw10\brdrcf17 \trbrdrv\brdrs\brdrw10\brdrcf17 \trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalc
+\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth952\clshdrawnil \cellx5812
+\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth992\clshdrawnil \cellx6804\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070\pard\plain \ltrpar\qc \li0\ri0\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid12738000\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\insrsid12738000\charrsid6388705 A\cell B\cell C\cell D\cell 1\cell 2\cell 3\cell 4\cell 5\cell }\pard\plain \ltrpar
+\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\b\f0\insrsid12738000\charrsid6388705 \trowd \irow2\irowband2\ltrrow\ts15\trgaph108\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 \trbrdrh\brdrs\brdrw10\brdrcf17 
+\trbrdrv\brdrs\brdrw10\brdrcf17 \trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 
+\clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb
+\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860
+\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth952\clshdrawnil \cellx5812\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth992\clshdrawnil \cellx6804\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalc\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070
+\row \ltrrow}\trowd \irow3\irowband3\ltrrow\ts15\trgaph108\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 \trbrdrh\brdrs\brdrw10\brdrcf17 \trbrdrv
+\brdrs\brdrw10\brdrcf17 \trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860
+\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth952\clshdrawnil \cellx5812\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth992\clshdrawnil \cellx6804\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070
+\pard\plain \ltrpar\qc \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid12738000\charrsid14557988 1\cell }\pard \ltrpar\ql \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf6\insrsid12738000\charrsid14557988 Clamp k\u7865\'3fp d\'e2y Ngu\u7891\'3fn v\'e0 d\'e2y Quang cho RRU\cell }\pard \ltrpar\qc \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {
+\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid12738000\charrsid14557988 006355\cell }\pard \ltrpar\ql \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf6\insrsid12738000\charrsid14557988 c\'e1i\cell }\pard \ltrpar\qr \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf6\insrsid12738000\charrsid14557988 24\cell 24\cell }\pard \ltrpar\ql \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf6\insrsid12738000\charrsid14557988 \cell }\pard \ltrpar\qr \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf6\insrsid12738000\charrsid14557988 1.786,221\cell 42.869,315\cell }\pard\plain \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 
+\f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid12738000\charrsid6388705 \trowd \irow3\irowband3\ltrrow\ts15\trgaph108\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb
+\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 \trbrdrh\brdrs\brdrw10\brdrcf17 \trbrdrv\brdrs\brdrw10\brdrcf17 
+\trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 
+\clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr
+\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860
+\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth952\clshdrawnil \cellx5812\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth992\clshdrawnil \cellx6804\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070
+\row \ltrrow}\trowd \irow4\irowband4\lastrow \ltrrow\ts15\trgaph108\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 \trbrdrh\brdrs\brdrw10\brdrcf17 \trbrdrv
+\brdrs\brdrw10\brdrcf17 \trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860
+\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth952\clshdrawnil \cellx5812\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth992\clshdrawnil \cellx6804\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070
+\pard\plain \ltrpar\qc \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid12991854\charrsid14557988 2\cell }\pard \ltrpar\ql \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf6\insrsid12991854\charrsid14557988 C\'e1p quang m\u7903\'3f r\u7897\'3fng, 60m, DLC/PC,DLC/PC,Multi-mode\cell }\pard \ltrpar\qc \li0\ri0\sb60\sa60\nowidctlpar\intbl
+\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid12991854\charrsid14557988 000718\cell }\pard \ltrpar\ql \li0\ri0\sb60\sa60\nowidctlpar\intbl
+\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid12991854\charrsid14557988 s\u7907\'3fi\cell }\pard \ltrpar\qr \li0\ri0\sb60\sa60\nowidctlpar\intbl
+\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid13849144\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid12991854\charrsid14557988 2\cell }{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid11469204 2}{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf6\insrsid12991854\charrsid14557988 \cell }\pard \ltrpar\ql \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid11469204\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\cf6\insrsid12991854\charrsid14557988 \cell }\pard \ltrpar\qr \li0\ri0\sb60\sa60\nowidctlpar\intbl\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\pararsid11469204\yts15 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid11469204 441.12}{
+\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid12991854\charrsid14557988 0\cell }{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid11469204 882.24}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\cf6\insrsid12991854\charrsid14557988 0\cell }\pard\plain \ltrpar
+\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 \rtlch\fcs1 \af0\afs22\alang1025 \ltrch\fcs0 \f37\fs22\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\f0\insrsid12991854\charrsid6388705 \trowd \irow4\irowband4\lastrow \ltrrow\ts15\trgaph108\trleft-108\trbrdrt\brdrs\brdrw10\brdrcf17 \trbrdrl\brdrs\brdrw10\brdrcf17 \trbrdrb\brdrs\brdrw10\brdrcf17 \trbrdrr\brdrs\brdrw10\brdrcf17 \trbrdrh
+\brdrs\brdrw10\brdrcf17 \trbrdrv\brdrs\brdrw10\brdrcf17 \trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid16598504\tbllkhdrrows\tbllkhdrcols\tbllknocolband\tblind0\tblindtype3 \clvertalt\clbrdrt
+\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth718\clshdrawnil \cellx610\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 
+\clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth2419\clshdrawnil \cellx3029\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr
+\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1072\clshdrawnil \cellx4101\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth759\clshdrawnil \cellx4860\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth952\clshdrawnil \cellx5812
+\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth992\clshdrawnil \cellx6804\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl
+\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1386\clshdrawnil \cellx8190\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 
+\clbrdrr\brdrs\brdrw10\brdrcf17 \cltxlrtb\clftsWidth3\clwWidth1260\clshdrawnil \cellx9450\clvertalt\clbrdrt\brdrs\brdrw10\brdrcf17 \clbrdrl\brdrs\brdrw10\brdrcf17 \clbrdrb\brdrs\brdrw10\brdrcf17 \clbrdrr\brdrs\brdrw10\brdrcf17 
+\cltxlrtb\clftsWidth3\clwWidth1620\clshdrawnil \cellx11070\row }\pard \ltrpar\ql \li0\ri0\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\wrapdefault\faauto\rin0\lin0\itap0\pararsid4287668 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid4287668\charrsid6388705 
+
+\par }\pard \ltrpar\qr \li0\ri0\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4680\tx5040\tx5400\tx5760\tx6120\tx6480\tx6840\tx7200\tx7560\tx7920\wrapdefault\faauto\outlinelevel0\rin0\lin0\itap0
+\pararsid4287668 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid4287668\charrsid6388705 \tab \tab \tab \tab \tab \tab }{\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\cf1\insrsid4287668\charrsid6388705 C\u7897\'3fng: }{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\b\f0\cf6\insrsid4287668\charrsid4600290 1.126.569 (VN\'d0}{\rtlch\fcs1 \af0 \ltrch\fcs0 \b\f0\cf1\insrsid4287668\charrsid6388705 )}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid4287668\charrsid6388705 
+\par }\pard \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0\pararsid4287668 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid4287668\charrsid6388705 
+\par }\pard \ltrpar\ql \li0\ri0\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4695\tx5040\tx5400\tx5760\tx6120\tx6480\tx6840\tx7200\tx7560\tx7920\tx8280\tx8640\tx9000\tx9360\tx9720\tx10080\tx10440\tx10800
+\wrapdefault\faauto\outlinelevel0\rin0\lin0\itap0\pararsid9182605 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid4287668\charrsid6388705   }{\rtlch\fcs1 \af0 \ltrch\fcs0 \b\i\f0\cf1\insrsid4287668\charrsid6388705 B\u7857\'3fng ch\u7919\'3f: }{\rtlch\fcs1 \af0 
+\ltrch\fcs0 \b\i\f0\cf6\insrsid4287668\charrsid4600290 M\u7897\'3ft tri\u7879\'3fu m\u7897\'3ft tr\'e3m hai m\'fd\'f5i s\'e1u ngh}{\rtlch\fcs1 \af42 \ltrch\fcs0 \b\i\f42\cf6\insrsid4287668\charrsid4600290 \'ecn n}{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\b\i\f0\cf6\insrsid4287668\charrsid4600290 \'e3m tr\'e3m s\'e1u m\'fd\'f5i ch\'edn \'f0\u7891\'3fng}{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid16541918\charrsid6388705  }{\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid11671030\charrsid6388705 
+\par }\pard \ltrpar\ql \li0\ri0\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4695\tx5040\tx5400\tx5760\tx6120\tx6480\tx6840\tx7200\tx7560\tx7920\tx8280\tx8640\tx9000\tx9360\tx9720\tx10080\tx10440\tx10800
+\wrapdefault\faauto\outlinelevel0\rin0\lin0\itap0\pararsid16598504 {\rtlch\fcs1 \af0 \ltrch\fcs0 \i\f0\cf1\insrsid13652870\charrsid6388705 \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab }{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\i\f0\cf1\insrsid9646914 
+\par \ltrrow}\trowd \irow0\irowband0\ltrrow\ts11\trleft0\trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid12932111\tblind108\tblindtype3 \clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl 
+\clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2268\clshdrawnil \cellx2268\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth1985\clshdrawnil \cellx4253\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl 
+\clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth6946\clshdrawnil \cellx11199\pard \ltrpar\qc \li0\ri0\sb120\sa120\nowidctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\lisa50\pararsid11743254 {\rtlch\fcs1 \af0\afs24 
+\ltrch\fcs0 \b\f0\fs24\cf1\insrsid16598504 \cell \cell }\pard \ltrpar\qr \li0\ri0\sb120\sa120\nowidctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\lisa50\pararsid13336281 {\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 
+\i\f0\fs24\cf1\insrsid16598504 Ng\'e0y }{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf6\insrsid16598504\charrsid13336281 14}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504  th\'e1ng }{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 
+\i\f0\fs24\cf6\insrsid16598504\charrsid13336281 7}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504  n\'e3m }{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf6\insrsid16598504\charrsid13336281 201}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 
+\i\f0\fs24\cf6\insrsid13336281\charrsid13336281 7}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504 \cell }\pard \ltrpar\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 {\rtlch\fcs1 \af0\afs24 
+\ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504 \trowd \irow0\irowband0\ltrrow\ts11\trleft0\trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid12932111\tblind108\tblindtype3 \clvertalt\clbrdrt\brdrtbl 
+\clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2268\clshdrawnil \cellx2268\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth1985\clshdrawnil \cellx4253\clvertalt
+\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth6946\clshdrawnil \cellx11199\row \ltrrow}\trowd \irow1\irowband1\lastrow \ltrrow
+\ts11\trleft0\trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid12932111\tblind108\tblindtype3 \clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl 
+\cltxlrtb\clftsWidth3\clwWidth2268\clshdrawnil \cellx2268\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth1985\clshdrawnil \cellx4253\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl 
+\clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth1984\clshdrawnil \cellx6237\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2552\clshdrawnil \cellx8789\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl 
+\clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2410\clshdrawnil \cellx11199\pard \ltrpar\qc \li0\ri0\sb120\sa120\nowidctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\lisa50\pararsid11743254 {\rtlch\fcs1 \af0\afs24 
+\ltrch\fcs0 \b\f0\fs24\cf1\insrsid16598504 Ng\'fd\u7901\'3fi l\u7853\'3fp phi\u7871\'3fu\line }{\rtlch\fcs1 \af42\afs24 \ltrch\fcs0 \i\f42\fs24\cf1\insrsid16598504 (K\'fd, h}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504 \u7885\'3f t
+\'ean)}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \b\f0\fs24\cf1\insrsid16598504 \cell Ng}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \b\f0\fs24\cf1\highlight8\insrsid16598504 \'fd\u7901\'3f}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \b\f0\fs24\cf1\insrsid16598504 i nh\u7853
+\'3fn h\'e0ng\line }{\rtlch\fcs1 \af42\afs24 \ltrch\fcs0 \i\f42\fs24\cf1\insrsid16598504 (K\'fd, h}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504 \u7885\'3f t\'ean)}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \b\f0\fs24\cf1\insrsid16598504 
+\cell Th\u7911\'3f kho\line }{\rtlch\fcs1 \af42\afs24 \ltrch\fcs0 \i\f42\fs24\cf1\insrsid16598504 (K\'fd, h}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504 \u7885\'3f t\'ean)}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 
+\b\f0\fs24\cf1\insrsid16598504 \cell K\u7871\'3f to\'e1n tr\'fd\u7903\'3fng\line }{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \f0\fs24\cf1\insrsid16598504 (Ho\u7863\'3fc b\u7897\'3f ph\u7853\'3fn c\'f3 nhu c\u7847\'3fu nh\u7853\'3fp) \line }{\rtlch\fcs1 
+\af42\afs24 \ltrch\fcs0 \i\f42\fs24\cf1\insrsid16598504 (K\'fd, h}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504 \u7885\'3f t\'ean)\cell }{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \b\f0\fs24\cf1\insrsid16598504 Gi\'e1m \'f0\u7889\'3fc\line }
+{\rtlch\fcs1 \af42\afs24 \ltrch\fcs0 \i\f42\fs24\cf1\insrsid16598504 (K\'fd, h}{\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504 \u7885\'3f t\'ean)\cell }\pard \ltrpar
+\ql \li0\ri0\widctlpar\intbl\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0 {\rtlch\fcs1 \af0\afs24 \ltrch\fcs0 \i\f0\fs24\cf1\insrsid16598504 \trowd \irow1\irowband1\lastrow \ltrrow
+\ts11\trleft0\trftsWidth1\trftsWidthB3\trftsWidthA3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\tblrsid12932111\tblind108\tblindtype3 \clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl 
+\cltxlrtb\clftsWidth3\clwWidth2268\clshdrawnil \cellx2268\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth1985\clshdrawnil \cellx4253\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl 
+\clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth1984\clshdrawnil \cellx6237\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl \clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2552\clshdrawnil \cellx8789\clvertalt\clbrdrt\brdrtbl \clbrdrl\brdrtbl 
+\clbrdrb\brdrtbl \clbrdrr\brdrtbl \cltxlrtb\clftsWidth3\clwWidth2410\clshdrawnil \cellx11199\row }\pard \ltrpar\ql \li0\ri0\nowidctlpar
+\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240\tx3600\tx3960\tx4320\tx4695\tx5040\tx5400\tx5760\tx6120\tx6480\tx6840\tx7200\tx7560\tx7920\tx8280\tx8640\tx9000\tx9360\tx9720\tx10080\tx10440\tx10800
+\wrapdefault\faauto\outlinelevel0\rin0\lin0\itap0\pararsid16598504 {\rtlch\fcs1 \af0 \ltrch\fcs0 \f0\insrsid16598504\charrsid6388705 
+\par }{\*\themedata 504b030414000600080000002100e9de0fbfff0000001c020000130000005b436f6e74656e745f54797065735d2e786d6cac91cb4ec3301045f748fc83e52d4a
+9cb2400825e982c78ec7a27cc0c8992416c9d8b2a755fbf74cd25442a820166c2cd933f79e3be372bd1f07b5c3989ca74aaff2422b24eb1b475da5df374fd9ad
+5689811a183c61a50f98f4babebc2837878049899a52a57be670674cb23d8e90721f90a4d2fa3802cb35762680fd800ecd7551dc18eb899138e3c943d7e503b6
+b01d583deee5f99824e290b4ba3f364eac4a430883b3c092d4eca8f946c916422ecab927f52ea42b89a1cd59c254f919b0e85e6535d135a8de20f20b8c12c3b0
+0c895fcf6720192de6bf3b9e89ecdbd6596cbcdd8eb28e7c365ecc4ec1ff1460f53fe813d3cc7f5b7f020000ffff0300504b030414000600080000002100a5d6
+a7e7c0000000360100000b0000005f72656c732f2e72656c73848fcf6ac3300c87ef85bd83d17d51d2c31825762fa590432fa37d00e1287f68221bdb1bebdb4f
+c7060abb0884a4eff7a93dfeae8bf9e194e720169aaa06c3e2433fcb68e1763dbf7f82c985a4a725085b787086a37bdbb55fbc50d1a33ccd311ba548b6309512
+0f88d94fbc52ae4264d1c910d24a45db3462247fa791715fd71f989e19e0364cd3f51652d73760ae8fa8c9ffb3c330cc9e4fc17faf2ce545046e37944c69e462
+a1a82fe353bd90a865aad41ed0b5b8f9d6fd010000ffff0300504b0304140006000800000021006b799616830000008a0000001c0000007468656d652f746865
+6d652f7468656d654d616e616765722e786d6c0ccc4d0ac3201040e17da17790d93763bb284562b2cbaebbf600439c1a41c7a0d29fdbd7e5e38337cedf14d59b
+4b0d592c9c070d8a65cd2e88b7f07c2ca71ba8da481cc52c6ce1c715e6e97818c9b48d13df49c873517d23d59085adb5dd20d6b52bd521ef2cdd5eb9246a3d8b
+4757e8d3f729e245eb2b260a0238fd010000ffff0300504b03041400060008000000210096b5ade296060000501b0000160000007468656d652f7468656d652f
+7468656d65312e786d6cec594f6fdb3614bf0fd87720746f6327761a07758ad8b19b2d4d1bc46e871e698996d850a240d2497d1bdae38001c3ba618715d86d87
+615b8116d8a5fb34d93a6c1dd0afb0475292c5585e9236d88aad3e2412f9e3fbff1e1fa9abd7eec70c1d1221294fda5efd72cd4324f1794093b0eddd1ef62fad
+79482a9c0498f184b4bd2991deb58df7dfbb8ad755446282607d22d771db8b944ad79796a40fc3585ee62949606ecc458c15bc8a702910f808e8c66c69b9565b
+5d8a314d3c94e018c8de1a8fa94fd05093f43672e23d06af89927ac06762a049136785c10607758d9053d965021d62d6f6804fc08f86e4bef210c352c144dbab
+999fb7b4717509af678b985ab0b6b4ae6f7ed9ba6c4170b06c788a705430adf71bad2b5b057d03606a1ed7ebf5babd7a41cf00b0ef83a6569632cd467faddec9
+699640f6719e76b7d6ac355c7c89feca9cccad4ea7d36c65b258a206641f1b73f8b5da6a6373d9c11b90c537e7f08dce66b7bbeae00dc8e257e7f0fd2badd586
+8b37a088d1e4600ead1ddaef67d40bc898b3ed4af81ac0d76a197c86826828a24bb318f3442d8ab518dfe3a20f000d6458d104a9694ac6d88728eee2782428d6
+0cf03ac1a5193be4cbb921cd0b495fd054b5bd0f530c1931a3f7eaf9f7af9e3f45c70f9e1d3ff8e9f8e1c3e3073f5a42ceaa6d9c84e5552fbffdeccfc71fa33f
+9e7ef3f2d117d57859c6fffac327bffcfc793510d26726ce8b2f9ffcf6ecc98baf3efdfdbb4715f04d814765f890c644a29be408edf3181433567125272371be
+15c308d3f28acd249438c19a4b05fd9e8a1cf4cd296699771c393ac4b5e01d01e5a30a787d72cf1178108989a2159c77a2d801ee72ce3a5c545a6147f32a9979
+3849c26ae66252c6ed637c58c5bb8b13c7bfbd490a75330f4b47f16e441c31f7184e140e494214d273fc80900aedee52ead87597fa824b3e56e82e451d4c2b4d
+32a423279a668bb6690c7e9956e90cfe766cb37b077538abd27a8b1cba48c80acc2a841f12e698f13a9e281c57911ce298950d7e03aba84ac8c154f8655c4f2a
+f074481847bd804859b5e696007d4b4edfc150b12addbecba6b18b148a1e54d1bc81392f23b7f84137c2715a851dd0242a633f900710a218ed715505dfe56e86
+e877f0034e16bafb0e258ebb4faf06b769e888340b103d3311da9750aa9d0a1cd3e4efca31a3508f6d0c5c5c398602f8e2ebc71591f5b616e24dd893aa3261fb
+44f95d843b5974bb5c04f4edafb95b7892ec1108f3f98de75dc97d5772bdff7cc95d94cf672db4b3da0a6557f70db629362d72bcb0431e53c6066acac80d699a
+6409fb44d08741bdce9c0e4971624a2378cceaba830b05366b90e0ea23aaa241845368b0eb9e2612ca8c742851ca251ceccc70256d8d87265dd96361531f186c
+3d9058edf2c00eafe8e1fc5c509031bb4d680e9f39a3154de0accc56ae644441edd76156d7429d995bdd88664a9dc3ad50197c38af1a0c16d684060441db0256
+5e85f3b9660d0713cc48a0ed6ef7dedc2dc60b17e92219e180643ed27acffba86e9c94c78ab90980d8a9f0913ee49d62b512b79626fb06dccee2a432bbc60276
+b9f7dec44b7904cfbca4f3f6443ab2a49c9c2c41476dafd55c6e7ac8c769db1bc399161ee314bc2e75cf8759081743be1236ec4f4d6693e5336fb672c5dc24a8
+c33585b5fb9cc24e1d4885545b58463634cc5416022cd19cacfccb4d30eb45296023fd35a458598360f8d7a4003bbaae25e331f155d9d9a5116d3bfb9a95523e
+51440ca2e0088dd844ec6370bf0e55d027a012ae264c45d02f708fa6ad6da6dce29c255df9f6cae0ec38666984b372ab5334cf640b37795cc860de4ae2816e95
+b21be5ceaf8a49f90b52a51cc6ff3355f47e0237052b81f6800fd7b802239daf6d8f0b1571a8426944fdbe80c6c1d40e8816b88b8569082ab84c36ff0539d4ff
+6dce591a26ade1c0a7f669880485fd484582903d284b26fa4e2156cff62e4b9265844c4495c495a9157b440e091bea1ab8aaf7760f4510eaa69a6465c0e04ec6
+9ffb9e65d028d44d4e39df9c1a52ecbd3607fee9cec7263328e5d661d3d0e4f62f44acd855ed7ab33cdf7bcb8ae889599bd5c8b3029895b6825696f6af29c239
+b75a5bb1e6345e6ee6c28117e73586c1a2214ae1be07e93fb0ff51e133fb65426fa843be0fb515c187064d0cc206a2fa926d3c902e907670048d931db4c1a449
+59d366ad93b65abe595f70a75bf03d616c2dd959fc7d4e6317cd99cbcec9c58b34766661c7d6766ca1a9c1b327531486c6f941c638c67cd22a7f75e2a37be0e8
+2db8df9f30254d30c1372581a1f51c983c80e4b71ccdd28dbf000000ffff0300504b0304140006000800000021000dd1909fb60000001b010000270000007468
+656d652f7468656d652f5f72656c732f7468656d654d616e616765722e786d6c2e72656c73848f4d0ac2301484f78277086f6fd3ba109126dd88d0add40384e4
+350d363f2451eced0dae2c082e8761be9969bb979dc9136332de3168aa1a083ae995719ac16db8ec8e4052164e89d93b64b060828e6f37ed1567914b284d2624
+52282e3198720e274a939cd08a54f980ae38a38f56e422a3a641c8bbd048f7757da0f19b017cc524bd62107bd5001996509affb3fd381a89672f1f165dfe5141
+73d9850528a2c6cce0239baa4c04ca5bbabac4df000000ffff0300504b01022d0014000600080000002100e9de0fbfff0000001c020000130000000000000000
+0000000000000000005b436f6e74656e745f54797065735d2e786d6c504b01022d0014000600080000002100a5d6a7e7c0000000360100000b00000000000000
+000000000000300100005f72656c732f2e72656c73504b01022d00140006000800000021006b799616830000008a0000001c0000000000000000000000000019
+0200007468656d652f7468656d652f7468656d654d616e616765722e786d6c504b01022d001400060008000000210096b5ade296060000501b00001600000000
+000000000000000000d60200007468656d652f7468656d652f7468656d65312e786d6c504b01022d00140006000800000021000dd1909fb60000001b01000027
+00000000000000000000000000a00900007468656d652f7468656d652f5f72656c732f7468656d654d616e616765722e786d6c2e72656c73504b050600000000050005005d0100009b0a00000000}
+{\*\colorschememapping 3c3f786d6c2076657273696f6e3d22312e302220656e636f64696e673d225554462d3822207374616e64616c6f6e653d22796573223f3e0d0a3c613a636c724d
+617020786d6c6e733a613d22687474703a2f2f736368656d61732e6f70656e786d6c666f726d6174732e6f72672f64726177696e676d6c2f323030362f6d6169
+6e22206267313d226c743122207478313d22646b3122206267323d226c743222207478323d22646b322220616363656e74313d22616363656e74312220616363
+656e74323d22616363656e74322220616363656e74333d22616363656e74332220616363656e74343d22616363656e74342220616363656e74353d22616363656e74352220616363656e74363d22616363656e74362220686c696e6b3d22686c696e6b2220666f6c486c696e6b3d22666f6c486c696e6b222f3e}
+{\*\latentstyles\lsdstimax371\lsdlockeddef0\lsdsemihiddendef0\lsdunhideuseddef0\lsdqformatdef0\lsdprioritydef99{\lsdlockedexcept \lsdqformat1 \lsdpriority0 \lsdlocked0 Normal;\lsdqformat1 \lsdpriority9 \lsdlocked0 heading 1;
+\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 2;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 3;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 4;
+\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 5;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 6;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 7;
+\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 8;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 9;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 1;
+\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 2;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 3;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 4;
+\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 5;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 6;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 7;
+\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 8;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 9;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority35 \lsdlocked0 caption;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Number;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List 4;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List 5;\lsdqformat1 \lsdpriority10 \lsdlocked0 Title;
+\lsdsemihidden1 \lsdunhideused1 \lsdpriority1 \lsdlocked0 Default Paragraph Font;\lsdqformat1 \lsdpriority11 \lsdlocked0 Subtitle;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Salutation;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Date;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Body Text First Indent;\lsdqformat1 \lsdpriority22 \lsdlocked0 Strong;\lsdqformat1 \lsdpriority20 \lsdlocked0 Emphasis;\lsdpriority59 \lsdlocked0 Table Grid;\lsdsemihidden1 \lsdlocked0 Placeholder Text;
+\lsdqformat1 \lsdpriority1 \lsdlocked0 No Spacing;\lsdpriority60 \lsdlocked0 Light Shading;\lsdpriority61 \lsdlocked0 Light List;\lsdpriority62 \lsdlocked0 Light Grid;\lsdpriority63 \lsdlocked0 Medium Shading 1;\lsdpriority64 \lsdlocked0 Medium Shading 2;
+\lsdpriority65 \lsdlocked0 Medium List 1;\lsdpriority66 \lsdlocked0 Medium List 2;\lsdpriority67 \lsdlocked0 Medium Grid 1;\lsdpriority68 \lsdlocked0 Medium Grid 2;\lsdpriority69 \lsdlocked0 Medium Grid 3;\lsdpriority70 \lsdlocked0 Dark List;
+\lsdpriority71 \lsdlocked0 Colorful Shading;\lsdpriority72 \lsdlocked0 Colorful List;\lsdpriority73 \lsdlocked0 Colorful Grid;\lsdpriority60 \lsdlocked0 Light Shading Accent 1;\lsdpriority61 \lsdlocked0 Light List Accent 1;
+\lsdpriority62 \lsdlocked0 Light Grid Accent 1;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 1;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 1;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 1;\lsdsemihidden1 \lsdlocked0 Revision;
+\lsdqformat1 \lsdpriority34 \lsdlocked0 List Paragraph;\lsdqformat1 \lsdpriority29 \lsdlocked0 Quote;\lsdqformat1 \lsdpriority30 \lsdlocked0 Intense Quote;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 1;\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 1;
+\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 1;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 1;\lsdpriority70 \lsdlocked0 Dark List Accent 1;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 1;\lsdpriority72 \lsdlocked0 Colorful List Accent 1;
+\lsdpriority73 \lsdlocked0 Colorful Grid Accent 1;\lsdpriority60 \lsdlocked0 Light Shading Accent 2;\lsdpriority61 \lsdlocked0 Light List Accent 2;\lsdpriority62 \lsdlocked0 Light Grid Accent 2;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 2;
+\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 2;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 2;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 2;\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 2;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 2;
+\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 2;\lsdpriority70 \lsdlocked0 Dark List Accent 2;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 2;\lsdpriority72 \lsdlocked0 Colorful List Accent 2;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 2;
+\lsdpriority60 \lsdlocked0 Light Shading Accent 3;\lsdpriority61 \lsdlocked0 Light List Accent 3;\lsdpriority62 \lsdlocked0 Light Grid Accent 3;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 3;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 3;
+\lsdpriority65 \lsdlocked0 Medium List 1 Accent 3;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 3;\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 3;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 3;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 3;
+\lsdpriority70 \lsdlocked0 Dark List Accent 3;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 3;\lsdpriority72 \lsdlocked0 Colorful List Accent 3;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 3;\lsdpriority60 \lsdlocked0 Light Shading Accent 4;
+\lsdpriority61 \lsdlocked0 Light List Accent 4;\lsdpriority62 \lsdlocked0 Light Grid Accent 4;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 4;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 4;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 4;
+\lsdpriority66 \lsdlocked0 Medium List 2 Accent 4;\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 4;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 4;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 4;\lsdpriority70 \lsdlocked0 Dark List Accent 4;
+\lsdpriority71 \lsdlocked0 Colorful Shading Accent 4;\lsdpriority72 \lsdlocked0 Colorful List Accent 4;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 4;\lsdpriority60 \lsdlocked0 Light Shading Accent 5;\lsdpriority61 \lsdlocked0 Light List Accent 5;
+\lsdpriority62 \lsdlocked0 Light Grid Accent 5;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 5;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 5;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 5;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 5;
+\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 5;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 5;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 5;\lsdpriority70 \lsdlocked0 Dark List Accent 5;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 5;
+\lsdpriority72 \lsdlocked0 Colorful List Accent 5;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 5;\lsdpriority60 \lsdlocked0 Light Shading Accent 6;\lsdpriority61 \lsdlocked0 Light List Accent 6;\lsdpriority62 \lsdlocked0 Light Grid Accent 6;
+\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 6;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 6;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 6;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 6;
+\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 6;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 6;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 6;\lsdpriority70 \lsdlocked0 Dark List Accent 6;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 6;
+\lsdpriority72 \lsdlocked0 Colorful List Accent 6;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 6;\lsdqformat1 \lsdpriority19 \lsdlocked0 Subtle Emphasis;\lsdqformat1 \lsdpriority21 \lsdlocked0 Intense Emphasis;
+\lsdqformat1 \lsdpriority31 \lsdlocked0 Subtle Reference;\lsdqformat1 \lsdpriority32 \lsdlocked0 Intense Reference;\lsdqformat1 \lsdpriority33 \lsdlocked0 Book Title;\lsdsemihidden1 \lsdunhideused1 \lsdpriority37 \lsdlocked0 Bibliography;
+\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority39 \lsdlocked0 TOC Heading;\lsdpriority41 \lsdlocked0 Plain Table 1;\lsdpriority42 \lsdlocked0 Plain Table 2;\lsdpriority43 \lsdlocked0 Plain Table 3;\lsdpriority44 \lsdlocked0 Plain Table 4;
+\lsdpriority45 \lsdlocked0 Plain Table 5;\lsdpriority40 \lsdlocked0 Grid Table Light;\lsdpriority46 \lsdlocked0 Grid Table 1 Light;\lsdpriority47 \lsdlocked0 Grid Table 2;\lsdpriority48 \lsdlocked0 Grid Table 3;\lsdpriority49 \lsdlocked0 Grid Table 4;
+\lsdpriority50 \lsdlocked0 Grid Table 5 Dark;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 1;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 1;
+\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 1;\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 1;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 1;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 1;
+\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 1;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 2;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 2;\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 2;
+\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 2;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 2;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 2;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 2;
+\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 3;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 3;\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 3;\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 3;
+\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 3;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 3;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 3;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 4;
+\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 4;\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 4;\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 4;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 4;
+\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 4;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 4;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 5;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 5;
+\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 5;\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 5;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 5;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 5;
+\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 5;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 6;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 6;\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 6;
+\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 6;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 6;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 6;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 6;
+\lsdpriority46 \lsdlocked0 List Table 1 Light;\lsdpriority47 \lsdlocked0 List Table 2;\lsdpriority48 \lsdlocked0 List Table 3;\lsdpriority49 \lsdlocked0 List Table 4;\lsdpriority50 \lsdlocked0 List Table 5 Dark;
+\lsdpriority51 \lsdlocked0 List Table 6 Colorful;\lsdpriority52 \lsdlocked0 List Table 7 Colorful;\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 1;\lsdpriority47 \lsdlocked0 List Table 2 Accent 1;\lsdpriority48 \lsdlocked0 List Table 3 Accent 1;
+\lsdpriority49 \lsdlocked0 List Table 4 Accent 1;\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 1;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 1;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 1;
+\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 2;\lsdpriority47 \lsdlocked0 List Table 2 Accent 2;\lsdpriority48 \lsdlocked0 List Table 3 Accent 2;\lsdpriority49 \lsdlocked0 List Table 4 Accent 2;
+\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 2;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 2;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 2;\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 3;
+\lsdpriority47 \lsdlocked0 List Table 2 Accent 3;\lsdpriority48 \lsdlocked0 List Table 3 Accent 3;\lsdpriority49 \lsdlocked0 List Table 4 Accent 3;\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 3;
+\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 3;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 3;\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 4;\lsdpriority47 \lsdlocked0 List Table 2 Accent 4;
+\lsdpriority48 \lsdlocked0 List Table 3 Accent 4;\lsdpriority49 \lsdlocked0 List Table 4 Accent 4;\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 4;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 4;
+\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 4;\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 5;\lsdpriority47 \lsdlocked0 List Table 2 Accent 5;\lsdpriority48 \lsdlocked0 List Table 3 Accent 5;
+\lsdpriority49 \lsdlocked0 List Table 4 Accent 5;\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 5;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 5;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 5;
+\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 6;\lsdpriority47 \lsdlocked0 List Table 2 Accent 6;\lsdpriority48 \lsdlocked0 List Table 3 Accent 6;\lsdpriority49 \lsdlocked0 List Table 4 Accent 6;
+\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 6;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 6;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 6;}}{\*\datastore 010500000200000018000000
+4d73786d6c322e534158584d4c5265616465722e362e30000000000000000000000e0000
+d0cf11e0a1b11ae1000000000000000000000000000000003e000300feff0900060000000000000000000000010000000100000000000000001000000200000001000000feffffff0000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffdffffff04000000feffffff05000000fefffffffeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffff52006f006f007400200045006e00740072007900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000500ffffffffffffffff010000000c6ad98892f1d411a65f0040963251e5000000000000000000000000a0fa
+038ab21cd40103000000c0020000000000004d0073006f004400610074006100530074006f0072006500000000000000000000000000000000000000000000000000000000000000000000000000000000001a000101ffffffffffffffff020000000000000000000000000000000000000000000000a0fa038ab21cd401
+a0fa038ab21cd40100000000000000000000000054004b00c400c100d700dd00d4004800c90045004f00c800c1005700db00ce004f004400d5003300480041003d003d000000000000000000000000000000000032000101ffffffffffffffff030000000000000000000000000000000000000000000000a0fa038ab21c
+d401a0fa038ab21cd4010000000000000000000000004900740065006d0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000201ffffffff04000000ffffffff000000000000000000000000000000000000000000000000
+000000000000000000000000000000000e0100000000000001000000020000000300000004000000feffffff060000000700000008000000090000000a000000feffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3c3f786d6c2076657273696f6e3d22312e302220656e636f64696e673d225554462d3822207374616e64616c6f6e653d226e6f223f3e3c623a536f75726365732053656c65637465645374796c653d225c4150412e58534c22205374796c
+654e616d653d224150412220786d6c6e733a623d22687474703a2f2f736368656d61732e6f70656e786d6c666f726d6174732e6f72672f6f6666696365446f63756d656e742f323030362f6269626c696f6772617068792220786d6c6e733d22687474703a2f2f736368656d61732e6f70656e786d6c666f726d6174732e
+6f72672f6f6666696365446f63756d656e742f323030362f6269626c696f677261706879223e3c2f623a536f75726365733e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003c3f786d6c2076657273696f6e3d22312e302220656e636f6469
+6e673d225554462d3822207374616e64616c6f6e653d226e6f223f3e0d0a3c64733a6461746173746f72654974656d2064733a6974656d49443d227b44463231413934432d303744442d343341342d413838352d3645454533383344354431437d2220786d6c6e733a64733d22687474703a2f2f736368656d61732e6f70
+656e786d6c666f726d6174732e6f72672f6f6666696365446f63756d656e742f323030362f637573500072006f007000650072007400690065007300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000200ffffffffffffffffffffffff000000000000
+0000000000000000000000000000000000000000000000000000000000000500000055010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff00000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000746f6d586d6c223e3c64733a736368656d61526566733e3c64733a736368656d615265662064733a7572693d22687474703a2f2f736368656d61732e6f70656e786d6c666f726d6174732e6f7267
+2f6f6666696365446f63756d656e742f323030362f6269626c696f677261706879222f3e3c2f64733a736368656d61526566733e3c2f64733a6461746173746f72654974656d3e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105000000000000}}
