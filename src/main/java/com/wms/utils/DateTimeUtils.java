@@ -7,6 +7,7 @@ package com.wms.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -153,6 +154,10 @@ public class DateTimeUtils {
         } catch (Exception e) {
             throw e;
         }
+    }
+    public static String getTimeStamp(){
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return String.valueOf(timestamp.getTime());
     }
 
     /**

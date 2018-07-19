@@ -196,15 +196,15 @@
                     >
                         <thead>
                         <tr>
-                            <th data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
-                            <th data-field="id" >Id</th>
-                            <th data-field="type" >Type</th>
-                            <th data-field="stockId" >StockId</th>
-                            <th class="col-md-1" data-field="code" data-align="left" data-sortable="true" data-width="250px">Mã phiếu</th>
+                            <th class="col-md-1"  data-formatter="runningFormatter" data-align="center" >STT</th>
+                            <th data-field="id"  data-visible="false">Id</th>
+                            <th data-field="type" data-visible="false">Type</th>
+                            <th data-field="stockId" data-visible="false">StockId</th>
+                            <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã phiếu</th>
                             <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
-                            <th class="" data-field="partnerName" data-align="left" data-sortable="true">Đối tác cung cấp</th>
+                            <th class="col-md-2" data-field="partnerName" data-align="left" data-sortable="true">Đối tác cung cấp</th>
                             <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
-                            <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true" data-width="100px">Loại GD</th>
+                            <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true">Loại GD</th>
                             <th class="col-md-1" data-field="createdDate" data-align="center" data-sortable="true">Thời gian</th>
                             <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người thực hiện</th>
                             <th class="col-md-1" data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
@@ -239,9 +239,12 @@
     //
     function operateFormatter(value, row, index) {
         var createdDate = row["createdDate"].substring(0,10);
+        var transId   = row["id"];
+        var url = $('#btn-export-info').val() + "?transId="+ transId;
+        $('.trans-export').attr('href',url);
         if (createdDate !== moment(new Date()).format('DD/MM/YYYY')) {
             return [
-                '<a class="trans-export row-function" id="lbl-trans-export"  href="javascript:void(0)" title="Xuất phiếu">',
+                '<a class="trans-export row-function" id="lbl-trans-export"  href='+url+' title="Xuất phiếu">',
                 '<i class="fa fa-file-word-o"></i>',
                 '</a> ',
                 '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
@@ -253,7 +256,7 @@
             ].join('');
         }else{
             return [
-                '<a class="trans-export row-function" id="lbl-trans-export" href="javascript:void(0)" title="Xuất phiếu">',
+                '<a class="trans-export row-function" id="lbl-trans-export" href= '+url+'title="Xuất phiếu">',
                 '<i class="fa fa-file-word-o"></i>',
                 '</a> ',
                 '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
@@ -286,17 +289,13 @@
     var deleteCommandId;
     window.operateEvents = {
 
-        'click .trans-export': function (e, value, row, index) {
-
-            NProgress.start();
-
-            var transId   = row["id"];
-            var url = $('#btn-export-info').val() + "?transId="+ transId;
-            $('.trans-export').attr('href',url);
-            $('.trans-export').click();
-            NProgress.done();
-
-        },
+        // 'click .trans-export': function (e, value, row, index) {
+        //     var transId   = row["id"];
+        //     var url = $('#btn-export-info').val() ;
+        //     var data = {transId : transId};
+        //     sendEvent("GET",url,data,null,"json");
+        //
+        // },
 
        'click .trans-detail': function (e, value, row, index) {
             //

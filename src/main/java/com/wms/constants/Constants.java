@@ -40,6 +40,8 @@ public class Constants {
         public static String LIST_TRANS_DETAIL_TEMPLATE = "Thong_tin_chitiet_giao_dich.xlsx";
         public static String EXPORT_TRANS_TEMPLATE = "PhieuXuatKho_KhongSerial.jrxml";
         public static String IMPORT_TRANS_TEMPLATE = "PhieuNhapKho_KhongSerial.jrxml";
+        public static String IMPORT_BILL = "import_bill.jasper";
+        public static String EXPORT_BILL = "export_bill.jasper";
     }
 
     public static class STATUS{

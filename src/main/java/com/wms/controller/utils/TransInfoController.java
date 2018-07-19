@@ -8,10 +8,17 @@ import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.StockManagementService;
-import com.wms.utils.BundleUtils;
-import com.wms.utils.DataUtil;
-import com.wms.utils.DateTimeUtils;
-import com.wms.utils.FunctionUtils;
+import com.wms.utils.*;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -42,7 +49,8 @@ public class TransInfoController extends BaseController{
     public CatUserService catUserService;
     @Autowired
     public BaseService catPartnerService;
-
+    @Autowired
+    public BaseService catCustServicesImpl;
     //
     private List<MjrStockTransDTO> lstTrans;
     private List<CatUserDTO> lstUsers;
@@ -196,41 +204,50 @@ public class TransInfoController extends BaseController{
         if (lstStockTrans != null && lstStockTrans.size() >0){
             mjrStockTransDTO = lstStockTrans.get(0);
         }
-        //Lay thong tin danh sach hang hoa thuoc giao dich
+
+        CatCustomerDTO catCustomerDTO= (CatCustomerDTO) catCustServicesImpl.findById(Long.parseLong(mjrStockTransDTO.getCustId()),tokenInfo);
         List<MjrStockTransDetailDTO> lstStockTransDetail = stockManagementService.getListTransGoodsDetail(transId.toString(),tokenInfo);
-
-        String templatePath = BundleUtils.getKey("template_url") +"\\PXK\\"+ Constants.FILE_RESOURCE.EXPORT_TRANS_TEMPLATE;
         String prefixFileName = "Thongtin_chitiet_giaodich_";
-//        JasperReport jasperReport;
+        String templatePath ;
+        int  total = 0;
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        if (mjrStockTransDTO.getType().equalsIgnoreCase("1")){
+            templatePath =BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_BILL;
+            prefixFileName = prefixFileName + "nhapkho_";
+        }else{
+             templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.EXPORT_BILL;
+             parameters.put("receiverName", mjrStockTransDTO.getReceiveName());
+            prefixFileName = prefixFileName + "xuatkho_";
+        }
+        prefixFileName = prefixFileName +DateTimeUtils.getTimeStamp();
+
+        String outPutFile = BundleUtils.getKey("temp_url") + prefixFileName+ ".docx";
+
         try {
-            /*
-            jasperReport = JasperCompileManager.compileReport(templatePath);
-            Map parameters = new HashMap();
 
-            parameters.put("stockName", mjrStockTransDTO.getStockName());
-            parameters.put("stockName", mjrStockTransDTO.getStockCode());
-                        //
-            List<MjrStockTransDetailDTO> listItems = new ArrayList<>();
-            int lstGoodsSize = lstStockTransDetail.size();
-            for (int i = 0; i< lstGoodsSize ; i++){
-                MjrStockTransDetailDTO mjrStockTransDetailDTO =  lstStockTransDetail.get(i);
-                listItems.add(new MjrStockTransDetailDTO(mjrStockTransDetailDTO.getGoodsCode(), mjrStockTransDetailDTO.getGoodsName()));
-            }
+            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(lstStockTransDetail);
 
-            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(listItems);
-            parameters.put("goodsDataSource", itemsJRBean);
-            // DataSource
-            JRDataSource dataSource = new JREmptyDataSource();
+            parameters.put("itemList", itemsJRBean);
+            parameters.put("custName",catCustomerDTO.getName());
+            parameters.put("stockCode",  mapStockIdStock.get(mjrStockTransDTO.getStockId()).getCode());
+            parameters.put("numberTrans", mjrStockTransDTO.getCode());
+            parameters.put("partner", mjrStockTransDTO.getPartnerName());
+            parameters.put("stockName", mapStockIdStock.get(mjrStockTransDTO.getStockId()).getName());
+            parameters.put("importMan", mjrStockTransDTO.getCreatedUser());
+            parameters.put("note", mjrStockTransDTO.getDescription());
+            parameters.put("currencyText", getCurrenciesText(mjrStockTransDTO.getType(),lstStockTransDetail));
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
-                    parameters, dataSource);
-            //
-            // Export to docx.
-            JRDocxExporter exporter = new JRDocxExporter();
-            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-            exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "D:\\WMS\\report\\myreport.docx");
-            exporter.exportReport();
-            */
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(templatePath, parameters, new JREmptyDataSource());
+            JRDocxExporter export = new JRDocxExporter();
+            export.setExporterInput(new SimpleExporterInput(jasperPrint));
+            export.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outPutFile )));
+
+            SimpleDocxReportConfiguration config = new SimpleDocxReportConfiguration();
+
+            export.setConfiguration(config);
+            export.exportReport();
+            FunctionUtils.loadFileToClient(response,outPutFile);
 
             System.out.println("Done!");
         } catch (Exception e) {
@@ -311,5 +328,20 @@ public class TransInfoController extends BaseController{
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         return reportFullPath;
+    }
+    public String getCurrenciesText(String type ,List<MjrStockTransDetailDTO> lstStockTransDetail ){
+        int total = 0 ;
+        for (MjrStockTransDetailDTO item :lstStockTransDetail){
+
+            if (type.equalsIgnoreCase("1")){
+                int inputPrice =item.getInputPrice().equalsIgnoreCase("") ? 0 : Integer.parseInt(item.getInputPrice());
+                total = total + inputPrice;
+            }else{
+                int outputPrice =item.getOutputPrice().equalsIgnoreCase("") ? 0 : Integer.parseInt(item.getOutputPrice());
+                total = total + outputPrice;
+
+            }
+        }
+        return ConvertCurrenciesToText.convertToText(String.valueOf(total));
     }
 }
