@@ -25,7 +25,7 @@ public class ConvertCurrenciesToText {
     };
     public static HashMap<String, String> hm_hanh = new HashMap<String, String>() {
         {
-            put("1", "đồng");
+            put("1", "");
             put("2", "mươi");
             put("3", "trăm");
             put("4", "nghìn");
@@ -44,22 +44,40 @@ public class ConvertCurrenciesToText {
         }
     };
 
-//    public static void main(String[] args) throws ParseException {
-//        String tien = "5964270514";
-//        String kq = convertToText(tien);
-//        System.out.println(currencyFormat(tien));
-//        System.out.println(kq);
-//
-//    }
+    public static void main(String[] args) throws ParseException {
+        String tien = "59614.00";
+        String kq = convertToText(tien);
+        System.out.println(currencyFormat(tien));
+        System.out.println(kq);
+
+    }
 
     public static String convertToText(String x) {
         String kq = "";
-        x = x.replace(".", "");
-        String arr_temp[] = x.split(",");
+        x = x.replace(",", "");
+        String arr_temp[] = x.split("\\.");
         if (!NumberUtils.isNumber(arr_temp[0])) {
             return "";
         }
         String m = arr_temp[0];
+        kq = kq+ numberToText(arr_temp[0]);
+        if (arr_temp.length ==2){
+            String decimal = numberToText(arr_temp[1].substring(0, 2));
+            if (!DataUtil.isNullOrEmpty(decimal))
+              kq = kq + "phẩy " +decimal ;
+        }
+
+        return kq.substring(0,1).toUpperCase() + kq.substring(1).toLowerCase() + "đồng";
+    }
+
+    public static String currencyFormat(String curr) {
+
+        Double f = Double.parseDouble(curr.replace(",", ""));
+        String format =( new DecimalFormat("###,###.##")).format(f);
+        return format;
+    }
+    public static String numberToText(String m) {
+        String kq = "";
         int dem = m.length();
         String dau = "";
         int flag10 = 1;
@@ -96,20 +114,6 @@ public class ConvertCurrenciesToText {
             dem = m.length();
         }
         kq=kq.substring(0, kq.length() - 1);
-
-        return kq.substring(0,1).toUpperCase() + kq.substring(1).toLowerCase();
-    }
-
-    public static String currencyFormat(String curr) {
-        try {
-            double vaelue = Double.parseDouble(curr);
-            String pattern = "###,###";
-            DecimalFormat myFormatter = new DecimalFormat(pattern);
-            String output = myFormatter.format(vaelue);
-            return output;
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        return "";
+      return kq;
     }
 }

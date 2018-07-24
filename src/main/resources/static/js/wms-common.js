@@ -355,7 +355,7 @@ function searchAndUpdateMainTable(isClear,table,btnSearch, data){
         }
     });
 }
-function sendEvent(type,url,jsonData,callback,dataType,clearInfor){
+function sendEvent(type,url,jsonData,callback,dataType,clearInfor,addInfor){
     NProgress.start();
     $.ajax({
         type: type,
@@ -367,7 +367,7 @@ function sendEvent(type,url,jsonData,callback,dataType,clearInfor){
         timeout: 600000,
         success: function (data) {
             if (typeof window[callback] === "function") {
-                window[callback](data,clearInfor);
+                window[callback](data,clearInfor,addInfor);
             }
         },
         error: function (request, error) {
@@ -382,11 +382,11 @@ function sendEvent(type,url,jsonData,callback,dataType,clearInfor){
     //
 
 }
-function searchEvent(type,url,jsonData,callback) {
-    sendEvent(type,url,jsonData,callback,'json',true);
+function searchEvent(type,url,jsonData,callback,addInfor) {
+    sendEvent(type,url,jsonData,callback,'json',true,addInfor);
 }
 function updateEvent(type,url,jsonData,callback) {
-    sendEvent(type,url,jsonData,callback,'text',false);
+    sendEvent(type,url,jsonData,callback,'text',false,addInfor);
 }
 function runningFormatter(value, row, index) {
     return index + 1;
