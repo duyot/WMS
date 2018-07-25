@@ -43,9 +43,9 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionFixation().newSession()
-                .invalidSessionUrl("/login?message=timeout")
-                .maximumSessions(1).expiredUrl("/login?message=max_session").maxSessionsPreventsLogin(true);
+//        http.sessionManagement().sessionFixation().newSession()
+//                .invalidSessionUrl("/login?message=timeout")
+//                .maximumSessions(1).expiredUrl("/login?message=max_session").maxSessionsPreventsLogin(true);
 
         http    .csrf().disable()
                 .authorizeRequests()
