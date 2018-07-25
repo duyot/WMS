@@ -310,7 +310,7 @@ function processAssignStock(custId ,code ) {
     $('#assign-stock-user-code').text(code);
     searchEvent("GET",url_getStock , data,'getStocksDataDone');
 }
-function getRoleDataDone( data,block) {
+function getRoleDataDone( data,clearInfor ,block) {
     showModal($('#assygnRoleUser'));
     $('input[name=rad-block][value='+block+']').prop('checked', true)
     tableAssignRole.bootstrapTable('load', data);

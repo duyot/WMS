@@ -18,3 +18,6 @@ div.tree-multiselect>div.selections.no-border {
 #usageUnit option:first-child{
     display: none;
 }
+#update-department-form .auxiliary{
+     display: none;
+}

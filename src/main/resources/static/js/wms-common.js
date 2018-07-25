@@ -382,10 +382,39 @@ function sendEvent(type,url,jsonData,callback,dataType,clearInfor,addInfor){
     //
 
 }
+
+function logOut(){
+    $.ajax({
+        type: "GET",
+        cache: false,
+        data: "",
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        url:  $("#btnLogout").attr('href'),
+        dataType: "json",
+        timeout: 600000,
+        success: function (data) {
+            if (typeof window[callback] === "function") {
+                console.log(error);
+            }
+        },
+        error: function (request, error) {
+            console.log(error);
+
+        },
+        complete:function () {
+        }
+    });
+    //
+
+}
+function logout2() {
+    window.location.href = "/workspace/logout";
+
+}
 function searchEvent(type,url,jsonData,callback,addInfor) {
     sendEvent(type,url,jsonData,callback,'json',true,addInfor);
 }
-function updateEvent(type,url,jsonData,callback) {
+function updateEvent(type,url,jsonData,callback,addInfor) {
     sendEvent(type,url,jsonData,callback,'text',false,addInfor);
 }
 function runningFormatter(value, row, index) {
@@ -462,7 +491,7 @@ window.onunload = function(){
     console.log("close onunload");
 }
 window.onbeforeunload = function(e) {
-   e.returnValue = closeWindow();
+    logOut();
 }
 function closeWindow(){
     document.getElementById('btnLogout').click();
