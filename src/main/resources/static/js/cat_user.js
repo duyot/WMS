@@ -150,7 +150,7 @@ window.operateEvents = {
     'click .assign-role': function (e, value, row, index) {
         currentRoleId = row['roleId'];
         currentUserId = row['id'];
-        doGetDataAndShowform(row['custId']);
+        doGetDataAndShowform(row['custId'],row['block']);
     },
     'click .assign-stock': function (e, value, row, index) {
         currentUserId = row['id'];
@@ -299,10 +299,10 @@ function configTree(id){
     $("#deptId").val(id);
     return options;
 }
-function doGetDataAndShowform(custId) {
+function doGetDataAndShowform(custId,block) {
     var data = {custId : custId};
 
-    searchEvent("GET",url_getRoles , data,'getRoleDataDone')
+    searchEvent("GET",url_getRoles , data,'getRoleDataDone',block)
 
 }
 function processAssignStock(custId ,code ) {
@@ -310,9 +310,9 @@ function processAssignStock(custId ,code ) {
     $('#assign-stock-user-code').text(code);
     searchEvent("GET",url_getStock , data,'getStocksDataDone');
 }
-function getRoleDataDone( data) {
+function getRoleDataDone( data,block) {
     showModal($('#assygnRoleUser'));
-
+    $('input[name=rad-block][value='+block+']').prop('checked', true)
     tableAssignRole.bootstrapTable('load', data);
     if (currentRoleId!= undefined && currentRoleId != null && data!= null){
         for(i = 0 ; i <data.length ; i++){
@@ -351,7 +351,12 @@ function doPrepareShowDept(deptId) {
 function doUpdateUserRole() {
     var role = tableAssignRole.bootstrapTable('getSelections');
     var block = $('input[name=rad-block]:checked').val();
-    var data = {roleId : role[0]['id'] ,roleName : role[0]['name'], block : block , userId : currentUserId};
+    var data ;
+    if(role.length == 0){
+       data = {roleId : '-1' ,roleName :'-1', block : block , userId : currentUserId};
+    }else{
+        data = {roleId : role[0]['id'] ,roleName : role[0]['name'], block : block , userId : currentUserId};
+    }
     updateEvent("GET",  $('#modal-update-assign-role').val(),data,"showNotificationAndSearch",false);
     hideModal($('#assygnRoleUser'));
 }

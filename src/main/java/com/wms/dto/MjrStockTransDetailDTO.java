@@ -216,19 +216,19 @@ public class MjrStockTransDetailDTO {
     }
 
     public String getInputPrice() {
-        return inputPrice.replace(",","");
+        return inputPrice;
     }
 
     public void setInputPrice(String inputPrice) {
-        this.inputPrice = inputPrice.replace(",","");
+        this.inputPrice = inputPrice;
     }
 
     public String getOutputPrice() {
-        return outputPrice.replace(",","");
+        return outputPrice;
     }
 
     public void setOutputPrice(String outputPrice) {
-        this.outputPrice = outputPrice.replace(",","");
+        this.outputPrice = outputPrice;
     }
 
     public String getGoodsName() {

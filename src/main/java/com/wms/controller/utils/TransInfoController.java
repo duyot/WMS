@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
+import com.wms.controller.HomeController;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
@@ -19,6 +20,8 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -60,7 +63,7 @@ public class TransInfoController extends BaseController{
     //
     private String startDate;
     private String endDate;
-
+    Logger log = LoggerFactory.getLogger(TransInfoController.class);
     @ModelAttribute("lstAppTransType")
     public List<AppParamsDTO> setAppTransType(HttpServletRequest request) {
         if (lstAppTransType != null) {
@@ -198,6 +201,7 @@ public class TransInfoController extends BaseController{
     //==================================================================================================================
     @RequestMapping(value = "/exportTransInfo")
     public void exportTransInfo(HttpServletResponse response,@RequestParam("transId") String transId){
+        log.info("exportTransInfo: " +transId );
         //Lay thong tin chung giao dich xuat kho
         List<MjrStockTransDTO> lstStockTrans = stockManagementService.getStockTransInfo(transId.toString(),tokenInfo);
         MjrStockTransDTO mjrStockTransDTO = null;
@@ -219,6 +223,7 @@ public class TransInfoController extends BaseController{
              parameters.put("receiverName", mjrStockTransDTO.getReceiveName());
             prefixFileName = prefixFileName + "xuatkho_";
         }
+        log.info("exportTransInfo: template path " +templatePath );
         prefixFileName = prefixFileName +DateTimeUtils.getTimeStamp();
 
         String outPutFile = BundleUtils.getKey("temp_url") + prefixFileName+ ".docx";
@@ -227,6 +232,8 @@ public class TransInfoController extends BaseController{
 
             JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(lstStockTransDetail);
 
+
+            String sum = getTotal(mjrStockTransDTO.getType(),lstStockTransDetail );
             parameters.put("itemList", itemsJRBean);
             parameters.put("custName",catCustomerDTO.getName());
             parameters.put("stockCode",  mapStockIdStock.get(mjrStockTransDTO.getStockId()).getCode());
@@ -235,10 +242,13 @@ public class TransInfoController extends BaseController{
             parameters.put("stockName", mapStockIdStock.get(mjrStockTransDTO.getStockId()).getName());
             parameters.put("importMan", mjrStockTransDTO.getCreatedUser());
             parameters.put("note", mjrStockTransDTO.getDescription());
-            parameters.put("currencyText", getCurrenciesText(mjrStockTransDTO.getType(),lstStockTransDetail));
+            parameters.put("sum", sum);
+            parameters.put("currencyText", ConvertCurrenciesToText.convertToText(sum));
+
 
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(templatePath, parameters, new JREmptyDataSource());
+            log.info("exportTransInfo: fillReport " );
             JRDocxExporter export = new JRDocxExporter();
             export.setExporterInput(new SimpleExporterInput(jasperPrint));
             export.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outPutFile )));
@@ -249,6 +259,7 @@ public class TransInfoController extends BaseController{
             export.exportReport();
             FunctionUtils.loadFileToClient(response,outPutFile);
 
+            log.info("Done" );
             System.out.println("Done!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -329,19 +340,19 @@ public class TransInfoController extends BaseController{
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         return reportFullPath;
     }
-    public String getCurrenciesText(String type ,List<MjrStockTransDetailDTO> lstStockTransDetail ){
-        int total = 0 ;
+    public String getTotal(String type ,List<MjrStockTransDetailDTO> lstStockTransDetail ){
+        double total = 0 ;
         for (MjrStockTransDetailDTO item :lstStockTransDetail){
-
+            int amount = item.getAmount().equalsIgnoreCase("") ? 1 : Integer.parseInt(item.getAmount());
             if (type.equalsIgnoreCase("1")){
-                int inputPrice =item.getInputPrice().equalsIgnoreCase("") ? 0 : Integer.parseInt(item.getInputPrice());
-                total = total + inputPrice;
+                double inputPrice =item.getInputPrice().equalsIgnoreCase("") ? 0 : Double.parseDouble(item.getInputPrice().replace(",",""));
+                total = total + inputPrice * amount;
             }else{
-                int outputPrice =item.getOutputPrice().equalsIgnoreCase("") ? 0 : Integer.parseInt(item.getOutputPrice());
-                total = total + outputPrice;
-
+                double outputPrice =item.getOutputPrice().equalsIgnoreCase("") ? 0 : Double.parseDouble(item.getOutputPrice().replace(",",""));
+                total = total + outputPrice * amount;
             }
         }
-        return ConvertCurrenciesToText.convertToText(String.valueOf(total));
+
+        return ConvertCurrenciesToText.currencyFormat(String.format ("%.2f", total));
     }
 }
