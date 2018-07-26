@@ -204,11 +204,11 @@ public class CatUserController extends BaseCommonController {
         try {
             Long idL = Long.parseLong(userId);
             CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL,tokenInfo);
-            if (roleId.equalsIgnoreCase("-1")){
+            if (!roleId.equalsIgnoreCase("-1")){
                 catUserDTO.setRoleId(roleId);
                 catUserDTO.setRoleName(roleName);
             }
-
+            catUserDTO.setBlock(block);
             ResponseObject response = catUserServices.update(catUserDTO, tokenInfo);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
@@ -322,7 +322,7 @@ public class CatUserController extends BaseCommonController {
             Long idL = Long.parseLong(response.getStatusCode());
             return ResourceBundleUtils.getkey(Constants.RESPONSE.INSERT_SUSSESS);
           }  catch (NumberFormatException e) {
-            return ResourceBundleUtils.getkey(DataUtil.isNullOrEmpty(response.getStatusCode())?Constants.RESPONSE.INSERT_ERROR:response.getStatusCode());
+            return ResourceBundleUtils.getkey(DataUtil.isNullOrEmpty(response.getKey())?Constants.RESPONSE.INSERT_ERROR:response.getKey());
          }
     }
 
