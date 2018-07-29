@@ -100,6 +100,8 @@ import java.util.Locale;
         registerCatUserDTO.setRoleId(BundleUtils.getKey("defaulRoleGuestId"));
         registerCatUserDTO.setRoleName(BundleUtils.getKey("defaulRoleGuestName"));
         registerCatUserDTO.setCustId(BundleUtils.getKey("defaulCustIdForGuest"));
+        registerCatUserDTO.setStatus("1");
+        registerCatUserDTO.setBlock("0");
         ResponseObject responseObject = catUserService.guestAddUser(registerCatUserDTO);
         try {
             Long idL = Long.parseLong(responseObject.getKey());
