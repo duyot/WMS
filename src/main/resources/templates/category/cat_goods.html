@@ -219,11 +219,6 @@
             pageList:[5,10, 25, 50],
             pageSize:10
         });
-        alert('ok1');
-        $(document).ready(function(){
-            $("#modal-cmb-serial").attr('checked',false);
-        });
-        alert('ok');
 
         search(false);
     });
@@ -529,7 +524,7 @@
             $('#modal-label-output-price').text("");
 
             $('#modal-cmb-status').bootstrapToggle('on');
-            $('#modal-cmb-serial').bootstrapToggle('on');
+            $('#modal-cmb-serial').bootstrapToggle('off');
             disableElement($('#modal-cmb-status'));
             showAdd();
         }else{//update
