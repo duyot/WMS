@@ -319,7 +319,7 @@ public class CatUserController extends BaseCommonController {
 
         ResponseObject response = catUserServices.add(catUserDTO,tokenInfo);
         try {
-            Long idL = Long.parseLong(response.getStatusCode());
+            Long idL = Long.parseLong(response.getKey());
             return ResourceBundleUtils.getkey(Constants.RESPONSE.INSERT_SUSSESS);
           }  catch (NumberFormatException e) {
             return ResourceBundleUtils.getkey(DataUtil.isNullOrEmpty(response.getKey())?Constants.RESPONSE.INSERT_ERROR:response.getKey());

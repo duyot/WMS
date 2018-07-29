@@ -1,11 +1,14 @@
 package com.wms.controller;
 
+import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatUserDTO;
 import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.CatUserService;
+import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
+import com.wms.utils.ResourceBundleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,11 +96,17 @@ import java.util.Locale;
     public @ResponseBody String register(CatUserDTO registerCatUserDTO){
         registerCatUserDTO.setPassword(DataUtil.BCryptPasswordEncoder(registerCatUserDTO.getPassword()));
         log.info("Register user info: "+ registerCatUserDTO.toString());
-        ResponseObject responseObject = catUserService.register(registerCatUserDTO,tokenInfo);
-        if(responseObject == null || !Responses.SUCCESS.getName().equalsIgnoreCase(responseObject.getStatusName())){
-            return "Đăng ký không thành công";
+
+        registerCatUserDTO.setRoleId(BundleUtils.getKey("defaulRoleGuestId"));
+        registerCatUserDTO.setRoleName(BundleUtils.getKey("defaulRoleGuestName"));
+        registerCatUserDTO.setCustId(BundleUtils.getKey("defaulCustIdForGuest"));
+        ResponseObject responseObject = catUserService.guestAddUser(registerCatUserDTO);
+        try {
+            Long idL = Long.parseLong(responseObject.getKey());
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.INSERT_SUSSESS);
+        }  catch (NumberFormatException e) {
+            return ResourceBundleUtils.getkey(DataUtil.isNullOrEmpty(responseObject.getKey())?Constants.RESPONSE.INSERT_ERROR:responseObject.getKey());
         }
-        return "Đăng ký thành công";
 
     }
 

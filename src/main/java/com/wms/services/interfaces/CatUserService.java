@@ -11,6 +11,7 @@ import java.util.List;
 public interface CatUserService extends BaseService<CatUserDTO> {
     ResponseObject register(CatUserDTO catUserDTO,AuthTokenInfo tokenInfo);
     ResponseObject updateUser(CatUserDTO catUserDTO,AuthTokenInfo tokenInfo);
+    ResponseObject guestAddUser(CatUserDTO catUserDTO);
     ResponseObject updateCustomer(CatCustomerDTO catCustomerDTO,AuthTokenInfo tokenInfo);
     CatUserDTO login(CatUserDTO catUserDTO);
     List<CatCustomerDTO> getCustomer(String userId, AuthTokenInfo tokenInfo );
