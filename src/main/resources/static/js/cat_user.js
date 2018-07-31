@@ -331,7 +331,7 @@ function getStocksDataDone(data) {
     for(i = 0 ; i <listStocks.length ; i++){
 
         for( j = 0 ; j <sellectedStock.length; j++){
-            if(listSt4ocks[i]['id'] == sellectedStock[j]){
+            if(listStocks[i]['id'] == sellectedStock[j]){
                 tableAssignStock.bootstrapTable('check', i);
                 break;
             }

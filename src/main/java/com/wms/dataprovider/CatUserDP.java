@@ -27,6 +27,7 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
     private final String GET_CUSTOMER_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getCustomer/";
     private final String GET_USER_BY_CUST = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getUserByCustomerId/";
     private final String UPDATE_USER_URL  = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "updateUser/";
+    private final String GUEST_ADD_USER_URL  = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "guestAddUser/";
     private final String UPDATE_CUSTOMER_URL  = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.CUSTOMER_SERVICE + "updateCustomer/";
 
     Logger log = LoggerFactory.getLogger(CatUserDP.class);
@@ -54,6 +55,15 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
         }
     }
 
+
+    public ResponseObject guestAddUser(CatUserDTO registerCatUserDTO){
+        try {
+            return restTemplate.postForObject(GUEST_ADD_USER_URL, registerCatUserDTO,ResponseObject.class);
+        } catch (RestClientException e) {
+            log.info(e.toString());
+            return null;
+        }
+    }
     public ResponseObject updateCustomer(CatCustomerDTO updatedCustomer, AuthTokenInfo tokenInfo){
         String updateCustomerUrl = UPDATE_CUSTOMER_URL + "?access_token="+ tokenInfo.getAccess_token();
         try {

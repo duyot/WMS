@@ -165,6 +165,7 @@
                                         <div class="col-sm-4">
                                             <div class="input-group" style="width: 100%;">
                                                 <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                                    <option value="-1" th:text="#{label.choose}"></option>
                                                     <option  th:each="sopt:${cells}"
                                                              th:value="${sopt.code}" th:text="${sopt.name}"></option>
                                                 </select>

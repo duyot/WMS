@@ -73,26 +73,16 @@ public class CatStockController extends BaseCommonController{
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
     public  @ResponseBody List<CatStockDTO> findByCondition(@RequestParam("status")String status){
+        /*
         if (status.equals(Constants.STATS_ALL) || DataUtil.isStringNullOrEmpty(status)) {
             return lstStock;
         }
-        //
-
-//        for(CatStockDTO i: lstStock){
-//            if (i.getStatus().equalsIgnoreCase(status)) {
-//                stocks.add(i);
-//            }
-//        }
-
+        */
+        lstStock = FunctionUtils.getListStock(stockService,currentUser,tokenInfo);
+        for(CatStockDTO i: lstStock){
+            i.setStatusName(mapAppStatus.get(i.getStatus()));
+        }
         return lstStock.stream().filter(i -> i.getStatus().equalsIgnoreCase(status)).collect(Collectors.toList());
-
-//        for(CatStockDTO i: lstCatStock){
-//            i.setName(i.getName());
-//            i.setCode(i.getCode());
-//            i.setAddress(i.getAddress());
-//            i.setCustName(selectedCustomer.getName());
-//            i.setStatusName(mapAppStatus.get(i.getStatus()));
-//        }
     }
 
     @RequestMapping(value = "/getCells",method = RequestMethod.GET)
@@ -221,6 +211,9 @@ public class CatStockController extends BaseCommonController{
         lstCon.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,code));
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
         return !DataUtil.isListNullOrEmpty(catStockService.findByCondition(lstCon,tokenInfo));
+    }
+    private boolean isStockModified(HttpServletRequest request){
+        return (boolean) request.getSession().getAttribute("isStockModifiedImportStock");
     }
 
 }
