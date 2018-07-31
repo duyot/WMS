@@ -98,12 +98,11 @@ import java.util.Locale;
             return "Đăng ký không thành công";
         }
         return "Đăng ký thành công";
-
     }
 
 //    @RequestMapping(value = "/{sitemap:.+}",method = RequestMethod.GET)
 //    public void sitemap(HttpServletResponse response){
-//        response.setContentType(MediaType.APPLICATION_XML_VALUE);
+//        rejjjjsponse.setContentType(MediaType.APPLICATION_XML_VALUE);
 //        response.setHeader("Content-type","application/xhtml+xml");
 //        FunctionUtils.loadFileToClient(response, BundleUtils.getKey("template_url") + "sitemap.xml");
 //    }
