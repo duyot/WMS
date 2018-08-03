@@ -100,12 +100,9 @@ public class BaseController {
         if (currentUser == null) {
             this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
         }
-        //
-        if(lstPartner == null || lstPartner.isEmpty()){
-            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
-            buildMapPartner();
-        }
-        //
+        lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
+        buildMapPartner();
+
         return lstPartner;
     }
 
