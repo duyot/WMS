@@ -27,12 +27,20 @@ import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by duyot on 11/17/2016.
  */
 public class FunctionUtils {
     public static Logger log = LoggerFactory.getLogger(FunctionUtils.class);
+
+    public static<K,V> Map<K,V> clone(Map<K,V> original) {
+        return original.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        Map.Entry::getValue));
+    }
 
     public static String getValueFromToggle(String toggleValue){
         return "on".equalsIgnoreCase(toggleValue)?"1":"0";

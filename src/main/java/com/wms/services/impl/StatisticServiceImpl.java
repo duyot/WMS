@@ -29,7 +29,7 @@ public class StatisticServiceImpl implements StatisticService{
 
     @Override
     public List<ChartDTO> getTopGoods(String custId, String type, AuthTokenInfo tokenInfo, Map<String,CatGoodsDTO> mapGoods ) {
-        List<ChartDTO> lstChart =  statisticDP.getTransaction(custId,type,tokenInfo);
+        List<ChartDTO> lstChart =  statisticDP.getTopGoods(custId,type,tokenInfo);
         if(!DataUtil.isListNullOrEmpty(lstChart)){
             for(ChartDTO i: lstChart){
                 i.setName(FunctionUtils.getMapValue(mapGoods,i.getName()));

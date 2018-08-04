@@ -64,7 +64,8 @@ text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
 	color:#F44336;
 }
 .toolbar-label-info{
-	margin-top: 0px;
+	margin-top: -3px;
+	margin-right: 5px;
 }
 button.dropdown-toggle{
 	line-height: 15px;

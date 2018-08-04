@@ -125,22 +125,19 @@ function replaceAllDot(value, replacement) {
 }
 
 function formatFloatType(text) {
-    if(!text.toString().includes(".")){
-        return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
-    }else{
-        return text;
-    }
-
+    // if(!text.toString().includes(".")){
+    //     return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
+    // }else{
+    //     return text;
+    // }
+    //@duyot //todo test
+    return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
 }
 
 function setInfoMessage(object,value) {
     object.text(value);
     object.css('color','#337ab7');
     //
-    object.fadeIn();
-    setTimeout(function() {
-        object.fadeOut('fast');
-    }, 8000);
 }
 
 function setInfoMessageWithTime(object,value,timeout) {

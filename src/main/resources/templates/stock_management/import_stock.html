@@ -63,7 +63,9 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group" style="width: 100%;">
-                                                <select id="cmb-stock" class="form-control selectpicker" data-live-search="true"  data-width="100%">
+                                                <select id="cmb-stock" class="form-control selectpicker" data-live-search="true"  data-width="100%"
+                                                    onchange="onSelectStock()"
+                                                >
                                                     <option  th:each="sopt:${lstStock}"
                                                              th:value="${sopt.id}" th:text="${sopt.name}">1</option>
                                                 </select>
@@ -165,7 +167,6 @@
                                         <div class="col-sm-4">
                                             <div class="input-group" style="width: 100%;">
                                                 <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
-                                                    <option value="-1" th:text="#{label.choose}"></option>
                                                     <option  th:each="sopt:${cells}"
                                                              th:value="${sopt.code}" th:text="${sopt.name}"></option>
                                                 </select>
@@ -200,17 +201,16 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <!--<button id="btn-add" th:value="@{/workspace/stock_management/import/add}" type="button"-->
-                                <!--class="btn btn-default" th:title="#{tooltip.addgoods}" >-->
-                            <!--<i class="fa fa-plus"></i>-->
-                        <!--</button>-->
                         <button id="btn-refresh-table" th:href="@{/workspace/stock_management/import/getFile}" type="button"
-                                class="btn btn-default" th:title="#{tooltip.cleartabble}" >
+                                class="btn btn-default" th:title="#{tooltip.cleartabble}"
+                                style="margin-right: 5px"
+                        >
                             <i class="fa fa-trash"></i>
                         </button>
 
-                        <label class="toolbar-label-info" id="import-action-info"></label>
-                        <label id="del-action-info"></label>
+                        <label id="import-action-info" class="toolbar-label-info" ></label>
+                        <label id="del-action-info"    class="toolbar-label-info"></label>
+                        <label id="lbl-total-price"    class="toolbar-label-info"></label>
                     </div>
                     <table  id="tbl-import-goods"
                             data-pagination="true"
@@ -224,16 +224,6 @@
 
                         <thead>
                         <tr>
-                            <!--<th   data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>-->
-                            <!--<th   data-field="goodsCode" data-align="left" data-sortable="true" data-width="200px">Mã hàng</th>-->
-                            <!--<th   class="col-md-2" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>-->
-                            <!--<th   data-field="goodsStateValue" data-align="left" data-sortable="true">Trạng thái</th>-->
-                            <!--<th   class="col-md-2" data-field="serial" data-align="left" data-sortable="true">Serial</th>-->
-                            <!--<th   data-field="amountValue" data-align="right" data-sortable="true">Số lượng</th>-->
-                            <!--<th   data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>-->
-                            <!--<th   data-field="cellCode" data-align="left" data-sortable="true">Vị trí</th>-->
-                            <!--<th   data-field="columnId" data-align="left" data-sortable="true" >ColumnId</th>-->
-                            <!--<th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>-->
                         </tr>
                         </thead>
                     </table>
@@ -337,10 +327,6 @@
                         }else{
                             setErrorMessage($('#action-info'),resultName);
                         }
-
-                        //search(false);
-
-
                     },
                     error:function(){
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');

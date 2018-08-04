@@ -20,9 +20,9 @@ import java.util.List;
 public class StatisticDP {
     private  final String SERVICE_URL    = BundleUtils.getKey("rest_service_url");
     private  final String SERVICE_PREFIX = "statisticServices/";
-    private  final String GET_REVENUE_URL    = SERVICE_URL+SERVICE_PREFIX  + "getRevenue";
-    private  final String GET_TOP_GOODS_URL  = SERVICE_URL+SERVICE_PREFIX  + "getTopGoods";
-    private  final String GET_TRANSACTION_URL  = SERVICE_URL+SERVICE_PREFIX  + "getTransaction";
+    private  final String GET_REVENUE_URL     = SERVICE_URL+SERVICE_PREFIX  + "getRevenue";
+    private  final String GET_TOP_GOODS_URL   = SERVICE_URL+SERVICE_PREFIX  + "getTopGoods";
+    private  final String GET_TRANSACTION_URL = SERVICE_URL+SERVICE_PREFIX  + "getTransaction";
 
     public List<ChartDTO> getRevenue(String custId,String type, AuthTokenInfo tokenInfo){
         RestTemplate restTemplate = new RestTemplate();
