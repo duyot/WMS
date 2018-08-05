@@ -56,10 +56,10 @@ public class DataUtil {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
-
-    public static void main(String[] args) {
-        System.out.println(DataUtil.BCryptPasswordEncoder("123456a@"));
-    }
+//
+//    public static void main(String[] args) {
+//        System.out.println(DataUtil.BCryptPasswordEncoder("wms#2016"));
+//    }
 
     public static String MD5Encrypt(String inputString)
     {
@@ -821,6 +821,6 @@ public class DataUtil {
     public static boolean isListNullOrEmpty(List<?> lst) {
         return lst == null || lst.isEmpty();
     }
-    
+
 
 }
