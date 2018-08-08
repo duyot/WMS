@@ -343,6 +343,7 @@ public class TransInfoController extends BaseController{
     public String getTotal(String type ,List<MjrStockTransDetailDTO> lstStockTransDetail ){
         double total = 0 ;
         for (MjrStockTransDetailDTO item :lstStockTransDetail){
+            item.setAmount(item.getAmount().replaceAll(",", ""));
             int amount = item.getAmount().equalsIgnoreCase("") ? 1 : Integer.parseInt(item.getAmount());
             if (type.equalsIgnoreCase("1")){
                 double inputPrice =item.getInputPrice().equalsIgnoreCase("") ? 0 : Double.parseDouble(item.getInputPrice().replace(",",""));
