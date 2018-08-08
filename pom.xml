@@ -116,6 +116,7 @@
 			<artifactId>gson</artifactId>
 			<version>2.6.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
@@ -132,6 +133,17 @@
             <version>6.0.0</version>
         </dependency>
 
+		<!--duyot test spring session-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.session</groupId>-->
+			<!--<artifactId>spring-session-data-redis</artifactId>-->
+			<!--<version>2.0.5.RELEASE</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>io.lettuce</groupId>-->
+			<!--<artifactId>lettuce-core</artifactId>-->
+			<!--<version>5.0.4.RELEASE</version>-->
+		<!--</dependency>-->
 
 	</dependencies>
 	<build>
@@ -141,9 +153,5 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-
-
 	</build>
-
-
 </project>

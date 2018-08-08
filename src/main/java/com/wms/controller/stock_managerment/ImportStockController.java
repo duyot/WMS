@@ -281,7 +281,6 @@ public class ImportStockController extends BaseController {
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
-
         //Doi tac cung cap
         if (mjrStockTransDTO.getPartnerName() != null && !mjrStockTransDTO.getPartnerName().trim().equals("")) {
             String[] splitPartner = mjrStockTransDTO.getPartnerName().split("\\|");
@@ -338,5 +337,4 @@ public class ImportStockController extends BaseController {
         }
         return lstPartneName;
     }
-
 }

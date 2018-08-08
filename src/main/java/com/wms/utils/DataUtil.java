@@ -58,7 +58,7 @@ public class DataUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(DataUtil.BCryptPasswordEncoder("123456a@"));
+        System.out.println(DataUtil.BCryptPasswordEncoder("wms#2016"));
     }
 
     public static String MD5Encrypt(String inputString)
