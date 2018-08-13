@@ -10,6 +10,7 @@ $inpPrice  = $('#modal-inp-input-price');
 //combobox
 $cmbGoods       = $("#modal-cmb-goods");
 $inpPartnerName =  $('#inp-partner-name');
+$modalCmbCells  = $("#cmb-cells");
 //
 var dataInit = [
 ];
@@ -17,10 +18,13 @@ var enteredSerials = [];
 var selectedIndex = -1;
 $body = $("body");
 var isUpdate = false;
+var totalPrice = Number(0);
+var lblTotalPrice = $("#lbl-total-price");
 //-------------------------------------------------------------------------------------------------------
 //#init table
 $(function () {
     //
+    var oldPriceValue;
     $table.bootstrapTable({
         data: dataInit,
         columns:[
@@ -71,10 +75,12 @@ $(function () {
                         if(!isValidAmount(amountValue)){
                             return 'Số lượng nhập phải là số';
                         }
-
                     },
                     display: function(value) {
                         $(this).text(formatFloatType(value));
+                    },
+                    success:function (value) {
+                        alert("Editable ok with value: "+ value);
                     }
                 }
             },
@@ -86,10 +92,35 @@ $(function () {
                     showbuttons:false,
                     validate: function(value) {
                         var amount = unFormatFloat(value);
+                        oldPriceValue = Number($table.bootstrapTable('getData')[selectedIndex]["inputPrice"]);
                         if(!isValidAmount(amount)){
                             return 'Giá nhập nhập phải là số';
                         }
                     },
+                    display: function(value) {
+                        if (selectedIndex >= 0){
+                            totalPrice = Number(totalPrice) - Number(oldPriceValue) + Number(value);
+                            //change total
+                            var rowTotal = Number($table.bootstrapTable('getData')[selectedIndex]["amount"]) * Number(value);
+                            var oldData = $table.bootstrapTable('getData')[selectedIndex];
+                            oldData["total"] = rowTotal;
+                            if (oldPriceValue != Number(value)){
+                                //
+                                oldPriceValue = -1;
+                                $table.bootstrapTable('load',oldData);
+                            }
+                            setInfoMessage(lblTotalPrice,"Tổng giá nhập: "+ formatFloatType(totalPrice));
+                        }
+                        $(this).text(formatFloatType(value));
+                    }
+                }
+            },
+            {   field: 'total',
+                title: 'Thành tiền',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    showbuttons:false,
                     display: function(value) {
                         $(this).text(formatFloatType(value));
                     }
@@ -114,8 +145,6 @@ $(function () {
     });
     $table.bootstrapTable('hideColumn', 'columnId');
     $table.bootstrapTable('hideColumn', 'goodsId');
-    //$table.bootstrapTable('hideColumn', 'isSerial');
-    //
 
     $table.bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
         selectedIndex = $element.attr('data-index');
@@ -144,6 +173,9 @@ window.operateEvents = {
         //
         var keySerial  = row['goodsCode'] + row["goodsState"]  + row['serial'];
         enteredSerials = enteredSerials.remove(keySerial);
+        //reset total amount
+        totalPrice -= Number(row['total']);
+        setInfoMessage(lblTotalPrice,"Tổng giá nhập: "+ formatFloatType(Number(totalPrice)));
     }
 };
 //@Upload---------------------------------------------------------------------
@@ -243,13 +275,13 @@ btnImportConfirm.click(function () {
             if(resultMessage == "SUCCESS_WITH_ERROR"){
                 var totalRecords   = data['total'];
                 //show modal upload file
-                $("#modal-error-import-lbl-info").text('Nhập '+successRecords+'/'+totalRecords+' hàng thành công với mã phiếu: '+ stockTransId);
+                $("#modal-error-import-lbl-info").text('Nhập '+successRecords+'/'+totalRecords+' hàng thành công với mã giao dịch: '+ stockTransId);
                 $("#modal-link-download").attr("href",$("#modal-inp-stock-trans-id").val()+"/"+ stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             }else if(resultMessage == "FAIL"){
                 setErrorMessage($lblInfo,"Nhập kho không thành công!");
             }else{
-                setInfoMessage($lblInfo,"Nhập "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId)
+                setInfoMessageWithTime($lblInfo,"Nhập "+successRecords+" hàng thành công với mã giao dịch: "+ stockTransId,8000);
             }
             disableElement($('#btn-import'));
             $table.bootstrapTable('removeAll');
@@ -368,7 +400,7 @@ function addImportGoods() {
         return;
     }
     //
-    var serial =   escapeHtml($inpSerial.val());
+    var serial = escapeHtml($inpSerial.val());
 
     //check whether serial is entered before
     var keySerial = goodsCode + serial;
@@ -386,16 +418,20 @@ function addImportGoods() {
     rows.push({
         goodsCode: goodsCode,
         goodsName: goodsName,
-        goodsState: goodsState,
+        goodsState:goodsState,
         goodsStateValue: goodsStateValue,
         serial:serial,
         amountValue: formatFloatType(amount),
         amount: amount,
         inputPriceValue: formatFloatType(inputPriceValue),
         inputPrice: inputPriceValue,
+        total: Number(amount) * Number(inputPriceValue),
         cellCode: cellCode,
         columnId:columnId
     });
+    //
+    totalPrice +=  Number(inputPriceValue);
+    setInfoMessage(lblTotalPrice,"Tổng giá nhập: "+ formatFloatType(Number(totalPrice)));
     //
     $table.bootstrapTable('append', rows);
     enableElement($('#btn-import'));
@@ -649,19 +685,24 @@ $inpGoodsCode.keypress(function (e) {
         if(goodsItem["isSerial"] == '1'){
             $inpGoodsSerial.focus();
         }else{
-            var columnId = ~~(Math.random() * 100) * -1,
+            var columnId = ~~(Math.random() * 100) * -1;
             rows = [];
             rows.push({
                 goodsCode: goodsItem['code'],
-                goodsName:  goodsItem['name'],
+                goodsName: goodsItem['name'],
                 goodsState: '1',
                 goodsStateValue: '1',
                 serial:'',
                 amount: '1',
-                inputPrice: formatFloatType(goodsItem['inPrice']),
+                inputPrice: goodsItem['inPrice'],
+                inputPriceValue: formatFloatType(goodsItem['inPrice']),
+                total: Number(1) * Number(goodsItem['inPrice']),
                 cellCode: $('#cmb-cells').val(),
                 columnId:columnId
             });
+            //
+            totalPrice += Number(goodsItem['inPrice']);
+            setInfoMessage(lblTotalPrice,"Tổng giá nhập: "+ formatFloatType(Number(totalPrice)));
             //
             $table.bootstrapTable('append', rows);
             enableElement($('#btn-import'));
@@ -713,10 +754,15 @@ $inpGoodsSerial.keypress(function (e) {
             goodsStateValue: '1',
             serial:$inpGoodsSerial.val(),
             amount: '1',
-            inputPrice: formatFloatType(goodsItem['inPrice']),
+            inputPrice: goodsItem['inPrice'],
+            inputPriceValue: formatFloatType(goodsItem['inPrice']),
+            total: Number(1) * Number(goodsItem['inPrice']),
             cellCode: $('#cmb-cells').val(),
             columnId:columnId
         });
+        //
+        totalPrice += Number(goodsItem['inPrice']);
+        setInfoMessage(lblTotalPrice,"Tổng giá nhập: "+ formatFloatType(Number(totalPrice)));
         //
         $table.bootstrapTable('append', rows);
         enableElement($('#btn-import'));
@@ -726,21 +772,6 @@ $inpGoodsSerial.keypress(function (e) {
         $inpGoodsSerial.focus();
     }
 });
-
-function getGoodsObject() {
-    $.ajax({
-        type: 'GET',
-        url: $('#btn-check-serial').val(),
-        data:{code:$inpGoodsCode.val()},
-        cache: false,
-        contentType: false,
-        async:false,
-        success: function(data){
-        alert(data);
-        return data;
-        }
-    });
-}
 
 $inpSerial.keypress(function (e) {
     var key = e.which;
@@ -805,5 +836,25 @@ function operateFormatter(value, row, index) {
         '<i class="fa fa-trash"></i>',
         '</a> '
     ].join('');
+}
+
+// duyot onchange stock
+function onSelectStock() {
+    $.ajax({
+        type: 'GET',
+        url: $('#btn-get-cells').val(),
+        data:{stockId:$('#cmb-stock').val()},
+        cache: false,
+        contentType: false,
+        async:false,
+        success: function(data){
+            if(data.length == 0){
+                disableElement($modalCmbCells);
+            }else{
+                enableElement($modalCmbCells);
+            }
+            loadSelectItems($modalCmbCells,data);
+        }
+    });
 }
 //-----------------------------------------------------------------------------------------------------------------
