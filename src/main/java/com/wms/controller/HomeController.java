@@ -1,8 +1,7 @@
 package com.wms.controller;
 
+import com.wms.config.WMSConfigManagerment;
 import com.wms.constants.Constants;
-import com.wms.constants.Responses;
-import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatUserDTO;
 import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.CatUserService;
@@ -44,11 +43,6 @@ import java.util.Locale;
         return "index";
     }
 
-    private AuthTokenInfo tokenInfo;
-    @ModelAttribute("tokenInfo")
-    public void setTokenInfo(HttpServletRequest request){
-        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-    }
 
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String login() {
@@ -97,9 +91,9 @@ import java.util.Locale;
         registerCatUserDTO.setPassword(DataUtil.BCryptPasswordEncoder(registerCatUserDTO.getPassword()));
         log.info("Register user info: "+ registerCatUserDTO.toString());
 
-        registerCatUserDTO.setRoleId(BundleUtils.getKey("defaulRoleGuestId"));
-        registerCatUserDTO.setRoleName(BundleUtils.getKey("defaulRoleGuestName"));
-        registerCatUserDTO.setCustId(BundleUtils.getKey("defaulCustIdForGuest"));
+        registerCatUserDTO.setRoleId(WMSConfigManagerment.DEFAUL_ROLE_GUESTID);
+        registerCatUserDTO.setRoleName(WMSConfigManagerment.DEFAUL_ROLE_GUESTNAME);
+        registerCatUserDTO.setCustId(WMSConfigManagerment.DEFAUL_CUSTID_FOR_GUEST);
         registerCatUserDTO.setStatus("1");
         registerCatUserDTO.setBlock("0");
         ResponseObject responseObject = catUserService.guestAddUser(registerCatUserDTO);

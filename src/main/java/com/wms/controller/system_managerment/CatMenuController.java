@@ -58,7 +58,7 @@ public class CatMenuController extends BaseCommonController {
         }
 //
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
-        List<SysMenuDTO> lstMenu = menuService.findByCondition(lstCon,tokenInfo);
+        List<SysMenuDTO> lstMenu = menuService.findByCondition(lstCon);
         for (SysMenuDTO menuitem : lstMenu){
             menuitem.setStatusName(mapAppStatus.get(menuitem.getStatus()));
             menuitem.setLocalizationName(ResourceBundleUtils.getkey(menuitem.getName()) == null ?menuitem.getName(): ResourceBundleUtils.getkey(menuitem.getName()));
@@ -84,7 +84,7 @@ public class CatMenuController extends BaseCommonController {
             int lever = Integer.parseInt(parent.getLevels()) + 1;
             sysMenuDTO.setLevels(String.valueOf(lever));
         }
-        ResponseObject response = menuService.add(sysMenuDTO,tokenInfo);
+        ResponseObject response = menuService.add(sysMenuDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
 
             return "1|Thêm mới thành công";
@@ -105,7 +105,7 @@ public class CatMenuController extends BaseCommonController {
         }else{
             sysMenuDTO.setStatus("0");
         }
-        ResponseObject response = menuService.update(sysMenuDTO,tokenInfo);
+        ResponseObject response = menuService.update(sysMenuDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             return "1|Cập nhật thành công";
@@ -124,9 +124,9 @@ public class CatMenuController extends BaseCommonController {
     public @ResponseBody String delete(@RequestParam("id")String id, HttpServletRequest request){
         try {
             Long idL = Long.parseLong(id);
-            SysMenuDTO deleteObject = (SysMenuDTO) menuService.findById(idL,tokenInfo);
+            SysMenuDTO deleteObject = (SysMenuDTO) menuService.findById(idL);
             deleteObject.setStatus(Constants.STATUS.IN_ACTIVE);
-            ResponseObject response = menuService.update(deleteObject, tokenInfo);
+            ResponseObject response = menuService.update(deleteObject);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 request.getSession().setAttribute("isCatPartnerModified",true);
                 return "1|Xoá thành công";

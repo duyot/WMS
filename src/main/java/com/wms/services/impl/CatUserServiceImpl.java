@@ -24,7 +24,7 @@ public class CatUserServiceImpl extends BaseServiceImpl<CatUserDTO,CatUserDP> im
     }
 
     @Override
-    public ResponseObject register(CatUserDTO catUserDTO,AuthTokenInfo tokenInfo) {
+    public ResponseObject register(CatUserDTO catUserDTO) {
         return catUserDP.register(catUserDTO);
     }
 
@@ -34,13 +34,13 @@ public class CatUserServiceImpl extends BaseServiceImpl<CatUserDTO,CatUserDP> im
     }
 
     @Override
-    public ResponseObject updateUser(CatUserDTO catUserDTO, AuthTokenInfo tokenInfo) {
-        return catUserDP.updateUser(catUserDTO,tokenInfo);
+    public ResponseObject updateUser(CatUserDTO catUserDTO ) {
+        return catUserDP.updateUser(catUserDTO);
     }
 
     @Override
-    public ResponseObject updateCustomer(CatCustomerDTO catCustomerDTO, AuthTokenInfo tokenInfo) {
-        return catUserDP.updateCustomer(catCustomerDTO,tokenInfo);
+    public ResponseObject updateCustomer(CatCustomerDTO catCustomerDTO ) {
+        return catUserDP.updateCustomer(catCustomerDTO);
     }
 
     @Override
@@ -49,12 +49,12 @@ public class CatUserServiceImpl extends BaseServiceImpl<CatUserDTO,CatUserDP> im
     }
 
     @Override
-    public List<CatCustomerDTO> getCustomer(String userId, AuthTokenInfo tokenInfo) {
-        return catUserDP.getCustomer(userId,tokenInfo);
+    public List<CatCustomerDTO> getCustomer(String userId ) {
+        return catUserDP.getCustomer(userId);
     }
 
     @Override
-    public List<CatUserDTO> getUserByCustomer(String custId, AuthTokenInfo tokenInfo) {
-        return catUserDP.getUserByCustomer(custId,tokenInfo);
+    public List<CatUserDTO> getUserByCustomer(String custId) {
+        return catUserDP.getUserByCustomer(custId);
     }
 }

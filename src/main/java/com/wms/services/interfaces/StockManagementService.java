@@ -8,11 +8,11 @@ import java.util.List;
  * Created by duyot on 2/16/2017.
  */
 public interface StockManagementService {
-    ResponseObject importStock(StockTransDTO stockTrans,AuthTokenInfo tokenInfo);
-    ResponseObject exportStock(StockTransDTO stockTrans,AuthTokenInfo tokenInfo);
-    List<String> getListSerialInStock(String custId, String stockId, String goodsId, String goodsState, AuthTokenInfo tokenInfo);
-    ResponseObject cancelTrans(String transId, AuthTokenInfo tokenInfo);
-    List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType, AuthTokenInfo tokenInfo);
-    List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId, AuthTokenInfo tokenInfo);
-    List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId, AuthTokenInfo tokenInfo);
+    ResponseObject importStock(StockTransDTO stockTrans);
+    ResponseObject exportStock(StockTransDTO stockTrans );
+    List<String> getListSerialInStock(String custId, String stockId, String goodsId, String goodsState );
+    ResponseObject cancelTrans(String transId );
+    List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType );
+    List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId );
+    List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId );
 }

@@ -1,9 +1,6 @@
 package com.wms.services.impl;
 
-import com.wms.dataprovider.MjrStockGoodsDP;
 import com.wms.dataprovider.MjrStockGoodsTotalDP;
-import com.wms.dto.AuthTokenInfo;
-import com.wms.dto.MjrStockGoodsDTO;
 import com.wms.dto.MjrStockGoodsTotalDTO;
 import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.services.interfaces.UtilsService;
@@ -27,17 +24,17 @@ public class MjrStockGoodsTotalServiceImpl extends BaseServiceImpl<MjrStockGoods
     }
 
     @Override
-    public Long getCountGoodsDetail(String custId, String stockId, String goodsId, String isSerial, String goodsState,String partnerId,AuthTokenInfo tokenInfo) {
-        return mjrStockGoodsTotalDP.getCountGoodsDetail(custId,stockId,goodsId,isSerial,goodsState,partnerId,tokenInfo);
+    public Long getCountGoodsDetail(String custId, String stockId, String goodsId, String isSerial, String goodsState,String partnerId) {
+        return mjrStockGoodsTotalDP.getCountGoodsDetail(custId,stockId,goodsId,isSerial,goodsState,partnerId);
     }
 
     @Override
     public List<MjrStockTransDetailDTO> getGoodsDetail(String custId, String stockId, String goodsId,
-                                                            String isSerial, String goodsState,String partnerId, String limit, String offset,AuthTokenInfo tokenInfo) {
-        return mjrStockGoodsTotalDP.getGoodsDetail(custId,stockId,goodsId,isSerial,goodsState,partnerId,limit,offset,tokenInfo);
+                                                            String isSerial, String goodsState,String partnerId, String limit, String offset ) {
+        return mjrStockGoodsTotalDP.getGoodsDetail(custId,stockId,goodsId,isSerial,goodsState,partnerId,limit,offset);
     }
     @Override
-    public List<MjrStockGoodsTotalDTO> findMoreCondition(MjrStockGoodsTotalDTO searchGoodsTotalDTO,AuthTokenInfo tokenInfo) {
-        return mjrStockGoodsTotalDP.findMoreCondition(searchGoodsTotalDTO,tokenInfo);
+    public List<MjrStockGoodsTotalDTO> findMoreCondition(MjrStockGoodsTotalDTO searchGoodsTotalDTO ) {
+        return mjrStockGoodsTotalDP.findMoreCondition(searchGoodsTotalDTO);
     }
 }

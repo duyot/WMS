@@ -63,7 +63,8 @@ public class Constants {
     public static class SERVICE_METHOD{
         public static String GET_SYS_DATE = "getSysDate?access_token=";
         public static String GET_SYS_DATE_PATTERN = "getSysDateWithPattern?access_token=";
-
+        public static String ACCESS_TOKEN = "?access_token=";
+        public static String ACCESS_TOKEN_AND = "&access_token=";
         public static String ADD = "add?access_token=";
         public static String ADD_LIST = "addList?access_token=";
         public static String UPDATE = "update?access_token=";
@@ -97,6 +98,7 @@ public class Constants {
         public static String SYS_ROLE_SERVICE = "sysRoleServices/";
         public static String SYS_MENU_SERVICE = "sysMenuServices/";
         public static String MAP_USER_STOCK = "mapUserStockServices/";
+        public static String STATISTIC_SERVICE = "statisticServices/";
     }
 
     public static class SQL_OPERATOR {

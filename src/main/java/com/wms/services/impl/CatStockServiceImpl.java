@@ -1,7 +1,6 @@
 package com.wms.services.impl;
 
 import com.wms.dataprovider.CatStockDP;
-import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatStockDTO;
 import com.wms.services.interfaces.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class CatStockServiceImpl extends BaseServiceImpl<CatStockDTO,CatStockDP>
     }
 
     @Override
-    public List<CatStockDTO> getStockByUser(Long userId, AuthTokenInfo tokenInfo) {
-        return catStockDP.getStockByUser(userId,tokenInfo);
+    public List<CatStockDTO> getStockByUser(Long userId ) {
+        return catStockDP.getStockByUser(userId);
     }
 }

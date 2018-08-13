@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.dto.AppParamsDTO;
-import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.Condition;
 import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.services.interfaces.BaseService;
@@ -46,10 +45,7 @@ public class SearchSerialController extends BaseController{
         }
 
         if (lstAppParams == null) {
-            if (tokenInfo == null) {
-                this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-            }
-            lstAppParams = FunctionUtils.getAppParams(appParamsService, tokenInfo);
+            lstAppParams = FunctionUtils.getAppParams(appParamsService);
         }
         //
         buildMapStockStatus(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STOCK_STATUS, lstAppParams));
@@ -95,7 +91,7 @@ public class SearchSerialController extends BaseController{
         lstCon.add(new Condition("serial",Constants.SQL_OPERATOR.IN,arrSearchSerial));
         lstCon.add(new Condition("importDate",Constants.SQL_OPERATOR.ORDER,"desc"));
         //
-        List<MjrStockTransDetailDTO> lstResult= FunctionUtils.convertGoodsSerialToDetail(mjrStockGoodsSerialService.findByCondition(lstCon,tokenInfo),mapAppStockStatus);
+        List<MjrStockTransDetailDTO> lstResult= FunctionUtils.convertGoodsSerialToDetail(mjrStockGoodsSerialService.findByCondition(lstCon),mapAppStockStatus);
         if(DataUtil.isListNullOrEmpty(lstResult)){
             return Lists.newArrayList();
         }
@@ -127,7 +123,7 @@ public class SearchSerialController extends BaseController{
     }
 
     private  String exportSerialFile(List<MjrStockTransDetailDTO> lstSerial,String prefixFileName){
-        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE;
+        String templatePath =profileConfig.getTemplateURL()  + Constants.FILE_RESOURCE.GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE;
 
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -137,7 +133,7 @@ public class SearchSerialController extends BaseController{
         beans.put("date", DateTimeUtils.convertDateTimeToString(new Date()));
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
+        String reportFullPath = profileConfig.getTempURL() + fullFileName;
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         //

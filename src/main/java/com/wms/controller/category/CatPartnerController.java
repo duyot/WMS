@@ -55,7 +55,7 @@ public class CatPartnerController extends BaseCommonController{
         }
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
-        List<CatPartnerDTO> lstCatPartner = catPartnerService.findByCondition(lstCon,tokenInfo);
+        List<CatPartnerDTO> lstCatPartner = catPartnerService.findByCondition(lstCon);
 
         for(CatPartnerDTO i: lstCatPartner){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
@@ -70,7 +70,7 @@ public class CatPartnerController extends BaseCommonController{
     public @ResponseBody  String add(CatPartnerDTO catPartnerDTO, HttpServletRequest request){
         catPartnerDTO.setStatus("1");
         catPartnerDTO.setCustId(this.selectedCustomer.getId());
-        ResponseObject response = catPartnerService.add(catPartnerDTO,tokenInfo);
+        ResponseObject response = catPartnerService.add(catPartnerDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("Add: "+ catPartnerDTO.toString()+" SUCCESS");
             request.getSession().setAttribute("isCatPartnerModified",true);
@@ -94,7 +94,7 @@ public class CatPartnerController extends BaseCommonController{
         }else{
             catPartnerDTO.setStatus("0");
         }
-        ResponseObject response = catPartnerService.update(catPartnerDTO,tokenInfo);
+        ResponseObject response = catPartnerService.update(catPartnerDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             request.getSession().setAttribute("isPartnerModified", true);
@@ -116,9 +116,9 @@ public class CatPartnerController extends BaseCommonController{
 
             Long idL = Long.parseLong(id);
 
-            CatPartnerDTO deleteObject = (CatPartnerDTO) catPartnerService.findById(idL,tokenInfo);
+            CatPartnerDTO deleteObject = (CatPartnerDTO) catPartnerService.findById(idL);
             deleteObject.setStatus(Constants.STATUS.DELETED);
-            ResponseObject response = catPartnerService.update(deleteObject, tokenInfo);
+            ResponseObject response = catPartnerService.update(deleteObject);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 request.getSession().setAttribute("isCatPartnerModified",true);
                 return "1|Xoá thành công";

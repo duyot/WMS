@@ -1,8 +1,7 @@
 package com.wms.sercurity;
 
-import com.wms.dto.ActionMenuDTO;
-import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatUserDTO;
+import com.wms.ribbon.CurentUserLogIn;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.RoleActionService;
 import com.wms.utils.DataUtil;
@@ -14,8 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * Created by duyot on 11/18/2016.
@@ -42,17 +39,13 @@ public class WMSUserDetailsService implements UserDetailsService {
             if (DataUtil.isStringNullOrEmpty(loggedUser.getImgUrl())) {
                 loggedUser.setImgUrl("default.jpg");
             }
+            CurentUserLogIn.getInstance().setCurentUser(loggedUser);
             //
-            AuthTokenInfo tokenInfo = getAuthenTokenInfo(loggedUser);
 
-            return new WMSUserDetails(loggedUser,null,tokenInfo);
+            return new WMSUserDetails(loggedUser,null);
         } catch (Exception e) {
             throw new UsernameNotFoundException("CatUserDTO not found");
         }
-    }
-
-    private AuthTokenInfo getAuthenTokenInfo(CatUserDTO catUserDTO){
-        return FunctionUtils.sendTokenRequest(catUserDTO.getCode(),catUserDTO.getPassword());
     }
 
 }

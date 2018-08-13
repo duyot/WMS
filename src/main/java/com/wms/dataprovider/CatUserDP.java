@@ -2,14 +2,14 @@ package com.wms.dataprovider;
 
 import com.google.common.collect.Lists;
 import com.wms.base.BaseDP;
+import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
-import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatCustomerDTO;
 import com.wms.dto.CatUserDTO;
 import com.wms.dto.ResponseObject;
-import com.wms.utils.BundleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -23,12 +23,15 @@ import java.util.List;
  */
 @Repository
 public class CatUserDP extends BaseDP<CatUserDTO>{
-    private final String LOGIN_URL = BundleUtils.getKey("login_url");
-    private final String GET_CUSTOMER_URL = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getCustomer/";
-    private final String GET_USER_BY_CUST = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "getUserByCustomerId/";
-    private final String UPDATE_USER_URL  = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "updateUser/";
-    private final String GUEST_ADD_USER_URL  = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.USER_SERVICE + "guestAddUser/";
-    private final String UPDATE_CUSTOMER_URL  = BundleUtils.getKey("rest_service_url") + Constants.SERVICE_PREFIX.CUSTOMER_SERVICE + "updateCustomer/";
+
+    private final String GET_CUSTOMER_URL =  "getCustomer/";
+    private final String GET_USER_BY_CUST =  "getUserByCustomerId/";
+    private final String UPDATE_USER_URL  = "updateUser/";
+    private final String GUEST_ADD_USER_URL  = "guestAddUser/";
+    private final String UPDATE_CUSTOMER_URL  = "updateCustomer/";
+
+    @Autowired
+    private ProfileConfigInterface profileConfig;
 
     Logger log = LoggerFactory.getLogger(CatUserDP.class);
 
@@ -38,15 +41,16 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
 
     public ResponseObject register(CatUserDTO registerCatUserDTO){
         try {
-            return restTemplate.postForObject(UPDATE_USER_URL, registerCatUserDTO,ResponseObject.class);
+            String updateUserUrl = getUrlLoadBalancing(0, UPDATE_USER_URL);
+            return restTemplate.postForObject(updateUserUrl, registerCatUserDTO,ResponseObject.class);
         } catch (RestClientException e) {
             log.info(e.toString());
             return null;
         }
     }
 
-    public ResponseObject updateUser(CatUserDTO updatedUser, AuthTokenInfo tokenInfo){
-        String updateUserUrl = UPDATE_USER_URL + "?access_token="+ tokenInfo.getAccess_token();
+    public ResponseObject updateUser(CatUserDTO updatedUser ){
+        String updateUserUrl = getUrlLoadBalancing(0, UPDATE_USER_URL);
         try {
             return restTemplate.postForObject(updateUserUrl, updatedUser,ResponseObject.class);
         } catch (RestClientException e) {
@@ -58,16 +62,17 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
 
     public ResponseObject guestAddUser(CatUserDTO registerCatUserDTO){
         try {
-            return restTemplate.postForObject(GUEST_ADD_USER_URL, registerCatUserDTO,ResponseObject.class);
+            String url = getUrlLoadBalancing(0, GUEST_ADD_USER_URL);
+            return restTemplate.postForObject(url, registerCatUserDTO,ResponseObject.class);
         } catch (RestClientException e) {
             log.info(e.toString());
             return null;
         }
     }
-    public ResponseObject updateCustomer(CatCustomerDTO updatedCustomer, AuthTokenInfo tokenInfo){
-        String updateCustomerUrl = UPDATE_CUSTOMER_URL + "?access_token="+ tokenInfo.getAccess_token();
+    public ResponseObject updateCustomer(CatCustomerDTO updatedCustomer ){
+        String url = getUrlLoadBalancing(0, UPDATE_CUSTOMER_URL);
         try {
-            return restTemplate.postForObject(updateCustomerUrl, updatedCustomer,ResponseObject.class);
+            return restTemplate.postForObject(url, updatedCustomer,ResponseObject.class);
         } catch (RestClientException e) {
             log.info(e.toString());
             return null;
@@ -75,26 +80,35 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
     }
 
     public CatUserDTO login(CatUserDTO catUserDTO){
-        return restTemplate.postForObject(LOGIN_URL, catUserDTO,CatUserDTO.class);
+        return restTemplate.postForObject(profileConfig.getLoginURL(), catUserDTO,CatUserDTO.class);
     }
 
-    public List<CatCustomerDTO> getCustomer(String userId, AuthTokenInfo tokenInfo) {
-        String getCustomerURL = GET_CUSTOMER_URL + userId + "?access_token="+ tokenInfo.getAccess_token();
+    public List<CatCustomerDTO> getCustomer(String userId) {
         try {
-            ResponseEntity<CatCustomerDTO[]> responseEntity = restTemplate.exchange(getCustomerURL, HttpMethod.GET,null,CatCustomerDTO[].class);
+            long id= Long.parseLong(userId);
+            String url = getUrlLoadBalancing(id, GET_CUSTOMER_URL);
+            ResponseEntity<CatCustomerDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,CatCustomerDTO[].class);
             return Arrays.asList(responseEntity.getBody());
         } catch (RestClientException e) {
+            log.error(e.toString());
+            return Lists.newArrayList();
+        } catch (NumberFormatException e){
             log.error(e.toString());
             return Lists.newArrayList();
         }
     }
 
-    public List<CatUserDTO> getUserByCustomer(String custId, AuthTokenInfo tokenInfo) {
-        String getCustomerURL = GET_USER_BY_CUST + custId + "?access_token="+ tokenInfo.getAccess_token();
+    public List<CatUserDTO> getUserByCustomer(String custId ) {
+
         try {
-            ResponseEntity<CatUserDTO[]> responseEntity = restTemplate.exchange(getCustomerURL, HttpMethod.GET,null,CatUserDTO[].class);
+            long id= Long.parseLong(custId);
+            String url = getUrlLoadBalancing(id, GET_CUSTOMER_URL);
+            ResponseEntity<CatUserDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,CatUserDTO[].class);
             return Arrays.asList(responseEntity.getBody());
         } catch (RestClientException e) {
+            log.error(e.toString());
+            return Lists.newArrayList();
+        } catch (NumberFormatException e){
             log.error(e.toString());
             return Lists.newArrayList();
         }
