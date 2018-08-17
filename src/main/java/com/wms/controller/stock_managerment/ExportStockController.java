@@ -91,10 +91,16 @@ public class ExportStockController extends BaseController{
     }
 
     private boolean isGoodsModified(HttpServletRequest request){
+        if (request.getSession().getAttribute("isGoodsModifiedExportStock") == null) {
+            return true;
+        }
         return (boolean) request.getSession().getAttribute("isGoodsModifiedExportStock");
     }
 
     private boolean isStockModified(HttpServletRequest request){
+        if (request.getSession().getAttribute("isStockModifiedExportStock") == null) {
+            return true;
+        }
         return (boolean) request.getSession().getAttribute("isStockModifiedExportStock");
     }
     //

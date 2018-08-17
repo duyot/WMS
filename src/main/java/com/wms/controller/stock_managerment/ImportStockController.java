@@ -30,7 +30,10 @@ import java.util.*;
 @RequestMapping("/workspace/stock_management/import")
 @Scope("session")
 public class ImportStockController extends BaseController {
-    private Logger log = LoggerFactory.getLogger(ImportStockController.class);
+    @Autowired
+    public BaseService catPartnerService;
+    //
+    public Map<String, CatGoodsDTO> mapGoodsCodeNameGoods;
     //
     @Autowired
     StockManagementService stockManagementService;
@@ -38,17 +41,13 @@ public class ImportStockController extends BaseController {
     BaseService err$MjrStockGoodsSerialService;
     @Autowired
     BaseService catStockCellService;
-
-    @Autowired
-    public BaseService catPartnerService;
+    Map<String, String> mapCellIdCellCode = new HashMap<>();
+    List<ComboSourceDTO> cells;
+    private Logger log = LoggerFactory.getLogger(ImportStockController.class);
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
     //
     private int previousStockId = -1;
-    Map<String, String> mapCellIdCellCode = new HashMap<>();
-    List<ComboSourceDTO> cells;
-    //
-    public Map<String, CatGoodsDTO> mapGoodsCodeNameGoods;
 
     //
     @ModelAttribute("setGoodsCode")
@@ -75,18 +74,6 @@ public class ImportStockController extends BaseController {
         }
 
 
-    }
-
-    //
-    @ModelAttribute("setPartnerName")
-    public void setPartnerName(HttpServletRequest request) {
-        //
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        if (tokenInfo == null) {
-            this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
     }
 
     @ModelAttribute("getStock")
@@ -301,17 +288,18 @@ public class ImportStockController extends BaseController {
 
     private boolean isGoodsModified(HttpServletRequest request) {
         if (request.getSession().getAttribute("isGoodsModifiedImportStock") == null) {
-            return false;
+            return true;
         }
         return (boolean) request.getSession().getAttribute("isGoodsModifiedImportStock");
     }
 
     private boolean isStockModified(HttpServletRequest request) {
         if (request.getSession().getAttribute("isStockModifiedImportStock") == null) {
-            return false;
+            return true;
         }
         //
-        return (boolean) request.getSession().getAttribute("isGoodsModifiedImportStock");
+        return (boolean) request.getSession().getAttribute("isStockModifiedImportStock");
+
     }
 
     @RequestMapping(value = "/getGoodsCode")
@@ -336,5 +324,17 @@ public class ImportStockController extends BaseController {
             namePlus.setLength(0);
         }
         return lstPartneName;
+    }
+
+    //
+    @ModelAttribute("setPartnerName")
+    public void setPartnerName(HttpServletRequest request) {
+        //
+        if (selectedCustomer == null) {
+            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if (tokenInfo == null) {
+            this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
+        }
     }
 }
