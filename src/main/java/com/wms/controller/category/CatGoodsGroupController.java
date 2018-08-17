@@ -55,7 +55,7 @@ public class CatGoodsGroupController extends BaseCommonController{
         }
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
-        List<CatGoodsGroupDTO> lstCatGoods = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
+        List<CatGoodsGroupDTO> lstCatGoods = catGoodsGroupService.findByCondition(lstCon);
 
         for(CatGoodsGroupDTO i: lstCatGoods){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
@@ -70,7 +70,7 @@ public class CatGoodsGroupController extends BaseCommonController{
     public @ResponseBody String add(CatGoodsGroupDTO catGoodsGroup, HttpServletRequest request){
         catGoodsGroup.setStatus("1");
         catGoodsGroup.setCustId(this.selectedCustomer.getId());
-        ResponseObject response = catGoodsGroupService.add(catGoodsGroup,tokenInfo);
+        ResponseObject response = catGoodsGroupService.add(catGoodsGroup);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("Add: "+ catGoodsGroup.toString()+" SUCCESS");
             request.getSession().setAttribute("isCatGoodsGroupModified",true);
@@ -94,7 +94,7 @@ public class CatGoodsGroupController extends BaseCommonController{
         }else{
             catGoodsGroup.setStatus("0");
         }
-        ResponseObject response = catGoodsGroupService.update(catGoodsGroup,tokenInfo);
+        ResponseObject response = catGoodsGroupService.update(catGoodsGroup);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             request.getSession().setAttribute("isCatGoodsGroupModified",true);
@@ -118,13 +118,13 @@ public class CatGoodsGroupController extends BaseCommonController{
             }
             Long idL = Long.parseLong(id);
             if (isDeleteGoodsGroupAvailable(code)) {
-                catGoodsGroupService.delete(idL,tokenInfo);
+                catGoodsGroupService.delete(idL);
                 return "1|Xoá thành công";
             }
 
-            CatGoodsGroupDTO deleteObject = (CatGoodsGroupDTO) catGoodsGroupService.findById(idL,tokenInfo);
+            CatGoodsGroupDTO deleteObject = (CatGoodsGroupDTO) catGoodsGroupService.findById(idL);
             deleteObject.setStatus(Constants.STATUS.DELETED);
-            ResponseObject response = catGoodsGroupService.update(deleteObject,tokenInfo);
+            ResponseObject response = catGoodsGroupService.update(deleteObject);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 request.getSession().setAttribute("isCatGoodsGroupModified",true);
                 return "1|Xoá thành công";
@@ -141,7 +141,7 @@ public class CatGoodsGroupController extends BaseCommonController{
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCon.add(new Condition("name", Constants.SQL_OPERATOR.EQUAL,code));
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
-        return !DataUtil.isListNullOrEmpty(catGoodsGroupService.findByCondition(lstCon,tokenInfo));
+        return !DataUtil.isListNullOrEmpty(catGoodsGroupService.findByCondition(lstCon));
     }
 
     public boolean isUsedByGood(String id){
@@ -149,7 +149,7 @@ public class CatGoodsGroupController extends BaseCommonController{
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCon.add(new Condition("goodsGroupId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,id));
         lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        Long count = catGoodsService.countByCondition(lstCon,tokenInfo);
+        Long count = catGoodsService.countByCondition(lstCon);
         return  count != null && count >0;
     }
 }

@@ -56,9 +56,6 @@ public class CatGoodsController extends BaseController {
 
     @ModelAttribute("mapGoodsGroup")
     public Map<String, String> setLstGoodsGroup(HttpServletRequest request){
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
 
         if (mapGoodsGroup == null || isGoodsGroupModified(request)) {
             mapGoodsGroup = new LinkedHashMap<>();
@@ -67,7 +64,7 @@ public class CatGoodsController extends BaseController {
             lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE ,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
             lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,curCust.getId()));
             lstCon.add(new Condition("name","VNM_ORDER","asc"));
-            List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon,tokenInfo);
+            List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon);
 
             for(CatGoodsGroupDTO i: lstCatGoodsGroup){
                 mapGoodsGroup.put(i.getId(), i.getName());
@@ -78,7 +75,7 @@ public class CatGoodsController extends BaseController {
         //
         if (mapAppGoodsState == null) {
             if(lstAppParams == null){
-                lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
+                lstAppParams = FunctionUtils.getAppParams(appParamsService);
             }
             mapAppGoodsState = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE,lstAppParams));
         }
@@ -90,11 +87,8 @@ public class CatGoodsController extends BaseController {
     public Map<String, String> setMapUnitType(HttpServletRequest request){
         //
         if (mapUnitType == null) {
-            if(tokenInfo == null){
-                this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-            }
             if(lstAppParams == null){
-                lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
+                lstAppParams = FunctionUtils.getAppParams(appParamsService);
             }
             mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE,lstAppParams));
         }
@@ -111,12 +105,12 @@ public class CatGoodsController extends BaseController {
     //
     @RequestMapping(value = "/getTemplateFile")
     public void getTemplateFile(HttpServletResponse response){
-        FunctionUtils.loadFileToClient(response, BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_GOODS_TEMPLATE);
+        FunctionUtils.loadFileToClient(response, profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_GOODS_TEMPLATE);
     }
     //
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request,HttpServletResponse response){
-        String fileResource = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_goods_import_error");
+        String fileResource = profileConfig.getTempURL() + request.getSession().getAttribute("file_goods_import_error");
         FunctionUtils.loadFileToClient(response,fileResource);
     }
     //
@@ -131,7 +125,7 @@ public class CatGoodsController extends BaseController {
         if(!importFileResult.isValid()){
             //save error file
             String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
-            String fileName = FunctionUtils.exportExcelImportGoodsError(importFileResult.getLstGoods(),prefixFileName);
+            String fileName = FunctionUtils.exportExcelImportGoodsError(importFileResult.getLstGoods(),prefixFileName,profileConfig);
             //save in session
             request.getSession().setAttribute("file_goods_import_error",fileName);
             return null;
@@ -161,7 +155,7 @@ public class CatGoodsController extends BaseController {
 
         log.info(JSONUtils.object2JSONString(lstCon));
 
-        List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon,tokenInfo);
+        List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon);
 
         for(CatGoodsDTO i: lstCatGoods){
             i.setCode(i.getCode());
@@ -182,12 +176,12 @@ public class CatGoodsController extends BaseController {
         catGoods.setStatus("1");
         catGoods.setIsSerial(FunctionUtils.getValueFromToggle(catGoods.getIsSerial()));
         catGoods.setCustId(this.selectedCustomer.getId());
-        catGoods.setCreatedDate(catGoodsService.getSysDate(tokenInfo));
+        catGoods.setCreatedDate(catGoodsService.getSysDate());
         catGoods.setCode(catGoods.getCode().toUpperCase());
         catGoods.setInPrice(catGoods.getInPrice().replaceAll(",",""));
         catGoods.setOutPrice(catGoods.getOutPrice().replaceAll(",",""));
         //
-        ResponseObject response = catGoodsService.add(catGoods,tokenInfo);
+        ResponseObject response = catGoodsService.add(catGoods);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("Add: "+ catGoods.toString()+" SUCCESS");
             request.getSession().setAttribute("isGoodsModifiedImportStock",true);
@@ -211,7 +205,7 @@ public class CatGoodsController extends BaseController {
         List<CatGoodsDTO> lstError = Lists.newArrayList();
         //
         ResponseObject insertResponse = new ResponseObject();
-        String sysdate = appParamsService.getSysDate(tokenInfo);
+        String sysdate = appParamsService.getSysDate();
         int successCount = 0;
         for (CatGoodsDTO item: lstGoods) {
             item.setStatus("1");
@@ -219,7 +213,7 @@ public class CatGoodsController extends BaseController {
             item.setCustId(this.selectedCustomer.getId());
             item.setUnitTypeName(null);
             item.setGoodsGroupName(null);
-            insertResponse = catGoodsService.add(item,tokenInfo);
+            insertResponse = catGoodsService.add(item);
             if(!Responses.SUCCESS.getName().equalsIgnoreCase(insertResponse.getStatusCode())){
                 item.setErrorInfo("Thông tin hàng đã được khai báo trên hệ thống");
                 lstError.add(item);
@@ -231,7 +225,7 @@ public class CatGoodsController extends BaseController {
         if(lstError.size()>0){
             //export file error
             String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
-            String fileName = FunctionUtils.exportExcelImportGoodsError(lstError,prefixFileName);
+            String fileName = FunctionUtils.exportExcelImportGoodsError(lstError,prefixFileName,profileConfig);
             //save in session
             request.getSession().setAttribute("file_goods_save_error",fileName);
             //
@@ -251,13 +245,13 @@ public class CatGoodsController extends BaseController {
     //
     @RequestMapping(value = "/getErrorSaveGoods")
     public void getErrorSaveGoods(HttpServletRequest request,HttpServletResponse response){
-        String fileResource = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_goods_save_error");
+        String fileResource = profileConfig.getTempURL() + request.getSession().getAttribute("file_goods_save_error");
         FunctionUtils.loadFileToClient(response,fileResource);
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody String update(CatGoodsDTO catGoods, HttpServletRequest request){
-        String sysdate = appParamsService.getSysDate(tokenInfo);
+        String sysdate = appParamsService.getSysDate();
         catGoods.setCustId(selectedCustomer.getId());
         catGoods.setStatus(FunctionUtils.getValueFromToggle(catGoods.getStatus()));
         catGoods.setIsSerial(FunctionUtils.getValueFromToggle(catGoods.getIsSerial()));
@@ -266,7 +260,7 @@ public class CatGoodsController extends BaseController {
         catGoods.setInPrice(catGoods.getInPrice().replaceAll(",",""));
         catGoods.setOutPrice(catGoods.getOutPrice().replaceAll(",",""));
         log.info("Update cat_goods info: "+ catGoods.toString());
-        ResponseObject response = catGoodsService.update(catGoods,tokenInfo);
+        ResponseObject response = catGoodsService.update(catGoods);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             request.getSession().setAttribute("isGoodsModifiedImportStock",true);
@@ -293,13 +287,13 @@ public class CatGoodsController extends BaseController {
             Long idL = Long.parseLong(id);
             //
             if (isDeleteGoodsAvailable(code)) {
-                catGoodsService.delete(idL,tokenInfo);
+                catGoodsService.delete(idL);
                 return "1|Xoá thành công";
             }
             //
-            CatGoodsDTO deletedGoods = (CatGoodsDTO) catGoodsService.findById(idL,tokenInfo);
+            CatGoodsDTO deletedGoods = (CatGoodsDTO) catGoodsService.findById(idL);
             deletedGoods.setStatus(Constants.STATUS.DELETED);
-            ResponseObject response = catGoodsService.update(deletedGoods,tokenInfo);
+            ResponseObject response = catGoodsService.update(deletedGoods);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 request.getSession().setAttribute("isGoodsModifiedImportStock",true);
                 request.getSession().setAttribute("isGoodsModifiedExportStock",true);
@@ -316,7 +310,7 @@ public class CatGoodsController extends BaseController {
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCon.add(new Condition("goodsId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,id));
-        Long count = mjrStockGoodsTotalService.countByCondition(lstCon,tokenInfo);
+        Long count = mjrStockGoodsTotalService.countByCondition(lstCon);
         return  count != null && count >0;
     }
 
@@ -325,6 +319,6 @@ public class CatGoodsController extends BaseController {
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCon.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,code));
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
-        return !DataUtil.isListNullOrEmpty(catGoodsService.findByCondition(lstCon,tokenInfo));
+        return !DataUtil.isListNullOrEmpty(catGoodsService.findByCondition(lstCon));
     }
 }

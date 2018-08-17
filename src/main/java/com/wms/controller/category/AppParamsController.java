@@ -54,7 +54,7 @@ public class AppParamsController extends BaseCommonController {
 
         lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
-        List<AppParamsDTO> lstAppParams = appParamsService.findByCondition(lstCon,tokenInfo);
+        List<AppParamsDTO> lstAppParams = appParamsService.findByCondition(lstCon);
 
         for(AppParamsDTO i: lstAppParams){
             i.setName(StringEscapeUtils.escapeHtml(i.getName()));
@@ -67,7 +67,7 @@ public class AppParamsController extends BaseCommonController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(AppParamsDTO appParamsDTO, RedirectAttributes redirectAttributes){
         appParamsDTO.setStatus("1");
-        ResponseObject response = appParamsService.add(appParamsDTO,tokenInfo);
+        ResponseObject response = appParamsService.add(appParamsDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
             redirectAttributes.addFlashAttribute("actionInfo","result.add.success");
             redirectAttributes.addFlashAttribute("successStyle",Constants.SUCCES_COLOR);
@@ -93,7 +93,7 @@ public class AppParamsController extends BaseCommonController {
         }else{
             appParamsDTO.setStatus("0");
         }
-        ResponseObject response = appParamsService.update(appParamsDTO,tokenInfo);
+        ResponseObject response = appParamsService.update(appParamsDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             redirectAttributes.addFlashAttribute("actionInfo", "result.update.success");
@@ -113,7 +113,7 @@ public class AppParamsController extends BaseCommonController {
     public @ResponseBody String delete(@RequestParam("id")String id){
         try {
             Long idL = Long.parseLong(id);
-            ResponseObject response = appParamsService.delete(idL,tokenInfo);
+            ResponseObject response = appParamsService.delete(idL);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusName())){
                 return "1|Xoá thành công";
             }else{

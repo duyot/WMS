@@ -1,6 +1,5 @@
 package com.wms.controller.common_managerment;
 
-import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatCustomerDTO;
 import com.wms.dto.CatUserDTO;
 import com.wms.dto.ResponseObject;
@@ -19,16 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 public class ProfileController {
     Logger log = LoggerFactory.getLogger(ProfileController.class);
 
-    private AuthTokenInfo tokenInfo;
     public CatUserDTO currentUser;
 
     @Autowired
     CatUserService catUserServices;
 
-    @ModelAttribute("tokenInfo")
-    public void setTokenInfo(HttpServletRequest request){
-        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-    }
 
     @ModelAttribute("currentUser")
     public void setCurrentUser(HttpServletRequest request){
@@ -46,7 +40,7 @@ public class ProfileController {
         if (!DataUtil.isStringNullOrEmpty(catUserDTO.getPassword())) {
             catUserDTO.setPassword(DataUtil.BCryptPasswordEncoder(catUserDTO.getPassword()));
         }
-        ResponseObject response = catUserServices.updateUser(catUserDTO,tokenInfo);
+        ResponseObject response = catUserServices.updateUser(catUserDTO);
         if (response == null) {
             return "";
         }
@@ -56,7 +50,7 @@ public class ProfileController {
     @RequestMapping(value = "/updatecustomer",method = RequestMethod.POST)
     @ResponseBody public String updateCustomer(@RequestBody CatCustomerDTO updateCustomer){
         log.info(updateCustomer.getId());
-        ResponseObject response = catUserServices.updateCustomer(updateCustomer,tokenInfo);
+        ResponseObject response = catUserServices.updateCustomer(updateCustomer);
         if (response == null) {
             return "";
         }

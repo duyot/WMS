@@ -3,9 +3,7 @@ package com.wms.dataprovider;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseDP;
 import com.wms.constants.Constants;
-import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatStockDTO;
-import com.wms.dto.CatGoodsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -21,16 +19,16 @@ import java.util.List;
  */
 @Repository
 public class CatStockDP extends BaseDP<CatStockDTO> {
-    private String GET_STOCK_BY_USER = SERVICE_URL+ Constants.SERVICE_PREFIX.CAT_STOCK_SERVICE  + "/getStockByUser/";
+    private String GET_STOCK_BY_USER =  "getStockByUser/";
     Logger log = LoggerFactory.getLogger(BaseDP.class);
 
     public CatStockDP() {
         super(CatStockDTO[].class, CatStockDTO.class, Constants.SERVICE_PREFIX.CAT_STOCK_SERVICE);
     }
 
-    public List<CatStockDTO> getStockByUser(Long userId, AuthTokenInfo tokenInfo){
+    public List<CatStockDTO> getStockByUser(Long userId){
         try {
-            String findUrl = GET_STOCK_BY_USER + userId + "?access_token="+ tokenInfo.getAccess_token();
+           String findUrl =  getUrlLoadBalancing(userId, GET_STOCK_BY_USER);
             ResponseEntity<CatStockDTO[]> responseEntity = restTemplate.exchange(findUrl,HttpMethod.GET,null, CatStockDTO[].class);
             return Arrays.asList(responseEntity.getBody());
         } catch (RestClientException e) {

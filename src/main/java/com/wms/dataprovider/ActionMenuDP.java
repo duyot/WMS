@@ -1,7 +1,10 @@
 package com.wms.dataprovider;
 
+import com.wms.base.BaseDP;
+import com.wms.constants.Constants;
 import com.wms.dto.ActionMenuDTO;
-import com.wms.dto.AuthTokenInfo;
+import com.wms.dto.ChartDTO;
+import com.wms.dto.SysMenuDTO;
 import com.wms.utils.BundleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,18 +21,20 @@ import java.util.List;
  * Created by duyot on 11/3/2016.
  */
 @Repository
-public class ActionMenuDP {
+public class ActionMenuDP  extends BaseDP<ActionMenuDTO> {
     Logger log = LoggerFactory.getLogger(ActionMenuDP.class);
-    private  final String SERVICE_URL    = BundleUtils.getKey("rest_service_url");
-    private  final String SERVICE_PREFIX = "sysRoleMenuServices/";
 
-    private  String GET_ACTION_MENU_URL    = SERVICE_URL+SERVICE_PREFIX  + "getUserAction/";
+    private  String GET_ACTION_MENU_URL    =   "getUserAction";
+    public ActionMenuDP() {
+        super(ActionMenuDTO[].class, ActionMenuDTO.class,  Constants.SERVICE_PREFIX.SYS_ROLE_MENU_SERVICE);
+    }
 
-    public List<ActionMenuDTO> getActionMenu(String roleId,String cusId, AuthTokenInfo tokenInfo){
+    public List<ActionMenuDTO> getActionMenu(String roleId,String cusId ){
         RestTemplate restTemplate = new RestTemplate();
-        String getActionMenuURL =   GET_ACTION_MENU_URL + roleId +"/" + cusId + "?access_token="+tokenInfo.getAccess_token();
+        String query =  "cusId="+cusId+"&roleId="+roleId ;
+        String url = getUrlLoadBalancingQuery(query, GET_ACTION_MENU_URL);
         try {
-            ResponseEntity<ActionMenuDTO[]> responseEntity = restTemplate.getForEntity(getActionMenuURL,ActionMenuDTO[].class);
+            ResponseEntity<ActionMenuDTO[]> responseEntity = restTemplate.getForEntity(url,ActionMenuDTO[].class);
             if(responseEntity.getBody() != null){
                 return Arrays.asList(responseEntity.getBody());
             }else{

@@ -1,0 +1,95 @@
+spring:
+  application:
+    name: WMS_APP # ==> This is Service-Id
+
+---
+# profile for dev when using local service
+spring:
+  profiles: dev_local
+eureka:
+  instance:
+    appname: WMS_APP
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 5
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://45.32.103.51:9000/eureka
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+#only update here
+config:
+    url:
+      service: http://localhost:8080/services/
+      login : http://localhost:8080/login
+      token : http://localhost:8080/oauth/token?grant_type=password&username=@username&password=@password
+      template : C:\\Epson\\source_v3\\AJasperReport\\
+      temp : C:\\Epson\\source_v3\\AJasperReport\\
+      upload: C:\\Epson\\source_v3\\AJasperReport\\
+server:
+  port: 8020
+---
+# profile for dev when using clould service
+spring:
+  profiles: dev_service
+eureka:
+  instance:
+    appname: WMS_APP
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 5
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://45.32.103.51:9000/eureka
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+config:
+    url:
+      template : //WMS//uploaded_file//
+      temp : //WMS//template//
+      upload: //WMS//temp//
+server:
+  port: 8020
+
+
+#============== profiles for product environment===============
+# don't update in dev environment
+---
+spring:
+  profiles: prod
+eureka:
+  instance:
+    appname: WMS_APP
+    hostname: 45.32.103.51
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 5
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://45.32.103.51:9000/eureka
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+config:
+    url:
+      template : //WMS//uploaded_file//
+      temp : //WMS//template//
+      upload: //WMS//temp//
+server:
+  port: 8020
+#
+#ping-server:
+#  ribbon:
+#    eureka:
+#      enabled: false # Disable Default Ping
+#    listOfServers: 45.32.103.51:8082,45.32.103.51:8080
+#    ServerListRefreshInterval: 10000

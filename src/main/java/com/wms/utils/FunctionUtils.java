@@ -1,6 +1,8 @@
 package com.wms.utils;
 
 import com.google.common.collect.Lists;
+import com.wms.config.ProfileConfigInterface;
+import com.wms.redis.model.AuthTokenInfo;
 import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
@@ -66,11 +68,11 @@ public class FunctionUtils {
     /*
        get AppParams
     */
-    public static List<AppParamsDTO> getAppParams(BaseService service,AuthTokenInfo tokenInfo){
+    public static List<AppParamsDTO> getAppParams(BaseService service ){
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
         lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
-        return service.findByCondition(lstCondition,tokenInfo);
+        return service.findByCondition(lstCondition);
     }
 
     public static List<AppParamsDTO> getAppParamByType(String type,List<AppParamsDTO> lstAppParams){
@@ -190,15 +192,15 @@ public class FunctionUtils {
     /*
         get stock
      */
-    public static List<CatStockDTO> getListStock(StockService stockService, CatUserDTO currentUser, AuthTokenInfo tokenInfo){
-        return stockService.getStockByUser(Long.parseLong(currentUser.getId()), tokenInfo);
+    public static List<CatStockDTO> getListStock(StockService stockService, CatUserDTO currentUser ){
+        return stockService.getStockByUser(Long.parseLong(currentUser.getId()));
     }
 
     /*
         get user
      */
-    public static List<CatUserDTO> getCustomerUsers(CatUserService catUserService, CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
-        return catUserService.getUserByCustomer(currentCustomer.getId(),tokenInfo);
+    public static List<CatUserDTO> getCustomerUsers(CatUserService catUserService, CatCustomerDTO currentCustomer ){
+        return catUserService.getUserByCustomer(currentCustomer.getId());
     }
 
     private static List<Condition> getBaseConditions(String custId){
@@ -209,21 +211,19 @@ public class FunctionUtils {
         return lstCondition;
     }
 
-
     /*
        get goods
     */
-    public static List<CatGoodsDTO> getListGoods(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
-        return service.findByCondition(getBaseConditions(currentCustomer.getId()),tokenInfo);
+    public static List<CatGoodsDTO> getListGoods(BaseService service,CatCustomerDTO currentCustomer ){
+        return service.findByCondition(getBaseConditions(currentCustomer.getId()));
     }
 
     /*
       get Partner
    */
-    public static List<CatPartnerDTO> getListPartner(BaseService service,CatCustomerDTO currentCustomer, AuthTokenInfo tokenInfo){
-        return service.findByCondition(getBaseConditions(currentCustomer.getId()),tokenInfo);
+    public static List<CatPartnerDTO> getListPartner(BaseService service,CatCustomerDTO currentCustomer ){
+        return service.findByCondition(getBaseConditions(currentCustomer.getId()));
     }
-
 
     /*
 
@@ -249,12 +249,12 @@ public class FunctionUtils {
     /*
         export error when importing
      */
-    public static String exportExcelError(List<MjrStockTransDetailDTO> lstError,String prefixFileName, boolean isImportTrans){
+    public static String exportExcelError(List<MjrStockTransDetailDTO> lstError,String prefixFileName, boolean isImportTrans,ProfileConfigInterface profileConfig){
         String templatePath;
         if (isImportTrans) {
-            templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_ERROR_TEMPLATE;
+            templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_ERROR_TEMPLATE;
         }else{
-            templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.EXPORT_ERROR_TEMPLATE;
+            templatePath = profileConfig.getTemplateURL()+ Constants.FILE_RESOURCE.EXPORT_ERROR_TEMPLATE;
         }
         log.info("Number of Errors: "+ lstError.size());
 
@@ -265,7 +265,7 @@ public class FunctionUtils {
         beans.put("items", lstError);
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
+        String reportFullPath = profileConfig.getTempURL() + fullFileName;
 
         exportExcel(templateAbsolutePath,beans,reportFullPath);
 
@@ -275,8 +275,8 @@ public class FunctionUtils {
     /*
         export error when importing
      */
-    public static String exportExcelImportGoodsError(List<CatGoodsDTO> lstError,String prefixFileName){
-        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_GOODS_ERROR_TEMPLATE;
+    public static String exportExcelImportGoodsError(List<CatGoodsDTO> lstError,String prefixFileName,ProfileConfigInterface profileConfig){
+        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_GOODS_ERROR_TEMPLATE;
         log.info("Number of Errors: "+ lstError.size());
 
         File file = new File(templatePath);
@@ -286,66 +286,16 @@ public class FunctionUtils {
         beans.put("items", lstError);
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
+        String reportFullPath = profileConfig.getTempURL() + fullFileName;
 
         exportExcel(templateAbsolutePath,beans,reportFullPath);
 
         return fullFileName;
     }
 
-    /*
-         * Prepare HTTP Headers.
-         */
-    public static HttpHeaders getHeaders(){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        return headers;
-    }
 
-    /*
-     * Add HTTP Authorization header, using Basic-Authentication to send client-credentials.
-     */
-    private static HttpHeaders getHeadersWithClientCredentials(){
-        String plainClientCredentials= BundleUtils.getKey("client_id") +":"+ BundleUtils.getKey("client_secret");
-        String base64ClientCredentials = new String(Base64.encodeBase64(plainClientCredentials.getBytes()));
-
-        HttpHeaders headers = getHeaders();
-        headers.add("Authorization", "Basic " + base64ClientCredentials);
-        return headers;
-    }
-
-    public static AuthTokenInfo sendTokenRequest(String username, String password){
-        RestTemplate restTemplate = new RestTemplate();
-        String tokenURL = BundleUtils.getKey("token_url");
-        tokenURL = tokenURL.replace("@username",username);
-        tokenURL = tokenURL.replace("@password",password);
-        HttpEntity<String> request = new HttpEntity<String>(getHeadersWithClientCredentials());
-        ResponseEntity<Object> response = null;
-        try {
-            response = restTemplate.exchange(tokenURL, HttpMethod.POST, request, Object.class);
-        } catch (RestClientException e) {
-            e.printStackTrace();
-        }
-        LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>)response.getBody();
-        AuthTokenInfo tokenInfo = new AuthTokenInfo();
-
-        if(map == null){
-            return tokenInfo;
-        }
-
-        tokenInfo.setAccess_token((String)map.get("access_token"));
-        tokenInfo.setToken_type((String)map.get("token_type"));
-        tokenInfo.setRefresh_token((String)map.get("refresh_token"));
-        tokenInfo.setExpires_in((int)map.get("expires_in"));
-        tokenInfo.setScope((String)map.get("scope"));
-
-        return tokenInfo;
-    }
-
-
-    public static boolean saveUploadedFile(MultipartFile uploadfile,String fileName){
-        String saveDirectory = BundleUtils.getKey("upload_url");
-        String filepath  = Paths.get(saveDirectory, fileName).toString();
+    public static boolean saveUploadedFile(MultipartFile uploadfile,String fileName,ProfileConfigInterface profileConfigInterface){
+        String filepath  = Paths.get(profileConfigInterface.getUploadURL(), fileName).toString();
         try {
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
             stream.write(uploadfile.getBytes());
@@ -747,7 +697,7 @@ public class FunctionUtils {
     /*
        get partnerId from
     */
-    public static CatPartnerDTO getPartner (BaseService service,AuthTokenInfo tokenInfo, String custId, String partnerCode, String partnerId){
+    public static CatPartnerDTO getPartner (BaseService service, String custId, String partnerCode, String partnerId){
         List<Condition> lstCondition = Lists.newArrayList();
         lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
         if (partnerCode != null && !partnerCode.trim().equalsIgnoreCase("")){
@@ -758,7 +708,7 @@ public class FunctionUtils {
         }
         lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,custId));
         CatPartnerDTO catPartnerDTO = new CatPartnerDTO();
-        List<CatPartnerDTO> lstPartnerDTOS = service.findByCondition(lstCondition,tokenInfo);
+        List<CatPartnerDTO> lstPartnerDTOS = service.findByCondition(lstCondition);
         if (!DataUtil.isListNullOrEmpty(lstPartnerDTOS)){
             catPartnerDTO = lstPartnerDTOS.get(0);
         }

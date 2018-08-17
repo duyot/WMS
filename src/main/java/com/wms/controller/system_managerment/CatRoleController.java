@@ -73,7 +73,7 @@ public class CatRoleController extends BaseCommonController {
         }
 
 
-        List<SysRoleDTO> lstRole = roleServiceImpl.findByCondition(lstCon,tokenInfo);
+        List<SysRoleDTO> lstRole = roleServiceImpl.findByCondition(lstCon);
         StringBuilder roles = new StringBuilder();
         for (SysRoleDTO sysRoleDTO :lstRole){
             sysRoleDTO.setStatusName(mapAppStatus.get(sysRoleDTO.getStatus()));
@@ -82,7 +82,7 @@ public class CatRoleController extends BaseCommonController {
         List<Condition> lstRoleCondition = new ArrayList<>();
         lstRoleCondition.add(new Condition("roleId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.IN ,roles.toString().replaceFirst(",","")));
         lstRoleCondition.add(new Condition("roleId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.ORDER,"desc"));
-        List<SysRoleMenuDTO> lstRoleMenu = sysRoleMenuServiceImpl.findByCondition(lstRoleCondition,tokenInfo);
+        List<SysRoleMenuDTO> lstRoleMenu = sysRoleMenuServiceImpl.findByCondition(lstRoleCondition);
 
 //        Collections.sort(lstRoleMenu, new sortList());
 //        map role list menu
@@ -116,7 +116,7 @@ public class CatRoleController extends BaseCommonController {
 //            lstCon.add(new Condition("roleCode", Constants.SQL_OPERATOR.EQUAL,roleCode));
 //        }
 
-        List<SysRoleDTO> lstRole = roleServiceImpl.findByCondition(lstCon,tokenInfo);
+        List<SysRoleDTO> lstRole = roleServiceImpl.findByCondition(lstCon);
         for (SysRoleDTO sysRoleDTO :lstRole){
             sysRoleDTO.setStatusName(mapAppStatus.get(sysRoleDTO.getStatus()));
         }
@@ -130,9 +130,6 @@ public class CatRoleController extends BaseCommonController {
         if (lstTreeModel.size() > 0){
             return lstTreeModel;
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
         List<SysMenuDTO> lstMenu = new ArrayList<>() ;
         if (currentUser == null) {
             this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
@@ -143,19 +140,19 @@ public class CatRoleController extends BaseCommonController {
             lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
             lstCon.add(new Condition("levels",Constants.SQL_OPERATOR.ORDER,"desc"));
 
-            lstMenu = menuService.findByCondition(lstCon,tokenInfo);
+            lstMenu = menuService.findByCondition(lstCon);
         }else{
 //            only get roles whichs be assigned to customer'admin
             List<Condition> lstCon = Lists.newArrayList();
             lstCon.add(new Condition("roleId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,currentUser.getSysRoleDTO().getId()));
-            List<SysRoleMenuDTO> lstRoleMenu = sysRoleMenuServiceImpl.findByCondition(lstCon,tokenInfo);
+            List<SysRoleMenuDTO> lstRoleMenu = sysRoleMenuServiceImpl.findByCondition(lstCon);
             StringBuilder strMenus = new StringBuilder();
             for (SysRoleMenuDTO sysRoleMenuDTO : lstRoleMenu){
                 strMenus.append(",").append(sysRoleMenuDTO.getMenuId());
             }
             List<Condition> lstMenuCondition = new ArrayList<>();
             lstMenuCondition.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.IN,strMenus.toString().replaceFirst(",","")));
-            lstMenu = menuService.findByCondition(lstMenuCondition,tokenInfo);
+            lstMenu = menuService.findByCondition(lstMenuCondition);
         }
 
         for (SysMenuDTO menuitem : lstMenu){
@@ -185,12 +182,10 @@ public class CatRoleController extends BaseCommonController {
         if (currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1") && lstCustomer.size()>0){
             return lstCustomer;
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
+
         List<Condition>lstCon = new ArrayList<>();
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCustomer= customerService.findByCondition(lstCon,tokenInfo);
+        lstCustomer= customerService.findByCondition(lstCon);
         for (CatCustomerDTO catCustomerDTO :lstCustomer){
             mapCustIdName.put(catCustomerDTO.getId(),catCustomerDTO.getName());
         }
@@ -205,7 +200,7 @@ public class CatRoleController extends BaseCommonController {
         }
         int type = Integer.parseInt(currentUser.getSysRoleDTO().getType()) + 1;
         sysRoleDTO.setType(String.valueOf(type));
-        ResponseObject response = roleServiceImpl.add(sysRoleDTO,tokenInfo);
+        ResponseObject response = roleServiceImpl.add(sysRoleDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
 
             return "1|Thêm mới thành công";
@@ -230,7 +225,7 @@ public class CatRoleController extends BaseCommonController {
 
             sysRoleDTO.setCustId( currentUser.getCustId());
         }
-        ResponseObject response = roleServiceImpl.update(sysRoleDTO,tokenInfo);
+        ResponseObject response = roleServiceImpl.update(sysRoleDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             return "1|Cập nhật thành công";
@@ -255,7 +250,7 @@ public class CatRoleController extends BaseCommonController {
             List<Condition> lstDeleteCondition = Lists.newArrayList();
             lstDeleteCondition.add(new Condition("roleId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,sysRoleDTO.getId()));
             lstDeleteCondition.add(new Condition("menuId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN,deleteMenus));
-            String result = sysRoleMenuServiceImpl.deleteByCondition(lstDeleteCondition,tokenInfo);
+            String result = sysRoleMenuServiceImpl.deleteByCondition(lstDeleteCondition);
             if(Responses.ERROR.getName().equalsIgnoreCase(result)){
                 log.info("ERROR");
                 return "0|Gán quyền không thành công";
@@ -270,7 +265,7 @@ public class CatRoleController extends BaseCommonController {
                 SysRoleMenuDTO sysRoleMenuDTO = new SysRoleMenuDTO(null,newIds[i],sysRoleDTO.getId());
                 lstRoleMenu.add(sysRoleMenuDTO);
             }
-            ResponseObject response =  sysRoleMenuServiceImpl.addList(lstRoleMenu,tokenInfo);
+            ResponseObject response =  sysRoleMenuServiceImpl.addList(lstRoleMenu);
             if(Responses.ERROR.getName().equalsIgnoreCase(response.getStatusCode())){
                 log.info("ERROR");
                 return "0|Gán quyền không thành công";
@@ -282,7 +277,7 @@ public class CatRoleController extends BaseCommonController {
           List<Condition> lstCon = Lists.newArrayList();
           lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,sysRoleDTO.getCustId()));
           lstCon.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,"3"));
-          List<SysRoleDTO> lstSubmenu= roleServiceImpl.findByCondition(lstCon,tokenInfo);
+          List<SysRoleDTO> lstSubmenu= roleServiceImpl.findByCondition(lstCon);
           String roleIds = "";
           for (SysRoleDTO item : lstSubmenu){
               roleIds = roleIds +","+item.getId();
@@ -291,7 +286,7 @@ public class CatRoleController extends BaseCommonController {
               List<Condition> lstDelCon = Lists.newArrayList();
               lstDelCon.add(new Condition("roleId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN,roleIds.replaceFirst(",","")));
               lstDelCon.add(new Condition("menuId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN,getRealDeleteMenus(insertMenus,deleteMenus)));
-              String result = sysRoleMenuServiceImpl.deleteByCondition(lstDelCon,tokenInfo);
+              String result = sysRoleMenuServiceImpl.deleteByCondition(lstDelCon);
               if(Responses.ERROR.getName().equalsIgnoreCase(result)){
                   log.info("ERROR");
                   return "0|Gán quyền không thành công";
@@ -305,9 +300,9 @@ public class CatRoleController extends BaseCommonController {
     public @ResponseBody String delete(@RequestParam("id")String id, HttpServletRequest request){
         try {
             Long idL = Long.parseLong(id);
-            SysRoleDTO deleteObject = (SysRoleDTO) roleServiceImpl.findById(idL,tokenInfo);
+            SysRoleDTO deleteObject = (SysRoleDTO) roleServiceImpl.findById(idL);
             deleteObject.setStatus(Constants.STATUS.IN_ACTIVE);
-            ResponseObject response = roleServiceImpl.update(deleteObject, tokenInfo);
+            ResponseObject response = roleServiceImpl.update(deleteObject);
             if (isRoot){
 
             }

@@ -17,32 +17,32 @@ public class StockManagementServiceImpl implements StockManagementService{
     StockManagementDP stockManagementDP;
 
 
-    public ResponseObject importStock(StockTransDTO stockTrans, AuthTokenInfo tokenInfo) {
-        return stockManagementDP.importStock(stockTrans,tokenInfo);
+    public ResponseObject importStock(StockTransDTO stockTrans ) {
+        return stockManagementDP.importStock(stockTrans);
     }
 
-    public ResponseObject exportStock(StockTransDTO stockTrans,AuthTokenInfo tokenInfo) {
-        return stockManagementDP.exportStock(stockTrans,tokenInfo);
+    public ResponseObject exportStock(StockTransDTO stockTrans ) {
+        return stockManagementDP.exportStock(stockTrans);
 
     }
 
-    public List<String> getListSerialInStock(String custId, String stockId, String goodsId, String goodsState,AuthTokenInfo tokenInfo){
-        return stockManagementDP.getListSerialInStock(custId,stockId,goodsId,goodsState,tokenInfo);
+    public List<String> getListSerialInStock(String custId, String stockId, String goodsId, String goodsState ){
+        return stockManagementDP.getListSerialInStock(custId,stockId,goodsId,goodsState);
     }
 
-    public ResponseObject cancelTrans(String transId, AuthTokenInfo tokenInfo){
-        return stockManagementDP.cancelTrans(transId,tokenInfo);
+    public ResponseObject cancelTrans(String transId ){
+        return stockManagementDP.cancelTrans(transId);
     }
 
     @Override
-    public List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType, AuthTokenInfo tokenInfo) {
-        return stockManagementDP.getTransGoodsDetail(custId,stockId,transId,transType,tokenInfo);
+    public List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType ) {
+        return stockManagementDP.getTransGoodsDetail(custId,stockId,transId,transType);
     }
     @Override
-    public List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId, AuthTokenInfo tokenInfo) {
-        return stockManagementDP.getListTransGoodsDetail(lstStockTransId,tokenInfo);
+    public List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId ) {
+        return stockManagementDP.getListTransGoodsDetail(lstStockTransId);
     }
-    public List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId, AuthTokenInfo tokenInfo) {
-        return stockManagementDP.getStockTransInfo(lstStockTransId,tokenInfo);
+    public List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId ) {
+        return stockManagementDP.getStockTransInfo(lstStockTransId);
     }
 }

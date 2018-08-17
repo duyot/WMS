@@ -198,17 +198,9 @@ function changeModelByType( changeType,name, code, id , status, tel,email ,custI
     if (changeType == 1) {//add
         $("#emp-insert-update-form").attr("action", actionVal);
         emptyForm($("#emp-insert-update-form"));
-        if(isRoot == "true"){
-            // $('#modal-cmb-custId').val($('#modal-cmb-custId option:first ').val());
-            // $("#div-root").css("display","block");
-        }
-        // var new_element = $("#emp-insert-update-form").clone();
-        // $("#emp-insert-update-form").replaceWith(new_element);
-
         $('#modal-cmb-status').bootstrapToggle('on');
         $("#div-status *").prop('disabled', true);
         showAdd();
-        $("#modal-usage").css("display","block");
         $("#usageUnit").val($("#usageUnit option").eq(1).val());
     } else {//update
         $("#emp-insert-update-form").attr("action", actionVal);
@@ -218,10 +210,8 @@ function changeModelByType( changeType,name, code, id , status, tel,email ,custI
         $("#modal-email").val(decodeHtml(email));
         $("#modal-tel").val(decodeHtml(tel));
         $("#modal-custId").val(decodeHtml(custId));
-        $("#modal-usage").css("display","none");
         if(isRoot == "true"){
-            $('#modal-cmb-custId').val(custId);
-            $("#div-root").css("display","none");
+            $('#usageUnit').val(custId);
         }
 
         var currentStatus = status;

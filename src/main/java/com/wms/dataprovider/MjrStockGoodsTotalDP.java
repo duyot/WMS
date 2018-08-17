@@ -2,7 +2,6 @@ package com.wms.dataprovider;
 
 import com.wms.base.BaseDP;
 import com.wms.constants.Constants;
-import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.MjrStockGoodsTotalDTO;
 import com.wms.dto.MjrStockTransDetailDTO;
 import org.slf4j.Logger;
@@ -22,13 +21,17 @@ import java.util.List;
 @Repository
 public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
     private Logger log = LoggerFactory.getLogger(MjrStockGoodsTotalDP.class);
+    private  final String GET_COUNTGOODS_DETAIL    ="getCountGoodsDetail";
+    private  final String GET_GOODS_DETAIL    ="getGoodsDetail";
+    private  final String FIND_MORE_CONDITION    ="findMoreCondition?access_token=";
     public MjrStockGoodsTotalDP() {
         super(MjrStockGoodsTotalDTO[].class,MjrStockGoodsTotalDTO.class, Constants.SERVICE_PREFIX.MJR_STOCK_GOODS_TOTAL_SERVICE);
     }
 
-    public Long getCountGoodsDetail(String custId,String stockId, String goodsId,String isSerial,String goodsState,String partnerId,AuthTokenInfo tokenInfo){
-        String url = SERVICE_URL + "stockManagementServices/" + "getCountGoodsDetail?custId="+custId+"&stockId="+stockId+"&goodsId="+goodsId+"&isSerial="+isSerial+
-                            "&goodsState="+goodsState+"&partnerId="+partnerId+"&access_token="+ tokenInfo.getAccess_token();
+    public Long getCountGoodsDetail(String custId,String stockId, String goodsId,String isSerial,String goodsState,String partnerId ){
+        String query =   "custId="+custId+"&stockId="+stockId+"&goodsId="+goodsId+"&isSerial="+isSerial+
+                "&goodsState="+goodsState+"&partnerId="+partnerId;
+        String url = getUrlLoadBalancingQuery(query,Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE, GET_COUNTGOODS_DETAIL);
         try {
             return  restTemplate.getForObject(url, Long.class);
         } catch (RestClientException e) {
@@ -38,9 +41,11 @@ public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
     }
     //Lay theo partnerId
     public List<MjrStockTransDetailDTO> getGoodsDetail(String custId, String stockId, String goodsId,
-                                                       String isSerial, String goodsState,String partnerId, String limit, String offset,AuthTokenInfo tokenInfo) {
-        String url = SERVICE_URL + SERVICE_PREFIX + "getGoodsDetail?custId="+custId+"&stockId="+stockId+"&goodsId="+goodsId+"&isSerial="+isSerial+
-                "&goodsState="+goodsState+"&partnerId="+partnerId+"&limit="+limit+"&offset="+offset+"&access_token="+ tokenInfo.getAccess_token();
+                                                       String isSerial, String goodsState,String partnerId, String limit, String offset ) {
+
+        String query =   "custId="+custId+"&stockId="+stockId+"&goodsId="+goodsId+"&isSerial="+isSerial+
+        "&goodsState="+goodsState+"&partnerId="+partnerId+"&limit="+limit+"&offset="+offset ;
+        String url = getUrlLoadBalancingQuery(query, GET_GOODS_DETAIL);
         try {
             ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null ,MjrStockTransDetailDTO[].class);
             return Arrays.asList(responseEntity.getBody());
@@ -52,10 +57,10 @@ public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
     }
 
 
-    public List<MjrStockGoodsTotalDTO> findMoreCondition(MjrStockGoodsTotalDTO searchGoodsTotalDTO,AuthTokenInfo tokenInfo) {
-        String url = SERVICE_URL + SERVICE_PREFIX + "findMoreCondition?access_token="+ tokenInfo.getAccess_token();
+    public List<MjrStockGoodsTotalDTO> findMoreCondition(MjrStockGoodsTotalDTO searchGoodsTotalDTO ) {
+        String url = getUrlLoadBalancing(0, FIND_MORE_CONDITION);
         try {
-            ResponseEntity<MjrStockGoodsTotalDTO[]> responseEntity = restTemplate.postForEntity(url+ tokenInfo.getAccess_token(), searchGoodsTotalDTO,valueArrayClass);
+            ResponseEntity<MjrStockGoodsTotalDTO[]> responseEntity = restTemplate.postForEntity(url, searchGoodsTotalDTO,valueArrayClass);
             return Arrays.asList(responseEntity.getBody());
         } catch (RestClientException e) {
             log.error(e.toString());
