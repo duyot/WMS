@@ -102,9 +102,8 @@
 			Flags = "0"
 			UseDataTable = "0"
 			TableName = ""
-			FileID = "AAA20C25-2451-4354-9EC0D51CBD601358"
 			RootPath = "$Container"
-			Filename = "..\BanHang\DoanhSoBanHang\images\Clip001.png"
+			Filename = "..\Images\DoanhSo.png"
 			Placement = "Stretch"
 			HorzAlign = "Left"
 			VertAlign = "Top"
@@ -452,11 +451,7 @@
 	<Groups
 		CID = "3"/>
 	<SelectionGroups
-		CID = "4">
-		<SelectionGroup
-			CID = "1457483869"
-			Elements = "1457471113,1457483135,1901229210,1901223203"/>
-	</SelectionGroups>
+		CID = "4"/>
 	<Notes
 		CID = "5">
 		<Note

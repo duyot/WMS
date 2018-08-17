@@ -16,7 +16,7 @@
 			Type = "WebPanel"
 			X = "90"
 			Y = "149"
-			Width = "901"
+			Width = "680"
 			Height = "297"
 			Flags = "0"
 			UseDataTable = "0"
@@ -35,7 +35,7 @@
 			MarginRight = "0"
 			MarginTop = "0"
 			MarginBottom = "0"
-			Text = "Tìm kiếm danh sách sản phẩm"
+			Text = "Tìm kiếm danh sách hàng hóa"
 			HasHeader = "1"
 			HasSeparatorLine = "1"
 			HeaderHeight = "18"
@@ -59,7 +59,7 @@
 			Type = "Table"
 			X = "94"
 			Y = "198"
-			Width = "893"
+			Width = "671"
 			Height = "208"
 			Flags = "0"
 			UseDataTable = "0"
@@ -79,7 +79,7 @@
 			Typeface = ""
 			FontAttributes = "0"
 			TextSize = "Normal"
-			NextColumnID = "22"
+			NextColumnID = "23"
 			NextRowID = "31"
 			IsFlat = "0"
 			IsHeaderBold = "1"
@@ -134,9 +134,9 @@
 					EvenBackgroundColour = "255,255,255,0,6"
 					TextColour = "0,0,0,0,9"
 					ColumnID = "16"
-					Heading = "Mã sản phẩm"
+					Heading = "Mã hàng hóa"
 					VisibleCondition = ""
-					Width = "87"
+					Width = "143"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -151,9 +151,9 @@
 					EvenBackgroundColour = "255,255,255,0,6"
 					TextColour = "0,0,0,0,9"
 					ColumnID = "18"
-					Heading = "Tên sản phẩm"
+					Heading = "Tên hàng hóa"
 					VisibleCondition = ""
-					Width = "242"
+					Width = "286"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -185,9 +185,9 @@
 					EvenBackgroundColour = "255,255,255,0,6"
 					TextColour = "0,0,0,0,9"
 					ColumnID = "19"
-					Heading = "Phân loại"
+					Heading = "Nhóm hàng hóa"
 					VisibleCondition = ""
-					Width = "136"
+					Width = "90"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -201,27 +201,10 @@
 					OddBackgroundColour = "255,255,255,0,6"
 					EvenBackgroundColour = "255,255,255,0,6"
 					TextColour = "0,0,0,0,9"
-					ColumnID = "20"
-					Heading = "Sản phẩm cha"
+					ColumnID = "22"
+					Heading = "Chọn"
 					VisibleCondition = ""
-					Width = "91"
-					HeaderMargin = "0"
-					CellMargin = "0"
-					HasCustomOddBgColour = "0"
-					HasCustomEvenBgColour = "0"
-					HasCustomTextColour = "0"
-					HighlightSelections = "1"
-					Type = "Text"
-					HeadingAlignment = "Centre"
-					CellAlignment = "Left"/>
-				<ColumnItem
-					OddBackgroundColour = "255,255,255,0,6"
-					EvenBackgroundColour = "255,255,255,0,6"
-					TextColour = "0,0,0,0,9"
-					ColumnID = "21"
-					Heading = "Đơn vị sản xuất"
-					VisibleCondition = ""
-					Width = "238"
+					Width = "52"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -254,9 +237,6 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						Công ty TNHH một thành viên Thông tin M1
-					</Cell>
 				</Row>
 				<Row
 					RowID = "30"
@@ -278,9 +258,6 @@
 					</Cell>
 					<Cell>
 						
-					</Cell>
-					<Cell>
-						Công ty TNHH một thành viên Thông tin M1
 					</Cell>
 				</Row>
 				<Row
@@ -304,9 +281,6 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						Công ty TNHH một thành viên Thông tin M1
-					</Cell>
 				</Row>
 				<Row
 					RowID = "22"
@@ -328,9 +302,6 @@
 					</Cell>
 					<Cell>
 						
-					</Cell>
-					<Cell>
-						Công ty TNHH một thành viên Thông tin M3
 					</Cell>
 				</Row>
 				<Row
@@ -354,16 +325,10 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						Công ty TNHH một thành viên Thông tin M3
-					</Cell>
 				</Row>
 				<Row
 					RowID = "25"
 					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -404,16 +369,10 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						
-					</Cell>
 				</Row>
 				<Row
 					RowID = "27"
 					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -454,16 +413,10 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						
-					</Cell>
 				</Row>
 				<Row
 					RowID = "23"
 					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -504,16 +457,10 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						
-					</Cell>
 				</Row>
 				<Row
 					RowID = "21"
 					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -538,14 +485,14 @@
 		<Element
 			CID = "1891332896"
 			Type = "Bitmap"
-			X = "807"
-			Y = "406"
+			X = "586"
+			Y = "409"
 			Width = "174"
 			Height = "32"
 			Flags = "0"
 			UseDataTable = "0"
 			TableName = ""
-			FileID = "DDFDF8A6-D66A-421F-873973EC902CAEEF"
+			FileID = "E1FECEAE-94A1-4E60-A2C4C19FDE0EC7AF"
 			RootPath = "$Container"
 			Filename = "..\Images\2.PhanTrang.png"
 			Placement = "Stretch"
@@ -569,7 +516,7 @@
 			Flags = "0"
 			UseDataTable = "0"
 			TableName = ""
-			FileID = "6E05C320-1050-48B0-979A3D174AAA7439"
+			FileID = "C14A4DED-3560-439F-8E84ADF3628B3478"
 			RootPath = "$Container"
 			Filename = "..\Images\2.SoBanGhi.png"
 			Placement = "Stretch"
@@ -586,7 +533,7 @@
 		<Element
 			CID = "1891307768"
 			Type = "EditBox"
-			X = "758"
+			X = "538"
 			Y = "177"
 			Width = "229"
 			Height = "21"
@@ -620,14 +567,14 @@
 		<Element
 			CID = "1891319514"
 			Type = "Bitmap"
-			X = "966"
+			X = "746"
 			Y = "182"
 			Width = "14"
 			Height = "13"
 			Flags = "0"
 			UseDataTable = "0"
 			TableName = ""
-			FileID = "075A3364-A011-4721-B04BDB8A6FC5F322"
+			FileID = "28F3A872-E047-462D-B071A115CF0162B3"
 			RootPath = "$Container"
 			Filename = "..\Images\search.png"
 			Placement = "Stretch"
@@ -644,7 +591,7 @@
 		<Element
 			CID = "1891318799"
 			Type = "Icon"
-			X = "968"
+			X = "748"
 			Y = "152"
 			Width = "16"
 			Height = "16"
@@ -658,13 +605,83 @@
 		<Element
 			CID = "1891327629"
 			Type = "StoryboardCloseBox"
-			X = "1047"
-			Y = "92"
+			X = "789"
+			Y = "45"
 			Width = "90"
 			Height = "30"
 			Flags = "3"
 			UseDataTable = "0"
 			TableName = ""/>
+		<Element
+			CID = "809391231"
+			Type = "Icon"
+			X = "726"
+			Y = "231"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmTick.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "809395552"
+			Type = "Icon"
+			X = "726"
+			Y = "254"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmTick.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "809382110"
+			Type = "Icon"
+			X = "726"
+			Y = "282"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmTick.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "809391092"
+			Type = "Icon"
+			X = "726"
+			Y = "310"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmTick.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "809376300"
+			Type = "Icon"
+			X = "726"
+			Y = "333"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmTick.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
 	</Elements>
 	<Connections
 		CID = "2">

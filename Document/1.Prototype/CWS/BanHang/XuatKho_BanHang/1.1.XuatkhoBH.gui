@@ -156,7 +156,7 @@
 			X = "8"
 			Y = "84"
 			Width = "727"
-			Height = "97"
+			Height = "99"
 			Flags = "0"
 			UseDataTable = "0"
 			TableName = ""
@@ -238,20 +238,6 @@
 			HorzAlign = "Left"
 			VertAlign = "Centre"/>
 		<Element
-			CID = "619871315"
-			Type = "Icon"
-			X = "57"
-			Y = "310"
-			Width = "16"
-			Height = "16"
-			Flags = "3"
-			UseDataTable = "0"
-			TableName = ""
-			RootPath = "$Application"
-			Filename = "Icons\Miscellaneous\ConfirmCross.ico"
-			IconIndex = "0"
-			IsDisabled = "0"/>
-		<Element
 			CID = "1723102395"
 			Type = "Bitmap"
 			X = "574"
@@ -299,18 +285,6 @@
 			SliceRight = "0"
 			SliceTop = "0"
 			SliceBottom = "0"/>
-		<Element
-			CID = "2012101880"
-			Type = "StoryboardMessageBox"
-			X = "1202"
-			Y = "577"
-			Width = "180"
-			Height = "75"
-			Flags = "0"
-			UseDataTable = "0"
-			TableName = ""
-			Title = "Thông báo từ hệ thống!"
-			Message = "Thao tác được thực hiện thành công"/>
 		<Element
 			CID = "1966028464"
 			Type = "ListBox"
@@ -382,7 +356,7 @@
 			Typeface = ""
 			FontAttributes = "0"
 			TextSize = "Normal"
-			NextColumnID = "40"
+			NextColumnID = "41"
 			NextRowID = "38"
 			IsFlat = "0"
 			IsHeaderBold = "1"
@@ -456,7 +430,7 @@
 					ColumnID = "7"
 					Heading = "Mã sản phẩm"
 					VisibleCondition = ""
-					Width = "76"
+					Width = "72"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -473,7 +447,7 @@
 					ColumnID = "2"
 					Heading = "Tên sản phẩm"
 					VisibleCondition = ""
-					Width = "210"
+					Width = "198"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -490,7 +464,7 @@
 					ColumnID = "25"
 					Heading = "Số lượng"
 					VisibleCondition = ""
-					Width = "60"
+					Width = "53"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -521,6 +495,23 @@
 					OddBackgroundColour = "255,255,255,0,6"
 					EvenBackgroundColour = "255,255,255,0,6"
 					TextColour = "0,0,0,0,9"
+					ColumnID = "40"
+					Heading = "Size"
+					VisibleCondition = ""
+					Width = "44"
+					HeaderMargin = "0"
+					CellMargin = "0"
+					HasCustomOddBgColour = "0"
+					HasCustomEvenBgColour = "0"
+					HasCustomTextColour = "0"
+					HighlightSelections = "1"
+					Type = "Text"
+					HeadingAlignment = "Centre"
+					CellAlignment = "Left"/>
+				<ColumnItem
+					OddBackgroundColour = "255,255,255,0,6"
+					EvenBackgroundColour = "255,255,255,0,6"
+					TextColour = "0,0,0,0,9"
 					ColumnID = "14"
 					Heading = "Đơn vị tính"
 					VisibleCondition = ""
@@ -541,7 +532,7 @@
 					ColumnID = "37"
 					Heading = "Đơn giá bán"
 					VisibleCondition = ""
-					Width = "93"
+					Width = "70"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -580,13 +571,16 @@
 						
 					</Cell>
 					<Cell>
-						DT001
+						T001
 					</Cell>
 					<Cell>
 						Bàn la hơi nước Daywoo
 					</Cell>
 					<Cell>
 						10
+					</Cell>
+					<Cell>
+						
 					</Cell>
 					<Cell>
 						
@@ -611,7 +605,7 @@
 						
 					</Cell>
 					<Cell>
-						DT002
+						T002
 					</Cell>
 					<Cell>
 						Máy giặt Electrolux 7kg
@@ -621,6 +615,9 @@
 					</Cell>
 					<Cell>
 						A452CF6
+					</Cell>
+					<Cell>
+						
 					</Cell>
 					<Cell>
 						Chiếc
@@ -636,67 +633,42 @@
 					RowID = "28"
 					IsSelected = "0">
 					<Cell>
-						
+						3
 					</Cell>
 					<Cell>
 						
 					</Cell>
 					<Cell>
-						
+						T003
+					</Cell>
+					<Cell>
+						Áo khoác lông vũ dáng dài xanh đen
+					</Cell>
+					<Cell>
+						1
 					</Cell>
 					<Cell>
 						
 					</Cell>
 					<Cell>
-						
+						L
 					</Cell>
 					<Cell>
-						
+						Chiếc
 					</Cell>
 					<Cell>
-						
+						1,400,000
 					</Cell>
 					<Cell>
-						
-					</Cell>
-					<Cell>
-						
-					</Cell>
-				</Row>
-				<Row
-					RowID = "30"
-					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
-					<Cell>
-						
-					</Cell>
-					<Cell>
-						
-					</Cell>
-					<Cell>
-						
-					</Cell>
-					<Cell>
-						
-					</Cell>
-					<Cell>
-						
-					</Cell>
-					<Cell>
-						
-					</Cell>
-					<Cell>
-						
-					</Cell>
-					<Cell>
-						
+						1,400,000
 					</Cell>
 				</Row>
 				<Row
 					RowID = "31"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -755,10 +727,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "23"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -817,10 +795,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "21"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -879,10 +863,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "34"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -941,6 +931,9 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "36"
@@ -972,10 +965,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "37"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -1636,20 +1635,6 @@
 			DisabledFillColour = "236,233,216,0,16"
 			BorderColour = "164,185,127,0,12"/>
 		<Element
-			CID = "1158691864"
-			Type = "Icon"
-			X = "56"
-			Y = "284"
-			Width = "16"
-			Height = "16"
-			Flags = "3"
-			UseDataTable = "0"
-			TableName = ""
-			RootPath = "$Application"
-			Filename = "Icons\Miscellaneous\ConfirmCross.ico"
-			IconIndex = "0"
-			IsDisabled = "0"/>
-		<Element
 			CID = "360412334"
 			Type = "Icon"
 			X = "894"
@@ -1692,9 +1677,9 @@
 		<Element
 			CID = "1147681864"
 			Type = "Shape"
-			X = "832"
-			Y = "593"
-			Width = "145"
+			X = "835"
+			Y = "598"
+			Width = "146"
 			Height = "41"
 			Flags = "0"
 			UseDataTable = "0"
@@ -1737,7 +1722,7 @@
 			Typeface = ""
 			FontAttributes = "0"
 			TextSize = "Normal"
-			Text = "145,000"
+			Text = "1,545,000"
 			IsDisabled = "0"
 			IsHyperlink = "0"
 			Fill = "None"
@@ -1777,7 +1762,7 @@
 			Typeface = ""
 			FontAttributes = "0"
 			TextSize = "Normal"
-			Text = "Nhập mã hàng vào đây"
+			Text = "Nhập mã hàng/tên hàng vào đây"
 			IsDisabled = "0"
 			IsReadOnly = "0"
 			IsTransparent = "0"
@@ -1795,61 +1780,6 @@
 			MarginBottom = "0"
 			TextColour = "141,141,141,0,40"
 			DisabledTextColour = "212,214,186,0,4"
-			FillColour = "255,255,153,0,0"
-			DisabledFillColour = "236,233,216,0,16"
-			BorderColour = "164,185,127,0,12"/>
-		<Element
-			CID = "949907925"
-			Type = "StaticText"
-			X = "452"
-			Y = "101"
-			Width = "39"
-			Height = "24"
-			Flags = "0"
-			UseDataTable = "0"
-			TableName = ""
-			FillColour = "236,233,216,0,16"
-			TextColour = "0,0,0,0,19"
-			Typeface = ""
-			FontAttributes = "0"
-			TextSize = "Normal"
-			Text = "Serial"
-			IsDisabled = "0"
-			IsHyperlink = "0"
-			Fill = "None"
-			HorzAlign = "Left"
-			VertAlign = "Centre"/>
-		<Element
-			CID = "949900395"
-			Type = "EditBox"
-			X = "491"
-			Y = "103"
-			Width = "231"
-			Height = "21"
-			Flags = "2"
-			UseDataTable = "0"
-			TableName = ""
-			Typeface = ""
-			FontAttributes = "0"
-			TextSize = "Normal"
-			Text = ""
-			IsDisabled = "0"
-			IsReadOnly = "0"
-			IsTransparent = "0"
-			HasBorder = "1"
-			HorzAlign = "Left"
-			EditType = "Text"
-			OverrideTextColour = "0"
-			OverrideDisabledTextColour = "0"
-			OverrideFillColour = "0"
-			OverrideDisabledFillColour = "0"
-			OverrideBorderColour = "0"
-			MarginLeft = "0"
-			MarginRight = "0"
-			MarginTop = "0"
-			MarginBottom = "0"
-			TextColour = "0,0,0,0,9"
-			DisabledTextColour = "161,161,146,0,18"
 			FillColour = "255,255,153,0,0"
 			DisabledFillColour = "236,233,216,0,16"
 			BorderColour = "164,185,127,0,12"/>
@@ -2142,6 +2072,96 @@
 			SliceRight = "0"
 			SliceTop = "0"
 			SliceBottom = "0"/>
+		<Element
+			CID = "549940050"
+			Type = "ComponentThumbnail"
+			X = "347"
+			Y = "-145"
+			Width = "120"
+			Height = "120"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			BackgroundColour = "255,255,255,0,6"
+			FileID = "3833B389-545A-49E2-9EF98DA00C3FAA7C"
+			RootPath = "$Container"
+			Filename = "..\..\Util\TimKiemSanPham.gui"
+			Background = "Transparent"
+			HorzAlign = "Left"
+			VertAlign = "Top"
+			ScrollBarHorz = "Auto"
+			ScrollBarVert = "Auto"
+			StepSizeHorz = "4"
+			StepSizeVert = "4"
+			MaintainSize = "1"
+			AllowDragScrolling = "0"
+			UseInertia = "0"
+			SnapScrolling = "0"
+			AnimateSnapping = "0"/>
+		<Element
+			CID = "619871315"
+			Type = "Icon"
+			X = "56"
+			Y = "311"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmCross.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "1158691864"
+			Type = "Icon"
+			X = "56"
+			Y = "285"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmCross.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "426772842"
+			Type = "Icon"
+			X = "56"
+			Y = "335"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmCross.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "32733752"
+			Type = "StoryboardCloseBox"
+			X = "1106"
+			Y = "854"
+			Width = "90"
+			Height = "30"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""/>
+		<Element
+			CID = "32709858"
+			Type = "StoryboardMessageBox"
+			X = "877"
+			Y = "818"
+			Width = "180"
+			Height = "75"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			Title = "Thông báo từ hệ thống!"
+			Message = "Thao tác được thực hiện thành công. Bạn có muốn in hóa đơn?"/>
 	</Elements>
 	<Connections
 		CID = "2">
@@ -2179,23 +2199,41 @@
 			ConLineWidth = "2"
 			ConLineColour = "0,0,0,0,0"/>
 		<Connection
-			CID = "1147680626"
+			CID = "549941093"
+			Layer = "DesignElements"
+			Trigger = "LeftClick"
+			Type = "Navigation"
+			SubType = "Modal"
+			SourceSubItemID = ""
+			SourceRefID = "1060207308"
+			TargetRefID = "549940050"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "32720259"
 			Layer = "Storyboard"
 			Trigger = "LeftClick"
 			Type = "MessageBox"
 			SubType = ""
 			SourceSubItemID = ""
 			SourceRefID = "1147681864"
-			TargetRefID = "2012101880"
+			TargetRefID = "32709858"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "32703726"
+			Layer = "Storyboard"
+			Trigger = "LeftClick"
+			Type = "Close"
+			SubType = ""
+			SourceSubItemID = ""
+			SourceRefID = "32709858"
+			TargetRefID = "32733752"
 			ConLineWidth = "2"
 			ConLineColour = "0,0,0,0,0"/>
 	</Connections>
 	<Groups
-		CID = "3">
-		<Group
-			CID = "1749487781"
-			Elements = "1749485568"/>
-	</Groups>
+		CID = "3"/>
 	<SelectionGroups
 		CID = "4">
 		<SelectionGroup
