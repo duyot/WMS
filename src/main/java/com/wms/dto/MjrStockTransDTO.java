@@ -21,8 +21,6 @@ public class MjrStockTransDTO {
     private String transMoneyDiscount;
     private String discountAmount;
     private String transMoneyRequire;
-    private String transMoneyReceive;
-    private String transMoneyResponse;
     private String description;
     //
     private String stockValue;
@@ -141,8 +139,6 @@ public class MjrStockTransDTO {
         this.transMoneyDiscount = transMoneyDiscount;
         this.discountAmount = discountAmount;
         this.transMoneyRequire = transMoneyRequire;
-        this.transMoneyReceive = transMoneyReceive;
-        this.transMoneyResponse = transMoneyResponse;
         this.description = description;
         this.partnerId = partnerId;
         this.partnerName = partnerName;
@@ -262,21 +258,6 @@ public class MjrStockTransDTO {
         this.transMoneyRequire = transMoneyRequire;
     }
 
-    public String getTransMoneyReceive() {
-        return transMoneyReceive;
-    }
-
-    public void setTransMoneyReceive(String transMoneyReceive) {
-        this.transMoneyReceive = transMoneyReceive;
-    }
-
-    public String getTransMoneyResponse() {
-        return transMoneyResponse;
-    }
-
-    public void setTransMoneyResponse(String transMoneyResponse) {
-        this.transMoneyResponse = transMoneyResponse;
-    }
 
     public String getDescription() {
         return description;
