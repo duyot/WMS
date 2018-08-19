@@ -53,9 +53,9 @@ eureka:
       duration: 5
 config:
     url:
-      template : //WMS//uploaded_file//
-      temp : //WMS//template//
-      upload: //WMS//temp//
+      template : //WMS//template//
+      temp : //WMS//temp//
+      upload: //WMS//uploaded_file//
 server:
   port: 8020
 
@@ -81,9 +81,9 @@ eureka:
       duration: 5
 config:
     url:
-      template : //WMS//uploaded_file//
-      temp : //WMS//template//
-      upload: //WMS//temp//
+      template : //WMS//template//
+      temp : //WMS//temp//
+      upload: //WMS//uploaded_file//
 server:
   port: 8020
 #
