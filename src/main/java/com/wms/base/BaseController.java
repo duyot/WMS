@@ -1,6 +1,7 @@
 package com.wms.base;
 
 import com.google.common.collect.Lists;
+import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
 import com.wms.controller.category.CatGoodsController;
 import com.wms.dto.*;
@@ -33,6 +34,8 @@ public class BaseController {
     public BaseService catPartnerService;
     @Autowired
     public BaseService appParamsService;
+    @Autowired
+    public ProfileConfigInterface profileConfig;
     //
     @Autowired
     public StockService stockService;
@@ -54,8 +57,7 @@ public class BaseController {
     public Map<String,String> mapAppGoodsState;
     //
     public Map<String,String> mapAppStatus;
-    //
-    public AuthTokenInfo tokenInfo;
+
     public CatCustomerDTO selectedCustomer;
     public CatUserDTO currentUser;
 
@@ -73,15 +75,13 @@ public class BaseController {
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
+
         if (currentUser == null) {
             this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
         }
         //
         if(lstStock == null){
-            lstStock = FunctionUtils.getListStock(stockService,currentUser,tokenInfo);
+            lstStock = FunctionUtils.getListStock(stockService,currentUser);
             buildMapStock();
             request.getSession().setAttribute("isStockModified",false);
         }
@@ -94,13 +94,10 @@ public class BaseController {
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
         if (currentUser == null) {
             this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
         }
-        lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
+        lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer);
         buildMapPartner();
 
         return lstPartner;
@@ -108,11 +105,9 @@ public class BaseController {
 
     @ModelAttribute("lstAppParams")
     public List<AppParamsDTO>  getListAppParams(HttpServletRequest request){
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
+
         if(lstAppParams == null){
-            lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
+            lstAppParams = FunctionUtils.getAppParams(appParamsService);
         }
 
         if(lstAppGoodsState == null){
@@ -135,11 +130,9 @@ public class BaseController {
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
+
         if(lstGoods == null){
-            lstGoods = FunctionUtils.getListGoods(catGoodsService,selectedCustomer,tokenInfo);
+            lstGoods = FunctionUtils.getListGoods(catGoodsService,selectedCustomer);
             buildMapGoods();
             request.getSession().setAttribute("isGoodsModified",false);
         }

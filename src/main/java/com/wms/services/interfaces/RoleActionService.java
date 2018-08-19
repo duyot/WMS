@@ -1,7 +1,6 @@
 package com.wms.services.interfaces;
 
 import com.wms.dto.ActionMenuDTO;
-import com.wms.dto.AuthTokenInfo;
 
 import java.util.List;
 
@@ -9,5 +8,5 @@ import java.util.List;
  * Created by duyot on 11/3/2016.
  */
 public interface RoleActionService {
-    List<ActionMenuDTO> getUserActionService(String roleCode, String cusId,AuthTokenInfo tokenInfo);
+    List<ActionMenuDTO> getUserActionService(String roleCode, String cusId );
 }

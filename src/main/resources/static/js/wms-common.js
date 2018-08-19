@@ -491,6 +491,32 @@ window.onbeforeunload = function(e) {
 function closeWindow(){
     document.getElementById('btnLogout').click();
 }
+function test3() {
+    $.ajax({
+        type : "DELETE",
+        url : "http://45.32.103.51:9000/eureka/apps/WMS_SERVICE/localhost:WMS_SERVICE:8080",
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+
+}
+function test4() {
+    $.ajax({
+        type : "DELETE",
+        url : "http://45.32.103.51:9000/eureka/apps/WMS_SERVICE/192.168.20.1:WMS_SERVICE:8080",
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+
+}
 $(function () {
     $("a").not('#btnLogout').click(function () {
         window.onbeforeunload = null;

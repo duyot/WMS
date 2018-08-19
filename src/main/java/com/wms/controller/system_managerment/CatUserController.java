@@ -1,6 +1,7 @@
 package com.wms.controller.system_managerment;
 
 import com.wms.base.BaseCommonController;
+import com.wms.config.WMSConfigManagerment;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
@@ -87,7 +88,7 @@ public class CatUserController extends BaseCommonController {
             List<Condition> lstCondition = new ArrayList<>();
             lstCondition.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,"2"));
             lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,"1"));
-            List<SysRoleDTO> lstRoles = roleServiceImpl.findByCondition(lstCondition,tokenInfo);
+            List<SysRoleDTO> lstRoles = roleServiceImpl.findByCondition(lstCondition);
             String roleId = "";
             for (SysRoleDTO role :lstRoles){
                 roleId = roleId + ","+role.getId();
@@ -95,7 +96,7 @@ public class CatUserController extends BaseCommonController {
             lstCon.add(new Condition("roleId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.IN,roleId.replaceFirst(",","")));
         }
 
-        List<CatUserDTO> lstUsers = catUserServices.findByCondition(lstCon,tokenInfo);
+        List<CatUserDTO> lstUsers = catUserServices.findByCondition(lstCon);
         if (!isRoot){
             mapIdDept.clear();
             List<Condition> lstConDept = new ArrayList<>();
@@ -104,7 +105,7 @@ public class CatUserController extends BaseCommonController {
             if (!isRoot){
                 lstConDept.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
             }
-            lstDepts = catDeptServicesImpl.findByCondition(lstConDept,tokenInfo);
+            lstDepts = catDeptServicesImpl.findByCondition(lstConDept);
             for (CatDepartmentDTO item : lstDepts){
                 mapIdDept.put(item.getId(),item);
             }
@@ -136,7 +137,7 @@ public class CatUserController extends BaseCommonController {
         if (!isRoot){
             lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
 
-            lstDepts = catDeptServicesImpl.findByCondition(lstCon,tokenInfo);
+            lstDepts = catDeptServicesImpl.findByCondition(lstCon);
         }
 
         return lstDepts;
@@ -154,11 +155,8 @@ public class CatUserController extends BaseCommonController {
         List<Condition> lstCon = new ArrayList<>();
         lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
         List<CatDepartmentDTO> lstDepts = new ArrayList<>();
-        lstDepts = catDeptServicesImpl.findByCondition(lstCon,tokenInfo);
+        lstDepts = catDeptServicesImpl.findByCondition(lstCon);
 
         mapIdDept.clear();
         for (CatDepartmentDTO item : lstDepts){
@@ -194,7 +192,7 @@ public class CatUserController extends BaseCommonController {
         }
 
         List<SysRoleDTO> lstSysRoles = new ArrayList<>();
-        lstSysRoles = roleServiceImpl.findByCondition(lstCon,tokenInfo);
+        lstSysRoles = roleServiceImpl.findByCondition(lstCon);
         return lstSysRoles;
     }
 
@@ -203,13 +201,13 @@ public class CatUserController extends BaseCommonController {
     public @ResponseBody String updateUserRole(@RequestParam("userId")String userId,@RequestParam("roleId")String roleId , @RequestParam("roleName")String roleName ,@RequestParam("block")String block){
         try {
             Long idL = Long.parseLong(userId);
-            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL,tokenInfo);
+            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
             if (!roleId.equalsIgnoreCase("-1")){
                 catUserDTO.setRoleId(roleId);
                 catUserDTO.setRoleName(roleName);
             }
             catUserDTO.setBlock(block);
-            ResponseObject response = catUserServices.update(catUserDTO, tokenInfo);
+            ResponseObject response = catUserServices.update(catUserDTO);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
             }else{
@@ -223,10 +221,10 @@ public class CatUserController extends BaseCommonController {
     public @ResponseBody String updateDepartment(@RequestParam("userId")String userId,@RequestParam("deptId")String deptId){
         try {
             Long idL = Long.parseLong(userId);
-            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL,tokenInfo);
+            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
             catUserDTO.setDeptId(deptId);
             catUserDTO.setDeptName(mapIdDept.get(deptId).getName());
-            ResponseObject response = catUserServices.update(catUserDTO, tokenInfo);
+            ResponseObject response = catUserServices.update(catUserDTO);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
 
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
@@ -245,7 +243,7 @@ public class CatUserController extends BaseCommonController {
             boolean isError = false;
     //        delete all stock of this user
             lstCon.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
-            String result = mapUserStockServiceImpl.deleteByCondition(lstCon,tokenInfo);
+            String result = mapUserStockServiceImpl.deleteByCondition(lstCon);
             if (Responses.SUCCESS.getName().equalsIgnoreCase(result) ){
                 if ( !DataUtil.isNullOrEmpty(stockId)){
                     List<MapUserStockDTO> lstMapUserStock = new ArrayList<>();
@@ -253,7 +251,7 @@ public class CatUserController extends BaseCommonController {
                     for (int i = 0 ; i <stockids.length ; i ++){
                         lstMapUserStock.add(new MapUserStockDTO(null,userId,stockids[i]));
                     }
-                    ResponseObject response =  mapUserStockServiceImpl.addList(lstMapUserStock,tokenInfo);
+                    ResponseObject response =  mapUserStockServiceImpl.addList(lstMapUserStock);
                     if(!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                         isError = true;
                     }
@@ -277,11 +275,11 @@ public class CatUserController extends BaseCommonController {
         List<Condition> lstCon = new ArrayList<>();
         lstCon.add(new Condition("custId" , Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,custId));
         lstCon.add(new Condition("status" , Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        List<CatStockDTO> lstStock = catStockService.findByCondition(lstCon,tokenInfo);
+        List<CatStockDTO> lstStock = catStockService.findByCondition(lstCon);
 //        get current stocks of this user
         List<Condition> lstConUserStock = new ArrayList<>();
         lstConUserStock.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
-        List<MapUserStockDTO> lstMapUserStock = mapUserStockServiceImpl.findByCondition(lstConUserStock,tokenInfo);
+        List<MapUserStockDTO> lstMapUserStock = mapUserStockServiceImpl.findByCondition(lstConUserStock);
         String[] stocksId = new String[lstMapUserStock.size()];
         for(int i =0;i<lstMapUserStock.size();i++){
             stocksId[i]=lstMapUserStock.get(i).getStockId();
@@ -293,9 +291,9 @@ public class CatUserController extends BaseCommonController {
     public @ResponseBody String delete(@RequestParam("id")String id, HttpServletRequest request){
         try {
             Long idL = Long.parseLong(id);
-            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL,tokenInfo);
+            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
             catUserDTO.setStatus(Constants.STATUS.IN_ACTIVE);
-            ResponseObject response = catUserServices.update(catUserDTO, tokenInfo);
+            ResponseObject response = catUserServices.update(catUserDTO);
             if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.DELETE_SUSSESS);
             }else{
@@ -313,11 +311,11 @@ public class CatUserController extends BaseCommonController {
         if (!isRoot){
             catUserDTO.setCustId(selectedCustomer.getId());
         }else{
-            catUserDTO.setRoleId(BundleUtils.getKey("defaulRoleId"));
-            catUserDTO.setRoleName(BundleUtils.getKey("defaulRoleName"));
+            catUserDTO.setRoleId(WMSConfigManagerment.DEFAUL_ROLEID);
+            catUserDTO.setRoleName(WMSConfigManagerment.DEFAUL_ROLENAME);
         }
 
-        ResponseObject response = catUserServices.add(catUserDTO,tokenInfo);
+        ResponseObject response = catUserServices.add(catUserDTO);
         try {
             Long idL = Long.parseLong(response.getKey());
             return ResourceBundleUtils.getkey(Constants.RESPONSE.INSERT_SUSSESS);
@@ -327,16 +325,28 @@ public class CatUserController extends BaseCommonController {
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public @ResponseBody String update(CatUserDTO catUserDTO, HttpServletRequest request){
-        log.info("Update menu info: "+ catUserDTO.toString());
+    public @ResponseBody String update(CatUserDTO catUser, HttpServletRequest request){
+        log.info("Update menu info: "+ catUser.toString());
+        String userId =  catUser.getId();
+        Long id =Long.parseLong(userId);
+        CatUserDTO catUserDTO =  (CatUserDTO)catUserServices.findById(id);
+        if (catUserDTO == null){
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
+        }
 
-        if("on".equalsIgnoreCase(catUserDTO.getStatus())){
+        if("on".equalsIgnoreCase(catUser.getStatus())){
             catUserDTO.setStatus("1");
         }else{
             catUserDTO.setStatus("0");
         }
-
-        ResponseObject response = catUserServices.update(catUserDTO,tokenInfo);
+        if (isRoot){
+            catUserDTO.setCustId(catUser.getCustId());
+        }
+        catUserDTO.setCode(catUser.getCode());
+        catUserDTO.setName(catUser.getName());
+        catUserDTO.setEmail(catUser.getEmail());
+        catUserDTO.setTelNumber(catUser.getTelNumber());
+        ResponseObject response = catUserServices.update(catUserDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
@@ -357,12 +367,12 @@ public class CatUserController extends BaseCommonController {
         log.info("Register user info: "+ registerCatUserDTO.toString());
        String userId =  registerCatUserDTO.getId();
        Long id =Long.parseLong(userId);
-        CatUserDTO catUserDTO =  (CatUserDTO)catUserServices.findById(id,tokenInfo);
+        CatUserDTO catUserDTO =  (CatUserDTO)catUserServices.findById(id);
         if (catUserDTO == null){
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
         catUserDTO.setPassword(DataUtil.BCryptPasswordEncoder(registerCatUserDTO.getPassword()));
-        ResponseObject responseObject = catUserServices.update(catUserDTO,tokenInfo);
+        ResponseObject responseObject = catUserServices.update(catUserDTO);
         if(responseObject == null || !Responses.SUCCESS.getName().equalsIgnoreCase(responseObject.getStatusCode())){
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
@@ -382,7 +392,7 @@ public class CatUserController extends BaseCommonController {
     public void buildMapIdCustomer(){
         List<Condition> lstCon = new ArrayList<>();
         lstCon.add(new Condition("status" , Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        List<CatCustomerDTO> lstCustomer = catCustServicesImpl.findByCondition(lstCon,tokenInfo);
+        List<CatCustomerDTO> lstCustomer = catCustServicesImpl.findByCondition(lstCon);
         mapIdCust.clear();
         mapIdCust.put("0",new CatCustomerDTO("0",ResourceBundleUtils.getkey("label.choose")));
         for (CatCustomerDTO catCustomerDTO : lstCustomer){

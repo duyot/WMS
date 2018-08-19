@@ -2,7 +2,6 @@ package com.wms.base;
 
 import com.wms.constants.Constants;
 import com.wms.dto.AppParamsDTO;
-import com.wms.dto.AuthTokenInfo;
 import com.wms.dto.CatCustomerDTO;
 import com.wms.dto.CatUserDTO;
 import com.wms.services.interfaces.BaseService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +25,6 @@ public class BaseCommonController {
     public BaseService appParamsService;
     //
     public CatUserDTO currentUser;
-    public AuthTokenInfo tokenInfo;
     public CatCustomerDTO selectedCustomer;
     public List<AppParamsDTO> lstAppParams;
     //
@@ -39,14 +36,12 @@ public class BaseCommonController {
         if (currentUser == null) {
             this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
+
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
         if(lstAppParams == null){
-            lstAppParams = FunctionUtils.getAppParams(appParamsService,tokenInfo);
+            lstAppParams = FunctionUtils.getAppParams(appParamsService);
         }
         if (mapAppStatus == null) {
             mapAppStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STATUS,lstAppParams));

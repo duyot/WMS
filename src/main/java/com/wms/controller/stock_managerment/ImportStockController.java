@@ -55,11 +55,9 @@ public class ImportStockController extends BaseController {
         if (selectedCustomer == null) {
             this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if (tokenInfo == null) {
-            this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
+
         if (lstGoods == null || isGoodsModified(request)) {
-            lstGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer, tokenInfo);
+            lstGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer);
             buildMapGoods();
             //
             for (CatGoodsDTO i : lstGoods) {
@@ -82,16 +80,12 @@ public class ImportStockController extends BaseController {
             this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
         //
-        if (tokenInfo == null) {
-            this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
-        //
         if (currentUser == null) {
             this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
         }
         //
         if (lstStock == null || isStockModified(request)) {
-            lstStock = FunctionUtils.getListStock(stockService, currentUser, tokenInfo);
+            lstStock = FunctionUtils.getListStock(stockService, currentUser);
             buildMapStock();
             request.getSession().setAttribute("isStockModifiedImportStock", false);
         }
@@ -102,16 +96,14 @@ public class ImportStockController extends BaseController {
         if (selectedCustomer == null) {
             this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if (tokenInfo == null) {
-            this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
+
         //
         if (currentUser == null) {
             this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
         }
         //
         if (lstStock == null || isStockModified(request)) {
-            lstStock = FunctionUtils.getListStock(stockService, currentUser, tokenInfo);
+            lstStock = FunctionUtils.getListStock(stockService, currentUser);
             buildMapStock();
             request.getSession().setAttribute("isStockModifiedImportStock", false);
         }
@@ -123,7 +115,7 @@ public class ImportStockController extends BaseController {
                 previousStockId = currentStockId;
                 List<Condition> conditions = Lists.newArrayList();
                 conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, currentStockId + ""));
-                List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions, tokenInfo);
+                List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions);
                 if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
                     for (CatStockCellDTO i : cellsDTO) {
                         cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
@@ -182,7 +174,7 @@ public class ImportStockController extends BaseController {
             //
             List<Condition> conditions = Lists.newArrayList();
             conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, stockId));
-            List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions, tokenInfo);
+            List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions);
             if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
                 for (CatStockCellDTO i : cellsDTO) {
                     cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
@@ -218,9 +210,9 @@ public class ImportStockController extends BaseController {
         long startTime = System.currentTimeMillis();
         log.info("------------------------------------------------------------");
         log.info(currentUser.getCode() + " import: " + stockManagementDTO.getLstGoods().size() + " items.");
-        String sysdate = catStockService.getSysDate(tokenInfo);
+        String sysdate = catStockService.getSysDate();
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
-        ResponseObject response = stockManagementService.importStock(stockTrans, tokenInfo);
+        ResponseObject response = stockManagementService.importStock(stockTrans);
         log.info("Result " + response.getStatusCode() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
     }
@@ -229,7 +221,7 @@ public class ImportStockController extends BaseController {
     private List<Err$MjrStockGoodsSerialDTO> getListImportError(String stockTransId) {
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("importStockTransId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, stockTransId));
-        return err$MjrStockGoodsSerialService.findByCondition(lstCon, tokenInfo);
+        return err$MjrStockGoodsSerialService.findByCondition(lstCon);
     }
 
     private StockTransDTO initStockTrans(StockManagementDTO stockManagementDTO, String sysdate) {
@@ -273,7 +265,7 @@ public class ImportStockController extends BaseController {
             String[] splitPartner = mjrStockTransDTO.getPartnerName().split("\\|");
             if (splitPartner.length > 0) {
                 String partnerCode = splitPartner[0];
-                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, tokenInfo, selectedCustomer.getId(), partnerCode, null);
+                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
                 if (catPartnerDTO != null) {
                     String partnerName = catPartnerDTO.getName() == null ? "" : catPartnerDTO.getName();
                     String partnerTelNumber = catPartnerDTO.getTelNumber() == null ? "" : catPartnerDTO.getTelNumber();
@@ -332,9 +324,6 @@ public class ImportStockController extends BaseController {
         //
         if (selectedCustomer == null) {
             this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        if (tokenInfo == null) {
-            this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
         }
     }
 }

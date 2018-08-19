@@ -1,6 +1,7 @@
 package com.wms.controller.common_managerment;
 
 import com.google.common.collect.Lists;
+import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
@@ -39,22 +40,16 @@ public class ListEmployeeController {
     @Autowired
     BaseService roleService;
 
+    @Autowired
+    ProfileConfigInterface profileConfig;
+
     Map<String,String> mapRoles;
 
-    private AuthTokenInfo tokenInfo;
-
-    @ModelAttribute("tokenInfo")
-    public void setTokenInfo(HttpServletRequest request){
-        this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-    }
 
     @ModelAttribute("mapRoles")
     public Map<String,String> mapRoles(HttpServletRequest request){
-        if (tokenInfo == null) {
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
         Map<String,String> mapRole = new HashMap<>();
-        List<RoleDTO> lstRole = roleService.getAll(tokenInfo);
+        List<RoleDTO> lstRole = roleService.getAll();
         if(DataUtil.isListNullOrEmpty(lstRole)){
             return mapRole;
         }
@@ -79,7 +74,7 @@ public class ListEmployeeController {
         addCatUserDTO.setRoleName(mapRoles.get(addCatUserDTO.getRoleName()));
         log.info("Register user info: "+ addCatUserDTO.toString());
 
-        ResponseObject responseObject = catUserService.register(addCatUserDTO,tokenInfo);
+        ResponseObject responseObject = catUserService.register(addCatUserDTO);
 
         if(responseObject == null || responseObject.getStatusName().equalsIgnoreCase(Responses.ERROR.getName())){
             log.info("ERROR");
@@ -167,7 +162,7 @@ public class ListEmployeeController {
 
         String filename  = username+ "_" + DateTimeUtils.getSysDate_ddMMyyyy_HH_mm_ss()+ "_" + uploadfile.getOriginalFilename();
 
-        if(!FunctionUtils.saveUploadedFile(uploadfile,filename)){
+        if(!FunctionUtils.saveUploadedFile(uploadfile,filename,profileConfig)){
             return "Lỗi: đóng file trước khi upload!";
         }
         return "Upload thành công";

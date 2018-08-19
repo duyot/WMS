@@ -73,10 +73,7 @@ public class TransInfoController extends BaseController{
             if (selectedCustomer == null) {
                 this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
             }
-            if (tokenInfo == null) {
-                this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-            }
-            lstAppParams = FunctionUtils.getAppParams(appParamsService, tokenInfo);
+            lstAppParams = FunctionUtils.getAppParams(appParamsService);
 
         }
         lstAppTransType = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.TRANS_TYPE, lstAppParams);
@@ -97,12 +94,9 @@ public class TransInfoController extends BaseController{
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
         //
         if(lstUsers == null){
-            lstUsers = FunctionUtils.getCustomerUsers(catUserService,selectedCustomer,tokenInfo);
+            lstUsers = FunctionUtils.getCustomerUsers(catUserService,selectedCustomer);
         }
         return lstUsers;
     }
@@ -142,7 +136,7 @@ public class TransInfoController extends BaseController{
 
         lstCon.add(new Condition("createdDate",Constants.SQL_OPERATOR.ORDER,"desc"));
         //
-        lstTrans = mjrStockTransService.findByCondition(lstCon,tokenInfo);
+        lstTrans = mjrStockTransService.findByCondition(lstCon);
         if(DataUtil.isListNullOrEmpty(lstTrans)){
             return Lists.newArrayList();
         }
@@ -174,7 +168,7 @@ public class TransInfoController extends BaseController{
                 lstStockTransId.append(",");
             }
         }
-        List<MjrStockTransDetailDTO> lstTransDetail = stockManagementService.getListTransGoodsDetail(lstStockTransId.toString(),tokenInfo);
+        List<MjrStockTransDetailDTO> lstTransDetail = stockManagementService.getListTransGoodsDetail(lstStockTransId.toString());
         if(DataUtil.isListNullOrEmpty(lstTransDetail)){
             lstTransDetail.add(new MjrStockTransDetailDTO());
             startDate = "";
@@ -189,7 +183,7 @@ public class TransInfoController extends BaseController{
     //==================================================================================================================
     @RequestMapping(value = "/cancelTrans")
     public @ResponseBody String cancelTrans(@RequestParam("transId") String transId){
-        ResponseObject response = stockManagementService.cancelTrans(transId,tokenInfo);
+        ResponseObject response = stockManagementService.cancelTrans(transId);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             return "1|Hủy phiếu thành công";
         }else{
@@ -203,30 +197,30 @@ public class TransInfoController extends BaseController{
     public void exportTransInfo(HttpServletResponse response,@RequestParam("transId") String transId){
         log.info("exportTransInfo: " +transId );
         //Lay thong tin chung giao dich xuat kho
-        List<MjrStockTransDTO> lstStockTrans = stockManagementService.getStockTransInfo(transId.toString(),tokenInfo);
+        List<MjrStockTransDTO> lstStockTrans = stockManagementService.getStockTransInfo(transId.toString());
         MjrStockTransDTO mjrStockTransDTO = null;
         if (lstStockTrans != null && lstStockTrans.size() >0){
             mjrStockTransDTO = lstStockTrans.get(0);
         }
 
-        CatCustomerDTO catCustomerDTO= (CatCustomerDTO) catCustServicesImpl.findById(Long.parseLong(mjrStockTransDTO.getCustId()),tokenInfo);
-        List<MjrStockTransDetailDTO> lstStockTransDetail = stockManagementService.getListTransGoodsDetail(transId.toString(),tokenInfo);
+        CatCustomerDTO catCustomerDTO= (CatCustomerDTO) catCustServicesImpl.findById(Long.parseLong(mjrStockTransDTO.getCustId()));
+        List<MjrStockTransDetailDTO> lstStockTransDetail = stockManagementService.getListTransGoodsDetail(transId.toString());
         String prefixFileName = "Thongtin_chitiet_giaodich_";
         String templatePath ;
         int  total = 0;
         Map<String, Object> parameters = new HashMap<String, Object>();
         if (mjrStockTransDTO.getType().equalsIgnoreCase("1")){
-            templatePath =BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_BILL;
+            templatePath =profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_BILL;
             prefixFileName = prefixFileName + "nhapkho_";
         }else{
-             templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.EXPORT_BILL;
+             templatePath =profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_BILL;
              parameters.put("receiverName", mjrStockTransDTO.getReceiveName());
             prefixFileName = prefixFileName + "xuatkho_";
         }
         log.info("exportTransInfo: template path " +templatePath );
         prefixFileName = prefixFileName +DateTimeUtils.getTimeStamp();
 
-        String outPutFile = BundleUtils.getKey("temp_url") + prefixFileName+ ".docx";
+        String outPutFile = profileConfig.getTempURL() + prefixFileName+ ".docx";
 
         try {
 
@@ -273,7 +267,7 @@ public class TransInfoController extends BaseController{
     public @ResponseBody List<MjrStockTransDetailDTO> getTransGoodsDetail(@RequestParam("stockId") String stockId,
                                                                           @RequestParam("transId") String transId,@RequestParam("transType") String transType
                                                                           ){
-        List<MjrStockTransDetailDTO> lstTransGoodsDetail = stockManagementService.getListTransGoodsDetail(transId,tokenInfo);
+        List<MjrStockTransDetailDTO> lstTransGoodsDetail = stockManagementService.getListTransGoodsDetail(transId);
         if(DataUtil.isListNullOrEmpty(lstTransGoodsDetail)){
             return  Lists.newArrayList();
         }
@@ -299,7 +293,7 @@ public class TransInfoController extends BaseController{
     }
     //==================================================================================================================
     private  String exportListStockTrans(List<MjrStockTransDTO> lstTrans,String prefixFileName){
-        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.LIST_TRANS_TEMPLATE;
+        String templatePath = profileConfig.getTemplateURL()+ Constants.FILE_RESOURCE.LIST_TRANS_TEMPLATE;
         //
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -312,14 +306,14 @@ public class TransInfoController extends BaseController{
 
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
+        String reportFullPath = profileConfig.getTempURL() + fullFileName;
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         return reportFullPath;
     }
     //==================================================================================================================
     private  String exportListStockTransDetail(List<MjrStockTransDetailDTO> lstTransDetail,String prefixFileName){
-        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.LIST_TRANS_DETAIL_TEMPLATE;
+        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.LIST_TRANS_DETAIL_TEMPLATE;
         //
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -335,7 +329,7 @@ public class TransInfoController extends BaseController{
         }
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
+        String reportFullPath = profileConfig.getTempURL() + fullFileName;
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         return reportFullPath;

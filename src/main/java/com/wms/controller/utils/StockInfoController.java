@@ -53,10 +53,7 @@ public class StockInfoController extends BaseController{
         }
 
         if (lstAppParams == null) {
-            if (tokenInfo == null) {
-                this.tokenInfo = (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-            }
-            lstAppParams = FunctionUtils.getAppParams(appParamsService, tokenInfo);
+            lstAppParams = FunctionUtils.getAppParams(appParamsService);
         }
         lstAppGoodsState = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE, lstAppParams);
         //
@@ -106,9 +103,9 @@ public class StockInfoController extends BaseController{
         //Tim theo doi tac gui hang
         if(!DataUtil.isStringNullOrEmpty(partnerId) && !partnerId.equals(Constants.STATS_ALL)){
             searchGoodsTotalDTO.setPartnerId(partnerId);
-            lstResult = utilsService.findMoreCondition(searchGoodsTotalDTO,tokenInfo);
+            lstResult = utilsService.findMoreCondition(searchGoodsTotalDTO);
         }else{
-            lstResult = mjrStockGoodsTotalService.findByCondition(lstCon,tokenInfo);
+            lstResult = mjrStockGoodsTotalService.findByCondition(lstCon);
         }
 
         lstGoodsTotal = setNameValueInfo(lstResult);
@@ -126,10 +123,10 @@ public class StockInfoController extends BaseController{
         CatGoodsDTO goodsItem = mapGoodsIdGoods.get(goodsId);
 
         ServerPagingDTO data = new ServerPagingDTO();
-        List<MjrStockTransDetailDTO> lstData = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId,limit,offset,tokenInfo);
+        List<MjrStockTransDetailDTO> lstData = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId,limit,offset);
         lstGoodsDetails = setListGoodsDetailNameInfo(lstData,goodsItem);
         data.setRows(lstGoodsDetails);
-        Long totalItem =utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId,tokenInfo);
+        Long totalItem =utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId);
         data.setTotal(totalItem);
         return data;
     }
@@ -156,8 +153,8 @@ public class StockInfoController extends BaseController{
         //paging -> re get all goods detail
         MjrStockTransDetailDTO item = lstGoodsDetails.get(0);
         CatGoodsDTO goodsItem = mapGoodsIdGoods.get(item.getGoodsId());
-        Long totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),partnerId,tokenInfo);
-        List<MjrStockTransDetailDTO> lstGoodsDetailAlls = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),partnerId,totalItem+"",0+"",tokenInfo);
+        Long totalItem = utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),partnerId);
+        List<MjrStockTransDetailDTO> lstGoodsDetailAlls = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),partnerId,totalItem+"",0+"");
         //
         String fileResource = exportGoodsDetails(setListGoodsDetailNameInfo(lstGoodsDetailAlls,goodsItem),prefixFileName,stockId,goodsItem.isSerial());
         FunctionUtils.loadFileToClient(response,fileResource);
@@ -207,7 +204,7 @@ public class StockInfoController extends BaseController{
 
     //=======================================================================================================
     private  String exportTotal(List<MjrStockGoodsTotalDTO> lstGoodsTotal,String prefixFileName){
-        String templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_TOTAL_TEMPLATE;
+        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.GOODS_TOTAL_TEMPLATE;
 
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -217,7 +214,7 @@ public class StockInfoController extends BaseController{
         beans.put("date", DateTimeUtils.convertDateTimeToString(new Date()));
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
+        String reportFullPath =profileConfig.getTempURL() + fullFileName;
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         //
@@ -232,9 +229,9 @@ public class StockInfoController extends BaseController{
         }
         MjrStockTransDetailDTO goodsItem = lstGoodsDetails.get(0);
         if(isSerial){
-            templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_SERIAL_TEMPLATE;
+            templatePath =profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.GOODS_DETAILS_SERIAL_TEMPLATE;
         }else{
-            templatePath = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.GOODS_DETAILS_TEMPLATE;
+            templatePath = profileConfig.getTemplateURL()+ Constants.FILE_RESOURCE.GOODS_DETAILS_TEMPLATE;
         }
         //
         File file = new File(templatePath);
@@ -248,7 +245,7 @@ public class StockInfoController extends BaseController{
         beans.put("goodsStateValue", goodsItem.getGoodsStateValue());
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = BundleUtils.getKey("temp_url") + fullFileName;
+        String reportFullPath = profileConfig.getTempURL()+ fullFileName;
         //
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         return reportFullPath;

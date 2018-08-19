@@ -53,11 +53,8 @@ public class ExportStockController extends BaseController{
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
         if(lstGoods == null || isGoodsModified(request)){
-            lstGoods = FunctionUtils.getListGoods(catGoodsService,selectedCustomer,tokenInfo);
+            lstGoods = FunctionUtils.getListGoods(catGoodsService,selectedCustomer);
             buildMapGoods();
             //
             for(CatGoodsDTO i: lstGoods){
@@ -75,11 +72,8 @@ public class ExportStockController extends BaseController{
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
         if(lstPartner == null || isGoodsModified(request)){
-            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer,tokenInfo);
+            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer);
 
         }
 
@@ -109,16 +103,13 @@ public class ExportStockController extends BaseController{
         if(selectedCustomer == null){
             this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if(tokenInfo == null){
-            this.tokenInfo =  (AuthTokenInfo) request.getSession().getAttribute("tokenInfo");
-        }
         //
         if (currentUser == null) {
             this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
         }
         //
         if(lstStock == null || isStockModified(request)){
-            lstStock = FunctionUtils.getListStock(stockService,currentUser,tokenInfo);
+            lstStock = FunctionUtils.getListStock(stockService,currentUser);
             buildMapStock();
             request.getSession().setAttribute("isStockModifiedExportStock",false);
         }
@@ -132,13 +123,13 @@ public class ExportStockController extends BaseController{
 
     @RequestMapping(value = "/getTemplateFile")
     public void getTemplateFile(HttpServletResponse response){
-        String fileResource = BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.EXPORT_TEMPLATE;
+        String fileResource = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_TEMPLATE;
         FunctionUtils.loadFileToClient(response,fileResource);
     }
 
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request,HttpServletResponse response){
-        String fileName = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_import_error");
+        String fileName =  profileConfig.getTempURL() + request.getSession().getAttribute("file_import_error");
         FunctionUtils.loadFileToClient(response,fileName);
     }
 
@@ -149,8 +140,8 @@ public class ExportStockController extends BaseController{
         if(!DataUtil.isListNullOrEmpty(lstGoodsError)){
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName ="Error_"+ errorItem.getCustId() + "_"+ errorItem.getStockId() + "_"+ errorItem.getImportStockTransId();
-            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName,false);
-            FunctionUtils.loadFileToClient(response,BundleUtils.getKey("temp_url")+ fileName);
+            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName,false,profileConfig);
+            FunctionUtils.loadFileToClient(response,profileConfig.getTempURL()+ fileName);
         }
     }
 
@@ -164,7 +155,7 @@ public class ExportStockController extends BaseController{
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
         lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,stockId));
         lstCon.add(new Condition("goodsId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,catGoodsDTO.getId()));
-        List<MjrStockGoodsTotalDTO> lstTotal =  mjrStockGoodsTotalService.findByCondition(lstCon,tokenInfo);
+        List<MjrStockGoodsTotalDTO> lstTotal =  mjrStockGoodsTotalService.findByCondition(lstCon);
         if (DataUtil.isListNullOrEmpty(lstTotal)) {
             catGoodsDTO.setAmount("0");
             return catGoodsDTO;
@@ -183,7 +174,7 @@ public class ExportStockController extends BaseController{
         if (goods == null) {
             return Lists.newArrayList();
         }
-        List<String> lst = stockManagementService.getListSerialInStock(selectedCustomer.getId(), stockId, goods.getId(), goodsState, tokenInfo);
+        List<String> lst = stockManagementService.getListSerialInStock(selectedCustomer.getId(), stockId, goods.getId(), goodsState);
         return lst;
     }
 
@@ -199,7 +190,7 @@ public class ExportStockController extends BaseController{
         if(!importFileResult.isValid()){
             //save error file
             String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
-            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(),prefixFileName,false);
+            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(),prefixFileName,false,profileConfig);
             //save in session
             request.getSession().setAttribute("file_import_error",fileName);
             return null;
@@ -213,10 +204,10 @@ public class ExportStockController extends BaseController{
         long startTime = System.currentTimeMillis();
         log.info("------------------------------------------------------------");
         log.info(currentUser.getCode() +" export: " + stockManagementDTO.getLstGoods().size() + " items.");
-        String sysdate = catStockService.getSysDate(tokenInfo);
+        String sysdate = catStockService.getSysDate();
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO,sysdate);
         System.out.println("Export request: "+ JSONUtils.object2JSONString(stockTrans));
-        ResponseObject response = stockManagementService.exportStock(stockTrans,tokenInfo);
+        ResponseObject response = stockManagementService.exportStock(stockTrans);
         log.info("Result "+ response.getStatusCode() +" in "+ (System.currentTimeMillis() - startTime) + "ms");
         return response;
     }
@@ -224,7 +215,7 @@ public class ExportStockController extends BaseController{
     private List<Err$MjrStockGoodsSerialDTO> getListImportError(String stockTransId){
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("importStockTransId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,stockTransId));
-        return err$MjrStockGoodsSerialService.findByCondition(lstCon,tokenInfo);
+        return err$MjrStockGoodsSerialService.findByCondition(lstCon);
     }
 
     private StockTransDTO initStockTrans(StockManagementDTO stockManagementDTO,String sysdate){
@@ -269,7 +260,7 @@ public class ExportStockController extends BaseController{
             String [] splitPartner = mjrStockTransDTO.getReceiveName().split("\\|");
             if (splitPartner.length > 0 ){
                 String partnerCode = splitPartner[0];
-                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,tokenInfo,selectedCustomer.getId(), partnerCode, null );
+                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,selectedCustomer.getId(), partnerCode, null );
                 if (catPartnerDTO != null){
                     String partnerName = catPartnerDTO.getName()==null? "": catPartnerDTO.getName();
                     String partnerTelNumber = catPartnerDTO.getTelNumber()==null? "": catPartnerDTO.getTelNumber();
@@ -280,7 +271,7 @@ public class ExportStockController extends BaseController{
         }
         //Xuat hang cua doi tac
         if (mjrStockTransDTO.getPartnerId() != null){
-            CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,tokenInfo,selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId() );
+            CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId() );
             if (catPartnerDTO != null) {
                 String partnerName = catPartnerDTO.getName() == null ? "" : catPartnerDTO.getName();
                 String partnerTelNumber = catPartnerDTO.getTelNumber() == null ? "" : catPartnerDTO.getTelNumber();
