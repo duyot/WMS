@@ -17,14 +17,14 @@
 			X = "-85"
 			Y = "33"
 			Width = "180"
-			Height = "36"
+			Height = "66"
 			Flags = "3"
 			UseDataTable = "0"
 			TableName = ""
 			Typeface = ""
 			FontAttributes = "0"
 			TextSize = "Normal"
-			NextItemID = "48"
+			NextItemID = "50"
 			LeftMargin = "20"
 			RightMargin = "16"
 			Mirror = "0">
@@ -36,6 +36,18 @@
 				IsDisabled = "0"/>
 			<MenuPopupItem
 				ItemID = "41"
+				Type = "Separator"
+				Item = ""
+				Hotkey = ""
+				IsDisabled = "0"/>
+			<MenuPopupItem
+				ItemID = "48"
+				Type = "CommandOption"
+				Item = "2. Xem doanh số"
+				Hotkey = ""
+				IsDisabled = "0"/>
+			<MenuPopupItem
+				ItemID = "49"
 				Type = "Separator"
 				Item = ""
 				Hotkey = ""
@@ -131,6 +143,17 @@
 			SourceSubItemID = "42"
 			SourceRefID = "105144190"
 			TargetRefID = "1706558397"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "1014376813"
+			Layer = "DesignElements"
+			Trigger = "LeftClick"
+			Type = "Navigation"
+			SubType = "ModelessSwitchTop"
+			SourceSubItemID = "48"
+			SourceRefID = "105144190"
+			TargetRefID = "481053965"
 			ConLineWidth = "2"
 			ConLineColour = "0,0,0,0,0"/>
 	</Connections>
