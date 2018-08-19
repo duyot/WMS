@@ -430,7 +430,7 @@
 					ColumnID = "7"
 					Heading = "Mã sản phẩm"
 					VisibleCondition = ""
-					Width = "72"
+					Width = "81"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -447,7 +447,7 @@
 					ColumnID = "2"
 					Heading = "Tên sản phẩm"
 					VisibleCondition = ""
-					Width = "198"
+					Width = "223"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -481,7 +481,7 @@
 					ColumnID = "39"
 					Heading = "Serial"
 					VisibleCondition = ""
-					Width = "60"
+					Width = "69"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -491,23 +491,6 @@
 					Type = "Text"
 					HeadingAlignment = "Centre"
 					CellAlignment = "Right"/>
-				<ColumnItem
-					OddBackgroundColour = "255,255,255,0,6"
-					EvenBackgroundColour = "255,255,255,0,6"
-					TextColour = "0,0,0,0,9"
-					ColumnID = "40"
-					Heading = "Size"
-					VisibleCondition = ""
-					Width = "44"
-					HeaderMargin = "0"
-					CellMargin = "0"
-					HasCustomOddBgColour = "0"
-					HasCustomEvenBgColour = "0"
-					HasCustomTextColour = "0"
-					HighlightSelections = "1"
-					Type = "Text"
-					HeadingAlignment = "Centre"
-					CellAlignment = "Left"/>
 				<ColumnItem
 					OddBackgroundColour = "255,255,255,0,6"
 					EvenBackgroundColour = "255,255,255,0,6"
@@ -583,9 +566,6 @@
 						
 					</Cell>
 					<Cell>
-						
-					</Cell>
-					<Cell>
 						Chiếc
 					</Cell>
 					<Cell>
@@ -615,9 +595,6 @@
 					</Cell>
 					<Cell>
 						A452CF6
-					</Cell>
-					<Cell>
-						
 					</Cell>
 					<Cell>
 						Chiếc
@@ -651,9 +628,6 @@
 						
 					</Cell>
 					<Cell>
-						L
-					</Cell>
-					<Cell>
 						Chiếc
 					</Cell>
 					<Cell>
@@ -666,9 +640,6 @@
 				<Row
 					RowID = "31"
 					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -727,16 +698,10 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						
-					</Cell>
 				</Row>
 				<Row
 					RowID = "23"
 					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -795,16 +760,10 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						
-					</Cell>
 				</Row>
 				<Row
 					RowID = "21"
 					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -863,16 +822,10 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						
-					</Cell>
 				</Row>
 				<Row
 					RowID = "34"
 					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -931,9 +884,6 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						
-					</Cell>
 				</Row>
 				<Row
 					RowID = "36"
@@ -965,16 +915,10 @@
 					<Cell>
 						
 					</Cell>
-					<Cell>
-						
-					</Cell>
 				</Row>
 				<Row
 					RowID = "37"
 					IsSelected = "0">
-					<Cell>
-						
-					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -2162,6 +2106,61 @@
 			TableName = ""
 			Title = "Thông báo từ hệ thống!"
 			Message = "Thao tác được thực hiện thành công. Bạn có muốn in hóa đơn?"/>
+		<Element
+			CID = "719141916"
+			Type = "StaticText"
+			X = "471"
+			Y = "103"
+			Width = "57"
+			Height = "24"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			FillColour = "236,233,216,0,16"
+			TextColour = "0,0,0,0,19"
+			Typeface = ""
+			FontAttributes = "0"
+			TextSize = "Normal"
+			Text = "Serial"
+			IsDisabled = "0"
+			IsHyperlink = "0"
+			Fill = "None"
+			HorzAlign = "Left"
+			VertAlign = "Centre"/>
+		<Element
+			CID = "719154527"
+			Type = "EditBox"
+			X = "528"
+			Y = "104"
+			Width = "187"
+			Height = "21"
+			Flags = "2"
+			UseDataTable = "0"
+			TableName = ""
+			Typeface = ""
+			FontAttributes = "0"
+			TextSize = "Normal"
+			Text = ""
+			IsDisabled = "0"
+			IsReadOnly = "0"
+			IsTransparent = "0"
+			HasBorder = "1"
+			HorzAlign = "Left"
+			EditType = "Text"
+			OverrideTextColour = "1"
+			OverrideDisabledTextColour = "0"
+			OverrideFillColour = "0"
+			OverrideDisabledFillColour = "0"
+			OverrideBorderColour = "0"
+			MarginLeft = "0"
+			MarginRight = "0"
+			MarginTop = "0"
+			MarginBottom = "0"
+			TextColour = "141,141,141,0,40"
+			DisabledTextColour = "212,214,186,0,4"
+			FillColour = "255,255,153,0,0"
+			DisabledFillColour = "236,233,216,0,16"
+			BorderColour = "164,185,127,0,12"/>
 	</Elements>
 	<Connections
 		CID = "2">
