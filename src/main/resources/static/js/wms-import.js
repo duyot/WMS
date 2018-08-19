@@ -138,6 +138,7 @@ $(function () {
                     showbuttons: false,
                     display: function (value) {
                         $(this).text(formatFloatType(value));
+                        alert("running");
                     }
                 }
             },

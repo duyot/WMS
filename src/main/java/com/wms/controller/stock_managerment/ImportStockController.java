@@ -96,7 +96,6 @@ public class ImportStockController extends BaseController {
         if (selectedCustomer == null) {
             this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-
         //
         if (currentUser == null) {
             this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
@@ -151,8 +150,8 @@ public class ImportStockController extends BaseController {
         if (!DataUtil.isListNullOrEmpty(lstGoodsError)) {
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName = "Error_" + errorItem.getCustId() + "_" + errorItem.getStockId() + "_" + errorItem.getImportStockTransId();
-            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError, mapGoodsIdGoods), prefixFileName, true);
-            FunctionUtils.loadFileToClient(response, BundleUtils.getKey("temp_url") + fileName);
+            //String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError, mapGoodsIdGoods), prefixFileName, true);
+            //FunctionUtils.loadFileToClient(response, BundleUtils.getKey("temp_url") + fileName);
         }
     }
 
@@ -196,9 +195,9 @@ public class ImportStockController extends BaseController {
         if (!importFileResult.isValid()) {
             //save error file
             String prefixFileName = selectedCustomer.getId() + "_" + currentUser.getCode();
-            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(), prefixFileName, true);
+            //String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(), prefixFileName, true);
             //save in session
-            request.getSession().setAttribute("file_import_error", fileName);
+            //request.getSession().setAttribute("file_import_error", fileName);
             return null;
         }
         return importFileResult.getLstGoodsImport();
