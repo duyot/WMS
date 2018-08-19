@@ -64,7 +64,7 @@ public class StockManagementDP  extends BaseDP<MjrStockTransDetailDTO> {
     public List<MjrStockTransDetailDTO> getTransGoodsDetail(String custId, String stockId, String transId, String transType ){
         RestTemplate restTemplate = new RestTemplate();
         String query =  "custId="+ custId + "&stockId=" + stockId + "&transId=" + transId + "&transType="+ transType;
-        String url = getUrlLoadBalancingQuery(query, GET_TRANS_GOODS_URL);
+        String url = getUrlLoadBalancingQuery(query, GET_LIST_TRANS_GOODS_URL);
         try {
             ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,MjrStockTransDetailDTO[].class);
             return Arrays.asList(responseEntity.getBody());
@@ -76,7 +76,7 @@ public class StockManagementDP  extends BaseDP<MjrStockTransDetailDTO> {
     public List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId ){
         RestTemplate restTemplate = new RestTemplate();
         String query =  "lstStockTransId="+ lstStockTransId ;
-        String url = getUrlLoadBalancingQuery(query, GET_TRANS_GOODS_URL);
+        String url = getUrlLoadBalancingQuery(query, GET_LIST_TRANS_GOODS_URL);
         try {
             ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,MjrStockTransDetailDTO[].class);
             return Arrays.asList(responseEntity.getBody());
@@ -88,7 +88,7 @@ public class StockManagementDP  extends BaseDP<MjrStockTransDetailDTO> {
     public List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId ){
         RestTemplate restTemplate = new RestTemplate();
         String query =  "lstStockTransId="+ lstStockTransId ;
-        String url = getUrlLoadBalancingQuery(query, GET_TRANS_GOODS_URL);
+        String url = getUrlLoadBalancingQuery(query, GET_LIST_TRANS_URL);
         try {
             ResponseEntity<MjrStockTransDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,MjrStockTransDTO[].class);
             return Arrays.asList(responseEntity.getBody());
