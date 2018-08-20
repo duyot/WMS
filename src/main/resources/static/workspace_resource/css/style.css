@@ -18,7 +18,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 .uppercase-input{
 	text-transform: uppercase;
 }
-
+.not-active {
+	pointer-events: none;
+}
+.not-active a{
+	cursor: default;
+	color: black;
+	border-bottom: none !important;
+}
 .row-function{
 	margin-right:8px;
 	font-size:15px;

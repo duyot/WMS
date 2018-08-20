@@ -113,10 +113,14 @@ function runningFormatter(value, row, index) {
 }
 
 function unFormatFloat(value) {
+    if(typeof(value) == "number"){
+        return value;
+    }
     return replaceAll(value,",","");
 }
 
 function replaceAll(value,search, replacement) {
+
     return value.replace(new RegExp(search, 'g'), replacement);
 }
 

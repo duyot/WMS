@@ -67,33 +67,26 @@ $(function () {
             {
                 field: 'amount',
                 title: 'Số lượng',
+                cellStyle:'addStyle',
                 editable: {
                     type: 'text',
                     mode: 'inline',
                     showbuttons: false,
                     validate: function (value) {
-                        alert("running in validate");
-                        var newAmountValue = Number(unFormatFloat(value));
-                        var oldAmountValue = Number($table.bootstrapTable('getData')[selectedIndex]["amount"]);
-                        if (newAmountValue != oldAmountValue){
-                            if (!isValidAmount(newAmountValue)) {
+                        if (!isValidAmount(value)) {
                                 return 'Số lượng nhập phải là số';
-                            }
-                            //change value of total
-                            var inputPrice = Number($table.bootstrapTable('getData')[selectedIndex]["inputPrice"]);
-                            var rowTotal = newAmountValue * inputPrice;
-                            $table.bootstrapTable('updateCell', {index: selectedIndex, field: "total", value: rowTotal});
+                        }
+
+                            var row = $table.bootstrapTable('getData')[selectedIndex];
+                            totalPrice += (value - row.amount)*row.inputPrice;
+                            row.amount = value;
+                            $table.bootstrapTable('updateRow', {index: selectedIndex, row:row});
                             //
                             setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
-                        }
+
                     },
                     display: function (value) {
-                        var newAmountValue = Number(unFormatFloat(value));
-                        var oldAmountValue = Number($table.bootstrapTable('getData')[selectedIndex]["amount"]);
-                        if (newAmountValue != oldAmountValue){
-                            alert("running in display");
-                            $(this).text(formatFloatType(value));
-                        }
+                        $(this).text(formatFloatType(value));
                     }
                 }
             },
@@ -106,25 +99,17 @@ $(function () {
                     showbuttons: false,
                     validate: function (value) {
                         var amount = unFormatFloat(value);
-                        oldPriceValue = Number($table.bootstrapTable('getData')[selectedIndex]["inputPrice"]);
                         if (!isValidAmount(amount)) {
                             return 'Giá nhập nhập phải là số';
                         }
+                        var row = $table.bootstrapTable('getData')[selectedIndex];
+                        totalPrice += (value - row.inputPrice)*row.amount;
+                        row.inputPrice = value;
+                        $table.bootstrapTable('updateRow', {index: selectedIndex, row:row});
+                        //
+                        setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
                     },
                     display: function (value) {
-                        if (selectedIndex >= 0) {
-                            totalPrice = Number(totalPrice) - Number(oldPriceValue) + Number(value);
-                            //change total
-                            var rowTotal = Number($table.bootstrapTable('getData')[selectedIndex]["amount"]) * Number(value);
-                            var oldData = $table.bootstrapTable('getData')[selectedIndex];
-                            oldData["total"] = rowTotal;
-                            if (oldPriceValue != Number(value)) {
-                                //
-                                oldPriceValue = -1;
-                                $table.bootstrapTable('load', oldData);
-                            }
-                            setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
-                        }
                         $(this).text(formatFloatType(value));
                     }
                 }
@@ -132,15 +117,7 @@ $(function () {
             {
                 field: 'total',
                 title: 'Thành tiền',
-                editable: {
-                    type: 'text',
-                    mode: 'inline',
-                    showbuttons: false,
-                    display: function (value) {
-                        $(this).text(formatFloatType(value));
-                        alert("running");
-                    }
-                }
+                formatter: 'subTotal',
             },
             {
                 field: 'cellCode',
@@ -886,4 +863,18 @@ function onSelectStock() {
     });
 }
 
+function addStyle(value, row, index) {
+    var classes = ['active', 'success', 'info', 'warning', 'danger'];
+
+    if (row["serial"]!="") {
+        return {
+            classes: "not-active"
+        };
+    }
+    return {};
+}
+function subTotal(value, row, index) {
+    var total = row.amount * row.inputPrice;
+    return formatFloatType(value);
+}
 //-----------------------------------------------------------------------------------------------------------------
