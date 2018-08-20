@@ -3,9 +3,12 @@ package com.wms.config;
  * Created by truongbx on 12/08/2018.
  */
 import com.wms.ribbon.BaseURL;
+import com.wms.utils.BundleUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import java.net.URL;
 
 @Component
 @Profile("dev_local")
@@ -16,5 +19,19 @@ public class DevLocalProfileConfig extends BaseProfile {
     @Override
     public BaseURL getBaseUrLService() {
         return localUrl;
+    }
+
+    @Override
+    public String getTemplateURL() {
+        return  getRealURL(super.getTemplateURL());
+    }
+
+    public String getRealURL(String path){
+        URL url = BundleUtils.class.getClassLoader().getResource(path);
+        String part = url.getPath();
+        if (part.charAt(0) == '/'){
+            part = part.replaceFirst("/", "");
+        }
+      return part;
     }
 }

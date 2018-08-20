@@ -27,7 +27,7 @@ config:
       service: http://localhost:8080/services/
       login : http://localhost:8080/login
       token : http://localhost:8080/oauth/token?grant_type=password&username=@username&password=@password
-      template : C:\\Epson\\source_v3\\AJasperReport\\
+      template : file_template/
       temp : C:\\Epson\\source_v3\\AJasperReport\\
       upload: C:\\Epson\\source_v3\\AJasperReport\\
 server:
@@ -53,9 +53,9 @@ eureka:
       duration: 5
 config:
     url:
-      template : //WMS//template//
-      temp : //WMS//temp//
       upload: //WMS//uploaded_file//
+      template : //WMS//template//
+      temp: //WMS//temp//
 server:
   port: 8020
 
@@ -81,9 +81,9 @@ eureka:
       duration: 5
 config:
     url:
+      upload : //WMS//uploaded_file//
       template : //WMS//template//
-      temp : //WMS//temp//
-      upload: //WMS//uploaded_file//
+      temp: //WMS//temp//
 server:
   port: 8020
 #
