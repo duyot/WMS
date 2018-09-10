@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WMS - Workspace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="WMS"/>
+    <!--CSS-->
+    <link rel='stylesheet' href="css/bootstrap.css" th:href="@{/css/bootstrap.css}" type='text/css'/>
+    <link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/css/bootstrap-table.css}"/>
+    <link rel='stylesheet' href="css/style.css" th:href="@{/workspace_resource/css/style.css}" type='text/css'/>
+    <link rel="stylesheet" href="css/animate.css" th:href="@{/workspace_resource/css/animate.css}" type="text/css"
+          media="all"/>
+    <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css"
+          th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/jquery-ui.min.css}"/>
+    <link rel="stylesheet" href="/css/bootstrap-toggle.css" th:href="@{/css/bootstrap-toggle.css}"/>
+    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
+    <link rel='stylesheet' href="css/sale.css" th:href="@{/css/sale.css}" type='text/css'/>
+    <!--<link rel='stylesheet' href="css/cat-role.css" th:href="@{/css/cat-role.css}" type='text/css'/>-->
+    <!--script-->
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!--<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>-->
+    <!--<script>-->
+    <!--new WOW().init();-->
+    <!--</script>-->
+    <script th:attr="src=@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:attr="src=@{/js/jquery-ui.min.js}" th:href="@{/js/jquery-ui.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-table.js}" th:href="@{/js/bootstrap-table.js}"></script>
+    <script th:attr="src=@{/js/jquery.validate.min.js}" th:href="@{/js/jquery.validate.min.js}"></script>
+    <!--confirmation-->
+    <script th:attr="src=@{/js/bootstrap.min.js}" th:href="@{/js/bootstrap.min.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}" th:href="@{/js/nprogress.js}"></script>
+    <!--common-->
+    <script th:attr="src=@{/js/wms-common.js}" th:href="@{/js/wms-common.js}"></script>
+    <script th:attr="src=@{/js/validate.js}" th:href="@{/js/validate.js}"></script>
+    <!--font and favi icon-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+    <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
+
+</head>
+<body class="sticky-header left-side-collapsed">
+<section>
+    <!--left menu-->
+    <div th:include="common/workspace_leftmenu :: frag-leftmenu"></div>
+    <!--main content-->
+    <div class="main-content main-content2 main-content2copy">
+        <div th:include="common/header :: frag-headermneu"></div>
+        <div class="row">
+            <div class="col-md-8" style=" padding-right: 0px;">
+                    <!--search panel-->
+                    <div id="panel-search-content" class="panel panel-primary">
+                        <div class="panel-heading">
+                            <i class="fa  fa-search"></i>
+                        </div>
+                        <div class="panel-body">
+                            <div class="container">
+
+
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.goodsCode}" for="inp-goods-code"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                    </span>
+                                            <input id="inp-goods-code" class="form-control" maxlength="50" placeholder="Nhập mã hàng hóa tại đây và enter" />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div id="row-serial" class="row" style="display: none">
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.serial}" for="inp-serial"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                    </span>
+                                            <input id="inp-serial" class="form-control" maxlength="50" placeholder="Nhập serial tại đây và enter" />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+                            <p></p>
+                            <div class="wrapper text-center" style="text-align: center; margin-top: 10px;">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-default  btn-primary">
+                                        <i class="fa fa-search"></i>
+                                        <span th:text="#{btn.add}"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                <!--end search panel-->
+                <div id="panel-search-result" class="panel panel-primary">
+                    <div class="panel-heading">
+                        <i class="fa fa-database"></i>
+                        <!--Result-->
+                    </div>
+                    <div class="panel-body">
+                        <!--toolbar-->
+                        <div id="toolbar" class="btn-group">
+                            <!--<label id="action-info" class="action-info"></label>-->
+
+                           <label id="lbl-total-price"    class="toolbar-label-info" style="float: left"></label>
+                            <label id="import-action-info" class="toolbar-label-info" style="float: left"></label>
+                        </div>
+                        <table  id="tbl-sale"
+                                data-pagination="true"
+                                data-search="true"
+                                data-click-to-select="true"
+                                data-toolbar="#toolbar"
+                                class="table-striped"
+                                style="word-wrap: break-word;  table-layout: fixed;"
+                                data-editable-emptytext=""
+                        >
+                            <thead>
+                            <tr>
+                            <!--<tr>-->
+                                <!--<th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>-->
+                                <!--<th class="col-md-1" data-field="goodCode" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>-->
+                                <!--<th class="col-md-2" data-field="goodName" data-align="left" data-sortable="true"  th:text="#{lbl.goodsName}"></th>-->
+                                <!--<th class="col-md-2" data-field="amount" data-align="left" data-sortable="true"  th:text="#{lbl.amount}"></th>-->
+                                <!--<th class="col-md-2" data-field="serial" data-align="left" data-sortable="true" th:text="#{lbl.serial}"></th>-->
+                                <!--<th class="col-md-2" data-field="goodsUnit" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>-->
+                                <!--<th class="col-md-1" data-field="price" data-align="left" data-sortable="true" th:text="#{lbl.price}"></th>-->
+                                <!--<th class="col-md-2" data-field="totalAmount" data-align="left" data-sortable="true" th:text="#{lbl.totalAmount}"></th>-->
+                                <!--<th data-align="center" data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>-->
+                            <!--</tr>-->
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-heading">
+                        <label  th:text="#{lbl.generall.infor}"></label>
+                    </div>
+                    <div class="panel-body">
+                        <!--row 1: customer + stock-->
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="label-require" for="cmb-stock" th:text="#{lbl.stock}"></label>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="cmb-stock" class="form-control selectpicker" data-live-search="true"  data-width="100%"                                    >
+                                        <option  th:each="sopt:${lstStock}"
+                                                 th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label for="inp-cust" th:text="#{lbl.customer}"></label>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="input-group" style="width: 100%;">
+                                        <input id="inp-cust" class="form-control" maxlength="50"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-heading">
+                        <label  th:text="#{lbl.pay.infor}"></label>
+                    </div>
+                    <div class="panel-body">
+                        <!--row 1: customer + stock-->
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label for="inp-totalCurrentcy" th:text="#{lbl.totalCurrency}"></label>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="input-group" style="width: 100%;">
+                                <input id="inp-totalCurrentcy" maxlength="50" class="form-control currency" readonly style="width: 100%;"/>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label  for="inp-discount" th:text="#{lbl.discount}"></label>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="inp-discount" class="form-control currency" maxlength="50"/></div></div>
+                        </div>
+                        <!--<div class="row">-->
+                            <!--<div class="col-sm-5">-->
+                                <!--<label th:text="#{lbl.subtract.discount}"></label>-->
+                            <!--</div>-->
+
+                            <!--<div class="col-sm-7">-->
+                                <!--<div class="input-group input-group-combo">-->
+                                    <!--<div class="radio radio-inline radio-info" style="margin-top: 0px">-->
+                                        <!--<input value="0" type="radio" id="radio-allow" name="rad-discount" checked="checked"/>-->
+                                        <!--<label for="radio-allow" th:text="#{lbl.yes}"></label>-->
+                                    <!--</div>-->
+                                    <!--<div class="radio radio-inline radio-info">-->
+                                        <!--<input value="1" type="radio" id="radio-not-allow" name="rad-discount"/>-->
+                                        <!--<label for="radio-not-allow" th:text="#{lbl.no}"></label>-->
+                                    <!--</div>-->
+
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+                        <!--row 1: customer + stock-->
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label for="inp-currency" th:text="#{lbl.currency}"></label>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="inp-currency" maxlength="50" readonly class="form-control currency" style="width: 100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label for="inp-customerCurrency" th:text="#{lbl.customerCurrency}"></label>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="inp-customerCurrency" class="form-control currency" maxlength="50"/></div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label for="inp-returnCustomer" th:text="#{lbl.returnCustomer}"></label>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="inp-returnCustomer" class="form-control currency" maxlength="50" readonly/></div></div>
+                        </div>
+                        <div class="wrapper text-center" style="text-align: center; margin-top: 10px;">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button   id="btn-payment" type="button" class="btn btn-default  btn-primary" th:value="@{${controller} + 'exportStock'}">
+                                    <span th:text="#{btn.pay}"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end search panel-->
+
+        </div>
+    </div>
+    <!--footer-->
+    <div th:include="common/footer :: frag-footer"></div>
+</section>
+<script th:inline="javascript">
+    var lstGoods = [[${lstGoods}]];
+</script>
+<!--FINAL JS-->
+<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
+<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
+<!--switch-->
+<script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
+<script th:inline="javascript"  th:attr="src=@{/js/sale_managerment.js}" th:href="@{/js/sale_managerment.js}"></script>
+!--editable-->
+<script th:attr="src=@{/editable/bootstrap-editable.js}"      th:href="@{/editable/bootstrap-editable.js}"></script>
+<script th:attr="src=@{/editable/bootstrap-table-editable.js}"      th:href="@{/editable/bootstrap-table-editable.js}"></script>
+</body>
+</html>

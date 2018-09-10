@@ -62,7 +62,7 @@ public class ConvertCurrenciesToText {
         String m = arr_temp[0];
         kq = kq+ numberToText(arr_temp[0]);
         if (arr_temp.length ==2){
-            String decimal = numberToText(arr_temp[1].substring(0, 2));
+            String decimal = numberToText(arr_temp[1]);
             if (!DataUtil.isNullOrEmpty(decimal))
               kq = kq + "phẩy " +decimal ;
         }
@@ -106,7 +106,9 @@ public class ConvertCurrenciesToText {
                 } else {
                     if (dem % 3 == 2 && (m.startsWith("1") || m.startsWith("0"))) {//mười
                     } else {
+                        if (!m.startsWith("0")){
                         kq += hm_hanh.get(dem + "") + " ";
+                        }
                     }
                 }
             }

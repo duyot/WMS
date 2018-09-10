@@ -162,4 +162,7 @@ public class WorkSpaceController {
     @RequestMapping("/cat_user")
     public String redirectCatUser(){ return "redirect:/workspace/cat_user_ctr";
     }
+    @RequestMapping("/sale")
+    public String redirectsale(){ return "redirect:/workspace/sale_ctr";
+    }
 }
