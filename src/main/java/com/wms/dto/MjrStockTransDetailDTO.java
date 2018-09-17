@@ -38,6 +38,7 @@ public class MjrStockTransDetailDTO {
     private String stockTransCreatedUser;
     private String partnerId;
     private String partnerName;
+    private String totalMoney;
 
     public String getPartnerId() {
         return partnerId;
@@ -341,5 +342,13 @@ public class MjrStockTransDetailDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(String totalMoney) {
+        this.totalMoney = totalMoney;
     }
 }
