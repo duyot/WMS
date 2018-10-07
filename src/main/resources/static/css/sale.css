@@ -1,0 +1,45 @@
+div.tree-multiselect>div.selections.no-border {
+  width: 100%;
+  max-height: 400px;
+}
+#updateDepartment .tree-multiselect label{
+   float: none !important;
+ }
+
+#modal-dept  .dropdown-toggle{
+    width: 100%;
+}
+#modal-dept  .dropdown-menu{
+    width: 100%;
+}
+#modal-dept  .caret{
+    float: right;
+}
+#usageUnit option:first-child{
+    display: none;
+}
+#update-department-form .auxiliary{
+     display: none;
+}
+.currency{
+    text-align: right;
+}
+ .text-heading{
+     height: 27px;
+ }
+.text-heading label{
+    float: left;
+    margin: 0px;
+}
+.table td, .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+.table-align-center{
+    text-align: center;
+}
+.table-align-right{
+    text-align: right;
+}

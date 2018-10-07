@@ -19,8 +19,8 @@ import java.util.List;
  */
 @Repository
 public class StockManagementDP  extends BaseDP<MjrStockTransDetailDTO> {
-    private final String IMPORT_STOCK_URL =  "import";
-    private final String EXPORT_STOCK_URL = "export";
+    private final String IMPORT_STOCK_URL =  "import?access_token=";
+    private final String EXPORT_STOCK_URL = "export?access_token=";
     private final String GET_SERIAL_IN_STOCK_URL = "getListSerialInStock";
     private final String CANCEL_TRANS_URL = "cancelTransaction";
     private final String GET_TRANS_GOODS_URL = "getTransGoodsDetail";

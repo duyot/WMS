@@ -136,7 +136,11 @@ function formatFloatType(text) {
     if(!text.toString().includes(".")){
         return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
     }else{
-        return text;
+        var splitText =  (Math.round(text * 100)/100).toString().split(".");
+        if(splitText.length == 1){
+            return splitText[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
+        }
+        return splitText[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, ",") + "." + splitText[1];
     }
 }
 
@@ -524,6 +528,9 @@ function test4() {
         }
     });
 
+}
+function convertCurrentcyToNumber(text) {
+    return text.replace(/\,/g,"");
 }
 $(function () {
     $("a").not('#btnLogout').click(function () {
