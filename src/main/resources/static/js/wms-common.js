@@ -1,6 +1,10 @@
 /**
  * Created by duyot on 11/16/2016.
  */
+// 123|Tu lanh -> 123
+function valueFromSuggest(value){
+    return value.split("|",1)[0];
+}
 //
 function isContainsNonLatinCharacter(s) {
     return /[^\u0000-\u00ff]/.test(s);

@@ -67,23 +67,24 @@ $(function () {
             {
                 field: 'amount',
                 title: 'Số lượng',
-                cellStyle:'addStyle',
+                cellStyle: 'addStyle',
                 editable: {
                     type: 'text',
                     mode: 'inline',
                     showbuttons: false,
                     validate: function (value) {
                         if (!isValidAmount(value)) {
-                                return 'Số lượng nhập phải là số';
+                            return 'Số lượng nhập phải là số';
                         }
-
-                            var row = $table.bootstrapTable('getData')[selectedIndex];
-                            totalPrice += (value - row.amount)*row.inputPrice;
-                            row.amount = value;
-                            $table.bootstrapTable('updateRow', {index: selectedIndex, row:row});
-                            //
-                            setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
-
+                        var row = $table.bootstrapTable('getData')[selectedIndex];
+                        totalPrice += (value - row.amount) * row.inputPrice;
+                        //
+                        row.amount = value;
+                        row.total = totalPrice;
+                        //
+                        $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
+                        //
+                        setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
                     },
                     display: function (value) {
                         $(this).text(formatFloatType(value));
@@ -103,9 +104,12 @@ $(function () {
                             return 'Giá nhập nhập phải là số';
                         }
                         var row = $table.bootstrapTable('getData')[selectedIndex];
-                        totalPrice += (value - row.inputPrice)*row.amount;
+                        totalPrice += (value - row.inputPrice) * row.amount;
+                        //
                         row.inputPrice = value;
-                        $table.bootstrapTable('updateRow', {index: selectedIndex, row:row});
+                        row.total = totalPrice;
+                        //
+                        $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
                         setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
                     },
@@ -117,7 +121,7 @@ $(function () {
             {
                 field: 'total',
                 title: 'Thành tiền',
-                formatter: 'subTotal',
+                formatter: 'subTotal'
             },
             {
                 field: 'cellCode',
@@ -673,7 +677,7 @@ $inpGoodsCode.keypress(function (e) {
         $.ajax({
             type: 'GET',
             url: $('#btn-check-serial').val(),
-            data: {code: $inpGoodsCode.val()},
+            data: {code: valueFromSuggest($inpGoodsCode.val())},
             cache: false,
             contentType: false,
             async: false,
@@ -727,7 +731,7 @@ $inpGoodsSerial.keypress(function (e) {
         $.ajax({
             type: 'GET',
             url: $('#btn-check-serial').val(),
-            data: {code: $inpGoodsCode.val()},
+            data: {code: valueFromSuggest($inpGoodsCode.val())},
             cache: false,
             contentType: false,
             async: false,
@@ -866,15 +870,17 @@ function onSelectStock() {
 function addStyle(value, row, index) {
     var classes = ['active', 'success', 'info', 'warning', 'danger'];
 
-    if (row["serial"]!="") {
+    if (row["serial"] != "") {
         return {
             classes: "not-active"
         };
     }
     return {};
 }
+
 function subTotal(value, row, index) {
     var total = row.amount * row.inputPrice;
     return formatFloatType(value);
 }
+
 //-----------------------------------------------------------------------------------------------------------------

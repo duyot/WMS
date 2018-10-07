@@ -298,8 +298,7 @@ public class ImportStockController extends BaseController {
     List<String> getGoodsCodes() {
         List<String> lstGoodsCode = Lists.newArrayList();
         for (CatGoodsDTO i : lstGoods) {
-            lstGoodsCode.add(i.getCode());
-            lstGoodsCode.add(i.getName());
+            lstGoodsCode.add(i.getCode() + "|" + i.getName());
         }
         return lstGoodsCode;
     }

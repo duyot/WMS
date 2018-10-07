@@ -132,7 +132,6 @@ public class CatStockController extends BaseCommonController{
             log.info("Add: "+ catStockDTO.toString()+" ERROR");
             return "0|Thông tin đã có trên hệ thống";
         }else{
-            log.info("Add: "+ catStockDTO.toString()+" ERROR");
             return "0|Lỗi hệ thống";
         }
     }
