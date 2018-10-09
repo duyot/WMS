@@ -1,5 +1,6 @@
 package com.wms.dataprovider;
 
+import com.google.common.collect.Lists;
 import com.wms.base.BaseDP;
 import com.wms.constants.Constants;
 import com.wms.dto.ChartDTO;
@@ -62,36 +63,43 @@ public class StatisticDP  extends BaseDP<ChartDTO>{
     }
 
     public List<ChartDTO> getKPIStorage(String custId,String type ){
-        RestTemplate restTemplate = new RestTemplate();
-        String query =  "custId="+custId+"&type="+type ;
-        String url = getUrlLoadBalancingQuery(query, GET_TOP_GOODS_URL);
-        try {
-            ResponseEntity<ChartDTO[]> responseEntity = restTemplate.getForEntity(url,ChartDTO[].class);
-            if(responseEntity.getBody() != null){
-                return Arrays.asList(responseEntity.getBody());
-            }else{
-                return new ArrayList<>();
-            }
-        } catch (RestClientException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+        //todo postponse
+        return Lists.newArrayList();
+        //
+//        RestTemplate restTemplate = new RestTemplate();
+//        String query =  "custId="+custId+"&type="+type ;
+//        String url = getUrlLoadBalancingQuery(query, GET_TOP_GOODS_URL);
+//        try {
+//            ResponseEntity<ChartDTO[]> responseEntity = restTemplate.getForEntity(url,ChartDTO[].class);
+//            if(responseEntity.getBody() != null){
+//                return Arrays.asList(responseEntity.getBody());
+//            }else{
+//                return new ArrayList<>();
+//            }
+//        } catch (RestClientException e) {
+//            e.printStackTrace();
+//            return new ArrayList<>();
+//        }
     }
 
     public List<ChartDTO> getTransaction(String custId,String type ){
-        RestTemplate restTemplate = new RestTemplate();
-        String query =  "custId="+custId+"&type="+type ;
-        String url = getUrlLoadBalancingQuery(query, GET_TRANSACTION_URL);
-        try {
-            ResponseEntity<ChartDTO[]> responseEntity = restTemplate.getForEntity(url,ChartDTO[].class);
-            if(responseEntity.getBody() != null){
-                return Arrays.asList(responseEntity.getBody());
-            }else{
-                return new ArrayList<>();
-            }
-        } catch (RestClientException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+        //todo postponse
+        return Lists.newArrayList();
+        //
+//        RestTemplate restTemplate = new RestTemplate();
+//        String query =  "custId="+custId+"&type="+type ;
+//        String url = getUrlLoadBalancingQuery(query, GET_TRANSACTION_URL);
+//        try {
+//            ResponseEntity<ChartDTO[]> responseEntity = restTemplate.getForEntity(url,ChartDTO[].class);
+//            if(responseEntity.getBody() != null){
+//                return Arrays.asList(responseEntity.getBody());
+//            }else{
+//                return new ArrayList<>();
+//            }
+//        } catch (RestClientException e) {
+//            e.printStackTrace();
+//            return new ArrayList<>();
+//        }
     }
+
 }

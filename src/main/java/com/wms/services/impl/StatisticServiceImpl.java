@@ -28,7 +28,7 @@ public class StatisticServiceImpl  extends BaseServiceImpl<ChartDTO,StatisticDP>
 
     @Override
     public List<ChartDTO> getTopGoods(String custId, String type, Map<String,CatGoodsDTO> mapGoods ) {
-        List<ChartDTO> lstChart =  statisticDP.getTransaction(custId,type);
+        List<ChartDTO> lstChart =  statisticDP.getTopGoods(custId,type);
         if(!DataUtil.isListNullOrEmpty(lstChart)){
             for(ChartDTO i: lstChart){
                 i.setName(FunctionUtils.getMapValue(mapGoods,i.getName()));

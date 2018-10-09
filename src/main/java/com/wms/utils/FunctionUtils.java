@@ -246,6 +246,12 @@ public class FunctionUtils {
         }
     }
 
+    public static void main(String[] args) {
+        FunctionUtils.loadFileToClient(null, "https:\\cdn-ipcam-dev.zoota.vn\\v1\\AUTH_cec36d599bd149c78086fa4fc270eb49\\firmware\\iGame.Reqs_v1.1.docx");
+    }
+
+
+
     /*
         export error when importing
      */
