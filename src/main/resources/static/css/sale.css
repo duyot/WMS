@@ -43,3 +43,6 @@ div.tree-multiselect>div.selections.no-border {
 .table-align-right{
     text-align: right;
 }
+.bs-bars.pull-left{
+  width: 80%;
+}

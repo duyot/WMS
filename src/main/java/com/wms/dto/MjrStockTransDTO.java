@@ -40,6 +40,9 @@ public class MjrStockTransDTO {
     private String receiveName;
     private String receiveId;
 
+    private String customerMoney;
+    private String returnMoney;
+
     public String getReceiveId() {
         return receiveId;
     }
@@ -281,5 +284,21 @@ public class MjrStockTransDTO {
 
     public void setTypeValue(String typeValue) {
         this.typeValue = typeValue;
+    }
+
+    public String getCustomerMoney() {
+        return customerMoney;
+    }
+
+    public void setCustomerMoney(String customerMoney) {
+        this.customerMoney = customerMoney;
+    }
+
+    public String getReturnMoney() {
+        return returnMoney;
+    }
+
+    public void setReturnMoney(String returnMoney) {
+        this.returnMoney = returnMoney;
     }
 }

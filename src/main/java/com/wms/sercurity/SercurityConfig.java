@@ -39,15 +39,15 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionFixation().newSession()
-                .invalidSessionUrl("/login?message=timeout")
-                .maximumSessions(1).expiredUrl("/login?message=max_session").maxSessionsPreventsLogin(true)
-                .sessionRegistry(sessionRegistry());
+//        http.sessionManagement().sessionFixation().newSession()
+//                .invalidSessionUrl("/login?message=timeout")
+//                .maximumSessions(1).expiredUrl("/login?message=max_session").maxSessionsPreventsLogin(true)
+//                .sessionRegistry(sessionRegistry());
 
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/WMS", "/language/**").permitAll()
-                .antMatchers("/home_page/**", "/css/**", "/fonts/**", "/js/**", "/images/**", "/workspace_resource/**").permitAll()
+                .antMatchers("/home_page/**", "/css/**", "/fonts/**", "/js/**","/invoice/**","/images/**", "/workspace_resource/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/workspace", "/workspace/").permitAll()
                 //for sys_admin
@@ -67,6 +67,10 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .invalidateHttpSession(true)
                 .permitAll();
+                http
+                .headers()
+                .frameOptions()
+                .sameOrigin();
     }
 
     @Bean

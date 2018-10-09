@@ -42,6 +42,7 @@ public class Constants {
         public static String IMPORT_TRANS_TEMPLATE = "PhieuNhapKho_KhongSerial.jrxml";
         public static String IMPORT_BILL = "import_bill.jasper";
         public static String EXPORT_BILL = "export_bill.jasper";
+        public static String INVOICE_80= "invoice_80.jasper";
     }
 
     public static class STATUS{
