@@ -45,7 +45,7 @@
 			<variableExpression><![CDATA[$V{numberOrder} == null ? 0 : $V{numberOrder} + 1]]></variableExpression>
 			<initialValueExpression><![CDATA[0]]></initialValueExpression>
 		</variable>
-		<variable name="total" class="java.lang.Double" calculation="Sum">
+		<variable name="totalMoney" class="java.lang.Double" calculation="Sum">
 			<variableExpression><![CDATA[$F{Field_8}]]></variableExpression>
 		</variable>
 	</subDataset>

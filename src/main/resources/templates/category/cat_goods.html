@@ -379,7 +379,7 @@
                 var successRecords = data['success'];
                 //
                 if(resultMessage == "SUCCESS_WITH_ERROR"){
-                    var totalRecords   = data['total'];
+                    var totalRecords   = data['totalMoney'];
                     //show modal upload file
                     setInfoMessage($('#modal-error-import-lbl-info'),'Nhập '+successRecords+'/'+totalRecords+' hàng thành công');
                     hideModal($('#add-goods-modal'));

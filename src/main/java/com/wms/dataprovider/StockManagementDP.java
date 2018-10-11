@@ -31,7 +31,7 @@ public class StockManagementDP  extends BaseDP<MjrStockTransDetailDTO> {
     public StockManagementDP() {
         super(MjrStockTransDetailDTO[].class,MjrStockTransDetailDTO.class,Constants.SERVICE_PREFIX.STOCK_MANAGEMENT_SERVICE);
     }
-    public ResponseObject  importStock(StockTransDTO stockTrans){
+    public ResponseObject   importStock(StockTransDTO stockTrans){
         RestTemplate restTemplate = new RestTemplate();
         String url = getUrlLoadBalancing(0, IMPORT_STOCK_URL);
         return restTemplate.postForObject(url,stockTrans,ResponseObject.class);

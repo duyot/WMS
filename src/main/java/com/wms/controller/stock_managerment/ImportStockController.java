@@ -226,9 +226,12 @@ public class ImportStockController extends BaseController {
     private StockTransDTO initStockTrans(StockManagementDTO stockManagementDTO, String sysdate) {
         StockTransDTO stockTrans = new StockTransDTO();
         MjrStockTransDTO mjrStockTransDTO = initMjrStockTrans(stockManagementDTO.getMjrStockTransDTO(), sysdate);
+        //set total money
+        mjrStockTransDTO.setTotalMoney();
         stockTrans.setMjrStockTransDTO(mjrStockTransDTO);
         List<MjrStockTransDetailDTO> lstStockTransDetails = initListTransDetail(stockManagementDTO.getLstGoods());
         stockTrans.setLstMjrStockTransDetail(lstStockTransDetails);
+
         return stockTrans;
     }
 

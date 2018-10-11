@@ -99,8 +99,7 @@ public class MjrStockTransDetailDTO {
     }
 
 
-
-    public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String inputPrice, String outputPrice, String cellCode, String goodsName, String stockId, String importDate, String exportDate, String statusValue) {
+    public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String inputPrice, String outputPrice, String cellCode, String goodsName, String columnId, String amountValue, String inputPriceValue, String outputPriceValue, String goodsStateValue, String errorInfo, String importDate, String exportDate, String statusValue, String status, String stockId, String stockValue, String stockTransCode, String stockName, String stockTransType, String unitName, String stockTransCreatedDate, String stockTransCreatedUser, String partnerId, String partnerName, String totalMoney) {
         this.id = id;
         this.stockTransId = stockTransId;
         this.goodsId = goodsId;
@@ -113,15 +112,32 @@ public class MjrStockTransDetailDTO {
         this.outputPrice = outputPrice;
         this.cellCode = cellCode;
         this.goodsName = goodsName;
-        this.stockId = stockId;
+        this.columnId = columnId;
+        this.amountValue = amountValue;
+        this.inputPriceValue = inputPriceValue;
+        this.outputPriceValue = outputPriceValue;
+        this.goodsStateValue = goodsStateValue;
+        this.errorInfo = errorInfo;
         this.importDate = importDate;
         this.exportDate = exportDate;
         this.statusValue = statusValue;
+        this.status = status;
+        this.stockId = stockId;
+        this.stockValue = stockValue;
+        this.stockTransCode = stockTransCode;
+        this.stockName = stockName;
+        this.stockTransType = stockTransType;
+        this.unitName = unitName;
+        this.stockTransCreatedDate = stockTransCreatedDate;
+        this.stockTransCreatedUser = stockTransCreatedUser;
+        this.partnerId = partnerId;
+        this.partnerName = partnerName;
+        this.totalMoney = totalMoney;
     }
 
     public MjrStockTransDetailDTO(String id, String stockTransId, String goodsId, String goodsCode, String goodsState,
                                   String isSerial, String amount, String serial, String inputPrice, String outputPrice,
-                                  String cellCode,String statusValue) {
+                                  String cellCode, String statusValue) {
         this.id = id;
         this.stockTransId = stockTransId;
         this.goodsId = goodsId;
