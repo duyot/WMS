@@ -39,8 +39,9 @@ public class MjrStockTransDTO {
     //Khach hang nhan trong cac giao dich xuat
     private String receiveName;
     private String receiveId;
-    //total money
-    private String totalMoney;
+
+    private String customerMoney;
+    private String returnMoney;
 
     public String getReceiveId() {
         return receiveId;
@@ -123,6 +124,29 @@ public class MjrStockTransDTO {
     }
 
     public MjrStockTransDTO() {
+    }
+
+    public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoiceNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String transMoneyReceive, String transMoneyResponse, String description,
+                            String partnerId, String partnerName, String receiveId, String receiveName) {
+        this.id = id;
+        this.code = code;
+        this.custId = custId;
+        this.stockId = stockId;
+        this.contractNumber = contractNumber;
+        this.invoiceNumber = invoiceNumber;
+        this.type = type;
+        this.status = status;
+        this.createdDate = createdDate;
+        this.createdUser = createdUser;
+        this.transMoneyTotal = transMoneyTotal;
+        this.transMoneyDiscount = transMoneyDiscount;
+        this.discountAmount = discountAmount;
+        this.transMoneyRequire = transMoneyRequire;
+        this.description = description;
+        this.partnerId = partnerId;
+        this.partnerName = partnerName;
+        this.receiveId = receiveId;
+        this.receiveName = receiveName;
     }
 
     public String getId() {
@@ -262,42 +286,19 @@ public class MjrStockTransDTO {
         this.typeValue = typeValue;
     }
 
-    public String getTotalMoney() {
-        return totalMoney;
+    public String getCustomerMoney() {
+        return customerMoney;
     }
 
-    public void setTotalMoney(String totalMoney) {
-        this.totalMoney = totalMoney;
+    public void setCustomerMoney(String customerMoney) {
+        this.customerMoney = customerMoney;
     }
 
-    public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoiceNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String description, String stockValue, String typeValue, String partnerName, String partnerId, String customerName, String stockName, String stockCode, String partnerCode, String partnerTelNumber, String partnerAddress, String receiveName, String receiveId, String totalMoney) {
-        this.id = id;
-        this.code = code;
-        this.custId = custId;
-        this.stockId = stockId;
-        this.contractNumber = contractNumber;
-        this.invoiceNumber = invoiceNumber;
-        this.type = type;
-        this.status = status;
-        this.createdDate = createdDate;
-        this.createdUser = createdUser;
-        this.transMoneyTotal = transMoneyTotal;
-        this.transMoneyDiscount = transMoneyDiscount;
-        this.discountAmount = discountAmount;
-        this.transMoneyRequire = transMoneyRequire;
-        this.description = description;
-        this.stockValue = stockValue;
-        this.typeValue = typeValue;
-        this.partnerName = partnerName;
-        this.partnerId = partnerId;
-        this.customerName = customerName;
-        this.stockName = stockName;
-        this.stockCode = stockCode;
-        this.partnerCode = partnerCode;
-        this.partnerTelNumber = partnerTelNumber;
-        this.partnerAddress = partnerAddress;
-        this.receiveName = receiveName;
-        this.receiveId = receiveId;
-        this.totalMoney = totalMoney;
+    public String getReturnMoney() {
+        return returnMoney;
+    }
+
+    public void setReturnMoney(String returnMoney) {
+        this.returnMoney = returnMoney;
     }
 }

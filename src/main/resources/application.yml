@@ -54,8 +54,8 @@ eureka:
 config:
     url:
       upload: //WMS//uploaded_file//
-      template : //WMS//template//
-      temp: //WMS//temp//
+      template : file_template/
+      temp: C:\\Epson\\source_v3\\AJasperReport\\
 server:
   port: 8020
 

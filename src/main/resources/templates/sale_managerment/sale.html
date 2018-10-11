@@ -101,7 +101,7 @@
                             <p></p>
                             <div class="wrapper text-center" style="text-align: center; margin-top: 10px;">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-default  btn-primary">
+                                    <button  id="btn-sale" type="button" class="btn btn-default  btn-primary">
                                         <i class="fa fa-search"></i>
                                         <span th:text="#{btn.add}"></span>
                                     </button>
@@ -120,10 +120,10 @@
                     </div>
                     <div class="panel-body">
                         <!--toolbar-->
-                        <div id="toolbar" class="btn-group">
+                        <div id="toolbar" class="btn-group" style="float: right;  width: 100%;">
                             <!--<label id="action-info" class="action-info"></label>-->
 
-                           <label id="lbl-totalMoney-price"    class="toolbar-label-info" style="float: left"></label>
+                           <label id="lbl-total-price"    class="toolbar-label-info" style="float: right"></label>
                             <label id="import-action-info" class="toolbar-label-info" style="float: left"></label>
                         </div>
                         <table  id="tbl-sale"
@@ -179,8 +179,8 @@
                                 <label for="inp-cust" th:text="#{lbl.customer}"></label>
                             </div>
                             <div class="col-sm-7">
-                                <div class="input-group" style="width: 100%;">
-                                        <input id="inp-cust" class="form-control" maxlength="50"/>
+                                <div class="input-group"  style="width: 100%;">
+                                  <input id="inp-cust" class="form-control" maxlength="50" />
                                 </div>
                             </div>
                         </div>
@@ -258,6 +258,31 @@
                                 <div class="input-group" style="width: 100%;">
                                     <input id="inp-returnCustomer" class="form-control currency" maxlength="50" readonly/></div></div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label th:text="#{lbl.printBill}"></label>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="input-group input-group-combo">
+                                    <div class="radio radio-inline radio-info" style="margin-top: 0px">
+                                        <input value="0" type="radio" id="radio-allow" name="rad-bill" checked="checked"/>
+                                        <label for="radio-allow" th:text="#{lbl.yes}"></label>
+                                    </div>
+                                    <div class="radio radio-inline radio-info">
+                                        <input value="1" type="radio" id="radio-not-allow" name="rad-bill"/>
+                                        <label for="radio-not-allow" th:text="#{lbl.no}"></label>
+                                    </div>
+
+                                </div>
+                           </div>
+                        </div>
+                        <!--<div class="wrapper text-center" style="text-align: center; margin-top: 10px;">-->
+                              <!--<div class="btn-group" role="group" aria-label="Basic example">-->
+                                    <!--<input id="cmb-billCheck" checked="true" data-toggle="toggle" data-width="210" type="checkbox" data-on="In hóa đơn" data-off="Không in hóa đơn"/>-->
+                                <!--</div>-->
+                        <!--</div>-->
+
                         <div class="wrapper text-center" style="text-align: center; margin-top: 10px;">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button   id="btn-payment" type="button" class="btn btn-default  btn-primary" th:value="@{${controller} + 'exportStock'}">
@@ -272,11 +297,13 @@
 
         </div>
     </div>
+    <div class="modal-loading"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
 <script th:inline="javascript">
     var lstGoods = [[${lstGoods}]];
+    var lstPartner = [[${lstPartner}]];
 </script>
 <!--FINAL JS-->
 <script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
@@ -287,5 +314,6 @@
 !--editable-->
 <script th:attr="src=@{/editable/bootstrap-editable.js}"      th:href="@{/editable/bootstrap-editable.js}"></script>
 <script th:attr="src=@{/editable/bootstrap-table-editable.js}"      th:href="@{/editable/bootstrap-table-editable.js}"></script>
+<script th:attr="src=@{/js/print/print.min.js}" th:href="@{/js/print/print.min.js}"></script>
 </body>
 </html>

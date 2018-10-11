@@ -1,5 +1,6 @@
 package com.wms.base;
 
+import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
 import com.wms.dto.AppParamsDTO;
 import com.wms.dto.CatCustomerDTO;
@@ -29,6 +30,8 @@ public class BaseCommonController {
     public List<AppParamsDTO> lstAppParams;
     //
     public Map<String,String> mapAppStatus;
+    @Autowired
+    public ProfileConfigInterface profileConfig;
     //
 
     @ModelAttribute("currentUser")

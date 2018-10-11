@@ -13,6 +13,7 @@ public class ResponseObject {
     private String statusCode;
     private String statusName;
     private String key;
+    private String filePath;
     //
     private String total;
     private String success;
@@ -23,6 +24,7 @@ public class ResponseObject {
         this.statusName = statusName;
         this.key = key;
     }
+
 
     public ResponseObject() {
     }
@@ -70,5 +72,13 @@ public class ResponseObject {
 
     public void setSuccess(String success) {
         this.success = success;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }
