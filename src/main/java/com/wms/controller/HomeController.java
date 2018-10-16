@@ -2,11 +2,15 @@ package com.wms.controller;
 
 import com.wms.config.WMSConfigManagerment;
 import com.wms.constants.Constants;
+import com.wms.constants.Responses;
+import com.wms.dto.CatCustomerDTO;
 import com.wms.dto.CatUserDTO;
 import com.wms.dto.ResponseObject;
+import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
+import com.wms.utils.DateTimeUtils;
 import com.wms.utils.ResourceBundleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +41,8 @@ import java.util.Locale;
 
     @Autowired
     CatUserService catUserService;
+    @Autowired
+    BaseService customerService;
 
     @RequestMapping
     public String home(Model model){
@@ -90,20 +96,30 @@ import java.util.Locale;
     public @ResponseBody String register(CatUserDTO registerCatUserDTO){
         registerCatUserDTO.setPassword(DataUtil.BCryptPasswordEncoder(registerCatUserDTO.getPassword()));
         log.info("Register user info: "+ registerCatUserDTO.toString());
-
-        registerCatUserDTO.setRoleId(WMSConfigManagerment.DEFAUL_ROLE_GUESTID);
-        registerCatUserDTO.setRoleName(WMSConfigManagerment.DEFAUL_ROLE_GUESTNAME);
-        registerCatUserDTO.setCustId(WMSConfigManagerment.DEFAUL_CUSTID_FOR_GUEST);
-        registerCatUserDTO.setStatus("1");
-        registerCatUserDTO.setBlock("0");
-        ResponseObject responseObject = catUserService.guestAddUser(registerCatUserDTO);
-        try {
-            Long idL = Long.parseLong(responseObject.getKey());
-            return ResourceBundleUtils.getkey(Constants.RESPONSE.INSERT_SUSSESS);
-        }  catch (NumberFormatException e) {
-            return ResourceBundleUtils.getkey(DataUtil.isNullOrEmpty(responseObject.getKey())?Constants.RESPONSE.INSERT_ERROR:responseObject.getKey());
+        CatCustomerDTO catCustomerDTO = new CatCustomerDTO();
+        catCustomerDTO.setAddress(registerCatUserDTO.getAddress());
+        catCustomerDTO.setName(registerCatUserDTO.getCustName());
+        catCustomerDTO.setTelNumber(registerCatUserDTO.getTelNumber());
+        catCustomerDTO.setEmail(registerCatUserDTO.getEmail());
+        catCustomerDTO.setTrial("1");
+        catCustomerDTO.setStatus("1");
+        catCustomerDTO.setCode( DateTimeUtils.getTimeStamp());
+        ResponseObject result = customerService.add(catCustomerDTO);
+        if (Responses.SUCCESS.getName().equalsIgnoreCase(result.getStatusCode())){
+            registerCatUserDTO.setRoleId(WMSConfigManagerment.DEFAUL_ROLE_GUESTID);
+            registerCatUserDTO.setRoleName(WMSConfigManagerment.DEFAUL_ROLE_GUESTNAME);
+            registerCatUserDTO.setCustId(result.getKey());
+            registerCatUserDTO.setStatus("1");
+            registerCatUserDTO.setBlock("0");
+            ResponseObject responseObject = catUserService.guestAddUser(registerCatUserDTO);
+            try {
+                Long idL = Long.parseLong(responseObject.getKey());
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.REGISTER_SUSSESS);
+            }  catch (NumberFormatException e) {
+                return ResourceBundleUtils.getkey(DataUtil.isNullOrEmpty(responseObject.getKey())?Constants.RESPONSE.INSERT_ERROR:responseObject.getKey());
+            }
         }
-
+        return ResourceBundleUtils.getkey(Constants.RESPONSE.REGISTER_ERROR);
     }
 
 //    @RequestMapping(value = "/{sitemap:.+}",method = RequestMethod.GET)

@@ -12,6 +12,10 @@
     <title>Đăng ký</title>
     <script th:src="@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
     <script th:src="@{/home_page/jquery.backstretch.min.js}" th:href="@{/home_page/jquery.backstretch.min.js}"></script>
+    <script th:attr="src=@{/js/jquery.validate.min.js}" th:href="@{/js/jquery.validate.min.js}"></script>
+    <script th:attr="src=@{/js/wms-common.js}" th:href="@{/js/wms-common.js}"></script>
+    <!--confirmation-->
+    <script th:attr="src=@{/js/bootstrap.min.js}" th:href="@{/js/bootstrap.min.js}"></script>
 </head>
 <body>
 <div class="container">
@@ -24,8 +28,38 @@
         </div>
         <div class="main-login main-center">
             <label id="action-info" class="action-info"></label>
-            <form class="form-horizontal" id="register-form" method="post" action="" >
+            <label id="countdown" class="action-info"></label>
+            <form class="form-horizontal" id="register-form" >
+            <div class="col-md-6" style=" padding-right: 0px;">
+                    <div class="form-group">
+                        <label for="custName" class="cols-sm-2 control-label">Tên doanh nghiệp/cửa hàng <a th:style="${'color: red;'}">*</a></label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-building" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="custName" id="custName" th:required="true"  placeholder="Tên doanh nghiệp/cửa hàng" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="address" class="cols-sm-2 control-label">Địa chỉ doanh nghiệp/cửa hàng<a th:style="${'color: red;'}">*</a></label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-address-card-o " aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="address" id="address" th:required="true"  placeholder="Địa chỉ doanh nghiệp/cửa hàng" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="cols-sm-2 control-label">Email liên hệ <a th:style="${'color: red;'}">*</a></label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope " aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="email" id="email" th:required="true" placeholder="Email liên hệ" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
                 <div class="form-group">
                     <label for="name" class="cols-sm-2 control-label">Họ tên <a th:style="${'color: red;'}">*</a></label>
                     <div class="cols-sm-10">
@@ -35,17 +69,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-1" style=" padding-right: 0px;"></div>
 
-                <div class="form-group">
-                    <label for="code" class="cols-sm-2 control-label">Tên đăng nhập<a th:style="${'color: red;'}">*</a></label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="code" id="code" th:required="true"  placeholder="Nhập tên đăng nhập " autocomplete="off"/>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="col-md-5" style=" padding-right: 0px;">
                 <div class="form-group">
                     <label for="telNumber" class="cols-sm-2 control-label">Số điện thoại <a th:style="${'color: red;'}">*</a></label>
                     <div class="cols-sm-10">
@@ -56,6 +83,16 @@
                     </div>
                 </div>
 
+
+                <div class="form-group">
+                    <label for="code" class="cols-sm-2 control-label">Tên đăng nhập<a th:style="${'color: red;'}">*</a></label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                            <input type="text" class="form-control" name="code" id="code" th:required="true"  placeholder="Nhập tên đăng nhập " autocomplete="off"/>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="password" class="cols-sm-2 control-label">Mật khẩu <a th:style="${'color: red;'}">*</a></label>
                     <div class="cols-sm-10">
@@ -67,8 +104,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="confirm" class="cols-sm-2 control-label">Nhập lại mật khẩu <a th:style="${'color: red;'}">*</a></label> <br></br>
-                    <span id='message'></span>
+                    <label for="confirm" class="cols-sm-2 control-label">Nhập lại mật khẩu <a th:style="${'color: red;'}">*</a></label>    <span id='message'></span>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
@@ -77,24 +113,26 @@
                     </div>
                 </div>
 
-                <div class="form-group ">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Đăng ký</button>
-                </div>
-                <div class="login-register">
-                    <a href="https://x8store.com">Trang chủ</a> &nbsp;&nbsp; &nbsp;&nbsp; <a href="https://x8store.com/login">Đăng nhập</a>
-                </div>
+        </div>
+            <div class="form-group ">
+                <button id="btn-register" type="button"  style="    width: 200px ;margin: auto "     class="btn btn-primary btn-lg btn-block login-button">Đăng ký</button>
+            </div>
+            <div class="login-register">
+                <a href="https://x8store.com">Trang chủ</a> &nbsp;&nbsp; &nbsp;&nbsp; <a href="https://x8store.com/login">Đăng nhập</a>
+            </div>
             </form>
         </div>
     </div>
+
 </div>
 
 <script>
     //------------------------------------------------------------------------------------------------
     $('#confirm').on('keyup', function () {
         if ($('#password').val() == $('#confirm').val()) {
-            $('#message').html('Mật khẩu khớp').css('color', 'green');
+            $('#message').html('Khớp').css('color', 'green');
         } else
-            $('#message').html('Mật khẩu không khớp').css('color', 'red');
+            $('#message').html('Không khớp').css('color', 'red');
     });
 
     $(document).ready(function () {
@@ -103,6 +141,27 @@
             ignore: ":hidden",
             rules: {
                 name: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 50
+                },
+                custName: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 50
+                },
+                address: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 50
+                },
+                email: {
                     required: true,
                     normalizer: function( value ) {
                         return $.trim( value );
@@ -141,38 +200,71 @@
             submitHandler: function (form) {
                 preprocessInput($("#register-form"));
                 //
-                if (isContainSpecialCharacter($('#name').val())) {
-                    alert("Họ tên chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
-                    return;
-                }
-                if (isContainSpecialCharacter($('#telnumber').val())) {
-                    alert("Số điện thoại chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
-                    return;
-                }
-                //
-                $.ajax({
-                    type: "POST",
-                    url: "/register",
-                    data: $(form).serialize(),
-                    success: function (data) {
-                        resultArr = data.split('|');
-                        resultCode = resultArr[0];
-                        resultName = resultArr[1];
-                        if(resultCode == 1){
-                            setInfoMessage($('#action-info'),resultName);
-                        }else{
-                            setErrorMessage($('#action-info'),resultName);
-                        }
-
-                    },
-                    error:function(){
-                        setErrorMessage($('#action-info'),'Lỗi hệ thống');
-                    }
-                });
                 return false; // required to block normal submit since you used ajax
             }
         });
     });
+    $("#telNumber").keypress(function (evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+    })
+    $("#telNumber").on('keyup', function(evt){
+        $("#code").val($(this).val());
+    });
+    $("#btn-register").click(function () {
+
+        var result = validateRequire($('#register-form'));
+        if (result == false){
+            return;
+        }
+
+        if (isContainSpecialCharacter($('#name').val())) {
+            alert("Họ tên chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+            return;
+        }
+        if (isContainSpecialCharacter($('#telNumber').val())) {
+            alert("Số điện thoại chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/register",
+            data: $('#register-form').serialize(),
+            success: function (data) {
+                resultArr = data.split('|');
+                resultCode = resultArr[0];
+                resultName = resultArr[1];
+                if(resultCode == 1){
+                    setInfoMessage($('#action-info'),resultName);
+                    $("#register-form input").prop("disabled", true);
+                    $("#btn-register").prop("disabled", true);
+                    doCountDown(3);
+                }else{
+                    setErrorMessage($('#action-info'),resultName);
+                }
+
+            },
+            error:function(){
+                setErrorMessage($('#action-info'),'Lỗi hệ thống');
+            }
+        });
+    });
+ function doCountDown(seconds) {
+         seconds = seconds - 1;
+         if (seconds < 0) {
+             window.location = "https://x8store.com/login";
+         } else {
+             // Update remaining seconds
+             $('#countdown').text(" " +seconds + " s ");
+             // Count down using javascript
+             setTimeout(doCountDown, 1000,seconds);
+         }
+
+ }
+
     //
 </script>
 

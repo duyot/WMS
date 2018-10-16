@@ -14,7 +14,7 @@ body, html{
 }
 
 .main{
- 	margin-top: 70px;
+ 	margin-top: 10px;
 }
 
 h1.title { 
@@ -57,8 +57,9 @@ input::-webkit-input-placeholder {
 .main-center{
  	margin-top: 30px;
  	margin: 0 auto;
- 	max-width: 330px;
-    padding: 40px 40px;
+ 	max-width: 660px;
+    padding: 10px 40px;
+	height: 450px;
 
 }
 
@@ -70,3 +71,11 @@ input::-webkit-input-placeholder {
 	font-size: 11px;
 	text-align: center;
 }
+.tooltip-inner {
+	background-color: #1e81e9 !important;
+}
+.tooltip.top .tooltip-arrow{
+	border-top-color: #1e81e9 !important;
+}
+
+

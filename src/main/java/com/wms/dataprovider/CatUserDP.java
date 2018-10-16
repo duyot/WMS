@@ -27,7 +27,7 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
     private final String GET_CUSTOMER_URL =  "getCustomer/";
     private final String GET_USER_BY_CUST =  "getUserByCustomerId/";
     private final String UPDATE_USER_URL  = "updateUser/";
-    private final String GUEST_ADD_USER_URL  = "guestAddUser/";
+    private final String GUEST_ADD_USER_URL  = "guestAddUser?access_token=";
     private final String UPDATE_CUSTOMER_URL  = "updateCustomer/";
 
     @Autowired
