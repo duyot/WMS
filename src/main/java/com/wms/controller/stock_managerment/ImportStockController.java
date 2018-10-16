@@ -9,6 +9,7 @@ import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
+import com.wms.utils.JSONUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -211,6 +212,7 @@ public class ImportStockController extends BaseController {
         log.info(currentUser.getCode() + " import: " + stockManagementDTO.getLstGoods().size() + " items.");
         String sysdate = catStockService.getSysDate();
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
+        log.info(JSONUtils.object2JSONString(stockTrans));
         ResponseObject response = stockManagementService.importStock(stockTrans);
         log.info("Result " + response.getStatusCode() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
@@ -227,12 +229,21 @@ public class ImportStockController extends BaseController {
         StockTransDTO stockTrans = new StockTransDTO();
         MjrStockTransDTO mjrStockTransDTO = initMjrStockTrans(stockManagementDTO.getMjrStockTransDTO(), sysdate);
         //set total money
-        mjrStockTransDTO.setTotalMoney();
+        mjrStockTransDTO.setTransMoneyTotal(calTotalMoneyTrans(stockManagementDTO.getLstGoods()));
         stockTrans.setMjrStockTransDTO(mjrStockTransDTO);
+        //
         List<MjrStockTransDetailDTO> lstStockTransDetails = initListTransDetail(stockManagementDTO.getLstGoods());
         stockTrans.setLstMjrStockTransDetail(lstStockTransDetails);
-
+        //
         return stockTrans;
+    }
+
+    private String calTotalMoneyTrans(List<MjrStockTransDetailDTO> lstGoods){
+        float total = 0f;
+        for (MjrStockTransDetailDTO i: lstGoods){
+            total += Float.parseFloat(i.getTotalMoney());
+        }
+        return String.valueOf(total);
     }
 
     private List<MjrStockTransDetailDTO> initListTransDetail(List<MjrStockTransDetailDTO> lstGoods) {
