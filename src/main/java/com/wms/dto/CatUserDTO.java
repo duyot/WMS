@@ -26,9 +26,10 @@ public class CatUserDTO extends BaseDTO {
     private String roleId;
     private String block;
     private String usageUnit;
+    private String address;
     private SysRoleDTO sysRoleDTO ;
 
-    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block) {
+    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block,String address) {
         this.id = id;
         this.deptId = deptId;
         this.custId = custId;
@@ -45,6 +46,7 @@ public class CatUserDTO extends BaseDTO {
         this.logReason = logReason;
         this.roleId = roleId;
         this.block = block;
+        this.address = address;
     }
 
     public CatUserDTO() {
@@ -217,6 +219,14 @@ public class CatUserDTO extends BaseDTO {
 
     public void setUsageUnit(String usageUnit) {
         this.usageUnit = usageUnit;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override

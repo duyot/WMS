@@ -24,6 +24,8 @@ public class Constants {
         public static String INSERT_ERROR = "insert.error";
         public static String DELETE_SUSSESS = "delete.success";
         public static String DELETE_ERROR = "delete.error";
+        public static String REGISTER_SUSSESS = "register.success";
+        public static String REGISTER_ERROR = "register.error";
     }
     public static class FILE_RESOURCE{
         public static String IMPORT_ERROR_TEMPLATE = "File_loi_nhap_hang.xlsx";
