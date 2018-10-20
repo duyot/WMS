@@ -39,8 +39,8 @@ public class StockManagementServiceImpl implements StockManagementService{
         return stockManagementDP.getTransGoodsDetail(custId,stockId,transId,transType);
     }
     @Override
-    public List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId ) {
-        return stockManagementDP.getListTransGoodsDetail(lstStockTransId);
+    public List<MjrStockTransDetailDTO> getListTransGoodsDetail(String transId ) {
+        return stockManagementDP.getListTransGoodsDetail(transId);
     }
     public List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId ) {
         return stockManagementDP.getStockTransInfo(lstStockTransId);

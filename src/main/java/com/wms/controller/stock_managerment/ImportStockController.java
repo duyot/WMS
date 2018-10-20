@@ -212,7 +212,6 @@ public class ImportStockController extends BaseController {
         log.info(currentUser.getCode() + " import: " + stockManagementDTO.getLstGoods().size() + " items.");
         String sysdate = catStockService.getSysDate();
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
-        log.info(JSONUtils.object2JSONString(stockTrans));
         ResponseObject response = stockManagementService.importStock(stockTrans);
         log.info("Result " + response.getStatusCode() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
@@ -330,12 +329,12 @@ public class ImportStockController extends BaseController {
         return lstPartneName;
     }
 
-    //
-    @ModelAttribute("setPartnerName")
-    public void setPartnerName(HttpServletRequest request) {
-        //
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-    }
+//    //
+//    @ModelAttribute("setPartnerName")
+//    public void setPartnerName(HttpServletRequest request) {
+//        //
+//        if (selectedCustomer == null) {
+//            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+//        }
+//    }
 }

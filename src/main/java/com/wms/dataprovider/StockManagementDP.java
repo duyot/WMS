@@ -73,9 +73,9 @@ public class StockManagementDP  extends BaseDP<MjrStockTransDetailDTO> {
         }
     }
 
-    public List<MjrStockTransDetailDTO> getListTransGoodsDetail(String lstStockTransId ){
+    public List<MjrStockTransDetailDTO> getListTransGoodsDetail(String transId ){
         RestTemplate restTemplate = new RestTemplate();
-        String query =  "lstStockTransId="+ lstStockTransId ;
+        String query =  "transId="+ transId ;
         String url = getUrlLoadBalancingQuery(query, GET_LIST_TRANS_GOODS_URL);
         try {
             ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,MjrStockTransDetailDTO[].class);

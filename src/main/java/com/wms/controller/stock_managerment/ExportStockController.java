@@ -223,12 +223,21 @@ public class ExportStockController extends BaseController{
         //
         MjrStockTransDTO mjrStockTransDTO = initMjrStockTrans(stockManagementDTO.getMjrStockTransDTO(),sysdate);
         //
+        mjrStockTransDTO.setTransMoneyTotal(calTotalMoneyTrans(stockManagementDTO.getLstGoods()));
         stockTrans.setMjrStockTransDTO(mjrStockTransDTO);
         //
         List<MjrStockTransDetailDTO> lstStockTransDetails = initListTransDetail(stockManagementDTO.getLstGoods());
         stockTrans.setLstMjrStockTransDetail(lstStockTransDetails);
         //
         return stockTrans;
+    }
+
+    private String calTotalMoneyTrans(List<MjrStockTransDetailDTO> lstGoods){
+        float total = 0f;
+        for (MjrStockTransDetailDTO i: lstGoods){
+            total += Float.parseFloat(i.getTotalMoney());
+        }
+        return String.valueOf(total);
     }
 
     private List<MjrStockTransDetailDTO> initListTransDetail(List<MjrStockTransDetailDTO> lstGoods){

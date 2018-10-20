@@ -57,7 +57,6 @@ public class TransInfoController extends BaseController{
     //
     private List<MjrStockTransDTO> lstTrans;
     private List<CatUserDTO> lstUsers;
-    public List<CatPartnerDTO> lstPartner;
     private List<AppParamsDTO> lstAppTransType;
     private Map<String,String> mapAppTransType = new HashMap();
     //
@@ -100,9 +99,6 @@ public class TransInfoController extends BaseController{
         }
         return lstUsers;
     }
-
-
-
     //==================================================================================================================
     @RequestMapping(value = "/findTrans",method = RequestMethod.GET)
     public @ResponseBody
@@ -197,14 +193,14 @@ public class TransInfoController extends BaseController{
     public void exportTransInfo(HttpServletResponse response,@RequestParam("transId") String transId){
         log.info("exportTransInfo: " +transId );
         //Lay thong tin chung giao dich xuat kho
-        List<MjrStockTransDTO> lstStockTrans = stockManagementService.getStockTransInfo(transId.toString());
+        List<MjrStockTransDTO> lstStockTrans = stockManagementService.getStockTransInfo(transId);
         MjrStockTransDTO mjrStockTransDTO = null;
         if (lstStockTrans != null && lstStockTrans.size() >0){
             mjrStockTransDTO = lstStockTrans.get(0);
         }
 
         CatCustomerDTO catCustomerDTO= (CatCustomerDTO) catCustServicesImpl.findById(Long.parseLong(mjrStockTransDTO.getCustId()));
-        List<MjrStockTransDetailDTO> lstStockTransDetail = stockManagementService.getListTransGoodsDetail(transId.toString());
+        List<MjrStockTransDetailDTO> lstStockTransDetail = stockManagementService.getListTransGoodsDetail(transId);
         String prefixFileName = "Thongtin_chitiet_giaodich_";
         String templatePath ;
         int  total = 0;
@@ -253,23 +249,25 @@ public class TransInfoController extends BaseController{
             export.exportReport();
             FunctionUtils.loadFileToClient(response,outPutFile);
 
-            log.info("Done" );
-            System.out.println("Done!");
+            log.info("Done");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
-
     //==================================================================================================================
     @RequestMapping(value = "/viewTransInfo")
-    public @ResponseBody List<MjrStockTransDetailDTO> getTransGoodsDetail(@RequestParam("stockId") String stockId,
-                                                                          @RequestParam("transId") String transId,@RequestParam("transType") String transType
-                                                                          ){
+    public @ResponseBody List<MjrStockTransDetailDTO> getTransGoodsDetail(@RequestParam("transId") String transId){
         List<MjrStockTransDetailDTO> lstTransGoodsDetail = stockManagementService.getListTransGoodsDetail(transId);
         if(DataUtil.isListNullOrEmpty(lstTransGoodsDetail)){
             return  Lists.newArrayList();
+        }
+        for (MjrStockTransDetailDTO i: lstTransGoodsDetail){
+            try {
+                i.setGoodsName(mapGoodsIdGoods.get(i.getGoodsId()).getName());
+            }catch (Exception e){
+                i.setGoodsName("");
+            }
         }
         return  lstTransGoodsDetail;
     }
@@ -280,6 +278,7 @@ public class TransInfoController extends BaseController{
         for(MjrStockTransDTO i: lstTransDetail){
             i.setStockValue(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()));
             i.setTypeValue(mapAppTransType.get(i.getType()));
+            i.setTransMoneyTotal(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getTransMoneyTotal())));
         }
         return lstTransDetail;
     }

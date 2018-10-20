@@ -196,15 +196,16 @@
                     >
                         <thead>
                         <tr>
-                            <th class="col-md-1"  data-formatter="runningFormatter" data-align="center" >STT</th>
+                            <th class="col-stt" data-formatter="runningFormatter" data-align="center">STT</th>
                             <th data-field="id"  data-visible="false">Id</th>
                             <th data-field="type" data-visible="false">Type</th>
                             <th data-field="stockId" data-visible="false">StockId</th>
                             <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã phiếu</th>
                             <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
-                            <th class="col-md-2" data-field="partnerName" data-align="left" data-sortable="true">Đối tác cung cấp</th>
-                            <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
+                            <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true">Đối tác cung cấp</th>
+                            <th class="col-md-1" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
                             <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true">Loại GD</th>
+                            <th class="col-md-1" data-field="transMoneyTotal" data-align="left" data-sortable="true">Tổng tiền</th>
                             <th class="col-md-1" data-field="createdDate" data-align="center" data-sortable="true">Thời gian</th>
                             <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người thực hiện</th>
                             <th class="col-md-1" data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
@@ -288,27 +289,16 @@
     //
     var deleteCommandId;
     window.operateEvents = {
-
-        // 'click .trans-export': function (e, value, row, index) {
-        //     var transId   = row["id"];
-        //     var url = $('#btn-export-info').val() ;
-        //     var data = {transId : transId};
-        //     sendEvent("GET",url,data,null,"json");
-        //
-        // },
-
        'click .trans-detail': function (e, value, row, index) {
             //
             NProgress.start();
             //
-            var stockId   = row["stockId"];
             var transId   = row["id"];
-            var transType = row["type"];
             //
             $.ajax({
                 type: "GET",
                 cache:false,
-                data:{stockId:stockId,transId:transId,transType:transType},
+                data:{transId:transId},
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 url: $('#btn-view-info').val(),
                 dataType: 'json',
