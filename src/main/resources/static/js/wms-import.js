@@ -80,7 +80,7 @@ $(function () {
                         totalPrice += (value - row.amount) * row.inputPrice;
                         //
                         row.amount = value;
-                        row.total = totalPrice;
+                        row.totalMoney = totalPrice;
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
@@ -107,7 +107,7 @@ $(function () {
                         totalPrice += (value - row.inputPrice) * row.amount;
                         //
                         row.inputPrice = value;
-                        row.total = totalPrice;
+                        row.totalMoney = totalPrice;
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
@@ -119,7 +119,7 @@ $(function () {
                 }
             },
             {
-                field: 'total',
+                field: 'totalMoney',
                 title: 'Thành tiền',
                 formatter: 'subTotal'
             },
@@ -286,10 +286,12 @@ btnImportConfirm.click(function () {
             } else {
                 setInfoMessageWithTime($lblInfo, "Nhập " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000);
             }
+            //
             disableElement($('#btn-import'));
             $table.bootstrapTable('removeAll');
             enteredSerials = [];
             totalPrice = Number(0);
+            setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + totalPrice);
         },
         error: function (data) {
             setErrorMessage($lblInfo, JSON.stringify(data))
@@ -704,7 +706,7 @@ $inpGoodsCode.keypress(function (e) {
                 amount: '1',
                 inputPrice: goodsItem['inPrice'],
                 inputPriceValue: formatFloatType(goodsItem['inPrice']),
-                total: Number(1) * Number(goodsItem['inPrice']),
+                totalMoney: Number(1) * Number(goodsItem['inPrice']),
                 cellCode: $('#cmb-cells').val(),
                 columnId: columnId
             });
@@ -764,7 +766,7 @@ $inpGoodsSerial.keypress(function (e) {
             amount: '1',
             inputPrice: goodsItem['inPrice'],
             inputPriceValue: formatFloatType(goodsItem['inPrice']),
-            total: Number(1) * Number(goodsItem['inPrice']),
+            totalMoney: Number(1) * Number(goodsItem['inPrice']),
             cellCode: $('#cmb-cells').val(),
             columnId: columnId
         });

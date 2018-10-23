@@ -133,6 +133,9 @@ function replaceAllDot(value, replacement) {
 }
 
 function formatFloatType(text) {
+    if (text == undefined) {
+        return "";
+    }
     if(!text.toString().includes(".")){
         return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
     }else{

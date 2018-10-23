@@ -9,6 +9,7 @@ import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
+import com.wms.utils.JSONUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -226,10 +227,22 @@ public class ImportStockController extends BaseController {
     private StockTransDTO initStockTrans(StockManagementDTO stockManagementDTO, String sysdate) {
         StockTransDTO stockTrans = new StockTransDTO();
         MjrStockTransDTO mjrStockTransDTO = initMjrStockTrans(stockManagementDTO.getMjrStockTransDTO(), sysdate);
+        //set total money
+        mjrStockTransDTO.setTransMoneyTotal(calTotalMoneyTrans(stockManagementDTO.getLstGoods()));
         stockTrans.setMjrStockTransDTO(mjrStockTransDTO);
+        //
         List<MjrStockTransDetailDTO> lstStockTransDetails = initListTransDetail(stockManagementDTO.getLstGoods());
         stockTrans.setLstMjrStockTransDetail(lstStockTransDetails);
+        //
         return stockTrans;
+    }
+
+    private String calTotalMoneyTrans(List<MjrStockTransDetailDTO> lstGoods){
+        float total = 0f;
+        for (MjrStockTransDetailDTO i: lstGoods){
+            total += Float.parseFloat(i.getTotalMoney());
+        }
+        return String.valueOf(total);
     }
 
     private List<MjrStockTransDetailDTO> initListTransDetail(List<MjrStockTransDetailDTO> lstGoods) {
@@ -316,12 +329,12 @@ public class ImportStockController extends BaseController {
         return lstPartneName;
     }
 
-    //
-    @ModelAttribute("setPartnerName")
-    public void setPartnerName(HttpServletRequest request) {
-        //
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-    }
+//    //
+//    @ModelAttribute("setPartnerName")
+//    public void setPartnerName(HttpServletRequest request) {
+//        //
+//        if (selectedCustomer == null) {
+//            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+//        }
+//    }
 }

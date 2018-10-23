@@ -1,4 +1,4 @@
-//GLOBAL VAR-------------------------------------------------------------------------------------------------------
+                                                        //GLOBAL VAR-------------------------------------------------------------------------------------------------------
 $table = $('#tbl-export-goods');
 $addUpdateModal = $('#myModal');
 //input
@@ -18,10 +18,13 @@ var enteredSerials = [];
 var selectedIndex = -1;
 $body = $("body");
 var isUpdate = false;
+var totalPrice = Number(0);
+var lblTotalPrice = $("#lbl-total-price");
 //-------------------------------------------------------------------------------------------------------
 //#init table
 $(function () {
     //
+    var oldPriceValue;
     $table.bootstrapTable({
         data: dataInit,
         columns:[
@@ -63,16 +66,24 @@ $(function () {
             },
             {   field: 'amount',
                 title: 'Số lượng',
+                cellStyle: 'addStyle',
                 editable: {
                     type: 'text',
                     mode: 'inline',
-                    showbuttons:false,
-                    validate: function(value) {
-                        var amountValue = unFormatFloat(value);
-                        if(!isValidAmount(amountValue)){
+                    showbuttons: false,
+                    validate: function (value) {
+                        if (!isValidAmount(value)) {
                             return 'Số lượng xuất phải là số';
                         }
-
+                        var row = $table.bootstrapTable('getData')[selectedIndex];
+                        totalPrice += (value - row.amount) * row.outputPrice;
+                        //
+                        row.amount = value;
+                        row.totalMoney = totalPrice;
+                        //
+                        $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
+                        //
+                        setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
                     },
                     display: function(value) {
                         $(this).text(formatFloatType(value));
@@ -87,13 +98,37 @@ $(function () {
                     showbuttons:false,
                     validate: function(value) {
                         var amount = unFormatFloat(value);
-                        if(!isValidAmount(amount)){
+                        if (!isValidAmount(amount)) {
                             return 'Giá xuất phải là số';
                         }
+                        var row = $table.bootstrapTable('getData')[selectedIndex];
+                        totalPrice += (value - row.outputPrice) * row.amount;
+                        //
+                        row.outputPrice = value;
+                        row.totalMoney = totalPrice;
+                        //
+                        $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
+                        //
+                        setInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(totalPrice));
                     },
                     display: function(value) {
                         $(this).text(formatFloatType(value));
                     }
+                }
+            },
+            {
+                field: 'totalMoney',
+                title: 'Thành tiền',
+                formatter: 'subTotal'
+            },
+            {
+                field: 'cellCode',
+                title: 'Vị trí',
+                editable: {
+                    type: 'select',
+                    mode: 'inline',
+                    showbuttons: false,
+                    source: $('#btn-get-cells').val() + '?stockId=' + $('#cmb-stock').val()
                 }
             },
             {
@@ -136,6 +171,9 @@ window.operateEvents = {
         //
         var keySerial  = row['goodsCode'] + row["goodsState"]  + row['serial'];
         enteredSerials = enteredSerials.remove(keySerial);
+        //reset total amount
+        totalPrice -= Number(row['total']);
+        setInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(Number(totalPrice)));
     }
 };
 //@Upload---------------------------------------------------------------------
@@ -252,6 +290,8 @@ btnExportConfirm.click(function () {
             disableElement($('#btn-export'));
             $table.bootstrapTable('removeAll');
             enteredSerials = [];
+            totalPrice = Number(0);
+            setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + totalPrice);
         },
         error: function(data){
             setErrorMessage($lblInfo,JSON.stringify(data))
@@ -282,7 +322,7 @@ $('#btn-add').click(function () {
         async:false,
         success: function(data){
             isSerial = data["isSerial"];
-            price = data["inPrice"];
+            price = data["outPrice"];
         }
     });
     //
@@ -365,8 +405,8 @@ function addImportGoods() {
         goodsState = "1";
     }
     //
-    var inputPriceValue = unFormatFloat($inpPrice.val());
-    if(!isValidAmount(inputPriceValue)){
+    var outputPriceValue = unFormatFloat($inpPrice.val());
+    if(!isValidAmount(outputPriceValue)){
         alert("Giá xuất phải là số");
         return;
     }
@@ -394,10 +434,15 @@ function addImportGoods() {
         serial:serial,
         amountValue: formatFloatType(amount),
         amount: amount,
-        inputPriceValue: formatFloatType(inputPriceValue),
-        inputPrice: inputPriceValue,
-        columnId:columnId
+        outputPriceValue: formatFloatType(outputPriceValue),
+        outputPrice: outputPriceValue,
+        total: Number(amount) * Number(outputPriceValue),
+        cellCode: cellCode,
+        columnId: columnId
     });
+    //
+    totalPrice += Number(outputPriceValue);
+    setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
     //
     $table.bootstrapTable('append', rows);
     enableElement($('#btn-import'));
@@ -406,6 +451,7 @@ function addImportGoods() {
     $inpSerial.val('');
     $inpSerial.focus();
 }
+
 //@Update action---------------------------------------------------------------------------------------------------
 var $btnUpdateModal = $('#modal-btn-update');
 $btnUpdateModal.click(function () {
@@ -456,13 +502,16 @@ function updateGoods() {
         goodsStateValue = "Bình thường";
         goodsState = "1";
     }
-    var inputPriceValue = unFormatFloat($inpPrice.val());
-    if(!isValidAmount(inputPriceValue)){
+    var outputPriceValue = unFormatFloat($inpPrice.val());
+    if(!isValidAmount(outputPriceValue)){
         alert("Giá nhập phải là số dương");
         return;
     }
-    var serial =   escapeHtml($inpSerial.val());
-
+    var serial = escapeHtml($inpSerial.val());
+    var cellCode = escapeHtml($('button[data-id=modal-cmb-cells]').attr('title'));
+    if (cellCode.includes("selected")) {
+        cellCode = "";
+    }
     //everything all right -> update row
     $table.bootstrapTable('updateRow', {index:selectedIndex,row:{
         goodsCode: goodsCode,
@@ -472,8 +521,8 @@ function updateGoods() {
         serial:serial,
         amountValue: formatFloatType(amount),
         amount: amount,
-        inputPriceValue: formatFloatType(inputPriceValue),
-        inputPrice: inputPriceValue
+        outputPriceValue: formatFloatType(outputPriceValue),
+        outputPrice: outputPriceValue
     }});
     //
     hideModal($('#myModal'));
@@ -499,9 +548,9 @@ function changeModelByType(isAdd,selectedItems) {
         }else{
             $('#cmb-goods-state').bootstrapToggle('off');
         }
-        $inpPrice.val(selectedItems['inputPriceValue']);
+        $outPrice.val(selectedItems['outputPrice']);
         $inpSerial.val(selectedItems['serial']);
-
+        $modalCmbCells.val(selectedItems['cellCode']);
         //
         $('.selectpicker').selectpicker('refresh');
         showUpdate();
@@ -618,7 +667,7 @@ $inpGoodsCode.keypress(function (e) {
         $.ajax({
             type: 'GET',
             url: $('#btn-check-serial').val(),
-            data:{code:$inpGoodsCode.val()},
+            data: {code: valueFromSuggest($inpGoodsCode.val())},
             cache: false,
             contentType: false,
             async:false,
@@ -643,9 +692,15 @@ $inpGoodsCode.keypress(function (e) {
                 goodsStateValue: '1',
                 serial:'',
                 amount: '1',
-                outputPrice: formatFloatType(goodsItem['outPrice']),
-                columnId:columnId
+                outputPrice: goodsItem['outPrice'],
+                outputPriceValue: formatFloatType(goodsItem['outPrice']),
+                totalMoney: Number(1) * Number(goodsItem['outPrice']),
+                cellCode: $('#cmb-cells').val(),
+                columnId: columnId
             });
+            //
+            totalPrice += Number(goodsItem['outPrice']);
+            setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
             //
             $table.bootstrapTable('append', rows);
             enableElement($('#btn-export'));
@@ -665,7 +720,7 @@ $inpGoodsSerial.keypress(function (e) {
         $.ajax({
             type: 'GET',
             url: $('#btn-check-serial').val(),
-            data:{code:$inpGoodsCode.val()},
+            data: {code: valueFromSuggest($inpGoodsCode.val())},
             cache: false,
             contentType: false,
             async:false,
@@ -686,18 +741,25 @@ $inpGoodsSerial.keypress(function (e) {
             //Set gia tri de goi vao ham addImportGoods() khong bi tra ve fail
             $inpAmount.value = '1';
         }
+
         var columnId = ~~(Math.random() * 100) * -1,
             rows = [];
         rows.push({
             goodsCode: goodsItem['code'],
-            goodsName:  goodsItem['name'],
+            goodsName: goodsItem['name'],
             goodsState: '1',
             goodsStateValue: '1',
-            serial:$inpGoodsSerial.val(),
+            serial: $inpGoodsSerial.val(),
             amount: '1',
-            outputPrice: formatFloatType(goodsItem['outPrice']),
-            columnId:columnId
+            outputPrice: goodsItem['outPrice'],
+            outputPriceValue: formatFloatType(goodsItem['outPrice']),
+            totalMoney: Number(1) * Number(goodsItem['outPrice']),
+            cellCode: $('#cmb-cells').val(),
+            columnId: columnId
         });
+        //
+        totalPrice += Number(goodsItem['outPrice']);
+        setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
         //
         $table.bootstrapTable('append', rows);
         enableElement($('#btn-export'));
@@ -786,4 +848,41 @@ function operateFormatter(value, row, index) {
         '</a> '
     ].join('');
 }
+
+// duyot onchange stock
+function onSelectStock() {
+    $.ajax({
+        type: 'GET',
+        url: $('#btn-get-cells').val(),
+        data: {stockId: $('#cmb-stock').val()},
+        cache: false,
+        contentType: false,
+        async: false,
+        success: function (data) {
+            if (data.length == 0) {
+                disableElement($modalCmbCells);
+            } else {
+                enableElement($modalCmbCells);
+            }
+            loadSelectItems($modalCmbCells, data);
+        }
+    });
+}
+
+function addStyle(value, row, index) {
+    var classes = ['active', 'success', 'info', 'warning', 'danger'];
+
+    if (row["serial"] != "") {
+        return {
+            classes: "not-active"
+        };
+    }
+    return {};
+}
+
+function subTotal(value, row, index) {
+    var total = row.amount * row.inputPrice;
+    return formatFloatType(value);
+}
+
 //-----------------------------------------------------------------------------------------------------------------
