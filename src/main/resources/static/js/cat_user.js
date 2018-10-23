@@ -119,9 +119,9 @@ function operateFormatter(value, row, index) {
             '<a class="resetkey row-function" href="javascript:void(0)" title="Đổi mật khẩu">',
             '<i class="fa  fa-key"></i>',
             '</a> ',
-            '<a class="assynDept row-function" href="javascript:void(0)" title="Gán phong ban">',
-            '<i class="fa  fa-building"></i>',
-            '</a> '
+            // '<a class="assynDept row-function" href="javascript:void(0)" title="Gán phong ban">',
+            // '<i class="fa  fa-building"></i>',
+            // '</a> '
         ].join('');
     }
 }

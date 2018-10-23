@@ -98,7 +98,7 @@ import java.util.Locale;
         log.info("Register user info: "+ registerCatUserDTO.toString());
         CatCustomerDTO catCustomerDTO = new CatCustomerDTO();
         catCustomerDTO.setAddress(registerCatUserDTO.getAddress());
-        catCustomerDTO.setName(registerCatUserDTO.getCustName());
+        catCustomerDTO.setName(DataUtil.isNullOrEmpty(registerCatUserDTO.getCustName()) ? registerCatUserDTO.getTelNumber(): registerCatUserDTO.getCustName());
         catCustomerDTO.setTelNumber(registerCatUserDTO.getTelNumber());
         catCustomerDTO.setEmail(registerCatUserDTO.getEmail());
         catCustomerDTO.setTrial("1");
@@ -108,6 +108,7 @@ import java.util.Locale;
         if (Responses.SUCCESS.getName().equalsIgnoreCase(result.getStatusCode())){
             registerCatUserDTO.setRoleId(WMSConfigManagerment.DEFAUL_ROLE_GUESTID);
             registerCatUserDTO.setRoleName(WMSConfigManagerment.DEFAUL_ROLE_GUESTNAME);
+            registerCatUserDTO.setName(DataUtil.isNullOrEmpty(registerCatUserDTO.getName()) ? registerCatUserDTO.getTelNumber(): registerCatUserDTO.getName());
             registerCatUserDTO.setCustId(result.getKey());
             registerCatUserDTO.setStatus("1");
             registerCatUserDTO.setBlock("0");

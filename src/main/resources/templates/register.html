@@ -30,90 +30,92 @@
             <label id="action-info" class="action-info"></label>
             <label id="countdown" class="action-info"></label>
             <form class="form-horizontal" id="register-form" >
+            <div class="col-md-5" style=" padding-right: 0px;">
+                    <div class="form-group">
+                        <label for="telNumber" class="cols-sm-2 control-label">Số điện thoại <a th:style="${'color: red;'}">*</a></label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-phone fa" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="telNumber" id="telNumber" th:required="true" placeholder="Nhập số điện thoại" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="code" class="cols-sm-2 control-label">Tên đăng nhập<a th:style="${'color: red;'}">*</a></label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="code" id="code" th:required="true"  placeholder="Nhập tên đăng nhập " autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="cols-sm-2 control-label">Mật khẩu <a th:style="${'color: red;'}">*</a></label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                <input type="password" class="form-control" name="password" id="password" th:required="true"  placeholder="Nhập mật khẩu" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm" class="cols-sm-2 control-label">Nhập lại mật khẩu <a th:style="${'color: red;'}">*</a></label>    <span id='message'></span>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                <input type="password" class="form-control" name="confirm" id="confirm" th:required="true" placeholder="Nhập lại mật khẩu" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            <div class="col-md-1" style=" padding-right: 0px;"></div>
             <div class="col-md-6" style=" padding-right: 0px;">
                     <div class="form-group">
-                        <label for="custName" class="cols-sm-2 control-label">Tên doanh nghiệp/cửa hàng <a th:style="${'color: red;'}">*</a></label>
+                        <label for="custName" class="cols-sm-2 control-label">Tên doanh nghiệp/cửa hàng</label>
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-building" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" name="custName" id="custName" th:required="true"  placeholder="Tên doanh nghiệp/cửa hàng" autocomplete="off"/>
+                                <input type="text" class="form-control" name="custName" id="custName"  placeholder="Tên doanh nghiệp/cửa hàng" autocomplete="off"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="address" class="cols-sm-2 control-label">Địa chỉ doanh nghiệp/cửa hàng<a th:style="${'color: red;'}">*</a></label>
+                        <label for="address" class="cols-sm-2 control-label">Địa chỉ doanh nghiệp/cửa hàng</label>
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-address-card-o " aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" name="address" id="address" th:required="true"  placeholder="Địa chỉ doanh nghiệp/cửa hàng" autocomplete="off"/>
+                                <input type="text" class="form-control" name="address" id="address"   placeholder="Địa chỉ doanh nghiệp/cửa hàng" autocomplete="off"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="cols-sm-2 control-label">Email liên hệ <a th:style="${'color: red;'}">*</a></label>
+                        <label for="email" class="cols-sm-2 control-label">Email liên hệ </label>
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope " aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" name="email" id="email" th:required="true" placeholder="Email liên hệ" autocomplete="off"/>
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Email liên hệ" autocomplete="off"/>
                             </div>
                         </div>
                     </div>
                 <div class="form-group">
-                    <label for="name" class="cols-sm-2 control-label">Họ tên <a th:style="${'color: red;'}">*</a></label>
+                    <label for="name" class="cols-sm-2 control-label">Họ tên </label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="name" id="name" th:required="true"  placeholder="Nhập họ tên" autocomplete="off"/>
+                            <input type="text" class="form-control" name="name" id="name"  placeholder="Nhập họ tên" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-1" style=" padding-right: 0px;"></div>
-
-            <div class="col-md-5" style=" padding-right: 0px;">
-                <div class="form-group">
-                    <label for="telNumber" class="cols-sm-2 control-label">Số điện thoại <a th:style="${'color: red;'}">*</a></label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-phone fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="telNumber" id="telNumber" th:required="true" placeholder="Nhập số điện thoại" autocomplete="off"/>
-                        </div>
-                    </div>
-                </div>
 
 
-                <div class="form-group">
-                    <label for="code" class="cols-sm-2 control-label">Tên đăng nhập<a th:style="${'color: red;'}">*</a></label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="code" id="code" th:required="true"  placeholder="Nhập tên đăng nhập " autocomplete="off"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="cols-sm-2 control-label">Mật khẩu <a th:style="${'color: red;'}">*</a></label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="password" id="password" th:required="true"  placeholder="Nhập mật khẩu" autocomplete="off"/>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="confirm" class="cols-sm-2 control-label">Nhập lại mật khẩu <a th:style="${'color: red;'}">*</a></label>    <span id='message'></span>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="confirm" id="confirm" th:required="true" placeholder="Nhập lại mật khẩu" autocomplete="off"/>
-                        </div>
-                    </div>
-                </div>
-
-        </div>
             <div class="form-group ">
                 <button id="btn-register" type="button"  style="    width: 200px ;margin: auto "     class="btn btn-primary btn-lg btn-block login-button">Đăng ký</button>
             </div>
@@ -141,25 +143,21 @@
             ignore: ":hidden",
             rules: {
                 name: {
-                    required: true,
                     normalizer: function( value ) {
                         return $.trim( value );
                     },
                     maxlength: 50
                 },
                 custName: {
-                    required: true,
                     normalizer: function( value ) {
                         return $.trim( value );
                     },
-                    maxlength: 50
+                    maxlength: 2000
                 },
                 address: {
-                    required: true,
                     normalizer: function( value ) {
                         return $.trim( value );
                     },
-                    maxlength: 50
                 },
                 email: {
                     required: true,
@@ -213,6 +211,8 @@
     })
     $("#telNumber").on('keyup', function(evt){
         $("#code").val($(this).val());
+        $("#name").val($(this).val());
+        $("#custName").val($(this).val());
     });
     $("#btn-register").click(function () {
 
@@ -241,7 +241,7 @@
                     setInfoMessage($('#action-info'),resultName);
                     $("#register-form input").prop("disabled", true);
                     $("#btn-register").prop("disabled", true);
-                    doCountDown(3);
+                    doCountDown(5);
                 }else{
                     setErrorMessage($('#action-info'),resultName);
                 }

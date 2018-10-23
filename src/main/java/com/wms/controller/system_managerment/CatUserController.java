@@ -313,6 +313,7 @@ public class CatUserController extends BaseCommonController {
         }else{
             catUserDTO.setRoleId(WMSConfigManagerment.DEFAUL_ROLEID);
             catUserDTO.setRoleName(WMSConfigManagerment.DEFAUL_ROLENAME);
+            catUserDTO.setCode(catUserDTO.getCode().trim().toLowerCase());
         }
 
         ResponseObject response = catUserServices.add(catUserDTO);

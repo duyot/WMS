@@ -148,6 +148,10 @@ function setInfoMessage(object,value) {
     object.text(value);
     object.css('color','#337ab7');
     //
+    object.fadeIn();
+    setTimeout(function() {
+        object.fadeOut('fast');
+    }, 8000);
 }
 
 function setInfoMessageWithTime(object,value,timeout) {
