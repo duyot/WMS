@@ -9,7 +9,6 @@ import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
-import com.wms.utils.JSONUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +41,10 @@ public class ImportStockController extends BaseController {
     BaseService err$MjrStockGoodsSerialService;
     @Autowired
     BaseService catStockCellService;
+    //
     Map<String, String> mapCellIdCellCode = new HashMap<>();
     List<ComboSourceDTO> cells;
+    //
     private Logger log = LoggerFactory.getLogger(ImportStockController.class);
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
@@ -237,9 +238,9 @@ public class ImportStockController extends BaseController {
         return stockTrans;
     }
 
-    private String calTotalMoneyTrans(List<MjrStockTransDetailDTO> lstGoods){
+    private String calTotalMoneyTrans(List<MjrStockTransDetailDTO> lstGoods) {
         float total = 0f;
-        for (MjrStockTransDetailDTO i: lstGoods){
+        for (MjrStockTransDetailDTO i : lstGoods) {
             total += Float.parseFloat(i.getTotalMoney());
         }
         return String.valueOf(total);

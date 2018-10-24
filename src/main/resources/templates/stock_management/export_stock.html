@@ -52,7 +52,7 @@
                                             <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                             <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
                                             <button id="btn-check-serial" style="display: none" th:value="@{/workspace/stock_management/import/isSerial}"></button>
-                                            <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/export/getCells}"></button>
+                                            <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
                                             <button id="btn-get-goods-code" style="display: none" th:value="@{/workspace/stock_management/import/getGoodsCode}"></button>
                                             <button id="btn-get-serial" style="display: none" th:value="@{/workspace/stock_management/export/getListSerialInStock}"></button>
                                             <button id="btn-get-partner" style="display: none" th:value="@{/workspace/stock_management/export/getPartnerName}"></button>
@@ -72,6 +72,7 @@
                                     </div>
                                 </div>
 
+                                <!--ghi chú - kh nhận-->
                                 <div class="row">
                                     <div class="col-sm-2">
                                         <label th:text="#{lbl.note}" for="inp-contract-note"></label>
@@ -104,7 +105,7 @@
 
                         <div class="panel panel-primary">
                             <div class="panel-body">
-                                <!--row 2: goods + contract number-->
+                                <!--row 2: goods + serial-->
                                 <div class="row">
                                     <!--ma hang-->
                                     <div class="col-sm-2">
@@ -130,13 +131,11 @@
                                             <input id="inp-serial" class="form-control" maxlength="50" />
                                         </div>
                                     </div>
-
-
-
                                 </div>
 
-                                <div class="row">
 
+                                <!--file up load + doi tac cc-->
+                                <div class="row">
                                     <div class="col-sm-2">
                                         <label th:text="#{lbl.fileupload}" for="btn-excel-export"></label>
                                     </div>
@@ -175,6 +174,24 @@
                                     </div>
 
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label class="control-label" for="cmb-cells" th:text="#{lbl.cellCode}"></label>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="input-group" style="width: 100%;">
+                                            <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                                <option value="-1">Tất cả</option>
+                                                <option  th:each="sopt:${cells}"
+                                                         th:value="${sopt.code}" th:text="${sopt.name}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>

@@ -196,18 +196,20 @@
                     >
                         <thead>
                         <tr>
-                            <th class="col-stt" data-formatter="runningFormatter" data-align="center">STT</th>
+                            <th data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+
                             <th data-field="id"  data-visible="false">Id</th>
                             <th data-field="type" data-visible="false">Type</th>
                             <th data-field="stockId" data-visible="false">StockId</th>
+
                             <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã phiếu</th>
                             <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
                             <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true">Đối tác cung cấp</th>
                             <th class="col-md-1" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
-                            <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true">Loại GD</th>
-                            <th class="col-md-1" data-field="transMoneyTotal" data-align="left" data-sortable="true">Tổng tiền</th>
-                            <th class="col-md-1" data-field="createdDate" data-align="center" data-sortable="true">Thời gian</th>
-                            <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người thực hiện</th>
+                            <th  data-field="typeValue" data-align="left" data-sortable="true">Loại GD</th>
+                            <th  data-field="transMoneyTotal" data-align="left" data-sortable="true">Tổng tiền</th>
+                            <th  data-field="createdDate" data-align="center" data-sortable="true">Thời gian</th>
+                            <th  data-field="createdUser" data-align="left" data-sortable="true">Người thực hiện</th>
                             <th class="col-md-1" data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
                         </thead>

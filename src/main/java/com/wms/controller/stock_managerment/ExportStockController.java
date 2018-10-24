@@ -6,7 +6,6 @@ import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.StockManagementService;
-import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import com.wms.utils.JSONUtils;
@@ -30,7 +29,11 @@ import java.util.*;
 @Controller
 @RequestMapping("/workspace/stock_management/export")
 @Scope("session")
-public class ExportStockController extends BaseController{
+public class ExportStockController extends BaseController {
+    @Autowired
+    public BaseService catPartnerService;
+    //
+    public List<CatPartnerDTO> lstPartner;
     Logger log = LoggerFactory.getLogger(ExportStockController.class);
     //
     @Autowired
@@ -39,123 +42,150 @@ public class ExportStockController extends BaseController{
     BaseService mjrStockGoodsTotalService;
     @Autowired
     BaseService err$MjrStockGoodsSerialService;
-
-    public List<CatPartnerDTO> lstPartner;
-
+    //
     @Autowired
-    public BaseService catPartnerService;
+    BaseService catStockCellService;
+    //
+    List<ComboSourceDTO> cells;
+    Map<String, String> mapCellIdCellCode = new HashMap<>();
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
     //
+    private int previousStockId = -1;
+
+    //
     @ModelAttribute("setGoodsCode")
-    public void setGoodsCode(HttpServletRequest request){
+    public void setGoodsCode(HttpServletRequest request) {
         //
-        if(selectedCustomer == null){
-            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        if (selectedCustomer == null) {
+            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
-        if(lstGoods == null || isGoodsModified(request)){
-            lstGoods = FunctionUtils.getListGoods(catGoodsService,selectedCustomer);
+        if (lstGoods == null || isGoodsModified(request)) {
+            lstGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer);
             buildMapGoods();
             //
-            for(CatGoodsDTO i: lstGoods){
+            for (CatGoodsDTO i : lstGoods) {
                 setGoodsCode.add(i.getCode());
             }
-            //
-            request.getSession().setAttribute("isGoodsModifiedExportStock",false);
+            request.getSession().setAttribute("isGoodsModifiedExportStock", false);
         }
-        //
-    }
-    //
-    @ModelAttribute("setPartnerName")
-    public void setPartnerName(HttpServletRequest request){
-        //
-        if(selectedCustomer == null){
-            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        if(lstPartner == null || isGoodsModified(request)){
-            lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer);
-
-        }
-
     }
 
     @ModelAttribute("lstPartner")
-    public List<CatPartnerDTO> setPartner(HttpServletRequest request){
+    public List<CatPartnerDTO> setPartner(HttpServletRequest request) {
         return lstPartner;
     }
 
-    private boolean isGoodsModified(HttpServletRequest request){
+    @ModelAttribute("cells")
+    public List<ComboSourceDTO> getCells(HttpServletRequest request) {
+        if (selectedCustomer == null) {
+            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        //
+        if (currentUser == null) {
+            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
+        }
+        //
+        if (lstStock == null || isStockModified(request)) {
+            lstStock = FunctionUtils.getListStock(stockService, currentUser);
+            buildMapStock();
+            request.getSession().setAttribute("isStockModifiedImportStock", false);
+        }
+        //
+        if (!DataUtil.isListNullOrEmpty(lstStock)) {
+            int currentStockId = Integer.parseInt(lstStock.get(0).getId());
+            if (cells == null || cells.size() == 0 || previousStockId != currentStockId) {
+                cells = Lists.newArrayList();
+                previousStockId = currentStockId;
+                List<Condition> conditions = Lists.newArrayList();
+                conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, currentStockId + ""));
+                List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions);
+                if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
+                    for (CatStockCellDTO i : cellsDTO) {
+                        cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
+                        mapCellIdCellCode.put(i.getId(), i.getCode());
+                    }
+                }
+            }
+        }
+        return cells;
+    }
+
+    private boolean isGoodsModified(HttpServletRequest request) {
         if (request.getSession().getAttribute("isGoodsModifiedExportStock") == null) {
             return true;
         }
         return (boolean) request.getSession().getAttribute("isGoodsModifiedExportStock");
     }
 
-    private boolean isStockModified(HttpServletRequest request){
+    private boolean isStockModified(HttpServletRequest request) {
         if (request.getSession().getAttribute("isStockModifiedExportStock") == null) {
             return true;
         }
         return (boolean) request.getSession().getAttribute("isStockModifiedExportStock");
     }
+
     //
     @ModelAttribute("getStock")
-    public void getStock(HttpServletRequest request){
-        if(selectedCustomer == null){
-            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+    public void getStock(HttpServletRequest request) {
+        if (selectedCustomer == null) {
+            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
         //
         if (currentUser == null) {
-            this.currentUser =  (CatUserDTO) request.getSession().getAttribute("user");
+            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
         }
         //
-        if(lstStock == null || isStockModified(request)){
-            lstStock = FunctionUtils.getListStock(stockService,currentUser);
+        if (lstStock == null || isStockModified(request)) {
+            lstStock = FunctionUtils.getListStock(stockService, currentUser);
             buildMapStock();
-            request.getSession().setAttribute("isStockModifiedExportStock",false);
+            request.getSession().setAttribute("isStockModifiedExportStock", false);
         }
     }
+
     //
     @RequestMapping()
-    public String home(Model model){
-        model.addAttribute("menuName","menu.exportstock");
+    public String home(Model model) {
+        model.addAttribute("menuName", "menu.exportstock");
         return "stock_management/export_stock";
     }
 
     @RequestMapping(value = "/getTemplateFile")
-    public void getTemplateFile(HttpServletResponse response){
+    public void getTemplateFile(HttpServletResponse response) {
         String fileResource = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_TEMPLATE;
-        FunctionUtils.loadFileToClient(response,fileResource);
+        FunctionUtils.loadFileToClient(response, fileResource);
     }
 
     @RequestMapping(value = "/getErrorImportFile")
-    public void getErrorImportFile(HttpServletRequest request,HttpServletResponse response){
-        String fileName =  profileConfig.getTempURL() + request.getSession().getAttribute("file_import_error");
-        FunctionUtils.loadFileToClient(response,fileName);
+    public void getErrorImportFile(HttpServletRequest request, HttpServletResponse response) {
+        String fileName = profileConfig.getTempURL() + request.getSession().getAttribute("file_import_error");
+        FunctionUtils.loadFileToClient(response, fileName);
     }
 
     @RequestMapping(value = "/getErrorImportStockFile/{id}")
-    public void getErrorImportStockFile(@PathVariable("id")String stockTransId,HttpServletRequest request,HttpServletResponse response){
+    public void getErrorImportStockFile(@PathVariable("id") String stockTransId, HttpServletRequest request, HttpServletResponse response) {
         List<Err$MjrStockGoodsSerialDTO> lstGoodsError = getListImportError(stockTransId);
         //
-        if(!DataUtil.isListNullOrEmpty(lstGoodsError)){
+        if (!DataUtil.isListNullOrEmpty(lstGoodsError)) {
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
-            String prefixFileName ="Error_"+ errorItem.getCustId() + "_"+ errorItem.getStockId() + "_"+ errorItem.getImportStockTransId();
-            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError,mapGoodsIdGoods),prefixFileName,false,profileConfig);
-            FunctionUtils.loadFileToClient(response,profileConfig.getTempURL()+ fileName);
+            String prefixFileName = "Error_" + errorItem.getCustId() + "_" + errorItem.getStockId() + "_" + errorItem.getImportStockTransId();
+            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError, mapGoodsIdGoods), prefixFileName, false, profileConfig);
+            FunctionUtils.loadFileToClient(response, profileConfig.getTempURL() + fileName);
         }
     }
 
     @RequestMapping(value = "/isSerial")
-    public @ResponseBody CatGoodsDTO isSerial(@RequestParam("code")String code,@RequestParam("stockId")String stockId){
+    public @ResponseBody
+    CatGoodsDTO isSerial(@RequestParam("code") String code, @RequestParam("stockId") String stockId) {
         CatGoodsDTO catGoodsDTO = mapGoodsCodeGoods.get(code);
         catGoodsDTO.setInPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getInPrice()));
         catGoodsDTO.setOutPrice(FunctionUtils.removeScientificNotation(catGoodsDTO.getOutPrice()));
         //get current amount in stock
         List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,stockId));
-        lstCon.add(new Condition("goodsId", Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,catGoodsDTO.getId()));
-        List<MjrStockGoodsTotalDTO> lstTotal =  mjrStockGoodsTotalService.findByCondition(lstCon);
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
+        lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, stockId));
+        lstCon.add(new Condition("goodsId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, catGoodsDTO.getId()));
+        List<MjrStockGoodsTotalDTO> lstTotal = mjrStockGoodsTotalService.findByCondition(lstCon);
         if (DataUtil.isListNullOrEmpty(lstTotal)) {
             catGoodsDTO.setAmount("0");
             return catGoodsDTO;
@@ -163,14 +193,15 @@ public class ExportStockController extends BaseController{
         MjrStockGoodsTotalDTO item = lstTotal.get(0);
         catGoodsDTO.setAmount(item.getAmount());
         //
-        return  catGoodsDTO;
+        return catGoodsDTO;
     }
 
     @RequestMapping(value = "/getListSerialInStock")
-    public @ResponseBody List<String> getListSerialInStock(@RequestParam("stockId")String stockId,
-                                                           @RequestParam("goodsCode")String goodsCode,@RequestParam("goodsState")String goodsState
-    ){
-       CatGoodsDTO goods = mapGoodsCodeGoods.get(goodsCode);
+    public @ResponseBody
+    List<String> getListSerialInStock(@RequestParam("stockId") String stockId,
+                                      @RequestParam("goodsCode") String goodsCode, @RequestParam("goodsState") String goodsState
+    ) {
+        CatGoodsDTO goods = mapGoodsCodeGoods.get(goodsCode);
         if (goods == null) {
             return Lists.newArrayList();
         }
@@ -178,21 +209,20 @@ public class ExportStockController extends BaseController{
         return lst;
     }
 
-
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public List<MjrStockTransDetailDTO> uploadFile(MultipartHttpServletRequest request) {
         //1. get the files from the request object
-        Iterator<String> itr =  request.getFileNames();
+        Iterator<String> itr = request.getFileNames();
         MultipartFile mpf = request.getFile(itr.next());
         //
-        ImportFileResultDTO importFileResult = FunctionUtils.getListStockImportFromFile(mpf,setGoodsCode, mapGoodsCodeGoods,mapAppGoodsState,false);
-        if(!importFileResult.isValid()){
+        ImportFileResultDTO importFileResult = FunctionUtils.getListStockImportFromFile(mpf, setGoodsCode, mapGoodsCodeGoods, mapAppGoodsState, false);
+        if (!importFileResult.isValid()) {
             //save error file
-            String prefixFileName = selectedCustomer.getId() +"_"+  currentUser.getCode();
-            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(),prefixFileName,false,profileConfig);
+            String prefixFileName = selectedCustomer.getId() + "_" + currentUser.getCode();
+            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(), prefixFileName, false, profileConfig);
             //save in session
-            request.getSession().setAttribute("file_import_error",fileName);
+            request.getSession().setAttribute("file_import_error", fileName);
             return null;
         }
         return importFileResult.getLstGoodsImport();
@@ -203,25 +233,26 @@ public class ExportStockController extends BaseController{
     public ResponseObject exportStock(@RequestBody StockManagementDTO stockManagementDTO) {
         long startTime = System.currentTimeMillis();
         log.info("------------------------------------------------------------");
-        log.info(currentUser.getCode() +" export: " + stockManagementDTO.getLstGoods().size() + " items.");
+        log.info(currentUser.getCode() + " export: " + stockManagementDTO.getLstGoods().size() + " items.");
         String sysdate = catStockService.getSysDate();
-        StockTransDTO stockTrans = initStockTrans(stockManagementDTO,sysdate);
-        System.out.println("Export request: "+ JSONUtils.object2JSONString(stockTrans));
+        StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
+        System.out.println("Export request: " + JSONUtils.object2JSONString(stockTrans));
         ResponseObject response = stockManagementService.exportStock(stockTrans);
-        log.info("Result "+ response.getStatusCode() +" in "+ (System.currentTimeMillis() - startTime) + "ms");
+        log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
     }
+
     //@Support function--------------------------------------------------------------------------------------------------
-    private List<Err$MjrStockGoodsSerialDTO> getListImportError(String stockTransId){
+    private List<Err$MjrStockGoodsSerialDTO> getListImportError(String stockTransId) {
         List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("importStockTransId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,stockTransId));
+        lstCon.add(new Condition("importStockTransId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, stockTransId));
         return err$MjrStockGoodsSerialService.findByCondition(lstCon);
     }
 
-    private StockTransDTO initStockTrans(StockManagementDTO stockManagementDTO,String sysdate){
+    private StockTransDTO initStockTrans(StockManagementDTO stockManagementDTO, String sysdate) {
         StockTransDTO stockTrans = new StockTransDTO();
         //
-        MjrStockTransDTO mjrStockTransDTO = initMjrStockTrans(stockManagementDTO.getMjrStockTransDTO(),sysdate);
+        MjrStockTransDTO mjrStockTransDTO = initMjrStockTrans(stockManagementDTO.getMjrStockTransDTO(), sysdate);
         //
         mjrStockTransDTO.setTransMoneyTotal(calTotalMoneyTrans(stockManagementDTO.getLstGoods()));
         stockTrans.setMjrStockTransDTO(mjrStockTransDTO);
@@ -232,22 +263,26 @@ public class ExportStockController extends BaseController{
         return stockTrans;
     }
 
-    private String calTotalMoneyTrans(List<MjrStockTransDetailDTO> lstGoods){
+    private String calTotalMoneyTrans(List<MjrStockTransDetailDTO> lstGoods) {
         float total = 0f;
-        for (MjrStockTransDetailDTO i: lstGoods){
+        for (MjrStockTransDetailDTO i : lstGoods) {
             total += Float.parseFloat(i.getTotalMoney());
         }
         return String.valueOf(total);
     }
 
-    private List<MjrStockTransDetailDTO> initListTransDetail(List<MjrStockTransDetailDTO> lstGoods){
+    private List<MjrStockTransDetailDTO> initListTransDetail(List<MjrStockTransDetailDTO> lstGoods) {
         CatGoodsDTO goodsItem;
-        for(MjrStockTransDetailDTO i: lstGoods){
+        for (MjrStockTransDetailDTO i : lstGoods) {
             goodsItem = mapGoodsCodeGoods.get(i.getGoodsCode());
-            if(goodsItem != null){
+            if (goodsItem != null) {
                 i.setGoodsId(goodsItem.getId());
                 i.setIsSerial(goodsItem.getIsSerial());
             }
+            //
+            i.setOutputPrice(FunctionUtils.unformatFloat(i.getOutputPrice()));
+            i.setAmount(FunctionUtils.unformatFloat(i.getAmount()));
+            i.setCellCode(mapCellIdCellCode.get(i.getCellCode()));
             //
             i.setAmountValue(null);
             i.setInputPriceValue(null);
@@ -258,29 +293,29 @@ public class ExportStockController extends BaseController{
         return lstGoods;
     }
 
-    private MjrStockTransDTO initMjrStockTrans(MjrStockTransDTO mjrStockTransDTO,String sysdate){
+    private MjrStockTransDTO initMjrStockTrans(MjrStockTransDTO mjrStockTransDTO, String sysdate) {
         mjrStockTransDTO.setCustId(selectedCustomer.getId());
         mjrStockTransDTO.setType(Constants.IMPORT_TYPE.EXPORT);
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
         //Nguoi nhan khi xuat
-        if (mjrStockTransDTO.getReceiveName() != null && !mjrStockTransDTO.getReceiveName().trim().equals("")){
-            String [] splitPartner = mjrStockTransDTO.getReceiveName().split("\\|");
-            if (splitPartner.length > 0 ){
+        if (mjrStockTransDTO.getReceiveName() != null && !mjrStockTransDTO.getReceiveName().trim().equals("")) {
+            String[] splitPartner = mjrStockTransDTO.getReceiveName().split("\\|");
+            if (splitPartner.length > 0) {
                 String partnerCode = splitPartner[0];
-                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,selectedCustomer.getId(), partnerCode, null );
-                if (catPartnerDTO != null){
-                    String partnerName = catPartnerDTO.getName()==null? "": catPartnerDTO.getName();
-                    String partnerTelNumber = catPartnerDTO.getTelNumber()==null? "": catPartnerDTO.getTelNumber();
+                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
+                if (catPartnerDTO != null) {
+                    String partnerName = catPartnerDTO.getName() == null ? "" : catPartnerDTO.getName();
+                    String partnerTelNumber = catPartnerDTO.getTelNumber() == null ? "" : catPartnerDTO.getTelNumber();
                     mjrStockTransDTO.setReceiveId(catPartnerDTO.getId());
-                    mjrStockTransDTO.setReceiveName(partnerName+"|" + partnerTelNumber);
+                    mjrStockTransDTO.setReceiveName(partnerName + "|" + partnerTelNumber);
                 }
             }
         }
         //Xuat hang cua doi tac
-        if (mjrStockTransDTO.getPartnerId() != null){
-            CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId() );
+        if (mjrStockTransDTO.getPartnerId() != null) {
+            CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId());
             if (catPartnerDTO != null) {
                 String partnerName = catPartnerDTO.getName() == null ? "" : catPartnerDTO.getName();
                 String partnerTelNumber = catPartnerDTO.getTelNumber() == null ? "" : catPartnerDTO.getTelNumber();
@@ -293,15 +328,28 @@ public class ExportStockController extends BaseController{
     }
 
     @RequestMapping(value = "/getPartnerName")
-    public @ResponseBody List<String> getPartnerName(){
+    public @ResponseBody
+    List<String> getPartnerName() {
         List<String> lstPartneName = Lists.newArrayList();
         StringBuilder namePlus = new StringBuilder();
-        for(CatPartnerDTO i: lstPartner){
+        for (CatPartnerDTO i : lstPartner) {
             namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
             lstPartneName.add(namePlus.toString());
             namePlus.setLength(0);
         }
         return lstPartneName;
+    }
+
+    //
+    @ModelAttribute("setPartnerName")
+    public void setPartnerName(HttpServletRequest request) {
+        //
+        if (selectedCustomer == null) {
+            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if (lstPartner == null || isGoodsModified(request)) {
+            lstPartner = FunctionUtils.getListPartner(catPartnerService, selectedCustomer);
+        }
     }
 
 }

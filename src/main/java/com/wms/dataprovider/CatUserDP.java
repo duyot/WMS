@@ -102,7 +102,7 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
 
         try {
             long id= Long.parseLong(custId);
-            String url = getUrlLoadBalancing(id, GET_CUSTOMER_URL);
+            String url = getUrlLoadBalancing(id, GET_USER_BY_CUST);
             ResponseEntity<CatUserDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,CatUserDTO[].class);
             return Arrays.asList(responseEntity.getBody());
         } catch (RestClientException e) {
