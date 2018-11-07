@@ -8,6 +8,10 @@ var mapGoodCode;
 var inpGoodsSerial = $('#inp-serial');
 var rowSerial = $('#row-serial');
 var $body = $("body");
+var validator;
+$addCustModal = $('#myModal');
+var url = $('#btn-url').val();
+var url_getPartner = url+"getPartner";
 $(function () {
     //
     var oldPriceValue;
@@ -179,7 +183,7 @@ function updateData(goodsItem) {
     checkDisableEnablePaymentButton();
 }
 function resetPaymentInfor() {
-    setInfoMessage(lblTotalPrice, "Tổng tiền: " + formatFloatType(Number(totalPrice)));
+    setTextForLabel(lblTotalPrice, "Tổng tiền: " + formatFloatType(Number(totalPrice)));
     $("#inp-totalCurrentcy").val("0");
     $("#inp-discount").val("0");
     $("#inp-currency").val("0");
@@ -213,7 +217,7 @@ window.operateEvents = {
     }
 };
 function updateTotalPrice(totalPrice) {
-    setInfoMessage(lblTotalPrice, "Tổng tiền: " + formatFloatType(Number(totalPrice)));
+    setTextForLabel(lblTotalPrice, "Tổng tiền: " + formatFloatType(Number(totalPrice)));
     updatePaymentInformation();
 }
 function updatePaymentInformation() {
@@ -413,4 +417,22 @@ function caculateRefund() {
         alert('Số tiền khách đưa phải lớn hơn số tiền phải thu');
         return "error";
     }
+}
+$(document).ready(function () {
+    validator = createValidate('#cat-customer-form',$addCustModal)
+
+});
+$("#btnAddCust").click(function () {
+    clearForm('#cat-customer-form');
+    showModal($addCustModal);
+
+});
+function doSearch() {
+    var data = {custId : '1'};
+    searchEvent("GET",url_getPartner , data,'updateCustomer')
+}
+function updateCustomer(data) {
+    $('#inp-cust').autocomplete({
+        source: data
+    });
 }

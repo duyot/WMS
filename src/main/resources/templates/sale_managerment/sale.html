@@ -34,6 +34,7 @@
     <script th:attr="src=@{/js/jquery-ui.min.js}" th:href="@{/js/jquery-ui.min.js}"></script>
     <script th:attr="src=@{/js/bootstrap-table.js}" th:href="@{/js/bootstrap-table.js}"></script>
     <script th:attr="src=@{/js/jquery.validate.min.js}" th:href="@{/js/jquery.validate.min.js}"></script>
+    <script th:attr="src=@{/js/notification/bootstrap-notify.min.js}" th:href="@{/js/notification/bootstrap-notify.min.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}" th:href="@{/js/bootstrap.min.js}"></script>
     <script th:attr="src=@{/js/nprogress.js}" th:href="@{/js/nprogress.js}"></script>
@@ -102,7 +103,7 @@
                             <div class="wrapper text-center" style="text-align: center; margin-top: 10px;">
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <button  id="btn-sale" type="button" class="btn btn-default  btn-primary">
-                                        <i class="fa fa-search"></i>
+                                        <i class="fa fa-plus"></i>
                                         <span th:text="#{btn.add}"></span>
                                     </button>
                                 </div>
@@ -125,6 +126,10 @@
 
                            <label id="lbl-total-price"    class="toolbar-label-info" style="float: right"></label>
                             <label id="import-action-info" class="toolbar-label-info" style="float: left"></label>
+                            <button id="btn-url" th:value="@{${controller}}" style="display: none"
+                                    type="button" class="btn btn-default">
+                                <i class="fa fa-trash"></i>
+                            </button>
                         </div>
                         <table  id="tbl-sale"
                                 data-pagination="true"
@@ -174,13 +179,26 @@
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-heading">
+                        <label  th:text="#{lbl.customerInfor}"></label>
+                        <button id="btnAddCust" th:title="#{btn.addCust}"
+                                type="button" class="btn btn-default">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <!--row 1: customer + stock-->
                         <div class="row">
                             <div class="col-sm-5">
                                 <label for="inp-cust" th:text="#{lbl.customer}"></label>
                             </div>
                             <div class="col-sm-7">
                                 <div class="input-group"  style="width: 100%;">
-                                  <input id="inp-cust" class="form-control" maxlength="50" />
+                                    <input id="inp-cust" class="form-control" maxlength="50" placeholder="Họ tên, số điện thoại" />
                                 </div>
                             </div>
                         </div>
@@ -300,6 +318,8 @@
     <div class="modal-loading"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
+    <div th:include="modal/cat_customer :: frag-cat-customer-modal"></div>
+    <div th:include="modal/assign_stock_user :: frag-assign-stock-user-modal"></div>
 </section>
 <script th:inline="javascript">
     var lstGoods = [[${lstGoods}]];

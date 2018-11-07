@@ -123,6 +123,23 @@ public class SaleController extends BaseCommonController {
         return response;
     }
 
+    @RequestMapping(value = "/addCust", method = RequestMethod.POST)
+    public @ResponseBody String addCust(HttpServletResponse servletResponse, HttpServletRequest request ,CatPartnerDTO catPartnerDTO) {
+        catPartnerDTO.setStatus("1");
+        catPartnerDTO.setCustId(this.selectedCustomer.getId());
+        catPartnerDTO.setCode(catPartnerDTO.getTelNumber());
+        ResponseObject response = catPartnerService.add(catPartnerDTO);
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.INSERT_SUSSESS);
+        }else{
+            return ResourceBundleUtils.getkey(DataUtil.isNullOrEmpty(response.getKey())? Constants.RESPONSE.INSERT_ERROR : response.getKey());
+        }
+    }
+    @RequestMapping(value = "/getPartner",method = RequestMethod.GET)
+    public @ResponseBody   List<String> getPartner(@RequestParam("custId") String custId) {
+        List<CatPartnerDTO> lstPartner = FunctionUtils.getListPartner(catPartnerService,selectedCustomer);
+        return getPartnerName(lstPartner);
+    }
     private StockTransDTO initStockTrans(StockManagementDTO stockManagementDTO){
         StockTransDTO stockTrans = new StockTransDTO();
         //
@@ -188,7 +205,7 @@ public class SaleController extends BaseCommonController {
         List<String> lstPartneName = Lists.newArrayList();
         StringBuilder namePlus = new StringBuilder();
         for(CatPartnerDTO i: lstPartner){
-            namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
+            namePlus.append(i.getName()).append("|").append(i.getTelNumber());
             lstPartneName.add(namePlus.toString());
             namePlus.setLength(0);
         }

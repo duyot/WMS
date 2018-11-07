@@ -220,7 +220,12 @@
         if (result == false){
             return;
         }
-
+        if ($('#password').val() != $('#confirm').val()) {
+            $('#confirm').attr('data-original-title', "Mật khẩu không khớp").tooltip('show');
+            $('#confirm').focus();
+            closeTooltip('#confirm');
+            return
+        }
         if (isContainSpecialCharacter($('#name').val())) {
             alert("Họ tên chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
             return;

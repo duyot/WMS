@@ -46,3 +46,9 @@ div.tree-multiselect>div.selections.no-border {
 .bs-bars.pull-left{
   width: 80%;
 }
+#btnAddCust{
+    padding: 2px 8px;
+    font-size: 18px;
+    float: right;
+    margin: -2px;
+}
