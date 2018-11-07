@@ -150,6 +150,8 @@ function formatFloatType(text) {
 function setInfoMessage(object,value) {
     $.notify({
         message: value
+    },{
+        type: 'success'
     });
 }
 
