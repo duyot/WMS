@@ -23,6 +23,14 @@ function validateForm(formid) {
     });
  return ruleObj;
 }
+function clearForm(formid) {
+    $(formid).find(":text").each(function(){
+       if(!$(this).attr("hidden")){
+           $(this).val('');
+       }
+    })
+
+}
 function createValidate(formid, addUpdateModal,table,btnSearch) {
     var validator = $(formid).validate({
         ignore: ":hidden",

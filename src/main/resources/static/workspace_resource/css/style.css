@@ -38,7 +38,18 @@ col-stt{
 .btn-hide{
 	display: none;
 }
-
+.alertClass .ui-dialog-titlebar-close{
+	display: none;
+}
+.alertClass .ui-dialog-buttonset button{
+	margin: 0px !important;
+}
+.alertClass .ui-dialog .ui-dialog-buttonpane{
+	 margin-top: 0px !important;
+}
+label.error{
+	height: 0px !important;
+}
 .menu-item {
 	background: #eeeeee none repeat scroll 0 0;
 	border-radius: 100%;
@@ -7573,4 +7584,5 @@ a.button {
 	text-decoration: none;
 	color: initial;
 }
+
 }

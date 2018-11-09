@@ -22,7 +22,7 @@ var lblTotalPrice = $("#lbl-total-price");
 //-------------------------------------------------------------------------------------------------------
 //#init table
 $(function () {
-    //
+    //import-action-info
     var oldPriceValue;
     $table.bootstrapTable({
         data: dataInit,
@@ -84,7 +84,7 @@ $(function () {
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
-                        setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
+                        setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
                     },
                     display: function (value) {
                         $(this).text(formatFloatType(value));
@@ -111,7 +111,7 @@ $(function () {
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
-                        setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
+                        setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
                     },
                     display: function (value) {
                         $(this).text(formatFloatType(value));
@@ -173,7 +173,7 @@ window.operateEvents = {
         enteredSerials = enteredSerials.remove(keySerial);
         //reset total amount
         totalPrice -= Number(row['total']);
-        setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
+        setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
     }
 };
 //@Upload---------------------------------------------------------------------
@@ -291,7 +291,7 @@ btnImportConfirm.click(function () {
             $table.bootstrapTable('removeAll');
             enteredSerials = [];
             totalPrice = Number(0);
-            setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + totalPrice);
+            setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + totalPrice);
         },
         error: function (data) {
             setErrorMessage($lblInfo, JSON.stringify(data))
@@ -437,7 +437,7 @@ function addImportGoods() {
     });
     //
     totalPrice += Number(inputPriceValue);
-    setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
+    setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
     //
     $table.bootstrapTable('append', rows);
     enableElement($('#btn-import'));
@@ -712,7 +712,7 @@ $inpGoodsCode.keypress(function (e) {
             });
             //
             totalPrice += Number(goodsItem['inPrice']);
-            setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
+            setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
             //
             $table.bootstrapTable('append', rows);
             enableElement($('#btn-import'));
@@ -772,7 +772,7 @@ $inpGoodsSerial.keypress(function (e) {
         });
         //
         totalPrice += Number(goodsItem['inPrice']);
-        setInfoMessage(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
+        setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
         //
         $table.bootstrapTable('append', rows);
         enableElement($('#btn-import'));

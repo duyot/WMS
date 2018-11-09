@@ -115,7 +115,7 @@ function operateFormatter(value, row, index) {
             '</a> ',
             '<a class="assign-stock row-function" href="javascript:void(0)" title="Gán kho">',
             '<i class="fa  fa-home"></i>',
-            '</a> ',
+            '</a> ',mai
             '<a class="resetkey row-function" href="javascript:void(0)" title="Đổi mật khẩu">',
             '<i class="fa  fa-key"></i>',
             '</a> ',

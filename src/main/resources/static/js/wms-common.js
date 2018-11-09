@@ -148,13 +148,11 @@ function formatFloatType(text) {
 }
 
 function setInfoMessage(object,value) {
-    object.text(value);
-    object.css('color','#337ab7');
-    //
-    object.fadeIn();
-    setTimeout(function() {
-        object.fadeOut('fast');
-    }, 8000);
+    $.notify({
+        message: value
+    },{
+        type: 'success'
+    });
 }
 
 function setConstantInfoMessage(object,value) {
@@ -165,13 +163,7 @@ function setConstantInfoMessage(object,value) {
 }
 
 function setInfoMessageWithTime(object,value,timeout) {
-    object.text(value);
-    object.css('color','#337ab7');
-    //
-    object.fadeIn();
-    setTimeout(function() {
-        object.fadeOut('fast');
-    }, timeout);
+    setInfoMessage(object,value);
 }
 
 function setInfoMessageWithCallback(object,value,timeout,callback) {
@@ -190,23 +182,20 @@ function showTotalCallback(object, text) {
 }
 
 function setErrorMessage(object,value) {
-    object.text(value);
-    object.css('color','#F44336');
-    //
-    object.fadeIn();
-    setTimeout(function() {
-        object.fadeOut('fast');
-    }, 8000);
+    $.notify({
+        message: value
+    },{
+        type: 'danger'
+    });
 }
 
 function setErrorMessageWithTime(object,value,timeout) {
+    setErrorMessage(object,value);
+}
+
+function setTextForLabel(object,value) {
     object.text(value);
-    object.css('color','#F44336');
-    //
-    object.fadeIn();
-    setTimeout(function() {
-        object.fadeOut('fast');
-    }, timeout);
+    object.css('color','#337ab7');
 }
 
 function isTableEmpty(object) {
@@ -571,16 +560,14 @@ $(function () {
 });
 function validateRequire(element) {
     var validate = true;
-    $(element).find('input:text').each(function(){
+    $(element).find('input[type]').each(function(){
         $(this).val($.trim($(this).val()));
         if($(this).attr('required') == 'required' && $(this).val() == ""){
             $(this).attr('data-original-title', "Trường này không được để trống").tooltip('show');
             $(this).focus();
             closeTooltip(this);
             validate = false;
-             return false;
         }
-
     });
     return validate;
 }
@@ -594,6 +581,20 @@ function closeTooltip(element) {
         $(element).removeAttr("data-original-title");
     }, 1500); //but invoke me after 3 secs
 }
+window.alert = function(message){
+    $(document.createElement('div'))
+        .attr({'title': 'Thông báo', 'class': 'alert-warning','role':'alert'})
+        .html(message)
+        .dialog({
+            buttons: {Đóng : function(){$(this).dialog('close');}},
+            close: function(){$(this).remove();},
+            draggable: false,
+            modal: true,
+            dialogClass: 'alertClass',
+            resizable: false,
+            width: 'auto'
+        });
+};
 
 var DOCSO=function(){var t=["không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"],r=function(r,n){var o="",a=Math.floor(r/10),e=r%10;return a>1?(o=" "+t[a]+" mươi",1==e&&(o+=" mốt")):1==a?(o=" mười",1==e&&(o+=" một")):n&&e>0&&(o=" lẻ"),5==e&&a>=1?o+=" lăm":4==e&&a>=1?o+=" tư":(e>1||1==e&&0==a)&&(o+=" "+t[e]),o},n=function(n,o){var a="",e=Math.floor(n/100),n=n%100;return o||e>0?(a=" "+t[e]+" trăm",a+=r(n,!0)):a=r(n,!1),a},o=function(t,r){var o="",a=Math.floor(t/1e6),t=t%1e6;a>0&&(o=n(a,r)+" triệu",r=!0);var e=Math.floor(t/1e3),t=t%1e3;return e>0&&(o+=n(e,r)+" nghìn",r=!0),t>0&&(o+=n(t,r)),o};return{doc:function(r){if(0==r)return t[0];var n="",a="";do ty=r%1e9,r=Math.floor(r/1e9),n=r>0?o(ty,!0)+a+n:o(ty,!1)+a+n,a=" tỷ";while(r>0);return n.trim()}}}();
 
