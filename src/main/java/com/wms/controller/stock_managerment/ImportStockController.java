@@ -2,6 +2,7 @@ package com.wms.controller.stock_managerment;
 
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
+import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
@@ -41,6 +42,8 @@ public class ImportStockController extends BaseController {
     BaseService err$MjrStockGoodsSerialService;
     @Autowired
     BaseService catStockCellService;
+    @Autowired
+    public ProfileConfigInterface profileConfig;
     //
     Map<String, String> mapCellIdCellCode = new HashMap<>();
     List<ComboSourceDTO> cells;
@@ -136,12 +139,12 @@ public class ImportStockController extends BaseController {
 
     @RequestMapping(value = "/getTemplateFile")
     public void getTemplateFile(HttpServletResponse response) {
-        FunctionUtils.loadFileToClient(response, BundleUtils.getKey("template_url") + Constants.FILE_RESOURCE.IMPORT_TEMPLATE);
+        FunctionUtils.loadFileToClient(response, profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_TEMPLATE);
     }
 
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request, HttpServletResponse response) {
-        String fileLocation = BundleUtils.getKey("temp_url") + request.getSession().getAttribute("file_import_error");
+        String fileLocation = profileConfig.getTemplateURL() + request.getSession().getAttribute("file_import_error");
         FunctionUtils.loadFileToClient(response, fileLocation);
     }
 
@@ -152,8 +155,8 @@ public class ImportStockController extends BaseController {
         if (!DataUtil.isListNullOrEmpty(lstGoodsError)) {
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName = "Error_" + errorItem.getCustId() + "_" + errorItem.getStockId() + "_" + errorItem.getImportStockTransId();
-            //String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError, mapGoodsIdGoods), prefixFileName, true);
-            //FunctionUtils.loadFileToClient(response, BundleUtils.getKey("temp_url") + fileName);
+//            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError, mapGoodsIdGoods), prefixFileName, true);
+//            FunctionUtils.loadFileToClient(response, BundleUtils.getKey("temp_url") + fileName);
         }
     }
 

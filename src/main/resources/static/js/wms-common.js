@@ -155,8 +155,30 @@ function setInfoMessage(object,value) {
     });
 }
 
+function setConstantInfoMessage(object,value) {
+    object.text(value);
+    object.css('color','#337ab7');
+    //
+    object.fadeIn();
+}
+
 function setInfoMessageWithTime(object,value,timeout) {
     setInfoMessage(object,value);
+}
+
+function setInfoMessageWithCallback(object,value,timeout,callback) {
+    object.text(value);
+    object.css('color','#337ab7');
+    //
+    object.fadeIn();
+    setTimeout(function() {
+        object.fadeOut('fast','swing',callback);
+    }, timeout);
+}
+
+function showTotalCallback(object, text) {
+    alert("running in callback");
+    setConstantInfoMessage(object, text);
 }
 
 function setErrorMessage(object,value) {

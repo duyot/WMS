@@ -58,7 +58,7 @@ public class CatPartnerController extends BaseCommonController{
         List<CatPartnerDTO> lstCatPartner = catPartnerService.findByCondition(lstCon);
 
         for(CatPartnerDTO i: lstCatPartner){
-            i.setName(StringEscapeUtils.escapeHtml(i.getName()));
+            i.setName(i.getName());
             i.setCustName(selectedCustomer.getName());
             i.setStatusName(mapAppStatus.get(i.getStatus()));
         }
