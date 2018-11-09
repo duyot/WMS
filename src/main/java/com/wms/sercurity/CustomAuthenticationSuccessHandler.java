@@ -52,7 +52,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         session.setAttribute("user", authUser.getCatUserDTO());
         //
         CatCustomerDTO customer = getCustomer(authUser.getCatUserDTO().getCustId());
-        customer.setName(StringEscapeUtils.escapeHtml(customer.getName()));
+        customer.setName(customer.getName());
         session.setAttribute("selectedCustomer",customer);
         //
         List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(authUser.getCatUserDTO().getRoleId(),authUser.getCatUserDTO().getCustId());

@@ -84,7 +84,7 @@ $(function () {
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
-                        setInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(totalPrice));
+                        setConstantInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(totalPrice));
                     },
                     display: function (value) {
                         $(this).text(formatFloatType(value));
@@ -111,7 +111,7 @@ $(function () {
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
-                        setInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(totalPrice));
+                        setConstantInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(totalPrice));
                     },
                     display: function (value) {
                         $(this).text(formatFloatType(value));
@@ -175,7 +175,7 @@ window.operateEvents = {
         enteredSerials = enteredSerials.remove(keySerial);
         //reset total amount
         totalPrice -= Number(row['totalMoney']);
-        setInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(Number(totalPrice)));
+        setConstantInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(Number(totalPrice)));
     }
 };
 //@Upload---------------------------------------------------------------------
@@ -221,9 +221,12 @@ btnUploadExcel.click(function () {
         }
     });
 });
-//@Import---------------------------------------------------------------------
+//#Export---------------------------------------------------------------------
 var btnExport = $('#btn-export');
 btnExport.click(function () {
+    //todo
+    setInfoMessageWithCallback($("#export-action-info"), "Xuất " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000,showTotalCallback(lblTotalPrice,"Tổng giá xuất: 0"));
+    return;
     //validate
     var export_goods = $table.bootstrapTable('getData');
     if (export_goods.length == 0) {
@@ -303,13 +306,13 @@ btnExportConfirm.click(function () {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
                 }
             } else {
-                setInfoMessageWithTime($lblInfo, "Xuất " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000);
+                setInfoMessageWithCallback($lblInfo, "Xuất " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000,showTotalCallback(lblTotalPrice,"Tổng giá xuất: 0"));
             }
             disableElement($('#btn-export'));
             $table.bootstrapTable('removeAll');
             enteredSerials = [];
-            totalPrice = Number(0);
-            setInfoMessage(lblTotalPrice, "Tổng giá xuất: " + totalPrice);
+            //totalPrice = Number(0);
+            //setConstantInfoMessage(lblTotalPrice, "Tổng giá xuất: " + totalPrice);
         },
         error: function (data) {
             setErrorMessageWithTime($lblInfo, JSON.stringify(data), 8000)
@@ -460,7 +463,7 @@ function addImportGoods() {
     });
     //
     totalPrice += Number(outputPriceValue);
-    setInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(Number(totalPrice)));
+    setConstantInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(Number(totalPrice)));
     //
     $table.bootstrapTable('append', rows);
     enableElement($('#btn-import'));
@@ -727,7 +730,7 @@ $inpGoodsCode.keypress(function (e) {
             });
             //
             totalPrice += Number(goodsItem['outPrice']);
-            setInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(Number(totalPrice)));
+            setConstantInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(Number(totalPrice)));
             //
             $table.bootstrapTable('append', rows);
             enableElement($('#btn-export'));
@@ -792,7 +795,7 @@ $inpGoodsSerial.keypress(function (e) {
         });
         //
         totalPrice += Number(goodsItem['outPrice']);
-        setInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(Number(totalPrice)));
+        setConstantInfoMessage(lblTotalPrice, "Tổng giá xuất: " + formatFloatType(Number(totalPrice)));
         //
         $table.bootstrapTable('append', rows);
         enableElement($('#btn-export'));

@@ -57,7 +57,7 @@ public class AppParamsController extends BaseCommonController {
         List<AppParamsDTO> lstAppParams = appParamsService.findByCondition(lstCon);
 
         for(AppParamsDTO i: lstAppParams){
-            i.setName(StringEscapeUtils.escapeHtml(i.getName()));
+            i.setName(i.getName());
             i.setStatusName(mapAppStatus.get(i.getStatus()));
         }
 
