@@ -239,14 +239,14 @@ $("#inp-discount").keypress(function (evt) {
     }})
 //jQuery
 $("#inp-discount").on('keyup', function(evt){
-         var value = $(this).val().replace(/\,/g,"");
-        $(this).val(formatFloatType(Number(value)));
-        var discountValue = $("#inp-discount").val().replace(/\,/g,"");
+        var discountValue = $(this).val().replace(/\,/g,"");
         var currency = Number($("#inp-totalCurrentcy").val().replace(/\,/g,""));
         if( discountValue >= currency){
             alert('Số tiền chiết khấu phải nhỏ hơn tổng tiền');
+            $(this).val(formatFloatType(Number(discountValue.slice(0,-1))));
             return "false";
         }
+       $(this).val(formatFloatType(Number(discountValue)));
         var curencyValue = totalPrice - Number(discountValue);
         $("#inp-currency").val(formatFloatType(curencyValue));
 
