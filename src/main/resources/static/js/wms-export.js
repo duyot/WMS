@@ -856,9 +856,7 @@ function loadGoodsCodeSuggestion() {
             goodsCode = data;
         }
     });
-    $('#inp-goods-code').autocomplete({
-        source: goodsCode
-    });
+    setAutoComplete($('#inp-goods-code'),goodsCode);
 }
 
 function loadPartnerSuggestion() {
@@ -873,9 +871,7 @@ function loadPartnerSuggestion() {
             receiveName = data;
         }
     });
-    $('#inp-receive-name').autocomplete({
-        source: receiveName
-    });
+    setAutoComplete($('#inp-receive-name'),receiveName);
 }
 
 function operateFormatter(value, row, index) {

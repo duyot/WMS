@@ -122,21 +122,8 @@ $(function () {
     });
     // init autocomplete goodCode
 
-    var goodsName = [];
-//     build map
-    mapGoodCode = new Object();
-    for(i = 0 ; i <lstGoods.length ; i++){
-        mapGoodCode[lstGoods[i].code.toLowerCase()] = lstGoods[i];
-        mapGoodCode[lstGoods[i].name.toLowerCase()] = lstGoods[i];
-        goodsName.push(lstGoods[i].name);
-        goodsName.push(lstGoods[i].code);
-    }
-    $('#inp-goods-code').autocomplete({
-        source: goodsName
-    });
-    $('#inp-cust').autocomplete({
-        source: lstPartner
-    });
+
+
 //    init mayment infor
     resetPaymentInfor();
 });
@@ -419,7 +406,18 @@ function caculateRefund() {
     }
 }
 $(document).ready(function () {
-    validator = createValidate('#cat-customer-form',$addCustModal)
+    validator = createValidate('#cat-customer-form',$addCustModal);
+    var goodsName = [];
+//     build map
+    mapGoodCode = new Object();
+    for(i = 0 ; i <lstGoods.length ; i++){
+        mapGoodCode[lstGoods[i].code.toLowerCase()] = lstGoods[i];
+        mapGoodCode[lstGoods[i].name.toLowerCase()] = lstGoods[i];
+        goodsName.push(lstGoods[i].name);
+        goodsName.push(lstGoods[i].code);
+    }
+    setAutoComplete($('#inp-goods-code'),goodsName);
+    setAutoComplete($('#inp-cust'),lstPartner);
 
 });
 $("#btnAddCust").click(function () {

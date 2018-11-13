@@ -115,7 +115,7 @@ function operateFormatter(value, row, index) {
             '</a> ',
             '<a class="assign-stock row-function" href="javascript:void(0)" title="Gán kho">',
             '<i class="fa  fa-home"></i>',
-            '</a> ',mai
+            '</a> ',
             '<a class="resetkey row-function" href="javascript:void(0)" title="Đổi mật khẩu">',
             '<i class="fa  fa-key"></i>',
             '</a> ',
@@ -328,6 +328,18 @@ function getStocksDataDone(data) {
         }
 
     }
+    $('#checkAllPage').click(function () {
+        tableAssignStock.bootstrapTable('togglePagination');
+        tableAssignStock.bootstrapTable('checkAll');
+        tableAssignStock.bootstrapTable('togglePagination');
+        return false;
+    });
+    $('#uncheckAllPage').click(function () {
+        tableAssignStock.bootstrapTable('togglePagination');
+        tableAssignStock.bootstrapTable('uncheckAll');
+        tableAssignStock.bootstrapTable('togglePagination');
+        return false;
+    });
 }
 function doPrepareShowDept(deptId) {
     $("#updateDepartment").find(":checkbox").each(function (item) {
