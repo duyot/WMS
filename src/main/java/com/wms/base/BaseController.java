@@ -51,14 +51,12 @@ public class BaseController {
     //APP_PARAMS
     public List<AppParamsDTO> lstAppParams;
     public List<AppParamsDTO> lstAppGoodsState;
-    public Map<String, String> mapAppGoodsState;
     //
+    public Map<String, String> mapAppGoodsState;
     public Map<String, String> mapAppStatus;
-
+    //
     public CatCustomerDTO selectedCustomer;
     public CatUserDTO currentUser;
-
-
     //
     @ModelAttribute("currentUser")
     public void setCurrentUser(HttpServletRequest request) {
@@ -136,8 +134,6 @@ public class BaseController {
 
         return lstGoods;
     }
-
-
     //==================================================================================================================
     public void buildMapGoods() {
         mapGoodsCodeGoods = new HashMap<>();

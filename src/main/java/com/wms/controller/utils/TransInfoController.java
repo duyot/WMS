@@ -170,6 +170,14 @@ public class TransInfoController extends BaseController{
             startDate = "";
             endDate = "";
         }
+        //
+        String ieMoney;
+        for (MjrStockTransDetailDTO i: lstTransDetail){
+            i.setGoodsName(FunctionUtils.getMapValue(mapGoodsIdGoods,i.getGoodsId()));
+            //
+            ieMoney = !DataUtil.isStringNullOrEmpty(i.getInputPrice())? i.getInputPrice(): i.getOutputPrice();
+            i.setIeMoney(ieMoney);
+        }
         String prefixFileName = "Thongtin_chitiet_giaodich_";
         String fileResource = exportListStockTransDetail(lstTransDetail,prefixFileName);
         FunctionUtils.loadFileToClient(response,fileResource);
@@ -186,8 +194,6 @@ public class TransInfoController extends BaseController{
             return "0|Hủy phiếu không thành công";
           }
     }
-
-
     //==================================================================================================================
     @RequestMapping(value = "/exportTransInfo")
     public void exportTransInfo(HttpServletResponse response,@RequestParam("transId") String transId){
@@ -271,8 +277,6 @@ public class TransInfoController extends BaseController{
         }
         return  lstTransGoodsDetail;
     }
-
-
     //==================================================================================================================
     private List<MjrStockTransDTO> setTransInfoValue(List<MjrStockTransDTO> lstTransDetail){
         for(MjrStockTransDTO i: lstTransDetail){

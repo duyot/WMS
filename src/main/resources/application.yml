@@ -24,12 +24,12 @@ eureka:
 #only update here
 config:
     url:
-      service: http://localhost:8080/services/
-      login : http://localhost:8080/login
-      token : http://localhost:8080/oauth/token?grant_type=password&username=@username&password=@password
+      service: http://localhost:8080/WMS_Webservices/services/
+      login : http://localhost:8080/WMS_Webservices/login
+      token : http://localhost:8080/WMS_Webservices/oauth/token?grant_type=password&username=@username&password=@password
       template : file_template/
-      temp : C:\\Epson\\source_v3\\AJasperReport\\
-      upload: C:\\Epson\\source_v3\\AJasperReport\\
+      temp : D:\\WMS\\temp
+      upload: D:\\WMS\\temp
 server:
   port: 8020
 ---
@@ -55,7 +55,7 @@ config:
     url:
       upload: //WMS//uploaded_file//
       template : file_template/
-      temp: C:\\Epson\\source_v3\\AJasperReport\\
+      temp: D:\\WMS\\temp
 server:
   port: 8020
 

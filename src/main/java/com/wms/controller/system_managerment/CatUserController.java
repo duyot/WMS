@@ -47,6 +47,7 @@ public class CatUserController extends BaseCommonController {
 
     @Autowired
     BaseService mapUserStockServiceImpl;
+    //
     List<TreeModel> lstTreeModal = new ArrayList<>();
     Map<String,CatDepartmentDTO> mapIdDept = new HashMap<>();
     List<String> lstParentDeptId = new ArrayList<>();

@@ -10,7 +10,7 @@ $outPrice = $('#modal-inp-input-price');
 //combobox
 $cmbGoods = $("#modal-cmb-goods");
 $inpPartnerName = $('#inp-partner-name');
-
+$modalCmbCells = $("#cmb-cells");
 //
 var dataInit = [];
 var enteredSerials = [];
@@ -224,9 +224,6 @@ btnUploadExcel.click(function () {
 //#Export---------------------------------------------------------------------
 var btnExport = $('#btn-export');
 btnExport.click(function () {
-    //todo
-    setInfoMessageWithCallback($("#export-action-info"), "Xuất " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000,showTotalCallback(lblTotalPrice,"Tổng giá xuất: 0"));
-    return;
     //validate
     var export_goods = $table.bootstrapTable('getData');
     if (export_goods.length == 0) {
@@ -306,13 +303,12 @@ btnExportConfirm.click(function () {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
                 }
             } else {
-                setInfoMessageWithCallback($lblInfo, "Xuất " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000,showTotalCallback(lblTotalPrice,"Tổng giá xuất: 0"));
+                setInfoMessage($lblInfo, "Xuất " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000);
             }
             disableElement($('#btn-export'));
             $table.bootstrapTable('removeAll');
             enteredSerials = [];
-            //totalPrice = Number(0);
-            //setConstantInfoMessage(lblTotalPrice, "Tổng giá xuất: " + totalPrice);
+            resetTotalInfo()
         },
         error: function (data) {
             setErrorMessageWithTime($lblInfo, JSON.stringify(data), 8000)
@@ -323,6 +319,12 @@ btnExportConfirm.click(function () {
     });
     clearContent();
 });
+
+function resetTotalInfo(){
+    totalPrice = Number(0);
+    setTextForLabel(lblTotalPrice, "Tổng giá xuất: " + totalPrice);
+}
+
 //@Add show modal---------------------------------------------------------------------------------------------------
 $('#btn-add').click(function () {
     //

@@ -2,7 +2,6 @@ package com.wms.utils;
 
 import com.google.common.collect.Lists;
 import com.wms.config.ProfileConfigInterface;
-import com.wms.redis.model.AuthTokenInfo;
 import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
@@ -14,13 +13,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.*;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -224,7 +219,6 @@ public class FunctionUtils {
     public static List<CatPartnerDTO> getListPartner(BaseService service,CatCustomerDTO currentCustomer ){
         return service.findByCondition(getBaseConditions(currentCustomer.getId()));
     }
-
     /*
 
      */
@@ -239,6 +233,7 @@ public class FunctionUtils {
             //
             InputStream is = new FileInputStream(file);
             FileCopyUtils.copy(is, response.getOutputStream());
+            //
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -247,7 +242,7 @@ public class FunctionUtils {
     }
 
     public static void main(String[] args) {
-        FunctionUtils.loadFileToClient(null, "https:\\cdn-ipcam-dev.zoota.vn\\v1\\AUTH_cec36d599bd149c78086fa4fc270eb49\\firmware\\iGame.Reqs_v1.1.docx");
+        System.out.println("Test");
     }
 
 
@@ -720,6 +715,4 @@ public class FunctionUtils {
         }
         return catPartnerDTO;
     }
-
-
 }

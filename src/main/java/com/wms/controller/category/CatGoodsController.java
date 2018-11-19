@@ -93,7 +93,6 @@ public class CatGoodsController extends BaseController {
             mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE,lstAppParams));
         }
         //
-        //
         return mapUnitType;
     }
 

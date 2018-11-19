@@ -272,7 +272,7 @@
             if(originalLink.includes("?")){
                 originalLink = trimAtChacter(originalLink,"?");
             }
-            $downloadLink.attr("href",originalLink +"?stockId="+row['stockId']+"&amp;partnerId="+partnerId);
+            $downloadLink.attr("href",originalLink +"?stockId="+row['stockId']+"&partnerId="+partnerId);
             //
             $("#modal-lbl-goods-name-val").text(row["goodsCode"] + " - "+row["goodsName"] );
             $("#modal-lbl-stock-name-val").text(row["stockName"]);

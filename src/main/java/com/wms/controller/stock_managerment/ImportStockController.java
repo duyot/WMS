@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -47,14 +48,27 @@ public class ImportStockController extends BaseController {
     //
     Map<String, String> mapCellIdCellCode = new HashMap<>();
     List<ComboSourceDTO> cells;
+    public LinkedHashMap<String, String> mapUnitType;
     //
     private Logger log = LoggerFactory.getLogger(ImportStockController.class);
     //
     private HashSet<String> setGoodsCode = new HashSet<>();
     //
     private int previousStockId = -1;
-
     //
+    @PostConstruct
+    public void initBean(){
+        initMapUnitType();
+    }
+
+    private void initMapUnitType(){
+        //
+        if(lstAppParams == null){
+            lstAppParams = FunctionUtils.getAppParams(appParamsService);
+        }
+        mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE,lstAppParams));
+    }
+
     @ModelAttribute("setGoodsCode")
     public void setGoodsCode(HttpServletRequest request) {
         if (selectedCustomer == null) {
@@ -75,8 +89,6 @@ public class ImportStockController extends BaseController {
         for (CatGoodsDTO i : lstGoods) {
             mapGoodsCodeNameGoods.put(i.getName(), i);
         }
-
-
     }
 
     @ModelAttribute("getStock")
@@ -256,11 +268,14 @@ public class ImportStockController extends BaseController {
             if (goodsItem != null) {
                 i.setGoodsId(goodsItem.getId());
                 i.setIsSerial(goodsItem.getIsSerial());
+                i.setUnitName(mapUnitType.get(goodsItem.getUnitType()));
             }
             //
             i.setInputPrice(FunctionUtils.unformatFloat(i.getInputPrice()));
             i.setAmount(FunctionUtils.unformatFloat(i.getAmount()));
             i.setCellCode(mapCellIdCellCode.get(i.getCellCode()));
+            //
+            //
             i.setAmountValue(null);
             i.setInputPriceValue(null);
             i.setOutputPriceValue(null);
@@ -332,13 +347,4 @@ public class ImportStockController extends BaseController {
         }
         return lstPartneName;
     }
-
-//    //
-//    @ModelAttribute("setPartnerName")
-//    public void setPartnerName(HttpServletRequest request) {
-//        //
-//        if (selectedCustomer == null) {
-//            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-//        }
-//    }
 }

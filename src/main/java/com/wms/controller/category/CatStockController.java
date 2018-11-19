@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,9 @@ public class CatStockController extends BaseCommonController{
 
     @Autowired
     public StockService stockService;
+
+    @Autowired
+    BaseService mapUserStockServiceImpl;
 
     public List<CatStockDTO> lstStock;
 
@@ -123,6 +127,17 @@ public class CatStockController extends BaseCommonController{
         ResponseObject response = catStockService.add(catStockDTO);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("Add: "+ catStockDTO.toString()+" SUCCESS");
+            String newStockId = response.getKey();
+            //add map for current user
+            String[] stockids = {newStockId};
+            List<MapUserStockDTO> lstMapUserStock = new ArrayList<>();
+            for (int i = 0 ; i <stockids.length ; i ++){
+                lstMapUserStock.add(new MapUserStockDTO(null,currentUser.getId(),stockids[i]));
+            }
+            ResponseObject addUserStock =  mapUserStockServiceImpl.addList(lstMapUserStock);
+            if(!Responses.SUCCESS.getName().equalsIgnoreCase(addUserStock.getStatusCode())){
+                log.info("Add " + stockids + " to for user successfully....");
+            }
             //
             request.getSession().setAttribute("isStockModifiedImportStock",true);
             request.getSession().setAttribute("isStockModifiedExportStock",true);
