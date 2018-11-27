@@ -344,7 +344,7 @@
             search(true);
         });
     });
-    //@Add action---------------------------------------------------------------------------------------------------
+    //#add action---------------------------------------------------------------------------------------------------
     $btn_add = $('#btn-add');
     $(function () {
         $btn_add.click(function () {
@@ -441,6 +441,7 @@
                         var resultArr = data.split('|');
                         var resultCode = resultArr[0];
                         var resultName = resultArr[1];
+                        //
                         if(resultCode == 1){
                             setInfoMessage($('#action-info'),resultName);
                         }else{
@@ -449,28 +450,40 @@
                         //
                         search(false);
                         //
+                        if($("#modal-type").val().includes("add")){
+                            clearInputContent();
+                            $("#modal-inp-code").focus();
+                        }else{
+                            hideModal($modalInsertUpdateStock);
+                        }
                     },
                     error:function(){
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');
                     }
                 });
-                //
-                hideModal($modalInsertUpdateStock);
+
                 return false;
             }
         });
     });
+
+    function clearInputContent() {
+        $("#modal-inp-code").val('');
+        $("#modal-inp-name").val('');
+        $("#modal-inp-address").val('');
+    }
     //
     function changeModelByType(type,selectedItem,actionVal) {
         if(type == 1){//add
             $("#stock-insert-update-form").attr("action",actionVal);
-            $("#modal-inp-code").val('');
-            $("#modal-inp-name").val('');
-            $("#modal-inp-address").val('');
-            //set default active-disable combo status
+            //
+            clearInputContent();
+            //
             $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
-
+            //
+            $("#modal-type").val('add');
+            //
             showAdd();
             $("#myModalLabel").text('Thêm mới');
         }else{//update
@@ -486,6 +499,9 @@
                 $('#modal-cmb-status').bootstrapToggle('on');
             }
             $("#div-status *").prop('disabled',false);
+            //
+            $("#modal-type").val('update');
+            //
             showUpdate();
         }
     }

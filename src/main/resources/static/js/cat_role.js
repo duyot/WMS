@@ -47,7 +47,7 @@ $(function () {
 
      updateEvent("POST",btnExecuse.val(),data,"afterAssignRollSuccess");
 
-    })
+    });
     doSearch();
 
 });
@@ -129,6 +129,7 @@ function changeModelByType( changeType,name, code, id , status,type,custId , act
         }
         $('#modal-cmb-status').bootstrapToggle('on');
         $("#div-status *").prop('disabled', true);
+
         showAdd();
     } else {//update
         $("#cat-insert-update-form").attr("action", actionVal);

@@ -179,17 +179,17 @@ window.operateEvents = {
     }
 };
 //@Upload---------------------------------------------------------------------
-var btnUploadExcel = $('#btn-excel-import');
+var btnUploadExcel = $('#btn-excel-export');
 btnUploadExcel.click(function () {
     //
     $("#import-action-info").text('');
     //
     var data = new FormData();
-    jQuery.each(jQuery('#inp-file-import')[0].files, function (i, file) {
+    jQuery.each(jQuery('#inp-file-export')[0].files, function (i, file) {
         data.append('file-' + i, file);
     });
 
-    var fileName = $('#inp-file-import').val();
+    var fileName = $('#inp-file-export').val();
     if (fileName == '') {
         alert('Chưa có file dữ liệu');
         return;
@@ -211,7 +211,7 @@ btnUploadExcel.click(function () {
             }
             $table.bootstrapTable('load', data);
             //
-            enableElement($('#btn-import'));
+            enableElement($('#btn-excel-export'));
         },
         error: function (data) {
             alert(data);

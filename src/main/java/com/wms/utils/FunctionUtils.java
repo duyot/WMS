@@ -32,30 +32,30 @@ import java.util.stream.Collectors;
 public class FunctionUtils {
     public static Logger log = LoggerFactory.getLogger(FunctionUtils.class);
 
-    public static<K,V> Map<K,V> clone(Map<K,V> original) {
+    public static <K, V> Map<K, V> clone(Map<K, V> original) {
         return original.entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
                         Map.Entry::getValue));
     }
 
-    public static String getValueFromToggle(String toggleValue){
-        return "on".equalsIgnoreCase(toggleValue)?"1":"0";
+    public static String getValueFromToggle(String toggleValue) {
+        return "on".equalsIgnoreCase(toggleValue) ? "1" : "0";
     }
 
-    public static <T extends BaseDTO>  String getMapValue(Map<String,T> map,String key){
+    public static <T extends BaseDTO> String getMapValue(Map<String, T> map, String key) {
         BaseDTO obj = map.get(key);
-        if(obj == null){
+        if (obj == null) {
             return "";
         }
         return obj.getName();
     }
 
     //build map app_params
-    public static LinkedHashMap<String,String>  buildMapAppParams(List<AppParamsDTO> lstAppParams){
-        LinkedHashMap<String,String> map   = new LinkedHashMap<>();
-        for(AppParamsDTO i: lstAppParams){
-            map.put(i.getCode(),i.getName());
+    public static LinkedHashMap<String, String> buildMapAppParams(List<AppParamsDTO> lstAppParams) {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        for (AppParamsDTO i : lstAppParams) {
+            map.put(i.getCode(), i.getName());
         }
         return map;
     }
@@ -63,40 +63,41 @@ public class FunctionUtils {
     /*
        get AppParams
     */
-    public static List<AppParamsDTO> getAppParams(BaseService service ){
+    public static List<AppParamsDTO> getAppParams(BaseService service) {
         List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCondition.add(new Condition("name",Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
+        lstCondition.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCondition.add(new Condition("name", Constants.SQL_OPERATOR.VNM_ORDER, "asc"));
         return service.findByCondition(lstCondition);
     }
 
-    public static List<AppParamsDTO> getAppParamByType(String type,List<AppParamsDTO> lstAppParams){
+    public static List<AppParamsDTO> getAppParamByType(String type, List<AppParamsDTO> lstAppParams) {
         List<AppParamsDTO> lstResult = Lists.newArrayList();
-        for(AppParamsDTO i: lstAppParams){
-            if(i.getType().equalsIgnoreCase(type)){
+        for (AppParamsDTO i : lstAppParams) {
+            if (i.getType().equalsIgnoreCase(type)) {
                 lstResult.add(i);
             }
         }
         return lstResult;
     }
 
-    private static String convertDBMessage(String oraMessage){
-        if(oraMessage.contains("WMS_DB.UN_SERIAL")){
+    private static String convertDBMessage(String oraMessage) {
+        if (oraMessage.contains("WMS_DB.UN_SERIAL")) {
             return "Serial đã có trên hệ thống";
-        }else{
-            return "Lỗi: "+ oraMessage;
+        } else {
+            return "Lỗi: " + oraMessage;
         }
     }
+
     /*
 
      */
-    public static List<MjrStockTransDetailDTO> convertListErrorToTransDetail(List<Err$MjrStockGoodsSerialDTO> lstGoodsError,Map<String,CatGoodsDTO> mapGoodsIdGoods){
+    public static List<MjrStockTransDetailDTO> convertListErrorToTransDetail(List<Err$MjrStockGoodsSerialDTO> lstGoodsError, Map<String, CatGoodsDTO> mapGoodsIdGoods) {
         List<MjrStockTransDetailDTO> lstDetail = Lists.newArrayList();
         CatGoodsDTO goods;
-        for(Err$MjrStockGoodsSerialDTO i: lstGoodsError){
+        for (Err$MjrStockGoodsSerialDTO i : lstGoodsError) {
             MjrStockTransDetailDTO detail = new MjrStockTransDetailDTO();
             goods = mapGoodsIdGoods.get(i.getGoodsId());
-            if(goods != null){
+            if (goods != null) {
                 detail.setGoodsCode(goods.getCode());
                 detail.setGoodsName(goods.getName());
             }
@@ -111,15 +112,16 @@ public class FunctionUtils {
         }
         return lstDetail;
     }
+
     /*
 
      */
-    public static void exportExcel(String templateAbsolutePath,Map<String, Object> beans,String fullPath){
+    public static void exportExcel(String templateAbsolutePath, Map<String, Object> beans, String fullPath) {
         Configuration config = new Configuration();
         XLSTransformer transformer = new XLSTransformer(config);
         try {
             transformer.transformXLS(templateAbsolutePath, beans, fullPath);
-            log.info("Finish export report file in "+ fullPath);
+            log.info("Finish export report file in " + fullPath);
         } catch (InvalidFormatException e) {
             e.printStackTrace();
             log.error(e.toString());
@@ -128,14 +130,15 @@ public class FunctionUtils {
             log.error(e.toString());
         }
     }
+
     /*
 
 
      */
-    public static List<MjrStockTransDetailDTO> convertGoodsSerialToDetail(List<MjrStockGoodsSerialDTO> lstStockGoodsSerial, Map<String,String> mapAppStockStatus){
+    public static List<MjrStockTransDetailDTO> convertGoodsSerialToDetail(List<MjrStockGoodsSerialDTO> lstStockGoodsSerial, Map<String, String> mapAppStockStatus) {
         List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
         if (!DataUtil.isListNullOrEmpty(lstStockGoodsSerial)) {
-            for(MjrStockGoodsSerialDTO i:lstStockGoodsSerial){
+            for (MjrStockGoodsSerialDTO i : lstStockGoodsSerial) {
                 MjrStockTransDetailDTO temp = new MjrStockTransDetailDTO();
                 temp.setGoodsId(i.getGoodsId());
                 temp.setGoodsState(i.getGoodsState());
@@ -155,14 +158,15 @@ public class FunctionUtils {
 
         return lstResult;
     }
+
     /*
 
      */
-    public static  List<MjrStockTransDetailDTO> setNameValueGoodsDetail(List<MjrStockTransDetailDTO> lstGoodsDetail,
-                                                                        Map<String,CatGoodsDTO> mapGoodsIdGoods,Map<String,CatStockDTO> mapStockIdStock,Map<String,String> mapGoodsState){
-        if(!DataUtil.isListNullOrEmpty(lstGoodsDetail)){
+    public static List<MjrStockTransDetailDTO> setNameValueGoodsDetail(List<MjrStockTransDetailDTO> lstGoodsDetail,
+                                                                       Map<String, CatGoodsDTO> mapGoodsIdGoods, Map<String, CatStockDTO> mapStockIdStock, Map<String, String> mapGoodsState) {
+        if (!DataUtil.isListNullOrEmpty(lstGoodsDetail)) {
             CatGoodsDTO currentGoods;
-            for(MjrStockTransDetailDTO i: lstGoodsDetail){
+            for (MjrStockTransDetailDTO i : lstGoodsDetail) {
                 currentGoods = mapGoodsIdGoods.get(i.getGoodsId());
                 if (currentGoods == null) {
                     currentGoods = new CatGoodsDTO();
@@ -176,9 +180,9 @@ public class FunctionUtils {
                 i.setInputPriceValue(formatNumber(i.getInputPrice()));
                 i.setOutputPriceValue(formatNumber(i.getOutputPrice()));
                 i.setGoodsStateValue(mapGoodsState.get(i.getGoodsState()));
-                i.setStockValue(getMapValue(mapStockIdStock,i.getStockId() ));
+                i.setStockValue(getMapValue(mapStockIdStock, i.getStockId()));
             }
-        }else{
+        } else {
             return Lists.newArrayList();
         }
         return lstGoodsDetail;
@@ -187,49 +191,50 @@ public class FunctionUtils {
     /*
         get stock
      */
-    public static List<CatStockDTO> getListStock(StockService stockService, CatUserDTO currentUser ){
+    public static List<CatStockDTO> getListStock(StockService stockService, CatUserDTO currentUser) {
         return stockService.getStockByUser(Long.parseLong(currentUser.getId()));
     }
 
     /*
         get user
      */
-    public static List<CatUserDTO> getCustomerUsers(CatUserService catUserService, CatCustomerDTO currentCustomer ){
+    public static List<CatUserDTO> getCustomerUsers(CatUserService catUserService, CatCustomerDTO currentCustomer) {
         return catUserService.getUserByCustomer(currentCustomer.getId());
     }
 
-    private static List<Condition> getBaseConditions(String custId){
+    private static List<Condition> getBaseConditions(String custId) {
         List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL, custId));
-        lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        lstCondition.add(new Condition("name",  Constants.SQL_OPERATOR.VNM_ORDER,"asc"));
+        lstCondition.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, custId));
+        lstCondition.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCondition.add(new Condition("name", Constants.SQL_OPERATOR.VNM_ORDER, "asc"));
         return lstCondition;
     }
 
     /*
        get goods
     */
-    public static List<CatGoodsDTO> getListGoods(BaseService service,CatCustomerDTO currentCustomer ){
+    public static List<CatGoodsDTO> getListGoods(BaseService service, CatCustomerDTO currentCustomer) {
         return service.findByCondition(getBaseConditions(currentCustomer.getId()));
     }
 
     /*
       get Partner
    */
-    public static List<CatPartnerDTO> getListPartner(BaseService service,CatCustomerDTO currentCustomer ){
+    public static List<CatPartnerDTO> getListPartner(BaseService service, CatCustomerDTO currentCustomer) {
         return service.findByCondition(getBaseConditions(currentCustomer.getId()));
     }
+
     /*
 
      */
-    public static void loadFileToClient(HttpServletResponse response, String fileResource){
+    public static void loadFileToClient(HttpServletResponse response, String fileResource) {
         try {
             File file = new File(fileResource);
             //
-            String mimeType= URLConnection.guessContentTypeFromName(file.getName());
+            String mimeType = URLConnection.guessContentTypeFromName(file.getName());
             response.setContentType(mimeType);
             response.setContentLength((int) file.length());//length in bytes
-            response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() +"\""));
+            response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
             //
             InputStream is = new FileInputStream(file);
             FileCopyUtils.copy(is, response.getOutputStream());
@@ -246,18 +251,17 @@ public class FunctionUtils {
     }
 
 
-
     /*
         export error when importing
      */
-    public static String exportExcelError(List<MjrStockTransDetailDTO> lstError,String prefixFileName, boolean isImportTrans,ProfileConfigInterface profileConfig){
+    public static String exportExcelError(List<MjrStockTransDetailDTO> lstError, String prefixFileName, boolean isImportTrans, ProfileConfigInterface profileConfig) {
         String templatePath;
         if (isImportTrans) {
             templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_ERROR_TEMPLATE;
-        }else{
-            templatePath = profileConfig.getTemplateURL()+ Constants.FILE_RESOURCE.EXPORT_ERROR_TEMPLATE;
+        } else {
+            templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ERROR_TEMPLATE;
         }
-        log.info("Number of Errors: "+ lstError.size());
+        log.info("Number of Errors: " + lstError.size());
 
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -265,10 +269,10 @@ public class FunctionUtils {
         Map<String, Object> beans = new HashMap<>();
         beans.put("items", lstError);
 
-        String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String fullFileName = prefixFileName + "_" + DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
         String reportFullPath = profileConfig.getTempURL() + fullFileName;
 
-        exportExcel(templateAbsolutePath,beans,reportFullPath);
+        exportExcel(templateAbsolutePath, beans, reportFullPath);
 
         return fullFileName;
     }
@@ -276,9 +280,9 @@ public class FunctionUtils {
     /*
         export error when importing
      */
-    public static String exportExcelImportGoodsError(List<CatGoodsDTO> lstError,String prefixFileName,ProfileConfigInterface profileConfig){
+    public static String exportExcelImportGoodsError(List<CatGoodsDTO> lstError, String prefixFileName, ProfileConfigInterface profileConfig) {
         String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_GOODS_ERROR_TEMPLATE;
-        log.info("Number of Errors: "+ lstError.size());
+        log.info("Number of Errors: " + lstError.size());
 
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -286,32 +290,31 @@ public class FunctionUtils {
         Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("items", lstError);
 
-        String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String fullFileName = prefixFileName + "_" + DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
         String reportFullPath = profileConfig.getTempURL() + fullFileName;
 
-        exportExcel(templateAbsolutePath,beans,reportFullPath);
+        exportExcel(templateAbsolutePath, beans, reportFullPath);
 
         return fullFileName;
     }
 
 
-    public static boolean saveUploadedFile(MultipartFile uploadfile,String fileName,ProfileConfigInterface profileConfigInterface){
-        String filepath  = Paths.get(profileConfigInterface.getUploadURL(), fileName).toString();
+    public static boolean saveUploadedFile(MultipartFile uploadfile, String fileName, ProfileConfigInterface profileConfigInterface) {
+        String filepath = Paths.get(profileConfigInterface.getUploadURL(), fileName).toString();
         try {
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
             stream.write(uploadfile.getBytes());
             stream.close();
         } catch (Exception e) {
             e.printStackTrace();
-            log.info("Error save file: "+ e.toString());
+            log.info("Error save file: " + e.toString());
             return false;
         }
 
         return true;
     }
 
-    public static File convertMultipartToFile(MultipartFile file)
-    {
+    public static File convertMultipartToFile(MultipartFile file) {
         try {
             File convFile = new File(file.getOriginalFilename());
             convFile.createNewFile();
@@ -326,20 +329,20 @@ public class FunctionUtils {
 
     }
 
-    public static String getCellValue(Cell cell){
-        if(cell == null){
+    public static String getCellValue(Cell cell) {
+        if (cell == null) {
             return "";
         }
         cell.setCellType(CellType.STRING);
         return trimNoBreakingSpace(cell.getStringCellValue());
     }
 
-    public static String trimNoBreakingSpace(String str){
+    public static String trimNoBreakingSpace(String str) {
         return str.replace(String.valueOf((char) 160), "").trim();
     }
 
     public static ImportFileResultDTO getListStockImportFromFile(MultipartFile mpf, HashSet<String> setGoodsCode,
-                                                                 Map<String,CatGoodsDTO> mapGoods,Map<String,String> mapGoodsState,boolean isImportTransaction){
+                                                                 Map<String, CatGoodsDTO> mapGoods, Map<String, String> mapGoodsState, boolean isImportTransaction) {
         ImportFileResultDTO importResult = new ImportFileResultDTO();
         List<MjrStockTransDetailDTO> lstGoods = Lists.newArrayList();
         boolean isValid = true;
@@ -349,13 +352,13 @@ public class FunctionUtils {
             if (wb instanceof HSSFWorkbook) {
                 HSSFWorkbook workbook = (HSSFWorkbook) wb;
                 sheet = workbook.getSheetAt(0);
-            }else if (wb instanceof XSSFWorkbook) {
+            } else if (wb instanceof XSSFWorkbook) {
                 XSSFWorkbook workbook = (XSSFWorkbook) wb;
                 sheet = workbook.getSheetAt(0);
             }
 
             Iterator<Row> rowIterator = sheet.iterator();
-            if(rowIterator.hasNext()){//read from second row!
+            if (rowIterator.hasNext()) {//read from second row!
                 rowIterator.next();
             }
             int count = 0;
@@ -365,27 +368,27 @@ public class FunctionUtils {
             String serial;
             List<String> lstCheckSerial = Lists.newArrayList();
             String serialCheckKey;
-            while(rowIterator.hasNext()) {
+            while (rowIterator.hasNext()) {
                 isSerial = false;
                 goodsDTO = null;
-                count ++;
+                count++;
                 MjrStockTransDetailDTO goodsItem = new MjrStockTransDetailDTO();
-                goodsItem.setColumnId(count+"");
+                goodsItem.setColumnId(count + "");
                 errorInfo = new StringBuilder();
                 //
                 Row row = rowIterator.next();
                 //CODE
                 Cell cellGoodsCode = row.getCell(1);
                 String goodsCode = getCellValue(cellGoodsCode);
-                if(DataUtil.isStringNullOrEmpty(goodsCode)){
+                if (DataUtil.isStringNullOrEmpty(goodsCode)) {
                     errorInfo.append("Chưa có mã hàng");
                     isValid = false;
-                }else{
+                } else {
                     //check whether goods_code is valid
-                    if(!setGoodsCode.contains(goodsCode)){
+                    if (!setGoodsCode.contains(goodsCode)) {
                         errorInfo.append("\n Mã hàng không hợp lệ");
                         isValid = false;
-                    }else{
+                    } else {
                         goodsDTO = mapGoods.get(goodsCode);
                         isSerial = goodsDTO.isSerial();
                     }
@@ -395,16 +398,16 @@ public class FunctionUtils {
                 if (isSerial) {
                     Cell cellSerial = row.getCell(4);
                     serial = getCellValue(cellSerial);
-                    if(DataUtil.isStringNullOrEmpty(serial)){
+                    if (DataUtil.isStringNullOrEmpty(serial)) {
                         errorInfo.append("\n Hàng serial cần nhập thông tin serial");
                         isValid = false;
-                    }else{
+                    } else {
                         //CHECK ENTERED SERIAL
                         serialCheckKey = goodsCode + goodsCode + serial;
-                        if(lstCheckSerial.contains(serialCheckKey)){
+                        if (lstCheckSerial.contains(serialCheckKey)) {
                             errorInfo.append("\n Serial đã được nhập");
                             isValid = false;
-                        }else{
+                        } else {
                             lstCheckSerial.add(serialCheckKey);
                         }
                     }
@@ -416,11 +419,11 @@ public class FunctionUtils {
                 //STATE
                 Cell cellStatus = row.getCell(3);
                 String goodsState = getCellValue(cellStatus);
-                if(DataUtil.isStringNullOrEmpty(goodsState)){
+                if (DataUtil.isStringNullOrEmpty(goodsState)) {
                     errorInfo.append("\n Chưa có trạng thái hàng");
                     isValid = false;
-                }else{
-                    if(!goodsState.equalsIgnoreCase("1") && !goodsState.equalsIgnoreCase("2")){
+                } else {
+                    if (!goodsState.equalsIgnoreCase("1") && !goodsState.equalsIgnoreCase("2")) {
                         errorInfo.append("\n Trạng thái hàng không hợp lệ(1: Bình thường,2:Hỏng");
                         isValid = false;
                     }
@@ -430,17 +433,17 @@ public class FunctionUtils {
                 //AMOUNT
                 Cell cellAmount = row.getCell(5);
                 String amount = getCellValue(cellAmount);
-                if(DataUtil.isStringNullOrEmpty(amount)){
+                if (DataUtil.isStringNullOrEmpty(amount)) {
                     errorInfo.append("\n Chưa có số lượng hàng");
                     isValid = false;
-                }else{
-                    if(!isNumberFloat(amount)){
+                } else {
+                    if (!isNumberFloat(amount)) {
                         errorInfo.append("\n Số lượng hàng phải là số và >0");
                         isValid = false;
-                    }else{
+                    } else {
                         goodsItem.setAmountValue(formatNumber(amount));
                     }
-                    if(isSerial && !amount.equalsIgnoreCase("1")){
+                    if (isSerial && !amount.equalsIgnoreCase("1")) {
                         errorInfo.append("\n Hàng quản lý serial số lượng nhập phải là 1");
                         isValid = false;
                     }
@@ -449,37 +452,38 @@ public class FunctionUtils {
                 //PRICE
                 Cell cellPrice = row.getCell(6);
                 String price = getCellValue(cellPrice);
-                if(!DataUtil.isStringNullOrEmpty(price)){
-                    if(!isNumberFloat(price)){
+                if (!DataUtil.isStringNullOrEmpty(price)) {
+                    if (!isNumberFloat(price)) {
                         errorInfo.append("\n Giá phải là số và >0");
                         isValid = false;
-                    }else{
-                        if(isImportTransaction){
+                    } else {
+                        if (isImportTransaction) {
                             goodsItem.setInputPriceValue(formatNumber(price));
-                        }else{
+                            goodsItem.setInputPrice(price);
+                        } else {
                             goodsItem.setOutputPriceValue(formatNumber(price));
+                            goodsItem.setOutputPrice(price);
                         }
                     }
-                }else{
-                    if(goodsDTO != null){
-                        if(isImportTransaction){
+                } else {
+                    if (goodsDTO != null) {
+                        if (isImportTransaction) {
                             goodsItem.setInputPriceValue(formatNumber(goodsDTO.getInPrice()));
-                        }else{
+                            goodsItem.setInputPrice(goodsDTO.getInPrice());
+                        } else {
                             goodsItem.setOutputPriceValue(formatNumber(goodsDTO.getOutPrice()));
+                            goodsItem.setOutputPrice(formatNumber(goodsDTO.getOutPrice()));
                         }
                     }
                 }
-
-                if(isImportTransaction){
-                    goodsItem.setInputPrice(price);
-                }else{
-                    goodsItem.setOutputPrice(price);
-                }
+                //
+                String finalPrice = isImportTransaction ? goodsItem.getInputPrice() : goodsItem.getOutputPrice();
+                goodsItem.setTotalMoney(calTotalMoney(goodsItem.getAmount(), finalPrice) +"");
                 //CELL
                 Cell cellCells = row.getCell(7);
                 goodsItem.setCellCode(getCellValue(cellCells));
                 //
-                if(!isValid){
+                if (!isValid) {
                     goodsItem.setErrorInfo(errorInfo.toString());
                 }
 
@@ -489,7 +493,7 @@ public class FunctionUtils {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -499,8 +503,8 @@ public class FunctionUtils {
         return importResult;
     }
 
-    public static ImportFileResultDTO getListGoodsImportFromFile(MultipartFile mpf,Map<String,String> mapGoodsState,
-                                                                 Map<String,String> mapGoodsGroup,Map<String,String> mapUnitType){
+    public static ImportFileResultDTO getListGoodsImportFromFile(MultipartFile mpf, Map<String, String> mapGoodsState,
+                                                                 Map<String, String> mapGoodsGroup, Map<String, String> mapUnitType) {
         ImportFileResultDTO importResult = new ImportFileResultDTO();
         List<CatGoodsDTO> lstGoods = Lists.newArrayList();
         boolean isValid = true;
@@ -510,44 +514,44 @@ public class FunctionUtils {
             if (wb instanceof HSSFWorkbook) {
                 HSSFWorkbook workbook = (HSSFWorkbook) wb;
                 sheet = workbook.getSheetAt(0);
-            }else if (wb instanceof XSSFWorkbook) {
+            } else if (wb instanceof XSSFWorkbook) {
                 XSSFWorkbook workbook = (XSSFWorkbook) wb;
                 sheet = workbook.getSheetAt(0);
             }
 
             Iterator<Row> rowIterator = sheet.iterator();
-            if(rowIterator.hasNext()){//read from second row!
+            if (rowIterator.hasNext()) {//read from second row!
                 rowIterator.next();
             }
             int count = 0;
             StringBuilder errorInfo;
             CatGoodsDTO goodsDTO;
-            while(rowIterator.hasNext()) {
-                count ++;
+            while (rowIterator.hasNext()) {
+                count++;
                 goodsDTO = new CatGoodsDTO();
-                goodsDTO.setColumnId(count+"");
+                goodsDTO.setColumnId(count + "");
                 errorInfo = new StringBuilder();
                 //
                 Row row = rowIterator.next();
                 //goods serial
                 Cell cellSerial = row.getCell(5);
                 String serial = getCellValue(cellSerial);
-                if(DataUtil.isStringNullOrEmpty(serial)){
+                if (DataUtil.isStringNullOrEmpty(serial)) {
                     errorInfo.append("\n Chưa có thông tin quản lý serial");
                     isValid = false;
-                }else{
-                    if(!serial.equalsIgnoreCase("1") && !serial.equalsIgnoreCase("0")){
+                } else {
+                    if (!serial.equalsIgnoreCase("1") && !serial.equalsIgnoreCase("0")) {
                         errorInfo.append("\n Thông tin serial không hợp lệ(1: QL theo serial,0:Không quản lý theo serial");
                         isValid = false;
                     }
                 }
-                String serialTypeName =  "1".equals(serial) ? "Có": "Không";
+                String serialTypeName = "1".equals(serial) ? "Có" : "Không";
                 goodsDTO.setIsSerial(serial);
                 goodsDTO.setIsSerialName(serialTypeName);
                 //goods code
                 Cell cellGoodsCode = row.getCell(1);
                 String goodsCode = getCellValue(cellGoodsCode);
-                if(DataUtil.isStringNullOrEmpty(goodsCode)){
+                if (DataUtil.isStringNullOrEmpty(goodsCode)) {
                     errorInfo.append("\n Chưa có mã hàng");
                     isValid = false;
                 }
@@ -555,7 +559,7 @@ public class FunctionUtils {
                 //goods name
                 Cell cellGoodsName = row.getCell(2);
                 String goodsName = getCellValue(cellGoodsName);
-                if(DataUtil.isStringNullOrEmpty(goodsName)){
+                if (DataUtil.isStringNullOrEmpty(goodsName)) {
                     errorInfo.append("Chưa có tên hàng");
                     isValid = false;
                 }
@@ -563,11 +567,11 @@ public class FunctionUtils {
                 //STATE
                 Cell cellStatus = row.getCell(6);
                 String goodsState = getCellValue(cellStatus);
-                if(DataUtil.isStringNullOrEmpty(goodsState)){
+                if (DataUtil.isStringNullOrEmpty(goodsState)) {
                     errorInfo.append("\n Chưa có trạng thái hàng");
                     isValid = false;
-                }else{
-                    if(!goodsState.equalsIgnoreCase("1") && !goodsState.equalsIgnoreCase("2")){
+                } else {
+                    if (!goodsState.equalsIgnoreCase("1") && !goodsState.equalsIgnoreCase("2")) {
                         errorInfo.append("\n Trạng thái hàng không hợp lệ(1:Bình thường,2:Hỏng");
                         isValid = false;
                     }
@@ -584,7 +588,7 @@ public class FunctionUtils {
                 if (unitTypeName == null) {
                     goodsDTO.setUnitType("1");
                     goodsDTO.setUnitTypeName(mapUnitType.get("1"));
-                }else{
+                } else {
                     goodsDTO.setUnitType(unitType);
                     goodsDTO.setUnitTypeName(unitTypeName);
                 }
@@ -594,7 +598,7 @@ public class FunctionUtils {
                 if (DataUtil.isStringNullOrEmpty(goodsGroup)) {
                     errorInfo.append("\n Chưa có nhóm hàng");
                     isValid = false;
-                }else{
+                } else {
                     String groupName = mapGoodsGroup.get(goodsGroup);
                     if (DataUtil.isStringNullOrEmpty(groupName)) {
                         errorInfo.append("\n Nhóm hàng chưa đúng");
@@ -606,14 +610,14 @@ public class FunctionUtils {
                 //In PRICE
                 Cell cellInPrice = row.getCell(7);
                 String price = getCellValue(cellInPrice);
-                if(DataUtil.isStringNullOrEmpty(price)){
+                if (DataUtil.isStringNullOrEmpty(price)) {
                     errorInfo.append("\n Chưa có giá nhập");
                     isValid = false;
-                }else{
-                    if(!isNumberFloat(price)){
+                } else {
+                    if (!isNumberFloat(price)) {
                         errorInfo.append("\n Giá phải là số và >0");
                         isValid = false;
-                    }else{
+                    } else {
                         goodsDTO.setInPriceValue(formatNumber(price));
                     }
                 }
@@ -622,20 +626,20 @@ public class FunctionUtils {
                 Cell cellOutPrice = row.getCell(8);
                 String outPrice = getCellValue(cellOutPrice);
                 outPrice = outPrice.trim();
-                if(DataUtil.isStringNullOrEmpty(outPrice)){
+                if (DataUtil.isStringNullOrEmpty(outPrice)) {
                     errorInfo.append("\n Chưa có giá xuất");
                     isValid = false;
-                }else{
-                    if(!isNumberFloat(price)){
+                } else {
+                    if (!isNumberFloat(price)) {
                         errorInfo.append("\n Giá phải là số và >0");
                         isValid = false;
-                    }else{
+                    } else {
                         goodsDTO.setOutPriceValue(formatNumber(outPrice));
                     }
                 }
                 goodsDTO.setOutPrice(outPrice);
                 //
-                if(!isValid){
+                if (!isValid) {
                     goodsDTO.setErrorInfo(errorInfo.toString());
                 }
                 //
@@ -645,7 +649,7 @@ public class FunctionUtils {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -658,31 +662,31 @@ public class FunctionUtils {
     /*
         valid pattern: 123 | 133.000
      */
-    public static boolean isInteger(String value){
+    public static boolean isInteger(String value) {
         double number = Double.parseDouble(value);
-        return number%1 == 0;
+        return number % 1 == 0;
     }
 
-    public static String formatNumber(String number){
+    public static String formatNumber(String number) {
         if (!DataUtil.isStringNullOrEmpty(number)) {
             String plainNumber = removeScientificNotation(number);
             double dNumber = Double.valueOf(plainNumber);
-            if (dNumber%1 != 0) {
+            if (dNumber % 1 != 0) {
                 return String.format("%,.4f", dNumber);
-            }else{
+            } else {
                 return String.format("%,.0f", dNumber);
             }
-        }else{
+        } else {
             return "";
         }
     }
 
-    public static String removeScientificNotation(String number){
+    public static String removeScientificNotation(String number) {
         BigDecimal num = new BigDecimal(number);
         return num.toPlainString();
     }
 
-    public static boolean isNumberFloat(String input){
+    public static boolean isNumberFloat(String input) {
         try {
             return Float.valueOf(input) > 0;
         } catch (NumberFormatException e) {
@@ -691,28 +695,45 @@ public class FunctionUtils {
     }
 
     //13,000 -> 13000
-    public static String unformatFloat(String input){
-        return input.replaceAll(",","");
+    public static String unformatFloat(String input) {
+        return input.replaceAll(",", "");
     }
 
     /*
        get partnerId from
     */
-    public static CatPartnerDTO getPartner (BaseService service, String custId, String partnerCode, String partnerId){
+    public static CatPartnerDTO getPartner(BaseService service, String custId, String partnerCode, String partnerId) {
         List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE,Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
-        if (partnerCode != null && !partnerCode.trim().equalsIgnoreCase("")){
-            lstCondition.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,partnerCode.trim()));
+        lstCondition.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        if (partnerCode != null && !partnerCode.trim().equalsIgnoreCase("")) {
+            lstCondition.add(new Condition("code", Constants.SQL_OPERATOR.EQUAL, partnerCode.trim()));
         }
-        if(partnerId != null){
-            lstCondition.add(new Condition("id",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,partnerId));
+        if (partnerId != null) {
+            lstCondition.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, partnerId));
         }
-        lstCondition.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,custId));
+        lstCondition.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, custId));
         CatPartnerDTO catPartnerDTO = new CatPartnerDTO();
         List<CatPartnerDTO> lstPartnerDTOS = service.findByCondition(lstCondition);
-        if (!DataUtil.isListNullOrEmpty(lstPartnerDTOS)){
+        if (!DataUtil.isListNullOrEmpty(lstPartnerDTOS)) {
             catPartnerDTO = lstPartnerDTOS.get(0);
         }
         return catPartnerDTO;
+    }
+
+    public static float calTotalMoney(String amount, String price) {
+        float amountF = 0f;
+        try {
+            amountF = Float.valueOf(amount);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        //
+        float priceF = 0f;
+        try {
+            priceF = Float.valueOf(price);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return amountF * priceF;
     }
 }

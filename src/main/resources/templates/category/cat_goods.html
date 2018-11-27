@@ -209,6 +209,7 @@
     var $btnDelConfirmed = $('#modal-btn-del-ok');
     var $btnDel = $('#btn-delete');
     var validator;
+    $addUpdateModal = $('#myModal');
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $table.bootstrapTable({
@@ -489,8 +490,14 @@
                         }else{
                             setErrorMessage($('#action-info'),resultName);
                         }
-
                         search(false);
+                        //
+                        if($("#modal-type").val().includes("add")){
+                            clearContents();
+                            $("#modal-inp-code").focus();
+                        }else{
+                            hideModal($addUpdateModal);
+                        }
 
                     },
                     error:function(){
@@ -498,35 +505,37 @@
                     }
                 });
                 //
-                hideModal($modalAddUpdate);
                 return false; // required to block normal submit since you used ajax
             }
         });
     });
     //
+    function clearContents() {
+        $("#modal-inp-code").val('');
+        $("#modal-inp-name").val('');
+        $("#modal-inp-id").val('');
+        $("#modal-inp-input-price").val('');
+        $("#modal-inp-output-price").val('');
+        $('#modal-label-input-price').text("");
+        $('#modal-label-output-price').text("");
+    }
+    //
 
     function changeModelByType(type,selectedItem,actionVal) {
         $("#cat-goods-insert-update-form").attr("th:object",actionVal);
         if(type == 1){//add
-
             $("#cat-goods-insert-update-form").attr("action",actionVal);
-            $("#modal-inp-code").val('');
-            $("#modal-inp-name").val('');
-            $("#modal-inp-id").val('');
             ///
             $('select[name=unitType]').val($('#modal-cmb-goods-unit option:first ').val());
             $('select[name=goodsGroupId]').val($('#modal-cmb-goods-group option:first ').val());
             $('select[name=unitType]').selectpicker('refresh');
             $('select[name=goodsGroupId]').selectpicker('refresh');
             //
-            $("#modal-inp-input-price").val('');
-            $("#modal-inp-output-price").val('');
-            $('#modal-label-input-price').text("");
-            $('#modal-label-output-price').text("");
-
             $('#modal-cmb-status').bootstrapToggle('on');
             $('#modal-cmb-serial').bootstrapToggle('off');
             disableElement($('#modal-cmb-status'));
+            clearContents();
+            $("#modal-type").val('add');
             showAdd();
         }else{//update
             $("#cat-goods-insert-update-form").attr("action",actionVal);
@@ -573,6 +582,7 @@
                 $('#modal-cmb-serial').bootstrapToggle('on');
             }
             enableElement($('#modal-cmb-status'));
+            $("#modal-type").val('update');
             showUpdate();
         }
     }

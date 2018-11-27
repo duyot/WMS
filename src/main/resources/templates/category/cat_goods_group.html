@@ -313,27 +313,40 @@
                         }else{
                             setErrorMessage($('#action-info'),resultName);
                         }
+                        //
                         search(false);
+                        //
+                        if($("#modal-type").val().includes("add")){
+                            clearInputContent();
+                            $("#modal-inp-name").focus();
+                        }else{
+                            hideModal($addUpdateModal);
+                        }
+
                     },
                     error:function(){
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');
                     }
                 });
-                //
-                hideModal($addUpdateModal);
                 return false; // required to block normal submit since you used ajax
             }
         });
     });
     //
+    function clearInputContent() {
+        $("#modal-inp-name").val('');
+    }
+    //
     function changeModelByType(type,name,id,status,actionVal) {
         if(type == 1){//add
             $("#cat-goods-group-insert-update-form").attr("action",actionVal);
-            $("#modal-inp-name").val('');
+            clearInputContent();
             //set default active-disable combo status
             $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
-
+            //
+            $("#modal-type").val('add');
+            //
             showAdd();
             $("#myModalLabel").text('Thêm mới');
         }else{//update
@@ -347,6 +360,9 @@
                 $('#modal-cmb-status').bootstrapToggle('on');
             }
             $("#div-status *").prop('disabled',false);
+            //
+            $("#modal-type").val('update');
+            //
             showUpdate();
         }
     }

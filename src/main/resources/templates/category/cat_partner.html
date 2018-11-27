@@ -318,30 +318,41 @@
                         }else{
                             setErrorMessage($('#action-info'),resultName);
                         }
+                        //
+                        if($("#modal-type").val().includes("add")){
+                            clearInputContents();
+                            $("#modal-inp-code").focus();
+                        }else{
+                            hideModal($addUpdateModal);
+                        }
                         search(false);
                     },
                     error:function(){
                         setErrorMessage($('#action-info'),'Lỗi hệ thống');
                     }
                 });
-                //
-                hideModal($addUpdateModal);
-                return false; // required to block normal submit since you used ajax
+                return false;
             }
         });
     });
     //
+    function clearInputContents() {
+        $("#modal-inp-code").val('');
+        $("#modal-inp-name").val('');
+        $("#modal-inp-telNumber").val('');
+        $("#modal-inp-address").val('');
+    }
+    //
     function changeModelByType(type,code,name,telNumber,address,id,status,actionVal) {
         if(type == 1){//add
             $("#cat-partner-insert-update-form").attr("action",actionVal);
-            $("#modal-inp-code").val('');
-            $("#modal-inp-name").val('');
-            $("#modal-inp-telNumber").val('');
-            $("#modal-inp-address").val('');
+            //
+            clearInputContents();
             //set default active-disable combo status
             $('#modal-cmb-status').bootstrapToggle('on');
             $("#div-status *").prop('disabled',true);
-
+            //
+            $("#modal-type").val('add');
             showAdd();
             $("#myModalLabel").text('Thêm mới');
         }else{//update
@@ -358,11 +369,10 @@
                 $('#modal-cmb-status').bootstrapToggle('on');
             }
             $("#div-status *").prop('disabled',false);
+            $("#modal-type").val('update');
             showUpdate();
         }
     }
 </script>
-
-
 </body>
 </html>
