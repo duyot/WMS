@@ -1,5 +1,4 @@
 package com.wms.dto;
-
 /**
  * Created by duyot on 12/6/2016.
  */

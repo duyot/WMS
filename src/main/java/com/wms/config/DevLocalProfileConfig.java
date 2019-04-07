@@ -27,6 +27,9 @@ public class DevLocalProfileConfig extends BaseProfile {
     }
 
     public String getRealURL(String path){
+        if (!path.contains("http")){
+            return path;
+        }
         URL url = BundleUtils.class.getClassLoader().getResource(path);
         String part = url.getPath();
         if (part.charAt(0) == '/'){
