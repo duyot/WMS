@@ -80,7 +80,7 @@ $(function () {
                         totalPrice += (value - row.amount) * row.inputPrice;
                         //
                         row.amount = value;
-                        row.totalMoney = totalPrice;
+                        row.totalMoney = value * row.inputPrice;
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
@@ -107,7 +107,7 @@ $(function () {
                         totalPrice += (value - row.inputPrice) * row.amount;
                         //
                         row.inputPrice = value;
-                        row.totalMoney = totalPrice;
+                        row.totalMoney = value * row.amount;
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
@@ -172,7 +172,7 @@ window.operateEvents = {
         var keySerial = row['goodsCode'] + row["goodsState"] + row['serial'];
         enteredSerials = enteredSerials.remove(keySerial);
         //reset total amount
-        totalPrice -= Number(row['total']);
+        totalPrice -= Number(row['totalMoney']);
         setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
     }
 };

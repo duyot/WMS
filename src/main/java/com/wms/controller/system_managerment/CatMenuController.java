@@ -50,7 +50,7 @@ public class CatMenuController extends BaseCommonController {
     List<SysMenuDTO> findByCondition(@RequestParam("status")String status , @RequestParam("keyword")String keyword){
         List<Condition> lstCon = Lists.newArrayList();
         if(!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("status", Constants.SQL_OPERATOR.EQUAL,status));
+            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,status));
         }
         if(!DataUtil.isStringNullOrEmpty(keyword) && !status.equals(Constants.STATS_ALL)){
             lstCon.add(new Condition("name", Constants.SQL_OPERATOR.LIKE,keyword));

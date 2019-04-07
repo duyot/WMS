@@ -155,8 +155,8 @@
                             <th  class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
                             <th   data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
                             <th   data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
-                            <th   data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
-                            <th  data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+                            <th   data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" data-formatter="formatterSerialType"></th>
+                            <th  data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
                             <th   data-field="inPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
                             <th   data-field="outPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
                             <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>

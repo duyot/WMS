@@ -80,7 +80,7 @@ $(function () {
                         totalPrice += (value - row.amount) * row.outputPrice;
                         //
                         row.amount = value;
-                        row.totalMoney = totalPrice;
+                        row.totalMoney = value * row.outputPrice;
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
@@ -107,7 +107,7 @@ $(function () {
                         totalPrice += (value - row.outputPrice) * row.amount;
                         //
                         row.outputPrice = value;
-                        row.totalMoney = totalPrice;
+                        row.totalMoney = value * row.amount;
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
@@ -295,10 +295,11 @@ btnExportConfirm.click(function () {
                 var details     = resultMessageDetail.split('|');
                 var errorCode   = details[0];
                 var errorDetail = details[1];
+                var errorSerial = data['key'];
                 if (errorCode == 'ERROR_NOT_FOUND_STOCK_GOODS') {
-                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng  "  + errorDetail + " không có trong kho!", 8000);
+                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
                 } else if (errorCode == 'ERROR_NOT_FOUND_SERIAL') {
-                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, serial " + errorDetail + " không có trong kho!", 8000);
+                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, serial " + errorSerial + " không có trong kho!", 8000);
                 }else {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
                 }

@@ -160,7 +160,7 @@
                             <th class="col-md-2" data-field="custId" data-align="left" data-sortable="true" data-visible="false" th:text="#{lbl.customer}"></th>
                             <th class="col-md-2" data-field="custName" data-align="left" data-sortable="true" data-visible="true" th:text="#{lbl.customer}"></th>
                             <th class="col-md-2" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
-                            <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+                            <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
 
                         </div>
                         <div th:unless="${isRoot}">
@@ -169,7 +169,7 @@
                             <th class="col-md-2" data-field="custId" data-align="left" data-sortable="true" data-visible="false"></th>
                             <th class="col-md-2" data-field="custName" data-align="left" data-sortable="true" data-visible="false"></th>
                             <th class="col-md-2" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
-                            <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+                            <th  class="col-md-2" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
                         </div>
 
                         <th data-align="center" data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
