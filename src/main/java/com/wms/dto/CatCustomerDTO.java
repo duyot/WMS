@@ -1,6 +1,6 @@
 package com.wms.dto;
 
-import oracle.net.aso.i;
+//import oracle.net.aso.i;
 
 /**
  * Created by duyot on 12/6/2016.
