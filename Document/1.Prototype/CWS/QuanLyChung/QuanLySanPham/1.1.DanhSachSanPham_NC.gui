@@ -289,8 +289,8 @@
 		<Element
 			CID = "826701692"
 			Type = "ComponentThumbnail"
-			X = "-266"
-			Y = "275"
+			X = "1105"
+			Y = "278"
 			Width = "120"
 			Height = "120"
 			Flags = "3"
@@ -516,7 +516,7 @@
 			Typeface = ""
 			FontAttributes = "0"
 			TextSize = "Normal"
-			NextColumnID = "25"
+			NextColumnID = "26"
 			NextRowID = "38"
 			IsFlat = "0"
 			IsHeaderBold = "1"
@@ -590,7 +590,7 @@
 					ColumnID = "24"
 					Heading = "Khách hàng"
 					VisibleCondition = ""
-					Width = "233"
+					Width = "172"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -624,7 +624,7 @@
 					ColumnID = "2"
 					Heading = "Tên hàng hóa"
 					VisibleCondition = ""
-					Width = "267"
+					Width = "235"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -685,6 +685,23 @@
 					Type = "Text"
 					HeadingAlignment = "Centre"
 					CellAlignment = "Left"/>
+				<ColumnItem
+					OddBackgroundColour = "255,255,255,0,6"
+					EvenBackgroundColour = "255,255,255,0,6"
+					TextColour = "0,0,0,0,9"
+					ColumnID = "25"
+					Heading = "Thao tác"
+					VisibleCondition = ""
+					Width = "94"
+					HeaderMargin = "0"
+					CellMargin = "0"
+					HasCustomOddBgColour = "0"
+					HasCustomEvenBgColour = "0"
+					HasCustomTextColour = "0"
+					HighlightSelections = "1"
+					Type = "Text"
+					HeadingAlignment = "Centre"
+					CellAlignment = "Left"/>
 			</Columns>
 			<Data>
 				<Row
@@ -714,6 +731,9 @@
 					<Cell>
 						Hiệu lực
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "2"
@@ -742,10 +762,16 @@
 					<Cell>
 						Hiệu lực
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "28"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -798,10 +824,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "31"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -854,10 +886,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "23"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -910,10 +948,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "21"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -966,10 +1010,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "34"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -1022,6 +1072,9 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "36"
@@ -1050,10 +1103,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "37"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -1181,8 +1240,8 @@
 		<Element
 			CID = "619871315"
 			Type = "Icon"
-			X = "70"
-			Y = "223"
+			X = "990"
+			Y = "279"
 			Width = "16"
 			Height = "16"
 			Flags = "3"
@@ -1209,8 +1268,8 @@
 		<Element
 			CID = "619867595"
 			Type = "Bitmap"
-			X = "47"
-			Y = "225"
+			X = "967"
+			Y = "281"
 			Width = "11"
 			Height = "12"
 			Flags = "0"
@@ -1351,6 +1410,94 @@
 			IsDisabled = "0"
 			IsSelected = "0"
 			IsTextLeft = "0"/>
+		<Element
+			CID = "1647781493"
+			Type = "Icon"
+			X = "990"
+			Y = "304"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmCross.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "1647795734"
+			Type = "Bitmap"
+			X = "967"
+			Y = "306"
+			Width = "11"
+			Height = "12"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			FileID = "46CA19E8-B767-4E0D-82D1B52E65ACB583"
+			RootPath = "$Container"
+			Filename = "..\..\Images\3.Modify.png"
+			Placement = "Stretch"
+			HorzAlign = "Left"
+			VertAlign = "Top"
+			ClipLeft = "0"
+			ClipRight = "0"
+			ClipTop = "0"
+			ClipBottom = "0"
+			SliceLeft = "0"
+			SliceRight = "0"
+			SliceTop = "0"
+			SliceBottom = "0"/>
+		<Element
+			CID = "1939943701"
+			Type = "Bitmap"
+			X = "44"
+			Y = "224"
+			Width = "16"
+			Height = "16"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			FileID = "FF830D5D-B8B6-4BEE-A4F8255390F21B23"
+			RootPath = "$Container"
+			Filename = "..\..\Images\iconfinder_barcode_25690.png"
+			Placement = "Stretch"
+			HorzAlign = "Left"
+			VertAlign = "Top"
+			ClipLeft = "0"
+			ClipRight = "0"
+			ClipTop = "0"
+			ClipBottom = "0"
+			SliceLeft = "0"
+			SliceRight = "0"
+			SliceTop = "0"
+			SliceBottom = "0"/>
+		<Element
+			CID = "983395565"
+			Type = "ComponentThumbnail"
+			X = "-234"
+			Y = "233"
+			Width = "120"
+			Height = "120"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			BackgroundColour = "255,255,255,0,6"
+			FileID = "72486E26-7730-480F-B0DA823D3E4910F1"
+			RootPath = "$Container"
+			Filename = "1.4.TaoBarCode.gui"
+			Background = "Transparent"
+			HorzAlign = "Left"
+			VertAlign = "Top"
+			ScrollBarHorz = "Auto"
+			ScrollBarVert = "Auto"
+			StepSizeHorz = "4"
+			StepSizeVert = "4"
+			MaintainSize = "1"
+			AllowDragScrolling = "0"
+			UseInertia = "0"
+			SnapScrolling = "0"
+			AnimateSnapping = "0"/>
 	</Elements>
 	<Connections
 		CID = "2">
@@ -1409,12 +1556,20 @@
 			TargetRefID = "826701692"
 			ConLineWidth = "2"
 			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "983394223"
+			Layer = "DesignElements"
+			Trigger = "LeftClick"
+			Type = "Navigation"
+			SubType = "Modal"
+			SourceSubItemID = ""
+			SourceRefID = "1939943701"
+			TargetRefID = "983395565"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
 	</Connections>
 	<Groups
 		CID = "3">
-		<Group
-			CID = "1749487781"
-			Elements = "1749485568"/>
 		<Group
 			CID = "1749490492"
 			Elements = "1749500280"/>
