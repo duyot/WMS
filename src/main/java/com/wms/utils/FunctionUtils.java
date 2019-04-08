@@ -682,6 +682,9 @@ public class FunctionUtils {
     }
 
     public static String removeScientificNotation(String number) {
+        if (DataUtil.isStringNullOrEmpty(number)) {
+            return "";
+        }
         BigDecimal num = new BigDecimal(number);
         return num.toPlainString();
     }

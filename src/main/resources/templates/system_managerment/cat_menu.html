@@ -136,17 +136,17 @@
                     <thead>
                     <tr>
                         <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
-                        <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
+                        <th data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
                         <th class="col-md-2" data-field="localizationName" data-align="left" data-sortable="true" th:text="#{lbl.menutable.name}"></th>
                         <th class="col-md-1" data-field="name" data-align="left" data-sortable="true" data-visible="false"></th>
-                        <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.menutable.code}"></th>
-                        <th class="col-md-1" data-field="url" data-align="left" data-sortable="true" th:text="#{lbl.menutable.path}"></th>
+                        <th class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.menutable.code}"></th>
+                        <th class="col-md-2" data-field="url" data-align="left" data-sortable="true" th:text="#{lbl.menutable.path}"></th>
                         <th class="col-md-1" data-field="parentId" data-align="left" data-sortable="true" data-visible="false"></th>
                         <th class="col-md-2" data-field="parentMenu" data-align="left" data-sortable="true" th:text="#{lbl.menutable.parentmenu}"></th>
                         <th class="col-md-1" data-field="imgClass" data-align="left" data-sortable="true" th:text="#{lbl.menutable.imgclass}"></th>
                         <th class="col-md-1" data-field="orders" data-align="left" data-sortable="true" th:text="#{lbl.menutable.orders}"></th>
-                        <th class="col-md-1" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
-                        <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}"></th>
+                        <th class="col-md-1" data-field="status" data-align="left" data-sortable="true" data-visible="false" ></th>
+                        <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
                         <th data-align="center" data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                     </tr>
                     </thead>
