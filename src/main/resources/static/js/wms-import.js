@@ -36,15 +36,20 @@ $(function () {
             },
             {
                 field: 'goodsCode',
-                title: 'Mã hàng'
+                title: 'Mã hàng',
+                align: 'left',
+                width: '10%'
             },
             {
                 field: 'goodsName',
-                title: 'Tên hàng'
+                title: 'Tên hàng',
+                align: 'left'
             },
             {
                 field: 'goodsStateValue',
                 title: 'Trạng thái',
+                align: 'left',
+                width: '10%',
                 editable: {
                     type: 'select',
                     mode: 'inline',
@@ -58,6 +63,8 @@ $(function () {
             {
                 field: 'serial',
                 title: 'Serial',
+                align: 'left',
+                width: '10%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -68,9 +75,12 @@ $(function () {
                 field: 'amount',
                 title: 'Số lượng',
                 cellStyle: 'addStyle',
+                align: 'right',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
+                    textAlign: 'right',
                     showbuttons: false,
                     validate: function (value) {
                         if (!isValidAmount(value)) {
@@ -84,7 +94,7 @@ $(function () {
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
-                        setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
+                        setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(totalPrice));
                     },
                     display: function (value) {
                         $(this).text(formatFloatType(value));
@@ -94,9 +104,12 @@ $(function () {
             {
                 field: 'inputPrice',
                 title: 'Giá nhập',
+                align: 'right',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
+                    textAlign: 'right',
                     showbuttons: false,
                     validate: function (value) {
                         var amount = unFormatFloat(value);
@@ -111,7 +124,7 @@ $(function () {
                         //
                         $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
                         //
-                        setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(totalPrice));
+                        setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(totalPrice));
                     },
                     display: function (value) {
                         $(this).text(formatFloatType(value));
@@ -121,11 +134,15 @@ $(function () {
             {
                 field: 'totalMoney',
                 title: 'Thành tiền',
+                align: 'right',
+                width: '9%',
                 formatter: 'subTotal'
             },
             {
                 field: 'cellCode',
                 title: 'Vị trí',
+                align: 'left',
+                width: '7%',
                 editable: {
                     type: 'select',
                     mode: 'inline',
@@ -137,6 +154,7 @@ $(function () {
                 title: 'Thao tác',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
+                width: '7%',
                 align: 'center'
             }
         ]
@@ -173,7 +191,7 @@ window.operateEvents = {
         enteredSerials = enteredSerials.remove(keySerial);
         //reset total amount
         totalPrice -= Number(row['totalMoney']);
-        setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
+        setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(Number(totalPrice)));
     }
 };
 //@Upload---------------------------------------------------------------------
@@ -291,7 +309,7 @@ btnImportConfirm.click(function () {
             $table.bootstrapTable('removeAll');
             enteredSerials = [];
             totalPrice = Number(0);
-            setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + totalPrice);
+            setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + totalPrice);
         },
         error: function (data) {
             setErrorMessage($lblInfo, JSON.stringify(data))
@@ -437,7 +455,7 @@ function addImportGoods() {
     });
     //
     totalPrice += Number(inputPriceValue);
-    setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
+    setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(Number(totalPrice)));
     //
     $table.bootstrapTable('append', rows);
     enableElement($('#btn-import'));
@@ -712,7 +730,7 @@ $inpGoodsCode.keypress(function (e) {
             });
             //
             totalPrice += Number(goodsItem['inPrice']);
-            setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
+            setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(Number(totalPrice)));
             //
             $table.bootstrapTable('append', rows);
             enableElement($('#btn-import'));
@@ -772,7 +790,7 @@ $inpGoodsSerial.keypress(function (e) {
         });
         //
         totalPrice += Number(goodsItem['inPrice']);
-        setTextForLabel(lblTotalPrice, "Tổng giá nhập: " + formatFloatType(Number(totalPrice)));
+        setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(Number(totalPrice)));
         //
         $table.bootstrapTable('append', rows);
         enableElement($('#btn-import'));
