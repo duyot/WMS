@@ -1,11 +1,10 @@
 package com.wms.sercurity;
 
 import com.wms.dto.CatUserDTO;
-import com.wms.ribbon.CurentUserLogIn;
+import com.wms.ribbon.CurrentUserLogIn;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.RoleActionService;
 import com.wms.utils.DataUtil;
-import com.wms.utils.FunctionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,8 @@ public class WMSUserDetailsService implements UserDetailsService {
     public CatUserService catUserService;
     @Autowired
     RoleActionService roleActionService;
+    @Autowired
+    CurrentUserLogIn currentUserLogIn;
 
     Logger log = LoggerFactory.getLogger(WMSUserDetailsService.class);
     @Override
@@ -39,7 +40,7 @@ public class WMSUserDetailsService implements UserDetailsService {
             if (DataUtil.isStringNullOrEmpty(loggedUser.getImgUrl())) {
                 loggedUser.setImgUrl("default.jpg");
             }
-            CurentUserLogIn.getInstance().setCurentUser(loggedUser);
+            currentUserLogIn.setCurrentUser(loggedUser);
             //
 
             return new WMSUserDetails(loggedUser,null);

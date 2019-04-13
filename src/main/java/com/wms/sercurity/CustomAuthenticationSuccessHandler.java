@@ -1,5 +1,6 @@
 package com.wms.sercurity;
 
+import com.wms.base.BaseDP;
 import com.wms.dto.ActionMenuDTO;
 import com.wms.dto.CatCustomerDTO;
 import com.wms.dto.SysRoleDTO;
@@ -7,6 +8,8 @@ import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.RoleActionService;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,6 +43,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Autowired
     BaseService roleServiceImpl;
 
+    Logger log = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         //set timeout
@@ -48,11 +53,19 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		/*Set some session variables*/
         WMSUserDetails authUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         SysRoleDTO sysRoleDTO = (SysRoleDTO)roleServiceImpl.findById(Long.parseLong(authUser.getCatUserDTO().getRoleId()));
+        if (sysRoleDTO == null) {
+            log.info("Can not get role");
+        }
         authUser.getCatUserDTO().setSysRoleDTO(sysRoleDTO);
         session.setAttribute("user", authUser.getCatUserDTO());
         //
         CatCustomerDTO customer = getCustomer(authUser.getCatUserDTO().getCustId());
-        customer.setName(customer.getName());
+        if (customer == null) {
+            log.info("Can not get customer, customer is null");
+        }else{
+            log.info("customer is: "+ customer.toString());
+            customer.setName(customer.getName());
+        }
         session.setAttribute("selectedCustomer",customer);
         //
         List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(authUser.getCatUserDTO().getRoleId(),authUser.getCatUserDTO().getCustId());

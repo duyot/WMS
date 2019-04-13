@@ -1,46 +1,38 @@
 package com.wms.ribbon;
 
 import com.wms.config.WMSConfigManagerment;
-import com.wms.redis.model.AuthTokenInfo;
 import com.wms.dto.CatUserDTO;
-
-import com.wms.utils.BundleUtils;
-import com.wms.utils.FunctionUtils;
+import com.wms.redis.model.AuthTokenInfo;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
-public class CurentUserLogIn {
-    private static CurentUserLogIn myObj;
+@Component
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class CurrentUserLogIn {
 
-    public CurentUserLogIn() {
-    }
-    private CatUserDTO curentUser;
+    private CatUserDTO currentUser;
     private AuthTokenInfo tokenInfo;
 
-    public static CurentUserLogIn getInstance(){
-        if(myObj == null){
-            myObj = new CurentUserLogIn();
-        }
-        return myObj;
+
+    public CatUserDTO getCurrentUser() {
+        return currentUser;
     }
 
-
-    public CatUserDTO getCurentUser() {
-        return curentUser;
-    }
-
-    public void setCurentUser(CatUserDTO curentUser) {
-        this.curentUser = curentUser;
+    public void setCurrentUser(CatUserDTO currentUser) {
+        this.currentUser = currentUser;
     }
 
     public AuthTokenInfo getTokenInfo(String tokenURL) {
         if (tokenInfo == null){
-            tokenInfo = sendTokenRequest(getCurentUser().getCode(),getCurentUser().getPassword(), tokenURL);
+            tokenInfo = sendTokenRequest(getCurrentUser().getCode(), getCurrentUser().getPassword(), tokenURL);
         }
         return tokenInfo;
     }
