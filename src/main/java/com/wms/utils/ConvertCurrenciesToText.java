@@ -67,7 +67,7 @@ public class ConvertCurrenciesToText {
               kq = kq + "phẩy " +decimal ;
         }
 
-        return kq.substring(0,1).toUpperCase() + kq.substring(1).toLowerCase() + "đồng";
+        return kq.substring(0,1).toUpperCase() + kq.substring(1).toLowerCase() + " đồng";
     }
 
     public static String currencyFormat(String curr) {
