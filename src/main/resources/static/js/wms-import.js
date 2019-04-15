@@ -307,6 +307,7 @@ btnImportConfirm.click(function () {
             //
             disableElement($('#btn-import'));
             $table.bootstrapTable('removeAll');
+            $('#inp-partner-name').val("");
             enteredSerials = [];
             totalPrice = Number(0);
             setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + totalPrice);
