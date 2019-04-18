@@ -12,13 +12,14 @@
     <link rel='stylesheet'  th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
     <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
     <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/bootstrap-select.min.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/bootstrap-toggle.css}"/>
     <link rel="stylesheet"  th:href="@{/css/jquery-ui.min.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/input_component.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/test.css}"/>
     <!--font and favi icon-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
-
     <!--editable-->
     <link rel='stylesheet' href="editable/bootstrap-editable.css" th:href="@{/editable/bootstrap-editable.css}"  type='text/css' />
 
@@ -144,9 +145,12 @@
                                         <div class="col-sm-2">
                                             <div class="input-group">
                                                 <div class="input-group">
-                                                    <input id="inp-file-import" data-toggle="toggle" type="file"
-                                                           onchange="isValidExcel(this);"
-                                                    />
+<!--                                                    <input id="inp-file-import" data-toggle="toggle" type="file"-->
+<!--                                                           onchange="isValidExcel(this);"-->
+<!--                                                    />-->
+                                                    <input  type="file" name="file-1[]" id="inp-file-import" class="inputfile inputfile-1" data-multiple-caption="{count} files selected"  onchange="isValidExcel(this);" />
+                                                    <label for="inp-file-import"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Choose a file&hellip;</span></label>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -271,6 +275,8 @@
 <!--editable-->
 <script th:attr="src=@{/editable/bootstrap-editable.js}"      th:href="@{/editable/bootstrap-editable.js}"></script>
 <script th:attr="src=@{/editable/bootstrap-table-editable.js}"      th:href="@{/editable/bootstrap-table-editable.js}"></script>
+<!--file input-->
+<script th:attr="src=@{/js/custom-file-input.js}" th:href="@{/js/custom-file-input.js}"></script>
 <script>
     //------------------------------------------------------------------------------------------------
     $(document).ready(function () {

@@ -225,6 +225,14 @@ btnUploadExcel.click(function () {
                 $('#myDownloadErrorModal').modal('show');
                 return;
             }
+            //
+            var importGoods = data;
+            var goodsSize = importGoods.length;
+            for (i = 0; i < goodsSize; i++) {
+                totalPrice += importGoods[i].amount * importGoods[i].inputPrice;
+            }
+            //
+            setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(totalPrice));
             $table.bootstrapTable('load', data);
             //
             enableElement($('#btn-import'));
