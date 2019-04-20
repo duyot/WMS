@@ -67,18 +67,20 @@
                                     class="table-striped"
                                     style="word-wrap: break-word;  table-layout: fixed;"
                             >
-
                             <thead>
                             <tr>
                                 <th  data-formatter="runningFormatter" data-align="center" data-width="30px">STT</th>
-                                <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
+                                <th  class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
                                 <th  class="col-md-2" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
                                 <th   data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
                                 <th   data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
                                 <th   data-field="isSerialName" data-align="left" data-sortable="true" th:text="#{lbl.isSerial}" ></th>
-                                <th   data-field="statusName" data-align="left" data-sortable="true" th:text="TT"></th>
-                                <th   data-field="inPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
-                                <th   data-field="outPriceValue" data-align="left" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
+                                <th   data-field="inPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.inputPrice}"></th>
+                                <th   data-field="outPriceValue" data-align="right" data-sortable="true" th:text="#{lbl.outputPrice}"></th>
+                                <th   data-field="length" data-align="right" data-sortable="true" th:text="#{lbl.length}"></th>
+                                <th   data-field="width" data-align="right" data-sortable="true" th:text="#{lbl.width}"></th>
+                                <th   data-field="hight" data-align="right" data-sortable="true" th:text="#{lbl.hight}"></th>
+                                <th   data-field="weight" data-align="right" data-sortable="true" th:text="#{lbl.weight}"></th>
                             </tr>
                             </thead>
                             </table>

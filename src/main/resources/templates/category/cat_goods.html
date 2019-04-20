@@ -151,7 +151,7 @@
                         <thead>
                         <tr>
                             <th  data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
-                            <th  class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
+                            <th  class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
                             <th  class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
                             <th   data-field="unitTypeName" data-align="left" data-sortable="true" th:text="#{lbl.goodsUnit}"></th>
                             <th   data-field="goodsGroupName" data-align="left" data-sortable="true" th:text="#{lbl.goodsgroup}"></th>
@@ -455,6 +455,7 @@
                     normalizer: function( value ) {
                         return $.trim( value );
                     },
+                    maxlength: 15,
                     number: true
                 },
                 outPrice: {
@@ -462,6 +463,35 @@
                     normalizer: function( value ) {
                         return $.trim( value );
                     },
+                    maxlength: 15,
+                    number: true
+                },
+                length: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 10,
+                    number: true
+                },
+                weight: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 10,
+                    number: true
+                },
+                width: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 10,
+                    number: true
+                },
+                hight: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 10,
                     number: true
                 }
             },
@@ -518,6 +548,10 @@
         $("#modal-inp-output-price").val('');
         $('#modal-label-input-price').text("");
         $('#modal-label-output-price').text("");
+        $("#modal-inp-input-length").val('');
+        $("#modal-inp-input-width").val('');
+        $("#modal-inp-input-hight").val('');
+        $("#modal-inp-input-weight").val('');
     }
     //
 
@@ -567,6 +601,34 @@
                 $("#modal-inp-output-price").val(originOutput);
                 $('#modal-label-output-price').text("");
             }
+            var length = Number((selectedItem["length"]));
+            var lengthStr = length + "";
+            if(!lengthStr.includes(".")){
+                $("#modal-inp-input-length").val(formatFloatType(lengthStr));
+            }else{
+                $("#modal-inp-input-length").val(length);
+            }
+            var width = Number((selectedItem["width"]));
+            var widthStr = width + "";
+            if(!widthStr.includes(".")){
+                $("#modal-inp-input-width").val(formatFloatType(widthStr));
+            }else{
+                $("#modal-inp-input-width").val(width);
+            }
+            var hight = Number((selectedItem["hight"]));
+            var hightStr = hight + "";
+            if(!hightStr.includes(".")){
+                $("#modal-inp-input-hight").val(formatFloatType(hightStr));
+            }else{
+                $("#modal-inp-input-hight").val(hight);
+            }
+            var weight = Number((selectedItem["weight"]));
+            var weightStr = weight + "";
+            if(!weightStr.includes(".")){
+                $("#modal-inp-input-weight").val(formatFloatType(weightStr));
+            }else{
+                $("#modal-inp-input-weight").val(weight);
+            }
             //
             var currentStatus = selectedItem["status"];
             if(currentStatus == '0'){
@@ -614,6 +676,54 @@
         }else{
             $('#modal-label-output-price').text("");
             $('#modal-inp-output-price').val(currentValue);
+        }
+    });
+    $("#modal-inp-input-length").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-input-length").val());
+        var need2format = currentValue;
+        if(!isValidPrice(currentValue)){
+            currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+        }
+        if(!currentValue.includes(".")){
+            $('#modal-inp-input-length').val(formatFloatType(currentValue));
+        }else{
+            $('#modal-inp-input-length').val(currentValue);
+        }
+    });
+    $("#modal-inp-input-width").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-input-width").val());
+        var need2format = currentValue;
+        if(!isValidPrice(currentValue)){
+            currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+        }
+        if(!currentValue.includes(".")){
+            $('#modal-inp-input-width').val(formatFloatType(currentValue));
+        }else{
+            $('#modal-inp-input-width').val(currentValue);
+        }
+    });
+    $("#modal-inp-input-hight").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-input-hight").val());
+        var need2format = currentValue;
+        if(!isValidPrice(currentValue)){
+            currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+        }
+        if(!currentValue.includes(".")){
+            $('#modal-inp-input-hight').val(formatFloatType(currentValue));
+        }else{
+            $('#modal-inp-input-hight').val(currentValue);
+        }
+    });
+    $("#modal-inp-input-weight").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-input-weight").val());
+        var need2format = currentValue;
+        if(!isValidPrice(currentValue)){
+            currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+        }
+        if(!currentValue.includes(".")){
+            $('#modal-inp-input-weight').val(formatFloatType(currentValue));
+        }else{
+            $('#modal-inp-input-weight').val(currentValue);
         }
     });
 </script>

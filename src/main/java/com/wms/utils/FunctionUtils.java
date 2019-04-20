@@ -526,16 +526,18 @@ public class FunctionUtils {
             int count = 0;
             StringBuilder errorInfo;
             CatGoodsDTO goodsDTO;
+            Cell cellValue;
+            Row row;
             while (rowIterator.hasNext()) {
                 count++;
                 goodsDTO = new CatGoodsDTO();
                 goodsDTO.setColumnId(count + "");
                 errorInfo = new StringBuilder();
                 //
-                Row row = rowIterator.next();
+                row = rowIterator.next();
                 //goods serial
-                Cell cellSerial = row.getCell(5);
-                String serial = getCellValue(cellSerial);
+                cellValue = row.getCell(5);
+                String serial = getCellValue(cellValue);
                 if (DataUtil.isStringNullOrEmpty(serial)) {
                     errorInfo.append("\n Chưa có thông tin quản lý serial");
                     isValid = false;
@@ -549,23 +551,23 @@ public class FunctionUtils {
                 goodsDTO.setIsSerial(serial);
                 goodsDTO.setIsSerialName(serialTypeName);
                 //goods code
-                Cell cellGoodsCode = row.getCell(1);
-                String goodsCode = getCellValue(cellGoodsCode);
+                cellValue = row.getCell(1);
+                String goodsCode = getCellValue(cellValue);
                 if (DataUtil.isStringNullOrEmpty(goodsCode)) {
                     errorInfo.append("\n Chưa có mã hàng");
                     isValid = false;
                 }
                 goodsDTO.setCode(goodsCode);
                 //goods name
-                Cell cellGoodsName = row.getCell(2);
-                String goodsName = getCellValue(cellGoodsName);
+                cellValue = row.getCell(2);
+                String goodsName = getCellValue(cellValue);
                 if (DataUtil.isStringNullOrEmpty(goodsName)) {
                     errorInfo.append("Chưa có tên hàng");
                     isValid = false;
                 }
                 goodsDTO.setName(goodsName);
                 //STATE
-                Cell cellStatus = row.getCell(6);
+                /*Cell cellStatus = row.getCell(6);
                 String goodsState = getCellValue(cellStatus);
                 if (DataUtil.isStringNullOrEmpty(goodsState)) {
                     errorInfo.append("\n Chưa có trạng thái hàng");
@@ -576,11 +578,13 @@ public class FunctionUtils {
                         isValid = false;
                     }
                 }
-                goodsDTO.setStatus(goodsState);
-                goodsDTO.setStatusName(mapGoodsState.get(goodsState));
+                */
+                goodsDTO.setStatus("1");
+                //goodsDTO.setStatusName(mapGoodsState.get(goodsState));
+
                 //UNIT TYPE
-                Cell cellUnitType = row.getCell(3);
-                String unitType = getCellValue(cellUnitType);
+                cellValue = row.getCell(3);
+                String unitType = getCellValue(cellValue);
                 if (DataUtil.isStringNullOrEmpty(unitType)) {
                     unitType = "1";
                 }
@@ -593,8 +597,8 @@ public class FunctionUtils {
                     goodsDTO.setUnitTypeName(unitTypeName);
                 }
                 //GOODS GROUP
-                Cell cellGoodsGroup = row.getCell(4);
-                String goodsGroup = getCellValue(cellGoodsGroup);
+                cellValue = row.getCell(4);
+                String goodsGroup = getCellValue(cellValue);
                 if (DataUtil.isStringNullOrEmpty(goodsGroup)) {
                     errorInfo.append("\n Chưa có nhóm hàng");
                     isValid = false;
@@ -608,14 +612,11 @@ public class FunctionUtils {
                     goodsDTO.setGoodsGroupName(groupName);
                 }
                 //In PRICE
-                Cell cellInPrice = row.getCell(7);
-                String price = getCellValue(cellInPrice);
-                if (DataUtil.isStringNullOrEmpty(price)) {
-                    errorInfo.append("\n Chưa có giá nhập");
-                    isValid = false;
-                } else {
+                cellValue = row.getCell(6);
+                String price = getCellValue(cellValue);
+                if (!DataUtil.isStringNullOrEmpty(price)) {
                     if (!isNumberFloat(price)) {
-                        errorInfo.append("\n Giá phải là số và >0");
+                        errorInfo.append("\n Giá phải là số dương");
                         isValid = false;
                     } else {
                         goodsDTO.setInPriceValue(formatNumber(price));
@@ -623,21 +624,62 @@ public class FunctionUtils {
                 }
                 goodsDTO.setInPrice(price);
                 //Out PRICE
-                Cell cellOutPrice = row.getCell(8);
-                String outPrice = getCellValue(cellOutPrice);
+                cellValue = row.getCell(7);
+                String outPrice = getCellValue(cellValue);
                 outPrice = outPrice.trim();
-                if (DataUtil.isStringNullOrEmpty(outPrice)) {
-                    errorInfo.append("\n Chưa có giá xuất");
-                    isValid = false;
-                } else {
-                    if (!isNumberFloat(price)) {
-                        errorInfo.append("\n Giá phải là số và >0");
+                if (!DataUtil.isStringNullOrEmpty(outPrice)) {
+                    if (!isNumberFloat(outPrice)) {
+                        errorInfo.append("\n Giá phải là số dương");
                         isValid = false;
                     } else {
                         goodsDTO.setOutPriceValue(formatNumber(outPrice));
                     }
                 }
                 goodsDTO.setOutPrice(outPrice);
+                //Length
+                cellValue = row.getCell(8);
+                String length = getCellValue(cellValue);
+                length = length.trim();
+                if (!DataUtil.isStringNullOrEmpty(length)) {
+                    if (!isNumberFloat(length)) {
+                        errorInfo.append("\n Chiều dài phải là số dương");
+                        isValid = false;
+                    }
+                }
+                goodsDTO.setLength(length);
+                //Width
+                cellValue = row.getCell(9);
+                String width = getCellValue(cellValue);
+                width = width.trim();
+                if (!DataUtil.isStringNullOrEmpty(width)) {
+                    if (!isNumberFloat(width)) {
+                        errorInfo.append("\n Chiều rộng phải là số dương");
+                        isValid = false;
+                    }
+                }
+                goodsDTO.setWidth(width);
+                //Hight
+                cellValue = row.getCell(10);
+                String hight = getCellValue(cellValue);
+                hight = hight.trim();
+                if (!DataUtil.isStringNullOrEmpty(hight)) {
+                    if (!isNumberFloat(hight)) {
+                        errorInfo.append("\n Chiều cao phải là số dương");
+                        isValid = false;
+                    }
+                }
+                goodsDTO.setHight(hight);
+                //Weight
+                cellValue = row.getCell(11);
+                String weight = getCellValue(cellValue);
+                weight = weight.trim();
+                if (!DataUtil.isStringNullOrEmpty(weight)) {
+                    if (!isNumberFloat(weight)) {
+                        errorInfo.append("\n Trọng lượng phải là số dương");
+                        isValid = false;
+                    }
+                }
+                goodsDTO.setWeight(weight);
                 //
                 if (!isValid) {
                     goodsDTO.setErrorInfo(errorInfo.toString());
@@ -653,7 +695,6 @@ public class FunctionUtils {
             e.printStackTrace();
             return null;
         }
-        //
         importResult.setValid(isValid);
         importResult.setLstGoods(lstGoods);
         return importResult;

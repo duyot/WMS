@@ -169,6 +169,11 @@ public class CatGoodsController extends BaseController {
             i.setUnitTypeName(mapUnitType.get(i.getUnitType()));
             i.setInPriceValue(FunctionUtils.formatNumber(i.getInPrice()));
             i.setOutPriceValue(FunctionUtils.formatNumber(i.getOutPrice()));
+            i.setLength(FunctionUtils.formatNumber(i.getLength()));
+            i.setWidth(FunctionUtils.formatNumber(i.getWidth()));
+            i.setHight(FunctionUtils.formatNumber(i.getHight()));
+            i.setWeight(FunctionUtils.formatNumber(i.getWeight()));
+
         }
 
         return lstCatGoods;
@@ -182,6 +187,10 @@ public class CatGoodsController extends BaseController {
         catGoods.setCode(catGoods.getCode().toUpperCase());
         catGoods.setInPrice(catGoods.getInPrice().replaceAll(",",""));
         catGoods.setOutPrice(catGoods.getOutPrice().replaceAll(",",""));
+        catGoods.setLength(catGoods.getLength().replaceAll(",",""));
+        catGoods.setWidth(catGoods.getWidth().replaceAll(",",""));
+        catGoods.setHight(catGoods.getHight().replaceAll(",",""));
+        catGoods.setWeight(catGoods.getWeight().replaceAll(",",""));
         //
         ResponseObject response = catGoodsService.add(catGoods);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
@@ -259,8 +268,13 @@ public class CatGoodsController extends BaseController {
         catGoods.setIsSerial(FunctionUtils.getValueFromToggle(catGoods.getIsSerial()));
         catGoods.setCreatedDate(sysdate);
         catGoods.setCode(catGoods.getCode().toUpperCase());
-        catGoods.setInPrice(catGoods.getInPrice().replaceAll(",",""));
+        catGoods.setInPrice(catGoods.getInPrice() != null ? catGoods.getInPrice().replaceAll(",",""): "");
         catGoods.setOutPrice(catGoods.getOutPrice().replaceAll(",",""));
+        catGoods.setLength(catGoods.getLength().replaceAll(",",""));
+        catGoods.setWidth(catGoods.getWidth().replaceAll(",",""));
+        catGoods.setHight(catGoods.getHight().replaceAll(",",""));
+        catGoods.setWeight(catGoods.getWeight().replaceAll(",",""));
+
         log.info("Update cat_goods info: "+ catGoods.toString());
         ResponseObject response = catGoodsService.update(catGoods);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
