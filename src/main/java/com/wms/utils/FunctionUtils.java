@@ -695,7 +695,6 @@ public class FunctionUtils {
             e.printStackTrace();
             return null;
         }
-        //
         importResult.setValid(isValid);
         importResult.setLstGoods(lstGoods);
         return importResult;

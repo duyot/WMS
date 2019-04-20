@@ -274,6 +274,7 @@ public class CatGoodsController extends BaseController {
         catGoods.setWidth(catGoods.getWidth().replaceAll(",",""));
         catGoods.setHight(catGoods.getHight().replaceAll(",",""));
         catGoods.setWeight(catGoods.getWeight().replaceAll(",",""));
+
         log.info("Update cat_goods info: "+ catGoods.toString());
         ResponseObject response = catGoodsService.update(catGoods);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
