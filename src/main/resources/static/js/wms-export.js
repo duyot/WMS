@@ -334,6 +334,7 @@ btnExportConfirm.click(function () {
             }
             disableElement($('#btn-export'));
             $table.bootstrapTable('removeAll');
+            $('#inp-receive-name').val("");
             enteredSerials = [];
             resetTotalInfo()
         },
