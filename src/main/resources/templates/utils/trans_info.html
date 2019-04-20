@@ -181,9 +181,9 @@
                         <button id="btn-view-info" th:value="@{/workspace/utils/trans_info/viewTransInfo}" style="display: none" type="button" class="btn btn-default">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button id="btn-cancel-trans" th:value="@{/workspace/utils/trans_info/cancelTrans}" style="display: none" type="button" class="btn btn-default">
+                        <!--<button id="btn-cancel-trans" th:value="@{/workspace/utils/trans_info/cancelTrans}" style="display: none" type="button" class="btn btn-default">
                             <i class="fa fa-edit"></i>
-                        </button>
+                        </button>-->
                         <label class="action-info action-info-link" id="action-info"></label>
                     </div>
                     <table  id="tbl-stock-info"
@@ -252,10 +252,11 @@
                 '</a> ',
                 '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
                 '<i class="fa fa-info-circle"></i>',
-                '</a> ',
+                '</a> '
+                /*,
                 '<a class="cancel-trans row-function" style="pointer-events:none; opacity:0.6; " href="javascript:void(0)" title="Hủy phiếu">',
                 '<i class="fa fa-bitbucket"></i>',
-                '</a> '
+                '</a> '*/
             ].join('');
         }else{
             return [
@@ -264,10 +265,11 @@
                 '</a> ',
                 '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
                 '<i class="fa fa-info-circle"></i>',
-                '</a> ',
+                '</a> '
+                /*,
                 '<a class="cancel-trans row-function"  href="javascript:void(0)" title="Hủy phiếu">',
                 '<i class="fa fa-bitbucket"></i>',
-                '</a> '
+                '</a> '*/
             ].join('');
         }
 
@@ -315,7 +317,7 @@
             });
         },
 
-        'click .cancel-trans': function (e, value, row, index) {
+        /*'click .cancel-trans': function (e, value, row, index) {
             //
             clearActionInfo();
             //
@@ -324,7 +326,7 @@
             $("#lbl-del-info").text('Xóa phiếu: '+ decodeHtml(row["code"]));
             $('#myConfirmModal').modal('show');
             //
-        }
+        }*/
     };
 
     $btnDelConfirmed.click(function () {

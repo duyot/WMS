@@ -51,6 +51,9 @@ public class CatGoodsController extends BaseController {
     BaseService mjrStockGoodsTotalService;
 
     private boolean isGoodsGroupModified(HttpServletRequest request){
+        if (request.getSession().getAttribute("isCatGoodsGroupModified") == null){
+            return true;
+        }
         return (boolean) request.getSession().getAttribute("isCatGoodsGroupModified");
     }
 
