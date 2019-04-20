@@ -29,6 +29,43 @@ public class CatGoodsDTO extends BaseDTO{
     private String errorInfo;
     private String amount;
 
+    private String length;
+    private String width;
+    private String hight;
+    private String weight;
+
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    public String getHight() {
+        return hight;
+    }
+
+    public void setHight(String hight) {
+        this.hight = hight;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
     public String getIsSerialName() {
         return isSerialName;
     }
@@ -96,7 +133,8 @@ public class CatGoodsDTO extends BaseDTO{
     public CatGoodsDTO() {
     }
 
-    public CatGoodsDTO(String id, String code, String name, String status, String createdDate, String custId, String unitType, String goodsGroupId, String isSerial, String description, String inPrice, String outPrice, String brand) {
+    public CatGoodsDTO(String id, String code, String name, String status, String createdDate, String custId, String unitType, String goodsGroupId, String isSerial, String description, String inPrice, String outPrice, String brand,
+                       String length,String width,String hight,String weight) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -110,6 +148,10 @@ public class CatGoodsDTO extends BaseDTO{
         this.inPrice = inPrice;
         this.outPrice = outPrice;
         this.brand = brand;
+        this.length = length;
+        this.width = width;
+        this.hight = hight;
+        this.weight = weight;
     }
 
     public String getId() {
@@ -245,6 +287,10 @@ public class CatGoodsDTO extends BaseDTO{
                 ", inPriceValue='" + inPriceValue + '\'' +
                 ", outPriceValue='" + outPriceValue + '\'' +
                 ", errorInfo='" + errorInfo + '\'' +
+                ", length='" + length + '\'' +
+                ", width='" + width + '\'' +
+                ", hight='" + hight + '\'' +
+                ", weight='" + weight + '\'' +
                 '}';
     }
 }

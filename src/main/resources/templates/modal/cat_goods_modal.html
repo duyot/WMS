@@ -8,7 +8,7 @@
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
          aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="width:70%; margin-top: 100px">
+        <div class="modal-dialog" role="document" style="width:75%; margin-top: 100px">
             <form id="cat-goods-insert-update-form">
                 <div class="modal-content" id="catUserDTO-modal">
                     <div class="modal-header">
@@ -113,7 +113,6 @@
                             </div>
 
                             <div class="rightForm">
-
                                 <div class="row row-header">
                                     <div class="col-sm-6">
                                         <div class="input-group">
@@ -140,7 +139,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row row-header">
                                     <div class="col-sm-12">
                                         <div class="input-group">
@@ -194,6 +192,63 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row row-header">
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <label for="modal-inp-input-length" class="control-label" th:text="#{lbl.length}"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <label for="modal-inp-input-width" class="control-label" th:text="#{lbl.width}"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <label for="modal-inp-input-hight" class="control-label" th:text="#{lbl.hight}"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <label for="modal-inp-input-weight" class="control-label" th:text="#{lbl.weight}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-content">
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <input id="modal-inp-input-length" class="form-control input-number" name="length" data-validation="number"
+                                                   data-validation-allowing="float" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <input id="modal-inp-input-width" class="form-control input-number" name="width" data-validation="number"
+                                                   data-validation-allowing="float" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <input id="modal-inp-input-hight" class="form-control input-number" name="hight" data-validation="number"
+                                                   data-validation-allowing="float" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <input id="modal-inp-input-weight" class="form-control input-number" name="weight" data-validation="number"
+                                                   data-validation-allowing="float" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
                                 <div class="row row-content" style="float: right;">
                                     <div class="col-sm-12">
                                         <div class="input-group">
@@ -243,6 +298,22 @@
             });
         });
 
+        $("#modal-inp-input-length").keyup(function() {
+            var currentValue = unFormatFloat($("#modal-inp-input-length").val());
+            $('#modal-inp-input-length').val(currentValue);
+        });
+        $("#modal-inp-input-width").keyup(function() {
+            var currentValue = unFormatFloat($("#modal-inp-input-width").val());
+            $('#modal-inp-input-width').val(currentValue);
+        });
+        $("#modal-inp-input-hight").keyup(function() {
+            var currentValue = unFormatFloat($("#modal-inp-input-hight").val());
+            $('#modal-inp-input-hight').val(currentValue);
+        });
+        $("#modal-inp-input-weight").keyup(function() {
+            var currentValue = unFormatFloat($("#modal-inp-input-weight").val());
+            $('#modal-inp-input-weight').val(currentValue);
+        });
 
     </script>
 
