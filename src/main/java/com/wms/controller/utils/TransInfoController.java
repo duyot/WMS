@@ -65,7 +65,7 @@ public class TransInfoController extends BaseController{
     Logger log = LoggerFactory.getLogger(TransInfoController.class);
     @ModelAttribute("lstAppTransType")
     public List<AppParamsDTO> setAppTransType(HttpServletRequest request) {
-        if (lstAppTransType != null) {
+        if (lstAppTransType != null && lstAppTransType.size() >0) {
             return lstAppTransType;
         }
         if (lstAppParams == null) {
