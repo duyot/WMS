@@ -179,7 +179,7 @@ public class FunctionUtils {
                 i.setAmountValue(formatNumber(i.getAmount()));
                 i.setInputPriceValue(formatNumber(i.getInputPrice()));
                 i.setOutputPriceValue(formatNumber(i.getOutputPrice()));
-                i.setGoodsStateValue(mapGoodsState.get(i.getGoodsState()));
+                i.setGoodsStateValue(i.getGoodsState());
                 i.setStockValue(getMapValue(mapStockIdStock, i.getStockId()));
             }
         } else {
@@ -429,7 +429,7 @@ public class FunctionUtils {
                     }
                 }
                 goodsItem.setGoodsState(goodsState);
-                goodsItem.setGoodsStateValue(mapGoodsState.get(goodsState));
+                goodsItem.setGoodsStateValue(goodsState);
                 //AMOUNT
                 Cell cellAmount = row.getCell(5);
                 String amount = getCellValue(cellAmount);
