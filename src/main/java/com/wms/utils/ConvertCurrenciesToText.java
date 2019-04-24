@@ -45,7 +45,7 @@ public class ConvertCurrenciesToText {
     };
 
     public static void main(String[] args) throws ParseException {
-        String tien = "59614.00";
+        String tien = "5000400";
         String kq = convertToText(tien);
         System.out.println(currencyFormat(tien));
         System.out.println(kq);
@@ -53,6 +53,9 @@ public class ConvertCurrenciesToText {
     }
 
     public static String convertToText(String x) {
+    	if (x.equals("0")){
+    		return "0 đồng";
+		}
         String kq = "";
         x = x.replace(",", "");
         String arr_temp[] = x.split("\\.");
@@ -67,7 +70,7 @@ public class ConvertCurrenciesToText {
               kq = kq + "phẩy " +decimal ;
         }
 
-        return kq.substring(0,1).toUpperCase() + kq.substring(1).toLowerCase() + " đồng";
+        return kq.substring(0,1).toUpperCase() + kq.substring(1).toLowerCase() + "đồng";
     }
 
     public static String currencyFormat(String curr) {
@@ -106,9 +109,7 @@ public class ConvertCurrenciesToText {
                 } else {
                     if (dem % 3 == 2 && (m.startsWith("1") || m.startsWith("0"))) {//mười
                     } else {
-                        if (!m.startsWith("0")){
                         kq += hm_hanh.get(dem + "") + " ";
-                        }
                     }
                 }
             }
