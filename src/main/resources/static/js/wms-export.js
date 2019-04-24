@@ -227,9 +227,17 @@ btnUploadExcel.click(function () {
                 $('#myDownloadErrorModal').modal('show');
                 return;
             }
+            //
+            var exportGoods = data;
+            var goodsSize = exportGoods.length;
+            for (i = 0; i < goodsSize; i++) {
+                totalPrice += exportGoods[i].amount * exportGoods[i].outputPrice;
+            }
+            //
+            setTextForLabel(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(totalPrice));
             $table.bootstrapTable('load', data);
             //
-            enableElement($('#btn-excel-export'));
+            enableElement($('#btn-export'));
         },
         error: function (data) {
             alert(data);

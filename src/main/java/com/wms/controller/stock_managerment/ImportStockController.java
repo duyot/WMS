@@ -212,9 +212,9 @@ public class ImportStockController extends BaseController {
         if (!importFileResult.isValid()) {
             //save error file
             String prefixFileName = selectedCustomer.getId() + "_" + currentUser.getCode();
-            //String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(), prefixFileName, true);
+            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(), prefixFileName, true,profileConfig);
             //save in session
-            //request.getSession().setAttribute("file_import_error", fileName);
+            request.getSession().setAttribute("file_import_error", fileName);
             return null;
         }
         return importFileResult.getLstGoodsImport();
