@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="import_build" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96565b73-1c73-498e-85a2-a5eb0e24ec20">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
@@ -45,11 +45,12 @@
 			<variableExpression><![CDATA[$V{numberOrder} == null ? 0 : $V{numberOrder} + 1]]></variableExpression>
 			<initialValueExpression><![CDATA[0]]></initialValueExpression>
 		</variable>
-		<variable name="totalMoney" class="java.lang.Double" calculation="Sum">
+		<variable name="total" class="java.lang.Double" calculation="Sum">
 			<variableExpression><![CDATA[$F{Field_8}]]></variableExpression>
 		</variable>
 	</subDataset>
 	<subDataset name="itemDataSet" uuid="b0172661-2f01-44e9-ad4c-7e6adf619444">
+		<parameter name="sumAmount" class="java.lang.String"/>
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
@@ -58,13 +59,10 @@
 		<field name="unitName" class="java.lang.String"/>
 		<field name="amount" class="java.lang.String"/>
 		<field name="serial" class="java.lang.String"/>
-		<field name="inputPrice" class="java.lang.String"/>
-		<variable name="STT" class="java.lang.Integer" resetType="None" calculation="Count">
-			<variableExpression><![CDATA[($V{STT} == null ? 0 : $V{STT})+1]]></variableExpression>
+		<field name="outputPrice" class="java.lang.String"/>
+		<variable name="STT" class="java.lang.Integer" resetType="None" incrementType="Report">
+			<variableExpression><![CDATA[($V{STT} == null?0:$V{STT}) + 1]]></variableExpression>
 			<initialValueExpression><![CDATA[0]]></initialValueExpression>
-		</variable>
-		<variable name="totalMoney" class="java.lang.Integer" calculation="Sum">
-			<variableExpression><![CDATA[($F{amount} == null ? 0 :Integer.parseInt($F{amount} ))*($F{inputPrice} == null ? 0 :Integer.parseInt($F{inputPrice} ))]]></variableExpression>
 		</variable>
 	</subDataset>
 	<parameter name="custName" class="java.lang.String"/>
@@ -80,6 +78,7 @@
 	<parameter name="currencyText" class="java.lang.String"/>
 	<parameter name="itemList" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="receiverName" class="java.lang.String"/>
+	<parameter name="sum" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -92,14 +91,14 @@
 	<pageHeader>
 		<band height="178" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="60" y="5" width="135" height="20" uuid="aa1da3eb-5fc1-459e-bd79-5efd46e9c2e8"/>
+				<reportElement positionType="Float" x="8" y="5" width="252" height="20" uuid="aa1da3eb-5fc1-459e-bd79-5efd46e9c2e8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{custName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="8" y="25" width="232" height="20" uuid="75df8b52-e8e7-4f70-a570-4329e7ccf7fa"/>
+				<reportElement positionType="Float" x="8" y="25" width="252" height="20" uuid="75df8b52-e8e7-4f70-a570-4329e7ccf7fa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
@@ -167,70 +166,70 @@ Có:.........................................
 	<columnHeader>
 		<band height="124" splitType="Stretch">
 			<staticText>
-				<reportElement x="15" y="10" width="100" height="20" uuid="2d37e2fa-7ecf-40ad-a438-8ad7f18d1ffc"/>
+				<reportElement x="0" y="10" width="100" height="20" uuid="2d37e2fa-7ecf-40ad-a438-8ad7f18d1ffc"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Đối tác gửi hàng]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="15" y="30" width="100" height="20" uuid="313ba566-b4c1-432e-a360-fe4696e14f79"/>
+				<reportElement x="0" y="30" width="100" height="20" uuid="313ba566-b4c1-432e-a360-fe4696e14f79"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Người nhận]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="15" y="91" width="100" height="20" uuid="34635463-9cb5-4b8b-81d1-fdef80763701"/>
+				<reportElement x="0" y="91" width="100" height="20" uuid="34635463-9cb5-4b8b-81d1-fdef80763701"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Ghi chú]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="140" y="10" width="416" height="20" uuid="f2549e76-f7de-4ea7-89df-a7bb3946f9b5"/>
+				<reportElement x="113" y="10" width="443" height="20" uuid="f2549e76-f7de-4ea7-89df-a7bb3946f9b5"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{partner}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="140" y="70" width="414" height="20" uuid="35e72d19-1a1d-4e2f-84c5-4eb5fc9e0bda"/>
+				<reportElement x="113" y="70" width="441" height="20" uuid="35e72d19-1a1d-4e2f-84c5-4eb5fc9e0bda"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importMan}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="140" y="90" width="414" height="20" uuid="c8fc6e8f-1fd4-47d9-85a0-bf148a4cc0ff"/>
+				<reportElement x="113" y="90" width="441" height="20" uuid="c8fc6e8f-1fd4-47d9-85a0-bf148a4cc0ff"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{note}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="15" y="50" width="100" height="20" uuid="df4b47c0-7ab7-487a-ba73-29f464d35fdf"/>
+				<reportElement x="0" y="50" width="100" height="20" uuid="df4b47c0-7ab7-487a-ba73-29f464d35fdf"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Kho xuất]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="140" y="50" width="414" height="20" uuid="b95e9c69-b33c-4b5d-8430-d3da11574261"/>
+				<reportElement x="113" y="50" width="441" height="20" uuid="b95e9c69-b33c-4b5d-8430-d3da11574261"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{stockName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="140" y="30" width="416" height="20" uuid="11c99089-ce95-4545-bcdd-82bdf477762d"/>
+				<reportElement x="113" y="30" width="443" height="20" uuid="11c99089-ce95-4545-bcdd-82bdf477762d"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{receiverName}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="15" y="71" width="100" height="20" uuid="4149c25a-e1c4-4392-9854-4152ed6ba665"/>
+				<reportElement x="0" y="71" width="100" height="20" uuid="4149c25a-e1c4-4392-9854-4152ed6ba665"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
@@ -239,9 +238,9 @@ Có:.........................................
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="241" splitType="Stretch">
+		<band height="126" splitType="Stretch">
 			<componentElement>
-				<reportElement x="0" y="0" width="555" height="120" uuid="1fe1cc84-1f7f-4216-a452-ef64e8f96de4">
+				<reportElement positionType="Float" x="0" y="0" width="555" height="120" uuid="1fe1cc84-1f7f-4216-a452-ef64e8f96de4">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -249,7 +248,10 @@ Có:.........................................
 					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value=""/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="itemDataSet" uuid="1daa73f9-2587-4a50-9126-ee49de7ff3c5">
+					<datasetRun subDataset="itemDataSet" uuid="f27be82f-16e9-47ef-a5f4-f11b314a7714">
+						<datasetParameter name="sumAmount">
+							<datasetParameterExpression><![CDATA[$P{sum}]]></datasetParameterExpression>
+						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{itemList}]]></dataSourceExpression>
 					</datasetRun>
 					<jr:columnGroup width="555" uuid="581fd27d-46fa-46f0-9512-5ee54b193059">
@@ -261,7 +263,7 @@ Có:.........................................
 									<font fontName="Times New Roman" size="11" isBold="true"/>
 									<paragraph rightIndent="10"/>
 								</textElement>
-								<textFieldExpression><![CDATA["Tổng cộng "+$V{totalMoney} + " (VND)"]]></textFieldExpression>
+								<textFieldExpression><![CDATA["Tổng cộng "+$P{sumAmount}+ " (VND)"]]></textFieldExpression>
 							</textField>
 						</jr:columnFooter>
 						<jr:column width="31" uuid="b6abfbfc-4af0-4a18-afbd-e5e89263d6c6">
@@ -281,7 +283,7 @@ Có:.........................................
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman" size="11"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$V{STT}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -376,11 +378,11 @@ Có:.........................................
 								<jr:detailCell style="Table_TD" height="30">
 									<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 										<reportElement x="0" y="0" width="54" height="30" uuid="a55fbc60-bbf6-4ba6-9e2b-b2de944c69ad"/>
-										<textElement textAlignment="Left" verticalAlignment="Middle">
+										<textElement textAlignment="Right" verticalAlignment="Middle">
 											<font fontName="Times New Roman" size="11"/>
 											<paragraph leftIndent="2" rightIndent="2"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$F{amount} == null ? 0 :new DecimalFormat("###,###.##").format( Double.parseDouble($F{amount}.replace(",", "")))]]></textFieldExpression>
 									</textField>
 								</jr:detailCell>
 							</jr:column>
@@ -398,11 +400,11 @@ Có:.........................................
 								<jr:detailCell style="Table_TD" height="30">
 									<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 										<reportElement x="0" y="0" width="57" height="30" uuid="d0f75737-4ee5-4163-a7a9-2ca434e027e2"/>
-										<textElement verticalAlignment="Middle">
+										<textElement textAlignment="Right" verticalAlignment="Middle">
 											<font fontName="Times New Roman" size="11"/>
 											<paragraph leftIndent="2" rightIndent="2"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$F{amount} == null ? 0 :Integer.parseInt($F{amount} )]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$F{amount} == null ? 0 :new DecimalFormat("###,###.##").format( Double.parseDouble($F{amount}.replace(",", "")))]]></textFieldExpression>
 									</textField>
 								</jr:detailCell>
 							</jr:column>
@@ -429,11 +431,11 @@ Có:.........................................
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="60" uuid="51c58e7a-6025-4b94-b62f-cee21cfd2b51">
+						<jr:column width="50" uuid="51c58e7a-6025-4b94-b62f-cee21cfd2b51">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 							<jr:columnHeader style="Table_CH" height="60" rowSpan="2">
 								<staticText>
-									<reportElement x="0" y="0" width="60" height="60" uuid="346d0123-f519-418c-806c-c988b7225360"/>
+									<reportElement x="0" y="0" width="50" height="60" uuid="346d0123-f519-418c-806c-c988b7225360"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman" size="11"/>
 									</textElement>
@@ -444,20 +446,20 @@ Có:.........................................
 							</jr:columnHeader>
 							<jr:detailCell style="Table_TD" height="30">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="60" height="30" uuid="fb7d626c-1d12-4559-8dc7-6805c9686b59"/>
-									<textElement verticalAlignment="Middle">
+									<reportElement x="0" y="0" width="50" height="30" uuid="fb7d626c-1d12-4559-8dc7-6805c9686b59"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
 										<font fontName="Times New Roman" size="11"/>
 										<paragraph leftIndent="2" rightIndent="2"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{inputPrice} == null ? 0 :Integer.parseInt($F{inputPrice} )]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{outputPrice} == null ? 0 : ($F{outputPrice}  == "" ?  0: new DecimalFormat("###,###.##").format( Double.parseDouble($F{outputPrice}.replace(",", ""))))]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="60" uuid="f3400a38-6002-4580-ab9c-7bf4e904f7c8">
+						<jr:column width="70" uuid="f3400a38-6002-4580-ab9c-7bf4e904f7c8">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 							<jr:columnHeader style="Table_CH" height="60" rowSpan="2">
 								<staticText>
-									<reportElement x="0" y="0" width="60" height="60" uuid="61086672-2f62-4cf2-8197-81ab16feb4ce"/>
+									<reportElement x="0" y="0" width="70" height="60" uuid="61086672-2f62-4cf2-8197-81ab16feb4ce"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman" size="11"/>
 									</textElement>
@@ -468,20 +470,22 @@ Có:.........................................
 							</jr:columnHeader>
 							<jr:detailCell style="Table_TD" height="30">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="60" height="30" uuid="5393aa43-fbe0-4585-952a-d8510523bbe4"/>
-									<textElement verticalAlignment="Middle">
+									<reportElement x="0" y="0" width="70" height="30" uuid="5393aa43-fbe0-4585-952a-d8510523bbe4"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
 										<font fontName="Times New Roman" size="11"/>
 										<paragraph leftIndent="2" rightIndent="2"/>
 									</textElement>
-									<textFieldExpression><![CDATA[($F{amount} == null ? 0 :Integer.parseInt($F{amount} ))*($F{inputPrice} == null ? 0 :Integer.parseInt($F{inputPrice} ))]]></textFieldExpression>
+									<textFieldExpression><![CDATA[new DecimalFormat("###,###.##").format(($F{amount} == null ? 0 :Integer.parseInt($F{amount} ))*($F{outputPrice} == null ? 0 : ($F{outputPrice} == "" ? 0 : Double.parseDouble(    $F{outputPrice}.replace(",", "")))))]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
 					</jr:columnGroup>
 				</jr:table>
 			</componentElement>
+		</band>
+		<band height="111">
 			<staticText>
-				<reportElement x="8" y="170" width="80" height="20" uuid="0e43f6b4-f2a7-43bc-82e4-9fe8c9eb8466"/>
+				<reportElement x="0" y="50" width="80" height="20" uuid="f3b8a0ce-cac9-4823-87dd-7e8a6e3a1d45"/>
 				<textElement verticalAlignment="Top">
 					<font isBold="true"/>
 				</textElement>
@@ -490,29 +494,29 @@ Có:.........................................
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="190" width="80" height="20" uuid="bf1472cb-edd1-4103-a09c-abaadd4e352e"/>
+				<reportElement x="0" y="70" width="80" height="20" uuid="365493a0-6428-4502-9133-f083466844d9"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[(Ký, họ tên)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="113" y="170" width="80" height="20" uuid="899eb20d-62da-45f7-b26c-a267816503a0"/>
+				<reportElement x="113" y="50" width="80" height="20" uuid="fa40f05f-b30f-4176-9745-282b6bb9d225"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Người giao hàng]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="220" y="170" width="80" height="20" uuid="246edfab-4c8a-42c3-aea2-a749c77ba6c5"/>
+				<reportElement x="220" y="50" width="80" height="20" uuid="1ae0f07b-afed-4f5e-9262-5bca48abc342"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Thủ kho]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="323" y="180" width="215" height="30" uuid="02ae3134-b6fe-43c8-bde4-5e9ad4eefa11"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement x="326" y="46" width="215" height="30" uuid="6d9ed03d-b8da-4c2d-acc4-996cfc00a8d5"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Kế toán trưởng
@@ -520,42 +524,42 @@ Có:.........................................
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="113" y="190" width="80" height="20" uuid="8dbe1428-be17-42b2-95ea-f142ecda9dca"/>
+				<reportElement x="113" y="70" width="80" height="20" uuid="9de3cbab-c128-45ef-ad66-f49eb9c6c25d"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[(Ký, họ tên)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="223" y="190" width="80" height="20" uuid="05ad7bcf-4839-4bfa-ab9b-383737747ed2"/>
+				<reportElement x="223" y="70" width="80" height="20" uuid="33460d79-f6e1-47da-be7b-9ce6075b7a7e"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[(Ký, họ tên)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="393" y="210" width="80" height="20" uuid="5072012f-32c8-4fbb-a434-7733d145d971"/>
+				<reportElement x="393" y="79" width="80" height="20" uuid="739a6261-3046-40f2-9e68-edda318ca959"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[(Ký, họ tên)]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="333" y="160" width="190" height="20" uuid="97a5ff87-bb29-4213-865b-a5eceec023a5"/>
+				<reportElement x="340" y="22" width="190" height="20" uuid="c46fc0ec-5d1f-4afa-bed4-6ab1b851ba45"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Ngày " +new SimpleDateFormat("dd").format($P{currentDate} )+ " tháng "+new SimpleDateFormat("MM").format($P{currentDate} )+ " năm  "+new SimpleDateFormat("yyyy").format($P{currentDate} )]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="130" width="80" height="20" uuid="ec82c94f-34c5-4272-bafd-eb7419addfcf"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement x="0" y="0" width="60" height="20" uuid="069c428e-91cf-4aec-8f3e-69bdc91fe72a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Bằng chữ :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="80" y="130" width="474" height="20" uuid="9c97f46e-a150-4275-925c-450a676e1985"/>
+				<reportElement x="60" y="0" width="494" height="20" uuid="741aefb6-24ad-49cf-85c3-bc2861f1dec7"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
