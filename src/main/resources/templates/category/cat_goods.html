@@ -601,35 +601,18 @@
                 $("#modal-inp-output-price").val(originOutput);
                 $('#modal-label-output-price').text("");
             }
-            var length = Number((selectedItem["length"]));
-            var lengthStr = length + "";
-            if(!lengthStr.includes(".")){
-                $("#modal-inp-input-length").val(formatFloatType(lengthStr));
-            }else{
-                $("#modal-inp-input-length").val(length);
-            }
-            var width = Number((selectedItem["width"]));
-            var widthStr = width + "";
-            if(!widthStr.includes(".")){
-                $("#modal-inp-input-width").val(formatFloatType(widthStr));
-            }else{
-                $("#modal-inp-input-width").val(width);
-            }
-            var hight = Number((selectedItem["hight"]));
-            var hightStr = hight + "";
-            if(!hightStr.includes(".")){
-                $("#modal-inp-input-hight").val(formatFloatType(hightStr));
-            }else{
-                $("#modal-inp-input-hight").val(hight);
-            }
-            var weight = Number((selectedItem["weight"]));
-            var weightStr = weight + "";
-            if(!weightStr.includes(".")){
-                $("#modal-inp-input-weight").val(formatFloatType(weightStr));
-            }else{
-                $("#modal-inp-input-weight").val(weight);
-            }
-            //
+            var length = selectedItem["length"];
+            $("#modal-inp-input-length").val(length);
+
+            var width = selectedItem["width"];
+            $("#modal-inp-input-width").val(width);
+
+            var hight = selectedItem["hight"];
+            $("#modal-inp-input-hight").val(hight);
+
+            var weight = selectedItem["weight"];
+            $("#modal-inp-input-weight").val(weight);
+
             var currentStatus = selectedItem["status"];
             if(currentStatus == '0'){
                 $('#modal-cmb-status').bootstrapToggle('off');
