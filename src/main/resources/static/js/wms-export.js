@@ -475,7 +475,7 @@ function addImportGoods() {
         enteredSerials.push(keySerial);
     }
     //everything ok -> add to table
-    var columnId = ~~(Math.random() * 100) * -1,
+    var columnId = ~~(Math.random() * 10000) * -1,
         rows = [];
     rows.push({
         goodsCode: goodsCode,
