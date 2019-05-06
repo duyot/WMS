@@ -242,32 +242,38 @@
 				</div>
 			</div>
 			<div class="col-md-6 col-sm-12">
-				<img th:src="@{home_page/images/office_shoes_new.jpg}" class="img-responsive" alt="Store"/>
+				<img th:src="@{home_page/images/office_shoes_new.jpg}" class="img-responsive" alt="Warehouse"/>
 			</div>
 			<div class="col-md-6 col-sm-12">
 				<!--<h3 class="bold">Hệ thống gồm 2 module Quản lý kho và Quản lý bán hàng có liên kết chặt chẽ với nhau</h3>-->
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
-					<li class="active"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">Kho-cửa hàng</a></li>
-					<li><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab">Bán hàng</a></li>
+					<li class="active"><a href="#thuekho" aria-controls="thuekho" role="tab" data-toggle="tab">Doanh nghiệp logistics</a></li>
+					<li><a href="#doanhnghiep" aria-controls="doanhnghiep" role="tab" data-toggle="tab">Doanh nghiệp sản xuất</a></li>
+					<li><a href="#cuahang" aria-controls="cuahang" role="tab" data-toggle="tab">Cửa hàng</a></li>
 				</ul>
 				<!-- tab panes -->
 				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane active" id="design">
+					<div role="tabpanel" class="tab-pane active" id="thuekho">
                         <ul>
-                            <li>Quản lý hàng hóa theo vị trí, serial, giá nhập/xuất</li>
-							<li>Quản lý xuất/nhập kho theo đối tác gửi hàng</li>
-                            <li>Tra cứu lịch sử xuất/nhập của serial</li>
-							<li>Cảnh báo tồn kho quá hạn</li>
-							<li>Phân quyền người dùng theo vai trò, theo kho xuất/nhập</li>
-							<li>Thẻ kho điện tử</li>
-							<li>Báo cáo đa dạng thông tin</li>
-							<li>Kiểm kê online hàng ngày</li>
+							<li>Quản lý xuất/nhập/tồn kho theo từng đối tác gửi hàng</li>
+                            <li>Tính tiền lưu kho tự động</li>
+							<li>Quản lý hàng hóa theo vị trí-serial</li>
+							<li>Phân quyền quản lý theo kho/đối tác gửi hàng</li>
+							<li>API tích hợp với hệ thống của đối tác gửi hàng</li>
                         </ul>
 					</div>
-					<div role="tabpanel" class="tab-pane" id="mobile">
+					<div role="tabpanel" class="tab-pane" id="doanhnghiep">
+						<ul>
+							<li>Quản lý xuất/nhập/tồn kho</li>
+							<li>Quản lý hàng hóa theo vị trí-serial</li>
+							<li>Tra cứu lịch sử xuất/nhập kho</li>
+							<li>Phân quyền quản lý theo kho</li>
+						</ul>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="cuahang">
                         <ul>
-							<li>Xuất kho bán hàng</li>
+							<li>Quản lý xuất/nhập/tồn kho</li>
 							<li>Quản lý chiết khấu theo khách hàng</li>
 							<li>Thống kê doanh thu, lợi nhuận</li>
 							<li>Thông kê hàng hóa bán chạy</li>
@@ -445,7 +451,7 @@
 					<ul class="social-icon">
 						<li>+(84)975.114.692</li>
 						<li>+(84)983.917.976</li>
-						<li>+(84)164.975.2098</li>
+						<li>+(84)349.752.098</li>
 					</ul>
 				</div>
 			</div>
