@@ -2,6 +2,18 @@
 alter table CAT_CUSTOMER add PARTNER_PERMISSION NUMBER(1,0) DEFAULT 0;
 
 
+alter table CAT_CUSTOMER add GOODS_VOLUME NUMBER(19,4);
+comment on column "CAT_CUSTOMER"."GOODS_VOLUME" is 'The tich hang hoa';
+
+
+ CREATE TABLE "MAP_USER_PARTNER" 
+   (	"ID" NUMBER, 
+	"USER_ID" NUMBER, 
+	"PARTNER_ID" NUMBER
+   );
+ 
+
+
 --Thay doi cac cot varchar(byte) -> varchar(char) do loi khi luu Tieng Viet
 alter table APP_PARAMS modify NAME VARCHAR2(2000 CHAR);
 alter table APP_PARAMS modify CODE VARCHAR2(50 CHAR);
