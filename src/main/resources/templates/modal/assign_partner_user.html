@@ -37,11 +37,11 @@
                                 <div class="col-sm-6">
                                     <div class="input-group input-group-combo">
                                         <div class="radio radio-inline radio-info">
-                                            <input value="1" type="radio" id="radio-partner-no" name="rad-block-partner" checked="checked" />
+                                            <input value="0" type="radio" id="radio-partner-no" name="rad-block-partner" checked="checked" onclick="changeUserPartner();" />
                                             <label for="radio-partner-no" th:text="#{lbl.no}"></label>
                                         </div>
                                         <div class="radio radio-inline radio-info" style="margin-top: 0px">
-                                            <input value="0" type="radio" id="radio-partner-yes" name="rad-block-partner" />
+                                            <input value="1" type="radio" id="radio-partner-yes" name="rad-block-partner"  onclick="changeUserPartner();"/>
                                             <label for="radio-partner-yes" th:text="#{lbl.yes}"></label>
                                         </div>
 
@@ -55,6 +55,7 @@
                             <button id="checkAllPage_Partner" class="btn btn-default" title="Chọn tất cả các trang">Chọn tất cả</button>
                             <button id="uncheckAllPage_Partner" class="btn btn-default" title="Bỏ chọn tất cả các trang">Bỏ chọn tất cả</button>
                         </div>-->
+                        <div id="table-lst-partner">
                         <table id="tbl-table-partner"
                                data-pagination="true"
                                data-page-size = "5"
@@ -77,6 +78,7 @@
                             </thead>
 
                         </table>
+                        </div>
 
                     </div>
                     <div class="modal-footer">

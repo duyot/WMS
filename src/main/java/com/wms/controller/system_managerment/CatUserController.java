@@ -280,11 +280,20 @@ public class CatUserController extends BaseCommonController {
     }
 
     @RequestMapping(value = "/updateUserPartner",method = RequestMethod.GET)
-    public @ResponseBody String updateUserPartner(@RequestParam("userId")String userId,@RequestParam("partnerId")String partnerId ){
+    public @ResponseBody String updateUserPartner(@RequestParam("userId")String userId,@RequestParam("partnerId")String partnerId,@RequestParam("partnerPermission")String partnerPermission ){
         try {
+            boolean isError = false;
+            Long idL = Long.parseLong(userId);
+            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
+            catUserDTO.setPartnerPermission(partnerPermission);
+            ResponseObject response = catUserServices.update(catUserDTO);
+
             partnerId = partnerId.replaceFirst(",","");
             List<Condition> lstCon = new ArrayList<>();
-            boolean isError = false;
+            if(!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+                isError = true;
+            }
+
             //        delete all stock of this user
             lstCon.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
             String result = mapUserPartnerServiceImpl.deleteByCondition(lstCon);
@@ -295,7 +304,7 @@ public class CatUserController extends BaseCommonController {
                     for (int i = 0 ; i <partnerids.length ; i ++){
                         lstMapPartnerStock.add(new MapUserPartnerDTO(null,userId,partnerids[i]));
                     }
-                    ResponseObject response =  mapUserPartnerServiceImpl.addList(lstMapPartnerStock);
+                    response =  mapUserPartnerServiceImpl.addList(lstMapPartnerStock);
                     if(!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                         isError = true;
                     }

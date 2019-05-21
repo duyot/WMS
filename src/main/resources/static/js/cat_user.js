@@ -432,11 +432,12 @@ function doUpdateUserStock() {
 
 function doUpdateUserPartner() {
     var partner = tableAssignPartner.bootstrapTable('getSelections');
+    var partnerPermission = $('input[name=rad-block-partner]:checked').val();
     var partners = '';
     for(i = 0 ; i <partner.length ; i ++){
         partners = partners + ',' + partner[i]['id'];
     }
-    var data = {userId : currentUserId, partnerId: partners};
+    var data = {userId : currentUserId, partnerId: partners, partnerPermission: partnerPermission};
     updateEvent("GET",  $('#modal-update-assign-partner').val(),data,"showNotificationAndSearch",false);
     hideModal($('#assygnPartnerUser'));
 }
@@ -461,5 +462,14 @@ function afterAssignDeptSuccess(data) {
     showNotificationAndSearch(data,false);
     hideModal($('#updateDepartment'))
 
+}
+
+function changeUserPartner() {
+    var partnerPermission = $('input[name=rad-block-partner]:checked').val();
+    if (partnerPermission == "1"){
+        $("#table-lst-partner").show();
+    }else{
+        $("#table-lst-partner").hide();
+    }
 }
 
