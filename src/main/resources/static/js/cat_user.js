@@ -15,6 +15,7 @@ var validator;
 var searchDeptLink = $('#btn-getListDept').val();
 var tableAssignRole = $('#tbl-table-role');
 var tableAssignStock = $('#tbl-table-stock');
+var tableAssignPartner = $('#tbl-table-partner');
 var tree = [];
 var mapKeyValue;
 var currentRoleId = '';
@@ -24,6 +25,7 @@ var btnUpdateDept = $('#update-department-execuse');
 var url = $('#btn-url').val();
 var url_getRoles = url+"getRoles";
 var url_getStock = url+"getListStock";
+var url_getPartner = url+"getListPartner";
 var url_update = url+"update";
 //@Init component-----------------------------------------------------------------------------------------------
 $(function () {
@@ -35,6 +37,9 @@ $(function () {
         data: dataInit
     });
     tableAssignStock.bootstrapTable({
+        data: dataInit
+    });
+    tableAssignPartner.bootstrapTable({
         data: dataInit
     });
     //
@@ -69,6 +74,10 @@ $(function () {
     $('#modal-update-assign-stock').click(function () {
         doUpdateUserStock();
     })
+
+    $('#modal-update-assign-partner').click(function () {
+        doUpdateUserPartner();
+    })
     $('#modal-btn-reset').click(function () {
         doResetPass();
         
@@ -98,9 +107,14 @@ function operateFormatter(value, row, index) {
             '<a class="assign-role row-function" href="javascript:void(0)" title="Gán vai trò">',
             '<i class="fa  fa-user-circle-o"></i>',
             '</a> ',
+            '<a class="assign-stock row-function" href="javascript:void(0)" title="Gán kho">',
+            '<i class="fa  fa-home"></i>',
+            '</a> ',
             '<a class="resetkey row-function" href="javascript:void(0)" title="Đổi mật khẩu">',
             '<i class="fa  fa-key"></i>',
-            '</a> '
+            '</a> ',
+            '<a class="assign-partner row-function" href="javascript:void(0)" title="Gán đối tác">',
+            '<i class="fa  fa-user-md"></i>',
         ].join('');
     }else{
         return [
@@ -122,6 +136,8 @@ function operateFormatter(value, row, index) {
             // '<a class="assynDept row-function" href="javascript:void(0)" title="Gán phong ban">',
             // '<i class="fa  fa-building"></i>',
             // '</a> '
+            '<a class="assign-partner row-function" href="javascript:void(0)" title="Gán đối tác">',
+            '<i class="fa  fa-user-md"></i>',
         ].join('');
     }
 }
@@ -155,6 +171,10 @@ window.operateEvents = {
     'click .assign-stock': function (e, value, row, index) {
         currentUserId = row['id'];
         processAssignStock(row['custId'], row['code']);
+    },
+    'click .assign-partner': function (e, value, row, index) {
+        currentUserId = row['id'];
+        processAssignPartner(row['custId'], row['code']);
     },
     'click .resetkey': function (e, value, row, index) {
       doPrepareShowForm(row['code'],row['id']);
@@ -225,6 +245,8 @@ function changeModelByType( changeType,name, code, id , status, tel,email ,custI
     }
 
 }
+
+
 function searchDept() {
     var data = {status:'1'};
     searchEvent("GET",searchDeptLink,data,"buildTree")
@@ -300,6 +322,11 @@ function processAssignStock(custId ,code ) {
     $('#assign-stock-user-code').text(code);
     searchEvent("GET",url_getStock , data,'getStocksDataDone');
 }
+function processAssignPartner(custId ,code ) {
+    var data = {custId : custId,userId : currentUserId};
+    $('#assign-partner-user-code').text(code);
+    searchEvent("GET",url_getPartner , data,'getPartnersDataDone');
+}
 function getRoleDataDone( data,clearInfor ,block) {
     showModal($('#assygnRoleUser'));
     $('input[name=rad-block][value='+block+']').prop('checked', true)
@@ -328,7 +355,7 @@ function getStocksDataDone(data) {
         }
 
     }
-    $('#checkAllPage').click(function () {
+    /*$('#checkAllPage').click(function () {
         tableAssignStock.bootstrapTable('togglePagination');
         tableAssignStock.bootstrapTable('checkAll');
         tableAssignStock.bootstrapTable('togglePagination');
@@ -339,8 +366,38 @@ function getStocksDataDone(data) {
         tableAssignStock.bootstrapTable('uncheckAll');
         tableAssignStock.bootstrapTable('togglePagination');
         return false;
-    });
+    });*/
 }
+
+function getPartnersDataDone(data) {
+    showModal($('#assygnPartnerUser'));
+    tableAssignPartner.bootstrapTable('load', data.lstCatPartners);
+    var listPartners = data.lstCatPartners;
+    var sellectedPartner = data.userPartners;
+    for(i = 0 ; i <listPartners.length ; i++){
+
+        for( j = 0 ; j <sellectedPartner.length; j++){
+            if(listPartners[i]['id'] == sellectedPartner[j]){
+                tableAssignPartner.bootstrapTable('check', i);
+                break;
+            }
+        }
+
+    }
+    /*$('#checkAllPage_Partner').click(function () {
+        tableAssignPartner.bootstrapTable('togglePagination');
+        tableAssignPartner.bootstrapTable('checkAll');
+        tableAssignPartner.bootstrapTable('togglePagination');
+        return false;
+    });
+    $('#uncheckAllPage_Partner').click(function () {
+        tableAssignPartner.bootstrapTable('togglePagination');
+        tableAssignPartner.bootstrapTable('uncheckAll');
+        tableAssignPartner.bootstrapTable('togglePagination');
+        return false;
+    });*/
+}
+
 function doPrepareShowDept(deptId) {
     $("#updateDepartment").find(":checkbox").each(function (item) {
         $(this).prop('checked', false);
@@ -372,6 +429,18 @@ function doUpdateUserStock() {
     updateEvent("GET",  $('#modal-update-assign-stock').val(),data,"showNotificationAndSearch",false);
     hideModal($('#assygnStockUser'));
 }
+
+function doUpdateUserPartner() {
+    var partner = tableAssignPartner.bootstrapTable('getSelections');
+    var partners = '';
+    for(i = 0 ; i <partner.length ; i ++){
+        partners = partners + ',' + partner[i]['id'];
+    }
+    var data = {userId : currentUserId, partnerId: partners};
+    updateEvent("GET",  $('#modal-update-assign-partner').val(),data,"showNotificationAndSearch",false);
+    hideModal($('#assygnPartnerUser'));
+}
+
 function doPrepareShowForm(code,id) {
     $('#modal-reset-code').text(decodeHtml(code));
     emptyForm($('#reset-password-form'));
@@ -393,3 +462,4 @@ function afterAssignDeptSuccess(data) {
     hideModal($('#updateDepartment'))
 
 }
+

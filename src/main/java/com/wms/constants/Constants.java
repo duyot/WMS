@@ -101,6 +101,7 @@ public class Constants {
         public static String SYS_ROLE_SERVICE = "sysRoleServices/";
         public static String SYS_MENU_SERVICE = "sysMenuServices/";
         public static String MAP_USER_STOCK = "mapUserStockServices/";
+        public static String MAP_USER_PARTNER = "mapUserPartnerServices/";
         public static String STATISTIC_SERVICE = "statisticServices/";
     }
 

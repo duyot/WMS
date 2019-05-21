@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<div th:fragment="frag-assign-partner-user-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="assygnPartnerUser" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog modal-dialog-mini" role="document" style="width: 700px">
+            <form id="assign-partner-user-form" name="partner-user">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" th:text="#{title.assygn.partner.user}"></h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--hidden fields-->
+                            <input id="modal-partner-id" hidden="true" name="id"/>
+                            <div class="row">
+                                <div class="col-sm-3" style="margin-bottom: 10px">
+                                        <label style="font-weight: bold" th:text="#{lbl.signin.user}"></label>
+                                </div>
+
+                                <div class="col-sm-7">
+                                    <label style="float: left" id="assign-partner-user-code"></label>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label th:text="#{lbl.permission.partner}"></label>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="input-group input-group-combo">
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="1" type="radio" id="radio-partner-no" name="rad-block-partner" checked="checked" />
+                                            <label for="radio-partner-no" th:text="#{lbl.no}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info" style="margin-top: 0px">
+                                            <input value="0" type="radio" id="radio-partner-yes" name="rad-block-partner" />
+                                            <label for="radio-partner-yes" th:text="#{lbl.yes}"></label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                     </div>
+                        <!--<div class="toolbar">
+                            <button id="checkAllPage_Partner" class="btn btn-default" title="Chọn tất cả các trang">Chọn tất cả</button>
+                            <button id="uncheckAllPage_Partner" class="btn btn-default" title="Bỏ chọn tất cả các trang">Bỏ chọn tất cả</button>
+                        </div>-->
+                        <table id="tbl-table-partner"
+                               data-pagination="true"
+                               data-page-size = "5"
+                               data-toggle="table"
+                               data-toolbar=".toolbar"
+                               data-maintain-selected="true"
+                               data-click-to-select="true"
+                        >
+                            <thead>
+                            <tr>
+                                <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                                <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
+                                <!--<th class="col-md-2" id="checkAll" data-field="radio" data-align="center" data-sortable="true"  data-checkbox = "true" th:text="#{lbl.sellect}"></th>-->
+                                <th class="col-md-1" data-field="state" data-checkbox="true" th:text="#{lbl.sellect}"></th>
+                                <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.partnerCode}"></th>
+                                <th class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.partnerName}"></th>
+                                <th class="col-md-3" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
+                                <th class="col-md-2" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
+                            </tr>
+                            </thead>
+
+                        </table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-update-assign-partner"  type="button" th:value="@{${controller}+'updateUserPartner'}" class="btn btn-primary" >
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{btn.update}"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>
+
+

@@ -7,6 +7,7 @@ import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.StockService;
+import com.wms.services.interfaces.PartnerService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
@@ -43,10 +44,16 @@ public class CatUserController extends BaseCommonController {
     StockService catStockService;
 
     @Autowired
+    PartnerService catPartnerService;
+
+    @Autowired
     BaseService catCustServicesImpl;
 
     @Autowired
     BaseService mapUserStockServiceImpl;
+
+    @Autowired
+    BaseService mapUserPartnerServiceImpl;
     //
     List<TreeModel> lstTreeModal = new ArrayList<>();
     Map<String,CatDepartmentDTO> mapIdDept = new HashMap<>();
@@ -271,6 +278,42 @@ public class CatUserController extends BaseCommonController {
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
     }
+
+    @RequestMapping(value = "/updateUserPartner",method = RequestMethod.GET)
+    public @ResponseBody String updateUserPartner(@RequestParam("userId")String userId,@RequestParam("partnerId")String partnerId ){
+        try {
+            partnerId = partnerId.replaceFirst(",","");
+            List<Condition> lstCon = new ArrayList<>();
+            boolean isError = false;
+            //        delete all stock of this user
+            lstCon.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
+            String result = mapUserPartnerServiceImpl.deleteByCondition(lstCon);
+            if (Responses.SUCCESS.getName().equalsIgnoreCase(result) ){
+                if ( !DataUtil.isNullOrEmpty(partnerId)){
+                    List<MapUserPartnerDTO> lstMapPartnerStock = new ArrayList<>();
+                    String[] partnerids = partnerId.split(",");
+                    for (int i = 0 ; i <partnerids.length ; i ++){
+                        lstMapPartnerStock.add(new MapUserPartnerDTO(null,userId,partnerids[i]));
+                    }
+                    ResponseObject response =  mapUserPartnerServiceImpl.addList(lstMapPartnerStock);
+                    if(!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+                        isError = true;
+                    }
+                }
+
+            }else{
+                isError = true;
+            }
+            if(!isError){
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
+            }else{
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
+            }
+
+        } catch (NumberFormatException e) {
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
+        }
+    }
     @RequestMapping(value = "/getListStock",method = RequestMethod.GET)
     public @ResponseBody UserStock getListStock(@RequestParam("custId")String custId,@RequestParam("userId")String userId){
         List<Condition> lstCon = new ArrayList<>();
@@ -286,6 +329,23 @@ public class CatUserController extends BaseCommonController {
             stocksId[i]=lstMapUserStock.get(i).getStockId();
         }
         return new UserStock(lstStock,stocksId);
+    }
+
+    @RequestMapping(value = "/getListPartner",method = RequestMethod.GET)
+    public @ResponseBody UserPartner getListPartner(@RequestParam("custId")String custId,@RequestParam("userId")String userId){
+        List<Condition> lstCon = new ArrayList<>();
+        lstCon.add(new Condition("custId" , Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,custId));
+        lstCon.add(new Condition("status" , Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        List<CatPartnerDTO> lstPartner = catPartnerService.findByCondition(lstCon);
+//        get current stocks of this user
+        List<Condition> lstConUserPartner = new ArrayList<>();
+        lstConUserPartner.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
+        List<MapUserPartnerDTO> lstMapUserPartner = mapUserPartnerServiceImpl.findByCondition(lstConUserPartner);
+        String[] partnersId = new String[lstMapUserPartner.size()];
+        for(int i =0;i<lstMapUserPartner.size();i++){
+            partnersId[i]=lstMapUserPartner.get(i).getPartnerId();
+        }
+        return new UserPartner(lstPartner,partnersId);
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)

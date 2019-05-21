@@ -28,8 +28,9 @@ public class CatUserDTO extends BaseDTO {
     private String usageUnit;
     private String address;
     private SysRoleDTO sysRoleDTO ;
+    private String partnerPermission;
 
-    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block,String address) {
+    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block,String address, String partnerPermission) {
         this.id = id;
         this.deptId = deptId;
         this.custId = custId;
@@ -47,9 +48,18 @@ public class CatUserDTO extends BaseDTO {
         this.roleId = roleId;
         this.block = block;
         this.address = address;
+        this.partnerPermission = partnerPermission;
     }
 
     public CatUserDTO() {
+    }
+
+    public String getPartnerPermission() {
+        return partnerPermission;
+    }
+
+    public void setPartnerPermission(String partnerPermission) {
+        this.partnerPermission = partnerPermission;
     }
 
     public String getId() {
@@ -248,6 +258,7 @@ public class CatUserDTO extends BaseDTO {
                 ", logReason='" + logReason + '\'' +
                 ", roleId='" + roleId + '\'' +
                 ", block='" + block + '\'' +
+                ", partnerPermission='" + partnerPermission + '\'' +
                 '}';
     }
 }
