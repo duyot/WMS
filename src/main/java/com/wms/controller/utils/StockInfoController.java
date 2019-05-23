@@ -191,16 +191,20 @@ public class StockInfoController extends BaseController{
     }
 
     private List<MjrStockGoodsTotalDTO> setNameValueInfo(List<MjrStockGoodsTotalDTO> lstTotal){
+        List<MjrStockGoodsTotalDTO> finalResult = new ArrayList<MjrStockGoodsTotalDTO>();
         if(!DataUtil.isListNullOrEmpty(lstTotal)){
             for(MjrStockGoodsTotalDTO i: lstTotal){
                 i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-                i.setStockName(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()));
                 i.setGoodsStateName(mapAppGoodsState.get(i.getGoodsState()));
+                if(!"".equals(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()))){
+                    i.setStockName(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()));
+                    finalResult.add(i);
+                }
             }
         }else{
             return Lists.newArrayList();
         }
-        return lstTotal;
+        return finalResult;
     }
 
     //=======================================================================================================

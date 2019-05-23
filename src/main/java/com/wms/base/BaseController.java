@@ -5,6 +5,7 @@ import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.StockService;
+import com.wms.services.interfaces.PartnerService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class BaseController {
     //
     @Autowired
     public StockService stockService;
+    @Autowired
+    public PartnerService partnerService;
     //STOCK
     public List<CatStockDTO> lstStock;
     public Map<String, CatStockDTO> mapStockIdStock;
@@ -75,8 +78,13 @@ public class BaseController {
             this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
         }
         //
+
         if (lstStock == null) {
-            lstStock = FunctionUtils.getListStock(stockService, currentUser);
+            if (currentUser != null && currentUser.getStockPermission().equals("0")){
+                lstStock = FunctionUtils.getListStock(catStockService, selectedCustomer);
+            }else{
+                lstStock = FunctionUtils.getListStock(stockService, currentUser);
+            }
             buildMapStock();
             request.getSession().setAttribute("isStockModified", false);
         }
@@ -92,7 +100,11 @@ public class BaseController {
         if (currentUser == null) {
             this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
         }
-        lstPartner = FunctionUtils.getListPartner(catPartnerService, selectedCustomer);
+        if (currentUser != null && currentUser.getPartnerPermission().equals("0")){
+            lstPartner = FunctionUtils.getListPartner(catPartnerService, selectedCustomer);
+        }else{
+            lstPartner = FunctionUtils.getListPartner(partnerService, currentUser);
+        }
         buildMapPartner();
 
         return lstPartner;

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface PartnerService extends BaseService<CatPartnerDTO>{
     List<CatPartnerDTO> getPartnerByUser(Long userId );
+    List<CatPartnerDTO> getPartnerByUser(Long userId, Long partnerPermission );
 }

@@ -26,11 +26,11 @@
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-combo">
                                         <div class="radio radio-inline radio-info" style="margin-top: 0px">
-                                            <input value="0" type="radio" id="radio-allow" name="rad-block" checked="checked"/>
+                                            <input value="0" type="radio" id="radio-allow" name="rad-block" checked="checked" onclick="changeUserRole();"/>
                                             <label for="radio-allow" th:text="#{lbl.yes}"></label>
                                         </div>
                                         <div class="radio radio-inline radio-info">
-                                            <input value="1" type="radio" id="radio-not-allow" name="rad-block"/>
+                                            <input value="1" type="radio" id="radio-not-allow" name="rad-block" onclick="changeUserRole();"/>
                                             <label for="radio-not-allow" th:text="#{lbl.no}"></label>
                                         </div>
 
@@ -40,25 +40,26 @@
                             </div>
 
                      </div>
+                        <div id="table-lst-role">
+                            <table id="tbl-table-role"
+                                   data-pagination="true"
+                                   data-search="false"
+                                   data-click-to-select="true"
+                                   data-page-size = "5"
+                                   class="table-striped"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                                    <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
+                                    <th class="col-md-2" data-field="radio" data-align="left" data-sortable="true"  data-radio = "true" th:text="#{lbl.sellect}"></th>
+                                    <th class="col-md-5" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.roletable.code}"></th>
+                                    <th class="col-md-5" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.roletable.name}"></th>
+                                </tr>
+                                </thead>
 
-                        <table id="tbl-table-role"
-                               data-pagination="true"
-                               data-search="false"
-                               data-click-to-select="true"
-                               data-page-size = "5"
-                               class="table-striped"
-                        >
-                            <thead>
-                            <tr>
-                                <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
-                                <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
-                                <th class="col-md-2" data-field="radio" data-align="left" data-sortable="true"  data-radio = "true" th:text="#{lbl.sellect}"></th>
-                                <th class="col-md-5" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.roletable.code}"></th>
-                                <th class="col-md-5" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.roletable.name}"></th>
-                            </tr>
-                            </thead>
-
-                        </table>
+                            </table>
+                        </div>
 
                     </div>
                     <div class="modal-footer">

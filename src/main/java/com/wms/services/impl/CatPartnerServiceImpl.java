@@ -27,4 +27,8 @@ public class CatPartnerServiceImpl extends BaseServiceImpl<CatPartnerDTO,CatPart
     public List<CatPartnerDTO> getPartnerByUser(Long userId ) {
         return catPartnerDP.getPartnerByUser(userId);
     }
+    @Override
+    public List<CatPartnerDTO> getPartnerByUser(Long userId, Long partnerPermission ) {
+        return catPartnerDP.getPartnerByUser(userId, partnerPermission );
+    }
 }

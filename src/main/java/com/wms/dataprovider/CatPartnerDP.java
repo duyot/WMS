@@ -16,6 +16,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by duyot on 2/17/2017.
@@ -39,4 +40,19 @@ public class CatPartnerDP extends BaseDP<CatPartnerDTO> {
             return Lists.newArrayList();
         }
     }
+
+    public List<CatPartnerDTO> getPartnerByUser(Long userId, Long partnerPermission){
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String query =  "userId="+ userId + "&partnerPermission=" + partnerPermission ;
+            String url = getUrlLoadBalancingQuery(query, GET_PARTNER_BY_USER);
+            ResponseEntity<CatPartnerDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,CatPartnerDTO[].class);
+            return Arrays.asList(responseEntity.getBody());
+
+        } catch (RestClientException e) {
+            log.error(e.toString());
+            return Lists.newArrayList();
+        }
+    }
+
 }

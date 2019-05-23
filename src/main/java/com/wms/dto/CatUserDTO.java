@@ -29,8 +29,9 @@ public class CatUserDTO extends BaseDTO {
     private String address;
     private SysRoleDTO sysRoleDTO ;
     private String partnerPermission;
+    private String stockPermission;
 
-    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block,String address, String partnerPermission) {
+    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block,String address, String partnerPermission, String stockPermission) {
         this.id = id;
         this.deptId = deptId;
         this.custId = custId;
@@ -49,9 +50,18 @@ public class CatUserDTO extends BaseDTO {
         this.block = block;
         this.address = address;
         this.partnerPermission = partnerPermission;
+        this.stockPermission = stockPermission;
     }
 
     public CatUserDTO() {
+    }
+
+    public String getStockPermission() {
+        return stockPermission;
+    }
+
+    public void setStockPermission(String stockPermission) {
+        this.stockPermission = stockPermission;
     }
 
     public String getPartnerPermission() {
@@ -259,6 +269,7 @@ public class CatUserDTO extends BaseDTO {
                 ", roleId='" + roleId + '\'' +
                 ", block='" + block + '\'' +
                 ", partnerPermission='" + partnerPermission + '\'' +
+                ", stockPermission='" + stockPermission + '\'' +
                 '}';
     }
 }

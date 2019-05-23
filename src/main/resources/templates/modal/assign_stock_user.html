@@ -29,32 +29,55 @@
 
                             </div>
 
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label th:text="#{lbl.permission.stock}"></label>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="input-group input-group-combo">
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="0" type="radio" id="radio-stock-no" name="rad-block-stock" checked="checked" onclick="changeUserStock();" />
+                                            <label for="radio-stock-no" th:text="#{lbl.no}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info" style="margin-top: 0px">
+                                            <input value="1" type="radio" id="radio-stock-yes" name="rad-block-stock"  onclick="changeUserStock();"/>
+                                            <label for="radio-stock-yes" th:text="#{lbl.yes}"></label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
                      </div>
                        <!-- <div class="toolbar">
                             <button id="checkAllPage" class="btn btn-default" title="Chọn tất cả các trang">Chọn tất cả</button>
                             <button id="uncheckAllPage" class="btn btn-default" title="Bỏ chọn tất cả các trang">Bỏ chọn tất cả</button>
                         </div>-->
-                        <table id="tbl-table-stock"
-                               data-pagination="true"
-                               data-page-size = "5"
-                               data-toggle="table"
-                               data-toolbar=".toolbar"
-                               data-maintain-selected="true"
-                               data-click-to-select="true"
-                        >
-                            <thead>
-                            <tr>
-                                <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
-                                <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
-                                <!--<th class="col-md-2" id="checkAll" data-field="radio" data-align="center" data-sortable="true"  data-checkbox = "true" th:text="#{lbl.sellect}"></th>-->
-                                <th class="col-md-2" data-field="state" data-checkbox="true" th:text="#{lbl.sellect}"></th>
-                                <th class="col-md-3" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.stock.code}"></th>
-                                <th class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.stock.name}"></th>
-                                <th class="col-md-4" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.stock.address}"></th>
-                            </tr>
-                            </thead>
+                        <div id="table-lst-stock">
+                            <table id="tbl-table-stock"
+                                   data-pagination="true"
+                                   data-page-size = "5"
+                                   data-toggle="table"
+                                   data-toolbar=".toolbar"
+                                   data-maintain-selected="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                                    <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
+                                    <!--<th class="col-md-2" id="checkAll" data-field="radio" data-align="center" data-sortable="true"  data-checkbox = "true" th:text="#{lbl.sellect}"></th>-->
+                                    <th class="col-md-2" data-field="state" data-checkbox="true" th:text="#{lbl.sellect}"></th>
+                                    <th class="col-md-3" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.stock.code}"></th>
+                                    <th class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.stock.name}"></th>
+                                    <th class="col-md-4" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.stock.address}"></th>
+                                </tr>
+                                </thead>
 
-                        </table>
+                            </table>
+                        </div>
 
                     </div>
                     <div class="modal-footer">

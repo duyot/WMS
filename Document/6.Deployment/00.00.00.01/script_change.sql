@@ -149,6 +149,9 @@ alter table CAT_CUSTOMER DROP COLUMN PARTNER_PERMISSION;
 alter table CAT_USER add PARTNER_PERMISSION NUMBER(1,0) DEFAULT 0;
 comment on column "CAT_USER"."PARTNER_PERMISSION" is '1. Can phan quyen theo doi tac, 0. Khong can phan quyen theo doi tac';
 
-
 CREATE SEQUENCE  "SEQ_MAP_USER_PARTNER"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE ;
+
+
+alter table CAT_USER add STOCK_PERMISSION NUMBER(1,0) DEFAULT 0;
+comment on column "CAT_USER"."STOCK_PERMISSION" is '1. Can phan quyen theo kho, 0. Khong can phan quyen theo kho';
  

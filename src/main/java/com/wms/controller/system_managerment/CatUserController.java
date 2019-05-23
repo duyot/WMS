@@ -244,11 +244,17 @@ public class CatUserController extends BaseCommonController {
         }
     }
     @RequestMapping(value = "/updateUserStock",method = RequestMethod.GET)
-    public @ResponseBody String updateUserStock(@RequestParam("userId")String userId,@RequestParam("stockId")String stockId ){
+    public @ResponseBody String updateUserStock(@RequestParam("userId")String userId,@RequestParam("stockId")String stockId,@RequestParam("stockPermission")String stockPermission ){
         try {
+            boolean isError = false;
+            Long idL = Long.parseLong(userId);
+            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
+            catUserDTO.setStockPermission(stockPermission);
+            ResponseObject response = catUserServices.update(catUserDTO);
+
             stockId = stockId.replaceFirst(",","");
             List<Condition> lstCon = new ArrayList<>();
-            boolean isError = false;
+
     //        delete all stock of this user
             lstCon.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
             String result = mapUserStockServiceImpl.deleteByCondition(lstCon);
@@ -259,7 +265,7 @@ public class CatUserController extends BaseCommonController {
                     for (int i = 0 ; i <stockids.length ; i ++){
                         lstMapUserStock.add(new MapUserStockDTO(null,userId,stockids[i]));
                     }
-                    ResponseObject response =  mapUserStockServiceImpl.addList(lstMapUserStock);
+                    response =  mapUserStockServiceImpl.addList(lstMapUserStock);
                     if(!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
                         isError = true;
                     }
