@@ -323,17 +323,32 @@ function processAssignStock(custId ,code, stockPermission ) {
     var data = {custId : custId,userId : currentUserId};
     $('#assign-stock-user-code').text(code);
     $('input[name=rad-block-stock][value='+stockPermission+']').prop('checked', true);
+    if (stockPermission == "1"){
+        $("#table-lst-stock").show();
+    }else{
+        $("#table-lst-stock").hide();
+    }
     searchEvent("GET",url_getStock , data,'getStocksDataDone');
 }
 function processAssignPartner(custId ,code, partnerPermission ) {
     var data = {custId : custId,userId : currentUserId };
     $('#assign-partner-user-code').text(code);
     $('input[name=rad-block-partner][value='+partnerPermission+']').prop('checked', true);
+    if (partnerPermission == "1"){
+        $("#table-lst-partner").show();
+    }else{
+        $("#table-lst-partner").hide();
+    }
     searchEvent("GET",url_getPartner , data,'getPartnersDataDone');
 }
 function getRoleDataDone( data,clearInfor ,block) {
     showModal($('#assygnRoleUser'));
     $('input[name=rad-block][value='+block+']').prop('checked', true);
+    if (block == "0"){
+        $("#table-lst-role").show();
+    }else{
+        $("#table-lst-role").hide();
+    }
     tableAssignRole.bootstrapTable('load', data);
     if (currentRoleId!= undefined && currentRoleId != null && data!= null){
         for(i = 0 ; i <data.length ; i++){
