@@ -132,8 +132,8 @@ public class StockInfoController extends BaseController{
         List<MjrStockTransDetailDTO> lstData = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId,limit,offset);
         lstGoodsDetails = setListGoodsDetailNameInfo(lstData,goodsItem);
         data.setRows(lstGoodsDetails);
-        Long totalItem =utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId);
-        data.setTotal(totalItem);
+        //Long totalItem =utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId);
+        data.setTotal(Long.valueOf(lstGoodsDetails.size()));
         return data;
     }
 
@@ -169,27 +169,35 @@ public class StockInfoController extends BaseController{
     //------------------------------------------------------------------------------------------------------------------
     private List<MjrStockTransDetailDTO> setListGoodsDetailNameInfo(List<MjrStockTransDetailDTO> lstStockGoods,CatGoodsDTO goodsItem){
         List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
+        String partnerPermission= currentUser.getPartnerPermission();
+        boolean fladAdd = true;
         for(MjrStockTransDetailDTO i:lstStockGoods){
-        if (!DataUtil.isListNullOrEmpty(lstStockGoods)) {
-                MjrStockTransDetailDTO temp = new MjrStockTransDetailDTO();
-                temp.setGoodsId(i.getGoodsId());
-                temp.setGoodsCode(goodsItem.getCode());
-                temp.setGoodsName(goodsItem.getName());
-                temp.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
-                temp.setGoodsState(i.getGoodsState());
-                temp.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-                temp.setImportDate(i.getImportDate());
-                temp.setExportDate(i.getExportDate());
-                temp.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
-                temp.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
-                temp.setSerial(i.getSerial());
-                temp.setIsSerial(goodsItem.getIsSerial());
-                temp.setCellCode(i.getCellCode());
-                if(i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId())!= null) {
-                    temp.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
+            fladAdd = true;
+            if (!DataUtil.isListNullOrEmpty(lstStockGoods)) {
+                if ("1".equals(partnerPermission) && !mapPartnerIdPartner.containsKey(i.getPartnerId())){
+                    fladAdd = false;
                 }
-                //
-                lstResult.add(temp);
+                if (fladAdd) {
+                    MjrStockTransDetailDTO temp = new MjrStockTransDetailDTO();
+                    temp.setGoodsId(i.getGoodsId());
+                    temp.setGoodsCode(goodsItem.getCode());
+                    temp.setGoodsName(goodsItem.getName());
+                    temp.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
+                    temp.setGoodsState(i.getGoodsState());
+                    temp.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                    temp.setImportDate(i.getImportDate());
+                    temp.setExportDate(i.getExportDate());
+                    temp.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
+                    temp.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
+                    temp.setSerial(i.getSerial());
+                    temp.setIsSerial(goodsItem.getIsSerial());
+                    temp.setCellCode(i.getCellCode());
+                    if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
+                        temp.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
+                    }
+                    //
+                    lstResult.add(temp);
+                }
             }
         }
 
