@@ -105,7 +105,13 @@ public class StockInfoController extends BaseController{
             searchGoodsTotalDTO.setPartnerId(partnerId);
             lstResult = utilsService.findMoreCondition(searchGoodsTotalDTO);
         }else{
-            lstResult = mjrStockGoodsTotalService.findByCondition(lstCon);
+            //Chi tim hang hoa cua cac doi tac duoc phan quyen
+            if ("1".equals(currentUser.getPartnerPermission())){
+                searchGoodsTotalDTO.setPartnerId(lstPartnerIds);
+                lstResult = utilsService.findMoreCondition(searchGoodsTotalDTO);
+            }else{
+                lstResult = mjrStockGoodsTotalService.findByCondition(lstCon);
+            }
         }
 
         lstGoodsTotal = setNameValueInfo(lstResult);

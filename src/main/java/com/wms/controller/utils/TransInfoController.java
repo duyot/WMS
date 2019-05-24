@@ -34,6 +34,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.*;
 
 /**
  * Created by duyot on 3/31/2017.
@@ -279,12 +280,25 @@ public class TransInfoController extends BaseController{
     }
     //==================================================================================================================
     private List<MjrStockTransDTO> setTransInfoValue(List<MjrStockTransDTO> lstTransDetail){
+        List<MjrStockTransDTO> finalResult = new ArrayList<MjrStockTransDTO>();
+        String partnerPermission= currentUser.getPartnerPermission();
+        boolean fladAdd = true;
         for(MjrStockTransDTO i: lstTransDetail){
-            i.setStockValue(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()));
-            i.setTypeValue(mapAppTransType.get(i.getType()));
-            i.setTransMoneyTotal(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getTransMoneyTotal())));
+            fladAdd = true;
+            if(!"".equals(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()))){
+                //Neu user co phan quyen theo doi tac => chi tim giao dich cua cac doi tac duoc phan quyen
+                if ("1".equals(partnerPermission) && !mapPartnerIdPartner.containsKey(i.getPartnerId())){
+                    fladAdd = false;
+                }
+                if(fladAdd) {
+                    i.setStockValue(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()));
+                    i.setTypeValue(mapAppTransType.get(i.getType()));
+                    i.setTransMoneyTotal(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getTransMoneyTotal())));
+                    finalResult.add(i);
+                }
+            }
         }
-        return lstTransDetail;
+        return finalResult;
     }
     //==================================================================================================================
     private void buildMapTransType(){

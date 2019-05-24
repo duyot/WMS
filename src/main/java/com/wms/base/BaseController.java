@@ -60,6 +60,7 @@ public class BaseController {
     //
     public CatCustomerDTO selectedCustomer;
     public CatUserDTO currentUser;
+    public String lstPartnerIds;
     //
     @ModelAttribute("currentUser")
     public void setCurrentUser(HttpServletRequest request) {
@@ -169,9 +170,17 @@ public class BaseController {
 
     public void buildMapPartner() {
         mapPartnerIdPartner = new HashMap<>();
+        lstPartnerIds = "";
         if (!DataUtil.isListNullOrEmpty(lstPartner)) {
-            for (CatPartnerDTO i : lstPartner) {
-                mapPartnerIdPartner.put(i.getId(), i);
+            int size = lstPartner.size();
+            for (int i = 0; i<size; i++ ) {
+                CatPartnerDTO catPartnerDTO = lstPartner.get(i);
+                mapPartnerIdPartner.put(catPartnerDTO.getId(), catPartnerDTO);
+                if (i==size - 1){
+                    lstPartnerIds = lstPartnerIds + catPartnerDTO.getId();
+                }else{
+                    lstPartnerIds = lstPartnerIds + catPartnerDTO.getId() + ",";
+                }
             }
         }
     }
