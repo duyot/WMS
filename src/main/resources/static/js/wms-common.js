@@ -1,49 +1,62 @@
+$(function () {
+    $(".profile_details").hover(
+        function () {
+            $(".dropdown.profile_details_drop").addClass("open");
+        }, function () {
+            $(".dropdown.profile_details_drop").removeClass("open");
+        }
+    );
+});
+
 /**
  * Created by duyot on 11/16/2016.
  */
 // 123|Tu lanh -> 123
-function valueFromSuggest(value){
-    return value.split("|",1)[0];
+function valueFromSuggest(value) {
+    return value.split("|", 1)[0];
 }
+
 //
 function isContainsNonLatinCharacter(s) {
     return /[^\u0000-\u00ff]/.test(s);
 }
+
 //positive integer or float
 function isValidAmount(n) {
     return Number(n) === n && n % 1 === 0 || Number(n) === n && n % 1 !== 0 || Number(n) >= 0;
 }
+
 //format xxxxx.xxxx: set specific format for number and read it.
 function showPriceDetail(value, price, priceName) {
     var currentValue = unFormatFloat(value);
     var need2format = currentValue;
-    if(!isValidPrice(currentValue)){
-        currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+    if (!isValidPrice(currentValue)) {
+        currentValue = need2format.substr(0, need2format.indexOf(".") + 5);
     }
-    if(!currentValue.includes(".")){
+    if (!currentValue.includes(".")) {
         priceName.text(DOCSO.doc(currentValue));
         price.val(formatFloatType(currentValue));
-    }else{
+    } else {
         priceName.text("");
         price.val(currentValue);
     }
 }
+
 // valid pattern: number or xx.xxxx (scale 4)
 function isValidPrice(price) {
-    if(!price.includes(".")){
+    if (!price.includes(".")) {
         return true;
     }
-        var scale = price.substr(price.indexOf(".")+1,price.length-1);
+    var scale = price.substr(price.indexOf(".") + 1, price.length - 1);
 
-        if(scale > 9999){
-            return false;
+    if (scale > 9999) {
+        return false;
     }
     return true;
 
 }
 
-function clearFileInput(id)
-{
+function clearFileInput(id) {
     var oldInput = document.getElementById(id);
     var newInput = document.createElement("input");
 
@@ -55,7 +68,7 @@ function clearFileInput(id)
     oldInput.parentNode.replaceChild(newInput, oldInput);
 }
 
-Array.prototype.remove = function() {
+Array.prototype.remove = function () {
     var what, a = arguments, L = a.length, ax;
     while (L && this.length) {
         what = a[--L];
@@ -67,31 +80,31 @@ Array.prototype.remove = function() {
 };
 
 //incombo, name like goodsCode | goodsName
-function getGoodsNameInCombo(value){
-    var arr  = value.split("|");
+function getGoodsNameInCombo(value) {
+    var arr = value.split("|");
     return arr[1].trim();
 
 }
 
-function trimAtChacter(value,character){
-    return value.substring(0,value.indexOf(character));
+function trimAtChacter(value, character) {
+    return value.substring(0, value.indexOf(character));
 }
 
 function isInteger(str) {
     return /^\+?(0|[1-9]\d*)$/.test(str);
 }
 
-function convertExportMessage(mesageCode,key){
-    switch (mesageCode){
+function convertExportMessage(mesageCode, key) {
+    switch (mesageCode) {
         case "ERROR_TOTAL_NOT_ENOUGH":
-            return  "Không đủ số lượng hàng trong kho ";
+            return "Không đủ số lượng hàng trong kho ";
             break;
         case "ERROR_UPDATE_TOTAL":
             return "Lỗi cập nhật số lượng hàng ";
         case "ERROR_NOT_FOUND_STOCK_GOODS":
             return "Hàng không có sẵn trong kho ";
         case "ERROR_NOT_FOUND_SERIAL":
-            return "Serial không có sẵn trong kho: "+ key;
+            return "Serial không có sẵn trong kho: " + key;
         case "ERROR_CREATE_STOCK_TRANS_DETAIL":
             return "Lối tạo chi tiết giao dịch ";
         case "ERROR_OVER_GOODS_NUMBER":
@@ -103,76 +116,78 @@ function convertExportMessage(mesageCode,key){
     }
 
 }
+
 //check if contain xml special character
-function isContainXMLCharacter(value){
+function isContainXMLCharacter(value) {
     return escapeHtml(value) != value;
 }
 
 function isContainSpecialCharacter(value) {
     return value.includes("<") || value.includes(">");
 }
+
 //		row num
 function runningFormatter(value, row, index) {
-    return index +1;
+    return index + 1;
 }
 
 function unFormatFloat(value) {
-    if(typeof(value) == "number"){
+    if (typeof (value) == "number") {
         return value;
     }
-    return replaceAll(value,",","");
+    return replaceAll(value, ",", "");
 }
 
-function replaceAll(value,search, replacement) {
+function replaceAll(value, search, replacement) {
 
     return value.replace(new RegExp(search, 'g'), replacement);
 }
 
 function replaceAllDot(value, replacement) {
-    value.replace(/\./g,replacement);
+    value.replace(/\./g, replacement);
 }
 
 function formatFloatType(text) {
     if (text == undefined) {
         return "";
     }
-    if(!text.toString().includes(".")){
+    if (!text.toString().includes(".")) {
         return text.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
-    }else{
-        var splitText =  (Math.round(text * 100)/100).toString().split(".");
-        if(splitText.length == 1){
+    } else {
+        var splitText = (Math.round(text * 100) / 100).toString().split(".");
+        if (splitText.length == 1) {
             return splitText[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
         }
         return splitText[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, ",") + "." + splitText[1];
     }
 }
 
-function setInfoMessage(object,value) {
+function setInfoMessage(object, value) {
     $.notify({
         message: value
-    },{
+    }, {
         type: 'success'
     });
 }
 
-function setConstantInfoMessage(object,value) {
+function setConstantInfoMessage(object, value) {
     object.text(value);
-    object.css('color','#337ab7');
+    object.css('color', '#337ab7');
     //
     object.fadeIn();
 }
 
-function setInfoMessageWithTime(object,value,timeout) {
-    setInfoMessage(object,value);
+function setInfoMessageWithTime(object, value, timeout) {
+    setInfoMessage(object, value);
 }
 
-function setInfoMessageWithCallback(object,value,timeout,callback) {
+function setInfoMessageWithCallback(object, value, timeout, callback) {
     object.text(value);
-    object.css('color','#337ab7');
+    object.css('color', '#337ab7');
     //
     object.fadeIn();
-    setTimeout(function() {
-        object.fadeOut('fast','swing',callback);
+    setTimeout(function () {
+        object.fadeOut('fast', 'swing', callback);
     }, timeout);
 }
 
@@ -181,33 +196,34 @@ function showTotalCallback(object, text) {
     setConstantInfoMessage(object, text);
 }
 
-function setErrorMessage(object,value) {
+function setErrorMessage(object, value) {
     $.notify({
         message: value
-    },{
+    }, {
         type: 'danger'
     });
 }
 
-function setErrorMessageWithTime(object,value,timeout) {
-    setErrorMessage(object,value);
+function setErrorMessageWithTime(object, value, timeout) {
+    setErrorMessage(object, value);
 }
 
-function setTextForLabel(object,value) {
+function setTextForLabel(object, value) {
     object.text(value);
-    object.css('color','#337ab7');
+    object.css('color', '#337ab7');
 }
 
 function isTableEmpty(object) {
     var data = object.bootstrapTable('getData');
-    if(data.length == 0){
+    if (data.length == 0) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
 
 var _validFileExcel = [".xls", ".xlsx"];
+
 function isValidExcel(oInput) {
     if (oInput.type == "file") {
         var sFileName = oInput.value;
@@ -256,6 +272,7 @@ function initDateRangeSelect() {
         showDropdowns: true
     });
 }
+
 //------------------------------------------------------------------------------------------------------------------
 //validate for upload file
 function getExtension(filename) {
@@ -274,6 +291,7 @@ function showAdd() {
     $("#modal-btn-update").hide();
     $("#modal-btn-add").show();
 }
+
 function showUpdate() {
     $("#myModalLabel").text('Cập nhật');
     $("#modal-btn-update").show();
@@ -283,6 +301,7 @@ function showUpdate() {
 function disableElement(button) {
     button.prop('disabled', true);
 }
+
 function enableElement(button) {
     button.prop('disabled', false);
 }
@@ -290,6 +309,7 @@ function enableElement(button) {
 function hideElement(button) {
     button.hide();
 }
+
 function showElement(button) {
     button.show();
 }
@@ -336,7 +356,7 @@ function isDocument(filename) {
 }
 
 function preprocessInput(object) {
-    object.find('input:text').each(function(){
+    object.find('input:text').each(function () {
         $(this).val($.trim($(this).val()));
     });
 }
@@ -344,9 +364,9 @@ function preprocessInput(object) {
 function isAllFieldValid(object) {
     var className;
     var result = true;
-    object.find('input:text').each(function(){
+    object.find('input:text').each(function () {
         className = $(this).attr("class");
-        if(className.indexOf("error") != -1){
+        if (className.indexOf("error") != -1) {
             result = false;
         }
     });
@@ -358,16 +378,16 @@ function removeSpecialCharForNumber(sText) {
     return sText.replace(/[^0-9.,]/g, '');
 }
 
-function searchAndUpdateMainTable(isClear,table,btnSearch, data){
+function searchAndUpdateMainTable(isClear, table, btnSearch, data) {
     NProgress.start();
-    if(isClear){
+    if (isClear) {
         clearActionInfo();
     }
 
     $.ajax({
         type: "GET",
-        cache:false,
-        data:data,
+        cache: false,
+        data: data,
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         url: btnSearch.val(),
         dataType: 'json',
@@ -375,12 +395,13 @@ function searchAndUpdateMainTable(isClear,table,btnSearch, data){
         success: function (data) {
             table.bootstrapTable('load', data);
         },
-        complete:function () {
+        complete: function () {
             NProgress.done();
         }
     });
 }
-function sendEvent(type,url,jsonData,callback,dataType,clearInfor,addInfor){
+
+function sendEvent(type, url, jsonData, callback, dataType, clearInfor, addInfor) {
     NProgress.start();
     $.ajax({
         type: type,
@@ -392,7 +413,7 @@ function sendEvent(type,url,jsonData,callback,dataType,clearInfor,addInfor){
         timeout: 600000,
         success: function (data) {
             if (typeof window[callback] === "function") {
-                window[callback](data,clearInfor,addInfor);
+                window[callback](data, clearInfor, addInfor);
             }
         },
         error: function (request, error) {
@@ -400,7 +421,7 @@ function sendEvent(type,url,jsonData,callback,dataType,clearInfor,addInfor){
             console.log(error);
 
         },
-        complete:function () {
+        complete: function () {
             NProgress.done();
         }
     });
@@ -408,13 +429,13 @@ function sendEvent(type,url,jsonData,callback,dataType,clearInfor,addInfor){
 
 }
 
-function logOut(){
+function logOut() {
     $.ajax({
         type: "GET",
         cache: false,
         data: "",
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        url:  $("#btnLogout").attr('href'),
+        url: $("#btnLogout").attr('href'),
         dataType: "json",
         timeout: 600000,
         success: function (data) {
@@ -426,51 +447,57 @@ function logOut(){
             console.log(error);
 
         },
-        complete:function () {
+        complete: function () {
         }
     });
     //
 
 }
+
 function logout2() {
     window.location.href = "/workspace/logout";
 
 }
-function searchEvent(type,url,jsonData,callback,addInfor) {
-    sendEvent(type,url,jsonData,callback,'json',true,addInfor);
+
+function searchEvent(type, url, jsonData, callback, addInfor) {
+    sendEvent(type, url, jsonData, callback, 'json', true, addInfor);
 }
-function updateEvent(type,url,jsonData,callback,addInfor) {
-    sendEvent(type,url,jsonData,callback,'text',false,addInfor);
+
+function updateEvent(type, url, jsonData, callback, addInfor) {
+    sendEvent(type, url, jsonData, callback, 'text', false, addInfor);
 }
+
 function runningFormatter(value, row, index) {
     return index + 1;
 }
-function emptyForm(form){
-    form.find(":text").each(function(){
+
+function emptyForm(form) {
+    form.find(":text").each(function () {
         var $itm = $(this);
         $itm.val('')
     });
-    form.find(":password").each(function(){
+    form.find(":password").each(function () {
         var $itm = $(this);
         $itm.val('')
     });
-    form.find(":checkbox").each(function(){
+    form.find(":checkbox").each(function () {
         var $itm = $(this);
         $itm.bootstrapToggle('on');
     });
-    form.find('.number-modal').each(function(){
+    form.find('.number-modal').each(function () {
         var $itm = $(this);
         $itm.val('')
     });
 
-    $("#emp-insert-update-form").find('label.error').each(function(){
+    $("#emp-insert-update-form").find('label.error').each(function () {
         $(this).css("display", "none");
     });
 }
+
 function deleteRow(rowId) {
-    var jsonData={id: rowId} ;
+    var jsonData = {id: rowId};
     var url = $btnDel.val();
-    sendEvent("POST",url,jsonData,"showNotificationAndSearch",'text',false);
+    sendEvent("POST", url, jsonData, "showNotificationAndSearch", 'text', false);
     // $.ajax({
     //     type: "POST",
     //     cache: false,
@@ -489,16 +516,18 @@ function deleteRow(rowId) {
     //
     $('#myConfirmModal').modal('hide');
 }
+
 function getTreeCheckedList(formId) {
     var selectobject = $(formId).find("[id*=treemultiselect-0-]:checked");
     var ids = '';
-    for(i=0;i<selectobject.length;i++) {
-     var id =   $(selectobject[i]).parent().data("value");
+    for (i = 0; i < selectobject.length; i++) {
+        var id = $(selectobject[i]).parent().data("value");
         ids += ',' + id;
     }
-    return ids.replace(',','');
+    return ids.replace(',', '');
 }
-function showNotification( data) {
+
+function showNotification(data) {
     resultArr = data.split('|');
     resultCode = resultArr[0];
     resultName = resultArr[1];
@@ -508,23 +537,27 @@ function showNotification( data) {
         setErrorMessage($('#action-info'), resultName);
     }
 }
-function showNotificationAndSearch(data,clearInfor) {
-    showNotification( data);
+
+function showNotificationAndSearch(data, clearInfor) {
+    showNotification(data);
     doSearch(clearInfor);
 }
-window.onunload = function(){
+
+window.onunload = function () {
     console.log("close onunload");
 }
-window.onbeforeunload = function(e) {
+window.onbeforeunload = function (e) {
     logOut();
 }
-function closeWindow(){
+
+function closeWindow() {
     document.getElementById('btnLogout').click();
 }
+
 function test3() {
     $.ajax({
-        type : "DELETE",
-        url : "http://45.32.103.51:9000/eureka/apps/WMS_SERVICE/localhost:WMS_SERVICE:8080",
+        type: "DELETE",
+        url: "http://45.32.103.51:9000/eureka/apps/WMS_SERVICE/localhost:WMS_SERVICE:8080",
         success: function (result) {
             console.log(result);
         },
@@ -534,10 +567,11 @@ function test3() {
     });
 
 }
+
 function test4() {
     $.ajax({
-        type : "DELETE",
-        url : "http://45.32.103.51:9000/eureka/apps/WMS_SERVICE/192.168.20.1:WMS_SERVICE:8080",
+        type: "DELETE",
+        url: "http://45.32.103.51:9000/eureka/apps/WMS_SERVICE/192.168.20.1:WMS_SERVICE:8080",
         success: function (result) {
             console.log(result);
         },
@@ -547,9 +581,11 @@ function test4() {
     });
 
 }
+
 function convertCurrentcyToNumber(text) {
-    return text.replace(/\,/g,"");
+    return text.replace(/\,/g, "");
 }
+
 $(function () {
     $("a").not('#btnLogout').click(function () {
         window.onbeforeunload = null;
@@ -558,11 +594,12 @@ $(function () {
         window.onbeforeunload = null;
     });
 });
+
 function validateRequire(element) {
     var validate = true;
-    $(element).find('input[type]').each(function(){
+    $(element).find('input[type]').each(function () {
         $(this).val($.trim($(this).val()));
-        if($(this).attr('required') == 'required' && $(this).val() == ""){
+        if ($(this).attr('required') == 'required' && $(this).val() == "") {
             $(this).attr('data-original-title', "Trường này không được để trống").tooltip('show');
             $(this).focus();
             closeTooltip(this);
@@ -571,6 +608,7 @@ function validateRequire(element) {
     });
     return validate;
 }
+
 //close tooltip
 function closeTooltip(element) {
     setTimeout(function () {
@@ -581,13 +619,20 @@ function closeTooltip(element) {
         $(element).removeAttr("data-original-title");
     }, 1500); //but invoke me after 3 secs
 }
-window.alert = function(message){
+
+window.alert = function (message) {
     $(document.createElement('div'))
-        .attr({'title': 'Thông báo', 'class': 'alert-warning','role':'alert'})
+        .attr({'title': 'Thông báo', 'class': 'alert-warning', 'role': 'alert'})
         .html(message)
         .dialog({
-            buttons: {Đóng : function(){$(this).dialog('close');}},
-            close: function(){$(this).remove();},
+            buttons: {
+                Đóng: function () {
+                    $(this).dialog('close');
+                }
+            },
+            close: function () {
+                $(this).remove();
+            },
             draggable: false,
             modal: true,
             dialogClass: 'alertClass',
@@ -595,11 +640,12 @@ window.alert = function(message){
             width: 'auto'
         });
 };
-function setAutoComplete(element,data) {
+
+function setAutoComplete(element, data) {
     element.autocomplete({
         source: data,
         autoFocus: true,
-        select: function( event, ui ) {
+        select: function (event, ui) {
             $(this).val(ui.item.label);
             event.stopPropagation();
         },
@@ -613,31 +659,52 @@ function setAutoComplete(element,data) {
 //----------------format color in table fields------------
 function formatterTransType(value, row, index) {
     var transType = value;
-    if (transType === 'Nhập'){
-        return '<span style="color: #43A047">' + value+ '</span>';
-    } else{
-        return '<span style="color: #F44336">' + value+ '</span>';
+    if (transType === 'Nhập') {
+        return '<span style="color: #43A047">' + value + '</span>';
+    } else {
+        return '<span style="color: #F44336">' + value + '</span>';
     }
 }
 
 function formatterStatus(value, row, index) {
     var statusName = value;
-    if (statusName === 'Hiệu lực'){
-        return '<span style="color: #43A047">' + statusName+ '</span>';
-    } else{
-        return '<span style="color: #F44336">' + statusName+ '</span>';
+    if (statusName === 'Hiệu lực') {
+        return '<span style="color: #43A047">' + statusName + '</span>';
+    } else {
+        return '<span style="color: #F44336">' + statusName + '</span>';
     }
 }
 
 function formatterSerialType(value, row, index) {
     var serialType = value;
-    if (serialType === 'Có'){
-        return '<span style="color: #43A047">' + serialType+ '</span>';
-    } else{
-        return '<span style="color: #F44336">' + serialType+ '</span>';
+    if (serialType === 'Có') {
+        return '<span style="color: #43A047">' + serialType + '</span>';
+    } else {
+        return '<span style="color: #F44336">' + serialType + '</span>';
     }
 }
 
 
-var DOCSO=function(){var t=["không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"],r=function(r,n){var o="",a=Math.floor(r/10),e=r%10;return a>1?(o=" "+t[a]+" mươi",1==e&&(o+=" mốt")):1==a?(o=" mười",1==e&&(o+=" một")):n&&e>0&&(o=" lẻ"),5==e&&a>=1?o+=" lăm":4==e&&a>=1?o+=" tư":(e>1||1==e&&0==a)&&(o+=" "+t[e]),o},n=function(n,o){var a="",e=Math.floor(n/100),n=n%100;return o||e>0?(a=" "+t[e]+" trăm",a+=r(n,!0)):a=r(n,!1),a},o=function(t,r){var o="",a=Math.floor(t/1e6),t=t%1e6;a>0&&(o=n(a,r)+" triệu",r=!0);var e=Math.floor(t/1e3),t=t%1e3;return e>0&&(o+=n(e,r)+" nghìn",r=!0),t>0&&(o+=n(t,r)),o};return{doc:function(r){if(0==r)return t[0];var n="",a="";do ty=r%1e9,r=Math.floor(r/1e9),n=r>0?o(ty,!0)+a+n:o(ty,!1)+a+n,a=" tỷ";while(r>0);return n.trim()}}}();
+var DOCSO = function () {
+    var t = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"], r = function (r, n) {
+        var o = "", a = Math.floor(r / 10), e = r % 10;
+        return a > 1 ? (o = " " + t[a] + " mươi", 1 == e && (o += " mốt")) : 1 == a ? (o = " mười", 1 == e && (o += " một")) : n && e > 0 && (o = " lẻ"), 5 == e && a >= 1 ? o += " lăm" : 4 == e && a >= 1 ? o += " tư" : (e > 1 || 1 == e && 0 == a) && (o += " " + t[e]), o
+    }, n = function (n, o) {
+        var a = "", e = Math.floor(n / 100), n = n % 100;
+        return o || e > 0 ? (a = " " + t[e] + " trăm", a += r(n, !0)) : a = r(n, !1), a
+    }, o = function (t, r) {
+        var o = "", a = Math.floor(t / 1e6), t = t % 1e6;
+        a > 0 && (o = n(a, r) + " triệu", r = !0);
+        var e = Math.floor(t / 1e3), t = t % 1e3;
+        return e > 0 && (o += n(e, r) + " nghìn", r = !0), t > 0 && (o += n(t, r)), o
+    };
+    return {
+        doc: function (r) {
+            if (0 == r) return t[0];
+            var n = "", a = "";
+            do ty = r % 1e9, r = Math.floor(r / 1e9), n = r > 0 ? o(ty, !0) + a + n : o(ty, !1) + a + n, a = " tỷ"; while (r > 0);
+            return n.trim()
+        }
+    }
+}();
 
