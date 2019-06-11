@@ -171,6 +171,7 @@ public class StockInfoController extends BaseController{
         List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
         String partnerPermission= currentUser.getPartnerPermission();
         boolean fladAdd = true;
+        String goodUnitId = "";
         for(MjrStockTransDetailDTO i:lstStockGoods){
             fladAdd = true;
             if (!DataUtil.isListNullOrEmpty(lstStockGoods)) {
@@ -192,6 +193,8 @@ public class StockInfoController extends BaseController{
                     temp.setSerial(i.getSerial());
                     temp.setIsSerial(goodsItem.getIsSerial());
                     temp.setCellCode(i.getCellCode());
+                    goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
+                    temp.setUnitName(mapAppParamsUnitName.get(goodUnitId));
                     if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
                         temp.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
                     }
@@ -206,10 +209,13 @@ public class StockInfoController extends BaseController{
 
     private List<MjrStockGoodsTotalDTO> setNameValueInfo(List<MjrStockGoodsTotalDTO> lstTotal){
         List<MjrStockGoodsTotalDTO> finalResult = new ArrayList<MjrStockGoodsTotalDTO>();
+        String goodUnitId = "";
         if(!DataUtil.isListNullOrEmpty(lstTotal)){
             for(MjrStockGoodsTotalDTO i: lstTotal){
                 i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
                 i.setGoodsStateName(mapAppGoodsState.get(i.getGoodsState()));
+                goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
+                i.setGoodsUnitName(mapAppParamsUnitName.get(goodUnitId));
                 if(!"".equals(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()))){
                     i.setStockName(FunctionUtils.getMapValue(mapStockIdStock,i.getStockId()));
                     finalResult.add(i);

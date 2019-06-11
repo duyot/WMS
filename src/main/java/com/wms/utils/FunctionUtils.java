@@ -61,6 +61,16 @@ public class FunctionUtils {
         return map;
     }
 
+    public static LinkedHashMap<String, String> buildMapAppParams(String type, List<AppParamsDTO> lstAppParams) {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        for (AppParamsDTO i : lstAppParams) {
+            if (i.getType().equalsIgnoreCase(type)) {
+                map.put(i.getId(), i.getName());
+            }
+        }
+        return map;
+    }
+
     /*
        get AppParams
     */

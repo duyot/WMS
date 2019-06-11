@@ -57,6 +57,7 @@ public class BaseController {
     //
     public Map<String, String> mapAppGoodsState;
     public Map<String, String> mapAppStatus;
+    public Map<String, String> mapAppParamsUnitName;
     //
     public CatCustomerDTO selectedCustomer;
     public CatUserDTO currentUser;
@@ -124,6 +125,10 @@ public class BaseController {
 
         if (mapAppGoodsState == null) {
             mapAppGoodsState = FunctionUtils.buildMapAppParams(lstAppGoodsState);
+        }
+
+        if (mapAppParamsUnitName == null) {
+            mapAppParamsUnitName = FunctionUtils.buildMapAppParams(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams);
         }
 
         if (mapAppStatus == null) {

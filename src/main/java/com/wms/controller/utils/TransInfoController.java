@@ -137,7 +137,8 @@ public class TransInfoController extends BaseController{
         if(DataUtil.isListNullOrEmpty(lstTrans)){
             return Lists.newArrayList();
         }
-        return setTransInfoValue(lstTrans);
+        lstTrans = setTransInfoValue(lstTrans);
+        return lstTrans;
     }
     //==================================================================================================================
     @RequestMapping(value = "/getListTransFile")
