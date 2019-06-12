@@ -154,4 +154,19 @@ CREATE SEQUENCE  "SEQ_MAP_USER_PARTNER"  MINVALUE 1 MAXVALUE 9999999999999999999
 
 alter table CAT_USER add STOCK_PERMISSION NUMBER(1,0) DEFAULT 0;
 comment on column "CAT_USER"."STOCK_PERMISSION" is '1. Can phan quyen theo kho, 0. Khong can phan quyen theo kho';
+
+--Update bang stock_trans_detail cho cac giao dich cu khong co unit_type
+update mjr_stock_trans_detail d
+set d.unit_name =(
+  select distinct gr.name from (
+    select a.GOODS_ID, c.name
+    from mjr_stock_trans_detail a, cat_goods b, app_params c
+    where 1=1
+    AND a.goods_id = b.id
+    and b.unit_type = c.code
+    and c.type ='UNIT_TYPE'
+  ) gr  
+  where d.goods_id = gr.goods_id
+)
+where 1=1;
  
