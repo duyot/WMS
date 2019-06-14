@@ -62,7 +62,7 @@ public class DashBoardController extends BaseController{
     //select customer
     @RequestMapping(value = "/getTransaction/{type}",method = RequestMethod.GET)
     public @ResponseBody List<ChartDTO> getTransaction(@PathVariable("type") String type){
-        return statisticService.getTransaction(selectedCustomer.getId(),type,mapStockIdStock);
+        return statisticService.getTransaction(selectedCustomer.getId(),type,currentUser.getId());
     }
 
 
