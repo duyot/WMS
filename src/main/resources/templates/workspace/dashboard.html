@@ -224,9 +224,9 @@
 
     var startDate;
     if(transactionData.length == 0){
-        startDate = date.getDate()-1;
+        startDate = date.getDate();
     }else{
-        startDate = date.getDate() - (transactionData[0].data.length - 1);
+        startDate = date.getDate() - transactionData[0].data.length + 1;
     }
     var startPoint = Date.UTC(year, month, startDate);
 
