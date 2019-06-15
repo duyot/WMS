@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public interface StatisticService {
     List<ChartDTO> getRevenue(String custId, String type);
-    List<ChartDTO> getTopGoods(String custId, String type , Map<String,CatGoodsDTO> mapGoods);
-    List<ChartDTO> getKPIStorage(String custId, String type, Map<String,CatStockDTO> mapStock);
+    List<ChartDTO> getTopGoods(String custId, String type);
+    List<ChartDTO> getKPIStorage(String custId, String type, String userId);
     List<ChartDTO> getTransaction(String custId, String type , String userId);
 }

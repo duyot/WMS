@@ -50,13 +50,13 @@ public class DashBoardController extends BaseController{
     //select customer
     @RequestMapping(value = "/getTopGoods/{type}",method = RequestMethod.GET)
     public @ResponseBody List<ChartDTO> getTopGoods(@PathVariable("type") String type){
-        return statisticService.getTopGoods(selectedCustomer.getId(),type,mapGoodsIdGoods);
+        return statisticService.getTopGoods(selectedCustomer.getId(),type);
     }
 
     //select customer
     @RequestMapping(value = "/getKPIStorage/{type}",method = RequestMethod.GET)
     public @ResponseBody List<ChartDTO> getKPIStorage(@PathVariable("type") String type){
-        return statisticService.getKPIStorage(selectedCustomer.getId(),type,mapStockIdStock);
+        return statisticService.getKPIStorage(selectedCustomer.getId(),type,currentUser.getId());
     }
 
     //select customer

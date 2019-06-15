@@ -27,33 +27,20 @@ public class StatisticServiceImpl  extends BaseServiceImpl<ChartDTO,StatisticDP>
     }
 
     @Override
-    public List<ChartDTO> getTopGoods(String custId, String type, Map<String,CatGoodsDTO> mapGoods ) {
+    public List<ChartDTO> getTopGoods(String custId, String type) {
         List<ChartDTO> lstChart =  statisticDP.getTopGoods(custId,type);
-        if(!DataUtil.isListNullOrEmpty(lstChart)){
-            for(ChartDTO i: lstChart){
-                i.setName(FunctionUtils.getMapValue(mapGoods,i.getName()));
-            }
-        }
-        //
-        return lstChart;
-    }
-
-
-    @Override
-    public List<ChartDTO> getKPIStorage(String custId, String type, Map<String,CatStockDTO> mapStock ) {
-        List<ChartDTO> lstChart =  statisticDP.getKPIStorage(custId,type);
-        if(!DataUtil.isListNullOrEmpty(lstChart)){
-            for(ChartDTO i: lstChart){
-                i.setName(FunctionUtils.getMapValue(mapStock,i.getName()));
-            }
-        }
-        //
         return lstChart;
     }
 
     @Override
     public List<ChartDTO> getTransaction(String custId, String type, String userId ) {
         List<ChartDTO> lstChart =  statisticDP.getTransaction(custId,type,userId);
+        return lstChart;
+    }
+
+    @Override
+    public List<ChartDTO> getKPIStorage(String custId, String type, String userId ) {
+        List<ChartDTO> lstChart =  statisticDP.getKPIStorage(custId,type,userId);
         return lstChart;
     }
 
