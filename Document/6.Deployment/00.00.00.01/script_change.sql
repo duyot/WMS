@@ -142,3 +142,31 @@ alter table USER_TEST modify LAST_NAME VARCHAR2(50 CHAR);
 alter table USER_TEST modify EMAIL VARCHAR2(50 CHAR);
 alter table USER_TEST modify GENDER VARCHAR2(50 CHAR);
 alter table USER_TEST modify IS_DELETED VARCHAR2(1 CHAR);
+
+
+--User nay co can phan quyen theo doi tac gui hang hay khong, khong can phan quyen theo khach hang
+alter table CAT_CUSTOMER DROP COLUMN PARTNER_PERMISSION;
+alter table CAT_USER add PARTNER_PERMISSION NUMBER(1,0) DEFAULT 0;
+comment on column "CAT_USER"."PARTNER_PERMISSION" is '1. Can phan quyen theo doi tac, 0. Khong can phan quyen theo doi tac';
+
+CREATE SEQUENCE  "SEQ_MAP_USER_PARTNER"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE ;
+
+
+alter table CAT_USER add STOCK_PERMISSION NUMBER(1,0) DEFAULT 0;
+comment on column "CAT_USER"."STOCK_PERMISSION" is '1. Can phan quyen theo kho, 0. Khong can phan quyen theo kho';
+
+--Update bang stock_trans_detail cho cac giao dich cu khong co unit_type
+update mjr_stock_trans_detail d
+set d.unit_name =(
+  select distinct gr.name from (
+    select a.GOODS_ID, c.name
+    from mjr_stock_trans_detail a, cat_goods b, app_params c
+    where 1=1
+    AND a.goods_id = b.id
+    and b.unit_type = c.code
+    and c.type ='UNIT_TYPE'
+  ) gr  
+  where d.goods_id = gr.goods_id
+)
+where 1=1;
+ 

@@ -2,47 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 </head>
-<div th:fragment="frag-assign-stock-user-modal">
+<div th:fragment="frag-assign-partner-user-modal">
     <!-- Modal -->
-    <div class="modal fade" id="assygnStockUser" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" >
+    <div class="modal fade" id="assygnPartnerUser" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" >
         <div class="modal-dialog modal-dialog-mini" role="document" style="width: 700px">
-            <form id="assign-stock-user-form">
+            <form id="assign-partner-user-form" name="partner-user">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
                         </button>
-                        <h4 class="modal-title" th:text="#{title.assygn.stock.user}"></h4>
+                        <h4 class="modal-title" th:text="#{title.assygn.partner.user}"></h4>
                     </div>
 
                     <div class="modal-body">
                         <div class="container-modal">
                             <!--hidden fields-->
-                            <input id="modal-stock-id" hidden="true" name="id"/>
+                            <input id="modal-partner-id" hidden="true" name="id"/>
                             <div class="row">
                                 <div class="col-sm-3" style="margin-bottom: 10px">
                                         <label style="font-weight: bold" th:text="#{lbl.signin.user}"></label>
                                 </div>
 
                                 <div class="col-sm-7">
-                                    <label style="float: left" id="assign-stock-user-code"></label>
+                                    <label style="float: left" id="assign-partner-user-code"></label>
                                 </div>
 
                             </div>
 
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label th:text="#{lbl.permission.stock}"></label>
+                                    <label th:text="#{lbl.permission.partner}"></label>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="input-group input-group-combo">
                                         <div class="radio radio-inline radio-info">
-                                            <input value="0" type="radio" id="radio-stock-no" name="rad-block-stock" checked="checked" onclick="changeUserStock();" />
-                                            <label for="radio-stock-no" th:text="#{lbl.no}"></label>
+                                            <input value="0" type="radio" id="radio-partner-no" name="rad-block-partner" checked="checked" onclick="changeUserPartner();" />
+                                            <label for="radio-partner-no" th:text="#{lbl.no}"></label>
                                         </div>
                                         <div class="radio radio-inline radio-info" style="margin-top: 0px">
-                                            <input value="1" type="radio" id="radio-stock-yes" name="rad-block-stock"  onclick="changeUserStock();"/>
-                                            <label for="radio-stock-yes" th:text="#{lbl.yes}"></label>
+                                            <input value="1" type="radio" id="radio-partner-yes" name="rad-block-partner"  onclick="changeUserPartner();"/>
+                                            <label for="radio-partner-yes" th:text="#{lbl.yes}"></label>
                                         </div>
 
                                     </div>
@@ -51,12 +51,12 @@
                             </div>
 
                      </div>
-                       <!-- <div class="toolbar">
-                            <button id="checkAllPage" class="btn btn-default" title="Chọn tất cả các trang">Chọn tất cả</button>
-                            <button id="uncheckAllPage" class="btn btn-default" title="Bỏ chọn tất cả các trang">Bỏ chọn tất cả</button>
+                        <!--<div class="toolbar">
+                            <button id="checkAllPage_Partner" class="btn btn-default" title="Chọn tất cả các trang">Chọn tất cả</button>
+                            <button id="uncheckAllPage_Partner" class="btn btn-default" title="Bỏ chọn tất cả các trang">Bỏ chọn tất cả</button>
                         </div>-->
-                        <div id="table-lst-stock">
-                            <table id="tbl-table-stock"
+                        <div id="table-lst-partner">
+                            <table id="tbl-table-partner"
                                    data-pagination="true"
                                    data-page-size = "5"
                                    data-toggle="table"
@@ -69,10 +69,11 @@
                                     <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
                                     <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
                                     <!--<th class="col-md-2" id="checkAll" data-field="radio" data-align="center" data-sortable="true"  data-checkbox = "true" th:text="#{lbl.sellect}"></th>-->
-                                    <th class="col-md-2" data-field="state" data-checkbox="true" th:text="#{lbl.sellect}"></th>
-                                    <th class="col-md-3" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.stock.code}"></th>
-                                    <th class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.stock.name}"></th>
-                                    <th class="col-md-4" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.stock.address}"></th>
+                                    <th class="col-md-1" data-field="state" data-checkbox="true" th:text="#{lbl.sellect}"></th>
+                                    <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.partnerCode}"></th>
+                                    <th class="col-md-3" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.partnerName}"></th>
+                                    <th class="col-md-3" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
+                                    <th class="col-md-2" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
                                 </tr>
                                 </thead>
 
@@ -81,7 +82,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button id="modal-update-assign-stock"  type="button" th:value="@{${controller}+'updateUserStock'}" class="btn btn-primary" >
+                        <button id="modal-update-assign-partner"  type="button" th:value="@{${controller}+'updateUserPartner'}" class="btn btn-primary" >
                             <i class="fa fa-check"></i>
                             <span th:text="#{btn.update}"></span>
                         </button>
@@ -96,3 +97,5 @@
     </div>
 </div>
 </html>
+
+

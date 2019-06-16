@@ -38,6 +38,9 @@ public class CatPartnerController extends BaseCommonController{
     @Autowired
     BaseService catPartnerService;
 
+    @Autowired
+    BaseService mapUserPartnerServiceImpl;
+
 
     @RequestMapping()
     public String home(Model model){

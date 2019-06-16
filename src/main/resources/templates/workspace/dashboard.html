@@ -46,7 +46,7 @@
             </button>
             <div id="container" style="width:100%;height: 100vh">
                 <div class="row">
-                    <div class="col-sm-6" id="chart-revenue" style="height: 50vh">
+                    <div class="col-sm-6" id="chart-transaction" style="height: 50vh">
 
                     </div>
 
@@ -59,7 +59,8 @@
 
                     </div>
 
-                    <div class="col-sm-6" id="chart-transaction" style="height: 50vh">
+                    <div class="col-sm-6" id="chart-revenue" style="height: 50vh">
+
                     </div>
                 </div>
             </div>
@@ -197,6 +198,128 @@
         series: [{
             colorByPoint: true,
             data: topGoodsData
+        }],
+    });
+
+    //init transaction data------------------------------------------------------------------------------------------------
+    var transactionData = null;
+    var date = new Date();
+    var month = date.getMonth();
+    var year = date.getYear();
+
+    $.ajax({
+        url: $('#btn-get-transaction').val()+"7",
+        cache: false,
+        async:false,
+        contentType: false,
+        processData: false,
+        type: 'GET',
+        success: function(data){
+            transactionData = data;
+        },
+        error: function(data){
+            alert(json.stringify(data));
+        }
+    });
+
+    var startDate;
+    if(transactionData.length == 0){
+        startDate = date.getDate();
+    }else{
+        startDate = date.getDate() - transactionData[0].data.length + 1;
+    }
+    var startPoint = Date.UTC(year, month, startDate);
+
+
+    Highcharts.chart('chart-transaction', {
+
+        title: {
+            text: 'Thông tin giao dịch theo ngày'
+        },
+
+        xAxis: {
+            type: 'datetime',
+        },
+
+        yAxis: {
+            title: {
+                text: 'Số lượng'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value + '';
+                }
+            },
+
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                pointStart: startPoint,
+                pointInterval: 24 * 3600 * 1000 // one day
+            }
+        },
+        series: transactionData
+
+    });
+
+    //init top goods data-----------------------------------------------------------------------------------------------
+    var kpiStorageData = null;
+    $.ajax({
+        url: $('#btn-get-kpi-storage').val()+"7",
+        cache: false,
+        async:false,
+        contentType: false,
+        processData: false,
+        type: 'GET',
+        success: function(data){
+            kpiStorageData = data;
+        },
+        error: function(data){
+            alert(JSON.stringify(data));
+        }
+    });
+    //
+    Highcharts.chart('chart-kpi-storage', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Thống kê mã hàng tồn lâu'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Số lượng mã hàng'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+
+        tooltip: {
+            pointFormat: ''
+        },
+
+        series: [{
+            colorByPoint: true,
+            data: kpiStorageData
         }],
     });
 

@@ -20,6 +20,15 @@ public class MjrStockGoodsTotalDTO{
     //Chi de phuc vu add tham so vao tim kiem chu ko luu vao database
     private String partnerId;
     private String userId;
+    private String goodsUnitName;
+
+    public String getGoodsUnitName() {
+        return goodsUnitName;
+    }
+
+    public void setGoodsUnitName(String goodsUnitName) {
+        this.goodsUnitName = goodsUnitName;
+    }
 
     public String getPartnerId() {
         return partnerId;

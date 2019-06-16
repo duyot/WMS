@@ -7,6 +7,7 @@ import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.StockService;
+import com.wms.services.interfaces.PartnerService;
 import net.sf.jxls.transformer.Configuration;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -56,6 +57,16 @@ public class FunctionUtils {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         for (AppParamsDTO i : lstAppParams) {
             map.put(i.getCode(), i.getName());
+        }
+        return map;
+    }
+
+    public static LinkedHashMap<String, String> buildMapAppParams(String type, List<AppParamsDTO> lstAppParams) {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        for (AppParamsDTO i : lstAppParams) {
+            if (i.getType().equalsIgnoreCase(type)) {
+                map.put(i.getId(), i.getName());
+            }
         }
         return map;
     }
@@ -196,6 +207,13 @@ public class FunctionUtils {
     }
 
     /*
+        get partner by user
+     */
+    public static List<CatPartnerDTO> getListPartner(PartnerService partnerService, CatUserDTO currentUser) {
+        return partnerService.getPartnerByUser(Long.parseLong(currentUser.getId()),Long.parseLong(currentUser.getPartnerPermission()));
+    }
+
+    /*
         get user
      */
     public static List<CatUserDTO> getCustomerUsers(CatUserService catUserService, CatCustomerDTO currentCustomer) {
@@ -223,6 +241,14 @@ public class FunctionUtils {
     public static List<CatPartnerDTO> getListPartner(BaseService service, CatCustomerDTO currentCustomer) {
         return service.findByCondition(getBaseConditions(currentCustomer.getId()));
     }
+
+    /*
+      get Stock
+   */
+    public static List<CatStockDTO> getListStock(BaseService service, CatCustomerDTO currentCustomer) {
+        return service.findByCondition(getBaseConditions(currentCustomer.getId()));
+    }
+
 
     /*
 

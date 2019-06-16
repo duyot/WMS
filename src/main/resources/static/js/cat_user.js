@@ -15,15 +15,19 @@ var validator;
 var searchDeptLink = $('#btn-getListDept').val();
 var tableAssignRole = $('#tbl-table-role');
 var tableAssignStock = $('#tbl-table-stock');
+var tableAssignPartner = $('#tbl-table-partner');
 var tree = [];
 var mapKeyValue;
 var currentRoleId = '';
 var currentUserId='';
+var partnerPermission = '';
+var stockPermission = '';
 var btnUpdateDept = $('#update-department-execuse');
 //button link
 var url = $('#btn-url').val();
 var url_getRoles = url+"getRoles";
 var url_getStock = url+"getListStock";
+var url_getPartner = url+"getListPartner";
 var url_update = url+"update";
 //@Init component-----------------------------------------------------------------------------------------------
 $(function () {
@@ -35,6 +39,9 @@ $(function () {
         data: dataInit
     });
     tableAssignStock.bootstrapTable({
+        data: dataInit
+    });
+    tableAssignPartner.bootstrapTable({
         data: dataInit
     });
     //
@@ -69,6 +76,10 @@ $(function () {
     $('#modal-update-assign-stock').click(function () {
         doUpdateUserStock();
     })
+
+    $('#modal-update-assign-partner').click(function () {
+        doUpdateUserPartner();
+    })
     $('#modal-btn-reset').click(function () {
         doResetPass();
         
@@ -98,9 +109,14 @@ function operateFormatter(value, row, index) {
             '<a class="assign-role row-function" href="javascript:void(0)" title="Gán vai trò">',
             '<i class="fa  fa-user-circle-o"></i>',
             '</a> ',
+            '<a class="assign-stock row-function" href="javascript:void(0)" title="Gán kho">',
+            '<i class="fa  fa-home"></i>',
+            '</a> ',
             '<a class="resetkey row-function" href="javascript:void(0)" title="Đổi mật khẩu">',
             '<i class="fa  fa-key"></i>',
-            '</a> '
+            '</a> ',
+            '<a class="assign-partner row-function" href="javascript:void(0)" title="Gán đối tác">',
+            '<i class="fa  fa-user-md"></i>',
         ].join('');
     }else{
         return [
@@ -122,6 +138,8 @@ function operateFormatter(value, row, index) {
             // '<a class="assynDept row-function" href="javascript:void(0)" title="Gán phong ban">',
             // '<i class="fa  fa-building"></i>',
             // '</a> '
+            '<a class="assign-partner row-function" href="javascript:void(0)" title="Gán đối tác">',
+            '<i class="fa  fa-user-md"></i>',
         ].join('');
     }
 }
@@ -154,7 +172,11 @@ window.operateEvents = {
     },
     'click .assign-stock': function (e, value, row, index) {
         currentUserId = row['id'];
-        processAssignStock(row['custId'], row['code']);
+        processAssignStock(row['custId'], row['code'], row['stockPermission']);
+    },
+    'click .assign-partner': function (e, value, row, index) {
+        currentUserId = row['id'];
+        processAssignPartner(row['custId'], row['code'], row['partnerPermission']);
     },
     'click .resetkey': function (e, value, row, index) {
       doPrepareShowForm(row['code'],row['id']);
@@ -225,6 +247,8 @@ function changeModelByType( changeType,name, code, id , status, tel,email ,custI
     }
 
 }
+
+
 function searchDept() {
     var data = {status:'1'};
     searchEvent("GET",searchDeptLink,data,"buildTree")
@@ -295,14 +319,36 @@ function doGetDataAndShowform(custId,block) {
     searchEvent("GET",url_getRoles , data,'getRoleDataDone',block)
 
 }
-function processAssignStock(custId ,code ) {
+function processAssignStock(custId ,code, stockPermission ) {
     var data = {custId : custId,userId : currentUserId};
     $('#assign-stock-user-code').text(code);
+    $('input[name=rad-block-stock][value='+stockPermission+']').prop('checked', true);
+    if (stockPermission == "1"){
+        $("#table-lst-stock").show();
+    }else{
+        $("#table-lst-stock").hide();
+    }
     searchEvent("GET",url_getStock , data,'getStocksDataDone');
+}
+function processAssignPartner(custId ,code, partnerPermission ) {
+    var data = {custId : custId,userId : currentUserId };
+    $('#assign-partner-user-code').text(code);
+    $('input[name=rad-block-partner][value='+partnerPermission+']').prop('checked', true);
+    if (partnerPermission == "1"){
+        $("#table-lst-partner").show();
+    }else{
+        $("#table-lst-partner").hide();
+    }
+    searchEvent("GET",url_getPartner , data,'getPartnersDataDone');
 }
 function getRoleDataDone( data,clearInfor ,block) {
     showModal($('#assygnRoleUser'));
-    $('input[name=rad-block][value='+block+']').prop('checked', true)
+    $('input[name=rad-block][value='+block+']').prop('checked', true);
+    if (block == "0"){
+        $("#table-lst-role").show();
+    }else{
+        $("#table-lst-role").hide();
+    }
     tableAssignRole.bootstrapTable('load', data);
     if (currentRoleId!= undefined && currentRoleId != null && data!= null){
         for(i = 0 ; i <data.length ; i++){
@@ -328,7 +374,7 @@ function getStocksDataDone(data) {
         }
 
     }
-    $('#checkAllPage').click(function () {
+    /*$('#checkAllPage').click(function () {
         tableAssignStock.bootstrapTable('togglePagination');
         tableAssignStock.bootstrapTable('checkAll');
         tableAssignStock.bootstrapTable('togglePagination');
@@ -339,8 +385,38 @@ function getStocksDataDone(data) {
         tableAssignStock.bootstrapTable('uncheckAll');
         tableAssignStock.bootstrapTable('togglePagination');
         return false;
-    });
+    });*/
 }
+
+function getPartnersDataDone(data) {
+    showModal($('#assygnPartnerUser'));
+    tableAssignPartner.bootstrapTable('load', data.lstCatPartners);
+    var listPartners = data.lstCatPartners;
+    var sellectedPartner = data.userPartners;
+    for(i = 0 ; i <listPartners.length ; i++){
+
+        for( j = 0 ; j <sellectedPartner.length; j++){
+            if(listPartners[i]['id'] == sellectedPartner[j]){
+                tableAssignPartner.bootstrapTable('check', i);
+                break;
+            }
+        }
+
+    }
+    /*$('#checkAllPage_Partner').click(function () {
+        tableAssignPartner.bootstrapTable('togglePagination');
+        tableAssignPartner.bootstrapTable('checkAll');
+        tableAssignPartner.bootstrapTable('togglePagination');
+        return false;
+    });
+    $('#uncheckAllPage_Partner').click(function () {
+        tableAssignPartner.bootstrapTable('togglePagination');
+        tableAssignPartner.bootstrapTable('uncheckAll');
+        tableAssignPartner.bootstrapTable('togglePagination');
+        return false;
+    });*/
+}
+
 function doPrepareShowDept(deptId) {
     $("#updateDepartment").find(":checkbox").each(function (item) {
         $(this).prop('checked', false);
@@ -364,14 +440,28 @@ function doUpdateUserRole() {
 }
 function doUpdateUserStock() {
     var stock = tableAssignStock.bootstrapTable('getSelections');
+    var stockPermission = $('input[name=rad-block-stock]:checked').val();
     var stocks = '';
     for(i = 0 ; i <stock.length ; i ++){
         stocks = stocks + ',' + stock[i]['id'];
     }
-    var data = {userId : currentUserId, stockId: stocks};
+    var data = {userId : currentUserId, stockId: stocks, stockPermission: stockPermission};
     updateEvent("GET",  $('#modal-update-assign-stock').val(),data,"showNotificationAndSearch",false);
     hideModal($('#assygnStockUser'));
 }
+
+function doUpdateUserPartner() {
+    var partner = tableAssignPartner.bootstrapTable('getSelections');
+    var partnerPermission = $('input[name=rad-block-partner]:checked').val();
+    var partners = '';
+    for(i = 0 ; i <partner.length ; i ++){
+        partners = partners + ',' + partner[i]['id'];
+    }
+    var data = {userId : currentUserId, partnerId: partners, partnerPermission: partnerPermission};
+    updateEvent("GET",  $('#modal-update-assign-partner').val(),data,"showNotificationAndSearch",false);
+    hideModal($('#assygnPartnerUser'));
+}
+
 function doPrepareShowForm(code,id) {
     $('#modal-reset-code').text(decodeHtml(code));
     emptyForm($('#reset-password-form'));
@@ -393,3 +483,32 @@ function afterAssignDeptSuccess(data) {
     hideModal($('#updateDepartment'))
 
 }
+
+function changeUserPartner() {
+    var partnerPermission = $('input[name=rad-block-partner]:checked').val();
+    if (partnerPermission == "1"){
+        $("#table-lst-partner").show();
+    }else{
+        $("#table-lst-partner").hide();
+    }
+}
+
+function changeUserStock() {
+    var stockPermission = $('input[name=rad-block-stock]:checked').val();
+    if (stockPermission == "1"){
+        $("#table-lst-stock").show();
+    }else{
+        $("#table-lst-stock").hide();
+    }
+}
+
+
+function changeUserRole() {
+    var block = $('input[name=rad-block]:checked').val();
+    if (block == "0"){
+        $("#table-lst-role").show();
+    }else{
+        $("#table-lst-role").hide();
+    }
+}
+

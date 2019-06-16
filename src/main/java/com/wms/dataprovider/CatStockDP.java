@@ -3,6 +3,7 @@ package com.wms.dataprovider;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseDP;
 import com.wms.constants.Constants;
+import com.wms.dto.CatPartnerDTO;
 import com.wms.dto.CatStockDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,20 @@ public class CatStockDP extends BaseDP<CatStockDTO> {
            String findUrl =  getUrlLoadBalancing(userId, GET_STOCK_BY_USER);
             ResponseEntity<CatStockDTO[]> responseEntity = restTemplate.exchange(findUrl,HttpMethod.GET,null, CatStockDTO[].class);
             return Arrays.asList(responseEntity.getBody());
+        } catch (RestClientException e) {
+            log.error(e.toString());
+            return Lists.newArrayList();
+        }
+    }
+
+    public List<CatStockDTO> getStockByUser(Long userId, Long stockPermission){
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String query =  "userId="+ userId + "&stockPermission=" + stockPermission ;
+            String url = getUrlLoadBalancingQuery(query, GET_STOCK_BY_USER);
+            ResponseEntity<CatStockDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null,CatStockDTO[].class);
+            return Arrays.asList(responseEntity.getBody());
+
         } catch (RestClientException e) {
             log.error(e.toString());
             return Lists.newArrayList();
