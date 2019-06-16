@@ -5,7 +5,7 @@ $addUpdateModal = $('#myModal');
 $inpSerial = $('#modal-inp-serial');
 $inpAmount = $('#modal-inp-amount');
 $inpGoodsCode = $('#inp-goods-code');
-$inpGoodsSerial = $('#inp-serial');
+var $inpGoodsAmount = $('#inp-amount');
 $inpPrice = $('#modal-inp-input-price');
 //combobox
 $cmbGoods = $("#modal-cmb-goods");
@@ -718,18 +718,17 @@ $inpGoodsCode.keypress(function (e) {
             alert("Không có mặt hàng tương ứng");
             return;
         }
-        //
+        //move to amount
+        $inpGoodsAmount.focus();
         if (goodsItem["isSerial"] == '1') {
-            $inpGoodsSerial.focus();
-        } else {
-            var columnId = ~~(Math.random() * 100) * -1;
+            var columnId = ~~(Math.random() * 10000) * -1;
             rows = [];
             rows.push({
                 goodsCode: goodsItem['code'],
                 goodsName: goodsItem['name'],
                 goodsState: '1',
                 goodsStateValue: '1',
-                serial: '',
+                serial: '-',
                 amount: '1',
                 inputPrice: goodsItem['inPrice'],
                 inputPriceValue: formatFloatType(goodsItem['inPrice']),
@@ -747,13 +746,13 @@ $inpGoodsCode.keypress(function (e) {
             setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
 
             $inpGoodsCode.val('');
-            $inpGoodsSerial.val('');
+            $inpGoodsAmount.val('');
             $inpGoodsCode.focus();
         }
     }
 });
 
-$inpGoodsSerial.keypress(function (e) {
+$inpGoodsAmount.keypress(function (e) {
     var key = e.which;
     if (key == 13)  // the enter key code
     {
@@ -766,31 +765,33 @@ $inpGoodsSerial.keypress(function (e) {
             async: false,
             success: function (data) {
                 goodsItem = data;
+                isSerial = data["isSerial"];
             }
         });
         if (goodsItem == null) {
             alert("Không có mặt hàng tương ứng");
             return;
         }
-        if (goodsItem["isSerial"] == '1') {
-            if ($inpGoodsSerial.val().trim() == '') {
-                alert("Mặt hàng bắt buộc phải nhập serial");
-                $inpGoodsSerial.focus();
-                return;
-            }
-            //Set gia tri de goi vao ham addImportGoods() khong bi tra ve fail
-            $inpAmount.value = '1';
-        }
 
-        var columnId = ~~(Math.random() * 100) * -1,
+        var columnId = ~~(Math.random() * 10000) * -1,
             rows = [];
+        var isSerial = "";
+        var amount = $inpGoodsAmount.val();
+        if (amount == '' || amount == undefined) {
+            alert("Vui lòng nhập số lượng");
+            return;
+        }
+        if (isSerial == '1' && amount != 1) {
+            alert("Hàng serial số lượng phải là 1");
+            return;
+        }
         rows.push({
             goodsCode: goodsItem['code'],
             goodsName: goodsItem['name'],
             goodsState: '1',
             goodsStateValue: '1',
-            serial: $inpGoodsSerial.val(),
-            amount: '1',
+            serial: '-',
+            amount: $inpGoodsAmount.val(),
             inputPrice: goodsItem['inPrice'],
             inputPriceValue: formatFloatType(goodsItem['inPrice']),
             totalMoney: Number(1) * Number(goodsItem['inPrice']),
@@ -805,8 +806,7 @@ $inpGoodsSerial.keypress(function (e) {
         enableElement($('#btn-import'));
 
         setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
-        $inpGoodsSerial.val('');
-        $inpGoodsSerial.focus();
+        $inpGoodsAmount.val('');
     }
 });
 
@@ -906,6 +906,49 @@ function addStyle(value, row, index) {
 function subTotal(value, row, index) {
     var total = row.amount * row.inputPrice;
     return formatFloatType(value);
+}
+
+function moveDataToTable() {
+    $.ajax({
+        type: 'GET',
+        url: $('#btn-check-serial').val(),
+        data: {code: valueFromSuggest($inpGoodsCode.val())},
+        cache: false,
+        contentType: false,
+        async: false,
+        success: function (data) {
+            goodsItem = data;
+        }
+    });
+    if (goodsItem == null) {
+        alert("Không có mặt hàng tương ứng");
+        return;
+    }
+
+    var columnId = ~~(Math.random() * 10000) * -1,
+        rows = [];
+    rows.push({
+        goodsCode: goodsItem['code'],
+        goodsName: goodsItem['name'],
+        goodsState: '1',
+        goodsStateValue: '1',
+        serial: '-',
+        amount: $inpGoodsAmount.val(),
+        inputPrice: goodsItem['inPrice'],
+        inputPriceValue: formatFloatType(goodsItem['inPrice']),
+        totalMoney: Number(1) * Number(goodsItem['inPrice']),
+        cellCode: $('#cmb-cells').val(),
+        columnId: columnId
+    });
+    //
+    totalPrice += Number(goodsItem['inPrice']);
+    setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(Number(totalPrice)));
+    //
+    $table.bootstrapTable('append', rows);
+    enableElement($('#btn-import'));
+
+    setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
+    $inpGoodsAmount.val('');
 }
 
 //-----------------------------------------------------------------------------------------------------------------

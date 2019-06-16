@@ -2,8 +2,14 @@
 alter table CAT_CUSTOMER add PARTNER_PERMISSION NUMBER(1,0) DEFAULT 0;
 
 
-alter table CAT_CUSTOMER add GOODS_VOLUME NUMBER(19,4);
-comment on column "CAT_CUSTOMER"."GOODS_VOLUME" is 'The tich hang hoa';
+
+alter table MJR_STOCK_TRANS_DETAIL add TOTAL_GOODS_VOLUME NUMBER(19,4);
+comment on column "MJR_STOCK_TRANS_DETAIL"."TOTAL_GOODS_VOLUME" is 'The tich hang hoa';
+
+alter table MJR_STOCK_TRANS_DETAIL add TOTAL_GOODS_WEIGHT NUMBER(19,4);
+comment on column "MJR_STOCK_TRANS_DETAIL"."TOTAL_GOODS_WEIGHT" is 'Trong luong hang hoa';
+
+alter table MJR_STOCK_TRANS_DETAIL drop column goods_size;
 
 
  CREATE TABLE "MAP_USER_PARTNER" 
