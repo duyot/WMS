@@ -56,7 +56,7 @@ $(function () {
                     showbuttons: false,
                     source: [
                         {value: 1, text: 'Bình thường'},
-                        {value: 0, text: 'Hỏng'}
+                        {value: 2, text: 'Hỏng'}
                     ]
                 }
             },
@@ -102,6 +102,18 @@ $(function () {
                 }
             },
             {
+                field: 'weight',
+                title: 'Trọng lượng(kg)',
+                align: 'right',
+                width: '7%'
+            },
+            {
+                field: 'volume',
+                title: 'Kích thước (cm3)',
+                align: 'right',
+                width: '7%'
+            },
+            {
                 field: 'inputPrice',
                 title: 'Giá nhập',
                 align: 'right',
@@ -135,8 +147,8 @@ $(function () {
                 field: 'totalMoney',
                 title: 'Thành tiền',
                 align: 'right',
-                width: '9%',
-                formatter: 'subTotal'
+                width: '9%'
+                //formatter: 'subTotal'
             },
             {
                 field: 'cellCode',
@@ -385,9 +397,12 @@ $('#modal-btn-add').click(function () {
 });
 
 function addImportGoods() {
-    //valid require serial
+    //
     var isSerial = "";
     var goods_code = "";
+    var amount = $inpAmount.val();
+    var weight = 0;
+    var volume = 0;
     //
     $.ajax({
         url: $('#btn-check-serial').val(),
@@ -399,8 +414,11 @@ function addImportGoods() {
         success: function (data) {
             isSerial = data["isSerial"];
             goods_code = data["code"];
+            weight = data["weight"];
+            volume = data["volume"];
         }
     });
+    //validation
     if (isSerial == '1') {
         if (($inpAmount.val() != "1")) {
             alert(goods_code + " là hàng quản lý serial, số lượng nhập phải là 1.");
@@ -416,10 +434,8 @@ function addImportGoods() {
     preprocessInput($("#form-add-goods"));
     //get data
     var goodsCode = $cmbGoods.val();
-
     var goodsName = getGoodsNameInCombo($("#modal-cmb-goods option:selected").text());
-    // var goodsName = "";
-
+    //
     var goodsStateValue = "0";
     var goodsState = "0";
     if ($('#cmb-goods-state').prop('checked')) {
@@ -445,6 +461,8 @@ function addImportGoods() {
     } else {
         enteredSerials.push(keySerial);
     }
+
+
     //everything ok -> add to table
     var columnId = ~~(Math.random() * 10000) * -1,
         rows = [];
@@ -456,6 +474,8 @@ function addImportGoods() {
         serial: serial,
         amountValue: formatFloatType(amount),
         amount: amount,
+        weight: Number(amount) * Number(weight),
+        volume: Number(amount) * Number(volume),
         inputPriceValue: formatFloatType(inputPriceValue),
         inputPrice: inputPriceValue,
         total: Number(amount) * Number(inputPriceValue),
@@ -700,6 +720,9 @@ function loadSelectItems(select, items) {
 $inpGoodsCode.keypress(function (e) {
     var key = e.which;
     var goodsItem;
+    var weight = 0;
+    var volume = 0;
+    var volume = 0;
     if (key == 13)  // the enter key code
     {
         //1. check goods serial: serial:focus to serial field, no_serial: append to table
@@ -712,6 +735,8 @@ $inpGoodsCode.keypress(function (e) {
             async: false,
             success: function (data) {
                 goodsItem = data;
+                weight = data["weight"];
+                volume = data["volume"];
             }
         });
         if (goodsItem == null) {
@@ -730,9 +755,11 @@ $inpGoodsCode.keypress(function (e) {
                 goodsStateValue: '1',
                 serial: '-',
                 amount: '1',
+                weight:  Number(weight),
+                volume:  Number(volume),
                 inputPrice: goodsItem['inPrice'],
                 inputPriceValue: formatFloatType(goodsItem['inPrice']),
-                totalMoney: Number(1) * Number(goodsItem['inPrice']),
+                totalMoney: Number(goodsItem['inPrice']),
                 cellCode: $('#cmb-cells').val(),
                 columnId: columnId
             });
@@ -754,6 +781,9 @@ $inpGoodsCode.keypress(function (e) {
 
 $inpGoodsAmount.keypress(function (e) {
     var key = e.which;
+    var weight = 0;
+    var volume = 0;
+    var amount = $inpGoodsAmount.val();
     if (key == 13)  // the enter key code
     {
         $.ajax({
@@ -766,6 +796,8 @@ $inpGoodsAmount.keypress(function (e) {
             success: function (data) {
                 goodsItem = data;
                 isSerial = data["isSerial"];
+                weight = data["weight"];
+                volume = data["volume"];
             }
         });
         if (goodsItem == null) {
@@ -776,7 +808,7 @@ $inpGoodsAmount.keypress(function (e) {
         var columnId = ~~(Math.random() * 10000) * -1,
             rows = [];
         var isSerial = "";
-        var amount = $inpGoodsAmount.val();
+        var amount = Number($inpGoodsAmount.val());
         if (amount == '' || amount == undefined) {
             alert("Vui lòng nhập số lượng");
             return;
@@ -790,16 +822,18 @@ $inpGoodsAmount.keypress(function (e) {
             goodsName: goodsItem['name'],
             goodsState: '1',
             goodsStateValue: '1',
-            serial: '-',
-            amount: $inpGoodsAmount.val(),
+            serial: '',
+            amount: amount,
+            weight: amount * Number(weight),
+            volume: amount * Number(volume),
             inputPrice: goodsItem['inPrice'],
             inputPriceValue: formatFloatType(goodsItem['inPrice']),
-            totalMoney: Number(1) * Number(goodsItem['inPrice']),
+            totalMoney: amount * Number(goodsItem['inPrice']),
             cellCode: $('#cmb-cells').val(),
             columnId: columnId
         });
         //
-        totalPrice += Number(goodsItem['inPrice']);
+        totalPrice += Number(goodsItem['inPrice']) * amount ;
         setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(Number(totalPrice)));
         //
         $table.bootstrapTable('append', rows);
@@ -894,8 +928,7 @@ function onSelectStock() {
 
 function addStyle(value, row, index) {
     var classes = ['active', 'success', 'info', 'warning', 'danger'];
-
-    if (row["serial"] != "") {
+    if (row["serial"] !== "" && row["serial"] !== "-") {
         return {
             classes: "not-active"
         };
@@ -909,6 +942,11 @@ function subTotal(value, row, index) {
 }
 
 function moveDataToTable() {
+    var weight = 0;
+    var volume = 0;
+    var amount = $inpAmount.val();
+    console.log('moveDataToTable');
+
     $.ajax({
         type: 'GET',
         url: $('#btn-check-serial').val(),
@@ -918,6 +956,11 @@ function moveDataToTable() {
         async: false,
         success: function (data) {
             goodsItem = data;
+            weight = data["weight"];
+            volume = data["volume"];
+            console.log(amount);
+            console.log(weight);
+            console.log(volume);
         }
     });
     if (goodsItem == null) {
@@ -934,14 +977,16 @@ function moveDataToTable() {
         goodsStateValue: '1',
         serial: '-',
         amount: $inpGoodsAmount.val(),
+        weight: Number(amount) * Number(weight),
+        volume: Number(amount) * Number(volume),
         inputPrice: goodsItem['inPrice'],
         inputPriceValue: formatFloatType(goodsItem['inPrice']),
-        totalMoney: Number(1) * Number(goodsItem['inPrice']),
+        totalMoney: Number(amount) * Number(goodsItem['inPrice']),
         cellCode: $('#cmb-cells').val(),
         columnId: columnId
     });
     //
-    totalPrice += Number(goodsItem['inPrice']);
+    totalPrice += Number(goodsItem['inPrice']) * Number(amount);
     setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(Number(totalPrice)));
     //
     $table.bootstrapTable('append', rows);

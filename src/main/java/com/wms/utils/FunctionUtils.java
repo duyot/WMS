@@ -694,7 +694,7 @@ public class FunctionUtils {
                         isValid = false;
                     }
                 }
-                goodsDTO.setHight(hight);
+                goodsDTO.setHigh(hight);
                 //Weight
                 cellValue = row.getCell(11);
                 String weight = getCellValue(cellValue);

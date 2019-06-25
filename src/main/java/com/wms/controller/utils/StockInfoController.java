@@ -132,7 +132,6 @@ public class StockInfoController extends BaseController{
         List<MjrStockTransDetailDTO> lstData = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId,limit,offset);
         lstGoodsDetails = setListGoodsDetailNameInfo(lstData,goodsItem);
         data.setRows(lstGoodsDetails);
-        //Long totalItem =utilsService.getCountGoodsDetail(selectedCustomer.getId(),stockId,goodsId,goodsItem.getIsSerial(),goodsState,partnerId);
         data.setTotal(Long.valueOf(lstGoodsDetails.size()));
         return data;
     }
@@ -193,6 +192,8 @@ public class StockInfoController extends BaseController{
                     temp.setSerial(i.getSerial());
                     temp.setIsSerial(goodsItem.getIsSerial());
                     temp.setCellCode(i.getCellCode());
+                    temp.setWeight(FunctionUtils.formatNumber(i.getWeight()));
+                    temp.setVolume(FunctionUtils.formatNumber(i.getVolume()));
                     goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
                     temp.setUnitName(mapAppParamsUnitName.get(goodUnitId));
                     if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {

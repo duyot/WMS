@@ -2,7 +2,6 @@ package com.wms.controller.sale_managerment;
 
 import com.google.common.collect.Lists;
 import com.wms.base.BaseCommonController;
-import com.wms.config.WMSConfigManagerment;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
@@ -11,13 +10,10 @@ import com.wms.services.interfaces.StockManagementService;
 import com.wms.services.interfaces.StockService;
 import com.wms.utils.*;
 import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.slf4j.Logger;
@@ -31,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.text.NumberFormat;
 import java.util.*;
 
 @Controller

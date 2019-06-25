@@ -1,6 +1,7 @@
 package com.wms.dto;
 
 import com.wms.constants.Constants;
+import com.wms.utils.DataUtil;
 
 /**
  * Created by duyot on 12/9/2016.
@@ -31,8 +32,41 @@ public class CatGoodsDTO extends BaseDTO{
 
     private String length;
     private String width;
-    private String hight;
+    private String high;
     private String weight;
+    private String volume;
+
+    public CatGoodsDTO() {
+    }
+
+    public CatGoodsDTO(String id, String status, String createdDate, String custId, String unitType, String goodsGroupId, String goodsGroupName, String isSerial, String description, String inPrice, String outPrice, String brand, String custName, String unitTypeName, String statusName, String columnId, String isSerialName, String inPriceValue, String outPriceValue, String errorInfo, String amount, String length, String width, String high, String weight, String volume) {
+        this.id = id;
+        this.status = status;
+        this.createdDate = createdDate;
+        this.custId = custId;
+        this.unitType = unitType;
+        this.goodsGroupId = goodsGroupId;
+        this.goodsGroupName = goodsGroupName;
+        this.isSerial = isSerial;
+        this.description = description;
+        this.inPrice = inPrice;
+        this.outPrice = outPrice;
+        this.brand = brand;
+        this.custName = custName;
+        this.unitTypeName = unitTypeName;
+        this.statusName = statusName;
+        this.columnId = columnId;
+        this.isSerialName = isSerialName;
+        this.inPriceValue = inPriceValue;
+        this.outPriceValue = outPriceValue;
+        this.errorInfo = errorInfo;
+        this.amount = amount;
+        this.length = length;
+        this.width = width;
+        this.high = high;
+        this.weight = weight;
+        this.volume = volume;
+    }
 
     public String getLength() {
         return length;
@@ -50,12 +84,12 @@ public class CatGoodsDTO extends BaseDTO{
         this.width = width;
     }
 
-    public String getHight() {
-        return hight;
+    public String getHigh() {
+        return high;
     }
 
-    public void setHight(String hight) {
-        this.hight = hight;
+    public void setHigh(String high) {
+        this.high = high;
     }
 
     public String getWeight() {
@@ -130,29 +164,9 @@ public class CatGoodsDTO extends BaseDTO{
         this.goodsGroupName = goodsGroupName;
     }
 
-    public CatGoodsDTO() {
-    }
 
-    public CatGoodsDTO(String id, String code, String name, String status, String createdDate, String custId, String unitType, String goodsGroupId, String isSerial, String description, String inPrice, String outPrice, String brand,
-                       String length,String width,String hight,String weight) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
-        this.status = status;
-        this.createdDate = createdDate;
-        this.custId = custId;
-        this.unitType = unitType;
-        this.goodsGroupId = goodsGroupId;
-        this.isSerial = isSerial;
-        this.description = description;
-        this.inPrice = inPrice;
-        this.outPrice = outPrice;
-        this.brand = brand;
-        this.length = length;
-        this.width = width;
-        this.hight = hight;
-        this.weight = weight;
-    }
+
+
 
     public String getId() {
         return id;
@@ -262,6 +276,22 @@ public class CatGoodsDTO extends BaseDTO{
         this.amount = amount;
     }
 
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
+
+    public void setVolumeFromSize() {
+        Double length = DataUtil.isNullOrEmpty(getLength())? 0d:Double.valueOf(getLength());
+        Double width  = DataUtil.isNullOrEmpty(getWidth())? 0d:Double.valueOf(getWidth());
+        Double high   = DataUtil.isNullOrEmpty(getHigh())? 0d:Double.valueOf(getHigh());
+        Double volume = length * width * high;
+        this.volume =  volume.toString();
+    }
+
     @Override
     public String toString() {
         return "CatGoodsDTO{" +
@@ -289,8 +319,11 @@ public class CatGoodsDTO extends BaseDTO{
                 ", errorInfo='" + errorInfo + '\'' +
                 ", length='" + length + '\'' +
                 ", width='" + width + '\'' +
-                ", hight='" + hight + '\'' +
+                ", high='" + high + '\'' +
                 ", weight='" + weight + '\'' +
+                ", volume='" + volume + '\'' +
                 '}';
     }
+
+
 }

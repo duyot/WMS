@@ -1,18 +1,14 @@
 package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
-import com.wms.base.BaseCommonController;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
-import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import com.wms.utils.JSONUtils;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -171,8 +166,9 @@ public class CatGoodsController extends BaseController {
             i.setOutPriceValue(FunctionUtils.formatNumber(i.getOutPrice()));
             i.setLength(FunctionUtils.formatNumber(i.getLength()));
             i.setWidth(FunctionUtils.formatNumber(i.getWidth()));
-            i.setHight(FunctionUtils.formatNumber(i.getHight()));
+            i.setHigh(FunctionUtils.formatNumber(i.getHigh()));
             i.setWeight(FunctionUtils.formatNumber(i.getWeight()));
+            i.setVolumeFromSize();
 
         }
 
@@ -189,7 +185,8 @@ public class CatGoodsController extends BaseController {
         catGoods.setOutPrice(catGoods.getOutPrice().replaceAll(",",""));
         catGoods.setLength(catGoods.getLength().replaceAll(",",""));
         catGoods.setWidth(catGoods.getWidth().replaceAll(",",""));
-        catGoods.setHight(catGoods.getHight().replaceAll(",",""));
+        catGoods.setHigh(catGoods.getHigh().replaceAll(",",""));
+        catGoods.setVolumeFromSize();
         catGoods.setWeight(catGoods.getWeight().replaceAll(",",""));
         //
         ResponseObject response = catGoodsService.add(catGoods);
@@ -272,10 +269,11 @@ public class CatGoodsController extends BaseController {
         catGoods.setOutPrice(catGoods.getOutPrice().replaceAll(",",""));
         catGoods.setLength(catGoods.getLength().replaceAll(",",""));
         catGoods.setWidth(catGoods.getWidth().replaceAll(",",""));
-        catGoods.setHight(catGoods.getHight().replaceAll(",",""));
+        catGoods.setHigh(catGoods.getHigh().replaceAll(",",""));
         catGoods.setWeight(catGoods.getWeight().replaceAll(",",""));
+        catGoods.setVolumeFromSize();
 
-        log.info("Update cat_goods info: "+ catGoods.toString());
+        log.info("Update cat_goods info: "+ JSONUtils.object2JSONString(catGoods));
         ResponseObject response = catGoodsService.update(catGoods);
         if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
             log.info("SUCCESS");
@@ -330,11 +328,11 @@ public class CatGoodsController extends BaseController {
         return  count != null && count >0;
     }
 
-    public boolean isDeleteGoodsAvailable(String code){
-        List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        lstCon.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,code));
-        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
-        return !DataUtil.isListNullOrEmpty(catGoodsService.findByCondition(lstCon));
+        public boolean isDeleteGoodsAvailable(String code){
+            List<Condition> lstCon = Lists.newArrayList();
+            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+            lstCon.add(new Condition("code",Constants.SQL_OPERATOR.EQUAL,code));
+            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.DELETED));
+            return !DataUtil.isListNullOrEmpty(catGoodsService.findByCondition(lstCon));
     }
 }

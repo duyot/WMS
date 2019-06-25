@@ -5,4 +5,7 @@ public interface BaseURL {
      String getUrlToGetMethod(Long id ,String servicePrefix, String serviceMethod);
      String getUrlToGetMethod(String query ,String servicePrefix, String serviceMethod);
      String getLoginURL();
+     void setTokenURL(String tokenURL);
+     void setServiceURL(String serviceURL);
+
 }

@@ -660,27 +660,34 @@ function setAutoComplete(element, data) {
 function formatterTransType(value, row, index) {
     var transType = value;
     if (transType === 'Nhập') {
-        return '<span style="color: #43A047">' + value + '</span>';
+        return '<span class="status-bgm-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';
     } else {
-        return '<span style="color: #F44336">' + value + '</span>';
+        return '<span class="status-bgm-red status-label">' + '<span class="">' + value + '</span>' + '</span>';
     }
 }
 
 function formatterStatus(value, row, index) {
-    var statusName = value;
-    if (statusName === 'Hiệu lực') {
-        return '<span style="color: #43A047">' + statusName + '</span>';
+    if (value === 'Hiệu lực') {
+        return '<span class="status-bgm-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';
     } else {
-        return '<span style="color: #F44336">' + statusName + '</span>';
+        return '<span class="status-bgm-red status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    }
+}
+
+function formatterGoodsStatus(value, row, index) {
+    if (value === 'Bình thường') {
+        return '<span class="status-bgm-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    } else {
+        return '<span class="status-bgm-red status-label">' + '<span class="">' + value + '</span>' + '</span>';
     }
 }
 
 function formatterSerialType(value, row, index) {
     var serialType = value;
     if (serialType === 'Có') {
-        return '<span style="color: #43A047">' + serialType + '</span>';
+        return '<span class="status-bgm-pool-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';
     } else {
-        return '<span style="color: #F44336">' + serialType + '</span>';
+        return '<span class="status-bgm-orange status-label">' + '<span class="">' + value + '</span>' + '</span>';
     }
 }
 

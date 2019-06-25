@@ -487,7 +487,7 @@
                     maxlength: 10,
                     number: true
                 },
-                hight: {
+                high: {
                     normalizer: function( value ) {
                         return $.trim( value );
                     },
@@ -550,7 +550,7 @@
         $('#modal-label-output-price').text("");
         $("#modal-inp-input-length").val('');
         $("#modal-inp-input-width").val('');
-        $("#modal-inp-input-hight").val('');
+        $("#modal-inp-input-high").val('');
         $("#modal-inp-input-weight").val('');
     }
     //
@@ -607,8 +607,8 @@
             var width = selectedItem["width"];
             $("#modal-inp-input-width").val(width);
 
-            var hight = selectedItem["hight"];
-            $("#modal-inp-input-hight").val(hight);
+            var high = selectedItem["high"];
+            $("#modal-inp-input-high").val(high);
 
             var weight = selectedItem["weight"];
             $("#modal-inp-input-weight").val(weight);
@@ -685,16 +685,16 @@
             $('#modal-inp-input-width').val(currentValue);
         }
     });
-    $("#modal-inp-input-hight").keyup(function() {
-        var currentValue = unFormatFloat($("#modal-inp-input-hight").val());
+    $("#modal-inp-input-high").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-input-high").val());
         var need2format = currentValue;
         if(!isValidPrice(currentValue)){
             currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
         }
         if(!currentValue.includes(".")){
-            $('#modal-inp-input-hight').val(formatFloatType(currentValue));
+            $('#modal-inp-input-high').val(formatFloatType(currentValue));
         }else{
-            $('#modal-inp-input-hight').val(currentValue);
+            $('#modal-inp-input-high').val(currentValue);
         }
     });
     $("#modal-inp-input-weight").keyup(function() {

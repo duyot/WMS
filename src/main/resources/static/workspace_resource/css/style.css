@@ -1,9 +1,45 @@
 /*
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
+
 */
+/*
+css for status button
+ */
+
+.status-bgm-blue{
+	background-color: #5bc0de !important;
+}
+
+.status-bgm-orange{
+	background-color: #ffb745 !important;
+}
+
+.status-bgm-orange{
+	background-color: #ffb745 !important;
+}
+
+.status-bgm-red{
+	background-color: #d9534f !important;
+}
+
+.status-bgm-pool-blue{
+	background-color: #5cc5ef !important;
+}
+
+.status-label{
+	text-shadow: rgba(0,0,0,0.25) 0 1px;
+	display: inline;
+	padding: .3em .6em .3em;
+	font-size: 80%;
+	font-weight: 700;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: .25em;
+	min-width: 20px;
+}
+
 col-stt{
 	width: 40px !important;
 }

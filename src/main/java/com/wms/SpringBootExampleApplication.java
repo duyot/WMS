@@ -19,8 +19,10 @@ import java.util.Locale;
 @SpringBootApplication
 @Configuration
 public class SpringBootExampleApplication extends SpringBootServletInitializer {
+
 	@Autowired
 	public ProfileConfigInterface profileConfig;
+
 	@Bean
 	public LocaleResolver localeResolver() {
 		SessionLocaleResolver slr = new SessionLocaleResolver();
@@ -44,7 +46,6 @@ public class SpringBootExampleApplication extends SpringBootServletInitializer {
 			@Override
 			public void addResourceHandlers (ResourceHandlerRegistry registry) {
 				registry.addResourceHandler("/test/**").
-//						addResourceLocations("file:C:\\Users\\truong_buiXuan\\Desktop\\css\\");
 			        	addResourceLocations("file:"+profileConfig.getTempURL());
 			}
 		};

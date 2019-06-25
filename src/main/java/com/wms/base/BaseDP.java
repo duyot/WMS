@@ -7,14 +7,12 @@ import com.wms.constants.Responses;
 import com.wms.dto.Condition;
 import com.wms.dto.ResponseObject;
 import com.wms.ribbon.BaseURL;
-import com.wms.ribbon.LoadBanlancingUrl;
 import com.wms.utils.BundleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -172,7 +170,7 @@ public class BaseDP<T> {
     }
     public String getUrl(long id , String servicePrefix,String serviceMethod,BaseURL baseURL){
         if (id == 0){
-           return  baseURL.getUrlToPostMethod(servicePrefix, serviceMethod);
+            return  baseURL.getUrlToPostMethod(servicePrefix, serviceMethod);
         }else {
             return  baseURL.getUrlToGetMethod(id,servicePrefix, serviceMethod);
         }
