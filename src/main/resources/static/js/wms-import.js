@@ -29,7 +29,7 @@ $(function () {
         columns: [
             {
                 field: 'id',
-                title: 'STT',
+                title: 'TT',
                 formatter: 'runningFormatter',
                 align: 'center',
                 width: '40px'
@@ -38,7 +38,7 @@ $(function () {
                 field: 'goodsCode',
                 title: 'Mã hàng',
                 align: 'left',
-                width: '10%'
+                width: '9%'
             },
             {
                 field: 'goodsName',
@@ -64,7 +64,7 @@ $(function () {
                 field: 'serial',
                 title: 'Serial',
                 align: 'left',
-                width: '10%',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -76,7 +76,7 @@ $(function () {
                 title: 'Số lượng',
                 cellStyle: 'addStyle',
                 align: 'right',
-                width: '7%',
+                width: '8%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -103,13 +103,13 @@ $(function () {
             },
             {
                 field: 'weight',
-                title: 'Trọng lượng(kg)',
+                title: 'Trọng lượng(Kg)',
                 align: 'right',
                 width: '7%'
             },
             {
                 field: 'volume',
-                title: 'Kích thước (cm3)',
+                title: 'Thể tích(m3)',
                 align: 'right',
                 width: '7%'
             },
@@ -163,10 +163,10 @@ $(function () {
                 }
             },
             {
-                title: 'Thao tác',
+                title: 'Xóa',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
-                width: '7%',
+                width: '5%',
                 align: 'center'
             }
         ]
@@ -328,6 +328,9 @@ btnImportConfirm.click(function () {
             disableElement($('#btn-import'));
             $table.bootstrapTable('removeAll');
             $('#inp-partner-name').val("");
+            $('#inp-contract-note').val("");
+            $inpGoodsAmount.val('');
+            $inpGoodsCode.val('');
             enteredSerials = [];
             totalPrice = Number(0);
             setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + totalPrice);
@@ -475,7 +478,7 @@ function addImportGoods() {
         amountValue: formatFloatType(amount),
         amount: amount,
         weight: Number(amount) * Number(weight),
-        volume: Number(amount) * Number(volume),
+        volume: Number(amount) * Math.round(Number(volume)*1000000)/1000000,
         inputPriceValue: formatFloatType(inputPriceValue),
         inputPrice: inputPriceValue,
         total: Number(amount) * Number(inputPriceValue),
@@ -825,10 +828,10 @@ $inpGoodsAmount.keypress(function (e) {
             serial: '',
             amount: amount,
             weight: amount * Number(weight),
-            volume: amount * Number(volume),
+            volume: amount * Math.round(Number(volume)*1000000)/1000000,
             inputPrice: goodsItem['inPrice'],
             inputPriceValue: formatFloatType(goodsItem['inPrice']),
-            totalMoney: amount * Number(goodsItem['inPrice']),
+            totalMoney: formatFloatType(amount * Number(goodsItem['inPrice'])),
             cellCode: $('#cmb-cells').val(),
             columnId: columnId
         });
@@ -841,6 +844,7 @@ $inpGoodsAmount.keypress(function (e) {
 
         setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
         $inpGoodsAmount.val('');
+        $inpGoodsCode.val('');
     }
 });
 
@@ -944,7 +948,7 @@ function subTotal(value, row, index) {
 function moveDataToTable() {
     var weight = 0;
     var volume = 0;
-    var amount = $inpAmount.val();
+    var amount = $inpGoodsAmount.val();
     console.log('moveDataToTable');
 
     $.ajax({
@@ -963,6 +967,11 @@ function moveDataToTable() {
             console.log(volume);
         }
     });
+    var amount = Number($inpGoodsAmount.val());
+    if (amount == '' || amount == undefined) {
+        alert("Vui lòng nhập số lượng");
+        return;
+    }
     if (goodsItem == null) {
         alert("Không có mặt hàng tương ứng");
         return;
@@ -978,10 +987,10 @@ function moveDataToTable() {
         serial: '-',
         amount: $inpGoodsAmount.val(),
         weight: Number(amount) * Number(weight),
-        volume: Number(amount) * Number(volume),
+        volume: Number(amount) * Math.round(Number(volume)*1000000)/1000000,
         inputPrice: goodsItem['inPrice'],
         inputPriceValue: formatFloatType(goodsItem['inPrice']),
-        totalMoney: Number(amount) * Number(goodsItem['inPrice']),
+        totalMoney: formatFloatType(Number(amount) * Number(goodsItem['inPrice'])),
         cellCode: $('#cmb-cells').val(),
         columnId: columnId
     });
@@ -994,6 +1003,7 @@ function moveDataToTable() {
 
     setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
     $inpGoodsAmount.val('');
+    $inpGoodsCode.val('');
 }
 
 //-----------------------------------------------------------------------------------------------------------------

@@ -148,7 +148,7 @@ public class CatGoodsController extends BaseController {
             lstCon.add(new Condition("code", Constants.SQL_OPERATOR.LIKE,goodsCode));
         }
 
-        lstCon.add(new Condition("createdDate",Constants.SQL_OPERATOR.ORDER,"desc"));
+        lstCon.add(new Condition("id",Constants.SQL_OPERATOR.ORDER,"desc"));
 
         log.info(JSONUtils.object2JSONString(lstCon));
 
@@ -164,11 +164,12 @@ public class CatGoodsController extends BaseController {
             i.setUnitTypeName(mapUnitType.get(i.getUnitType()));
             i.setInPriceValue(FunctionUtils.formatNumber(i.getInPrice()));
             i.setOutPriceValue(FunctionUtils.formatNumber(i.getOutPrice()));
+            i.setVolumeFromSize();
             i.setLength(FunctionUtils.formatNumber(i.getLength()));
             i.setWidth(FunctionUtils.formatNumber(i.getWidth()));
             i.setHigh(FunctionUtils.formatNumber(i.getHigh()));
             i.setWeight(FunctionUtils.formatNumber(i.getWeight()));
-            i.setVolumeFromSize();
+
 
         }
 
