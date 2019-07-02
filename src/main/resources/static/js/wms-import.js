@@ -42,9 +42,9 @@ $(function () {
             },
             {
                 field: 'goodsStateValue',
-                title: 'Trạng thái',
+                title: 'Tình trạng',
                 align: 'left',
-                width: '9%',
+                width: '10%',
                 editable: {
                     type: 'select',
                     mode: 'inline',
@@ -59,7 +59,7 @@ $(function () {
                 field: 'serial',
                 title: 'Serial',
                 align: 'left',
-                width: '8%',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -71,7 +71,7 @@ $(function () {
                 title: 'Số lượng',
                 cellStyle: 'addStyle',
                 align: 'right',
-                width: '7%',
+                width: '9%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -117,7 +117,7 @@ $(function () {
                 field: 'inputPrice',
                 title: 'Giá nhập',
                 align: 'right',
-                width: '7%',
+                width: '9%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -147,7 +147,7 @@ $(function () {
                 field: 'totalMoney',
                 title: 'Thành tiền',
                 align: 'right',
-                width: '9%',
+                width: '10%',
                 formatter: 'subTotal'
             },
             {
@@ -163,10 +163,10 @@ $(function () {
                 }
             },
             {
-                title: 'Thao tác',
+                title: 'Xóa',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
-                width: '7%',
+                width: '4%',
                 align: 'center'
             },
             {
