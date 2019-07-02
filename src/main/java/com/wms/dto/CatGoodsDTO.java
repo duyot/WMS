@@ -288,7 +288,7 @@ public class CatGoodsDTO extends BaseDTO{
         Double length = DataUtil.isNullOrEmpty(getLength())? 0d:Double.valueOf(getLength());
         Double width  = DataUtil.isNullOrEmpty(getWidth())? 0d:Double.valueOf(getWidth());
         Double high   = DataUtil.isNullOrEmpty(getHigh())? 0d:Double.valueOf(getHigh());
-        Double volume = length * width * high;
+        Double volume = Math.round(length * width * high/1000000 * 1000000d)/1000000d;
         this.volume =  volume.toString();
     }
 

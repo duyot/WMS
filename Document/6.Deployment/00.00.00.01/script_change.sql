@@ -1,14 +1,6 @@
 --Khach hang nay co can phan quyen theo doi tac gui hang hay khong
 alter table CAT_CUSTOMER add PARTNER_PERMISSION NUMBER(1,0) DEFAULT 0;
 
-
-
-alter table MJR_STOCK_TRANS_DETAIL add TOTAL_GOODS_VOLUME NUMBER(19,4);
-comment on column "MJR_STOCK_TRANS_DETAIL"."TOTAL_GOODS_VOLUME" is 'The tich hang hoa';
-
-alter table MJR_STOCK_TRANS_DETAIL add TOTAL_GOODS_WEIGHT NUMBER(19,4);
-comment on column "MJR_STOCK_TRANS_DETAIL"."TOTAL_GOODS_WEIGHT" is 'Trong luong hang hoa';
-
 alter table MJR_STOCK_TRANS_DETAIL drop column goods_size;
 
 
@@ -169,4 +161,40 @@ set d.unit_name =(
   where d.goods_id = gr.goods_id
 )
 where 1=1;
- 
+
+
+--25/6/2019
+alter table MJR_STOCK_GOODS drop column goods_size;
+
+alter table CAT_GOODS drop column VOLUME;
+alter table CAT_GOODS drop column WEIGHT;
+alter table MJR_STOCK_GOODS drop column VOLUME;
+alter table MJR_STOCK_GOODS drop column WEIGHT;
+alter table MJR_STOCK_GOODS_SERIAL drop column VOLUME;
+alter table MJR_STOCK_GOODS_SERIAL drop column WEIGHT;
+alter table MJR_STOCK_TRANS_DETAIL drop column VOLUME;
+alter table MJR_STOCK_TRANS_DETAIL drop column WEIGHT;
+
+alter table CAT_GOODS add VOLUME NUMBER(19,6);
+comment on column "CAT_GOODS"."VOLUME" is 'The tich cua 1 don vi hang hoa';
+
+alter table CAT_GOODS add WEIGHT NUMBER(19,6);
+comment on column "CAT_GOODS"."VOLUME" is 'Trong luong cua 1 don vi hang hoa';
+
+alter table MJR_STOCK_GOODS add WEIGHT NUMBER(38,6);
+alter table MJR_STOCK_GOODS add VOLUME NUMBER(38,6);
+comment on column "MJR_STOCK_GOODS"."VOLUME" is 'The tich hang hoa';
+comment on column "MJR_STOCK_GOODS"."WEIGHT" is 'Trong luong hang hoa';
+
+alter table MJR_STOCK_GOODS_SERIAL add WEIGHT NUMBER(38,6);
+alter table MJR_STOCK_GOODS_SERIAL add VOLUME NUMBER(38,6);
+comment on column "MJR_STOCK_GOODS_SERIAL"."VOLUME" is 'The tich hang hoa';
+comment on column "MJR_STOCK_GOODS_SERIAL"."WEIGHT" is 'Trong luong hang hoa';
+
+
+alter table MJR_STOCK_TRANS_DETAIL add VOLUME NUMBER(38,6);
+comment on column "MJR_STOCK_TRANS_DETAIL"."VOLUME" is 'The tich hang hoa';
+
+alter table MJR_STOCK_TRANS_DETAIL add WEIGHT NUMBER(38,6);
+comment on column "MJR_STOCK_TRANS_DETAIL"."WEIGHT" is 'Trong luong hang hoa';
+
