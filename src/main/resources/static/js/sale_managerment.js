@@ -33,7 +33,7 @@ $(function () {
             {
                 field: 'goodsState',
                 align: 'center',
-                title: 'Trạng thái',
+                title: 'Tình trạng',
                 visible: false
             },
             {
@@ -44,7 +44,7 @@ $(function () {
             {
                 field: 'goodsId',
                 align: 'center',
-                title: 'Trạng thái',
+                title: 'Tình trạng',
                 visible: false
             },
             {

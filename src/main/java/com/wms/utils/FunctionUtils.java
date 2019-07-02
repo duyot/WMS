@@ -65,7 +65,7 @@ public class FunctionUtils {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         for (AppParamsDTO i : lstAppParams) {
             if (i.getType().equalsIgnoreCase(type)) {
-                map.put(i.getId(), i.getName());
+                map.put(i.getCode(), i.getName());
             }
         }
         return map;
@@ -446,11 +446,11 @@ public class FunctionUtils {
                 Cell cellStatus = row.getCell(3);
                 String goodsState = getCellValue(cellStatus);
                 if (DataUtil.isStringNullOrEmpty(goodsState)) {
-                    errorInfo.append("\n Chưa có trạng thái hàng");
+                    errorInfo.append("\n Chưa có tình trạng hàng");
                     isValid = false;
                 } else {
                     if (!goodsState.equalsIgnoreCase("1") && !goodsState.equalsIgnoreCase("2")) {
-                        errorInfo.append("\n Trạng thái hàng không hợp lệ(1: Bình thường,2:Hỏng");
+                        errorInfo.append("\n Tình trạng hàng hóa không hợp lệ(1: Bình thường,2:Hỏng");
                         isValid = false;
                     }
                 }

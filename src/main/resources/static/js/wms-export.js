@@ -33,7 +33,7 @@ $(function () {
                 field: 'goodsCode',
                 title: 'Mã hàng',
                 align: 'left',
-                width: '10%'
+                width: '9%'
             },
             {
                 field: 'goodsName',
@@ -42,7 +42,7 @@ $(function () {
             },
             {
                 field: 'goodsStateValue',
-                title: 'Trạng thái',
+                title: 'Tình trạng',
                 align: 'left',
                 width: '10%',
                 editable: {
@@ -59,7 +59,7 @@ $(function () {
                 field: 'serial',
                 title: 'Serial',
                 align: 'left',
-                width: '10%',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -71,7 +71,7 @@ $(function () {
                 title: 'Số lượng',
                 cellStyle: 'addStyle',
                 align: 'right',
-                width: '7%',
+                width: '9%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -108,7 +108,7 @@ $(function () {
             },
             {
                 field: 'volume',
-                title: 'Kích thước (cm3)',
+                title: 'Kích thước(m3)',
                 align: 'right',
                 formatter: 'subTotal',
                 width: '7%'
@@ -117,7 +117,7 @@ $(function () {
                 field: 'outputPrice',
                 title: 'Giá xuất',
                 align: 'right',
-                width: '7%',
+                width: '9%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -147,7 +147,7 @@ $(function () {
                 field: 'totalMoney',
                 title: 'Thành tiền',
                 align: 'right',
-                width: '9%',
+                width: '10%',
                 formatter: 'subTotal'
             },
             {
@@ -163,10 +163,10 @@ $(function () {
                 }
             },
             {
-                title: 'Thao tác',
+                title: 'Xóa',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
-                width: '7%',
+                width: '4%',
                 align: 'center'
             },
             {
@@ -500,12 +500,16 @@ function moveDataToTable() {
         rows = [];
     var isSerial = "";
     var amount = Number($inpGoodsAmount.val());
-    if (!isValidAmount(amount)) {
+    if (!isValidAmount(amount) || amount ==0) {
         alert("Vui lòng nhập số lượng hợp lệ");
+        $inpGoodsAmount.val('');
+        $inpGoodsAmount.focus();
         return;
     }
     if (isSerial == '1' && amount != 1) {
         alert("Hàng serial số lượng phải là 1");
+        $inpGoodsAmount.val('');
+        $inpGoodsAmount.focus();
         return;
     }
     rows.push({
@@ -534,6 +538,7 @@ function moveDataToTable() {
 
     setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
     $inpGoodsAmount.val('');
+    $inpGoodsCode.val('');
 }
 
 function onSelectStock() {
@@ -593,7 +598,7 @@ function loadPartnerSuggestion() {
             partnerName = data;
         }
     });
-    setAutoComplete($('#inp-partner-name'),partnerName);
+    setAutoComplete($('#inp-receive-name'),partnerName);
 }
 //-------------#formatter
 function operateFormatter(value, row, index) {

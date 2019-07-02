@@ -179,15 +179,15 @@ alter table CAT_GOODS add VOLUME NUMBER(19,6);
 comment on column "CAT_GOODS"."VOLUME" is 'The tich cua 1 don vi hang hoa';
 
 alter table CAT_GOODS add WEIGHT NUMBER(19,6);
-comment on column "CAT_GOODS"."VOLUME" is 'Trong luong cua 1 don vi hang hoa';
+comment on column "CAT_GOODS"."WEIGHT" is 'Trong luong cua 1 don vi hang hoa';
 
-alter table MJR_STOCK_GOODS add WEIGHT NUMBER(38,6);
 alter table MJR_STOCK_GOODS add VOLUME NUMBER(38,6);
+alter table MJR_STOCK_GOODS add WEIGHT NUMBER(38,6);
 comment on column "MJR_STOCK_GOODS"."VOLUME" is 'The tich hang hoa';
 comment on column "MJR_STOCK_GOODS"."WEIGHT" is 'Trong luong hang hoa';
 
-alter table MJR_STOCK_GOODS_SERIAL add WEIGHT NUMBER(38,6);
 alter table MJR_STOCK_GOODS_SERIAL add VOLUME NUMBER(38,6);
+alter table MJR_STOCK_GOODS_SERIAL add WEIGHT NUMBER(38,6);
 comment on column "MJR_STOCK_GOODS_SERIAL"."VOLUME" is 'The tich hang hoa';
 comment on column "MJR_STOCK_GOODS_SERIAL"."WEIGHT" is 'Trong luong hang hoa';
 

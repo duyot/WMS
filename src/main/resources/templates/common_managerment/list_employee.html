@@ -68,7 +68,7 @@
 								<div class="col-sm-4">
 									<div class="input-group">
 										<select id="cmb-status" class="combobox form-control">
-											<option value="-1">Tất cả</option>
+											<option value="-1">--Chọn--</option>
 											<option value="1">Hiệu lực</option>
 											<option value="0">Hết hiệu lực</option>
 										</select>
@@ -96,7 +96,7 @@
 								<div class="col-sm-4">
 									<div class="input-group">
 										<select id="cmb-role" class="combobox form-control">
-											<option value="-1">Tất cả</option>
+											<option value="-1">--Chọn--</option>
                                             <option th:each="sopt:${mapRoles.entrySet()}"
                                                     th:value="${sopt.key}" th:text="${sopt.value}">Admin</option>
 											<!--<option value="1">Admin</option>-->
