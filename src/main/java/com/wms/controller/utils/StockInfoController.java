@@ -6,7 +6,6 @@ import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.UtilsService;
-import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.*;
 
@@ -209,7 +207,7 @@ public class StockInfoController extends BaseController{
     }
 
     private List<MjrStockGoodsTotalDTO> setNameValueInfo(List<MjrStockGoodsTotalDTO> lstTotal){
-        List<MjrStockGoodsTotalDTO> finalResult = new ArrayList<MjrStockGoodsTotalDTO>();
+        List<MjrStockGoodsTotalDTO> finalResult = new ArrayList<>();
         String goodUnitId = "";
         if(!DataUtil.isListNullOrEmpty(lstTotal)){
             for(MjrStockGoodsTotalDTO i: lstTotal){

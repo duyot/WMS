@@ -1,6 +1,5 @@
 package com.wms.ribbon;
 
-import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
 import com.wms.redis.model.AuthTokenInfo;
 import org.springframework.beans.factory.annotation.Autowired;
