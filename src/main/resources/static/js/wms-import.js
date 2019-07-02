@@ -476,9 +476,9 @@ function addImportGoods() {
         goodsStateValue: goodsStateValue,
         serial: serial,
         amountValue: formatFloatType(amount),
-        amount: amount,
-        weight: Number(amount) * Number(weight),
-        volume: Number(amount) * Math.round(Number(volume)*1000000)/1000000,
+        amount: formatFloatType(amount),
+        weight: formatFloatType(Number(amount) *  Math.round(Number(weight)*1000000)/1000000),
+        volume: formatFloatType(Number(amount) * Math.round(Number(volume)*1000000)/1000000),
         inputPriceValue: formatFloatType(inputPriceValue),
         inputPrice: inputPriceValue,
         total: Number(amount) * Number(inputPriceValue),
@@ -787,6 +787,7 @@ $inpGoodsAmount.keypress(function (e) {
     var weight = 0;
     var volume = 0;
     var amount = $inpGoodsAmount.val();
+    var floatRegex = /^((\d+(\.\d *)?)|((\d*\.)?\d+))$/;
     if (key == 13)  // the enter key code
     {
         $.ajax({
@@ -811,9 +812,9 @@ $inpGoodsAmount.keypress(function (e) {
         var columnId = ~~(Math.random() * 10000) * -1,
             rows = [];
         var isSerial = "";
-        var amount = Number($inpGoodsAmount.val());
-        if (amount == '' || amount == undefined) {
-            alert("Vui lòng nhập số lượng");
+        amount = Number($inpGoodsAmount.val());
+        if (amount == '' || amount == undefined || !floatRegex.test(amount)) {
+            alert("Vui lòng nhập số lượng và trường số lượng > 0");
             return;
         }
         if (isSerial == '1' && amount != 1) {
@@ -826,9 +827,9 @@ $inpGoodsAmount.keypress(function (e) {
             goodsState: '1',
             goodsStateValue: '1',
             serial: '',
-            amount: amount,
-            weight: amount * Number(weight),
-            volume: amount * Math.round(Number(volume)*1000000)/1000000,
+            amount: formatFloatType(amount),
+            weight: formatFloatType(amount * Math.round(Number(weight)*1000000)/1000000),
+            volume: formatFloatType(amount * Math.round(Number(volume)*1000000)/1000000),
             inputPrice: goodsItem['inPrice'],
             inputPriceValue: formatFloatType(goodsItem['inPrice']),
             totalMoney: formatFloatType(amount * Number(goodsItem['inPrice'])),
@@ -949,6 +950,7 @@ function moveDataToTable() {
     var weight = 0;
     var volume = 0;
     var amount = $inpGoodsAmount.val();
+    var floatRegex = /^((\d+(\.\d *)?)|((\d*\.)?\d+))$/;
     console.log('moveDataToTable');
 
     $.ajax({
@@ -967,9 +969,9 @@ function moveDataToTable() {
             console.log(volume);
         }
     });
-    var amount = Number($inpGoodsAmount.val());
-    if (amount == '' || amount == undefined) {
-        alert("Vui lòng nhập số lượng");
+    amount = Number($inpGoodsAmount.val());
+    if (amount == '' || amount == undefined || !floatRegex.test(amount)) {
+        alert("Vui lòng nhập số lượng và trường số lượng > 0");
         return;
     }
     if (goodsItem == null) {
@@ -985,9 +987,9 @@ function moveDataToTable() {
         goodsState: '1',
         goodsStateValue: '1',
         serial: '-',
-        amount: $inpGoodsAmount.val(),
-        weight: Number(amount) * Number(weight),
-        volume: Number(amount) * Math.round(Number(volume)*1000000)/1000000,
+        amount: formatFloatType($inpGoodsAmount.val()),
+        weight: formatFloatType(Number(amount) * Math.round(Number(weight)*1000000)/1000000),
+        volume: formatFloatType(Number(amount) * Math.round(Number(volume)*1000000)/1000000),
         inputPrice: goodsItem['inPrice'],
         inputPriceValue: formatFloatType(goodsItem['inPrice']),
         totalMoney: formatFloatType(Number(amount) * Number(goodsItem['inPrice'])),

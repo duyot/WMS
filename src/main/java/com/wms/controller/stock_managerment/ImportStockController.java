@@ -1,6 +1,7 @@
 package com.wms.controller.stock_managerment;
 
 import com.google.common.collect.Lists;
+import com.sun.deploy.util.StringUtils;
 import com.wms.base.BaseController;
 import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
@@ -256,7 +257,9 @@ public class ImportStockController extends BaseController {
     private String calTotalMoneyTrans(List<MjrStockTransDetailDTO> lstGoods) {
         float total = 0f;
         for (MjrStockTransDetailDTO i : lstGoods) {
-            total += Float.parseFloat(i.getTotalMoney());
+            if(i.getTotalMoney() != null && !"".equals(i.getTotalMoney())){
+                total += Float.parseFloat(i.getTotalMoney().replaceAll(",", ""));
+            }
         }
         return String.valueOf(total);
     }
@@ -282,6 +285,9 @@ public class ImportStockController extends BaseController {
             i.setOutputPriceValue(null);
             i.setGoodsStateValue(null);
             i.setErrorInfo(null);
+            i.setTotalMoney(FunctionUtils.unformatFloat(i.getTotalMoney()));
+            i.setVolume(FunctionUtils.unformatFloat(i.getVolume()));
+            i.setWeight(FunctionUtils.unformatFloat(i.getWeight()));
         }
         return lstGoods;
     }
