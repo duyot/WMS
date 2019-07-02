@@ -33,7 +33,7 @@ $(function () {
                 field: 'goodsCode',
                 title: 'Mã hàng',
                 align: 'left',
-                width: '10%'
+                width: '9%'
             },
             {
                 field: 'goodsName',
@@ -44,7 +44,7 @@ $(function () {
                 field: 'goodsStateValue',
                 title: 'Trạng thái',
                 align: 'left',
-                width: '10%',
+                width: '9%',
                 editable: {
                     type: 'select',
                     mode: 'inline',
@@ -59,7 +59,7 @@ $(function () {
                 field: 'serial',
                 title: 'Serial',
                 align: 'left',
-                width: '10%',
+                width: '8%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
