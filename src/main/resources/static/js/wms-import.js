@@ -33,7 +33,7 @@ $(function () {
                 field: 'goodsCode',
                 title: 'Mã hàng',
                 align: 'left',
-                width: '9%'
+                width: '10%'
             },
             {
                 field: 'goodsName',
@@ -42,7 +42,7 @@ $(function () {
             },
             {
                 field: 'goodsStateValue',
-                title: 'Tình trạng',
+                title: 'Trạng thái',
                 align: 'left',
                 width: '10%',
                 editable: {
@@ -59,7 +59,7 @@ $(function () {
                 field: 'serial',
                 title: 'Serial',
                 align: 'left',
-                width: '7%',
+                width: '10%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -71,7 +71,7 @@ $(function () {
                 title: 'Số lượng',
                 cellStyle: 'addStyle',
                 align: 'right',
-                width: '9%',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -117,7 +117,7 @@ $(function () {
                 field: 'inputPrice',
                 title: 'Giá nhập',
                 align: 'right',
-                width: '9%',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -147,7 +147,7 @@ $(function () {
                 field: 'totalMoney',
                 title: 'Thành tiền',
                 align: 'right',
-                width: '10%',
+                width: '9%',
                 formatter: 'subTotal'
             },
             {
@@ -163,10 +163,10 @@ $(function () {
                 }
             },
             {
-                title: 'Xóa',
+                title: 'Thao tác',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
-                width: '4%',
+                width: '7%',
                 align: 'center'
             },
             {
@@ -478,17 +478,13 @@ function moveDataToTable() {
     var columnId = ~~(Math.random() * 10000) * -1,
         rows = [];
     var isSerial = "";
-    amount = Number($inpGoodsAmount.val());
-    if (!isValidAmount(amount) || amount ==0) {
+    var amount = Number($inpGoodsAmount.val());
+    if (!isValidAmount(amount)) {
         alert("Vui lòng nhập số lượng hợp lệ");
-        $inpGoodsAmount.val('');
-        $inpGoodsAmount.focus();
         return;
     }
     if (isSerial == '1' && amount != 1) {
         alert("Hàng serial số lượng phải là 1");
-        $inpGoodsAmount.val('');
-        $inpGoodsAmount.focus();
         return;
     }
     rows.push({
@@ -517,7 +513,6 @@ function moveDataToTable() {
 
     setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
     $inpGoodsAmount.val('');
-    $inpGoodsCode.val('');
 }
 
 function onSelectStock() {
