@@ -83,7 +83,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon">
                                                     <i class="fa fa-sticky-note fa-fw"></i>
-                                                </span>
+                                            </span>
                                             <textarea id="inp-contract-note" class="form-control" th:rows="1" maxlength="500"></textarea>
                                         </div>
                                     </div>
@@ -102,6 +102,30 @@
                                         </div>
 
                                 </div>
+                                <div class="row">
+
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <label for="cmb-partner" th:text="#{lbl.partner}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group" style="width: 100%;">
+                                            <select id="cmb-partner" class="form-control selectpicker" data-live-search="true"  data-width="100%">
+                                                <option value="-1" th:text="#{label.choose}"></option>
+                                                <option  th:each="sopt:${lstPartner}"
+                                                         th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
 
@@ -169,37 +193,21 @@
                                     </div>
 
 
-                                    <div class="col-sm-2">
-                                        <label for="cmb-partner" th:text="#{lbl.partner}"></label>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="input-group" style="width: 100%;">
-                                            <select id="cmb-partner" class="form-control selectpicker" data-live-search="true"  data-width="100%">
-                                                <option value="-1" th:text="#{label.choose}"></option>
-                                                <option  th:each="sopt:${lstPartner}"
-                                                         th:value="${sopt.id}" th:text="${sopt.name}">1</option>
-                                            </select>
+                                        <div class="col-sm-2">
+                                            <label class="control-label" for="cmb-cells" th:text="#{lbl.cellCode}"></label>
                                         </div>
-                                    </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="input-group" style="width: 100%;">
+                                                <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                                    <option value="-1">--Chọn--</option>
+                                                    <option  th:each="sopt:${cells}"
+                                                             th:value="${sopt.code}" th:text="${sopt.name}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
 
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                        <label class="control-label" for="cmb-cells" th:text="#{lbl.cellCode}"></label>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="input-group" style="width: 100%;">
-                                            <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
-                                                <option value="-1">Tất cả</option>
-                                                <option  th:each="sopt:${cells}"
-                                                         th:value="${sopt.code}" th:text="${sopt.name}"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
 
                             </div>
                         </div>
