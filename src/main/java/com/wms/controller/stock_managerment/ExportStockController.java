@@ -251,7 +251,7 @@ public class ExportStockController extends BaseController {
         log.info(currentUser.getCode() + " export: " + stockManagementDTO.getLstGoods().size() + " items.");
         String sysdate = catStockService.getSysDate();
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
-        System.out.println("Export request: " + JSONUtils.object2JSONString(stockTrans));
+        log.info("Export request: " + JSONUtils.object2JSONString(stockTrans));
         ResponseObject response = stockManagementService.exportStock(stockTrans);
         log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
