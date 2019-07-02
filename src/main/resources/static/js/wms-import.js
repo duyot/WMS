@@ -24,7 +24,7 @@ $(function () {
         columns: [
             {
                 field: 'id',
-                title: 'STT',
+                title: 'TT',
                 formatter: 'runningFormatter',
                 align: 'center',
                 width: '40px'
@@ -33,7 +33,7 @@ $(function () {
                 field: 'goodsCode',
                 title: 'Mã hàng',
                 align: 'left',
-                width: '10%'
+                width: '9%'
             },
             {
                 field: 'goodsName',
@@ -59,7 +59,7 @@ $(function () {
                 field: 'serial',
                 title: 'Serial',
                 align: 'left',
-                width: '10%',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -71,7 +71,7 @@ $(function () {
                 title: 'Số lượng',
                 cellStyle: 'addStyle',
                 align: 'right',
-                width: '7%',
+                width: '8%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -108,7 +108,7 @@ $(function () {
             },
             {
                 field: 'volume',
-                title: 'Kích thước (cm3)',
+                title: 'Thể tích(m3)',
                 align: 'right',
                 formatter: 'subTotal',
                 width: '7%'
@@ -163,10 +163,10 @@ $(function () {
                 }
             },
             {
-                title: 'Thao tác',
+                title: 'Xóa',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
-                width: '7%',
+                width: '5%',
                 align: 'center'
             },
             {
@@ -329,6 +329,9 @@ btnImportConfirm.click(function () {
             disableElement($('#btn-import'));
             $table.bootstrapTable('removeAll');
             $('#inp-partner-name').val("");
+            $('#inp-contract-note').val("");
+            $inpGoodsAmount.val('');
+            $inpGoodsCode.val('');
             enteredSerials = [];
             totalPrice = Number(0);
             setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + totalPrice);
@@ -341,6 +344,7 @@ btnImportConfirm.click(function () {
         }
     });
 });
+
 //@Add action---------------------------------------------------------------------------------------------------
 $btn_add_partner = $('#btn-add-partner');
 $(function () {
@@ -450,7 +454,8 @@ $inpGoodsAmount.keypress(function (e) {
     var weight = 0;
     var volume = 0;
     var amount = $inpGoodsAmount.val();
-    if (key == 13)//enter
+    var floatRegex = /^((\d+(\.\d *)?)|((\d*\.)?\d+))$/;
+    if (key == 13)  // the enter key code
     {
         moveDataToTable();
     }
@@ -494,8 +499,8 @@ function moveDataToTable() {
         goodsStateValue: '1',
         serial: '',
         amount: amount,
-        weight: amount * Number(weight),
-        volume: amount * Number(volume),
+        weight: amount * Math.round(Number(weight)*1000000)/1000000,
+        volume: amount * Math.round(Number(volume)*1000000)/1000000,
         inputPrice: goodsItem['inPrice'],
         inputPriceValue: formatFloatType(goodsItem['inPrice']),
         totalMoney: amount * Number(goodsItem['inPrice']),
