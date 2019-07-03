@@ -271,8 +271,9 @@ btnExport.click(function () {
         return;
     }
     var stockIdValue = $('#cmb-stock').val();
-    if (stockIdValue == null) {
+    if (stockIdValue == null || stockIdValue == -1) {
         alert('Bạn chưa chọn kho xuất!');
+        $('#cmb-stock').focus();
         return;
     }
     var partnerIdValue = $('#cmb-partner').val();
@@ -345,6 +346,11 @@ btnExportConfirm.click(function () {
                 }
             } else {
                 setInfoMessage($lblInfo, "Xuất " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000);
+                $inpGoodsCode.val('');
+                $inpGoodsAmount.val('');
+                $inpPartnerName.val('');
+                $('#inp-contract-note').val('');
+                $('#inp-receive-name').val('');
             }
             disableElement($('#btn-export'));
             $table.bootstrapTable('removeAll');
@@ -352,6 +358,7 @@ btnExportConfirm.click(function () {
             enteredSerials = [];
             totalPrice = Number(0);
             setConstantInfoMessage(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(totalPrice));
+
         },
         error: function (data) {
             setErrorMessageWithTime($lblInfo, JSON.stringify(data), 8000)
