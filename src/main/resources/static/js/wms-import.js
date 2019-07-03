@@ -272,8 +272,9 @@ btnImport.click(function () {
         return;
     }
     var stockIdValue = $('#cmb-stock').val();
-    if (stockIdValue == null) {
-        alert('Chưa có thông tin kho nhập!');
+    if (stockIdValue == null || stockIdValue == -1) {
+        alert('Bạn chưa chọn kho nhập!');
+        $('#cmb-stock').focus();
         return;
     }
     //
@@ -324,6 +325,10 @@ btnImportConfirm.click(function () {
                 setErrorMessage($lblInfo, "Nhập kho không thành công!");
             } else {
                 setInfoMessageWithTime($lblInfo, "Nhập " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000);
+                $inpGoodsCode.val('');
+                $inpGoodsAmount.val('');
+                $inpPartnerName.val('');
+                $('#inp-contract-note').val('');
             }
             //
             disableElement($('#btn-import'));
@@ -332,6 +337,8 @@ btnImportConfirm.click(function () {
             enteredSerials = [];
             totalPrice = Number(0);
             setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + totalPrice);
+
+
         },
         error: function (data) {
             setErrorMessage($lblInfo, JSON.stringify(data))
@@ -512,7 +519,9 @@ function moveDataToTable() {
     enableElement($('#btn-import'));
 
     setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
+    $inpGoodsCode.val('');
     $inpGoodsAmount.val('');
+    $inpGoodsCode.focus();
 }
 
 function onSelectStock() {
