@@ -108,7 +108,7 @@ $(function () {
             },
             {
                 field: 'volume',
-                title: 'Kích thước (cm3)',
+                title: 'Thể tích(m3)',
                 align: 'right',
                 formatter: 'subTotal',
                 width: '7%'
