@@ -239,6 +239,9 @@ public class MjrStockTransDetailDTO {
     }
 
     public String getInputPrice() {
+        if (this.inputPrice == null){
+            return "";
+        }
         return inputPrice;
     }
 
@@ -247,6 +250,9 @@ public class MjrStockTransDetailDTO {
     }
 
     public String getOutputPrice() {
+        if (this.outputPrice == null){
+            return "";
+        }
         return outputPrice;
     }
 

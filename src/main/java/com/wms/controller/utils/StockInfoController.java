@@ -1,6 +1,7 @@
 package com.wms.controller.utils;
 
 import com.google.common.collect.Lists;
+import com.sun.xml.internal.ws.util.StringUtils;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.dto.*;
@@ -190,8 +191,12 @@ public class StockInfoController extends BaseController{
                     temp.setSerial(i.getSerial());
                     temp.setIsSerial(goodsItem.getIsSerial());
                     temp.setCellCode(i.getCellCode());
-                    temp.setWeight(FunctionUtils.formatNumber(i.getWeight()));
-                    temp.setVolume(FunctionUtils.formatNumber(i.getVolume()));
+                    if(!DataUtil.isStringNullOrEmpty(i.getWeight())){
+                        temp.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight())*Double.valueOf(i.getAmount()))));
+                    }
+                    if(!DataUtil.isStringNullOrEmpty(i.getVolume())){
+                        temp.setVolume(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getVolume())*Double.valueOf(i.getAmount()))));
+                    }
                     goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
                     temp.setUnitName(mapAppParamsUnitName.get(goodUnitId));
                     if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {

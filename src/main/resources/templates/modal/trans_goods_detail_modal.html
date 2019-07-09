@@ -8,7 +8,7 @@
     <!-- Modal -->
     <div class="modal fade" id="goods-detail-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
          aria-labelledby="myModalLabel" aria-hidden="true" th:width="700px">
-        <div class="modal-dialog" role="document" style="width:85%">
+        <div class="modal-dialog" role="document" style="width:100%">
                 <div class="modal-content" id="catUserDTO-modal">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
@@ -35,18 +35,18 @@
 
                                     <thead>
                                     <tr>
-                                        <th data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+                                        <th data-width="40px" data-field="id" data-formatter="runningFormatter" data-align="center" >#</th>
                                         <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
-                                        <th class="col-md-1" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
-                                        <th class="col-md-1" data-field="amount" data-align="right" data-sortable="true">Số lượng</th>
-                                        <th data-field="unitName" data-align="left" data-sortable="true" >Đơn vị</th>
-                                        <th class="col-md-1" data-field="goodsState" data-align="left" data-sortable="true" data-formatter="formatterGoodsStatus">Trạng thái</th>
-                                        <th class="col-md-1" data-field="serial" data-align="right" data-sortable="true">Serial</th>
-                                        <th class="col-md-1" data-field="cellCode" data-align="right" data-sortable="true">Vị trí</th>
+                                        <th data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
+                                        <th data-width="90px" class="col-md-1" data-field="amount" data-align="right" data-sortable="true">SL</th>
+                                        <th data-width="75px" data-field="unitName" data-align="left" data-sortable="true" >Đơn vị</th>
+                                        <th class="col-md-1" data-field="goodsState" data-align="left" data-sortable="true" data-formatter="formatterGoodsStatus">Tình trạng</th>
+                                        <th data-width="70px" data-field="serial" data-align="right" data-sortable="true">Serial</th>
+                                        <th data-width="70px" data-field="cellCode" data-align="right" data-sortable="true">Vị trí</th>
                                         <th class="col-md-1" data-field="inputPrice" data-align="right" data-sortable="true">Giá nhập</th>
                                         <th class="col-md-1" data-field="outputPrice" data-align="right" data-sortable="true">Giá xuất</th>
                                         <th class="col-md-1" data-field="weight" data-align="right" data-sortable="true">Trọng lượng(kg)</th>
-                                        <th class="col-md-1" data-field="volume" data-align="right" data-sortable="true">Kích thước (cm3)</th>
+                                        <th class="col-md-1" data-field="volume" data-align="right" data-sortable="true">Thể tích(m3)</th>
                                         <th class="col-md-1" data-field="totalMoney" data-align="right" data-sortable="true">Tổng tiền</th>
                                     </tr>
                                     </thead>
