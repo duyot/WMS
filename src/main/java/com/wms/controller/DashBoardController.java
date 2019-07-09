@@ -1,9 +1,12 @@
 package com.wms.controller;
 
+import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.dto.CatCustomerDTO;
 import com.wms.dto.ChartDTO;
 import com.wms.services.interfaces.StatisticService;
+import com.wms.utils.DataUtil;
+import com.wms.utils.FunctionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -50,7 +53,15 @@ public class DashBoardController extends BaseController{
     //select customer
     @RequestMapping(value = "/getTopGoods/{type}",method = RequestMethod.GET)
     public @ResponseBody List<ChartDTO> getTopGoods(@PathVariable("type") String type){
-        return statisticService.getTopGoods(selectedCustomer.getId(),type);
+        List<ChartDTO> lstTopGoods = statisticService.getTopGoods(selectedCustomer.getId(),type);
+        if (!DataUtil.isListNullOrEmpty(lstTopGoods)) {
+            for (ChartDTO i: lstTopGoods){
+                setGoodsNameForTopGoods(i);
+            }
+        }else{
+            lstTopGoods = Lists.newArrayList();
+        }
+        return lstTopGoods;
     }
 
     //select customer
@@ -63,6 +74,10 @@ public class DashBoardController extends BaseController{
     @RequestMapping(value = "/getTransaction/{type}",method = RequestMethod.GET)
     public @ResponseBody List<ChartDTO> getTransaction(@PathVariable("type") String type){
         return statisticService.getTransaction(selectedCustomer.getId(),type,currentUser.getId());
+    }
+
+    private void setGoodsNameForTopGoods(ChartDTO item){
+        item.setName(FunctionUtils.getMapValue(mapGoodsIdGoods, item.getName()));
     }
 
 
