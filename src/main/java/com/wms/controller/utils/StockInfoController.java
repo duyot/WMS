@@ -97,7 +97,7 @@ public class StockInfoController extends BaseController{
         }
         //
         lstCon.add(new Condition("stockId",Constants.SQL_OPERATOR.ORDER,"desc"));
-        lstCon.add(new Condition("changeDate",Constants.SQL_OPERATOR.ORDER,"desc"));
+        lstCon.add(new Condition("goodsId",Constants.SQL_OPERATOR.ORDER,"desc"));
         List<MjrStockGoodsTotalDTO> lstResult = new ArrayList<>();
         //Tim theo doi tac gui hang
         if(!DataUtil.isStringNullOrEmpty(partnerId) && !partnerId.equals(Constants.STATS_ALL)){
