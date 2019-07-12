@@ -147,6 +147,18 @@ public class StockInfoController extends BaseController{
         FunctionUtils.loadFileToClient(response,fileResource);
     }
 
+    //Chi tiet toan bo cac hang hoa trong kho
+    @RequestMapping(value = "/getAllStockGoodsDetail")
+    public void getAllStockGoodsDetail(HttpServletResponse response,@RequestParam("stockId") String stockId,@RequestParam("partnerId") String partnerId, @RequestParam("goodsId")String goodsId,
+                                       @RequestParam("status")String status){
+
+        String prefixFileName = "Thong_tin_chi_tiet_hang_trong_kho_";
+        List<MjrStockTransDetailDTO> lstGoodsDetailAlls = utilsService.getAllStockGoodsDetail(currentUser.getId(), selectedCustomer.getId(),stockId,partnerId,goodsId,status);
+        String fileResource = exportAllGoodsDetails(setListGoodsDetailNameInfo(lstGoodsDetailAlls),prefixFileName);
+        FunctionUtils.loadFileToClient(response,fileResource);
+    }
+
+    //Chi tiet hang hoa trong kho khi xem thong tin 1 hang hoa
     @RequestMapping(value = "/getGoodsDetailFile")
     public void getGoodsDetailFile(HttpServletResponse response,@RequestParam("stockId") String stockId,@RequestParam("partnerId") String partnerId){
         if(DataUtil.isListNullOrEmpty(lstGoodsDetails)){
@@ -205,6 +217,47 @@ public class StockInfoController extends BaseController{
                     //
                     lstResult.add(temp);
                 }
+            }
+        }
+
+        return lstResult;
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    private List<MjrStockTransDetailDTO> setListGoodsDetailNameInfo(List<MjrStockTransDetailDTO> lstStockGoods){
+        List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
+        String goodUnitId = "";
+        for(MjrStockTransDetailDTO i:lstStockGoods){
+            if (!DataUtil.isListNullOrEmpty(lstStockGoods)) {
+                    MjrStockTransDetailDTO temp = new MjrStockTransDetailDTO();
+                    temp.setStockCode(mapStockIdStock.get(i.getStockId()).getCode());
+                    temp.setStockName(mapStockIdStock.get(i.getStockId()).getName());
+                    temp.setGoodsCode(mapGoodsIdGoods.get(i.getGoodsId()).getCode());
+                    temp.setGoodsName(mapGoodsIdGoods.get(i.getGoodsId()).getName());
+                    temp.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
+                    temp.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                    temp.setImportDate(i.getImportDate());
+                    temp.setChangeDate(i.getChangeDate());
+                    if(!DataUtil.isStringNullOrEmpty(i.getInputPrice())){
+                        temp.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
+                        temp.setTotalMoney(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getInputPrice())*Double.valueOf(i.getAmount()))));
+                    }
+                    temp.setSerial(i.getSerial());
+                    temp.setCellCode(i.getCellCode());
+                    if(!DataUtil.isStringNullOrEmpty(i.getWeight())){
+                        temp.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight())*Double.valueOf(i.getAmount()))));
+                    }
+                    if(!DataUtil.isStringNullOrEmpty(i.getVolume())){
+                        temp.setVolume(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getVolume())*Double.valueOf(i.getAmount()))));
+                    }
+                    goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
+                    temp.setUnitName(mapAppParamsUnitName.get(goodUnitId));
+                    if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
+                        temp.setPartnerCode(mapPartnerIdPartner.get(i.getPartnerId()).getCode());
+                        temp.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
+                    }
+                    lstResult.add(temp);
             }
         }
 
@@ -272,6 +325,30 @@ public class StockInfoController extends BaseController{
         beans.put("stockName", FunctionUtils.getMapValue(mapStockIdStock,stockId));
         beans.put("goodsName", goodsItem.getGoodsName());
         beans.put("goodsStateValue", goodsItem.getGoodsStateValue());
+
+        String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String reportFullPath = profileConfig.getTempURL()+ fullFileName;
+        //
+        FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
+        return reportFullPath;
+    }
+    //==================================================================================================================
+
+    //=======================================================================================================
+    private  String exportAllGoodsDetails(List<MjrStockTransDetailDTO> lstGoodsDetails,String prefixFileName){
+
+        if (DataUtil.isListNullOrEmpty(lstGoodsDetails)) {
+            return "";
+        }
+        String templatePath =profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.GOODS_STOCK_DETAILS_TEMPLATE;
+
+        //
+        File file = new File(templatePath);
+        String templateAbsolutePath = file.getAbsolutePath();
+
+        Map<String, Object> beans = new HashMap<>();
+        beans.put("items", lstGoodsDetails);
+        beans.put("date", DateTimeUtils.convertDateTimeToString(new Date()));
 
         String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
         String reportFullPath = profileConfig.getTempURL()+ fullFileName;

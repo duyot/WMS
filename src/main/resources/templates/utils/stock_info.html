@@ -168,8 +168,11 @@
                 <div class="panel-body">
                     <!--toolbar-->
                     <div id="toolbar" class="btn-group">
-                        <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/stockInfo/getTotalFile}">
+                        <a class="btn btn-default" th:title="#{link.stock.remain}" th:href="@{/workspace/utils/stockInfo/getTotalFile}">
                             <i class="fa fa-file-excel-o"></i>
+                        </a>
+                        <a class="btn btn-default" id="link-download-all-goods-detail" th:title="#{link.stock.remain.detail}" th:href="@{/workspace/utils/stockInfo/getAllStockGoodsDetail}">
+                            <i class="fa fa-table"></i>
                         </a>
 
                         <label class="action-info action-info-link" id="action-info"></label>
@@ -311,6 +314,13 @@
                 NProgress.done();
             }
         });
+
+        var $downloadLink = $('#link-download-all-goods-detail');
+        var originalLink = $downloadLink.attr("href");
+        if(originalLink.includes("?")){
+            originalLink = trimAtChacter(originalLink,"?");
+        }
+        $downloadLink.attr("href",originalLink +"?stockId="+stock_id+"&partnerId="+partner_id+"&goodsId="+goods_id+"&status="+statusVal);
 
     }
     //-------------------------------------------------------------------------

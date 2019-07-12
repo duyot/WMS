@@ -23,6 +23,7 @@ public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
     private Logger log = LoggerFactory.getLogger(MjrStockGoodsTotalDP.class);
     private  final String GET_COUNTGOODS_DETAIL    ="getCountGoodsDetail";
     private  final String GET_GOODS_DETAIL    ="getGoodsDetail";
+    private  final String GET_ALL_GOODS_DETAIL    ="getAllStockGoodsDetail";
     private  final String FIND_MORE_CONDITION    ="findMoreCondition?access_token=";
     public MjrStockGoodsTotalDP() {
         super(MjrStockGoodsTotalDTO[].class,MjrStockGoodsTotalDTO.class, Constants.SERVICE_PREFIX.MJR_STOCK_GOODS_TOTAL_SERVICE);
@@ -46,6 +47,20 @@ public class MjrStockGoodsTotalDP extends BaseDP<MjrStockGoodsTotalDTO> {
         String query =   "custId="+custId+"&stockId="+stockId+"&goodsId="+goodsId+"&isSerial="+isSerial+
         "&goodsState="+goodsState+"&partnerId="+partnerId+"&limit="+limit+"&offset="+offset ;
         String url = getUrlLoadBalancingQuery(query, GET_GOODS_DETAIL);
+        try {
+            ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null ,MjrStockTransDetailDTO[].class);
+            return Arrays.asList(responseEntity.getBody());
+        } catch (RestClientException e) {
+            log.error(e.toString());
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public List<MjrStockTransDetailDTO> getAllStockGoodsDetail(String userId, String custId, String stockId, String partnerId, String goodsId, String status ) {
+
+        String query = "userId="+userId+"&custId="+custId+"&stockId="+stockId+"&partnerId="+partnerId+"&goodsId="+goodsId+ "&goodsState="+status;
+        String url = getUrlLoadBalancingQuery(query, GET_ALL_GOODS_DETAIL);
         try {
             ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null ,MjrStockTransDetailDTO[].class);
             return Arrays.asList(responseEntity.getBody());

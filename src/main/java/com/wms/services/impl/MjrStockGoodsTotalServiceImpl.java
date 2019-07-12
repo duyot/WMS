@@ -37,4 +37,9 @@ public class MjrStockGoodsTotalServiceImpl extends BaseServiceImpl<MjrStockGoods
     public List<MjrStockGoodsTotalDTO> findMoreCondition(MjrStockGoodsTotalDTO searchGoodsTotalDTO ) {
         return mjrStockGoodsTotalDP.findMoreCondition(searchGoodsTotalDTO);
     }
+
+    @Override
+    public List<MjrStockTransDetailDTO> getAllStockGoodsDetail(String userId, String custId, String stockId, String partnerId, String goodsId,String status ) {
+        return mjrStockGoodsTotalDP.getAllStockGoodsDetail(userId, custId,stockId,partnerId,goodsId,status);
+    }
 }
