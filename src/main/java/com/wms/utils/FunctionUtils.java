@@ -210,6 +210,9 @@ public class FunctionUtils {
         get partner by user
      */
     public static List<CatPartnerDTO> getListPartner(PartnerService partnerService, CatUserDTO currentUser) {
+        if(DataUtil.isStringNullOrEmpty(currentUser.getPartnerPermission() )){
+            currentUser.setPartnerPermission("0");
+        }
         return partnerService.getPartnerByUser(Long.parseLong(currentUser.getId()),Long.parseLong(currentUser.getPartnerPermission()));
     }
 
