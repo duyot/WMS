@@ -12,7 +12,6 @@ var dataInit = [];
 var enteredSerials = [];
 var selectedIndex = -1;
 $body = $("body");
-var isUpdate = false;
 var totalPrice = Number(0);
 var lblTotalPrice = $("#lbl-total-price");
 //-------------------------------------------------------------------------------------------------------
@@ -41,7 +40,7 @@ $(function () {
                 align: 'left'
             },
             {
-                field: 'goodsStateValue',
+                field: 'goodsState',
                 title: 'Tình trạng',
                 align: 'left',
                 width: '10%',
@@ -129,8 +128,13 @@ $(function () {
                             return 'Giá xuất phải là số';
                         }
                         var row = $table.bootstrapTable('getData')[selectedIndex];
+                        console.log('totalprice before' + totalPrice);
                         totalPrice += (value - row.outputPrice) * row.amount;
                         //
+                        console.log(value);
+                        console.log('outptuprice' + row.outputPrice);
+                        console.log('amount' + row.amount);
+                        console.log('totalprice after' + totalPrice);
                         row.outputPrice = value;
                         row.totalMoney = value * row.amount;
                         //
@@ -244,8 +248,8 @@ btnUploadExcel.click(function () {
             //
             var exportGoods = data;
             var goodsSize = exportGoods.length;
-            for (i = 0; i < goodsSize; i++) {
-                totalPrice += exportGoods[i].amount * exportGoods[i].outputPrice;
+            for (var i = 0; i < goodsSize; i++) {
+                totalPrice += Number(exportGoods[i].totalMoney);
             }
             //
             setTextForLabel(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(totalPrice));
@@ -254,7 +258,7 @@ btnUploadExcel.click(function () {
             enableElement($('#btn-export'));
         },
         error: function (data) {
-            alert(data);
+            alert("Vui lòng chọn lại file dữ liệu");
         },
         complete: function () {
             $body.removeClass("loading");
@@ -367,7 +371,6 @@ btnExportConfirm.click(function () {
             $body.removeClass("loading");
         }
     });
-    clearContent();
 });
 //@Add action---------------------------------------------------------------------------------------------------
 $btn_add_partner = $('#btn-add-partner');
@@ -405,10 +408,6 @@ btnClearTableConfirm.click(function () {
     //
     hideModal($('#deleteConfirmModal'))
 });
-function clearContent() {
-    $('#cmb-goods-state').bootstrapToggle('on');
-    $inpPartnerName.val('');
-}
 //#event
 //-------------enter goods code
 $inpGoodsCode.keypress(function (e) {

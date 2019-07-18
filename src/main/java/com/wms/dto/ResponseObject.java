@@ -81,4 +81,16 @@ public class ResponseObject {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
+
+    @Override
+    public String toString() {
+        return "ResponseObject{" +
+                "statusCode='" + statusCode + '\'' +
+                ", statusName='" + statusName + '\'' +
+                ", key='" + key + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", total='" + total + '\'' +
+                ", success='" + success + '\'' +
+                '}';
+    }
 }

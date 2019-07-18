@@ -41,7 +41,7 @@ $(function () {
                 align: 'left'
             },
             {
-                field: 'goodsStateValue',
+                field: 'goodsState',
                 title: 'Tình trạng',
                 align: 'left',
                 width: '10%',
@@ -245,7 +245,7 @@ btnUploadExcel.click(function () {
             var importGoods = data;
             var goodsSize = importGoods.length;
             for (i = 0; i < goodsSize; i++) {
-                totalPrice += importGoods[i].amount * importGoods[i].inputPrice;
+                totalPrice += Number(importGoods[i].totalMoney);
             }
             //
             setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(totalPrice));
@@ -254,7 +254,7 @@ btnUploadExcel.click(function () {
             enableElement($('#btn-import'));
         },
         error: function (data) {
-            alert(data);
+            alert("Vui lòng chọn lại file dữ liệu");
         },
         complete: function () {
             $body.removeClass("loading");
@@ -384,10 +384,6 @@ btnClearTableConfirm.click(function () {
     //
     hideModal($('#deleteConfirmModal'))
 });
-function clearContent() {
-    $('#cmb-goods-state').bootstrapToggle('on');
-    $inpPartnerName.val('');
-}
 //#event
 //-------------enter goods code
 $inpGoodsCode.keypress(function (e) {
