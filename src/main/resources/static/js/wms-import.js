@@ -313,18 +313,22 @@ btnImportConfirm.click(function () {
             //
             var resultMessage = data['statusCode'];
             var stockTransId = data['key'];
+            var resultArr = data['key'].split('|');
+            var stockTransId   = resultArr[0];
+            var stockTransCode = resultArr[1];
+            //
             var successRecords = data['success'];
             //
             if (resultMessage == "SUCCESS_WITH_ERROR") {
                 var totalRecords = data['total'];
                 //show modal upload file
-                $("#modal-error-import-lbl-info").text('Nhập ' + successRecords + '/' + totalRecords + ' hàng thành công với mã giao dịch: ' + stockTransId);
+                $("#modal-error-import-lbl-info").text('Nhập ' + successRecords + '/' + totalRecords + ' hàng thành công với mã giao dịch: ' + stockTransCode);
                 $("#modal-link-download").attr("href", $("#modal-inp-stock-trans-id").val() + "/" + stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             } else if (resultMessage == "FAIL") {
                 setErrorMessage($lblInfo, "Nhập kho không thành công!");
             } else {
-                setInfoMessageWithTime($lblInfo, "Nhập " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000);
+                setInfoMessageWithTime($lblInfo, "Nhập " + successRecords + " hàng thành công với mã giao dịch: " + stockTransCode, 8000);
                 $inpGoodsCode.val('');
                 $inpGoodsAmount.val('');
                 $inpPartnerName.val('');

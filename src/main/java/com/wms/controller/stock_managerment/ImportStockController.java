@@ -1,7 +1,6 @@
 package com.wms.controller.stock_managerment;
 
 import com.google.common.collect.Lists;
-import com.sun.deploy.util.StringUtils;
 import com.wms.base.BaseController;
 import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
@@ -170,7 +169,7 @@ public class ImportStockController extends BaseController {
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName = "Error_" + errorItem.getCustId() + "_" + errorItem.getStockId() + "_" + errorItem.getImportStockTransId();
             String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError, mapGoodsIdGoods), prefixFileName, true, profileConfig);
-            FunctionUtils.loadFileToClient(response, BundleUtils.getKey("temp_url") + fileName);
+            FunctionUtils.loadFileToClient(response, profileConfig.getTempURL() + fileName);
         }
     }
 

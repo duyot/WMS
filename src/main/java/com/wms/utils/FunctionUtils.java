@@ -379,13 +379,10 @@ public class FunctionUtils {
         goodsItem.setGoodsState(getCellValue(row.getCell(3)));
         goodsItem.setSerial(getCellValue(row.getCell(4)));
         goodsItem.setAmount(getCellValue(row.getCell(5)));
-        goodsItem.setAmountValue(formatNumber(getCellValue(row.getCell(5))));
         String price = getCellValue(row.getCell(6));
         if (isImportTransaction) {
-            goodsItem.setInputPriceValue(formatNumber(price));
             goodsItem.setInputPrice(price);
         } else {
-            goodsItem.setOutputPriceValue(formatNumber(price));
             goodsItem.setOutputPrice(price);
         }
         goodsItem.setCellCode(getCellValue(row.getCell(7)));
@@ -497,6 +494,12 @@ public class FunctionUtils {
                     if (!isNumberFloat(price)) {
                         errorInfo.append("\n Giá phải là số và >0");
                         isValid = false;
+                    }else{
+                        if (isImportTransaction) {
+                            goodsItem.setInputPriceValue(formatNumber(price));
+                        } else {
+                            goodsItem.setOutputPriceValue(formatNumber(price));
+                        }
                     }
                 } else {//set default value
                     if (isImportTransaction) {
