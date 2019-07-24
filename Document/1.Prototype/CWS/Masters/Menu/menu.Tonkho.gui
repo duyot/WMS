@@ -1,0 +1,199 @@
+<Screen
+	CID = "1"
+	AppID = "2"
+	AppVer = "4.6.155.0"
+	DocID = ""
+	HasCanvas = "0"
+	Width = "800"
+	Height = "600"
+	NextCID = "6"
+	RepresentativeRefID = "105144190"
+	UseDefRepresentative = "0">
+	<Elements
+		CID = "1">
+		<Element
+			CID = "105144190"
+			Type = "MenuPopup"
+			X = "-85"
+			Y = "33"
+			Width = "228"
+			Height = "96"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			Typeface = ""
+			FontAttributes = "0"
+			TextSize = "Normal"
+			NextItemID = "49"
+			LeftMargin = "20"
+			RightMargin = "16"
+			Mirror = "0">
+			<MenuPopupItem
+				ItemID = "35"
+				Type = "CommandOption"
+				Item = "1. Xem thông tin kho hàng"
+				Hotkey = ""
+				IsDisabled = "0"/>
+			<MenuPopupItem
+				ItemID = "36"
+				Type = "Separator"
+				Item = ""
+				Hotkey = ""
+				IsDisabled = "0"/>
+			<MenuPopupItem
+				ItemID = "42"
+				Type = "CommandOption"
+				Item = "2. Tìm kiếm serial"
+				Hotkey = ""
+				IsDisabled = "0"/>
+			<MenuPopupItem
+				ItemID = "41"
+				Type = "Separator"
+				Item = ""
+				Hotkey = ""
+				IsDisabled = "0"/>
+			<MenuPopupItem
+				ItemID = "47"
+				Type = "CommandOption"
+				Item = "3. Cập nhật thông tin hàng hóa"
+				Hotkey = ""
+				IsDisabled = "0"/>
+			<MenuPopupItem
+				ItemID = "48"
+				Type = "Separator"
+				Item = ""
+				Hotkey = ""
+				IsDisabled = "0"/>
+		</Element>
+		<Element
+			CID = "814822367"
+			Type = "ComponentThumbnail"
+			X = "265"
+			Y = "-81"
+			Width = "120"
+			Height = "120"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			BackgroundColour = "255,255,255,0,6"
+			FileID = "C496ADF3-2151-438D-94911D9823712B5C"
+			RootPath = "$Container"
+			Filename = "..\..\TienIch\XemKhoHang\1.1.Xemkho.gui"
+			Background = "Transparent"
+			HorzAlign = "Left"
+			VertAlign = "Top"
+			ScrollBarHorz = "Auto"
+			ScrollBarVert = "Auto"
+			StepSizeHorz = "4"
+			StepSizeVert = "4"
+			MaintainSize = "1"
+			AllowDragScrolling = "0"
+			UseInertia = "0"
+			SnapScrolling = "0"
+			AnimateSnapping = "0"/>
+		<Element
+			CID = "298078745"
+			Type = "ComponentThumbnail"
+			X = "394"
+			Y = "56"
+			Width = "120"
+			Height = "120"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			BackgroundColour = "255,255,255,0,6"
+			FileID = "8E1B767D-EA27-40BC-8A12FD1415957276"
+			RootPath = "$Container"
+			Filename = "..\..\TienIch\TimKiemSerial\1.0.TimSerial.gui"
+			Background = "Transparent"
+			HorzAlign = "Left"
+			VertAlign = "Top"
+			ScrollBarHorz = "Auto"
+			ScrollBarVert = "Auto"
+			StepSizeHorz = "4"
+			StepSizeVert = "4"
+			MaintainSize = "1"
+			AllowDragScrolling = "0"
+			UseInertia = "0"
+			SnapScrolling = "0"
+			AnimateSnapping = "0"/>
+		<Element
+			CID = "156721199"
+			Type = "ComponentThumbnail"
+			X = "259"
+			Y = "211"
+			Width = "120"
+			Height = "120"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			BackgroundColour = "255,255,255,0,6"
+			FileID = "D4CCBCD2-1D1A-4A06-B962B7BB256B15A2"
+			RootPath = "$Container"
+			Filename = "..\..\TienIch\CapNhatThongTin\1.0.CapNhat_List.gui"
+			Background = "Transparent"
+			HorzAlign = "Left"
+			VertAlign = "Top"
+			ScrollBarHorz = "Auto"
+			ScrollBarVert = "Auto"
+			StepSizeHorz = "4"
+			StepSizeVert = "4"
+			MaintainSize = "1"
+			AllowDragScrolling = "0"
+			UseInertia = "0"
+			SnapScrolling = "0"
+			AnimateSnapping = "0"/>
+	</Elements>
+	<Connections
+		CID = "2">
+		<Connection
+			CID = "814836328"
+			Layer = "DesignElements"
+			Trigger = "LeftClick"
+			Type = "Navigation"
+			SubType = "ModelessSwitchTop"
+			SourceSubItemID = "35"
+			SourceRefID = "105144190"
+			TargetRefID = "814822367"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "298065470"
+			Layer = "DesignElements"
+			Trigger = "LeftClick"
+			Type = "Navigation"
+			SubType = "ModelessSwitchTop"
+			SourceSubItemID = "42"
+			SourceRefID = "105144190"
+			TargetRefID = "298078745"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "156707806"
+			Layer = "DesignElements"
+			Trigger = "LeftClick"
+			Type = "Navigation"
+			SubType = "ModelessSwitchTop"
+			SourceSubItemID = "47"
+			SourceRefID = "105144190"
+			TargetRefID = "156721199"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+	</Connections>
+	<Groups
+		CID = "3"/>
+	<SelectionGroups
+		CID = "4"/>
+	<Notes
+		CID = "5">
+		<Note
+			CID = "1"
+			Name = "Description"
+			NextCID = "2">
+			<Text
+				CID = "1">
+				
+			</Text>
+		</Note>
+	</Notes>
+</Screen>
