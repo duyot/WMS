@@ -1219,7 +1219,7 @@
 			Typeface = ""
 			FontAttributes = "0"
 			TextSize = "Normal"
-			Text = "Xem"
+			Text = "Tìm kiếm"
 			Depth = "2"
 			IsDefault = "0"
 			IsDisabled = "0"
@@ -1274,32 +1274,6 @@
 			SliceRight = "0"
 			SliceTop = "0"
 			SliceBottom = "0"/>
-		<Element
-			CID = "1635931324"
-			Type = "ComponentThumbnail"
-			X = "1127"
-			Y = "273"
-			Width = "120"
-			Height = "120"
-			Flags = "3"
-			UseDataTable = "0"
-			TableName = ""
-			BackgroundColour = "255,255,255,0,6"
-			FileID = "1E861DF9-4479-41AE-8A4DFDEE90F31E95"
-			RootPath = "$Container"
-			Filename = "..\TimKiemSerial\1.5.LichSuXuatNhap.gui"
-			Background = "Transparent"
-			HorzAlign = "Left"
-			VertAlign = "Top"
-			ScrollBarHorz = "Auto"
-			ScrollBarVert = "Auto"
-			StepSizeHorz = "4"
-			StepSizeVert = "4"
-			MaintainSize = "1"
-			AllowDragScrolling = "0"
-			UseInertia = "0"
-			SnapScrolling = "0"
-			AnimateSnapping = "0"/>
 		<Element
 			CID = "1057113016"
 			Type = "StoryboardCloseBox"
@@ -2079,6 +2053,32 @@
 			SliceRight = "0"
 			SliceTop = "0"
 			SliceBottom = "0"/>
+		<Element
+			CID = "350507149"
+			Type = "ComponentThumbnail"
+			X = "1144"
+			Y = "319"
+			Width = "120"
+			Height = "120"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			BackgroundColour = "255,255,255,0,6"
+			FileID = "39BF8A6B-F069-41F8-8FF5E1829C31E5D6"
+			RootPath = "$Container"
+			Filename = "1.1.CapNhat_update.gui"
+			Background = "Transparent"
+			HorzAlign = "Left"
+			VertAlign = "Top"
+			ScrollBarHorz = "Auto"
+			ScrollBarVert = "Auto"
+			StepSizeHorz = "4"
+			StepSizeVert = "4"
+			MaintainSize = "1"
+			AllowDragScrolling = "0"
+			UseInertia = "0"
+			SnapScrolling = "0"
+			AnimateSnapping = "0"/>
 	</Elements>
 	<Connections
 		CID = "2">
@@ -2212,6 +2212,28 @@
 			SourceSubItemID = ""
 			SourceRefID = "793273057"
 			TargetRefID = "793259166"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "350516558"
+			Layer = "DesignElements"
+			Trigger = "LeftClick"
+			Type = "Navigation"
+			SubType = "Modal"
+			SourceSubItemID = ""
+			SourceRefID = "1927963480"
+			TargetRefID = "350507149"
+			ConLineWidth = "2"
+			ConLineColour = "0,0,0,0,0"/>
+		<Connection
+			CID = "350504205"
+			Layer = "DesignElements"
+			Trigger = "LeftClick"
+			Type = "Navigation"
+			SubType = "Modal"
+			SourceSubItemID = ""
+			SourceRefID = "1927947986"
+			TargetRefID = "350507149"
 			ConLineWidth = "2"
 			ConLineColour = "0,0,0,0,0"/>
 	</Connections>
