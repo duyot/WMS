@@ -452,7 +452,7 @@
 			Typeface = ""
 			FontAttributes = "0"
 			TextSize = "Normal"
-			NextColumnID = "38"
+			NextColumnID = "39"
 			NextRowID = "38"
 			IsFlat = "0"
 			IsHeaderBold = "1"
@@ -509,7 +509,7 @@
 					ColumnID = "31"
 					Heading = "Kho hàng"
 					VisibleCondition = ""
-					Width = "183"
+					Width = "122"
 					HeaderMargin = "0"
 					CellMargin = "0"
 					HasCustomOddBgColour = "0"
@@ -659,6 +659,23 @@
 					OddBackgroundColour = "255,255,255,0,6"
 					EvenBackgroundColour = "255,255,255,0,6"
 					TextColour = "0,0,0,0,9"
+					ColumnID = "38"
+					Heading = "Serial"
+					VisibleCondition = ""
+					Width = "61"
+					HeaderMargin = "0"
+					CellMargin = "0"
+					HasCustomOddBgColour = "0"
+					HasCustomEvenBgColour = "0"
+					HasCustomTextColour = "0"
+					HighlightSelections = "1"
+					Type = "Text"
+					HeadingAlignment = "Centre"
+					CellAlignment = "Left"/>
+				<ColumnItem
+					OddBackgroundColour = "255,255,255,0,6"
+					EvenBackgroundColour = "255,255,255,0,6"
+					TextColour = "0,0,0,0,9"
 					ColumnID = "28"
 					Heading = "Thao tác"
 					VisibleCondition = ""
@@ -710,6 +727,9 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "2"
@@ -747,10 +767,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "30"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -821,10 +847,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "32"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -895,10 +927,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "20"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -969,10 +1007,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "33"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -1043,10 +1087,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "35"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
@@ -1117,10 +1167,16 @@
 					<Cell>
 						
 					</Cell>
+					<Cell>
+						
+					</Cell>
 				</Row>
 				<Row
 					RowID = "37"
 					IsSelected = "0">
+					<Cell>
+						
+					</Cell>
 					<Cell>
 						
 					</Cell>
