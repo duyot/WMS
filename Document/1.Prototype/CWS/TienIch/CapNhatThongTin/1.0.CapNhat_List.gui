@@ -2135,6 +2135,55 @@
 			UseInertia = "0"
 			SnapScrolling = "0"
 			AnimateSnapping = "0"/>
+		<Element
+			CID = "1445863701"
+			Type = "StaticText"
+			X = "648"
+			Y = "119"
+			Width = "17"
+			Height = "24"
+			Flags = "0"
+			UseDataTable = "0"
+			TableName = ""
+			FillColour = "236,233,216,0,16"
+			TextColour = "227,145,79,0,27"
+			Typeface = ""
+			FontAttributes = "0"
+			TextSize = "Normal"
+			Text = "(*)"
+			IsDisabled = "0"
+			IsHyperlink = "0"
+			Fill = "None"
+			HorzAlign = "Left"
+			VertAlign = "Centre"/>
+		<Element
+			CID = "1445887110"
+			Type = "Icon"
+			X = "436"
+			Y = "160"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmCross.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
+		<Element
+			CID = "1445864546"
+			Type = "Icon"
+			X = "436"
+			Y = "195"
+			Width = "16"
+			Height = "16"
+			Flags = "3"
+			UseDataTable = "0"
+			TableName = ""
+			RootPath = "$Application"
+			Filename = "Icons\Miscellaneous\ConfirmCross.ico"
+			IconIndex = "0"
+			IsDisabled = "0"/>
 	</Elements>
 	<Connections
 		CID = "2">

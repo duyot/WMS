@@ -12,3 +12,10 @@
 	 CONSTRAINT "UN_MSDRN_GOODS" UNIQUE ("CUST_ID", "GOODS_ID", "GOODS_STATE", "STOCK_ID")
    );
  
+--Han dung, ghi chu trong kho
+alter table mjr_stock_goods add column description varchar2(2000);
+alter table mjr_stock_goods add column expire_date date;
+
+alter table mjr_stock_goods_serial add column description varchar2(2000);
+alter table mjr_stock_goods_serial add column expire_date date;
+
