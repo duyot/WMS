@@ -358,10 +358,10 @@ public class TransInfoController extends BaseController{
             item.setAmount(item.getAmount().replaceAll(",", ""));
             int amount = item.getAmount().equalsIgnoreCase("") ? 1 : Integer.parseInt(item.getAmount());
             if (type.equalsIgnoreCase("1")){
-                double inputPrice =item.getInputPrice().equalsIgnoreCase("") ? 0 : Double.parseDouble(item.getInputPrice().replace(",",""));
+                double inputPrice =  item.getInputPrice() == null || "".equalsIgnoreCase(item.getInputPrice()) ? 0 : Double.parseDouble(item.getInputPrice().replace(",",""));
                 total = total + inputPrice * amount;
             }else{
-                double outputPrice =item.getOutputPrice().equalsIgnoreCase("") ? 0 : Double.parseDouble(item.getOutputPrice().replace(",",""));
+                double outputPrice = item.getOutputPrice() == null || "".equalsIgnoreCase(item.getOutputPrice())? 0 : Double.parseDouble(item.getOutputPrice().replace(",",""));
                 total = total + outputPrice * amount;
             }
         }

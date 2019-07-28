@@ -13,5 +13,5 @@ public interface UtilsService {
     //co bo sung partnerId
     List<MjrStockTransDetailDTO> getGoodsDetail(String custId, String stockId, String goodsId, String isSerial, String goodsState,String partnerId,String limit,String offset );
     List<MjrStockGoodsTotalDTO> findMoreCondition(MjrStockGoodsTotalDTO searchGoodsTotalDTO );
-
+    List<MjrStockTransDetailDTO> getAllStockGoodsDetail(String userId, String custId, String stockId, String partnerId, String goodsId, String status);
 }

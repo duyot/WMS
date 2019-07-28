@@ -41,7 +41,7 @@ $(function () {
                 align: 'left'
             },
             {
-                field: 'goodsStateValue',
+                field: 'goodsState',
                 title: 'Tình trạng',
                 align: 'left',
                 width: '10%',
@@ -108,7 +108,7 @@ $(function () {
             },
             {
                 field: 'volume',
-                title: 'Kích thước (cm3)',
+                title: 'Thể tích(m3)',
                 align: 'right',
                 formatter: 'subTotal',
                 width: '7%'
@@ -245,7 +245,7 @@ btnUploadExcel.click(function () {
             var importGoods = data;
             var goodsSize = importGoods.length;
             for (i = 0; i < goodsSize; i++) {
-                totalPrice += importGoods[i].amount * importGoods[i].inputPrice;
+                totalPrice += Number(importGoods[i].totalMoney);
             }
             //
             setTextForLabel(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(totalPrice));
@@ -254,7 +254,7 @@ btnUploadExcel.click(function () {
             enableElement($('#btn-import'));
         },
         error: function (data) {
-            alert(data);
+            alert("Vui lòng chọn lại file dữ liệu");
         },
         complete: function () {
             $body.removeClass("loading");
@@ -313,18 +313,22 @@ btnImportConfirm.click(function () {
             //
             var resultMessage = data['statusCode'];
             var stockTransId = data['key'];
+            var resultArr = data['key'].split('|');
+            var stockTransId   = resultArr[0];
+            var stockTransCode = resultArr[1];
+            //
             var successRecords = data['success'];
             //
             if (resultMessage == "SUCCESS_WITH_ERROR") {
                 var totalRecords = data['total'];
                 //show modal upload file
-                $("#modal-error-import-lbl-info").text('Nhập ' + successRecords + '/' + totalRecords + ' hàng thành công với mã giao dịch: ' + stockTransId);
+                $("#modal-error-import-lbl-info").text('Nhập ' + successRecords + '/' + totalRecords + ' hàng thành công với mã giao dịch: ' + stockTransCode);
                 $("#modal-link-download").attr("href", $("#modal-inp-stock-trans-id").val() + "/" + stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             } else if (resultMessage == "FAIL") {
                 setErrorMessage($lblInfo, "Nhập kho không thành công!");
             } else {
-                setInfoMessageWithTime($lblInfo, "Nhập " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000);
+                setInfoMessageWithTime($lblInfo, "Nhập " + successRecords + " hàng thành công với mã giao dịch: " + stockTransCode, 8000);
                 $inpGoodsCode.val('');
                 $inpGoodsAmount.val('');
                 $inpPartnerName.val('');
@@ -384,10 +388,6 @@ btnClearTableConfirm.click(function () {
     //
     hideModal($('#deleteConfirmModal'))
 });
-function clearContent() {
-    $('#cmb-goods-state').bootstrapToggle('on');
-    $inpPartnerName.val('');
-}
 //#event
 //-------------enter goods code
 $inpGoodsCode.keypress(function (e) {

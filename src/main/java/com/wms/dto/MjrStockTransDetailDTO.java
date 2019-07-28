@@ -31,18 +31,54 @@ public class MjrStockTransDetailDTO {
     private String stockId;
     private String stockValue;
     private String stockTransCode;
+    private String stockCode;
     private String stockName;
     private String stockTransType;
     private String unitName;
     private String stockTransCreatedDate;
     private String stockTransCreatedUser;
     private String partnerId;
+    private String partnerCode;
     private String partnerName;
     private String totalMoney;
     private String ieMoney;
     //
     private String volume;
     private String weight;
+    private String changeDate;
+    private String custId;
+
+    public String getStockCode() {
+        return stockCode;
+    }
+
+    public void setStockCode(String stockCode) {
+        this.stockCode = stockCode;
+    }
+
+    public String getPartnerCode() {
+        return partnerCode;
+    }
+
+    public void setPartnerCode(String partnerCode) {
+        this.partnerCode = partnerCode;
+    }
+
+    public String getChangeDate() {
+        return changeDate;
+    }
+
+    public void setChangeDate(String changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    public String getCustId() {
+        return custId;
+    }
+
+    public void setCustId(String custId) {
+        this.custId = custId;
+    }
 
     public String getPartnerId() {
         return partnerId;
@@ -156,6 +192,22 @@ public class MjrStockTransDetailDTO {
         this.outputPrice = outputPrice;
         this.cellCode = cellCode;
         this.statusValue = statusValue;
+    }
+
+    public MjrStockTransDetailDTO(String custId, String stockId, String goodsId,String goodsState, String partnerId, String amount,String volume,String weight,String cellCode,String importDate, String changeDate, String inputPrice, String serial) {
+        this.custId = custId;
+        this.stockId = stockId;
+        this.goodsId = goodsId;
+        this.goodsState = goodsState;
+        this.partnerId = partnerId;
+        this.amount = amount;
+        this.volume = volume;
+        this.weight = weight;
+        this.cellCode = cellCode;
+        this.importDate = importDate;
+        this.changeDate = changeDate;
+        this.inputPrice = inputPrice;
+        this.serial = serial;
     }
 
     public MjrStockTransDetailDTO(String goodsName, String goodsCode) {

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
 </head>
 <body>
 
-<div th:fragment="frag-goods-detail-modal">
+<div th:fragment="frag-goods-log-modal">
     <!-- Modal -->
-    <div class="modal fade" id="goods-detail-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
+    <div class="modal fade" id="goods-log-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
          aria-labelledby="myModalLabel" aria-hidden="true" th:width="500px">
-        <div class="modal-dialog" role="document" style="width:100%">
+        <div class="modal-dialog" role="document" style="width:80%">
                 <div class="modal-content" id="catUserDTO-modal">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
@@ -24,7 +25,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
-                                                <label id="modal-lbl-goods-name-val"></label>
+                                                <label id="log-lbl-goods-name-val"></label>
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
@@ -32,62 +33,51 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
-                                                <label id="modal-lbl-stock-name-val"></label>
+                                                <label id="log-lbl-stock-name-val"></label>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row" style="margin-bottom: 10px">
+                                        <div class="col-sm-2">
+                                            <label th:text="#{lbl.createdate}" for="create-date-range"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar fa-fw"></i>
+                                            </span>
+                                                <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
+                                            </div>
+                                        </div>
                                         <div class="col-sm-2">
                                             <label id="lbl-goods-state" th:text="#{lbl.goods.stage}"></label>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
-                                                <label id="modal-lbl-goods-state-val"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="input-group">
-
+                                                <label id="log-lbl-goods-state-val"></label>
                                             </div>
                                         </div>
                                     </div>
-                                <div id="modal-goods-detail-toolbar" class="btn-group">
+
+                                <!--<div id="modal-goods-log-toolbar" class="btn-group">
                                     <a class="btn btn-default" id="link-download-goods-detail" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/stockInfo/getGoodsDetailFile}">
                                         <i class="fa fa-download"></i>
                                     </a>
-                                </div>
-
-                                <table  id="tbl-goods-detail"
-                                        data-pagination="true"
-                                        data-side-pagination="server"
-                                        data-search="true"
-                                        data-click-to-select="true"
-                                        data-toolbar="#modal-goods-detail-toolbar"
-                                        class="table-striped"
-                                        style="word-wrap: break-word;  table-layout: fixed;"
-                                >
-
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">#</th>
-                                        <th class="col-md-1" data-field="serial" data-align="left" data-sortable="true">Serial</th>
-                                        <th data-field="partnerName" data-align="left" data-sortable="true">Đối tác cung cấp</th>
-                                        <th class="col-md-1" data-field="amountValue" data-align="right" data-sortable="true">Số lượng</th>
-                                        <th class="col-md-1" data-field="unitName" data-align="left" data-sortable="true" >ĐVT</th>
-                                        <th class="col-md-2" data-field="importDate" data-align="center" data-sortable="true">Thời gian nhập</th>
-                                        <th class="col-md-2" data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
-                                        <th class="col-md-1" data-field="cellCode" data-align="left" data-sortable="true">Vị trí</th>
-                                        <th class="col-md-1" data-field="weight" data-align="right" data-sortable="true">Trọng lượng(kg)</th>
-                                        <th class="col-md-1" data-field="volume" data-align="right" data-sortable="true">Thể tích(m3)</th>
-                                    </tr>
-                                    </thead>
-                                </table>
+                                </div>-->
                             </div>
                         </div>
                     </div>
+                    <div class="wrapper text-center" style="text-align: center; margin-top: 5px">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-default  btn-primary"
+                                    id="btn-search-stock-info" th:value="@{/workspace/utils/stockInfo/findByCondition}">
+                                <i class="fa fa-history"></i>
+                                <span th:text="#{btn.goods.log}"></span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="modal-footer">
                         <button id="modal-btn-add" type="submit" class="btn btn-primary" data-dismiss="modal">
                             <i class="fa fa-close"></i>
@@ -101,3 +91,9 @@
 
 </body>
 </html>
+
+<script>
+    $(function () {
+        initDateRangeSelect();
+    });
+</script>

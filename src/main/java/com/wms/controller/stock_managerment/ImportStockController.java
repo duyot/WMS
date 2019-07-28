@@ -1,7 +1,6 @@
 package com.wms.controller.stock_managerment;
 
 import com.google.common.collect.Lists;
-import com.sun.deploy.util.StringUtils;
 import com.wms.base.BaseController;
 import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
@@ -11,6 +10,7 @@ import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
+import com.wms.utils.JSONUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,7 +157,7 @@ public class ImportStockController extends BaseController {
 
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request, HttpServletResponse response) {
-        String fileLocation = profileConfig.getTemplateURL() + request.getSession().getAttribute("file_import_error");
+        String fileLocation = profileConfig.getTempURL() + request.getSession().getAttribute("file_import_error");
         FunctionUtils.loadFileToClient(response, fileLocation);
     }
 
@@ -168,8 +168,8 @@ public class ImportStockController extends BaseController {
         if (!DataUtil.isListNullOrEmpty(lstGoodsError)) {
             Err$MjrStockGoodsSerialDTO errorItem = lstGoodsError.get(0);
             String prefixFileName = "Error_" + errorItem.getCustId() + "_" + errorItem.getStockId() + "_" + errorItem.getImportStockTransId();
-//            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError, mapGoodsIdGoods), prefixFileName, true);
-//            FunctionUtils.loadFileToClient(response, BundleUtils.getKey("temp_url") + fileName);
+            String fileName = FunctionUtils.exportExcelError(FunctionUtils.convertListErrorToTransDetail(lstGoodsError, mapGoodsIdGoods), prefixFileName, true, profileConfig);
+            FunctionUtils.loadFileToClient(response, profileConfig.getTempURL() + fileName);
         }
     }
 
@@ -230,7 +230,8 @@ public class ImportStockController extends BaseController {
         String sysdate = catStockService.getSysDate();
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
         ResponseObject response = stockManagementService.importStock(stockTrans);
-        log.info("Result " + response.getStatusCode() + " in " + (System.currentTimeMillis() - startTime) + "ms");
+        log.info("Import data: " + JSONUtils.object2JSONString(stockTrans));
+        log.info("Result " + response.toString() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
     }
 
@@ -277,8 +278,7 @@ public class ImportStockController extends BaseController {
             i.setInputPrice(FunctionUtils.unformatFloat(i.getInputPrice()));
             i.setAmount(FunctionUtils.unformatFloat(i.getAmount()));
             i.setCellCode(mapCellIdCellCode.get(i.getCellCode()));
-            i.setGoodsState(i.getGoodsStateValue());
-            //
+            i.setGoodsState(i.getGoodsState());
             //
             i.setAmountValue(null);
             i.setInputPriceValue(null);
