@@ -27,7 +27,8 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
     private final String GET_CUSTOMER_URL =  "getCustomer/";
     private final String GET_USER_BY_CUST =  "getUserByCustomerId/";
     private final String UPDATE_USER_URL  = "updateUser/";
-    private final String GUEST_ADD_USER_URL  = "guestAddUser?access_token=";
+    private final String ADD  = "add/";
+    private final String GUEST_ADD_USER_URL  = "guestAddUser/";
     private final String UPDATE_CUSTOMER_URL  = "updateCustomer/";
 
     @Autowired
@@ -49,7 +50,18 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
         }
     }
 
-    public ResponseObject updateUser(CatUserDTO updatedUser ){
+	@Override
+	public ResponseObject add(CatUserDTO registerCatUserDTO) {
+		try {
+			String url = getUrlWithoutTokenKey("register/addUser");
+			return restTemplate.postForObject(url, registerCatUserDTO,ResponseObject.class);
+		} catch (RestClientException e) {
+			log.info(e.toString());
+			return null;
+		}
+	}
+
+	public ResponseObject updateUser(CatUserDTO updatedUser ){
         String updateUserUrl = getUrlLoadBalancing(0, UPDATE_USER_URL);
         try {
             return restTemplate.postForObject(updateUserUrl, updatedUser,ResponseObject.class);
@@ -59,16 +71,6 @@ public class CatUserDP extends BaseDP<CatUserDTO>{
         }
     }
 
-
-    public ResponseObject guestAddUser(CatUserDTO registerCatUserDTO){
-        try {
-            String url = getUrlLoadBalancing(0, GUEST_ADD_USER_URL);
-            return restTemplate.postForObject(url, registerCatUserDTO,ResponseObject.class);
-        } catch (RestClientException e) {
-            log.info(e.toString());
-            return null;
-        }
-    }
     public ResponseObject updateCustomer(CatCustomerDTO updatedCustomer ){
         String url = getUrlLoadBalancing(0, UPDATE_CUSTOMER_URL);
         try {

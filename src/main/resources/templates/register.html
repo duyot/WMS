@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
-    <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans'/>
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans'/>
     <!--script for regigster-->
     <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/register.css}"/>
@@ -16,6 +16,7 @@
     <script th:attr="src=@{/js/wms-common.js}" th:href="@{/js/wms-common.js}"></script>
     <!--confirmation-->
     <script th:attr="src=@{/js/bootstrap.min.js}" th:href="@{/js/bootstrap.min.js}"></script>
+    <script th:attr="src=@{/js/notification/bootstrap-notify.min.js}" th:href="@{/js/notification/bootstrap-notify.min.js}"></script>
 </head>
 <body>
 <div class="container">
@@ -236,8 +237,8 @@
         }
         $.ajax({
             type: "POST",
-            url: "/register",
-            data: $('#register-form').serialize(),
+            url: "/WMS/register",
+            data: $('#register-form input[name!=confirm]').serialize(),
             success: function (data) {
                 resultArr = data.split('|');
                 resultCode = resultArr[0];
@@ -252,7 +253,7 @@
                 }
 
             },
-            error:function(){
+            error:function(e){
                 setErrorMessage($('#action-info'),'Lỗi hệ thống');
             }
         });
@@ -263,7 +264,7 @@
              window.location = "https://logdez.com/login";
          } else {
              // Update remaining seconds
-             $('#countdown').text(" " +seconds + " s ");
+             $('#countdown').text("Chuyển về trang đăng nhập trong " +seconds + " s ");
              // Count down using javascript
              setTimeout(doCountDown, 1000,seconds);
          }

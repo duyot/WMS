@@ -162,13 +162,6 @@ function formatFloatType(text) {
     }
 }
 
-function setInfoMessage(object, value) {
-    $.notify({
-        message: value
-    }, {
-        type: 'success'
-    });
-}
 
 function setConstantInfoMessage(object, value) {
     object.text(value);
@@ -200,7 +193,16 @@ function setErrorMessage(object, value) {
     $.notify({
         message: value
     }, {
-        type: 'danger'
+        type: 'danger',
+        delay: 5000
+    });
+}
+function setInfoMessage(object, value) {
+    $.notify({
+        message: value
+    }, {
+        type: 'success',
+        delay: 5000
     });
 }
 

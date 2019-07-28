@@ -35,6 +35,11 @@ public class LocalUrl implements BaseURL{
     }
 
     @Override
+    public String getPostURLWithoutTokenKey(String serviceMethod) {
+        return serviceURL.replace("/services/","/")  +serviceMethod ;
+    }
+
+    @Override
     public String getLoginURL() {
         return null;
     }
