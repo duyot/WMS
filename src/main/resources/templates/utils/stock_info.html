@@ -76,7 +76,7 @@
                                                 data-width="100%" name="cmb-stock">
                                             <option value="-1" th:text="#{label.all}"></option>
                                             <option  th:each="sopt:${lstStock}"
-                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
                                         </select>
                                     </div>
                                 </div>
@@ -92,7 +92,7 @@
                                                 data-width="100%" name="cmb-goods">
                                             <option value="-1" th:text="#{label.all}"></option>
                                             <option  th:each="sopt:${lstGoods}"
-                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                                                 data-width="100%" name="cmb-partner">
                                             <option value="-1" th:text="#{label.all}"></option>
                                             <option  th:each="sopt:${lstPartner}"
-                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
                                         </select>
                                     </div>
                                 </div>
@@ -190,7 +190,7 @@
 
                         <thead>
                         <tr>
-                            <th  data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+                            <th  data-formatter="runningFormatter" data-align="center" data-width="45px">STT</th>
                             <th class="col-md-2" data-field="stockName" data-align="left" data-sortable="true">Kho</th>
                             <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
                             <th class="col-md-4" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
@@ -211,7 +211,7 @@
     </div>
     <div class="modal-loading"><!-- Place at bottom of page --></div>
     <div th:include="modal/goods_details_modal :: frag-goods-detail-modal"></div>
-    <!--<div th:include="modal/goods_log_modal :: frag-goods-log-modal"></div>-->
+    <div th:include="modal/goods_log_modal :: frag-goods-log-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -232,11 +232,11 @@
         return [
             '<a class="view-goods-detail" href="javascript:void(0)" title="Chi tiết">',
             '<i class="fa fa-info-circle"></i>',
-            '</a>  '
-            /*,
+            '</a>   '
+            ,
             '<a class="view-goods-log" href="javascript:void(0)" title="Tra cứu thẻ kho">',
             '<i class="fa fa-history"></i>',
-            '</a>  '*/
+            '</a>',
         ].join('');
     }
     //---------------------------------------------------------------------
@@ -290,7 +290,7 @@
         }
     };
 
-    /*window.operateEvents = {
+    window.operateEvents = {
         'click .view-goods-log': function (e, value, row, index) {
             $("#hidden-stock-id").val(row["stockId"]);
             $("#hidden-goods-id").val(row["goodsId"]);
@@ -303,7 +303,7 @@
             //
             showModal($('#goods-log-modal'));
         }
-    };*/
+    };
     //@FUNCTION-----------------------------------------------------------------
     //@Search-----------------------------------------------------------------
     var $btnSearch = $('#btn-search-stock-info');

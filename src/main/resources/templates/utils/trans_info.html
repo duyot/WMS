@@ -74,7 +74,7 @@
                                                 data-width="100%" name="cmb-stock">
                                             <option value="-1" th:text="#{label.all}"></option>
                                             <option  th:each="sopt:${lstStock}"
-                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
                                         </select>
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@
                                                 data-width="100%" name="cmb-partner">
                                             <option value="-1" th:text="#{label.all}"></option>
                                             <option  th:each="sopt:${lstPartner}"
-                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
                                         </select>
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@
                                                 data-width="100%" name="cmb-user">
                                             <option value="-1" th:text="#{label.all}"></option>
                                             <option  th:each="sopt:${lstUsers}"
-                                                     th:value="${sopt.code}" th:text="${sopt.code}">1</option>
+                                                     th:value="${sopt.code}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
                                         </select>
                                     </div>
                                 </div>
