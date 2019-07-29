@@ -112,7 +112,7 @@ import java.util.Locale;
             registerCatUserDTO.setCustId(result.getKey());
             registerCatUserDTO.setStatus("1");
             registerCatUserDTO.setBlock("0");
-            ResponseObject responseObject = catUserService.guestAddUser(registerCatUserDTO);
+            ResponseObject responseObject = catUserService.add(registerCatUserDTO);
             try {
                 Long idL = Long.parseLong(responseObject.getKey());
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.REGISTER_SUSSESS);
