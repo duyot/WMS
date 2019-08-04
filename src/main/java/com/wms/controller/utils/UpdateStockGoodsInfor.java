@@ -27,46 +27,28 @@ import java.util.*;
  * Created by duyot on 3/21/2017.
  */
 @Controller
-@RequestMapping("/workspace/utils/stockInfo")
+@RequestMapping("/workspace/utils/update_stock_goods_info")
 @Scope("session")
-public class StockInfoController extends BaseController{
+public class UpdateStockGoodsInfor extends BaseController{
     @Autowired
     BaseService mjrStockGoodsTotalService;
 
     @Autowired
     UtilsService utilsService;
 
-
     Logger log = LoggerFactory.getLogger(StockInfoController.class);
+    //
     private List<MjrStockGoodsTotalDTO> lstGoodsTotal;
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
     //
-    private List<AppParamsDTO> lstAppGoodsState;
-
-    //
-    @ModelAttribute("lstAppGoodsState")
-    public List<AppParamsDTO> setAppGoodsState(HttpServletRequest request) {
-        if (lstAppGoodsState != null) {
-            return lstAppGoodsState;
-        }
-
-        if (lstAppParams == null) {
-            lstAppParams = FunctionUtils.getAppParams(appParamsService);
-        }
-        lstAppGoodsState = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE, lstAppParams);
-        //
-        return lstAppGoodsState;
-    }
-
-
     @RequestMapping()
     public String home(Model model){
         //clear previous data
         lstGoodsTotal   = Lists.newArrayList();
         lstGoodsDetails = Lists.newArrayList();
         //
-        model.addAttribute("menuName","menu.stockinfo");
-        return "utils/stock_info";
+        model.addAttribute("menuName","menu.update.stock.goods.info");
+        return "utils/update_stock_goods_infor";//
     }
 
     @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
@@ -331,8 +313,6 @@ public class StockInfoController extends BaseController{
         FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
         return reportFullPath;
     }
-    //==================================================================================================================
-
     //=======================================================================================================
     private  String exportAllGoodsDetails(List<MjrStockTransDetailDTO> lstGoodsDetails,String prefixFileName){
 
