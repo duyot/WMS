@@ -184,7 +184,7 @@ public class StockInfoController extends BaseController{
         }
         //
         String prefixFileName = "Thong_tin_the_kho_";
-        List<MjrStockTransDetailDTO> lstGoodsDetailAlls = utilsService.getGoodsDetail(selectedCustomer.getId(),stockId,item.getGoodsId(),item.getIsSerial(),item.getGoodsState(),stockId,totalItem+"",0+"");
+        List<MjrStockTransDetailDTO> lstGoodsDetailAlls = new ArrayList<>();
         //
         //String fileResource = exportGoodsDetails(setListGoodsDetailNameInfo(lstGoodsDetailAlls));
         String fileResource = "";
