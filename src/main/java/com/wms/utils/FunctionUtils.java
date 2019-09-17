@@ -52,6 +52,14 @@ public class FunctionUtils {
         return obj.getName();
     }
 
+    public static <T extends BaseDTO> String getMapCodeValue(Map<String, T> map, String key) {
+        BaseDTO obj = map.get(key);
+        if (obj == null) {
+            return "";
+        }
+        return obj.getCode();
+    }
+
     //build map app_params
     public static LinkedHashMap<String, String> buildMapAppParams(List<AppParamsDTO> lstAppParams) {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();

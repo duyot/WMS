@@ -126,13 +126,19 @@
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.import.date}" for="create-date-range"></label>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="input-group">
 										<span class="input-group-addon">
 											<i class="fa fa-calendar fa-fw"></i>
 										</span>
                                         <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
                                     </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button id="btn-clear-search-create"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRange('create')">
+                                        <i class="fa fa-times"></i>
+                                    </button>
                                 </div>
 
                                 <div class="col-sm-2">
@@ -155,13 +161,19 @@
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.expire.date}" for="expire-date-range"></label>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="input-group">
 										<span class="input-group-addon">
 											<i class="fa fa-calendar fa-fw"></i>
 										</span>
                                         <input type="text" id="expire-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
                                     </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button id="btn-clear-search-expire"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRange('expire')">
+                                        <i class="fa fa-times"></i>
+                                    </button>
                                 </div>
 
                                 <div class="col-sm-2">
@@ -191,7 +203,7 @@
                     <div class="wrapper text-center" style="text-align: center; margin-top: 5px">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-default  btn-primary"
-                                    id="btn-search-stock-info" th:value="@{/workspace/utils/stockInfo/findByCondition}">
+                                    id="btn-search-stock-info" th:value="@{/workspace/utils/update_stock_goods_info/findByCondition}">
                                 <i class="fa fa-search"></i>
                                 <span th:text="#{btn.search}"></span>
                             </button>
@@ -242,7 +254,7 @@
                             <th class="col-md-4" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
                             <th class="col-md-1" data-field="amountValue" data-align="right" data-sortable="true">SL </th>
                             <th class="col-md-1" data-field="goodsUnitName" data-align="left" data-sortable="true">Đơn vị</th>
-                            <th class="col-md-1" data-field="goodsStateName" data-align="left" data-sortable="true" data-formatter="formatterGoodsStatus">TT</th>
+                            <th class="col-md-1" data-field="goodsStateValue" data-align="left" data-sortable="true" data-formatter="formatterGoodsStatus">TT</th>
                             <th class="col-md-1" data-field="changeDate" data-align="center" data-sortable="true">TG cập nhật </th>
                             <th data-field="stockId" data-align="right" data-sortable="true"></th>
                             <th data-field="goodsState" data-align="right" data-sortable="true"></th>
@@ -256,8 +268,7 @@
         </div>
     </div>
     <div class="modal-loading"><!-- Place at bottom of page --></div>
-    <div th:include="modal/goods_details_modal :: frag-goods-detail-modal"></div>
-    <div th:include="modal/goods_log_modal :: frag-goods-log-modal"></div>
+    <div th:include="modal/update_stock_goods_modal :: frag-update-stock-goods-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -323,20 +334,12 @@
             $("#hidden-goods-id").val(row["goodsId"]);
             $("#hidden-state-id").val(row["goodsState"]);
             var partnerId = $('#cmb-partner').val();
-            //
-            $tableGoodsDetail.bootstrapTable('refresh');
-            //
-            var $downloadLink = $('#link-download-goods-detail');
-            var originalLink = $downloadLink.attr("href");
-            if (originalLink.includes("?")) {
-                originalLink = trimAtChacter(originalLink, "?");
-            }
-            $downloadLink.attr("href", originalLink + "?stockId=" + row['stockId'] + "&partnerId=" + partnerId);
-            //
+
             $("#modal-lbl-goods-name-val").text(row["goodsCode"] + " - " + row["goodsName"]);
             $("#modal-lbl-stock-name-val").text(row["stockName"]);
             $("#modal-lbl-goods-state-val").text(row["goodsStateName"]);
-            showModal($('#goods-detail-modal'));
+
+            showModal($('#stock-goods-detail-modal'));
         }
     };
     //@FUNCTION-----------------------------------------------------------------
@@ -349,10 +352,10 @@
 
     function search() {
         NProgress.start();
-        var stock_id = $('#cmb-stock').val();
-        var goods_id = $('#cmb-goods').val();
-        var cell_id = $('#cmb-cells').val();
-        var partner_id = $('#cmb-partner').val();
+        var stockId = $('#cmb-stock').val();
+        var goodsId = $('#cmb-goods').val();
+        var cellCode = $('#cmb-cells').val();
+        var partnerId = $('#cmb-partner').val();
         var statusVal = $("input[name='cmb-status']:checked").val();
         //date
         var drp = $('#create-date-range').data('daterangepicker');
@@ -366,7 +369,7 @@
         $.ajax({
             type: "GET",
             cache: false,
-            data: {stockId: stock_id,goodsId: goods_id,cell_id: cell_id, partnerId: partner_id,  status: statusVal,
+            data: {stockId: stockId,goodsId: goodsId,cellCode: cellCode, partnerId: partnerId,  statusVal: statusVal,
                 startCreateDateVal: startCreateDateVal, endCreateDateVal:endCreateDateVal,
                 startExpireDateVal: startExpireDateVal, endExpireDateVal:endExpireDateVal
             },
@@ -389,6 +392,25 @@
         }
         $downloadLink.attr("href", originalLink + "?stockId=" + stock_id + "&partnerId=" + partner_id + "&goodsId=" + goods_id + "&status=" + statusVal);
 
+    }
+
+    function clearDateRange(object) {
+        var dpr;
+        if (object === 'create') {
+            dpr   = $('#create-date-range').data('daterangepicker');
+            //
+            dpr.setStartDate('01/01/2010');
+            dpr.setEndDate('01/01/2100');
+            //
+            $('#create-date-range').val('');
+        }else if(object === 'expire'){
+            dpr = $('#expire-date-range').data('daterangepicker');
+            //
+            dpr.setStartDate('01/01/2010');
+            dpr.setEndDate('01/01/2100');
+            //
+            $('#expire-date-range').val('');
+        }
     }
 
     //-------------------------------------------------------------------------
