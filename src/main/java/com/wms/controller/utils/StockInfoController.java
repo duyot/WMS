@@ -175,21 +175,6 @@ public class StockInfoController extends BaseController{
         FunctionUtils.loadFileToClient(response,fileResource);
     }
 
-    //Chi tiet hang hoa trong kho khi xem thong tin 1 hang hoa
-    @RequestMapping(value = "/getGoodsLog")
-    public void getGoodsLog(HttpServletResponse response,@RequestParam("stockId") String stockId,@RequestParam("goodsId") String goodsId,@RequestParam("goodsState") String goodsState){
-        if(DataUtil.isListNullOrEmpty(lstGoodsDetails)){
-            lstGoodsDetails.add(new MjrStockTransDetailDTO("","","","","","","","","","","",""));
-        }
-        //
-        String prefixFileName = "Thong_tin_the_kho_";
-        List<MjrStockTransDetailDTO> lstGoodsDetailAlls = new ArrayList<>();
-        //
-        //String fileResource = exportGoodsDetails(setListGoodsDetailNameInfo(lstGoodsDetailAlls));
-        String fileResource = "";
-        FunctionUtils.loadFileToClient(response,fileResource);
-    }
-
     //------------------------------------------------------------------------------------------------------------------
     private List<MjrStockTransDetailDTO> setListGoodsDetailNameInfo(List<MjrStockTransDetailDTO> lstStockGoods,CatGoodsDTO goodsItem){
         List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
