@@ -1,7 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="WMS" />
+    <!--CSS-->
+    <link rel='stylesheet'  th:href="@{/css/bootstrap.css}"  type='text/css' />
+    <link rel="stylesheet"  th:href="@{/css/bootstrap-table.css}"/>
+    <link rel='stylesheet'  th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
+    <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
+    <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
+    <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
+    <link href="/css/awesome-bootstrap-checkbox.css"  th:href="@{/css/awesome-bootstrap-checkbox.css}" rel="stylesheet" type="text/css" media="all"/>
+    <!--script-->
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!--<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>-->
+    <!--<script>-->
+    <!--new WOW().init();-->
+    <!--</script>-->
+    <script th:attr="src=@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
+    <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
+    <script th:attr="src=@{/js/daterangepicker.js}" th:href="@{/js/daterangepicker.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}"  th:href="@{/js/nprogress.js}"></script>
+    <!--confirmation-->
+    <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
+    <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
+    <!--font and favi icon-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+    <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
 </head>
 <body>
 
@@ -47,7 +79,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar fa-fw"></i>
                                             </span>
-                                                <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
+                                                <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 25/09/2019" />
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
@@ -71,7 +103,7 @@
                     <div class="wrapper text-center" style="text-align: center; margin-top: 5px">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-default  btn-primary"
-                                    id="btn-search-stock-info" th:value="@{/workspace/utils/stockInfo/findByCondition}">
+                                    id="btn-search-goods-logs" th:href="@{/workspace/utils/stockInfo/getGoodsLog}">
                                 <i class="fa fa-history"></i>
                                 <span th:text="#{btn.goods.log}"></span>
                             </button>
