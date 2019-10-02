@@ -171,8 +171,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-sm-12">
-				<h3>Xuất-nhập-tồn / Doanh thu-lợi nhuận / Tiện ích-Báo cáo</h3>
-				<h1>Hệ thống Quản lý kho - Bán hàng</h1>
+				<h3>Xuất-nhập-tồn/ Tình trạng-Vị trí-Ngày sản xuất-Hạn sử dụng/ Tiện ích-Báo cáo</h3>
+				<h1>Hệ thống Quản lý kho</h1>
 				<hr/>
 				<a th:href="@{/login}" th:text="#{home.login}" class="smoothScroll btn btn-default"></a>
 				<a th:href="@{/register}" th:text="#{home.register}" class="smoothScroll btn btn-default"></a>
@@ -250,7 +250,7 @@
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="active"><a href="#thuekho" aria-controls="thuekho" role="tab" data-toggle="tab">Doanh nghiệp logistics</a></li>
 					<li><a href="#doanhnghiep" aria-controls="doanhnghiep" role="tab" data-toggle="tab">Doanh nghiệp sản xuất</a></li>
-					<li><a href="#cuahang" aria-controls="cuahang" role="tab" data-toggle="tab">Cửa hàng</a></li>
+					<li><a href="#cuahang" aria-controls="cuahang" role="tab" data-toggle="tab">Nhà phân phối-Đại lý</a></li>
 				</ul>
 				<!-- tab panes -->
 				<div class="tab-content">
@@ -258,7 +258,7 @@
                         <ul>
 							<li>Quản lý xuất/nhập/tồn kho theo từng đối tác gửi hàng</li>
                             <li>Tính tiền lưu kho tự động</li>
-							<li>Quản lý hàng hóa theo vị trí-serial-trọng lượng-thể tích</li>
+							<li>Quản lý hàng hóa theo vị trí/serial/trọng lượng/thể tích/ngày sản xuất/hạn dùng</li>
 							<li>Phân quyền quản lý theo kho/đối tác gửi hàng</li>
 							<li>API tích hợp với hệ thống của đối tác gửi hàng</li>
 							<li>Cảnh báo tồn kho quá hạn</li>
@@ -268,9 +268,10 @@
 					<div role="tabpanel" class="tab-pane" id="doanhnghiep">
 						<ul>
 							<li>Quản lý xuất/nhập/tồn kho</li>
-							<li>Quản lý hàng hóa theo vị trí-serial-trọng lượng-thể tích</li>
+							<li>Quản lý hàng hóa theo vị trí/serial/trọng lượng/thể tích/ngày sản xuất/hạn dùng</li>
+							<li>Xuất kho theo ngày nhập/ngày sản xuất/hạn dùng</li>
 							<li>Tra cứu lịch sử xuất/nhập kho</li>
-							<li>Phân quyền quản lý theo kho</li>
+							<li>Phân quyền quản lý theo kho-đối tác-ngành hàng</li>
 							<li>Cảnh báo tồn kho quá hạn</li>
 							<li>Theo dõi thẻ kho</li>
 						</ul>
@@ -278,11 +279,12 @@
 					<div role="tabpanel" class="tab-pane" id="cuahang">
                         <ul>
 							<li>Quản lý xuất/nhập/tồn kho</li>
-							<li>Quản lý chiết khấu theo khách hàng</li>
-							<li>Thống kê doanh thu, lợi nhuận</li>
-							<li>Thông kê hàng hóa bán chạy</li>
-							<li>Phân tích xu hướng khách hàng</li>
-							<li>Quản lý bảo hành</li>
+							<li>Quản lý hàng hóa theo vị trí/serial/trọng lượng/thể tích/ngày sản xuất/hạn dùng</li>
+							<li>Xuất kho theo ngày nhập/ngày sản xuất/hạn dùng</li>
+							<li>Tra cứu lịch sử xuất/nhập kho</li>
+							<li>Phân quyền quản lý theo kho/đối tác/ngành hàng</li>
+							<li>Cảnh báo tồn kho quá hạn</li>
+							<li>Theo dõi thẻ kho</li>
                         </ul>
 					</div>
 
