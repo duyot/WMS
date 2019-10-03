@@ -33,22 +33,22 @@
 alter table mjr_stock_goods add description varchar2(2000);
 alter table mjr_stock_goods add produce_date date;
 alter table mjr_stock_goods add expire_date date;
-alter table mjr_stock_goods add invoice_number varchar2(2000);;
 
 comment on column mjr_stock_goods.description is 'Ghi chu';
 comment on column mjr_stock_goods.produce_date is 'Ngay san xuat';
 comment on column mjr_stock_goods.expire_date is 'Ngay het han';
-comment on column mjr_stock_goods.invoice_number is 'So chung tu';
 
 alter table mjr_stock_goods_serial add  description varchar2(2000);
 alter table mjr_stock_goods_serial add  produce_date date;
 alter table mjr_stock_goods_serial add  expire_date date;
-alter table mjr_stock_goods_serial add  invoice_number varchar2(2000);
 
 comment on column mjr_stock_goods_serial.description is 'Ghi chu';
 comment on column mjr_stock_goods_serial.produce_date is 'Ngay san xuat';
 comment on column mjr_stock_goods_serial.expire_date is 'Ngay het han';
-comment on column mjr_stock_goods_serial.invoice_number is 'So chung tu';
+
+alter table MJR_STOCK_TRANS add EXPORT_METHOD number(1,0) DEFAULT 0;;
+comment on column CAT_CUSTOMER.EXPORT_METHOD is 'Phuong thuc xuat kho: 0-Theo ngay nhap, 1-Theo ngay san xuat, 2-Theo han su dung';
+
 
 ---Patched at 2/10/2019---
 
