@@ -33,20 +33,30 @@
 alter table mjr_stock_goods add description varchar2(2000);
 alter table mjr_stock_goods add produce_date date;
 alter table mjr_stock_goods add expire_date date;
-
 comment on column mjr_stock_goods.description is 'Ghi chu';
 comment on column mjr_stock_goods.produce_date is 'Ngay san xuat';
 comment on column mjr_stock_goods.expire_date is 'Ngay het han';
 
+
+
 alter table mjr_stock_goods_serial add  description varchar2(2000);
 alter table mjr_stock_goods_serial add  produce_date date;
 alter table mjr_stock_goods_serial add  expire_date date;
-
 comment on column mjr_stock_goods_serial.description is 'Ghi chu';
 comment on column mjr_stock_goods_serial.produce_date is 'Ngay san xuat';
 comment on column mjr_stock_goods_serial.expire_date is 'Ngay het han';
 
-alter table MJR_STOCK_TRANS add EXPORT_METHOD number(1,0) DEFAULT 0;;
+
+alter table mjr_stock_trans_detail add description varchar2(2000);
+alter table mjr_stock_trans_detail add produce_date date;
+alter table mjr_stock_trans_detail add expire_date date;
+comment on column mjr_stock_trans_detail.description is 'Ghi chu';
+comment on column mjr_stock_trans_detail.produce_date is 'Ngay san xuat';
+comment on column mjr_stock_trans_detail.expire_date is 'Ngay het han';
+
+
+
+alter table CAT_CUSTOMER add EXPORT_METHOD number(1,0) DEFAULT 0;;
 comment on column CAT_CUSTOMER.EXPORT_METHOD is 'Phuong thuc xuat kho: 0-Theo ngay nhap, 1-Theo ngay san xuat, 2-Theo han su dung';
 
 
