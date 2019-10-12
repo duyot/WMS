@@ -152,6 +152,7 @@ public class TransInfoController extends BaseController{
         String fileResource = exportListStockTrans(lstTrans,prefixFileName);
         FunctionUtils.loadFileToClient(response,fileResource);
     }
+
     //==================================================================================================================
     @RequestMapping(value = "/getListTransDetailFile")
     public void getListTransDetailFile(HttpServletResponse response){
