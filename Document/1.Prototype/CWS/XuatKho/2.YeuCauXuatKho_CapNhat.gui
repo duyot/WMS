@@ -84,7 +84,7 @@
 		<Element
 			CID = "2097435834"
 			Type = "TextButton"
-			X = "455"
+			X = "489"
 			Y = "368"
 			Width = "75"
 			Height = "23"
@@ -96,29 +96,6 @@
 			FontAttributes = "0"
 			TextSize = "Normal"
 			Text = "Cập nhật"
-			Depth = "2"
-			IsDefault = "0"
-			IsDisabled = "0"
-			MarginLeft = "0"
-			MarginRight = "0"
-			MarginTop = "0"
-			MarginBottom = "0"
-			AutoNavType = ""/>
-		<Element
-			CID = "1513053707"
-			Type = "TextButton"
-			X = "540"
-			Y = "368"
-			Width = "75"
-			Height = "23"
-			Flags = "0"
-			UseDataTable = "0"
-			TableName = ""
-			TextColour = "0,0,0,0,19"
-			Typeface = ""
-			FontAttributes = "0"
-			TextSize = "Normal"
-			Text = "Thực xuất"
 			Depth = "2"
 			IsDefault = "0"
 			IsDisabled = "0"
@@ -205,17 +182,6 @@
 	<Connections
 		CID = "2">
 		<Connection
-			CID = "2097707010"
-			Layer = "DesignElements"
-			Trigger = "LeftClick"
-			Type = "Navigation"
-			SubType = "ModelessSwitchTop"
-			SourceSubItemID = ""
-			SourceRefID = "1513053707"
-			TargetRefID = "2097681949"
-			ConLineWidth = "2"
-			ConLineColour = "0,0,0,0,0"/>
-		<Connection
 			CID = "2097701466"
 			Layer = "DesignElements"
 			Trigger = "LeftClick"
@@ -228,11 +194,7 @@
 			ConLineColour = "0,0,0,0,0"/>
 	</Connections>
 	<Groups
-		CID = "3">
-		<Group
-			CID = "1749487781"
-			Elements = "1749485568"/>
-	</Groups>
+		CID = "3"/>
 	<SelectionGroups
 		CID = "4"/>
 	<Notes
