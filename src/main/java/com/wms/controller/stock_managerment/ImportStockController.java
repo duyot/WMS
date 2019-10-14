@@ -305,10 +305,15 @@ public class ImportStockController extends BaseController {
                 String partnerCode = splitPartner[0];
                 CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
                 if (catPartnerDTO != null) {
-                    String partnerName = catPartnerDTO.getName() == null ? "" : catPartnerDTO.getName();
-                    String partnerTelNumber = catPartnerDTO.getTelNumber() == null ? "" : catPartnerDTO.getTelNumber();
+                    String receiverName = "";
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())){
+                        receiverName = receiverName + catPartnerDTO.getName();
+                    }
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())){
+                        receiverName = receiverName+ "|" + catPartnerDTO.getTelNumber();
+                    }
                     mjrStockTransDTO.setPartnerId(catPartnerDTO.getId());
-                    mjrStockTransDTO.setPartnerName(partnerName + "|" + partnerTelNumber);
+                    mjrStockTransDTO.setPartnerName(receiverName);
                 }
             }
         }
@@ -348,7 +353,13 @@ public class ImportStockController extends BaseController {
         List<String> lstPartneName = Lists.newArrayList();
         StringBuilder namePlus = new StringBuilder();
         for (CatPartnerDTO i : lstPartner) {
-            namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
+            namePlus.append(i.getCode());
+            if (!DataUtil.isStringNullOrEmpty(i.getName())){
+                namePlus.append("|").append(i.getName());
+            }
+            if (!DataUtil.isStringNullOrEmpty(i.getTelNumber())){
+                namePlus.append("|").append(i.getTelNumber());
+            }
             lstPartneName.add(namePlus.toString());
             namePlus.setLength(0);
         }

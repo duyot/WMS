@@ -322,10 +322,15 @@ public class ExportStockController extends BaseController {
                 String partnerCode = splitPartner[0];
                 CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
                 if (catPartnerDTO != null) {
-                    String partnerName = catPartnerDTO.getName() == null ? "" : catPartnerDTO.getName();
-                    String partnerTelNumber = catPartnerDTO.getTelNumber() == null ? "" : catPartnerDTO.getTelNumber();
+                    String receiverName = "";
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())){
+                        receiverName = receiverName + catPartnerDTO.getName();
+                    }
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())){
+                        receiverName = receiverName+ "|" + catPartnerDTO.getTelNumber();
+                    }
                     mjrStockTransDTO.setReceiveId(catPartnerDTO.getId());
-                    mjrStockTransDTO.setReceiveName(partnerName + "|" + partnerTelNumber);
+                    mjrStockTransDTO.setReceiveName(receiverName);
                 }
             }
         }
@@ -333,10 +338,15 @@ public class ExportStockController extends BaseController {
         if (mjrStockTransDTO.getPartnerId() != null) {
             CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId());
             if (catPartnerDTO != null) {
-                String partnerName = catPartnerDTO.getName() == null ? "" : catPartnerDTO.getName();
-                String partnerTelNumber = catPartnerDTO.getTelNumber() == null ? "" : catPartnerDTO.getTelNumber();
+                String receiverName = "";
+                if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())){
+                    receiverName = receiverName + catPartnerDTO.getName();
+                }
+                if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())){
+                    receiverName = receiverName+ "|" + catPartnerDTO.getTelNumber();
+                }
                 mjrStockTransDTO.setPartnerId(catPartnerDTO.getId());
-                mjrStockTransDTO.setPartnerName(partnerName + "|" + partnerTelNumber);
+                mjrStockTransDTO.setPartnerName(receiverName);
             }
         }
         //

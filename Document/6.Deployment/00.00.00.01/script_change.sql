@@ -197,4 +197,4 @@ comment on column "MJR_STOCK_TRANS_DETAIL"."VOLUME" is 'The tich hang hoa';
 
 alter table MJR_STOCK_TRANS_DETAIL add WEIGHT NUMBER(38,6);
 comment on column "MJR_STOCK_TRANS_DETAIL"."WEIGHT" is 'Trong luong hang hoa';
-
+---Patched at 10/8/2019---
