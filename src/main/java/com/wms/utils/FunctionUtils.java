@@ -386,6 +386,9 @@ public class FunctionUtils {
             goodsItem.setOutputPrice(price);
         }
         goodsItem.setCellCode(getCellValue(row.getCell(7)));
+        goodsItem.setProduceDate(getCellValue(row.getCell(8)));
+        goodsItem.setExpireDate(getCellValue(row.getCell(9)));
+        goodsItem.setDescription("noted");
         //
         return goodsItem;
     }
@@ -517,9 +520,18 @@ public class FunctionUtils {
                 //
                 goodsItem.setWeight(getWeightFromGoodsItem(goodsDTO, amount));
                 goodsItem.setVolume(getVolumeFromGoodsItem(goodsDTO, amount));
-                //CELL
-                Cell cellCells = row.getCell(7);
-                goodsItem.setCellCode(getCellValue(cellCells));
+                //produce date
+                String procedureDate = goodsItem.getProduceDate();
+                if (!DataUtil.isStringNullOrEmpty(procedureDate) && !DateTimeUtils.isValidDateFormat(procedureDate,"dd/MM/yyyy")) {
+                    errorInfo.append("\n Ngày sản xuất không đúng định dạng");
+                    isValid = false;
+                }
+                //expire date
+                String expireDate = goodsItem.getExpireDate();
+                if (!DataUtil.isStringNullOrEmpty(expireDate) && !DateTimeUtils.isValidDateFormat(expireDate,"dd/MM/yyyy")) {
+                    errorInfo.append("\n Ngày hết hạn không đúng định dạng");
+                    isValid = false;
+                }
                 //
                 if (!isValid) {
                     goodsItem.setErrorInfo(errorInfo.toString());
@@ -530,6 +542,7 @@ public class FunctionUtils {
         } catch (IOException e) {
             log.info(e.toString());
             e.printStackTrace();
+            log.info(e.toString());
             return null;
         } catch (Exception e) {
             log.info(e.toString());

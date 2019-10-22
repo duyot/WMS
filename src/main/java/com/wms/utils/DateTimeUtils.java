@@ -118,6 +118,20 @@ public class DateTimeUtils {
         }
     }
 
+    public static boolean isValidDateFormat(String input, String datePattern){
+        SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
+        dateFormat.setLenient(false);
+        if (input == null) {
+            return false;
+        }
+        try {
+            dateFormat.parse(input);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static String convertDateToString(Date date, String pattern) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         if (date == null) {
