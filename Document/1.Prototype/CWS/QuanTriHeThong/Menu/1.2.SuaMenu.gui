@@ -506,7 +506,7 @@
 			SelectionHighlight = "Text">
 			<TreeItem
 				ItemID = "1"
-				Text = "Hệ thống quản lý kho-bán hàng"
+				Text = "Hệ thống Quản lý kho"
 				IsBold = "1"
 				IsItalic = "0"
 				IsChecked = "0"

@@ -14,6 +14,10 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
     <link rel="stylesheet"  th:href="@{/css/jquery-ui.min.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/nprogress.css}"/>
+
+    <link href="/css/awesome-bootstrap-checkbox.css"  th:href="@{/css/awesome-bootstrap-checkbox.css}" rel="stylesheet" type="text/css" media="all"/>
+
     <!--font and favi icon-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
@@ -106,10 +110,23 @@
                                 <div class="row">
 
                                     <div class="col-sm-2">
-
+                                        <label for="cmb-partner" th:text="#{lbl.export.method}"></label>
                                     </div>
                                     <div class="col-sm-4">
-
+                                        <div class="input-group input-group-combo">
+                                            <div class="radio radio-inline radio-primary">
+                                                <input value="-1" type="radio" id="radio-all" name="cmb-trans-type" checked="checked"/>
+                                                <label for="radio-all" th:text="#{lbl.input.date}"></label>
+                                            </div>
+                                            <div class="radio radio-inline radio-info">
+                                                <input value="1" type="radio" id="radio-normal" name="cmb-trans-type"/>
+                                                <label for="radio-normal" th:text="#{lbl.produce.date}"></label>
+                                            </div>
+                                            <div class="radio radio-inline radio-danger">
+                                                <input value="2" type="radio" id="radio-innormal" name="cmb-trans-type"/>
+                                                <label for="radio-innormal" th:text="#{lbl.expire.date}"></label>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="col-sm-2">

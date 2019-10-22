@@ -43,6 +43,25 @@ public class MjrStockTransDTO {
     private String customerMoney;
     private String returnMoney;
 
+    private String orderCode;
+    private String orderId;
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
     public String getReceiveId() {
         return receiveId;
     }
@@ -127,7 +146,7 @@ public class MjrStockTransDTO {
     }
 
     public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoiceNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String transMoneyReceive, String transMoneyResponse, String description,
-                            String partnerId, String partnerName, String receiveId, String receiveName) {
+                            String partnerId, String partnerName, String receiveId, String receiveName, String orderId, String orderCode) {
         this.id = id;
         this.code = code;
         this.custId = custId;
@@ -147,6 +166,8 @@ public class MjrStockTransDTO {
         this.partnerName = partnerName;
         this.receiveId = receiveId;
         this.receiveName = receiveName;
+        this.orderId = orderId;
+        this.orderCode = orderCode;
     }
 
     public String getId() {
