@@ -21,11 +21,11 @@ public class MjrStockGoodsSerialDTO{
     private String outputPrice;
     private String exportDate;
     private String exportStockTransId;
+    private String produceDate;
+    private String expireDate;
+    private String description;
 
-    public MjrStockGoodsSerialDTO(String id, String custId, String stockId, String goodsId, String goodsState,
-                                  String cellCode, String amount, String serial, String importDate, String changeDate,
-                                  String status, String partnerId, String importStockTransId, String inputPrice,
-                                  String outputPrice,String exportDate,String exportStockTransId) {
+    public MjrStockGoodsSerialDTO(String id, String custId, String stockId, String goodsId, String goodsState, String cellCode, String amount, String serial, String importDate, String changeDate, String status, String partnerId, String importStockTransId, String inputPrice, String outputPrice, String exportDate, String exportStockTransId, String produceDate, String expireDate, String description) {
         this.id = id;
         this.custId = custId;
         this.stockId = stockId;
@@ -43,6 +43,9 @@ public class MjrStockGoodsSerialDTO{
         this.outputPrice = outputPrice;
         this.exportDate = exportDate;
         this.exportStockTransId = exportStockTransId;
+        this.produceDate = produceDate;
+        this.expireDate = expireDate;
+        this.description = description;
     }
 
     public MjrStockGoodsSerialDTO() {
@@ -182,5 +185,29 @@ public class MjrStockGoodsSerialDTO{
 
     public void setExportStockTransId(String exportStockTransId) {
         this.exportStockTransId = exportStockTransId;
+    }
+
+    public String getProduceDate() {
+        return produceDate;
+    }
+
+    public void setProduceDate(String produceDate) {
+        this.produceDate = produceDate;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
