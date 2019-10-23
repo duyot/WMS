@@ -33,7 +33,7 @@ $(function () {
                 field: 'goodsCode',
                 title: 'Mã hàng',
                 align: 'left',
-                width: '9%'
+                width: '7%'
             },
             {
                 field: 'goodsName',
@@ -44,7 +44,7 @@ $(function () {
                 field: 'goodsState',
                 title: 'Tình trạng',
                 align: 'left',
-                width: '10%',
+                width: '7%',
                 editable: {
                     type: 'select',
                     mode: 'inline',
@@ -59,7 +59,7 @@ $(function () {
                 field: 'serial',
                 title: 'Serial',
                 align: 'left',
-                width: '7%',
+                width: '6%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -147,14 +147,14 @@ $(function () {
                 field: 'totalMoney',
                 title: 'Thành tiền',
                 align: 'right',
-                width: '10%',
+                width: '8%',
                 formatter: 'subTotal'
             },
             {
                 field: 'cellCode',
                 title: 'Vị trí',
                 align: 'left',
-                width: '7%',
+                width: '4%',
                 editable: {
                     type: 'select',
                     mode: 'inline',
@@ -163,10 +163,22 @@ $(function () {
                 }
             },
             {
+                field: 'produceDate',
+                title: 'Ngày sản xuất',
+                align: 'left',
+                width: '6%'
+            },
+            {
+                field: 'expireDate',
+                title: 'Ngày hết hạn',
+                align: 'left',
+                width: '6%'
+            },
+            {
                 title: 'Xóa',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
-                width: '4%',
+                width: '3%',
                 align: 'center'
             },
             {
