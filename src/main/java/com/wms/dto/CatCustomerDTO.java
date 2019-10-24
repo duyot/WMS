@@ -18,6 +18,7 @@ public class CatCustomerDTO {
     //DoanLV4 doi tac co bat buoc chon khong khi nhap/xuat kho
     private String partnerRequire;
     private String trial;
+    private String exportMethod;
 
     public CatCustomerDTO(String id ,String name) {
         this.id = id;
@@ -25,7 +26,7 @@ public class CatCustomerDTO {
     }
 
     public CatCustomerDTO(String id, String code, String name, String type, String telNumber, String email,
-                          String bankName, String bankAccountCode, String address, String status, String createDate, String mailReport, String partnerRequire ,String trial) {
+                          String bankName, String bankAccountCode, String address, String status, String createDate, String mailReport, String partnerRequire ,String trial, String exportMethod) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -40,6 +41,7 @@ public class CatCustomerDTO {
         this.mailReport = mailReport;
         this.partnerRequire = partnerRequire;
         this.trial = trial;
+        this.exportMethod = exportMethod;
     }
 
     public CatCustomerDTO() {
@@ -157,6 +159,14 @@ public class CatCustomerDTO {
         this.trial = trial;
     }
 
+    public String getExportMethod() {
+        return exportMethod;
+    }
+
+    public void setExportMethod(String exportMethod) {
+        this.exportMethod = exportMethod;
+    }
+
     @Override
     public String toString() {
         return "CatCustomerDTO{" +
@@ -171,6 +181,7 @@ public class CatCustomerDTO {
                 ", address='" + address + '\'' +
                 ", status='" + status + '\'' +
                 ", createDate='" + createDate + '\'' +
+                ", exportMethod='" + exportMethod + '\'' +
                 '}';
     }
 }

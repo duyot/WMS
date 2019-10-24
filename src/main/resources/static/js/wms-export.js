@@ -7,6 +7,9 @@ var $inpGoodsAmount = $('#inp-amount');
 //combobox
 $inpPartnerName = $('#inp-partner-name');
 $modalCmbCells = $("#cmb-cells");
+
+exportMethodVal = $('#exportMethod');
+
 //
 var dataInit = [];
 var enteredSerials = [];
@@ -17,6 +20,8 @@ var lblTotalPrice = $("#lbl-total-price");
 //-------------------------------------------------------------------------------------------------------
 //#init table
 $(function () {
+    $('input[name=cmb-export-method][value='+exportMethodVal.val()+']').prop('checked', true);
+
     //import-action-info
     $table.bootstrapTable({
         data: dataInit,
@@ -303,13 +308,16 @@ btnExportConfirm.click(function () {
     var descriptionValue = $('#inp-contract-note').val();
     var receiveValue = $('#inp-receive-name').val();
     var partnerIdValue = $('#cmb-partner').val();
+    var exportMethod = $('input[name=cmb-export-method]:checked').val();
+    alert(exportMethod);
 
     var stock_trans_info = {
         contractNumber: contractNumberValue,
         stockId: stockIdValue,
         description: descriptionValue,
         receiveName: receiveValue,
-        partnerId: partnerIdValue
+        partnerId: partnerIdValue,
+        exportMethod: exportMethod
     };
     //
     var importData = JSON.stringify({lstGoods: $table.bootstrapTable('getData'), mjrStockTransDTO: stock_trans_info});
@@ -355,6 +363,7 @@ btnExportConfirm.click(function () {
                 $inpPartnerName.val('');
                 $('#inp-contract-note').val('');
                 $('#inp-receive-name').val('');
+                $('input[name=cmb-export-method][value='+exportMethodVal.val()+']').prop('checked', true);
             }
             disableElement($('#btn-export'));
             $table.bootstrapTable('removeAll');

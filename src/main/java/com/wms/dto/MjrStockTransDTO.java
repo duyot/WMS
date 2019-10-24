@@ -45,6 +45,7 @@ public class MjrStockTransDTO {
 
     private String orderCode;
     private String orderId;
+    private String exportMethod;
 
     public String getOrderCode() {
         return orderCode;
@@ -321,5 +322,13 @@ public class MjrStockTransDTO {
 
     public void setReturnMoney(String returnMoney) {
         this.returnMoney = returnMoney;
+    }
+
+    public String getExportMethod() {
+        return exportMethod;
+    }
+
+    public void setExportMethod(String exportMethod) {
+        this.exportMethod = exportMethod;
     }
 }

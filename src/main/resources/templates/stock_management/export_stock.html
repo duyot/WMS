@@ -55,6 +55,7 @@
                                         <div class="input-group">
                                             <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                             <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
+                                            <input id="exportMethod" style="display: none" th:value="${session.selectedCustomer.exportMethod}"></input>
                                             <button id="btn-check-serial" style="display: none" th:value="@{/workspace/stock_management/import/isSerial}"></button>
                                             <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
                                             <button id="btn-get-goods-code" style="display: none" th:value="@{/workspace/stock_management/import/getGoodsCode}"></button>
@@ -115,15 +116,15 @@
                                     <div class="col-sm-4">
                                         <div class="input-group input-group-combo">
                                             <div class="radio radio-inline radio-primary">
-                                                <input value="-1" type="radio" id="radio-all" name="cmb-trans-type" checked="checked"/>
+                                                <input value="0" type="radio" id="radio-all" name="cmb-export-method" checked="checked"/>
                                                 <label for="radio-all" th:text="#{lbl.input.date}"></label>
                                             </div>
                                             <div class="radio radio-inline radio-info">
-                                                <input value="1" type="radio" id="radio-normal" name="cmb-trans-type"/>
+                                                <input value="1" type="radio" id="radio-normal" name="cmb-export-method"/>
                                                 <label for="radio-normal" th:text="#{lbl.produce.date}"></label>
                                             </div>
                                             <div class="radio radio-inline radio-danger">
-                                                <input value="2" type="radio" id="radio-innormal" name="cmb-trans-type"/>
+                                                <input value="2" type="radio" id="radio-innormal" name="cmb-export-method"/>
                                                 <label for="radio-innormal" th:text="#{lbl.expire.date}"></label>
                                             </div>
                                         </div>
