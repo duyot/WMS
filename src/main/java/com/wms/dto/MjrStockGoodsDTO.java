@@ -20,8 +20,13 @@ public class MjrStockGoodsDTO {
     private String outputPrice;
     private String exportDate;
     private String exportStockTransId;
+    private String volume;
+    private String weight;
+    private String produceDate;
+    private String expireDate;
+    private String description;
 
-    public MjrStockGoodsDTO(String id, String custId, String stockId, String goodsId, String goodsState, String cellCode, String amount, String importDate, String changeDate, String status, String partnerId, String importStockTransId, String inputPrice, String outputPrice, String exportDate, String exportStockTransId) {
+    public MjrStockGoodsDTO(String id, String custId, String stockId, String goodsId, String goodsState, String cellCode, String amount, String importDate, String changeDate, String status, String partnerId, String importStockTransId, String inputPrice, String outputPrice, String exportDate, String exportStockTransId, String volume, String weight, String produceDate, String expireDate, String description) {
         this.id = id;
         this.custId = custId;
         this.stockId = stockId;
@@ -38,6 +43,11 @@ public class MjrStockGoodsDTO {
         this.outputPrice = outputPrice;
         this.exportDate = exportDate;
         this.exportStockTransId = exportStockTransId;
+        this.volume = volume;
+        this.weight = weight;
+        this.produceDate = produceDate;
+        this.expireDate = expireDate;
+        this.description = description;
     }
 
     public MjrStockGoodsDTO() {
@@ -169,5 +179,45 @@ public class MjrStockGoodsDTO {
 
     public void setExportStockTransId(String exportStockTransId) {
         this.exportStockTransId = exportStockTransId;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getProduceDate() {
+        return produceDate;
+    }
+
+    public void setProduceDate(String produceDate) {
+        this.produceDate = produceDate;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
