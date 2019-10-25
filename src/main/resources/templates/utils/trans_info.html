@@ -206,7 +206,7 @@
                             <th class="col-md-1" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
                             <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true">Đối tác cung cấp</th>
                             <th class="col-md-1" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
-                            //<th class="col-md-1" data-field="description" data-align="left" data-sortable="true">Ghi chú</th>
+                            <th class="col-md-1" data-field="description" data-align="left" data-sortable="true">Ghi chú</th>
                             <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true" data-formatter="formatterTransType">Loại GD</th>
                             <th class="col-md-1" data-field="transMoneyTotal" data-align="right" data-sortable="true">Tổng tiền</th>
                             <th class="col-md-1" data-field="createdDate" data-align="center" data-sortable="true">Thời gian</th>
@@ -368,12 +368,10 @@
 //    });
     var $btnSearch = $('#btn-search-serial');
     $btnSearch.click(function () {
-        alert(0);
         search(true);
     });
 
     function search(isClear){
-        alert(1);
         //
         NProgress.start();
         //
