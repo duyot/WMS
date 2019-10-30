@@ -275,6 +275,33 @@ function initDateRangeSelect() {
     });
 }
 
+function initDateSelect() {
+    var date = new Date();
+    var start = new Date(date.getFullYear(), date.getMonth(), 1);
+    var end = moment();
+
+    $('input[name="singledate"]').daterangepicker({
+        timePicker: false,
+        singleDatePicker: true,
+        timePickerIncrement: 30,
+        startDate: start,
+        endDate: end,
+        locale: {
+            format: 'DD/MM/YYYY'
+        },
+        buttonClasses: ['btn btn-default'],
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+            'Last 7 Days': [moment().subtract('days', 6), moment()],
+            'Last 30 Days': [moment().subtract('days', 29), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        },
+        showDropdowns: true
+    });
+}
+
 //------------------------------------------------------------------------------------------------------------------
 //validate for upload file
 function getExtension(filename) {
@@ -717,3 +744,19 @@ var DOCSO = function () {
     }
 }();
 
+function loadSelectItems(select, items, headerText) {
+    select.empty();
+    //
+    var opt = document.createElement('option');
+    opt.value = "-1";
+    opt.innerHTML = headerText;
+    select.append(opt);
+    //
+    $.each(items, function (i, item) {
+        var opt = document.createElement('option');
+        opt.value = item.value;
+        opt.innerHTML = item.text;
+        select.append(opt);
+    });
+    select.selectpicker('refresh');
+}

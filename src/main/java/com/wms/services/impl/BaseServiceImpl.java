@@ -35,6 +35,11 @@ public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> 
     }
 
     @Override
+    public ResponseObject updateByProperties(T tObject ) {
+        return tdp.updateByProperties(tObject);
+    }
+
+    @Override
     public ResponseObject delete(Long id ) {
         return tdp.delete(id);
     }
