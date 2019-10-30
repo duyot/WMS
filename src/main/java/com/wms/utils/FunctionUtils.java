@@ -495,7 +495,7 @@ public class FunctionUtils {
                 String price = isImportTransaction? goodsItem.getInputPrice(): goodsItem.getOutputPrice();
                 if (!DataUtil.isStringNullOrEmpty(price)) {
                     if (!isNumberFloat(price)) {
-                        errorInfo.append("\n Giá phải là số và >0");
+                        errorInfo.append("\n Giá phải là số và >= 0");
                         isValid = false;
                     }else{
                         if (isImportTransaction) {
@@ -529,7 +529,7 @@ public class FunctionUtils {
                 //expire date
                 String expireDate = goodsItem.getExpireDate();
                 if (!DataUtil.isStringNullOrEmpty(expireDate) && !DateTimeUtils.isValidDateFormat(expireDate,"dd/MM/yyyy")) {
-                    errorInfo.append("\n Ngày hết hạn không đúng định dạng");
+                    errorInfo.append("\n Hạn dùng không đúng định dạng");
                     isValid = false;
                 }
                 //
@@ -812,7 +812,7 @@ public class FunctionUtils {
 
     public static boolean isNumberFloat(String input) {
         try {
-            return Float.valueOf(input) > 0;
+            return Float.valueOf(input) >= 0;
         } catch (NumberFormatException e) {
             return false;
         }
