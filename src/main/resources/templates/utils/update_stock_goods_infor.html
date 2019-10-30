@@ -1,0 +1,580 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WMS - Workspace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="WMS"/>
+    <!--CSS-->
+    <link rel='stylesheet' th:href="@{/css/bootstrap.css}" type='text/css'/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-table.css}"/>
+    <link rel='stylesheet' th:href="@{/workspace_resource/css/style.css}" type='text/css'/>
+    <link rel="stylesheet" th:href="@{/workspace_resource/css/animate.css}" type="text/css" media="all"/>
+    <link rel="stylesheet" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
+    <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
+    <link href="/css/awesome-bootstrap-checkbox.css" th:href="@{/css/awesome-bootstrap-checkbox.css}" rel="stylesheet"
+          type="text/css" media="all"/>
+    <!--script-->
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    }
+
+    function clearDateRange(object) {
+        var dpr;
+        if (object === 'create') {
+            dpr   = $('#create-date-range').data('daterangepicker');
+            //
+            dpr.setStartDate('01/01/1900');
+            dpr.setEndDate('01/01/2100');
+            //
+            $('#create-date-range').val('');
+        }else if(object === 'expire'){
+            dpr = $('#expire-date-range').data('daterangepicker');
+            //
+            dpr.setStartDate('01/01/1900');
+            dpr.setEndDate('01/01/2100');
+            //
+            $('#expire-date-range').val('');
+        }
+    }
+
+    function clearProcedureDate() {
+        var dpr = $('#modal-procedure-date').data('daterangepicker');
+        //
+        dpr.setStartDate('01/01/1900');
+        dpr.setEndDate('01/01/2100');
+        //
+        $('#modal-procedure-date').val('');
+    }
+
+    function clearExpireDate() {
+        var dpr = $('#modal-expire-date').data('daterangepicker');
+        //
+        dpr.setStartDate('01/01/1900');
+        dpr.setEndDate('01/01/2100');
+        //
+        $('#modal-expire-date').val('');
+    }
+    </script>
+    <!--</script>-->
+    <script th:attr="src=@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-table.js}" th:href="@{/js/bootstrap-table.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-select.min.js}" th:href="@{/js/bootstrap-select.min.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}" th:href="@{/js/nprogress.js}"></script>
+    <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
+    <script th:attr="src=@{/js/daterangepicker.js}" th:href="@{/js/daterangepicker.js}"></script>
+    <!--confirmation-->
+    <script th:attr="src=@{/js/bootstrap.min.js}" th:href="@{/js/bootstrap.min.js}"></script>
+    <!--common-->
+    <script th:attr="src=@{/js/wms-common.js}" th:href="@{/js/wms-common.js}"></script>
+    <script th:attr="src=@{/js/notification/bootstrap-notify.min.js}" th:href="@{/js/notification/bootstrap-notify.min.js}"></script>
+    <!--font and favi icon-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+    <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
+
+</head>
+<body class="sticky-header left-side-collapsed">
+<section>
+    <!--left menu-->
+    <div th:include="common/workspace_leftmenu :: frag-leftmenu"></div>
+    <!--main content-->
+    <div class="main-content main-content2 main-content2copy">
+        <div th:include="common/header :: frag-headermneu"></div>
+        <div id="page-wrapper">
+            <!--search panel-->
+            <div id="panel-search-content" class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-search"></i>
+                    <!--Search info-->
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="container">
+                            <!--row 1: customer + stock-->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.usage}"></label>
+                                    <label id="hidden-stock-id"></label>
+                                    <label id="hidden-goods-id"></label>
+                                    <label id="hidden-state-id"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                        <button id="btn-get-goods-detail" style="display: none"
+                                                th:value="@{/workspace/utils/stockInfo/getGoodsDetail}"></button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="cmb-stock" th:text="#{lbl.stock}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-stock" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-stock" onchange="onSelectStock()">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option th:each="sopt:${lstStock}"
+                                                    th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row 2: goods - cells -->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.goods}" for="cmb-goods"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-goods" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-goods" >
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option th:each="sopt:${lstGoods}"
+                                                    th:value="${sopt.id}"
+                                                    th:text="${sopt.code} + '|' + ${sopt.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label class="control-label" for="cmb-cells" th:text="#{lbl.cellCode}"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                        <option  th:each="sopt:${cells}"
+                                                 th:value="${sopt.code}" th:text="${sopt.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--row 3:import date  + partner -->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.import.date}" for="create-date-range"></label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar fa-fw"></i>
+										</span>
+                                        <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button id="btn-clear-search-create"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRange('create')">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.partner}" for="cmb-partner"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-partner" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-partner">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstPartner}"
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--row 4: expire date  + goods state -->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.expire.date}" for="expire-date-range"></label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar fa-fw"></i>
+										</span>
+                                        <input type="text" id="expire-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button id="btn-clear-search-expire"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRange('expire')">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.goods.stage}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <div class="radio radio-inline radio-primary">
+                                            <input value="-1" type="radio" id="radio-all" name="cmb-status"
+                                                   checked="checked"/>
+                                            <label for="radio-all" th:text="#{label.all}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="1" type="radio" id="radio-normal" name="cmb-status"/>
+                                            <label for="radio-normal" th:text="#{lbl.goodsstate.normal}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-danger">
+                                            <input value="2" type="radio" id="radio-innormal" name="cmb-status"/>
+                                            <label for="radio-innormal" th:text="#{lbl.goodsstate.innormal}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <div class="wrapper text-center" style="text-align: center; margin-top: 5px">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-default  btn-primary"
+                                    id="btn-search-stock-info" th:value="@{/workspace/utils/update_stock_goods_info/findByCondition}">
+                                <i class="fa fa-search"></i>
+                                <span th:text="#{btn.search}"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p></p>
+
+                </div>
+            </div>
+            <!--end search panel-->
+            <div id="panel-search-result" class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-database"></i>
+                    <!--Result-->
+                </div>
+                <div class="panel-body">
+                    <!--toolbar-->
+<!--                    <div id="toolbar" class="btn-group">-->
+<!--                        <a class="btn btn-default" th:title="#{link.stock.remain}"-->
+<!--                           th:href="@{/workspace/utils/stockInfo/getTotalFile}">-->
+<!--                            <i class="fa fa-file-excel-o"></i>-->
+<!--                        </a>-->
+<!--                        <a class="btn btn-default" id="link-download-all-goods-detail"-->
+<!--                           th:title="#{link.stock.remain.detail}"-->
+<!--                           th:href="@{/workspace/utils/stockInfo/getAllStockGoodsDetail}">-->
+<!--                            <i class="fa fa-table"></i>-->
+<!--                        </a>-->
+
+<!--                        <label class="action-info action-info-link" id="action-info"></label>-->
+<!--                    </div>-->
+                    <table id="tbl-stock-info"
+                           data-pagination="true"
+                           data-side-pagination="client"
+                           data-search="true"
+                           data-click-to-select="true"
+                           data-toolbar="#toolbar"
+                           class="table-striped"
+                           style="word-wrap: break-word;  table-layout: fixed;"
+                           data-page-list="[5,10, 25, 50, 100, ALL]"
+                    >
+
+                        <thead>
+                        <tr>
+                            <th data-formatter="runningFormatter" data-align="center" data-width="45px">STT</th>
+                            <th class="col-md-1" data-field="stockName" data-align="left" data-sortable="true">Kho</th>
+                            <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
+                            <th class="col-md-2" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
+                            <th class="col-md-1" data-field="amountValue" data-align="right" data-sortable="true">SL</th>
+                            <th class="col-md-1" data-field="serial" data-align="right" data-sortable="true">Serial</th>
+                            <th class="col-md-1" data-field="goodsUnitName" data-align="left" data-sortable="true">Đơn vị</th>
+                            <th class="col-md-1" data-field="goodsStateValue" data-align="left" data-sortable="true" data-formatter="formatterGoodsStatus">TT</th>
+                            <th class="col-md-1" data-field="cellCode" data-align="left" data-sortable="true">Vị trí</th>
+                            <th class="col-md-1" data-field="produceDate" data-align="left" data-sortable="true">Ngày sản xuất</th>
+                            <th class="col-md-1" data-field="expireDate" data-align="left" data-sortable="true">Hạn dùng</th>
+                            <th class="col-md-1" data-field="changeDate" data-align="center" data-sortable="true">TG cập nhật </th>
+                            <th data-field="stockId" data-align="right" data-sortable="true"></th>
+                            <th data-field="goodsState" data-align="right" data-sortable="true"></th>
+                            <th data-field="goodsId" data-align="right" data-sortable="true"></th>
+                            <th data-field="id" data-align="right" data-sortable="true"></th>
+                            <th data-field="isSerial" data-align="right" data-sortable="true"></th>
+                            <th data-field="description" data-align="right" data-sortable="true"></th>
+                            <th data-field="importDate" data-align="right" data-sortable="true"></th>
+                            <th data-field="inputPriceValue" data-align="right" data-sortable="true"></th>
+                            <th data-align="center" data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}" data-width="70px"></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-loading"><!-- Place at bottom of page --></div>
+    <div th:include="modal/update_stock_goods_modal :: frag-update-stock-goods-modal"></div>
+    <!--footer-->
+    <div th:include="common/footer :: frag-footer"></div>
+</section>
+
+<!--FINAL JS-->
+<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
+<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
+<!--switch-->
+<script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
+<!--validation-->
+<script th:attr="src=@{/js/jquery.form-validator.min.js}" th:href="@{/js/jquery.form-validator.min.js}"></script>
+<script>
+    //Init data---------------------------------------------------------------------
+    var dataInit = [];
+    var mapCellCodeCellId = {};
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="view-goods-detail" href="javascript:void(0)" title="Chi tiết">',
+            '<i class="fa fa-info-circle"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    //---------------------------------------------------------------------
+    $table = $('#tbl-stock-info');
+    $tableGoodsDetail = $('#tbl-goods-detail');
+    $body = $("body");
+    //Init component---------------------------------------------------------------------
+    $(function () {
+        $table.bootstrapTable({
+            data: dataInit,
+            pageSize: 25
+        });
+        $table.bootstrapTable('hideColumn', 'stockId');
+        $table.bootstrapTable('hideColumn', 'goodsState');
+        $table.bootstrapTable('hideColumn', 'goodsId');
+        $table.bootstrapTable('hideColumn', 'id');
+        $table.bootstrapTable('hideColumn', 'isSerial');
+        $table.bootstrapTable('hideColumn', 'description');
+        $table.bootstrapTable('hideColumn', 'importDate');
+        $table.bootstrapTable('hideColumn', 'inputPriceValue');
+        //
+        $tableGoodsDetail.bootstrapTable({
+            data: dataInit,
+            url: $('#btn-get-goods-detail').val(),
+            pageList: [5, 10, 25, 50],
+            pageSize: 5,
+            queryParams: function (p) {
+                return {
+                    stockId: $("#hidden-stock-id").val(),
+                    goodsId: $("#hidden-goods-id").val(),
+                    goodsState: $("#hidden-state-id").val(),
+                    partnerId: $("#cmb-partner").val(),
+                    limit: p.limit,
+                    offset: p.offset
+                };
+
+            }
+        });
+        //
+        initDateRangeSelect();
+        //
+        initDateSelect();
+
+
+    });
+    //
+    window.operateEvents = {
+        'click .view-goods-detail': function (e, value, row, index) {
+            //
+            $("#modal-hidden-stock-goods-id").val(row["id"]);
+            $("#modal-hidden-is-serial").val(row["isSerial"]);
+            // $("#hidden-stock-id").val(row["stockId"]);
+            // $("#hidden-goods-id").val(row["goodsId"]);
+            // $("#hidden-state-id").val(row["goodsState"]);
+            //
+            $("#modal-hidden-stock-id").val(row["stockId"]);
+            var partnerId = $('#cmb-partner').val();
+
+            $.ajax({
+                type: 'GET',
+                url: $('#btn-get-cells').val(),
+                data: {stockId: row["stockId"]},
+                cache: false,
+                contentType: false,
+                async: false,
+                success: function (data) {
+                    if (data.length == 0) {
+                        disableElement($("#cmb-modal-cells"));
+                    } else {
+                        enableElement($("#cmb-modal-cells"));
+                        //
+                        mapCellCodeCellId = {};
+                        $.each(data, function (i, item) {
+                            mapCellCodeCellId[item.text] = item.value;
+                        });
+                    }
+                    loadSelectItems($("#cmb-modal-cells"), data, "---Chọn---");
+                }
+            });
+            //
+            setSelectedModalValue(row);
+            //
+            var procedureDate = row['produceDate'];
+            var expireDate = row['expireDate'];
+            if (procedureDate != undefined && procedureDate !== "") {
+                $('#modal-procedure-date').data('daterangepicker').setStartDate(row['produceDate']);
+            }else{
+                clearProcedureDate();
+            }
+
+            if (expireDate != undefined && expireDate !== "") {
+                $('#modal-expire-date').data('daterangepicker').setStartDate(row['expireDate']);
+            }else{
+                clearExpireDate();
+            }
+            //
+            showModal($('#stock-goods-detail-modal'));
+
+        }
+    };
+    //@FUNCTION-----------------------------------------------------------------
+    //
+    function setSelectedModalValue(row) {
+        $("#modal-lbl-goods-code-val").text(row["goodsCode"]);
+        $("#modal-lbl-goods-name-val").text(row["goodsName"]);
+        $("#modal-lbl-goods-amount-val").text(row["amountValue"]);
+        $("#modal-lbl-goods-unit-val").text(row["goodsUnitName"]);
+        $("#modal-lbl-goods-state-val").text(row["goodsStateValue"]);
+        $("#modal-lbl-serial-val").text(row["serial"]);
+        $("#modal-lbl-serial-val").text(row["goodsUnitName"]);
+        $("#modal-lbl-stock-name-val").text(row["stockName"]);
+        $("#modal-note").val(row["description"]);
+        $("#modal-lbl-import-date-val").text(row["importDate"]);
+        $("#modal-lbl-input-price-val").text(row["inputPriceValue"]);
+        //cell
+        var cellCode = row['cellCode'];
+        if (cellCode != null && cellCode !== "") {
+            $('select[name=cmb-modal-cells]').val(mapCellCodeCellId[cellCode]);
+            $('select[name=cmb-modal-cells]').selectpicker('refresh');
+        }
+        //
+        $('#modal-procedure-date').data('daterangepicker').setStartDate(row['produceDate']);
+        $('#modal-expire-date').data('daterangepicker').setStartDate(row['expireDate']);
+    }
+    //@Search-----------------------------------------------------------------
+    var $btnSearch = $('#btn-search-stock-info');
+    $btnSearch.click(function () {
+        $("#action-info").text('');
+        search();
+    });
+    //#update-----------------------------------------------------------------
+    var $btnUpdateGoods = $('#modal-btn-save-stock-goods');
+    $btnUpdateGoods.click(function () {
+        $("#action-info").text('');
+        //
+        var isSerial = $("#modal-hidden-is-serial").val();
+        var id = $("#modal-hidden-stock-goods-id").val();
+        var cellCode = $("#cmb-modal-cells :selected").text();
+        var cellId = $('#cmb-modal-cells').val();
+        if (cellId === "-1") {
+            cellCode = "";
+        }
+        var description = $("#modal-note").val();
+        var produceDate = $("#modal-procedure-date").val();
+        var expireDate = $("#modal-expire-date").val();
+        //
+        var importData = JSON.stringify({isSerial: isSerial, id: id, produceDate: produceDate, expireDate: expireDate, description:description, cellCode: cellCode});
+        console.log(importData);
+        //
+        $.ajax({
+            url: $("#modal-btn-save-stock-goods").val(),
+            data: importData,
+            cache: false,
+            contentType: "application/json",
+            dataType: 'text',
+            type: 'POST',
+            async:false,
+            success: function (data) {
+                if (data === 'SUCCESS') {
+                    setInfoMessage(null, "Cập nhật thành công");
+                }else{
+                    setErrorMessage(null, "Cập nhật không thành công")
+                }
+            }
+        });
+        //
+        hideModal($('#stock-goods-detail-modal'));
+        search();
+    });
+
+    function search() {
+        NProgress.start();
+        var stockId = $('#cmb-stock').val();
+        var goodsId = $('#cmb-goods').val();
+        var cellCode = $("#cmb-cells :selected").text();
+        var cellId = $('#cmb-cells').val();
+        if (cellId === "-1") {
+            cellCode = "";
+        }
+        var partnerId = $('#cmb-partner').val();
+        var statusVal = $("input[name='cmb-status']:checked").val();
+        //date
+        var drp = $('#create-date-range').data('daterangepicker');
+        var startCreateDateVal = drp.startDate.format("DD/MM/YYYY");
+        var endCreateDateVal   = drp.endDate.format("DD/MM/YYYY");
+        //
+        var drp = $('#expire-date-range').data('daterangepicker');
+        var startExpireDateVal = drp.startDate.format("DD/MM/YYYY");
+        var endExpireDateVal   = drp.endDate.format("DD/MM/YYYY");
+        //
+        $.ajax({
+            type: "GET",
+            cache: false,
+            data: {stockId: stockId,goodsId: goodsId,cellCode: cellCode, partnerId: partnerId,  statusVal: statusVal,
+                startCreateDateVal: startCreateDateVal, endCreateDateVal:endCreateDateVal,
+                startExpireDateVal: startExpireDateVal, endExpireDateVal:endExpireDateVal
+            },
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $btnSearch.val(),
+            dataType: 'json',
+            timeout: 600000,
+            success: function (data) {
+                $table.bootstrapTable('load', data);
+            },
+            complete: function () {
+                NProgress.done();
+            }
+        });
+
+        var $downloadLink = $('#link-download-all-goods-detail');
+        var originalLink = $downloadLink.attr("href");
+        if (originalLink.includes("?")) {
+            originalLink = trimAtChacter(originalLink, "?");
+        }
+        $downloadLink.attr("href", originalLink + "?stockId=" + stockId + "&partnerId=" + partnerId + "&goodsId=" + goodsId + "&status=" + statusVal);
+    }
+
+    function onSelectStock() {
+        $.ajax({
+            type: 'GET',
+            url: $('#btn-get-cells').val(),
+            data: {stockId: $('#cmb-stock').val()},
+            cache: false,
+            contentType: false,
+            async: false,
+            success: function (data) {
+                if (data.length == 0) {
+                    disableElement($('#cmb-cells'));
+                } else {
+                    enableElement($('#cmb-cells'));
+                }
+                loadSelectItems($('#cmb-cells'), data, "Tất cả");
+            }
+        });
+    }
+    //-------------------------------------------------------------------------
+</script>
+</body>
+</html>

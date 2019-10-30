@@ -52,8 +52,6 @@ public class MjrStockTransDetailDTO {
     private String expireDate;
     private String description;
 
-
-
     public String getStockCode() {
         return stockCode;
     }

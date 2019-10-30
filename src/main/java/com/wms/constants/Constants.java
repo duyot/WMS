@@ -7,6 +7,7 @@ public class Constants {
 
     public static final String STATS_ALL = "-1";
     public static final String IS_SERIAL = "1";
+    public static final String NO_SERIAL = "0";
     public static final String SUCCES_COLOR = "color:#337ab7;";
 
     public static class APP_PARAMS{
@@ -72,6 +73,7 @@ public class Constants {
         public static String ADD = "add?access_token=";
         public static String ADD_LIST = "addList?access_token=";
         public static String UPDATE = "update?access_token=";
+        public static String UPDATE_BYE_PROPERTIES = "updateByProperties?access_token=";
         public static String DELETE = "delete/";
         public static String FIND_BY_ID = "find/";
         public static String FIND_BY_CONDITION  = "findByCondition?access_token=";

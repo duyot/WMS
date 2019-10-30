@@ -15,6 +15,7 @@ public interface BaseService<T>{
     ResponseObject add(T tObject );
     ResponseObject addList(List<T> tObject );
     ResponseObject update(T tObject );
+    ResponseObject updateByProperties(T tObject );
     ResponseObject delete(Long id );
     T findById(Long id );
     List<T> findByCondition(List<Condition> lstCondition );

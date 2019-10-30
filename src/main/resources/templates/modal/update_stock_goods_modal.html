@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-update-stock-goods-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="stock-goods-detail-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
+         aria-labelledby="myModalLabel" aria-hidden="true" th:width="500px">
+        <div class="modal-dialog" role="document" style="width:100%">
+                <div class="modal-content" id="catUserDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{modal.label.stock.goods.detail}"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend>Thông tin chung</legend>
+                            <div class="container-modal">
+                                <div class="panel-body" style="padding: 0em 0.4em;">
+<!--                                    goods_code + goods_state-->
+                                    <div class="row" style="line-height: 1.2em">
+                                        <div class="col-sm-2">
+                                            <label id="modal-lbl-goods-code" th:text="#{lbl.goodsCode}"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <label id="modal-lbl-goods-code-val"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <label id="modal-lbl-goods-state" th:text="#{lbl.goods.stage}"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <label id="modal-lbl-goods-state-val"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+<!--                                    goods_name + input_price-->
+                                    <div class="row" style="line-height: 1.2em">
+                                            <div class="col-sm-2">
+                                                <label id="modal-lbl-goods-name" th:text="#{lbl.goodsName}"></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <label id="modal-lbl-goods-name-val"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <label id="modal-lbl-input-price" th:text="#{lbl.inputPrice}"></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <label id="modal-lbl-input-price-val"></label>
+                                                </div>
+                                            </div>
+                                    </div>
+<!--                                    amount + serial-->
+                                    <div class="row" style="line-height: 1.2em">
+                                            <div class="col-sm-2">
+                                                <label id="modal-lbl-goods-amount" th:text="#{lbl.amount}"></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <label id="modal-lbl-goods-amount-val"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <label id="modal-lbl-serial" th:text="#{lbl.serial}"></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <label id="modal-lbl-serial-val"></label>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="row" style="line-height: 1.2em">
+                                        <div class="col-sm-2">
+                                            <label id="modal-lbl-import-date" th:text="#{lbl.import.date}"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <label id="modal-lbl-import-date-val"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <br>
+                        <fieldset>
+                            <legend>Thông tin cập nhật</legend>
+                            <label id="modal-hidden-stock-id"></label>
+                            <label id="modal-hidden-stock-goods-id"></label>
+                            <label id="modal-hidden-is-serial"></label>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="control-label" for="cmb-modal-cells" th:text="#{lbl.cellCode}"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select name="cmb-modal-cells" id="cmb-modal-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                            <option value="-1" th:text="#{label.choose}"></option>
+                                            <option  th:each="sopt:${cells}"
+                                                     th:value="${sopt.code}" th:text="${sopt.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label class="control-label" for="modal-procedure-date" th:text="#{lbl.produce.date}"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar fa-fw"></i>
+										</span>
+                                        <input type="text" id="modal-procedure-date" class="form-control" name="singledate" value="01/01/2015 - 31/01/2015" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="control-label" for="cmb-modal-cells"></label>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label class="control-label" for="modal-expire-date" th:text="#{lbl.expire.date}"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar fa-fw"></i>
+										</span>
+                                        <input type="text" id="modal-expire-date" class="form-control" name="singledate" value="01/01/2015 - 31/01/2015" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-2">
+                                    <label class="control-label" for="modal-note" th:text="#{lbl.note}"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-sticky-note fa-fw"></i>
+										</span>
+                                        <textarea id="modal-note" class="form-control" th:rows="1" maxlength="500"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
+                        </fieldset>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button id="modal-btn-save-stock-goods" th:value="@{/workspace/utils/update_stock_goods_info/save}" type="submit" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{btn.update}"></span>
+                        </button>
+                        <button id="modal-btn-close" type="submit" class="btn btn-primary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
