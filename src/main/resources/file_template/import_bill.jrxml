@@ -134,7 +134,7 @@ Ngày 22/12/2014 của Bộ Tài chính)
 				<text><![CDATA[PHIẾU NHẬP KHO VẬT TƯ - THIẾT BỊ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="170" y="103" width="198" height="15" uuid="eb445f22-943b-4c8e-b8b8-0ca0eabbad80"/>
+				<reportElement x="70" y="103" width="380" height="15" uuid="eb445f22-943b-4c8e-b8b8-0ca0eabbad80"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
