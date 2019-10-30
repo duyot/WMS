@@ -59,7 +59,7 @@ $(function () {
                 field: 'serial',
                 title: 'Serial',
                 align: 'left',
-                width: '6%',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -104,15 +104,15 @@ $(function () {
                 title: 'Trọng lượng(kg)',
                 align: 'right',
                 formatter: 'subTotal',
-                width: '7%'
+                width: '9%'
             },
-            {
+            /*{
                 field: 'volume',
                 title: 'Thể tích(m3)',
                 align: 'right',
                 formatter: 'subTotal',
                 width: '7%'
-            },
+            },*/
             {
                 field: 'inputPrice',
                 title: 'Giá nhập',
@@ -154,7 +154,7 @@ $(function () {
                 field: 'cellCode',
                 title: 'Vị trí',
                 align: 'left',
-                width: '4%',
+                width: '7%',
                 editable: {
                     type: 'select',
                     mode: 'inline',
@@ -164,21 +164,21 @@ $(function () {
             },
             {
                 field: 'produceDate',
-                title: 'Ngày sản xuất',
+                title: 'Ngày sx',
                 align: 'left',
-                width: '6%'
+                width: '8%'
             },
             {
                 field: 'expireDate',
-                title: 'Ngày hết hạn',
+                title: 'Hạn dùng',
                 align: 'left',
-                width: '6%'
+                width: '9%'
             },
             {
                 title: 'Xóa',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
-                width: '3%',
+                width: '4%',
                 align: 'center'
             },
             {
@@ -195,6 +195,7 @@ $(function () {
     $table.bootstrapTable('hideColumn', 'goodsId');
     $table.bootstrapTable('hideColumn', 'baseWeight');
     $table.bootstrapTable('hideColumn', 'baseVolume');
+
 
     $table.bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
         selectedIndex = $element.attr('data-index');

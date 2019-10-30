@@ -309,7 +309,6 @@ btnExportConfirm.click(function () {
     var receiveValue = $('#inp-receive-name').val();
     var partnerIdValue = $('#cmb-partner').val();
     var exportMethod = $('input[name=cmb-export-method]:checked').val();
-    alert(exportMethod);
 
     var stock_trans_info = {
         contractNumber: contractNumberValue,

@@ -242,6 +242,9 @@ public class TransInfoController extends BaseController{
             parameters.put("importMan", mjrStockTransDTO.getCreatedUser());
             parameters.put("note", mjrStockTransDTO.getDescription());
             parameters.put("sum", sum);
+            parameters.put("totalWeight", getTotalWeight(lstStockTransDetail));
+            parameters.put("receivedCustomer", mjrStockTransDTO.getReceiveName() == null ? "": mjrStockTransDTO.getReceiveName());
+            parameters.put("orderCode", mjrStockTransDTO.getOrderCode() == null ? "" :  mjrStockTransDTO.getOrderCode());
             parameters.put("currencyText", ConvertCurrenciesToText.convertToText(sum));
 
 
@@ -368,5 +371,17 @@ public class TransInfoController extends BaseController{
         }
 
         return ConvertCurrenciesToText.currencyFormat(String.format ("%.2f", total));
+    }
+
+    public String getTotalWeight(List<MjrStockTransDetailDTO> lstStockTransDetail) {
+        double total = 0;
+        for (MjrStockTransDetailDTO item : lstStockTransDetail) {
+            item.setAmount(item.getAmount().replaceAll(",", ""));
+            int amount = item.getAmount().equalsIgnoreCase("") ? 1 : Integer.parseInt(item.getAmount());
+            double weight = item.getWeight() == null || "".equalsIgnoreCase(item.getWeight()) ? 0 : Double.parseDouble(item.getWeight().replace(",", ""));
+            total = total + weight * amount;
+        }
+
+        return total+"";
     }
 }
