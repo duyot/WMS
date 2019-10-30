@@ -103,6 +103,17 @@ public class BaseDP<T> {
 		}
 	}
 
+	public ResponseObject updateByProperties(T tObject) {
+		try {
+			String url = getUrlLoadBalancing(0, Constants.SERVICE_METHOD.UPDATE_BYE_PROPERTIES);
+			return restTemplate.postForObject(url, tObject, ResponseObject.class);
+		} catch (RestClientException e) {
+			e.printStackTrace();
+			log.info(e.toString());
+			return new ResponseObject(Responses.ERROR.getName(), Responses.ERROR.getName(), "");
+		}
+	}
+
 	public ResponseObject delete(Long id) {
 		String url = getUrlLoadBalancing(id, Constants.SERVICE_METHOD.DELETE);
 		try {

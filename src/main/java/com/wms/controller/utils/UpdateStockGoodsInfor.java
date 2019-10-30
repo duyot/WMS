@@ -1,7 +1,6 @@
 package com.wms.controller.utils;
 
 import com.google.common.collect.Lists;
-import com.sun.xml.internal.ws.util.StringUtils;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.dto.*;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.*;
@@ -73,8 +71,8 @@ public class UpdateStockGoodsInfor extends BaseController {
             lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, stockId));
         }
 
-        if (!DataUtil.isStringNullOrEmpty(cellCode) && !cellCode.equals(Constants.STATS_ALL)) {
-            lstCon.add(new Condition("cellCode", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, cellCode));
+        if (!DataUtil.isStringNullOrEmpty(cellCode)) {
+            lstCon.add(new Condition("cellCode", Constants.SQL_OPERATOR.EQUAL, cellCode));
         }
 
         if (!DataUtil.isStringNullOrEmpty(goodsId) && !goodsId.equals(Constants.STATS_ALL)) {
@@ -89,20 +87,46 @@ public class UpdateStockGoodsInfor extends BaseController {
             lstCon.add(new Condition("goodsState", Constants.SQL_OPERATOR.EQUAL, statusVal));
         }
 
-        if(!DataUtil.isStringNullOrEmpty(startCreateDateVal) && !DataUtil.isStringNullOrEmpty(endCreateDateVal)){
-            lstCon.add(new Condition("importDate", Constants.SQL_OPERATOR.BETWEEN,startCreateDateVal + "|"+ endCreateDateVal));
+        if(!DataUtil.isStringNullOrEmpty(startCreateDateVal) && !"01/01/1900".equalsIgnoreCase(startCreateDateVal) && !DataUtil.isStringNullOrEmpty(endCreateDateVal)){
+            lstCon.add(new Condition("produceDate", Constants.SQL_OPERATOR.BETWEEN,startCreateDateVal + "|"+ endCreateDateVal));
         }
 
-        if(!DataUtil.isStringNullOrEmpty(startExpireDateVal) && !DataUtil.isStringNullOrEmpty(endExpireDateVal)){
+        if(!DataUtil.isStringNullOrEmpty(startExpireDateVal) && !"01/01/1900".equalsIgnoreCase(startExpireDateVal) && !DataUtil.isStringNullOrEmpty(endExpireDateVal)){
             lstCon.add(new Condition("expireDate", Constants.SQL_OPERATOR.BETWEEN,startExpireDateVal + "|"+ endExpireDateVal));
         }
         //order
         lstCon.add(new Condition("changeDate", Constants.SQL_OPERATOR.ORDER, "desc"));
-        //get from stockgoods
+        //get from stock goods
         List<MjrStockGoodsDTO> lstStockGoods = mjrStockGoodsService.findByCondition(lstCon);
         List<MjrStockGoodsSerialDTO> lstStockGoodsSerial = mjrStockGoodsSerialService.findByCondition(lstCon);
 
         return sumupAllGoods(lstStockGoods, lstStockGoodsSerial);
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public @ResponseBody String saveStockGoods(@RequestBody MjrStockTransDetailDTO stockGoods){
+        ResponseObject result;
+        if ("1".equalsIgnoreCase(stockGoods.getIsSerial())) {
+            MjrStockGoodsDTO object = new MjrStockGoodsDTO();
+            object.setId(stockGoods.getId());
+            object.setProduceDate(stockGoods.getProduceDate());
+            object.setExpireDate(stockGoods.getExpireDate());
+            object.setDescription(stockGoods.getDescription());
+            object.setCellCode(stockGoods.getCellCode());
+            object.setChangeDate(mjrStockGoodsSerialService.getSysDate());
+            result = mjrStockGoodsSerialService.updateByProperties(object);
+        }else{
+            MjrStockGoodsSerialDTO object = new MjrStockGoodsSerialDTO();
+            object.setId(stockGoods.getId());
+            object.setProduceDate(stockGoods.getProduceDate());
+            object.setExpireDate(stockGoods.getExpireDate());
+            object.setDescription(stockGoods.getDescription());
+            object.setCellCode(stockGoods.getCellCode());
+            object.setChangeDate(mjrStockGoodsSerialService.getSysDate());
+            result = mjrStockGoodsService.updateByProperties(object);
+        }
+        log.info(result.toString());
+        return result.getStatusCode();
     }
 
     private List<MjrStockTransDetailDTO> sumupAllGoods(List<MjrStockGoodsDTO> lstStockGoods, List<MjrStockGoodsSerialDTO> lstStockGoodsSerial){
@@ -138,8 +162,13 @@ public class UpdateStockGoodsInfor extends BaseController {
                 detail.setStatus(i.getStatus());
                 detail.setPartnerId(i.getPartnerId());
                 detail.setInputPrice(i.getInputPrice());
+                detail.setInputPriceValue(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getInputPrice())));
                 detail.setOutputPrice(i.getOutputPrice());
                 detail.setExportDate(i.getExportDate());
+                detail.setProduceDate(i.getProduceDate());
+                detail.setExpireDate(i.getExpireDate());
+                detail.setDescription(i.getDescription());
+                detail.setIsSerial(Constants.NO_SERIAL);
                 //
                 results.add(detail);
             }
@@ -165,6 +194,7 @@ public class UpdateStockGoodsInfor extends BaseController {
                 detail.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
 
                 detail.setCellCode(i.getCellCode());
+                detail.setSerial(i.getSerial());
                 detail.setAmount(i.getAmount());
                 detail.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
                 detail.setImportDate(i.getImportDate());
@@ -172,8 +202,13 @@ public class UpdateStockGoodsInfor extends BaseController {
                 detail.setStatus(i.getStatus());
                 detail.setPartnerId(i.getPartnerId());
                 detail.setInputPrice(i.getInputPrice());
+                detail.setInputPriceValue(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getInputPrice())));
                 detail.setOutputPrice(i.getOutputPrice());
                 detail.setExportDate(i.getExportDate());
+                detail.setProduceDate(i.getProduceDate());
+                detail.setExpireDate(i.getExpireDate());
+                detail.setDescription(i.getDescription());
+                detail.setIsSerial(Constants.IS_SERIAL);
                 //
                 results.add(detail);
             }
