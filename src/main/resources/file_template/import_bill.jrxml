@@ -166,7 +166,7 @@ Có:.........................................
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="120" splitType="Stretch">
+		<band height="105" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="10" width="100" height="20" uuid="2d37e2fa-7ecf-40ad-a438-8ad7f18d1ffc"/>
 				<textElement>
@@ -175,21 +175,21 @@ Có:.........................................
 				<text><![CDATA[Đối tác gửi hàng]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="50" width="100" height="20" uuid="313ba566-b4c1-432e-a360-fe4696e14f79"/>
+				<reportElement x="0" y="30" width="100" height="20" uuid="313ba566-b4c1-432e-a360-fe4696e14f79"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Nhập vào kho]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="90" width="100" height="20" uuid="34635463-9cb5-4b8b-81d1-fdef80763701"/>
+				<reportElement x="0" y="70" width="100" height="20" uuid="34635463-9cb5-4b8b-81d1-fdef80763701"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Ghi chú]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="70" width="100" height="20" uuid="40b1002a-30e4-4c04-828c-68f26fa6b042"/>
+				<reportElement x="0" y="50" width="100" height="20" uuid="40b1002a-30e4-4c04-828c-68f26fa6b042"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
@@ -203,39 +203,25 @@ Có:.........................................
 				<textFieldExpression><![CDATA[$P{partner}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="110" y="50" width="446" height="20" uuid="d347214d-47bc-4ce7-9c9d-4df999bdb883"/>
+				<reportElement x="110" y="30" width="446" height="20" uuid="d347214d-47bc-4ce7-9c9d-4df999bdb883"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{stockName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="110" y="70" width="446" height="20" uuid="35e72d19-1a1d-4e2f-84c5-4eb5fc9e0bda"/>
+				<reportElement x="110" y="50" width="446" height="20" uuid="35e72d19-1a1d-4e2f-84c5-4eb5fc9e0bda"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importMan}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="110" y="90" width="446" height="20" uuid="c8fc6e8f-1fd4-47d9-85a0-bf148a4cc0ff"/>
+				<reportElement x="110" y="70" width="446" height="20" uuid="c8fc6e8f-1fd4-47d9-85a0-bf148a4cc0ff"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{note}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="30" width="100" height="20" uuid="f257305b-a089-455c-9ee9-57aefa23421f"/>
-				<textElement>
-					<font fontName="Times New Roman" size="11"/>
-				</textElement>
-				<text><![CDATA[Khách hàng nhận]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="110" y="30" width="446" height="20" uuid="d5f12c0b-3084-48c1-bc96-c7945a70a888"/>
-				<textElement verticalAlignment="Top">
-					<font fontName="Times New Roman" size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{receivedCustomer}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
