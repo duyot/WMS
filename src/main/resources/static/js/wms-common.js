@@ -760,3 +760,12 @@ function loadSelectItems(select, items, headerText) {
     });
     select.selectpicker('refresh');
 }
+
+function clearDateRange(object) {
+    var dpr = object.data('daterangepicker');
+    //
+    dpr.setStartDate(new Date());
+    dpr.setEndDate(new Date());
+    //
+    object.val('');
+}

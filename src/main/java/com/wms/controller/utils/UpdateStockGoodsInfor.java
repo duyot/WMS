@@ -64,8 +64,6 @@ public class UpdateStockGoodsInfor extends BaseController {
         List<Condition> lstCon = Lists.newArrayList();
 
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
-//        lstCon.add(new Condition("amount", Constants.SQL_OPERATOR.GREATER_EQUAL, 0));
-
 
         if (!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)) {
             lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, stockId));
@@ -99,8 +97,9 @@ public class UpdateStockGoodsInfor extends BaseController {
         //get from stock goods
         List<MjrStockGoodsDTO> lstStockGoods = mjrStockGoodsService.findByCondition(lstCon);
         List<MjrStockGoodsSerialDTO> lstStockGoodsSerial = mjrStockGoodsSerialService.findByCondition(lstCon);
-
-        return sumupAllGoods(lstStockGoods, lstStockGoodsSerial);
+        List sumList = sumupAllGoods(lstStockGoods, lstStockGoodsSerial);
+        Collections.sort(sumList, (Comparator<MjrStockTransDetailDTO>) (p1, p2) -> DateTimeUtils.convertStringToTime(p2.getChangeDate(), "dd/MM/yyyy HH:mm:ss").compareTo(DateTimeUtils.convertStringToTime(p1.getChangeDate(), "dd/MM/yyyy HH:mm:ss")));
+        return sumList;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)

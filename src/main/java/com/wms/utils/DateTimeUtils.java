@@ -75,14 +75,14 @@ public class DateTimeUtils {
      * @param pattern in converting
      * @return date
      */
-    public static Date convertStringToTime(String date, String pattern) throws Exception {
+    public static Date convertStringToTime(String date, String pattern){
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         try {
             return dateFormat.parse(date);
 
         } catch (ParseException e) {
             System.out.println("Date ParseException, string value:" + date);
-            throw e;
+            return new Date();
         }
     }
 
