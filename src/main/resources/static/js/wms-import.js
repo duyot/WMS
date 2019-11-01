@@ -476,6 +476,8 @@ $inpGoodsAmount.keypress(function (e) {
     }
 });
 function moveDataToTable() {
+    console.log($('#cmb-cells').val());
+    // return;
     $.ajax({
         type: 'GET',
         url: $('#btn-check-serial').val(),

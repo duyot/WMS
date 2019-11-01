@@ -86,7 +86,7 @@ public class UpdateStockGoodsInfor extends BaseController {
         }
 
         if(!DataUtil.isStringNullOrEmpty(startCreateDateVal) && !"01/01/1900".equalsIgnoreCase(startCreateDateVal) && !DataUtil.isStringNullOrEmpty(endCreateDateVal)){
-            lstCon.add(new Condition("produceDate", Constants.SQL_OPERATOR.BETWEEN,startCreateDateVal + "|"+ endCreateDateVal));
+            lstCon.add(new Condition("importDate", Constants.SQL_OPERATOR.BETWEEN,startCreateDateVal + "|"+ endCreateDateVal));
         }
 
         if(!DataUtil.isStringNullOrEmpty(startExpireDateVal) && !"01/01/1900".equalsIgnoreCase(startExpireDateVal) && !DataUtil.isStringNullOrEmpty(endExpireDateVal)){
