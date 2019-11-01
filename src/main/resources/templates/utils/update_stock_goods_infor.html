@@ -26,7 +26,7 @@
         window.scrollTo(0, 1);
     }
 
-    function clearDateRange(object) {
+    function clearDateRangeMain(object) {
         var dpr;
         if (object === 'create') {
             dpr   = $('#create-date-range').data('daterangepicker');
@@ -45,23 +45,16 @@
         }
     }
 
-    function clearProcedureDate() {
-        var dpr = $('#modal-procedure-date').data('daterangepicker');
-        //
-        dpr.setStartDate('01/01/1900');
-        dpr.setEndDate('01/01/2100');
-        //
-        $('#modal-procedure-date').val('');
+    function clearDateRangeModal(object) {
+        var dpr;
+        if (object === 'create') {
+            clearDateRange($('#modal-procedure-date'));
+        }else if(object === 'expire'){
+            clearDateRange($('#modal-expire-date'));
+        }
     }
 
-    function clearExpireDate() {
-        var dpr = $('#modal-expire-date').data('daterangepicker');
-        //
-        dpr.setStartDate('01/01/1900');
-        dpr.setEndDate('01/01/2100');
-        //
-        $('#modal-expire-date').val('');
-    }
+
     </script>
     <!--</script>-->
     <script th:attr="src=@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
@@ -165,8 +158,8 @@
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.import.date}" for="create-date-range"></label>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="input-group">
+                                <div class="col-sm-3" style="padding-right: 0px">
+                                    <div class="input-group" >
 										<span class="input-group-addon">
 											<i class="fa fa-calendar fa-fw"></i>
 										</span>
@@ -175,7 +168,7 @@
                                 </div>
 
                                 <div class="col-sm-1">
-                                    <button id="btn-clear-search-create"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRange('create')">
+                                    <button id="btn-clear-search-create"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRangeMain('create')">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -200,7 +193,7 @@
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.expire.date}" for="expire-date-range"></label>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-3" style="padding-right: 0px">
                                     <div class="input-group">
 										<span class="input-group-addon">
 											<i class="fa fa-calendar fa-fw"></i>
@@ -210,7 +203,7 @@
                                 </div>
 
                                 <div class="col-sm-1">
-                                    <button id="btn-clear-search-expire"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRange('expire')">
+                                    <button id="btn-clear-search-expire"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRangeMain('expire')">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -426,13 +419,13 @@
             if (procedureDate != undefined && procedureDate !== "") {
                 $('#modal-procedure-date').data('daterangepicker').setStartDate(row['produceDate']);
             }else{
-                clearProcedureDate();
+                clearDateRange($('#modal-procedure-date'));
             }
 
             if (expireDate != undefined && expireDate !== "") {
                 $('#modal-expire-date').data('daterangepicker').setStartDate(row['expireDate']);
             }else{
-                clearExpireDate();
+                clearDateRange($('#modal-expire-date'));
             }
             //
             showModal($('#stock-goods-detail-modal'));
@@ -462,6 +455,18 @@
         //
         $('#modal-procedure-date').data('daterangepicker').setStartDate(row['produceDate']);
         $('#modal-expire-date').data('daterangepicker').setStartDate(row['expireDate']);
+        if (row["goodsStateValue"] === "Bình thường") {
+            //
+            $("#modal-goods-state-wrapper").removeClass("status-bgm-blue");
+            $("#modal-goods-state-wrapper").removeClass("status-bgm-red");
+            //
+            $("#modal-goods-state-wrapper").addClass("status-bgm-blue");
+        }else{
+            $("#modal-goods-state-wrapper").removeClass("status-bgm-blue");
+            $("#modal-goods-state-wrapper").removeClass("status-bgm-red");
+            //
+            $("#modal-goods-state-wrapper").addClass("status-bgm-red");
+        }
     }
     //@Search-----------------------------------------------------------------
     var $btnSearch = $('#btn-search-stock-info');

@@ -7,8 +7,8 @@
 <div th:fragment="frag-update-stock-goods-modal">
     <!-- Modal -->
     <div class="modal fade" id="stock-goods-detail-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
-         aria-labelledby="myModalLabel" aria-hidden="true" th:width="500px">
-        <div class="modal-dialog" role="document" style="width:100%">
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 80%">
                 <div class="modal-content" id="catUserDTO-modal">
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
@@ -32,11 +32,17 @@
                                         </div>
 
                                         <div class="col-sm-2">
-                                            <label id="modal-lbl-goods-state" th:text="#{lbl.goods.stage}"></label>
+
+                                                <label id="modal-lbl-goods-state" th:text="#{lbl.goods.stage}"></label>
+
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
-                                                <label id="modal-lbl-goods-state-val"></label>
+                                                <span id="modal-goods-state-wrapper" class="status-label">
+                                                    <span id="modal-lbl-goods-state-val"  class="">
+<!--                                                        <label id="modal-lbl-goods-state-val"></label>-->
+                                                    </span>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -119,13 +125,19 @@
                                     <label class="control-label" for="modal-procedure-date" th:text="#{lbl.produce.date}"></label>
                                 </div>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3" style="padding-right: 0px">
                                     <div class="input-group">
 										<span class="input-group-addon">
 											<i class="fa fa-calendar fa-fw"></i>
 										</span>
-                                        <input type="text" id="modal-procedure-date" class="form-control" name="singledate" value="01/01/2015 - 31/01/2015" />
+                                        <input type="text" id="modal-procedure-date" class="form-control" name="singledate" value="01/01/2015 - 31/01/2015"/>
                                     </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button id="btn-clear-modal-procedure"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRangeModal('create')">
+                                        <i class="fa fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
 
@@ -138,13 +150,19 @@
                                     <label class="control-label" for="modal-expire-date" th:text="#{lbl.expire.date}"></label>
                                 </div>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3" style="padding-right: 0px">
                                     <div class="input-group">
 										<span class="input-group-addon">
 											<i class="fa fa-calendar fa-fw"></i>
 										</span>
                                         <input type="text" id="modal-expire-date" class="form-control" name="singledate" value="01/01/2015 - 31/01/2015" />
                                     </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button id="btn-clear-modal-expire"  class="btn btn-primary" type="button" style="float:left" onclick="clearDateRangeModal('expire')">
+                                        <i class="fa fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
 
@@ -176,7 +194,7 @@
                             <i class="fa fa-check"></i>
                             <span th:text="#{btn.update}"></span>
                         </button>
-                        <button id="modal-btn-close" type="submit" class="btn btn-primary" data-dismiss="modal">
+                        <button id="modal-btn-close" type="submit" class="btn btn-secondary" data-dismiss="modal">
                             <i class="fa fa-close"></i>
                             <span th:text="#{btn.close}"></span>
                         </button>
