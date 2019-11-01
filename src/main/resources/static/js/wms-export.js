@@ -163,13 +163,13 @@ $(function () {
                 field: 'cellCode',
                 title: 'Vị trí',
                 align: 'left',
-                width: '7%',
-                editable: {
+                width: '7%'
+                /*editable: {
                     type: 'select',
                     mode: 'inline',
                     showbuttons: false,
                     source: $('#btn-get-cells').val() + '?stockId=' + $('#cmb-stock').val()
-                }
+                }*/
             },
             {
                 title: 'Xóa',
@@ -459,7 +459,7 @@ $inpGoodsCode.keypress(function (e) {
                 outputPrice: goodsItem['outPrice'],
                 outputPriceValue: formatFloatType(goodsItem['outPrice']),
                 totalMoney: Number(1) * Number(goodsItem['outPrice']),
-                cellCode: $('#cmb-cells').val(),
+                cellCode: $("#cmb-cells :selected").text(),
                 columnId: columnId
             });
             //
@@ -538,7 +538,7 @@ function moveDataToTable() {
         outputPrice: goodsItem['outPrice'],
         outputPriceValue: formatFloatType(goodsItem['outPrice']),
         totalMoney: amount * Number(goodsItem['outPrice']),
-        cellCode: $('#cmb-cells').val(),
+        cellCode: $("#cmb-cells :selected").text(),
         columnId: columnId,
         baseWeight: weight,
         baseVolume: volume
