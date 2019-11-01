@@ -287,10 +287,7 @@
             $("#modal-lbl-stock-name-val").text(row["stockName"]);
             $("#modal-lbl-goods-state-val").text(row["goodsStateName"]);
             showModal($('#goods-detail-modal'));
-        }
-    };
-
-    window.operateEvents = {
+        },
         'click .view-goods-log': function (e, value, row, index) {
             $("#hidden-stock-id").val(row["stockId"]);
             $("#hidden-goods-id").val(row["goodsId"]);
@@ -304,6 +301,7 @@
             showModal($('#goods-log-modal'));
         }
     };
+
     //@FUNCTION-----------------------------------------------------------------
     //@Search-----------------------------------------------------------------
     var $btnSearch = $('#btn-search-stock-info');

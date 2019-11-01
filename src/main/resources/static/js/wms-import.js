@@ -154,13 +154,13 @@ $(function () {
                 field: 'cellCode',
                 title: 'Vị trí',
                 align: 'left',
-                width: '7%',
-                editable: {
+                width: '7%'
+                /*editable: {
                     type: 'select',
                     mode: 'inline',
                     showbuttons: false,
                     source: $('#btn-get-cells').val() + '?stockId=' + $('#cmb-stock').val()
-                }
+                }*/
             },
             {
                 field: 'produceDate',
@@ -444,7 +444,7 @@ $inpGoodsCode.keypress(function (e) {
                 inputPrice: goodsItem['inPrice'],
                 inputPriceValue: formatFloatType(goodsItem['inPrice']),
                 totalMoney: Number(goodsItem['inPrice']),
-                cellCode: $('#cmb-cells').val(),
+                cellCode: $("#cmb-cells :selected").text(),
                 columnId: columnId
             });
             //
@@ -521,7 +521,7 @@ function moveDataToTable() {
         inputPrice: goodsItem['inPrice'],
         inputPriceValue: formatFloatType(goodsItem['inPrice']),
         totalMoney: amount * Number(goodsItem['inPrice']),
-        cellCode: $('#cmb-cells').val(),
+        cellCode: $("#cmb-cells :selected").text(),
         columnId: columnId,
         baseWeight: weight,
         baseVolume: volume

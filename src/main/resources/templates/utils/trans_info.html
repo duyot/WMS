@@ -220,7 +220,8 @@
         </div>
     </div>
     <div class="modal-loading"><!-- Place at bottom of page --></div>
-    <div th:include="modal/trans_goods_detail_modal :: frag-goods-detail-modal"></div>
+    <div th:include="modal/trans_goods_detail_modal_import :: frag-goods-detail-modal-import"></div>
+    <div th:include="modal/trans_goods_detail_modal_export :: frag-goods-detail-modal-export"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
@@ -237,7 +238,9 @@
     //---------------------------------------------------------------------
     $table = $('#tbl-stock-info');
     var $btnDelConfirmed = $('#modal-btn-del-ok');
-    $tableGoodsDetail = $('#tbl-trans-goods-detail');
+    $tableGoodsDetailImport = $('#tbl-trans-goods-detail-import');
+    $tableGoodsDetailExport = $('#tbl-trans-goods-detail-export');
+
     var dataInit = [
     ];
     //
@@ -282,7 +285,10 @@
             data: dataInit
         });
 
-        $tableGoodsDetail.bootstrapTable({
+        $tableGoodsDetailImport.bootstrapTable({
+            data: dataInit
+        });
+        $tableGoodsDetailExport.bootstrapTable({
             data: dataInit
         });
         $table.bootstrapTable('hideColumn', 'id');
@@ -299,7 +305,10 @@
             NProgress.start();
             //
             var transId   = row["id"];
-            //
+            var transType = row["type"];
+            //alert(transType);
+
+           //
             $.ajax({
                 type: "GET",
                 cache:false,
@@ -309,8 +318,13 @@
                 dataType: 'json',
                 timeout: 600000,
                 success: function (data) {
-                    $tableGoodsDetail.bootstrapTable('load', data);
-                    showModal($('#goods-detail-modal'));
+                    if(transType ==1){
+                        $tableGoodsDetailImport.bootstrapTable('load', data);
+                        showModal($('#goods-detail-modal-import'));
+                    }else{
+                        $tableGoodsDetailExport.bootstrapTable('load', data);
+                        showModal($('#goods-detail-modal-export'));
+                    }
                 },
                 complete:function () {
                     NProgress.done();
