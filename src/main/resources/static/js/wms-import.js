@@ -444,7 +444,8 @@ $inpGoodsCode.keypress(function (e) {
                 inputPrice: goodsItem['inPrice'],
                 inputPriceValue: formatFloatType(goodsItem['inPrice']),
                 totalMoney: Number(goodsItem['inPrice']),
-                cellCode: $('#cmb-cells').val(),
+                /*cellCode: $('#cmb-cells').val(),*/
+                cellCode: 'AA',
                 columnId: columnId
             });
             //
@@ -519,7 +520,8 @@ function moveDataToTable() {
         inputPrice: goodsItem['inPrice'],
         inputPriceValue: formatFloatType(goodsItem['inPrice']),
         totalMoney: amount * Number(goodsItem['inPrice']),
-        cellCode: $('#cmb-cells').val(),
+        /*cellCode: $('#cmb-cells').val(),*/
+        cellCode: 'BBB',
         columnId: columnId,
         baseWeight: weight,
         baseVolume: volume
