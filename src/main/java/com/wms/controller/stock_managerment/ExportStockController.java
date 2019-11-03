@@ -110,7 +110,7 @@ public class ExportStockController extends BaseController {
         if (!DataUtil.isListNullOrEmpty(lstStock)) {
             int currentStockId = Integer.parseInt(lstStock.get(0).getId());
             if (cells == null || cells.size() == 0 || previousStockId != currentStockId) {
-                cells = Lists.newArrayList();
+                /*cells = Lists.newArrayList();
                 previousStockId = currentStockId;
                 List<Condition> conditions = Lists.newArrayList();
                 conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, currentStockId + ""));
@@ -120,7 +120,7 @@ public class ExportStockController extends BaseController {
                         cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
                         mapCellIdCellCode.put(i.getId(), i.getCode());
                     }
-                }
+                }*/
             }
         }
         return cells;
