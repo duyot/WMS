@@ -169,6 +169,12 @@ public class UpdateStockGoodsInfor extends BaseController {
                 detail.setDescription(i.getDescription());
                 detail.setIsSerial(Constants.NO_SERIAL);
                 //
+                String goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
+                detail.setUnitName(mapAppParamsUnitName.get(goodUnitId));
+                if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
+                    detail.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
+                }
+                //
                 results.add(detail);
             }
         }
@@ -208,6 +214,12 @@ public class UpdateStockGoodsInfor extends BaseController {
                 detail.setExpireDate(i.getExpireDate());
                 detail.setDescription(i.getDescription());
                 detail.setIsSerial(Constants.IS_SERIAL);
+                //
+                String goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
+                detail.setUnitName(mapAppParamsUnitName.get(goodUnitId));
+                if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
+                    detail.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
+                }
                 //
                 results.add(detail);
             }
