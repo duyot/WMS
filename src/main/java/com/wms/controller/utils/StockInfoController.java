@@ -259,7 +259,10 @@ public class StockInfoController extends BaseController{
                         temp.setPartnerCode(mapPartnerIdPartner.get(i.getPartnerId()).getCode());
                         temp.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
                     }
-                    lstResult.add(temp);
+                    temp.setExpireDate(i.getExpireDate());
+                    temp.setProduceDate(i.getProduceDate());
+                    temp.setDescription(i.getDescription());
+                lstResult.add(temp);
             }
         }
 
