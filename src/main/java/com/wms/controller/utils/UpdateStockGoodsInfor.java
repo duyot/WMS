@@ -9,6 +9,7 @@ import com.wms.services.interfaces.UtilsService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
+import com.wms.utils.StockGoodsComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,25 +86,25 @@ public class UpdateStockGoodsInfor extends BaseController {
             lstCon.add(new Condition("goodsState", Constants.SQL_OPERATOR.EQUAL, statusVal));
         }
 
-        if(!DataUtil.isStringNullOrEmpty(startCreateDateVal) && !"01/01/1900".equalsIgnoreCase(startCreateDateVal) && !DataUtil.isStringNullOrEmpty(endCreateDateVal)){
-            lstCon.add(new Condition("importDate", Constants.SQL_OPERATOR.BETWEEN,startCreateDateVal + "|"+ endCreateDateVal));
+        if (!DataUtil.isStringNullOrEmpty(startCreateDateVal) && !"01/01/1900".equalsIgnoreCase(startCreateDateVal) && !DataUtil.isStringNullOrEmpty(endCreateDateVal)) {
+            lstCon.add(new Condition("importDate", Constants.SQL_OPERATOR.BETWEEN, startCreateDateVal + "|" + endCreateDateVal));
         }
 
-        if(!DataUtil.isStringNullOrEmpty(startExpireDateVal) && !"01/01/1900".equalsIgnoreCase(startExpireDateVal) && !DataUtil.isStringNullOrEmpty(endExpireDateVal)){
-            lstCon.add(new Condition("expireDate", Constants.SQL_OPERATOR.BETWEEN,startExpireDateVal + "|"+ endExpireDateVal));
+        if (!DataUtil.isStringNullOrEmpty(startExpireDateVal) && !"01/01/1900".equalsIgnoreCase(startExpireDateVal) && !DataUtil.isStringNullOrEmpty(endExpireDateVal)) {
+            lstCon.add(new Condition("expireDate", Constants.SQL_OPERATOR.BETWEEN, startExpireDateVal + "|" + endExpireDateVal));
         }
-        //order
-        lstCon.add(new Condition("changeDate", Constants.SQL_OPERATOR.ORDER, "desc"));
         //get from stock goods
         List<MjrStockGoodsDTO> lstStockGoods = mjrStockGoodsService.findByCondition(lstCon);
         List<MjrStockGoodsSerialDTO> lstStockGoodsSerial = mjrStockGoodsSerialService.findByCondition(lstCon);
         List sumList = sumupAllGoods(lstStockGoods, lstStockGoodsSerial);
-        Collections.sort(sumList, (Comparator<MjrStockTransDetailDTO>) (p1, p2) -> DateTimeUtils.convertStringToTime(p2.getChangeDate(), "dd/MM/yyyy HH:mm:ss").compareTo(DateTimeUtils.convertStringToTime(p1.getChangeDate(), "dd/MM/yyyy HH:mm:ss")));
+        Collections.sort(sumList, new StockGoodsComparator());
+
         return sumList;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public @ResponseBody String saveStockGoods(@RequestBody MjrStockTransDetailDTO stockGoods){
+    public @ResponseBody
+    String saveStockGoods(@RequestBody MjrStockTransDetailDTO stockGoods) {
         ResponseObject result;
         if ("1".equalsIgnoreCase(stockGoods.getIsSerial())) {
             MjrStockGoodsDTO object = new MjrStockGoodsDTO();
@@ -114,7 +115,7 @@ public class UpdateStockGoodsInfor extends BaseController {
             object.setCellCode(stockGoods.getCellCode());
             object.setChangeDate(mjrStockGoodsSerialService.getSysDate());
             result = mjrStockGoodsSerialService.updateByProperties(object);
-        }else{
+        } else {
             MjrStockGoodsSerialDTO object = new MjrStockGoodsSerialDTO();
             object.setId(stockGoods.getId());
             object.setProduceDate(stockGoods.getProduceDate());
@@ -128,16 +129,16 @@ public class UpdateStockGoodsInfor extends BaseController {
         return result.getStatusCode();
     }
 
-    private List<MjrStockTransDetailDTO> sumupAllGoods(List<MjrStockGoodsDTO> lstStockGoods, List<MjrStockGoodsSerialDTO> lstStockGoodsSerial){
+    private List<MjrStockTransDetailDTO> sumupAllGoods(List<MjrStockGoodsDTO> lstStockGoods, List<MjrStockGoodsSerialDTO> lstStockGoodsSerial) {
         List<MjrStockTransDetailDTO> results = Lists.newArrayList();
         initGoodsDetailFromStockGoods(results, lstStockGoods);
         initGoodsDetailFromStockGoodsSerial(results, lstStockGoodsSerial);
         return results;
     }
 
-    private void initGoodsDetailFromStockGoods(List<MjrStockTransDetailDTO> results, List<MjrStockGoodsDTO> lstStockGoods){
+    private void initGoodsDetailFromStockGoods(List<MjrStockTransDetailDTO> results, List<MjrStockGoodsDTO> lstStockGoods) {
         if (!DataUtil.isListNullOrEmpty(lstStockGoods)) {
-            for(MjrStockGoodsDTO i: lstStockGoods){
+            for (MjrStockGoodsDTO i : lstStockGoods) {
                 MjrStockTransDetailDTO detail = new MjrStockTransDetailDTO();
                 //
                 detail.setId(i.getId());
@@ -180,9 +181,9 @@ public class UpdateStockGoodsInfor extends BaseController {
         }
     }
 
-    private void initGoodsDetailFromStockGoodsSerial(List<MjrStockTransDetailDTO> results, List<MjrStockGoodsSerialDTO> lstStockGoodsSerial){
+    private void initGoodsDetailFromStockGoodsSerial(List<MjrStockTransDetailDTO> results, List<MjrStockGoodsSerialDTO> lstStockGoodsSerial) {
         if (!DataUtil.isListNullOrEmpty(lstStockGoodsSerial)) {
-            for(MjrStockGoodsSerialDTO i: lstStockGoodsSerial){
+            for (MjrStockGoodsSerialDTO i : lstStockGoodsSerial) {
                 MjrStockTransDetailDTO detail = new MjrStockTransDetailDTO();
                 //
                 detail.setId(i.getId());
