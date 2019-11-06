@@ -7,7 +7,7 @@ $addUpdateModal = $('#insert-update-modal');
 $btnDelConfirmed = $('#modal-btn-del-ok');
 var $btnSearch = $('#btn-search');
 var mainTable = $('#tbl-table');
-var isRoot =$('#btn-root').val();
+var isRoot = $('#btn-root').val();
 $btnDel = $('#btn-delete');
 var $selectedItemId;
 var $btn_add = $('#btn-add')
@@ -19,21 +19,22 @@ var tableAssignPartner = $('#tbl-table-partner');
 var tree = [];
 var mapKeyValue;
 var currentRoleId = '';
-var currentUserId='';
+var currentUserId = '';
 var partnerPermission = '';
 var stockPermission = '';
 var btnUpdateDept = $('#update-department-execuse');
 //button link
 var url = $('#btn-url').val();
-var url_getRoles = url+"getRoles";
-var url_getStock = url+"getListStock";
-var url_getPartner = url+"getListPartner";
-var url_update = url+"update";
+var url_getRoles = url + "getRoles";
+var url_getStock = url + "getListStock";
+var url_getPartner = url + "getListPartner";
+var url_update = url + "update";
 //@Init component-----------------------------------------------------------------------------------------------
 $(function () {
     searchDept();
     mainTable.bootstrapTable({
-        data: dataInit
+        data: dataInit,
+        pageSize: 30
     });
     tableAssignRole.bootstrapTable({
         data: dataInit
@@ -47,7 +48,7 @@ $(function () {
     //
     $btn_add.click(function () {
         clearActionInfo();
-        changeModelByType(1, null, null,null,null,null,null,null, $btn_add.val());
+        changeModelByType(1, null, null, null, null, null, null, null, $btn_add.val());
         showModal($addUpdateModal);
         $addUpdateModal.on('shown.bs.modal', function () {
             $('#modal-code').focus();
@@ -58,35 +59,35 @@ $(function () {
         doSearch();
     });
     $btnDelConfirmed.click(function () {
-        deleteRow($selectedItemId);}
+            deleteRow($selectedItemId);
+        }
     );
 
 
     btnUpdateDept.click(function () {
-        var ids= getTreeCheckedList("#updateDepartment");
-        var data = {userId : currentUserId,deptId:ids};
+        var ids = getTreeCheckedList("#updateDepartment");
+        var data = {userId: currentUserId, deptId: ids};
 
-        updateEvent("GET",btnUpdateDept.val(),data,"afterAssignDeptSuccess");
+        updateEvent("GET", btnUpdateDept.val(), data, "afterAssignDeptSuccess");
 
-    })
+    });
     $('#modal-update-assign-role').click(function () {
         doUpdateUserRole();
-        })
+    });
 
     $('#modal-update-assign-stock').click(function () {
         doUpdateUserStock();
-    })
+    });
 
     $('#modal-update-assign-partner').click(function () {
         doUpdateUserPartner();
-    })
+    });
     $('#modal-btn-reset').click(function () {
         doResetPass();
-        
-    })
+
+    });
     $('#search-usageUnit').val("0");
     doSearch();
-
 
 
 });
@@ -97,8 +98,9 @@ $('#confirm').on('keyup', function () {
     } else
         $('#message').html('Mật khẩu không khớp').css('color', 'red');
 });
+
 function operateFormatter(value, row, index) {
-    if(isRoot == "true"){
+    if (isRoot == "true") {
         return [
             '<a class="update-row row-function" href="javascript:void(0)" title="Sửa">',
             '<i class="fa fa-pencil-square-o"></i>',
@@ -118,7 +120,7 @@ function operateFormatter(value, row, index) {
             '<a class="assign-partner row-function" href="javascript:void(0)" title="Gán đối tác">',
             '<i class="fa  fa-user-md"></i>',
         ].join('');
-    }else{
+    } else {
         return [
             '<a class="update-row row-function" href="javascript:void(0)" title="Sửa">',
             '<i class="fa fa-pencil-square-o"></i>',
@@ -150,7 +152,7 @@ window.operateEvents = {
     'click .update-row': function (e, value, row, index) {
         validator.resetForm();
         clearActionInfo();
-        changeModelByType(2, row['name'], row['code'], row['id'], row['status'],row["telNumber"],row["email"] ,row['custId'],url_update);
+        changeModelByType(2, row['name'], row['code'], row['id'], row['status'], row["telNumber"], row["email"], row['custId'], url_update);
         $("#emp-insert-update-form").find(".error").removeClass("error");
         showModal($addUpdateModal);
         $addUpdateModal.on('shown.bs.modal', function () {
@@ -168,7 +170,7 @@ window.operateEvents = {
     'click .assign-role': function (e, value, row, index) {
         currentRoleId = row['roleId'];
         currentUserId = row['id'];
-        doGetDataAndShowform(row['custId'],row['block']);
+        doGetDataAndShowform(row['custId'], row['block']);
     },
     'click .assign-stock': function (e, value, row, index) {
         currentUserId = row['id'];
@@ -179,7 +181,7 @@ window.operateEvents = {
         processAssignPartner(row['custId'], row['code'], row['partnerPermission']);
     },
     'click .resetkey': function (e, value, row, index) {
-      doPrepareShowForm(row['code'],row['id']);
+        doPrepareShowForm(row['code'], row['id']);
     },
     'click .assynDept': function (e, value, row, index) {
         currentUserId = row['id']
@@ -190,33 +192,33 @@ window.operateEvents = {
 
 //
 $(document).ready(function () {
-    validator = createValidate("#emp-insert-update-form",$addUpdateModal,mainTable,$btnSearch)
-    var tree1 = $("#update-dept").treeMultiselect({ enableSelectAll: true ,hideSidePanel:true,maxSelections: '1'});
+    validator = createValidate("#emp-insert-update-form", $addUpdateModal, mainTable, $btnSearch)
+    var tree1 = $("#update-dept").treeMultiselect({enableSelectAll: true, hideSidePanel: true, maxSelections: '1'});
 
 });
 
 function doSearch(clearInfor) {
     var statusVal;
     var usageUnit = '0';
-    if($('#cmb-status').prop('checked')){
+    if ($('#cmb-status').prop('checked')) {
         statusVal = '1';
-    }else{
+    } else {
         statusVal = '0';
     }
     var keyword = $('#inp-keyword').val().trim();
-    var deptId =   $("#deptId").val();
+    var deptId = $("#deptId").val();
     var usageUnit;
-    if(isRoot == "true"){
+    if (isRoot == "true") {
         usageUnit = $('#search-usageUnit').val();
-    }else{
+    } else {
         usageUnit = "";
     }
-    var data = {status:statusVal, keyword:keyword , deptId: deptId,usageUnit :usageUnit};
-    searchAndUpdateMainTable(clearInfor,mainTable,$btnSearch,data);
+    var data = {status: statusVal, keyword: keyword, deptId: deptId, usageUnit: usageUnit};
+    searchAndUpdateMainTable(clearInfor, mainTable, $btnSearch, data);
 }
 
 //
-function changeModelByType( changeType,name, code, id , status, tel,email ,custId,actionVal) {
+function changeModelByType(changeType, name, code, id, status, tel, email, custId, actionVal) {
     if (changeType == 1) {//add
         $("#emp-insert-update-form").attr("action", actionVal);
         emptyForm($("#emp-insert-update-form"));
@@ -232,7 +234,7 @@ function changeModelByType( changeType,name, code, id , status, tel,email ,custI
         $("#modal-email").val(decodeHtml(email));
         $("#modal-tel").val(decodeHtml(tel));
         $("#modal-custId").val(decodeHtml(custId));
-        if(isRoot == "true"){
+        if (isRoot == "true") {
             $('#usageUnit').val(custId);
         }
 
@@ -250,61 +252,72 @@ function changeModelByType( changeType,name, code, id , status, tel,email ,custI
 
 
 function searchDept() {
-    var data = {status:'1'};
-    searchEvent("GET",searchDeptLink,data,"buildTree")
+    var data = {status: '1'};
+    searchEvent("GET", searchDeptLink, data, "buildTree")
 }
+
 function buildTree(data) {
     tree = [];
-    mapKeyValue =new Object();
+    mapKeyValue = new Object();
     mapKeyValue['0'] = '---chọn ---';
-    var parentList=[];
-    var subList=[]
-    for(var i = 0; i < data.length; i++){
+    var parentList = [];
+    var subList = []
+    for (var i = 0; i < data.length; i++) {
         item = data[i];
-        if (item['parentId']==0){
+        if (item['parentId'] == 0) {
             parentList.push(item);
-        }else{
+        } else {
             subList.push(item);
         }
-        mapKeyValue[item['id']]= item['name'];
+        mapKeyValue[item['id']] = item['name'];
     }
-    var treeNoteDefaul =  {title:'---chọn---',dataAttrs:[{title:'id',data:'0'}],data:null};
+    var treeNoteDefaul = {title: '---chọn---', dataAttrs: [{title: 'id', data: '0'}], data: null};
     tree.push(treeNoteDefaul);
-    for(var i = 0; i < parentList.length; i++){
+    for (var i = 0; i < parentList.length; i++) {
         item = parentList[i];
-        var  treeNote = {title:item['name'],dataAttrs:[{title:'id',data:item['id']}],data:buildTreeNote(item,subList)};
+        var treeNote = {
+            title: item['name'],
+            dataAttrs: [{title: 'id', data: item['id']}],
+            data: buildTreeNote(item, subList)
+        };
         tree.push(treeNote);
     }
     $("#modal-dept").DropDownTree(configTree('0'));
 
 }
-function buildTreeNote(parentNote,data) {
-    var subtrees=[]
-    for(var i = 0; i < data.length; i++){
+
+function buildTreeNote(parentNote, data) {
+    var subtrees = []
+    for (var i = 0; i < data.length; i++) {
         item = data[i];
-        if(item['parentId'] == parentNote['id']){
-            var  treeNote = {title:item['name'],dataAttrs:[{title:'id',data:item['id']}],data:buildTreeNote(item,data)};
+        if (item['parentId'] == parentNote['id']) {
+            var treeNote = {
+                title: item['name'],
+                dataAttrs: [{title: 'id', data: item['id']}],
+                data: buildTreeNote(item, data)
+            };
             subtrees.push(treeNote);
         }
     }
-    if (subtrees.length == 0){
+    if (subtrees.length == 0) {
         return null;
     }
     return subtrees;
 }
-function configTree(id){
+
+function configTree(id) {
     var options = {
-        title : mapKeyValue[id],
+        title: mapKeyValue[id],
         data: tree,
         maxHeight: 300,
-        selectChildren : true,
-        clickHandler: function(element){
+        selectChildren: true,
+        clickHandler: function (element) {
             var elementId = $(element).attr('data-id');
             $("#modal-dept").SetTitle($(element).find("a").first().text());
             $("#deptId").val(elementId);
             document.getElementById('elementID').click();
         },
-        checkHandler: function(element){
+        checkHandler: function (element) {
         },
         closedArrow: '<i class="fa fa-caret-right" aria-hidden="true"></i>',
         openedArrow: '<i class="fa fa-caret-down" aria-hidden="true"></i>',
@@ -313,46 +326,50 @@ function configTree(id){
     $("#deptId").val(id);
     return options;
 }
-function doGetDataAndShowform(custId,block) {
-    var data = {custId : custId};
 
-    searchEvent("GET",url_getRoles , data,'getRoleDataDone',block)
+function doGetDataAndShowform(custId, block) {
+    var data = {custId: custId};
+
+    searchEvent("GET", url_getRoles, data, 'getRoleDataDone', block)
 
 }
-function processAssignStock(custId ,code, stockPermission ) {
-    var data = {custId : custId,userId : currentUserId};
+
+function processAssignStock(custId, code, stockPermission) {
+    var data = {custId: custId, userId: currentUserId};
     $('#assign-stock-user-code').text(code);
-    $('input[name=rad-block-stock][value='+stockPermission+']').prop('checked', true);
-    if (stockPermission == "1"){
+    $('input[name=rad-block-stock][value=' + stockPermission + ']').prop('checked', true);
+    if (stockPermission == "1") {
         $("#table-lst-stock").show();
-    }else{
+    } else {
         $("#table-lst-stock").hide();
     }
-    searchEvent("GET",url_getStock , data,'getStocksDataDone');
+    searchEvent("GET", url_getStock, data, 'getStocksDataDone');
 }
-function processAssignPartner(custId ,code, partnerPermission ) {
-    var data = {custId : custId,userId : currentUserId };
+
+function processAssignPartner(custId, code, partnerPermission) {
+    var data = {custId: custId, userId: currentUserId};
     $('#assign-partner-user-code').text(code);
-    $('input[name=rad-block-partner][value='+partnerPermission+']').prop('checked', true);
-    if (partnerPermission == "1"){
+    $('input[name=rad-block-partner][value=' + partnerPermission + ']').prop('checked', true);
+    if (partnerPermission == "1") {
         $("#table-lst-partner").show();
-    }else{
+    } else {
         $("#table-lst-partner").hide();
     }
-    searchEvent("GET",url_getPartner , data,'getPartnersDataDone');
+    searchEvent("GET", url_getPartner, data, 'getPartnersDataDone');
 }
-function getRoleDataDone( data,clearInfor ,block) {
+
+function getRoleDataDone(data, clearInfor, block) {
     showModal($('#assygnRoleUser'));
-    $('input[name=rad-block][value='+block+']').prop('checked', true);
-    if (block == "0"){
+    $('input[name=rad-block][value=' + block + ']').prop('checked', true);
+    if (block == "0") {
         $("#table-lst-role").show();
-    }else{
+    } else {
         $("#table-lst-role").hide();
     }
     tableAssignRole.bootstrapTable('load', data);
-    if (currentRoleId!= undefined && currentRoleId != null && data!= null){
-        for(i = 0 ; i <data.length ; i++){
-            if(data[i]['id'] == currentRoleId){
+    if (currentRoleId != undefined && currentRoleId != null && data != null) {
+        for (i = 0; i < data.length; i++) {
+            if (data[i]['id'] == currentRoleId) {
                 tableAssignRole.bootstrapTable('check', i);
             }
         }
@@ -364,10 +381,10 @@ function getStocksDataDone(data) {
     tableAssignStock.bootstrapTable('load', data.lstCatStocks);
     var listStocks = data.lstCatStocks;
     var sellectedStock = data.userStocks;
-    for(i = 0 ; i <listStocks.length ; i++){
+    for (i = 0; i < listStocks.length; i++) {
 
-        for( j = 0 ; j <sellectedStock.length; j++){
-            if(listStocks[i]['id'] == sellectedStock[j]){
+        for (j = 0; j < sellectedStock.length; j++) {
+            if (listStocks[i]['id'] == sellectedStock[j]) {
                 tableAssignStock.bootstrapTable('check', i);
                 break;
             }
@@ -393,10 +410,10 @@ function getPartnersDataDone(data) {
     tableAssignPartner.bootstrapTable('load', data.lstCatPartners);
     var listPartners = data.lstCatPartners;
     var sellectedPartner = data.userPartners;
-    for(i = 0 ; i <listPartners.length ; i++){
+    for (i = 0; i < listPartners.length; i++) {
 
-        for( j = 0 ; j <sellectedPartner.length; j++){
-            if(listPartners[i]['id'] == sellectedPartner[j]){
+        for (j = 0; j < sellectedPartner.length; j++) {
+            if (listPartners[i]['id'] == sellectedPartner[j]) {
                 tableAssignPartner.bootstrapTable('check', i);
                 break;
             }
@@ -422,31 +439,32 @@ function doPrepareShowDept(deptId) {
         $(this).prop('checked', false);
     })
     showModal($('#updateDepartment'));
-    if( deptId != '');
-      $("#updateDepartment").find("[data-value= "+deptId+"]").children(":checkbox").prop('checked', true);
+    if (deptId != '') ;
+    $("#updateDepartment").find("[data-value= " + deptId + "]").children(":checkbox").prop('checked', true);
 }
 
 function doUpdateUserRole() {
     var role = tableAssignRole.bootstrapTable('getSelections');
     var block = $('input[name=rad-block]:checked').val();
-    var data ;
-    if(role.length == 0){
-       data = {roleId : '-1' ,roleName :'-1', block : block , userId : currentUserId};
-    }else{
-        data = {roleId : role[0]['id'] ,roleName : role[0]['name'], block : block , userId : currentUserId};
+    var data;
+    if (role.length == 0) {
+        data = {roleId: '-1', roleName: '-1', block: block, userId: currentUserId};
+    } else {
+        data = {roleId: role[0]['id'], roleName: role[0]['name'], block: block, userId: currentUserId};
     }
-    updateEvent("GET",  $('#modal-update-assign-role').val(),data,"showNotificationAndSearch",false);
+    updateEvent("GET", $('#modal-update-assign-role').val(), data, "showNotificationAndSearch", false);
     hideModal($('#assygnRoleUser'));
 }
+
 function doUpdateUserStock() {
     var stock = tableAssignStock.bootstrapTable('getSelections');
     var stockPermission = $('input[name=rad-block-stock]:checked').val();
     var stocks = '';
-    for(i = 0 ; i <stock.length ; i ++){
+    for (i = 0; i < stock.length; i++) {
         stocks = stocks + ',' + stock[i]['id'];
     }
-    var data = {userId : currentUserId, stockId: stocks, stockPermission: stockPermission};
-    updateEvent("GET",  $('#modal-update-assign-stock').val(),data,"showNotificationAndSearch",false);
+    var data = {userId: currentUserId, stockId: stocks, stockPermission: stockPermission};
+    updateEvent("GET", $('#modal-update-assign-stock').val(), data, "showNotificationAndSearch", false);
     hideModal($('#assygnStockUser'));
 }
 
@@ -454,50 +472,52 @@ function doUpdateUserPartner() {
     var partner = tableAssignPartner.bootstrapTable('getSelections');
     var partnerPermission = $('input[name=rad-block-partner]:checked').val();
     var partners = '';
-    for(i = 0 ; i <partner.length ; i ++){
+    for (i = 0; i < partner.length; i++) {
         partners = partners + ',' + partner[i]['id'];
     }
-    var data = {userId : currentUserId, partnerId: partners, partnerPermission: partnerPermission};
-    updateEvent("GET",  $('#modal-update-assign-partner').val(),data,"showNotificationAndSearch",false);
+    var data = {userId: currentUserId, partnerId: partners, partnerPermission: partnerPermission};
+    updateEvent("GET", $('#modal-update-assign-partner').val(), data, "showNotificationAndSearch", false);
     hideModal($('#assygnPartnerUser'));
 }
 
-function doPrepareShowForm(code,id) {
+function doPrepareShowForm(code, id) {
     $('#modal-reset-code').text(decodeHtml(code));
     emptyForm($('#reset-password-form'));
     $('#modal-userId').val(id);
     $('#message').text('');
     showModal($('#resetpasss'));
 }
+
 function doResetPass() {
     if ($('#password').val() != $('#confirm').val()) {
         $('#message').html('Mật khẩu không khớp').css('color', 'red');
-    } else{
-    updateEvent("POST",$('#modal-btn-reset').val(),$('#reset-password-form').serialize(),"showNotification");
+    } else {
+        updateEvent("POST", $('#modal-btn-reset').val(), $('#reset-password-form').serialize(), "showNotification");
         hideModal($('#resetpasss'));
     }
 
 }
+
 function afterAssignDeptSuccess(data) {
-    showNotificationAndSearch(data,false);
+    showNotificationAndSearch(data, false);
     hideModal($('#updateDepartment'))
 
 }
 
 function changeUserPartner() {
     var partnerPermission = $('input[name=rad-block-partner]:checked').val();
-    if (partnerPermission == "1"){
+    if (partnerPermission == "1") {
         $("#table-lst-partner").show();
-    }else{
+    } else {
         $("#table-lst-partner").hide();
     }
 }
 
 function changeUserStock() {
     var stockPermission = $('input[name=rad-block-stock]:checked').val();
-    if (stockPermission == "1"){
+    if (stockPermission == "1") {
         $("#table-lst-stock").show();
-    }else{
+    } else {
         $("#table-lst-stock").hide();
     }
 }
@@ -505,9 +525,9 @@ function changeUserStock() {
 
 function changeUserRole() {
     var block = $('input[name=rad-block]:checked').val();
-    if (block == "0"){
+    if (block == "0") {
         $("#table-lst-role").show();
-    }else{
+    } else {
         $("#table-lst-role").hide();
     }
 }

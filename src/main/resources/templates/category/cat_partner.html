@@ -113,6 +113,7 @@
                             data-click-to-select="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
+                            data-page-list="[5,10,30,50,ALL]"
                             >
                         <thead>
                         <tr>
@@ -175,7 +176,8 @@
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $tblPartner.bootstrapTable({
-            data: dataInit
+            data: dataInit,
+            pageSize:30
         });
         //
         search(false);

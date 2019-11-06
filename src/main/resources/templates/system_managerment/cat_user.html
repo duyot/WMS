@@ -180,32 +180,33 @@
                        data-click-to-select="true"
                        data-toolbar="#toolbar"
                        class="table-striped"
+                       data-page-list="[5,10,30,50,ALL]"
                 >
                     <thead>
                     <tr>
                         <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
-                        <th class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
-                        <th class="col-md-1" data-field="custId" data-align="left" data-sortable="true" data-visible="false"></th>
-                        <th class="col-md-2" data-field="deptId" data-align="left" data-sortable="true"  data-visible="false" ></th>
-                        <th class="col-md-2" data-field="roleId" data-align="left" data-sortable="true"  data-visible="false" ></th>
+                        <th data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
+                        <th data-field="custId" data-align="left" data-sortable="true" data-visible="false"></th>
+                        <th data-field="deptId" data-align="left" data-sortable="true"  data-visible="false" ></th>
+                        <th data-field="roleId" data-align="left" data-sortable="true"  data-visible="false" ></th>
                         <div th:if="${isRoot}">
                             <th class="col-md-2" data-field="custName" data-align="left" data-sortable="true" th:text="#{lbl.customer}"></th>
-                            <th class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.usercode}"></th>
+                            <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.usercode}"></th>
                             <th class="col-md-2" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.user.fullname}"></th>
                             <th class="col-md-1" data-field="email" data-align="left" data-sortable="true" th:text="#{lbl.email}"></th>
                             <th class="col-md-1" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
                             <th class="col-md-1" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
-                            <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
+                            <th class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
 
                         </div>
                         <div th:unless="${isRoot}">
-                            <th class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.usercode}"></th>
+                            <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.usercode}"></th>
                             <th class="col-md-2" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.user.fullname}"></th>
-                            <th class="col-md-1" data-field="email" data-align="left" data-sortable="true" th:text="#{lbl.email}"></th>
+                            <th class="col-md-2" data-field="email" data-align="left" data-sortable="true" th:text="#{lbl.email}"></th>
                             <th class="col-md-1" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
-                            <th class="col-md-2" data-field="deptName" data-align="left" data-sortable="true" th:text="#{lbl.department}"></th>
+                            <th class="col-md-1" data-field="deptName" data-align="left" data-sortable="true" th:text="#{lbl.department}"></th>
                             <th class="col-md-1" data-field="status" data-align="left" data-sortable="true" data-visible="false" ></th>
-                            <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
+                            <th class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
                         </div>
 
                         <th data-align="center" data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>

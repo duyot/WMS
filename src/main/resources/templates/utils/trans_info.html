@@ -171,7 +171,7 @@
                         <a class="btn btn-default" th:title="#{link.report.trans}" th:href="@{/workspace/utils/trans_info/getListTransFile}">
                             <i class="fa fa-file-excel-o"></i>
                         </a>
-                        <a class="btn btn-default" th:title="#{link.report.transdetail}" th:href="@{/workspace/utils/trans_info/getListTransDetailFile}">
+                        <a class="btn btn-default" th:title="#{link.report.transdetail}" th:href="@{/workspace/utils/trans_info/getListAllTransDetailsFile}">
                             <i class="fa fa-table"></i>
                         </a>
 
@@ -196,7 +196,7 @@
                     >
                         <thead>
                         <tr>
-                            <th data-formatter="runningFormatter" data-align="center" data-width="50px">#</th>
+                            <th data-formatter="runningFormatter" data-align="center" data-width="40px">#</th>
 
                             <th data-field="id"  data-visible="false">Id</th>
                             <th data-field="type" data-visible="false">Type</th>
@@ -306,8 +306,13 @@
             //
             var transId   = row["id"];
             var transType = row["type"];
-            //alert(transType);
-
+           //
+           var $downloadLink = $('#link-download-goods-detail');
+           var originalLink = $downloadLink.attr("href");
+           if(originalLink.includes("?")){
+               originalLink = trimAtChacter(originalLink,"?");
+           }
+           $downloadLink.attr("href",originalLink +"?transId="+transId);
            //
             $.ajax({
                 type: "GET",
@@ -330,7 +335,7 @@
                     NProgress.done();
                 }
             });
-        },
+        }
 
         /*'click .cancel-trans': function (e, value, row, index) {
             //
