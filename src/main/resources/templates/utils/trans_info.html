@@ -307,12 +307,14 @@
             var transId   = row["id"];
             var transType = row["type"];
            //
-           var $downloadLink = $('#link-download-goods-detail');
-           var originalLink = $downloadLink.attr("href");
+           var $downloadLinkModalImport = $('#link-download-goods-detail');
+           var $downloadLinkModalExport = $('#link-download-goods-detail-export');
+           var originalLink = $downloadLinkModalImport.attr("href");
            if(originalLink.includes("?")){
                originalLink = trimAtChacter(originalLink,"?");
            }
-           $downloadLink.attr("href",originalLink +"?transId="+transId);
+           $downloadLinkModalImport.attr("href",originalLink +"?transId="+transId);
+           $downloadLinkModalExport.attr("href",originalLink +"?transId="+transId);
            //
             $.ajax({
                 type: "GET",
