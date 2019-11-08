@@ -88,13 +88,22 @@
                                     </div>
                                     <div class="row" style="line-height: 1.2em">
                                         <div class="col-sm-2">
-                                            <label id="modal-lbl-import-date" th:text="#{lbl.import.date}"></label>
+                                            <label id="modal-lbl-unit-name" th:text="#{lbl.goodsUnit}"></label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <label id="modal-lbl-unit-name-val"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label id="modal-lbl-import-date" th:text="#{lbl.import.date.time}"></label>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <label id="modal-lbl-import-date-val"></label>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -142,8 +151,18 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <label class="control-label" for="cmb-modal-cells"></label>
+                                <div class="col-sm-2">
+                                    <label class="control-label" for="modal-note" th:text="#{lbl.note}"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-sticky-note fa-fw"></i>
+										</span>
+                                        <textarea id="modal-note" class="form-control" th:rows="1" maxlength="500"
+                                        ></textarea>
+                                    </div>
                                 </div>
 
                                 <div class="col-sm-2">
@@ -165,24 +184,6 @@
                                     </button>
                                 </div>
                             </div>
-
-                            <div class="row">
-
-                                <div class="col-sm-2">
-                                    <label class="control-label" for="modal-note" th:text="#{lbl.note}"></label>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <div class="input-group">
-										<span class="input-group-addon">
-											<i class="fa fa-sticky-note fa-fw"></i>
-										</span>
-                                        <textarea id="modal-note" class="form-control" th:rows="1" maxlength="500"
-                                        ></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
 
                             <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
                         </fieldset>
