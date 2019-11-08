@@ -97,6 +97,7 @@ public class Constants {
         public static String MJR_STOCK_GOODS_SERIAL_SERVICE = "mjrStockGoodsSerialServices/";
         public static String MJR_STOCK_GOODS_TOTAL_SERVICE = "mjrStockGoodsTotalServices/";
         public static String MJR_STOCK_TRANS_SERVICE = "mjrStockTransServices/";
+        public static String MJR_ORDER_SERVICE = "mjrOrderServices/";
         public static String MJR_STOCK_TRANS_DETAIL_SERVICE = "mjrStockTransDetailServices/";
         public static String APP_PARAMS_SERVICE = "appParamsServices/";
         public static String CAT_STOCK_CELL_SERVICE = "catStockCellServices/";

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-order-export-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="order-export-insert-update-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-mini" role="document">
+            <form id="order-export-insert-update-form">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{btn.add}"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.usage}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                        <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
+                                        <input id="exportMethod" style="display: none" th:value="${session.selectedCustomer.exportMethod}"></input>
+                                        <button id="btn-check-serial" style="display: none" th:value="@{/workspace/stock_management/import/isSerial}"></button>
+                                        <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
+                                        <button id="btn-get-goods-code" style="display: none" th:value="@{/workspace/stock_management/import/getGoodsCode}"></button>
+                                        <button id="btn-get-serial" style="display: none" th:value="@{/workspace/stock_management/export/getListSerialInStock}"></button>
+                                        <button id="btn-get-partner" style="display: none" th:value="@{/workspace/stock_management/export/getPartnerName}"></button>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label class="label-require" for="cmb-stock" th:text="#{lbl.stock}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group" style="width: 100%;">
+                                        <select id="cmb-stock" class="form-control selectpicker" data-live-search="true"  data-width="100%"
+                                                onchange="onChangeStock(this)">
+                                            <option value="-1" th:text="#{label.choose}"></option>
+                                            <option  th:each="sopt:${lstStock}"
+                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--ghi chú - kh nhận-->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.note}" for="inp-contract-note"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                            <span class="input-group-addon">
+                                                    <i class="fa fa-sticky-note fa-fw"></i>
+                                            </span>
+                                        <textarea id="inp-contract-note" class="form-control" th:rows="1" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.receiveName}" for="inp-receive-name"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-plus" id="btn-add-partner" th:value="@{/workspace/cat_partner_ctr/add}"></i>
+                                                    </span>
+                                        <input id="inp-receive-name" class="form-control" maxlength="50" placeholder="Nhấn vào + để bổ sung khách hàng nhận"  />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-sm-2">
+                                    <label for="cmb-partner" th:text="#{lbl.export.method}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <div class="radio radio-inline radio-primary">
+                                            <input value="0" type="radio" id="radio-all" name="cmb-export-method" checked="checked"/>
+                                            <label for="radio-all" th:text="#{lbl.input.date}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="1" type="radio" id="radio-normal" name="cmb-export-method"/>
+                                            <label for="radio-normal" th:text="#{lbl.produce.date}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-danger">
+                                            <input value="2" type="radio" id="radio-innormal" name="cmb-export-method"/>
+                                            <label for="radio-innormal" th:text="#{lbl.expire.date}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label for="cmb-partner" th:text="#{lbl.partner}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group" style="width: 100%;">
+                                        <select id="cmb-partner" class="form-control selectpicker" data-live-search="true"  data-width="100%">
+                                            <option value="-1" th:text="#{label.choose}"></option>
+                                            <option  th:each="sopt:${lstPartner}"
+                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="container-modal">
+                            <div class="row">
+                                <!--ma hang-->
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.goodsCode}" for="inp-goods-code"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                    </span>
+                                        <input id="inp-goods-code" class="form-control" maxlength="50"  placeholder="Nhập mã hàng/tên hàng tại đây và enter" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.amount}" for="inp-amount"></label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        <i class="fa fa-book fa-fw"></i>
+                                                    </span>
+                                        <input id="inp-amount" type="number" class="form-control" maxlength="50" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="input-group">
+                                        <button id="btn-move-data-to-table" type="button" class="btn btn-default  btn-primary fa fa-caret-down" onclick="moveDataToTable();" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.fileupload}" for="btn-excel-export"></label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <div class="input-group">
+                                            <input id="inp-file-export" data-toggle="toggle" type="file"
+                                                   onchange="isValidExcel(this);"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <div class="input-group" style="float:right">
+                                        <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload" style="float:left"
+                                                id="btn-excel-export" th:value="@{/workspace/stock_management/export/upload}">
+                                        </button>
+                                        <a class="link-label" style="float:left" th:text="#{link.downloadtemplate}" th:href="@{/workspace/stock_management/export/getTemplateFile}">
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-2">
+                                    <label class="control-label" for="cmb-cells" th:text="#{lbl.cellCode}"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group" style="width: 100%;">
+                                        <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
+                                            <option value="-1" th:text="#{label.choose}"></option>
+                                            <option  th:each="sopt:${cells}"
+                                                     th:value="${sopt.code}" th:text="${sopt.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="wrapper text-center col-sm-12" style="text-align: center; margin-top: 10px; float: left">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-default  btn-primary"
+                                                id="btn-update_exportStock" th:value="@{${controller} + 'orderExport'}">
+                                            <i class="fa fa-search"></i>
+                                            <span th:text="#{lbl.update}"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--end search panel-->
+                        <div id="panel-search-result" class="panel panel-primary">
+                            <div class="panel-heading">
+                                <i class="fa fa-database"></i>
+                                <!--Result-->
+                            </div>
+                            <div class="panel-body">
+                                <!--toolbar-->
+                                <div id="toolbar2" class="btn-group  bs-bars pull-left " style=" margin-top: -7px;">
+                                    <button id="btn-add-popup" th:value="@{/workspace/stock_management/export/add}" type="button"
+                                            class="btn btn-default" th:title="#{tooltip.addgoods}" >
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+
+                                    <button id="btn-refresh-table" th:href="@{/workspace/stock_management/export/getFile}" type="button"
+                                            class="btn btn-default" th:title="#{tooltip.cleartabble}" >
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+
+                                    <label class="toolbar-label-info" id="export-action-info"></label>
+                                    <label id="del-action-info"></label>
+                                    <label id="lbl-total-price"    class="toolbar-label-info" style="    float: left;margin-left: 10px;margin-top: 8px;"></label>
+                                </div>
+                                <table  id="tbl-export-goods"
+                                        data-pagination="true"
+                                        data-search="true"
+                                        data-click-to-select="true"
+                                        data-toolbar="#toolbar"
+                                        class="table-striped"
+                                        style="word-wrap: break-word;  table-layout: fixed;"
+                                        data-editable-emptytext="">
+
+                                    <thead>
+                                    <tr>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!--<button id="modal-btn-update"  type="submit" class="btn btn-primary">-->
+                            <!--<i class="fa fa-check"></i>-->
+                            <!--<span th:text="#{btn.update}"></span>-->
+                        <!--</button>-->
+                        <!--<button id="modal-btn-add"     type="submit" class="btn btn-primary">-->
+                            <!--<i class="fa fa-plus"></i>-->
+                            <!--<span th:text="#{btn.add}"></span>-->
+                        <!--</button>-->
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

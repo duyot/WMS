@@ -1,0 +1,32 @@
+div.tree-multiselect>div.selections.no-border {
+  width: 100%;
+  max-height: 400px;
+}
+#updateDepartment .tree-multiselect label{
+   float: none !important;
+ }
+
+#modal-dept  .dropdown-toggle{
+    width: 100%;
+}
+#modal-dept  .dropdown-menu{
+    width: 100%;
+}
+#modal-dept  .caret{
+    float: right;
+}
+#usageUnit option:first-child{
+    display: none;
+}
+#update-department-form .auxiliary{
+     display: none;
+}
+#order-export-insert-update-modal .modal-dialog{
+    width: 80%;
+}
+.ui-autocomplete{
+    z-index : 9999999999999;
+}
+.alertClass {
+    z-index : 9999999999999;
+}

@@ -142,6 +142,10 @@ public class WorkSpaceController {
         return "redirect:/workspace/cat_role_ctr";
     }
 
+    @RequestMapping("/export_stock_order")
+    public String redirectExportStockOrder() {
+        return "redirect:/workspace/export_stock_order_ctr";
+    }
     @RequestMapping("/cat_user")
     public String redirectCatUser() {
         return "redirect:/workspace/cat_user_ctr";

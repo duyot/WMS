@@ -505,7 +505,7 @@ function moveDataToTable() {
             volume = data["volume"];
         }
     });
-    if (goodsItem == null) {
+    if (typeof goodsItem  === 'undefined' || goodsItem == null) {
         alert("Không có mặt hàng tương ứng");
         return;
     }
