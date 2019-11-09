@@ -31,7 +31,7 @@ config:
       login : http://localhost:8080/WMS_Webservices/login
       token : http://localhost:8080/WMS_Webservices/oauth/token?grant_type=password&username=@username&password=@password
       upload: F:\Projects\WMS\temp\uploaded_file\
-      template: F:\x8Store\source\WMS\src\main\resources\file_template\
+      template: C:\Users\This PC\eclipse-workspace\test\src\
       temp: F:\x8Store\source\WMS\src\main\resources\file_template\
 server:
   port: 8020

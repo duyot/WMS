@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="import_build" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96565b73-1c73-498e-85a2-a5eb0e24ec20">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="507273d0-eed8-4d75-9430-8e074e0cf2fe">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="Field_1" class="java.lang.String"/>
+		<field name="Field_2" class="java.lang.String"/>
+		<field name="Field_3" class="java.lang.String"/>
+		<field name="Field_4" class="java.lang.String"/>
+		<field name="Field_5" class="java.lang.String"/>
+		<field name="Field_6" class="java.lang.String"/>
+		<field name="Field_7" class="java.lang.String"/>
+		<field name="Field_8" class="java.lang.Double"/>
+		<variable name="numberOrder" class="java.lang.Integer" resetType="None" calculation="Count">
+			<variableExpression><![CDATA[$V{numberOrder} == null ? 0 : $V{numberOrder} + 1]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+		<variable name="total" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{Field_8}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="itemDataSet" uuid="b0172661-2f01-44e9-ad4c-7e6adf619444">
+		<parameter name="sumAmount" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="goodsName" class="java.lang.String"/>
+		<field name="goodsCode" class="java.lang.String"/>
+		<field name="unitName" class="java.lang.String"/>
+		<field name="amount" class="java.lang.String"/>
+		<field name="goodState" class="java.lang.String"/>
+		<field name="weight" class="java.lang.String"/>
+		<field name="volume" class="java.lang.String"/>
+		<field name="location" class="java.lang.String"/>
+		<variable name="STT" class="java.lang.Integer" resetType="None" incrementType="Report">
+			<variableExpression><![CDATA[($V{STT} == null?0:$V{STT}) + 1]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+	</subDataset>
+	<parameter name="custName" class="java.lang.String"/>
+	<parameter name="stockCode" class="java.lang.String"/>
+	<parameter name="partner" class="java.lang.String"/>
+	<parameter name="stockName" class="java.lang.String"/>
+	<parameter name="importMan" class="java.lang.String"/>
+	<parameter name="itemList" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="sum" class="java.lang.String"/>
+	<parameter name="totalWeight" class="java.lang.String"/>
+	<parameter name="receivedCustomer" class="java.lang.String"/>
+	<parameter name="orderCode" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<variable name="currentDate" class="java.util.Date">
+		<variableExpression><![CDATA[new SimpleDateFormat("dd/MM/yy").format(new Date())]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="53" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="10" width="198" height="23" uuid="acea38f8-fef6-498c-8a9f-05665fa8f5fd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Thông tin yêu cầu xuất kho]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="105" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="100" height="20" uuid="2d37e2fa-7ecf-40ad-a438-8ad7f18d1ffc"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<text><![CDATA[Mã yêu cầu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="100" height="20" uuid="313ba566-b4c1-432e-a360-fe4696e14f79"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<text><![CDATA[Kho xuất hàng]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="70" width="100" height="20" uuid="34635463-9cb5-4b8b-81d1-fdef80763701"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<text><![CDATA[Khách hàng nhận]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="50" width="100" height="20" uuid="40b1002a-30e4-4c04-828c-68f26fa6b042"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<text><![CDATA[Đối tác cung cấp]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="10" width="444" height="20" uuid="f2549e76-f7de-4ea7-89df-a7bb3946f9b5"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orderCode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="30" width="446" height="20" uuid="d347214d-47bc-4ce7-9c9d-4df999bdb883"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{stockName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="50" width="446" height="20" uuid="35e72d19-1a1d-4e2f-84c5-4eb5fc9e0bda"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{partner}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="110" y="70" width="446" height="20" uuid="c8fc6e8f-1fd4-47d9-85a0-bf148a4cc0ff"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{custName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="281" splitType="Stretch">
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="0" width="554" height="70" uuid="1fe1cc84-1f7f-4216-a452-ef64e8f96de4">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value=""/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="itemDataSet" uuid="e9aa4b13-8a5a-4ce6-bc64-07705ec91e55">
+						<datasetParameter name="sumAmount">
+							<datasetParameterExpression><![CDATA[$P{sum}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{itemList}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:columnGroup width="446" uuid="581fd27d-46fa-46f0-9512-5ee54b193059">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [7]"/>
+						<jr:columnFooter style="Table_CH" height="0" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</jr:columnFooter>
+						<jr:column width="31" uuid="b6abfbfc-4af0-4a18-afbd-e5e89263d6c6">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+							<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="31" height="40" uuid="c6fd023b-4a3c-427b-b890-e1edfc24330d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+									</textElement>
+									<text><![CDATA[STT]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="31" height="30" uuid="736dc20e-fd13-49b9-ab0b-eb36218f8ff0"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="69" uuid="c5c38d62-72b6-45d7-8b64-85f227811da7">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="69" height="40" uuid="bd06fc50-1ec9-4e33-8030-d23de9717896"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+									</textElement>
+									<text><![CDATA[Mã hàng]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="30">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="69" height="30" uuid="6f524786-58e6-4ce9-9cda-e2604bf9bec1"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{goodsCode}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="100" uuid="70106ece-e0a5-4d94-8aa0-8fd956dff981">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+							<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="100" height="40" uuid="e0907473-5426-49b6-8b45-313cc267a9da"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+									</textElement>
+									<text><![CDATA[Tên hàng]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="30">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="100" height="30" uuid="5c05ae59-ccd7-464b-932f-9f2b182c03e5"/>
+									<textElement verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{goodsName}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="61" uuid="598ba4d9-3572-48b0-b313-a3914f633e95">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+							<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="61" height="40" uuid="5c4d7fd9-b7df-4655-97e7-c6a62ca09101"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+									</textElement>
+									<text><![CDATA[Tình trạng hàng hóa]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="30">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="61" height="30" uuid="6bb95a3e-f641-47fa-9d08-2677e5c73ac2"/>
+									<textElement verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{goodState}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="70" uuid="1cfdc04f-3d7a-4728-ac31-d3cd104d0f88">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+							<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="70" height="40" uuid="942c11af-0452-492a-bd6c-5b1fab198005"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+									</textElement>
+									<text><![CDATA[Số lượng]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="30">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="70" height="30" uuid="aa979d17-78cc-4d17-8f8c-8c1578515fd0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="50" uuid="51c58e7a-6025-4b94-b62f-cee21cfd2b51">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+							<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="50" height="40" uuid="346d0123-f519-418c-806c-c988b7225360"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+									</textElement>
+									<text><![CDATA[Đơn vị tính]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="30">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="50" height="30" uuid="fb7d626c-1d12-4559-8dc7-6805c9686b59"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{unitName}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="65" uuid="f3400a38-6002-4580-ab9c-7bf4e904f7c8">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+							<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="65" height="40" uuid="61086672-2f62-4cf2-8197-81ab16feb4ce"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+									</textElement>
+									<text><![CDATA[Trọng lượng(Kg)]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="30">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="30" uuid="5393aa43-fbe0-4585-952a-d8510523bbe4"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="11"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{weight}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:column width="53" uuid="815dec23-29d6-41da-ad45-682fb89a5082">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="53" height="40" uuid="40cdb553-98bb-49b7-ab51-a3bcd3b28e6d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Thể tích(M3)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="53" height="30" uuid="5d2dc53c-9e98-4283-9746-cfe342c13f25"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="11"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{volume}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="f59d0f94-9757-4bd8-a960-f6ad05f30c51">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="40" uuid="16181793-5b75-47b6-b725-f91da17de7a3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Vị trí]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="55" height="30" uuid="51df09ac-c18c-4da6-9d39-4edede8fbeff"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="11"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{weight}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="157"/>
+	</detail>
+</jasperReport>

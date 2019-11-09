@@ -48,23 +48,26 @@ public class ExportOrderStockController extends BaseController {
 	private List<MjrOrderDTO> lstOrder;
 	List<ComboSourceDTO> cells;
 	public LinkedHashMap<String, String> mapUnitType;
+
 	@RequestMapping()
 	public String home(Model model) {
 		model.addAttribute("menuName", "menu.exportStockOrder");
 		model.addAttribute("controller", "/workspace/export_stock_order_ctr/");
+		initMapUnitType();
 		return "stock_management/export_stock_order";
 	}
 
-	@PostConstruct
-	public void initBean(){
-		initMapUnitType();
-	}
-	private void initMapUnitType(){
+//	@PostConstruct
+//	public void initBean() {
+//		initMapUnitType();
+//	}
+
+	private void initMapUnitType() {
 		//
-		if(lstAppParams == null){
+		if (lstAppParams == null) {
 			lstAppParams = FunctionUtils.getAppParams(appParamsService);
 		}
-		mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE,lstAppParams));
+		mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams));
 	}
 
 	@ModelAttribute("lstUsers")
@@ -78,6 +81,7 @@ public class ExportOrderStockController extends BaseController {
 		}
 		return lstUsers;
 	}
+
 	@ModelAttribute("cells")
 	public List<ComboSourceDTO> getCells(HttpServletRequest request) {
 		if (selectedCustomer == null) {
@@ -110,6 +114,7 @@ public class ExportOrderStockController extends BaseController {
 		}
 		return cells;
 	}
+
 	private boolean isStockModified(HttpServletRequest request) {
 		if (request.getSession().getAttribute("isStockModifiedExportStock") == null) {
 			return true;
@@ -120,7 +125,7 @@ public class ExportOrderStockController extends BaseController {
 	@RequestMapping(value = "/findDataByCondition", method = RequestMethod.GET)
 	public @ResponseBody
 	List<MjrOrderDTO> findOrder(@RequestParam("stockId") String stockId, @RequestParam("createdUser") String createdUser,
-									 @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate , @RequestParam("status") String status) {
+								@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("status") String status) {
 		List<Condition> lstCon = Lists.newArrayList();
 
 		lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
@@ -133,10 +138,10 @@ public class ExportOrderStockController extends BaseController {
 		if (!DataUtil.isStringNullOrEmpty(createdUser) && !createdUser.equals(Constants.STATS_ALL)) {
 			lstCon.add(new Condition("createdUser", Constants.SQL_OPERATOR.EQUAL, createdUser));
 		}
-		lstCon.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "2"));
+		lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "2"));
 
 		if (!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)) {
-			lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE ,Constants.SQL_OPERATOR.EQUAL, status));
+			lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, status));
 		}
 		lstCon.add(new Condition("createdDate", Constants.SQL_OPERATOR.ORDER, "desc"));
 //		TODO: status here
@@ -144,32 +149,33 @@ public class ExportOrderStockController extends BaseController {
 		if (DataUtil.isListNullOrEmpty(lstOrder)) {
 			return Lists.newArrayList();
 		}
-		lstOrder.forEach(e->{
+		lstOrder.forEach(e -> {
 			e.setStockValue(mapStockIdStock.get(e.getStockId()).getName());
 			String value = "";
-			if (e.getStatus().equalsIgnoreCase("1")){
+			if (e.getStatus().equalsIgnoreCase("1")) {
 				value = "Chưa thực xuất";
-			}else if (e.getStatus().equalsIgnoreCase("2")){
+			} else if (e.getStatus().equalsIgnoreCase("2")) {
 				value = "Đã thực xuất";
 			}
 			e.setTypeValue(value);
 		});
 		return lstOrder;
 	}
+
 	@RequestMapping(value = "/orderExport", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseObject orderExport(@RequestBody OrderExportDTO orderExportDTO) {
 		initExportOrder(orderExportDTO.getMjrOrderDTO());
-		orderExportDTO.getLstMjrOrderDetailDTOS().forEach(e->{
+		orderExportDTO.getLstMjrOrderDetailDTOS().forEach(e -> {
 			CatGoodsDTO goodsItem = mapGoodsCodeGoods.get(e.getGoodsCode());
 			if (goodsItem != null) {
 				e.setGoodsId(goodsItem.getId());
 				e.setIsSerial(goodsItem.getIsSerial());
 				e.setUnitName(mapUnitType.get(goodsItem.getUnitType()));
 			}
-			if (!DataUtil.isNullOrEmpty(e.getSerial())){
+			if (!DataUtil.isNullOrEmpty(e.getSerial())) {
 				e.setIsSerial("1");
-			}else {
+			} else {
 				e.setIsSerial("0");
 			}
 
@@ -177,25 +183,26 @@ public class ExportOrderStockController extends BaseController {
 		});
 		return mjrOrderService.orderExport(orderExportDTO);
 	}
+
 	//==================================================================================================================
-	@RequestMapping(value = "/orderExportFile")
-	public void orderExportFile( @RequestParam("orderId") String orderId, HttpServletResponse response) {
+	@RequestMapping(value = "/orderExportFile" , method = RequestMethod.GET)
+	public void orderExportFile(@RequestParam("orderId") String orderId, HttpServletResponse response) {
 
 
 		String prefixFileName = "Thong_tin_chitiet_yeucau_xuatkho";
 		String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
 
-		String outPutFile = profileConfig.getTempURL() + prefixFileName + ".docx";
-		List<RealExportExcelDTO> realExportExcelDTOS =  mjrOrderService.orderExportExcel(orderId);
-		if (realExportExcelDTOS == null || realExportExcelDTOS.isEmpty()){
+		String outPutFile = profileConfig.getTempURL() + prefixFileName + "_" + DateTimeUtils.getTimeStamp() + ".docx";
+		List<RealExportExcelDTO> realExportExcelDTOS = mjrOrderService.orderExportExcel(orderId);
+		if (realExportExcelDTOS == null || realExportExcelDTOS.isEmpty()) {
 			return;
 		}
-		realExportExcelDTOS.forEach(e->{
+		realExportExcelDTOS.forEach(e -> {
 			CatGoodsDTO goodsItem = mapGoodsCodeGoods.get(e.getGoodsCode());
 			e.setGoodsName(goodsItem.getName());
-			if (e.getGoodsState().equalsIgnoreCase("1")){
+			if (e.getGoodsState().equalsIgnoreCase("1")) {
 				e.setGoodsState("Bình thường");
-			}else {
+			} else {
 				e.setGoodsState("Hỏng");
 			}
 		});
@@ -242,24 +249,24 @@ public class ExportOrderStockController extends BaseController {
 		this.cells = cells;
 	}
 
-	private void initExportOrder(MjrOrderDTO mjrOrderDTO){
+	private void initExportOrder(MjrOrderDTO mjrOrderDTO) {
 		mjrOrderDTO.setCustId(selectedCustomer.getId());
 		mjrOrderDTO.setType(Constants.IMPORT_TYPE.EXPORT);
 		mjrOrderDTO.setStatus("1");
 		mjrOrderDTO.setCreatedUser(currentUser.getCode());
 		//Nguoi nhan khi xuat
-		if (mjrOrderDTO.getReceiveName() != null && !mjrOrderDTO.getReceiveName().trim().equals("")){
-			String [] splitPartner = mjrOrderDTO.getReceiveName().split("\\|");
-			if (splitPartner.length > 0 ){
+		if (mjrOrderDTO.getReceiveName() != null && !mjrOrderDTO.getReceiveName().trim().equals("")) {
+			String[] splitPartner = mjrOrderDTO.getReceiveName().split("\\|");
+			if (splitPartner.length > 0) {
 				String partnerCode = splitPartner[0];
-				CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,selectedCustomer.getId(), partnerCode, null );
-				if (catPartnerDTO != null){
+				CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
+				if (catPartnerDTO != null) {
 					String receiverName = "";
-					if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())){
+					if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
 						receiverName = receiverName + catPartnerDTO.getName();
 					}
-					if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())){
-						receiverName = receiverName+ "|" + catPartnerDTO.getTelNumber();
+					if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())) {
+						receiverName = receiverName + "|" + catPartnerDTO.getTelNumber();
 					}
 					mjrOrderDTO.setReceiveId(catPartnerDTO.getId());
 					mjrOrderDTO.setReceiveName(receiverName);
@@ -267,15 +274,15 @@ public class ExportOrderStockController extends BaseController {
 			}
 		}
 		//Xuat hang cua doi tac
-		if (mjrOrderDTO.getPartnerId() != null){
-			CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService,selectedCustomer.getId(), null, mjrOrderDTO.getPartnerId() );
+		if (mjrOrderDTO.getPartnerId() != null) {
+			CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrOrderDTO.getPartnerId());
 			if (catPartnerDTO != null) {
 				String receiverName = "";
-				if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())){
+				if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
 					receiverName = receiverName + catPartnerDTO.getName();
 				}
-				if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())){
-					receiverName = receiverName+ "|" + catPartnerDTO.getTelNumber();
+				if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())) {
+					receiverName = receiverName + "|" + catPartnerDTO.getTelNumber();
 				}
 				mjrOrderDTO.setPartnerId(catPartnerDTO.getId());
 				mjrOrderDTO.setPartnerName(receiverName);

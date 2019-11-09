@@ -78,7 +78,7 @@
                                     <div class="col-sm-4">
                                         <div class="input-group">
                                             <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
-                                            <button id="btn-export-file" style="display: none" th:value="@{${controller} + 'orderExportFile'}"></button>
+                                            <button id="btn-export-file" style="display: none" th:value="@{/workspace/export_stock_order_ctr/orderExportFile}"></button>
                                         </div>
                                     </div>
 

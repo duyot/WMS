@@ -211,7 +211,7 @@ function operateFormatterMainForm(value, row, index) {
         '<a class="update-menu row-function" href="javascript:void(0)" title="Sửa">',
         '<i class="fa fa-pencil-square-o"></i>',
         '</a> ',
-        '<a class="export-file row-function" href='+url+'  title="Xuất file">',
+        '<a class="export-file row-function" href='+url+'  target="_blank" title="Xuất file">',
         '<i class="fa fa-file-word-o"></i>',
         '</a> ',
         '<a class="delete-menu row-function" href="javascript:void(0)" title="Xóa">',
