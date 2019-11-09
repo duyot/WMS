@@ -203,9 +203,6 @@ public class ExportOrderStockController extends BaseController {
 
 		String outPutFile = profileConfig.getTempURL() + prefixFileName + "_" + DateTimeUtils.getTimeStamp() + ".docx";
 		List<RealExportExcelDTO> realExportExcelDTOS = mjrOrderService.orderExportExcel(orderId);
-		if (realExportExcelDTOS == null || realExportExcelDTOS.isEmpty()) {
-			return;
-		}
 		realExportExcelDTOS.forEach(e -> {
 			CatGoodsDTO goodsItem = mapGoodsCodeGoods.get(e.getGoodsCode());
 			e.setGoodsName(goodsItem.getName());

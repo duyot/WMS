@@ -146,8 +146,10 @@ function doInsertData() {
     var receiveValue = $('#inp-receive-name').val();
     var partnerIdValue = $('#cmb-partner').val();
     var exportMethod = $('input[name=cmb-export-method]:checked').val();
+    var orderId =    $('#order-export-id').val();
 
     var mjrOrder = {
+        id : orderId,
         stockId: stockIdValue,
         description: descriptionValue,
         receiveName: receiveValue,
@@ -265,6 +267,7 @@ function refreshFormAndInitData( row) {
     var received = ""
     var partnerId = -1 ;
     var node = "";
+    var orderId = ""
 
     if (isUpdate && row != null){
         exportMethod = row['exportMethod'];
@@ -272,16 +275,19 @@ function refreshFormAndInitData( row) {
         partnerId = row['partnerId'];
         received =row['receiveName'];
         node = row['description'];
+        orderId = row['id'];
     }
     $('#cmb-stock').val(stockId);
     $('#cmb-stock').selectpicker('refresh');
 
     $('#inp-contract-note').val(node);
     $('#inp-receive-name').val(received);
+    $('#order-export-id').val(orderId);
     $('input[name=cmb-export-method][value='+exportMethod+']').prop('checked', true)
 
     $('#cmb-partner').val(partnerId);
     $('#cmb-partner').selectpicker('refresh');
+
     initData(isUpdate,row);
 }
 var btnOrderDetail = $('#btn-order-detail')
