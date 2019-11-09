@@ -16,7 +16,8 @@
                         <h4 class="modal-title" id="myModalLabel" th:text="#{btn.add}"></h4>
                     </div>
                     <div class="modal-body">
-                        <div class="container-modal">
+                        <div class="panel panel-primary">
+                            <div class="container-modal">
                             <div class="row">
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.usage}"></label>
@@ -113,7 +114,9 @@
                             </div>
 
                         </div>
-                        <div class="container-modal">
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="container-modal">
                             <div class="row">
                                 <!--ma hang-->
                                 <div class="col-sm-2">
@@ -173,11 +176,11 @@
 
 
                                 <div class="col-sm-2">
-                                    <label class="control-label" for="cmb-cells" th:text="#{lbl.cellCode}"></label>
+                                    <label class="control-label" style="display: none" for="cmb-cells" th:text="#{lbl.cellCode}"></label>
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <div class="input-group" style="width: 100%;">
+                                    <div class="input-group" style="display: none">
                                         <select name="cmbCells" id="cmb-cells" class="form-control selectpicker"  data-live-search="true" data-width="100%">
                                             <option value="-1" th:text="#{label.choose}"></option>
                                             <option  th:each="sopt:${cells}"
@@ -189,14 +192,14 @@
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <button type="button" class="btn btn-default  btn-primary"
                                                 id="btn-update_exportStock" th:value="@{${controller} + 'orderExport'}">
-                                            <i class="fa fa-search"></i>
+                                            <i class="fa fa-check"></i>
                                             <span th:text="#{lbl.update}"></span>
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        </div>
                         <!--end search panel-->
                         <div id="panel-search-result" class="panel panel-primary">
                             <div class="panel-heading">
@@ -206,7 +209,7 @@
                             <div class="panel-body">
                                 <!--toolbar-->
                                 <div id="toolbar2" class="btn-group  bs-bars pull-left " style=" margin-top: -7px;">
-                                    <button id="btn-add-popup" th:value="@{/workspace/stock_management/export/add}" type="button"
+                                    <button style="display: none" id="btn-add-popup" th:value="@{/workspace/stock_management/export/add}" type="button"
                                             class="btn btn-default" th:title="#{tooltip.addgoods}" >
                                         <i class="fa fa-plus"></i>
                                     </button>

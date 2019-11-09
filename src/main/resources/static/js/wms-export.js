@@ -108,14 +108,14 @@ $(function () {
                 title: 'Trọng lượng(kg)',
                 align: 'right',
                 formatter: 'subTotal',
-                width: '7%'
+                width: '13%'
             },
             {
                 field: 'volume',
                 title: 'Thể tích(m3)',
                 align: 'right',
                 formatter: 'subTotal',
-                width: '7%'
+                width: '11%'
             },
             {
                 field: 'outputPrice',
@@ -162,20 +162,12 @@ $(function () {
             {
                 field: 'cellCode',
                 title: 'Vị trí',
-                align: 'left',
-                width: '7%'
-                /*editable: {
-                    type: 'select',
-                    mode: 'inline',
-                    showbuttons: false,
-                    source: $('#btn-get-cells').val() + '?stockId=' + $('#cmb-stock').val()
-                }*/
             },
             {
                 title: 'Xóa',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
-                width: '4%',
+                width: '6%',
                 align: 'center'
             },
             {
@@ -192,6 +184,8 @@ $(function () {
     $table.bootstrapTable('hideColumn', 'goodsId');
     $table.bootstrapTable('hideColumn', 'baseWeight');
     $table.bootstrapTable('hideColumn', 'baseVolume');
+    $table.bootstrapTable('hideColumn', 'cellCode');
+
 
     $table.bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
         selectedIndex = $element.attr('data-index');
@@ -447,6 +441,10 @@ $inpGoodsCode.keypress(function (e) {
         if (goodsItem["isSerial"] == '1') {
             var columnId = ~~(Math.random() * 10000) * -1;
             rows = [];
+            var cellCode;
+            if ($("#cmb-cells :selected").val() != '-1'){
+                cellCode = $("#cmb-cells :selected").text();
+            }
             rows.push({
                 goodsCode: goodsItem['code'],
                 goodsName: goodsItem['name'],
@@ -459,7 +457,7 @@ $inpGoodsCode.keypress(function (e) {
                 outputPrice: goodsItem['outPrice'],
                 outputPriceValue: formatFloatType(goodsItem['outPrice']),
                 totalMoney: Number(1) * Number(goodsItem['outPrice']),
-                cellCode: $("#cmb-cells :selected").text(),
+                cellCode: cellCode,
                 columnId: columnId
             });
             //
@@ -526,6 +524,10 @@ function moveDataToTable() {
         $inpGoodsAmount.focus();
         return;
     }
+    var cellCode;
+    if ($("#cmb-cells :selected").val() != '-1'){
+        cellCode = $("#cmb-cells :selected").text();
+    }
     rows.push({
         goodsCode: goodsItem['code'],
         goodsName: goodsItem['name'],
@@ -538,7 +540,7 @@ function moveDataToTable() {
         outputPrice: goodsItem['outPrice'],
         outputPriceValue: formatFloatType(goodsItem['outPrice']),
         totalMoney: amount * Number(goodsItem['outPrice']),
-        cellCode: $("#cmb-cells :selected").text(),
+        cellCode: cellCode,
         columnId: columnId,
         baseWeight: weight,
         baseVolume: volume

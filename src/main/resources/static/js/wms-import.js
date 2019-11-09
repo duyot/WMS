@@ -431,6 +431,10 @@ $inpGoodsCode.keypress(function (e) {
         //move to amount
         if (goodsItem["isSerial"] == '1') {
             var columnId = ~~(Math.random() * 10000) * -1;
+            var cellCode;
+            if ($("#cmb-cells :selected").val() != '-1'){
+                cellCode = $("#cmb-cells :selected").text();
+            }
             rows = [];
             rows.push({
                 goodsCode: goodsItem['code'],
@@ -444,7 +448,7 @@ $inpGoodsCode.keypress(function (e) {
                 inputPrice: goodsItem['inPrice'],
                 inputPriceValue: formatFloatType(goodsItem['inPrice']),
                 totalMoney: Number(goodsItem['inPrice']),
-                cellCode: $("#cmb-cells :selected").text(),
+                cellCode: cellCode,
                 columnId: columnId
             });
             //
@@ -509,6 +513,10 @@ function moveDataToTable() {
         alert("Hàng serial số lượng phải là 1");
         return;
     }
+    var cellCode;
+    if ($("#cmb-cells :selected").val() != '-1'){
+        cellCode = $("#cmb-cells :selected").text();
+    }
     rows.push({
         goodsCode: goodsItem['code'],
         goodsName: goodsItem['name'],
@@ -521,7 +529,7 @@ function moveDataToTable() {
         inputPrice: goodsItem['inPrice'],
         inputPriceValue: formatFloatType(goodsItem['inPrice']),
         totalMoney: amount * Number(goodsItem['inPrice']),
-        cellCode: $("#cmb-cells :selected").text(),
+        cellCode: cellCode,
         columnId: columnId,
         baseWeight: weight,
         baseVolume: volume

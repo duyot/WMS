@@ -130,6 +130,9 @@ function initEnterEvent() {
 
 function operateFormatterMainForm(value, row, index) {
     return [
+        '<a class="update-menu row-function" href="javascript:void(0)" title="Thực xuất">',
+        '<i class="fa fa-share-square-o"></i>',
+        '</a> ',
         '<a class="update-menu row-function" href="javascript:void(0)" title="Sửa">',
         '<i class="fa fa-pencil-square-o"></i>',
         '</a> ',
