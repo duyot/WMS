@@ -79,17 +79,18 @@
                                         <div class="input-group">
                                             <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
                                             <button id="btn-export-file" style="display: none" th:value="@{/workspace/export_stock_order_ctr/orderExportFile}"></button>
+                                            <button id="btn-order-detail" style="display: none" th:value="@{/workspace/export_stock_order_ctr/getOrderDetail}"></button>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-2">
-                                        <label for="cmb-stock" th:text="#{lbl.stock}"></label>
+                                        <label for="cmb-main-stock" th:text="#{lbl.stock}"></label>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="input-group input-group-combo">
-                                            <select id="cmb-stock" class="selectpicker form-control"
+                                            <select id="cmb-main-stock" class="selectpicker form-control"
                                                     data-live-search="true"
-                                                    data-width="100%" name="cmb-stock">
+                                                    data-width="100%" name="cmb-main-stock">
                                                 <option value="-1" th:text="#{label.all}"></option>
                                                 <option th:each="sopt:${lstStock}"
                                                         th:value="${sopt.id}"
@@ -200,6 +201,9 @@
                     <tr>
                         <th data-formatter="runningFormatter" data-align="center" data-width="20px">STT</th>
                         <th data-field="id"  data-visible="false">Id</th>
+                        <th data-field="exportMethod"  data-visible="false">Xuất kho theo</th>
+                        <th data-field="stockId"  data-visible="false">Kho Id</th>
+                        <th data-field="partnerId"  data-visible="false">Đối tác</th>
                         <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã yêu cầu</th>
                         <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho hàng</th>
                         <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true">Đối tác gửi hàng</th>

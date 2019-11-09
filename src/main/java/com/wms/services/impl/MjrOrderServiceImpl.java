@@ -33,4 +33,9 @@ public class MjrOrderServiceImpl extends BaseServiceImpl<MjrOrderDTO, MjrOrderDP
 	public List<RealExportExcelDTO> orderExportExcel(String orderId) {
 		return mjrOrderDP.orderDataExport(orderId);
 	}
+
+	@Override
+	public List<MjrOrderDetailDTO> getListOrderDetail(String orderId) {
+		return mjrOrderDP.getListOrderDetail(orderId);
+	}
 }

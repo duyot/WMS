@@ -18,6 +18,8 @@ public class MjrOrderDetailDTO{
 	private String volume;
 	private String weight;
 	private String description;
+	private String goodsName;
+	private String outputPrice;
 
 	public MjrOrderDetailDTO() {
 	}
@@ -151,4 +153,19 @@ public class MjrOrderDetailDTO{
 		this.description = description;
 	}
 
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public String getOutputPrice() {
+		return outputPrice;
+	}
+
+	public void setOutputPrice(String outputPrice) {
+		this.outputPrice = outputPrice;
+	}
 }

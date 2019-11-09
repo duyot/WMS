@@ -10,4 +10,5 @@ import java.util.List;
 public interface OrderExportService extends BaseService<MjrOrderDTO>{
   ResponseObject orderExport(OrderExportDTO orderExportDTO);
   List<RealExportExcelDTO> orderExportExcel(String orderId);
+  List<MjrOrderDetailDTO> getListOrderDetail(String orderId);
 }

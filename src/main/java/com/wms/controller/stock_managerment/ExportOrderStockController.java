@@ -161,7 +161,16 @@ public class ExportOrderStockController extends BaseController {
 		});
 		return lstOrder;
 	}
-
+	@RequestMapping(value = "/getOrderDetail", method = RequestMethod.GET)
+	public @ResponseBody
+	List<MjrOrderDetailDTO> getOrderDetail(@RequestParam("orderid") String orderid) {
+		List<MjrOrderDetailDTO>  lstMjrOrderDTOS = mjrOrderService.getListOrderDetail(orderid);
+		lstMjrOrderDTOS.forEach(e->{
+			e.setGoodsName(mapGoodsIdGoods.get(e.getGoodsId()).getName());
+			e.setOutputPrice(mapGoodsIdGoods.get(e.getGoodsId()).getOutPrice());
+		});
+		return lstMjrOrderDTOS;
+	}
 	@RequestMapping(value = "/orderExport", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseObject orderExport(@RequestBody OrderExportDTO orderExportDTO) {
