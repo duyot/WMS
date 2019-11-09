@@ -188,18 +188,7 @@
             </div>
             <div class="panel-body">
                 <!--toolbar-->
-                <div id="toolbar" class="btn-group">
-                    <button id="btn-add" th:title="#{btn.add}" th:value="@{${controller}+'add'}"
-                            type="button" class="btn btn-default">
-                        <i class="fa fa-plus"></i>
-                    </button>
 
-                    <button id="btn-delete" th:value="@{${controller} + 'delete'}" style="display: none"
-                            type="button" class="btn btn-default">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                    <label id="action-info" class="action-info"></label>
-                </div>
                 <table id="tbl-main-table"
                        data-pagination="true"
                        data-search="true"
@@ -209,7 +198,7 @@
                 >
                     <thead>
                     <tr>
-                        <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                        <th data-formatter="runningFormatter" data-align="center" data-width="20px">STT</th>
                         <th data-field="id"  data-visible="false">Id</th>
                         <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã yêu cầu</th>
                         <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho hàng</th>
@@ -217,9 +206,9 @@
                         <th class="col-md-1" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
                         <th class="col-md-1" data-field="description" data-align="right" data-sortable="true">Ghi chú</th>
                         <th class="col-md-1" data-field="typeValue" data-align="center" data-sortable="true">Trạng thái</th>
-                        <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người thực hiện</th>
-                        <th class="col-md-1" data-field="createdDate" data-align="left" data-sortable="true">Ngày  thực hiện</th>
-                        <th data-width="80px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatterMainForm" th:text="#{lbl.action}"></th>
+                        <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>
+                        <th class="col-md-1" data-field="createdDate" data-align="left" data-sortable="true">Ngày  tạo</th>
+                        <th data-width="120px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatterMainForm" th:text="#{lbl.action}"></th>
                     </tr>
                     </thead>
 
