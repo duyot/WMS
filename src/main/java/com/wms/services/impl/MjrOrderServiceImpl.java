@@ -2,15 +2,13 @@ package com.wms.services.impl;
 
 import com.wms.dataprovider.MjrOrderDP;
 import com.wms.dataprovider.MjrStockTransDP;
-import com.wms.dto.MjrOrderDTO;
-import com.wms.dto.MjrStockTransDTO;
-import com.wms.dto.OrderExportDTO;
-import com.wms.dto.ResponseObject;
+import com.wms.dto.*;
 import com.wms.services.interfaces.OrderExportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * Created by duyot on 4/4/2017.
@@ -29,5 +27,10 @@ public class MjrOrderServiceImpl extends BaseServiceImpl<MjrOrderDTO, MjrOrderDP
 	@Override
 	public ResponseObject orderExport(OrderExportDTO orderExportDTO) {
 		return mjrOrderDP.orderExport(orderExportDTO);
+	}
+
+	@Override
+	public List<RealExportExcelDTO> orderExportExcel(String orderId) {
+		return mjrOrderDP.orderDataExport(orderId);
 	}
 }

@@ -7,9 +7,15 @@ import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.OrderExportService;
-import com.wms.utils.DataUtil;
-import com.wms.utils.FunctionUtils;
-import com.wms.utils.JSONUtils;
+import com.wms.utils.*;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +24,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/workspace/export_stock_order_ctr")
@@ -35,11 +47,24 @@ public class ExportOrderStockController extends BaseController {
 	private List<CatUserDTO> lstUsers;
 	private List<MjrOrderDTO> lstOrder;
 	List<ComboSourceDTO> cells;
+	public LinkedHashMap<String, String> mapUnitType;
 	@RequestMapping()
 	public String home(Model model) {
 		model.addAttribute("menuName", "menu.exportStockOrder");
 		model.addAttribute("controller", "/workspace/export_stock_order_ctr/");
 		return "stock_management/export_stock_order";
+	}
+
+	@PostConstruct
+	public void initBean(){
+		initMapUnitType();
+	}
+	private void initMapUnitType(){
+		//
+		if(lstAppParams == null){
+			lstAppParams = FunctionUtils.getAppParams(appParamsService);
+		}
+		mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE,lstAppParams));
 	}
 
 	@ModelAttribute("lstUsers")
@@ -136,10 +161,79 @@ public class ExportOrderStockController extends BaseController {
 	public ResponseObject orderExport(@RequestBody OrderExportDTO orderExportDTO) {
 		initExportOrder(orderExportDTO.getMjrOrderDTO());
 		orderExportDTO.getLstMjrOrderDetailDTOS().forEach(e->{
+			CatGoodsDTO goodsItem = mapGoodsCodeGoods.get(e.getGoodsCode());
+			if (goodsItem != null) {
+				e.setGoodsId(goodsItem.getId());
+				e.setIsSerial(goodsItem.getIsSerial());
+				e.setUnitName(mapUnitType.get(goodsItem.getUnitType()));
+			}
+			if (!DataUtil.isNullOrEmpty(e.getSerial())){
+				e.setIsSerial("1");
+			}else {
+				e.setIsSerial("0");
+			}
+
 			e.setGoodsId(mapGoodsCodeGoods.get(e.getGoodsCode()).getId());
 		});
 		return mjrOrderService.orderExport(orderExportDTO);
 	}
+	//==================================================================================================================
+	@RequestMapping(value = "/orderExportFile")
+	public void orderExportFile( @RequestParam("orderId") String orderId, HttpServletResponse response) {
+
+
+		String prefixFileName = "Thong_tin_chitiet_yeucau_xuatkho";
+		String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
+
+		String outPutFile = profileConfig.getTempURL() + prefixFileName + ".docx";
+		List<RealExportExcelDTO> realExportExcelDTOS =  mjrOrderService.orderExportExcel(orderId);
+		if (realExportExcelDTOS == null || realExportExcelDTOS.isEmpty()){
+			return;
+		}
+		realExportExcelDTOS.forEach(e->{
+			CatGoodsDTO goodsItem = mapGoodsCodeGoods.get(e.getGoodsCode());
+			e.setGoodsName(goodsItem.getName());
+			if (e.getGoodsState().equalsIgnoreCase("1")){
+				e.setGoodsState("Bình thường");
+			}else {
+				e.setGoodsState("Hỏng");
+			}
+		});
+		MjrOrderDTO mjrOrderDTO = null;
+		for (MjrOrderDTO item : lstOrder) {
+			if (item.getId().equalsIgnoreCase(orderId)) {
+				mjrOrderDTO = item;
+			}
+		}
+		try {
+
+			JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(realExportExcelDTOS);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("itemList", itemsJRBean);
+			parameters.put("orderCode", mjrOrderDTO.getCode());
+			parameters.put("partner", mjrOrderDTO.getPartnerName());
+			parameters.put("custName", mjrOrderDTO.getReceiveName());
+			parameters.put("stockName", mjrOrderDTO.getStockValue());
+
+			JasperPrint jasperPrint = JasperFillManager.fillReport(templatePath, parameters, new JREmptyDataSource());
+			JRDocxExporter export = new JRDocxExporter();
+			export.setExporterInput(new SimpleExporterInput(jasperPrint));
+			export.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outPutFile)));
+
+			SimpleDocxReportConfiguration config = new SimpleDocxReportConfiguration();
+
+			export.setConfiguration(config);
+			export.exportReport();
+			FunctionUtils.loadFileToClient(response, outPutFile);
+
+			log.info("Done");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
 	public List<ComboSourceDTO> getCells() {
 		return cells;
 	}
@@ -188,5 +282,61 @@ public class ExportOrderStockController extends BaseController {
 			}
 		}
 		//
+	}
+
+	public OrderExportService getMjrOrderService() {
+		return mjrOrderService;
+	}
+
+	public void setMjrOrderService(OrderExportService mjrOrderService) {
+		this.mjrOrderService = mjrOrderService;
+	}
+
+	public Logger getLog() {
+		return log;
+	}
+
+	public void setLog(Logger log) {
+		this.log = log;
+	}
+
+	public CatUserService getCatUserService() {
+		return catUserService;
+	}
+
+	public void setCatUserService(CatUserService catUserService) {
+		this.catUserService = catUserService;
+	}
+
+	public BaseService getCatStockCellService() {
+		return catStockCellService;
+	}
+
+	public void setCatStockCellService(BaseService catStockCellService) {
+		this.catStockCellService = catStockCellService;
+	}
+
+	public List<CatUserDTO> getLstUsers() {
+		return lstUsers;
+	}
+
+	public void setLstUsers(List<CatUserDTO> lstUsers) {
+		this.lstUsers = lstUsers;
+	}
+
+	public List<MjrOrderDTO> getLstOrder() {
+		return lstOrder;
+	}
+
+	public void setLstOrder(List<MjrOrderDTO> lstOrder) {
+		this.lstOrder = lstOrder;
+	}
+
+	public LinkedHashMap<String, String> getMapUnitType() {
+		return mapUnitType;
+	}
+
+	public void setMapUnitType(LinkedHashMap<String, String> mapUnitType) {
+		this.mapUnitType = mapUnitType;
 	}
 }

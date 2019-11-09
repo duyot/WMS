@@ -11,6 +11,9 @@ $inpGoodsCode = $('#inp-goods-code');
 var $inpGoodsAmount = $('#inp-amount');
 var lblTotalPrice = $("#lbl-total-price");
 var updatePopupButton = $("#btn-update_exportStock");
+$btn_add_partner = $('#btn-add-partner');
+$addUpdateModal = $('#myModal');
+var exportFile = $('#btn-export-file')
 //@Init component-----------------------------------------------------------------------------------------------
 $(function () {
     //
@@ -68,6 +71,75 @@ $(function () {
     });
     initDateRangeSelect();
     doSearch();
+
+
+    validator = $("#cat-partner-insert-update-form").validate({
+        ignore: ":hidden",
+        rules: {
+            code: {
+                required: true,
+                normalizer: function( value ) {
+                    return $.trim( value );
+                },
+                maxlength: 50
+            },
+            name: {
+                required: true,
+                normalizer: function( value ) {
+                    return $.trim( value );
+                },
+                maxlength: 100
+            },
+            telNumber: {
+                required: true,
+                normalizer: function( value ) {
+                    return $.trim( value );
+                },
+                maxlength: 100
+            },
+            address: {
+                normalizer: function( value ) {
+                    return $.trim( value );
+                },
+                maxlength: 100
+            }
+        },
+        submitHandler: function (form) {
+            preprocessInput($("#cat-partner-insert-update-form"));
+            //
+            if (isContainSpecialCharacter($('#modal-inp-code').val())) {
+                alert("Mã đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                return;
+            }
+            if (isContainSpecialCharacter($('#modal-inp-name').val())) {
+                alert("Tên đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                return;
+            }
+            //
+            $.ajax({
+                type: "POST",
+                url: "/workspace/cat_partner_ctr/add",
+                data: $(form).serialize(),
+                success: function (data) {
+                    resultArr = data.split('|');
+                    resultCode = resultArr[0];
+                    resultName = resultArr[1];
+                    if(resultCode == 1){
+                        setInfoMessage($('#action-info'),resultName);
+                    }else{
+                        setErrorMessage($('#action-info'),resultName);
+                    }
+                },
+                error:function(){
+                    setErrorMessage($('#action-info'),'Lỗi hệ thống');
+                }
+            });
+            $('#inp-receive-name').val ($('#modal-inp-code').val()+"|" +$('#modal-inp-name').val()+"|"+$('#modal-inp-telNumber').val());
+
+            hideModal($modalAddUpdate);
+            return false; // required to block normal submit since you used ajax
+        }
+    });
 });
 
 function doInsertData() {
@@ -129,9 +201,15 @@ function initEnterEvent() {
 }
 
 function operateFormatterMainForm(value, row, index) {
+    var id   = row["id"];
+    var url = exportFile.val() + "?orderId="+ id;
+    $('.export-file').attr('href',url);
     return [
         '<a class="update-menu row-function" href="javascript:void(0)" title="Sửa">',
         '<i class="fa fa-pencil-square-o"></i>',
+        '</a> ',
+        '<a class="export-file row-function" href='+url+'  title="Xuất file">',
+        '<i class="fa fa-file-word-o"></i>',
         '</a> ',
         '<a class="delete-menu row-function" href="javascript:void(0)" title="Xóa">',
         '<i class="fa fa-trash"></i>',
@@ -142,30 +220,27 @@ function operateFormatterMainForm(value, row, index) {
 //@FUNCTION-----------------------------------------------------------------------------------------------
 
 window.operateEvents = {
-    'click .update-menu': function (e, value, row, index) {
-        validator.resetForm();
-        clearActionInfo();
-        changeModelByType(2, row['name'], row['code'], row['url'], row['imgClass'], row['orders'], row['id'], row['status'], $btn_update.val());
-        $("#cat-menu-insert-update-form").find(".error").removeClass("error");
-        $("#modal-menu-parentMenu").empty();
-        var new_element = $("#modal-menu-parentMenu").clone();
-        $("#modal-menu-parentMenu").replaceWith(new_element);
-        $("#modal-menu-parentMenu").DropDownTree(configTree(row['parentId'], row['id']));
-        showModal($addUpdateModal);
-        $addUpdateModal.on('shown.bs.modal', function () {
-            $('modal-menu-menuname').focus();
-        });
-    },
-
-    'click .delete-menu': function (e, value, row, index) {
-        clearActionInfo();
-        $("#lbl-del-info").text('Xóa thông tin: ' + decodeHtml(row['name']));
-        $('#myConfirmModal').modal('show');
-        $selectedItemId = row['id'];
-    }
-};
-
-window.operateEvents = {
+    // 'click .update-menu': function (e, value, row, index) {
+    //     validator.resetForm();
+    //     clearActionInfo();
+    //     changeModelByType(2, row['name'], row['code'], row['url'], row['imgClass'], row['orders'], row['id'], row['status'], $btn_update.val());
+    //     $("#cat-menu-insert-update-form").find(".error").removeClass("error");
+    //     $("#modal-menu-parentMenu").empty();
+    //     var new_element = $("#modal-menu-parentMenu").clone();
+    //     $("#modal-menu-parentMenu").replaceWith(new_element);
+    //     $("#modal-menu-parentMenu").DropDownTree(configTree(row['parentId'], row['id']));
+    //     showModal($addUpdateModal);
+    //     $addUpdateModal.on('shown.bs.modal', function () {
+    //         $('modal-menu-menuname').focus();
+    //     });
+    // },
+    //
+    // 'click .delete-menu': function (e, value, row, index) {
+    //     clearActionInfo();
+    //     $("#lbl-del-info").text('Xóa thông tin: ' + decodeHtml(row['name']));
+    //     $('#myConfirmModal').modal('show');
+    //     $selectedItemId = row['id'];
+    // },
     'click .delete-goods': function (e, value, row, index) {
         clearActionInfo();
         $table.bootstrapTable('remove', {

@@ -78,6 +78,7 @@
                                     <div class="col-sm-4">
                                         <div class="input-group">
                                             <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                            <button id="btn-export-file" style="display: none" th:value="@{${controller} + 'orderExportFile'}"></button>
                                         </div>
                                     </div>
 
@@ -209,6 +210,7 @@
                     <thead>
                     <tr>
                         <th data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                        <th data-field="id"  data-visible="false">Id</th>
                         <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã yêu cầu</th>
                         <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho hàng</th>
                         <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true">Đối tác gửi hàng</th>
@@ -227,6 +229,7 @@
     </div>
     <!--modal-->
     <div th:include="modal/create_order_export_modal :: frag-order-export-modal"></div>
+    <div th:include="modal/cat_partner_modal :: frag-cat-partner-modal"></div>
     <!--<div th:include="modal/assign_stock_user :: frag-assign-stock-user-modal"></div>-->
     <!--<div th:include="modal/cat_employee_modal :: frag-cat-emp-modal"></div>-->
     <!--<div th:include="modal/reset_password :: frag-reset-password"></div>-->
