@@ -15,12 +15,15 @@ $btn_add_partner = $('#btn-add-partner');
 $addUpdateModal = $('#myModal');
 var exportFile = $('#btn-export-file')
 var isUpdate =false;
+var btnExport = $('#btn-export');
 //@Init component-----------------------------------------------------------------------------------------------
 $(function () {
     //
     $mainTable.bootstrapTable({
         $mainTable: dataInit
     });
+    $mainTable.bootstrapTable('hideColumn', 'status');
+    $mainTable.bootstrapTable('hideColumn', 'id');
 
     $btnSearch.click(function () {
         doSearch();
@@ -199,49 +202,36 @@ function initEnterEvent() {
 }
 
 function operateFormatterMainForm(value, row, index) {
-    var id = row["id"];
-    var url = exportFile.val() + "?orderId=" + id;
-    $('.export-file').attr('href', url);
-    return [
-        '<a class="update-menu row-function" href="javascript:void(0)" title="Thực xuất">',
-        '<i class="fa fa-share-square-o"></i>',
-        '</a> ',
-        '<a class="edit-order row-function" href="javascript:void(0)" title="Sửa">',
-        '<i class="fa fa-pencil-square-o"></i>',
-        '</a> ',
-        '<a class="export-file row-function" href=' + url + '  target="_blank" title="Xuất file">',
-        '<i class="fa fa-file-word-o"></i>',
-        '</a> ',
-        '<a class="delete-menu row-function" href="javascript:void(0)" title="Xóa">',
-        '<i class="fa fa-trash"></i>',
-        '</a> '
-    ].join('');
+    var id   = row["id"];
+    var url = exportFile.val() + "?orderId="+ id;
+    $('.export-file').attr('href',url);
+   
+    var status = row['status'];
+    if (status ==2){
+        return [
+
+        ].join('');
+    }else{
+        return [
+            '<a class="export-menu row-function" href="javascript:void(0)" title="Thực xuất">',
+            '<i class="fa fa-share-square-o"></i>',
+            '</a> ',
+            '<a class="update-menu row-function" href="javascript:void(0)" title="Sửa">',
+            '<i class="fa fa-pencil-square-o"></i>',
+            '</a> ',
+            '<a class="export-file row-function" href='+url+'  target="_blank" title="Xuất file">',
+            '<i class="fa fa-file-word-o"></i>',
+            '</a> ',
+            '<a class="delete-menu row-function" href="javascript:void(0)" title="Xóa">',
+            '<i class="fa fa-trash"></i>',
+            '</a> '
+        ].join('');
+    }
 }
 
 //@FUNCTION-----------------------------------------------------------------------------------------------
 
 window.operateEvents = {
-    // 'click .update-menu': function (e, value, row, index) {
-    //     validator.resetForm();
-    //     clearActionInfo();
-    //     changeModelByType(2, row['name'], row['code'], row['url'], row['imgClass'], row['orders'], row['id'], row['status'], $btn_update.val());
-    //     $("#cat-menu-insert-update-form").find(".error").removeClass("error");
-    //     $("#modal-menu-parentMenu").empty();
-    //     var new_element = $("#modal-menu-parentMenu").clone();
-    //     $("#modal-menu-parentMenu").replaceWith(new_element);
-    //     $("#modal-menu-parentMenu").DropDownTree(configTree(row['parentId'], row['id']));
-    //     showModal($addUpdateModal);
-    //     $addUpdateModal.on('shown.bs.modal', function () {
-    //         $('modal-menu-menuname').focus();
-    //     });
-    // },
-    //
-    // 'click .delete-menu': function (e, value, row, index) {
-    //     clearActionInfo();
-    //     $("#lbl-del-info").text('Xóa thông tin: ' + decodeHtml(row['name']));
-    //     $('#myConfirmModal').modal('show');
-    //     $selectedItemId = row['id'];
-    // },
     'click .delete-goods': function (e, value, row, index) {
         clearActionInfo();
         $table.bootstrapTable('remove', {
@@ -258,6 +248,14 @@ window.operateEvents = {
     'click .edit-order': function (e, value, row, index) {
         isUpdate = true;
         onClickToOpenPopup(row);
+    },
+    'click .export-menu': function (e, value, row, index) {
+        var orderId = row['id'];
+        var code = row['code'];
+        $("#order_id").val(orderId);
+        $("#lbl-del-info").text('Thực xuất yêu cầu: '+code + '?');
+        //
+        showModal($('#myConfirmModal'));
     }
 };
 
@@ -322,6 +320,69 @@ function initData(isUpdate,row) {
 
     }
 }
+
+//@Import confirm---------------------------------------------------------------------
+var btnExportConfirm = $('#modal-btn-del-ok');
+btnExportConfirm.click(function () {
+    //
+    hideModal($('#myConfirmModal'));
+    $body.addClass("loading");
+
+    var orderId = $('#order_id').val();
+
+    var stock_trans_info = {
+        orderId: orderId
+    };
+    //
+    var importData = JSON.stringify({lstGoods: $table.bootstrapTable('getData'), mjrStockTransDTO: stock_trans_info});
+    //
+    var $lblInfo = $("#export-action-info");
+    //
+    $.ajax({
+        url: btnExport.val(),
+        data: importData,
+        cache: false,
+        contentType: "application/json",
+        dataType: 'json',
+        type: 'POST',
+        success: function (data) {
+            //
+            var resultMessage = data['statusCode'];
+            var resultMessageDetail = data['statusName'];
+            var stockTransId = data['key'];
+            var successRecords = data['success'];
+            //
+            if (resultMessage == "SUCCESS_WITH_ERROR") {
+                var totalRecords = data['total'];
+                //show modal upload file
+                setInfoMessageWithTime($("#modal-error-import-lbl-info"), 'Thực xuất ' + successRecords + '/' + totalRecords + ' thành công. Mã phiếu: ' + stockTransId, 8000);
+                $("#modal-link-download").attr("href", $("#modal-inp-stock-trans-id").val() + "/" + stockTransId);
+                showModal($("#myDownloadErrorImportModal"));
+            } else if (resultMessage == "FAIL") {
+                var details     = resultMessageDetail.split('|');
+                var errorCode   = details[0];
+                var errorDetail = details[1];
+                var errorSerial = data['key'];
+                if (errorCode == 'ERROR_NOT_FOUND_STOCK_GOODS') {
+                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
+                } else if (errorCode == 'ERROR_NOT_FOUND_SERIAL') {
+                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, serial " + errorSerial + " không có trong kho!", 8000);
+                }else {
+                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
+                }
+            } else {
+                setInfoMessage($lblInfo, "Thực xuất " + successRecords + " thành công. Mã phiếu: " + stockTransId, 8000);
+            }
+        },
+        error: function (data) {
+            setErrorMessageWithTime($lblInfo, JSON.stringify(data), 8000)
+        },
+        complete: function () {
+            $body.removeClass("loading");
+        }
+    });
+});
+
 function doSearch() {
     NProgress.start();
     var stockId = $('#cmb-main-stock').val();

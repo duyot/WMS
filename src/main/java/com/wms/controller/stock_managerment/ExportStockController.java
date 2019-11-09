@@ -5,6 +5,7 @@ import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.OrderExportService;
 import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
@@ -46,6 +47,10 @@ public class ExportStockController extends BaseController {
     //
     @Autowired
     BaseService catStockCellService;
+
+    @Autowired
+    OrderExportService mjrOrderService;
+
     //
     List<ComboSourceDTO> cells;
     Map<String, String> mapCellIdCellCode = new HashMap<>();
@@ -256,6 +261,42 @@ public class ExportStockController extends BaseController {
         log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
     }
+    @RequestMapping(value = "/exportOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseObject exportOrder(@RequestBody StockManagementDTO stockManagementDTO) {
+        long startTime = System.currentTimeMillis();
+        String sysdate = catStockService.getSysDate();
+
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE ,Constants.SQL_OPERATOR.EQUAL, '1'));
+        lstCon.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL, stockManagementDTO.getMjrStockTransDTO().getOrderId()));
+        List<MjrOrderDTO> lstOrder = mjrOrderService.findByCondition(lstCon);
+        if (DataUtil.isListNullOrEmpty(lstOrder)) {
+            return null;
+        }else{
+            MjrOrderDTO mjrOrderDTO = lstOrder.get(0);
+            MjrStockTransDTO mjrStockTransDTO = stockManagementDTO.getMjrStockTransDTO();
+            mjrStockTransDTO.setCustId(mjrOrderDTO.getCustId());
+            mjrStockTransDTO.setDescription(mjrOrderDTO.getDescription());
+            mjrStockTransDTO.setReceiveId(mjrOrderDTO.getReceiveId());
+            mjrStockTransDTO.setReceiveName(mjrOrderDTO.getReceiveName());
+            mjrStockTransDTO.setPartnerId(mjrOrderDTO.getPartnerId());
+            mjrStockTransDTO.setPartnerName(mjrOrderDTO.getPartnerName());
+            mjrStockTransDTO.setExportMethod(mjrOrderDTO.getExportMethod());
+            stockManagementDTO.setMjrStockTransDTO(mjrStockTransDTO);
+        }
+
+        StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
+        log.info("Export request: " + JSONUtils.object2JSONString(stockTrans));
+        ResponseObject response = stockManagementService.exportStock(stockTrans);
+        log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
+        return response;
+    }
+
+    private StockManagementDTO setInfo(StockManagementDTO stockManagementDTO) {
+
+        return stockManagementDTO;
+    }
 
     //@Support function--------------------------------------------------------------------------------------------------
     private List<Err$MjrStockGoodsSerialDTO> getListImportError(String stockTransId) {
@@ -316,7 +357,7 @@ public class ExportStockController extends BaseController {
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
         //Nguoi nhan khi xuat
-        if (mjrStockTransDTO.getReceiveName() != null && !mjrStockTransDTO.getReceiveName().trim().equals("")) {
+        if (mjrStockTransDTO.getReceiveName() != null && !mjrStockTransDTO.getReceiveName().trim().equals("") && !mjrStockTransDTO.getReceiveName().contains("|")) {
             String[] splitPartner = mjrStockTransDTO.getReceiveName().split("\\|");
             if (splitPartner.length > 0) {
                 String partnerCode = splitPartner[0];

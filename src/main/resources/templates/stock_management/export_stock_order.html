@@ -140,11 +140,11 @@
                                 <div class="input-group input-group-combo">
                                     <div class="radio radio-inline radio-primary">
                                         <input value="-1" type="radio" id="radio-all" name="cmb-status"
-                                               checked="checked"/>
+                                               />
                                         <label for="radio-all" th:text="#{label.all}"></label>
                                     </div>
                                     <div class="radio radio-inline radio-info">
-                                        <input value="1" type="radio" id="radio-normal" name="cmb-status"/>
+                                        <input value="1" type="radio" id="radio-normal" name="cmb-status" checked="checked"/>
                                         <label for="radio-normal" th:text="#{lbl.notexport}"></label>
                                     </div>
                                     <div class="radio radio-inline radio-danger">
@@ -196,6 +196,7 @@
                        data-click-to-select="true"
                        data-toolbar="#toolbar"
                        class="table-striped"
+                       style="word-wrap: break-word;  table-layout: fixed;"
                 >
                     <thead>
                     <tr>
@@ -205,7 +206,7 @@
                         <th data-field="stockId"  data-visible="false">Kho Id</th>
                         <th data-field="partnerId"  data-visible="false">Đối tác</th>
                         <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã yêu cầu</th>
-                        <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho hàng</th>
+                        <th data-field="stockValue" data-align="left" data-sortable="true">Kho hàng</th>
                         <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true">Đối tác gửi hàng</th>
                         <th class="col-md-1" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
                         <th class="col-md-1" data-field="description" data-align="right" data-sortable="true">Ghi chú</th>
@@ -213,10 +214,16 @@
                         <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>
                         <th class="col-md-1" data-field="createdDate" data-align="left" data-sortable="true">Ngày  tạo</th>
                         <th data-width="120px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatterMainForm" th:text="#{lbl.action}"></th>
+                        <th data-field="status" data-align="left"></th>
                     </tr>
                     </thead>
 
                 </table>
+                <button type="button" class="btn btn-default  btn-primary" style="display: none"
+                id="btn-export" th:value="@{/workspace/stock_management/export/exportOrder}">
+                </button>
+                <label id="order_id"></label>
+                <label class="toolbar-label-info" id="export-action-info"></label>
             </div>
         </div>
     </div>
@@ -227,10 +234,11 @@
     <!--<div th:include="modal/cat_employee_modal :: frag-cat-emp-modal"></div>-->
     <!--<div th:include="modal/reset_password :: frag-reset-password"></div>-->
     <!--<div th:include="modal/add_department_modal :: frag-update-department"></div>-->
-    <!--<div th:include="modal/confirm_modal :: frag-confirm-modal"></div>-->
+    <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--<div th:include="modal/assign_partner_user :: frag-assign-partner-user-modal"></div>-->
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
+    <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
 </section>
 
 
@@ -242,6 +250,6 @@
 <!--validation-->
 <script th:attr="src=@{/js/jquery.form-validator.min.js}" th:href="@{/js/jquery.form-validator.min.js}"></script>
 <script th:attr="src=@{/js/exportStockOrder.js}" th:href="@{/js/exportStockOrder.js}"></script>
-exportStockOrder
+
 </body>
 </html>
