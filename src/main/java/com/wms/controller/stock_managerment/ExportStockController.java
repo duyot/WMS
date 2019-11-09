@@ -266,17 +266,28 @@ public class ExportStockController extends BaseController {
     public ResponseObject exportOrder(@RequestBody StockManagementDTO stockManagementDTO) {
         long startTime = System.currentTimeMillis();
         String sysdate = catStockService.getSysDate();
+        setInfo(stockManagementDTO);
+        StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
+        log.info("Export request: " + JSONUtils.object2JSONString(stockTrans));
+        ResponseObject response = stockManagementService.exportStock(stockTrans);
+        log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
+        return response;
+    }
+
+    private void setInfo(StockManagementDTO stockManagementDTO) {
+        String orderId =stockManagementDTO.getMjrStockTransDTO().getOrderId();
 
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE ,Constants.SQL_OPERATOR.EQUAL, '1'));
-        lstCon.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL, stockManagementDTO.getMjrStockTransDTO().getOrderId()));
+        lstCon.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,orderId ));
         List<MjrOrderDTO> lstOrder = mjrOrderService.findByCondition(lstCon);
         if (DataUtil.isListNullOrEmpty(lstOrder)) {
-            return null;
+            return;
         }else{
             MjrOrderDTO mjrOrderDTO = lstOrder.get(0);
             MjrStockTransDTO mjrStockTransDTO = stockManagementDTO.getMjrStockTransDTO();
             mjrStockTransDTO.setCustId(mjrOrderDTO.getCustId());
+            mjrStockTransDTO.setStockId(mjrOrderDTO.getStockId());
             mjrStockTransDTO.setDescription(mjrOrderDTO.getDescription());
             mjrStockTransDTO.setReceiveId(mjrOrderDTO.getReceiveId());
             mjrStockTransDTO.setReceiveName(mjrOrderDTO.getReceiveName());
@@ -285,17 +296,32 @@ public class ExportStockController extends BaseController {
             mjrStockTransDTO.setExportMethod(mjrOrderDTO.getExportMethod());
             stockManagementDTO.setMjrStockTransDTO(mjrStockTransDTO);
         }
+        List<MjrStockTransDetailDTO> lstGoods = new ArrayList<MjrStockTransDetailDTO>();
+        List<MjrOrderDetailDTO>  lstMjrOrderDTOS = mjrOrderService.getListOrderDetail(orderId);
+        lstMjrOrderDTOS.forEach(e->{
+            e.setGoodsName(mapGoodsIdGoods.get(e.getGoodsId()).getName());
+            e.setOutputPrice(mapGoodsIdGoods.get(e.getGoodsId()).getOutPrice());
 
-        StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
-        log.info("Export request: " + JSONUtils.object2JSONString(stockTrans));
-        ResponseObject response = stockManagementService.exportStock(stockTrans);
-        log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
-        return response;
-    }
+            MjrStockTransDetailDTO mjrStockTransDetailDTO = new MjrStockTransDetailDTO();
+            mjrStockTransDetailDTO.setGoodsId(e.getGoodsId());
+            mjrStockTransDetailDTO.setGoodsCode(e.getGoodsCode());
+            mjrStockTransDetailDTO.setGoodsName(e.getGoodsName());
+            mjrStockTransDetailDTO.setGoodsState(e.getGoodsState());
+            mjrStockTransDetailDTO.setPartnerId(e.getPartnerId());
+            mjrStockTransDetailDTO.setAmount(e.getAmount());
+            mjrStockTransDetailDTO.setUnitName(e.getUnitName());
+            mjrStockTransDetailDTO.setIsSerial(e.getIsSerial());
+            mjrStockTransDetailDTO.setDescription(e.getDescription());
+            mjrStockTransDetailDTO.setVolume(e.getVolume());
+            mjrStockTransDetailDTO.setWeight(e.getWeight());
+            mjrStockTransDetailDTO.setTotalMoney(e.getTotalMoney());
+            mjrStockTransDetailDTO.setGoodsId(e.getGoodsId());
+            mjrStockTransDetailDTO.setOutputPrice(e.getOutputPrice());
+            lstGoods.add(mjrStockTransDetailDTO);
+        });
+        stockManagementDTO.setLstGoods(lstGoods);
 
-    private StockManagementDTO setInfo(StockManagementDTO stockManagementDTO) {
-
-        return stockManagementDTO;
+        return;
     }
 
     //@Support function--------------------------------------------------------------------------------------------------
