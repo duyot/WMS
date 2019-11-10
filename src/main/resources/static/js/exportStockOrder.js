@@ -370,7 +370,7 @@ btnExportConfirm.click(function () {
             if (resultMessage == "SUCCESS_WITH_ERROR") {
                 var totalRecords = data['total'];
                 //show modal upload file
-                setInfoMessageWithTime($("#modal-error-import-lbl-info"), 'Thực xuất ' + successRecords + '/' + totalRecords + ' thành công. Mã phiếu: ' + stockTransId, 8000);
+                setInfoMessageWithTime($("#modal-error-import-lbl-info"), 'Thực xuất ' + successRecords + '/' + totalRecords + ' hàng hóa thành công. Mã phiếu: ' + stockTransId, 8000);
                 $("#modal-link-download").attr("href", $("#modal-inp-stock-trans-id").val() + "/" + stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             } else if (resultMessage == "FAIL") {
@@ -386,7 +386,7 @@ btnExportConfirm.click(function () {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
                 }
             } else {
-                setInfoMessage($lblInfo, "Thực xuất " + successRecords + " thành công. Mã phiếu: " + stockTransId, 8000);
+                setInfoMessage($lblInfo, "Thực xuất " + successRecords + " hàng hóa thành công. Mã phiếu: " + stockTransId, 8000);
             }
         },
         error: function (data) {

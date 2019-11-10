@@ -261,7 +261,7 @@ public class ExportOrderStockController extends BaseController {
 		mjrOrderDTO.setStatus("1");
 		mjrOrderDTO.setCreatedUser(currentUser.getCode());
 		//Nguoi nhan khi xuat
-		if (mjrOrderDTO.getReceiveName() != null && !mjrOrderDTO.getReceiveName().trim().equals("")) {
+		if (mjrOrderDTO.getReceiveName() != null && !mjrOrderDTO.getReceiveName().trim().equals("") && mjrOrderDTO.getReceiveName().contains("|")) {
 			String[] splitPartner = mjrOrderDTO.getReceiveName().split("\\|");
 			if (splitPartner.length > 0) {
 				String partnerCode = splitPartner[0];

@@ -3,6 +3,7 @@ package com.wms.controller.stock_managerment;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
+import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.OrderExportService;
@@ -266,25 +267,30 @@ public class ExportStockController extends BaseController {
     public ResponseObject exportOrder(@RequestBody StockManagementDTO stockManagementDTO) {
         long startTime = System.currentTimeMillis();
         String sysdate = catStockService.getSysDate();
-        setInfo(stockManagementDTO);
+        MjrOrderDTO mjrOrderDTO = setInfoStockTrans(stockManagementDTO);
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
         log.info("Export request: " + JSONUtils.object2JSONString(stockTrans));
         ResponseObject response = stockManagementService.exportStock(stockTrans);
         log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
+        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+            mjrOrderDTO.setStatus("2");//Cap nhat da thuc xuat cho yeu cau
+            mjrOrderService.update(mjrOrderDTO);
+        }
         return response;
     }
 
-    private void setInfo(StockManagementDTO stockManagementDTO) {
+    private MjrOrderDTO setInfoStockTrans(StockManagementDTO stockManagementDTO) {
         String orderId =stockManagementDTO.getMjrStockTransDTO().getOrderId();
 
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE ,Constants.SQL_OPERATOR.EQUAL, '1'));
         lstCon.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,orderId ));
         List<MjrOrderDTO> lstOrder = mjrOrderService.findByCondition(lstCon);
+        MjrOrderDTO mjrOrderDTO;
         if (DataUtil.isListNullOrEmpty(lstOrder)) {
-            return;
+            return new MjrOrderDTO();
         }else{
-            MjrOrderDTO mjrOrderDTO = lstOrder.get(0);
+            mjrOrderDTO = lstOrder.get(0);
             MjrStockTransDTO mjrStockTransDTO = stockManagementDTO.getMjrStockTransDTO();
             mjrStockTransDTO.setCustId(mjrOrderDTO.getCustId());
             mjrStockTransDTO.setStockId(mjrOrderDTO.getStockId());
@@ -323,7 +329,7 @@ public class ExportStockController extends BaseController {
         });
         stockManagementDTO.setLstGoods(lstGoods);
 
-        return;
+        return mjrOrderDTO;
     }
 
     //@Support function--------------------------------------------------------------------------------------------------
@@ -385,7 +391,7 @@ public class ExportStockController extends BaseController {
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
         //Nguoi nhan khi xuat
-        if (mjrStockTransDTO.getReceiveName() != null && !mjrStockTransDTO.getReceiveName().trim().equals("") && !mjrStockTransDTO.getReceiveName().contains("|")) {
+        if (mjrStockTransDTO.getReceiveName() != null && !mjrStockTransDTO.getReceiveName().trim().equals("") && mjrStockTransDTO.getReceiveName().contains("|")) {
             String[] splitPartner = mjrStockTransDTO.getReceiveName().split("\\|");
             if (splitPartner.length > 0) {
                 String partnerCode = splitPartner[0];
