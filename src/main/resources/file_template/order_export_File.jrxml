@@ -50,6 +50,7 @@
 	<parameter name="stockName" class="java.lang.String"/>
 	<parameter name="itemList" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="orderCode" class="java.lang.String"/>
+	<parameter name="description" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -68,7 +69,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="107" splitType="Stretch">
+		<band height="123" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="10" width="100" height="20" uuid="2e599dfb-ea06-4139-a74f-0b6d9146314d"/>
 				<textElement>
@@ -124,6 +125,20 @@
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{custName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="90" width="100" height="20" uuid="b60db32b-4de5-4c57-b6c8-95eac090ce5c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<text><![CDATA[Ghi chú]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="110" y="90" width="446" height="20" uuid="617ace17-4b63-4b1f-8b4a-a5851e4687d7"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{description}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
