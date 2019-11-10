@@ -93,6 +93,8 @@ public class UpdateStockGoodsInfor extends BaseController {
         if (!DataUtil.isStringNullOrEmpty(startExpireDateVal) && !"01/01/1900".equalsIgnoreCase(startExpireDateVal) && !DataUtil.isStringNullOrEmpty(endExpireDateVal)) {
             lstCon.add(new Condition("expireDate", Constants.SQL_OPERATOR.BETWEEN, startExpireDateVal + "|" + endExpireDateVal));
         }
+        lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+
         //get from stock goods
         List<MjrStockGoodsDTO> lstStockGoods = mjrStockGoodsService.findByCondition(lstCon);
         List<MjrStockGoodsSerialDTO> lstStockGoodsSerial = mjrStockGoodsSerialService.findByCondition(lstCon);
