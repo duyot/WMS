@@ -267,15 +267,7 @@ public class ExportOrderStockController extends BaseController {
 				String partnerCode = splitPartner[0];
 				CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
 				if (catPartnerDTO != null) {
-					String receiverName = "";
-					if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
-						receiverName = receiverName + catPartnerDTO.getName();
-					}
-					if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())) {
-						receiverName = receiverName + "|" + catPartnerDTO.getTelNumber();
-					}
 					mjrOrderDTO.setReceiveId(catPartnerDTO.getId());
-					mjrOrderDTO.setReceiveName(receiverName);
 				}
 			}
 		}

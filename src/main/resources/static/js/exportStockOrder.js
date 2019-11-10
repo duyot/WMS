@@ -150,9 +150,11 @@ function doInsertData() {
     var partnerIdValue = $('#cmb-partner').val();
     var exportMethod = $('input[name=cmb-export-method]:checked').val();
     var orderId =    $('#order-export-id').val();
+    var orderCode =    $('#order-export-code').val();
 
     var mjrOrder = {
         id : orderId,
+        code : orderCode,
         stockId: stockIdValue,
         description: descriptionValue,
         receiveName: receiveValue,
@@ -177,11 +179,16 @@ function doInsertData() {
             hideModal($addUpdateMainModal);
         },
         error: function (data) {
-            // setErrorMessageWithTime($lblInfo, JSON.stringify(data), 8000)
+            setErrorMessageWithTime($lblInfo, JSON.stringify(data), 8000)
         },
         complete: function () {
             hideModal($addUpdateModal);
             doSearch();
+            var message = "Tạo mới thành công"
+            if (isUpdate){
+                message = "Cập nhật thành công"
+            }
+            setInfoMessage(null,"Thành công");
         }
     });
 }
@@ -205,7 +212,7 @@ function operateFormatterMainForm(value, row, index) {
     var id   = row["id"];
     var url = exportFile.val() + "?orderId="+ id;
     $('.export-file').attr('href',url);
-   
+
     var status = row['status'];
     if (status ==2){
         return [
@@ -216,7 +223,7 @@ function operateFormatterMainForm(value, row, index) {
             '<a class="export-menu row-function" href="javascript:void(0)" title="Thực xuất">',
             '<i class="fa fa-share-square-o"></i>',
             '</a> ',
-            '<a class="update-menu row-function" href="javascript:void(0)" title="Sửa">',
+            '<a class="edit-order row-function" href="javascript:void(0)" title="Sửa">',
             '<i class="fa fa-pencil-square-o"></i>',
             '</a> ',
             '<a class="export-file row-function" href='+url+'  target="_blank" title="Xuất file">',
@@ -266,6 +273,7 @@ function refreshFormAndInitData( row) {
     var partnerId = -1 ;
     var node = "";
     var orderId = ""
+    var code = ""
 
     if (isUpdate && row != null){
         exportMethod = row['exportMethod'];
@@ -274,6 +282,7 @@ function refreshFormAndInitData( row) {
         received =row['receiveName'];
         node = row['description'];
         orderId = row['id'];
+        code = row['code'];
     }
     $('#cmb-stock').val(stockId);
     $('#cmb-stock').selectpicker('refresh');
@@ -281,6 +290,9 @@ function refreshFormAndInitData( row) {
     $('#inp-contract-note').val(node);
     $('#inp-receive-name').val(received);
     $('#order-export-id').val(orderId);
+    $('#order-export-code').val(code);
+    $inpGoodsCode.val('');
+    $inpGoodsAmount.val('');
     $('input[name=cmb-export-method][value='+exportMethod+']').prop('checked', true)
 
     $('#cmb-partner').val(partnerId);
@@ -292,7 +304,6 @@ var btnOrderDetail = $('#btn-order-detail')
 function initData(isUpdate,row) {
     var dataInit = [];
     var total = 0 ;
-    onOpenExportPopup(dataInit, total);
     if (isUpdate){
         $.ajax({
             type: "GET",
@@ -308,16 +319,17 @@ function initData(isUpdate,row) {
                     total += Number(dataInit[i]['totalMoney']);
                     dataInit[i]['totalMoney'] = Number(dataInit[i]['totalMoney']);
                     dataInit[i]['amount'] = Number(dataInit[i]['amount']);
+                    dataInit[i]['columnId'] = Number(dataInit[i]['id']);
                 }
                 onOpenExportPopup(dataInit, total);
-                $table.bootstrapTable('load', dataInit);
-                setConstantInfoMessage(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(total));
             },
             complete: function () {
                 NProgress.done();
             }
         });
 
+    }else {
+        onOpenExportPopup(dataInit, total);
     }
 }
 
@@ -421,11 +433,11 @@ function onOpenExportPopup(dataInit, total) {
     $inpGoodsAmount = $('#inp-amount');
 }
 function onClickToOpenPopup(row) {
+    // $addUpdateMainModal.on('shown.bs.modal', function () {
+    //     refreshFormAndInitData(row);
+    // });
+    refreshFormAndInitData(row);
     showModal($addUpdateMainModal);
-    $addUpdateMainModal.on('shown.bs.modal', function () {
-        refreshFormAndInitData(row);
-    });
-
 }
 function onChangeStock(sel) {
     $('#cmb-stock').val(sel.value);
