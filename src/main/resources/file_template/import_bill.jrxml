@@ -148,16 +148,16 @@ Ngày 22/12/2014 của Bộ Tài chính)
 				<textFieldExpression><![CDATA["Phiếu thực nhập ngày " +new SimpleDateFormat("dd").format($P{currentDate} )+ " tháng "+new SimpleDateFormat("MM").format($P{currentDate} )+ " năm  "+new SimpleDateFormat("yyyy").format($P{currentDate} )]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="410" y="130" width="146" height="35" uuid="fe066cf5-2425-4a5f-b065-e78f201c3c9d"/>
+				<reportElement x="460" y="130" width="96" height="35" uuid="fe066cf5-2425-4a5f-b065-e78f201c3c9d"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Nợ:........................................
-Có:.........................................
+				<text><![CDATA[Nợ:...........................
+Có:...........................
 ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="130" y="118" width="260" height="17" uuid="41b24d79-a76e-4ff4-b614-5c7ec58aecf0"/>
+				<reportElement x="90" y="118" width="350" height="17" uuid="41b24d79-a76e-4ff4-b614-5c7ec58aecf0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="false" isItalic="true"/>
 				</textElement>
