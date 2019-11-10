@@ -188,7 +188,7 @@ function doInsertData() {
             if (isUpdate){
                 message = "Cập nhật thành công"
             }
-            setInfoMessage(null,"Thành công");
+            setInfoMessage(null,message);
         }
     });
 }
@@ -201,6 +201,7 @@ function initExportPopup() {
     loadGoodsCodeSuggestion();
     loadPartnerSuggestion();
     initEnterEvent();
+
 }
 
 function initEnterEvent() {
@@ -303,6 +304,7 @@ function refreshFormAndInitData( row) {
 var btnOrderDetail = $('#btn-order-detail')
 function initData(isUpdate,row) {
     var dataInit = [];
+    totalPrice = 0 ;
     var total = 0 ;
     if (isUpdate){
         $.ajax({
@@ -321,6 +323,7 @@ function initData(isUpdate,row) {
                     dataInit[i]['amount'] = Number(dataInit[i]['amount']);
                     dataInit[i]['columnId'] = Number(dataInit[i]['id']);
                 }
+                totalPrice = total;
                 onOpenExportPopup(dataInit, total);
             },
             complete: function () {
