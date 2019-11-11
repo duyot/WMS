@@ -580,7 +580,7 @@ Có:........................
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{totalWeight}+" (Kg)"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{totalWeight}+" (Tấn)"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
