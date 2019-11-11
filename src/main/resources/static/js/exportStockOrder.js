@@ -14,8 +14,9 @@ var updatePopupButton = $("#btn-update_exportStock");
 $btn_add_partner = $('#btn-add-partner');
 $addUpdateModal = $('#myModal');
 var exportFile = $('#btn-export-file')
-var isUpdate = false;
+var isUpdate =false;
 var btnExport = $('#btn-export');
+var exportMethodVal = $('#exportMethod');
 var isDeleteOrder = true;
 var $body = $("body");
 //@Init component-----------------------------------------------------------------------------------------------
@@ -151,12 +152,12 @@ function doInsertData() {
     var receiveValue = $('#inp-receive-name').val();
     var partnerIdValue = $('#cmb-partner').val();
     var exportMethod = $('input[name=cmb-export-method]:checked').val();
-    var orderId = $('#order-export-id').val();
-    var orderCode = $('#order-export-code').val();
+    var orderId =    $('#order-export-id').val();
+    var orderCode =    $('#order-export-code').val();
 
     var mjrOrder = {
-        id: orderId,
-        code: orderCode,
+        id : orderId,
+        code : orderCode,
         stockId: stockIdValue,
         description: descriptionValue,
         receiveName: receiveValue,
@@ -187,10 +188,10 @@ function doInsertData() {
             hideModal($addUpdateModal);
             doSearch();
             var message = "Tạo mới thành công"
-            if (isUpdate) {
+            if (isUpdate){
                 message = "Cập nhật thành công"
             }
-            setInfoMessage(null, message);
+            setInfoMessage(null,message);
         }
     });
 }
@@ -212,9 +213,9 @@ function initEnterEvent() {
 }
 
 function operateFormatterMainForm(value, row, index) {
-    var id = row["id"];
-    var url = exportFile.val() + "?orderId=" + id;
-    $('.export-file').attr('href', url);
+    var id   = row["id"];
+    var url = exportFile.val() + "?orderId="+ id;
+    $('.export-file').attr('href',url);
 
     var status = row['status'];
     if (status == 2) {
@@ -227,10 +228,10 @@ function operateFormatterMainForm(value, row, index) {
             '<a class="edit-order row-function" href="javascript:void(0)" title="Sửa">',
             '<i class="fa fa-pencil-square-o"></i>',
             '</a> ',
-            '<a class="export-file row-function" href=' + url + '  target="_blank" title="Xuất file">',
+            '<a class="export-file row-function" href='+url+'  target="_blank" title="In phiếu nhặt hàng">',
             '<i class="fa fa-file-word-o"></i>',
             '</a> ',
-            '<a class="delete-order row-function" href="javascript:void(0)" title="Xóa">',
+            '<a class="delete-menu row-function" href="javascript:void(0)" title="Xóa">',
             '<i class="fa fa-trash"></i>',
             '</a> '
         ].join('');
@@ -276,20 +277,20 @@ window.operateEvents = {
     }
 };
 
-function refreshFormAndInitData(row) {
-    var exportMethod = 0;
+function refreshFormAndInitData( row) {
+    var exportMethod = 0 ;
     var stockId = -1;
     var received = ""
-    var partnerId = -1;
+    var partnerId = -1 ;
     var node = "";
     var orderId = ""
     var code = ""
 
-    if (isUpdate && row != null) {
+    if (isUpdate && row != null){
         exportMethod = row['exportMethod'];
         stockId = row['stockId'];
         partnerId = row['partnerId'];
-        received = row['receiveName'];
+        received =row['receiveName'];
         node = row['description'];
         orderId = row['id'];
         code = row['code'];
@@ -303,12 +304,12 @@ function refreshFormAndInitData(row) {
     $('#order-export-code').val(code);
     $inpGoodsCode.val('');
     $inpGoodsAmount.val('');
-    $('input[name=cmb-export-method][value=' + exportMethod + ']').prop('checked', true)
+    $('input[name=cmb-export-method][value='+exportMethod+']').prop('checked', true)
 
     $('#cmb-partner').val(partnerId);
     $('#cmb-partner').selectpicker('refresh');
 
-    initData(isUpdate, row);
+    initData(isUpdate,row);
 }
 
 var btnOrderDetail = $('#btn-order-detail')
@@ -342,7 +343,7 @@ function initData(isUpdate, row) {
             }
         });
 
-    } else {
+    }else {
         onOpenExportPopup(dataInit, total);
     }
 }
@@ -388,15 +389,15 @@ btnExportConfirm.click(function () {
                 $("#modal-link-download").attr("href", $("#modal-inp-stock-trans-id").val() + "/" + stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             } else if (resultMessage == "FAIL") {
-                var details = resultMessageDetail.split('|');
-                var errorCode = details[0];
+                var details     = resultMessageDetail.split('|');
+                var errorCode   = details[0];
                 var errorDetail = details[1];
                 var errorSerial = data['key'];
                 if (errorCode == 'ERROR_NOT_FOUND_STOCK_GOODS') {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
                 } else if (errorCode == 'ERROR_NOT_FOUND_SERIAL') {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, serial " + errorSerial + " không có trong kho!", 8000);
-                } else {
+                }else {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
                 }
             } else {
@@ -457,6 +458,9 @@ function onClickToOpenPopup(row) {
     // });
     refreshFormAndInitData(row);
     showModal($addUpdateMainModal);
+    if(row == null){
+        $('input[name=cmb-export-method][value='+exportMethodVal.val()+']').prop('checked', true);
+    }
 }
 var btnDeleteOrder = $('#btn-get-deleteOrder')
 function onClickDeleteOrder(orderId) {

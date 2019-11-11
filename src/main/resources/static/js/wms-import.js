@@ -305,11 +305,18 @@ btnImportConfirm.click(function () {
     // var invoiceValue     = $('#inp-invoice').val();
     var descriptionValue = $('#inp-contract-note').val();
     var partnerValue = $('#inp-partner-name').val();
+    var cellCode = $("#cmb-cells :selected").val();
+    if ($("#cmb-cells :selected").val() != '-1'){
+        cellCode = $("#cmb-cells :selected").text();
+    }else{
+        cellCode = "";
+    }
     var stock_trans_info = {
         contractNumber: contractNumberValue,
         stockId: stockIdValue,
         description: descriptionValue,
-        partnerName: partnerValue
+        partnerName: partnerValue,
+        cellCode: cellCode
     };
     //
     var importData = JSON.stringify({lstGoods: $table.bootstrapTable('getData'), mjrStockTransDTO: stock_trans_info});
