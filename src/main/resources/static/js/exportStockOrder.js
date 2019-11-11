@@ -231,7 +231,7 @@ function operateFormatterMainForm(value, row, index) {
             '<a class="export-file row-function" href='+url+'  target="_blank" title="In phiếu nhặt hàng">',
             '<i class="fa fa-file-word-o"></i>',
             '</a> ',
-            '<a class="delete-menu row-function" href="javascript:void(0)" title="Xóa">',
+            '<a class="delete-order row-function" href="javascript:void(0)" title="Xóa">',
             '<i class="fa fa-trash"></i>',
             '</a> '
         ].join('');
