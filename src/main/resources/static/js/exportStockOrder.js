@@ -16,6 +16,7 @@ $addUpdateModal = $('#myModal');
 var exportFile = $('#btn-export-file')
 var isUpdate =false;
 var btnExport = $('#btn-export');
+var exportMethodVal = $('#exportMethod');
 //@Init component-----------------------------------------------------------------------------------------------
 $(function () {
     //
@@ -227,7 +228,7 @@ function operateFormatterMainForm(value, row, index) {
             '<a class="edit-order row-function" href="javascript:void(0)" title="Sửa">',
             '<i class="fa fa-pencil-square-o"></i>',
             '</a> ',
-            '<a class="export-file row-function" href='+url+'  target="_blank" title="Xuất file">',
+            '<a class="export-file row-function" href='+url+'  target="_blank" title="In phiếu nhặt hàng">',
             '<i class="fa fa-file-word-o"></i>',
             '</a> ',
             '<a class="delete-menu row-function" href="javascript:void(0)" title="Xóa">',
@@ -441,6 +442,9 @@ function onClickToOpenPopup(row) {
     // });
     refreshFormAndInitData(row);
     showModal($addUpdateMainModal);
+    if(row == null){
+        $('input[name=cmb-export-method][value='+exportMethodVal.val()+']').prop('checked', true);
+    }
 }
 function onChangeStock(sel) {
     $('#cmb-stock').val(sel.value);
