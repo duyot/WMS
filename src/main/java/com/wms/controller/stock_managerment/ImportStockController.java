@@ -249,7 +249,7 @@ public class ImportStockController extends BaseController {
         mjrStockTransDTO.setTransMoneyTotal(calTotalMoneyTrans(stockManagementDTO.getLstGoods()));
         stockTrans.setMjrStockTransDTO(mjrStockTransDTO);
         //
-        List<MjrStockTransDetailDTO> lstStockTransDetails = initListTransDetail(stockManagementDTO.getLstGoods(), mjrStockTransDTO.getDescription());
+        List<MjrStockTransDetailDTO> lstStockTransDetails = initListTransDetail(stockManagementDTO.getLstGoods(), mjrStockTransDTO);
         stockTrans.setLstMjrStockTransDetail(lstStockTransDetails);
         //
         return stockTrans;
@@ -265,7 +265,7 @@ public class ImportStockController extends BaseController {
         return String.valueOf(total);
     }
 
-    private List<MjrStockTransDetailDTO> initListTransDetail(List<MjrStockTransDetailDTO> lstGoods, String description) {
+    private List<MjrStockTransDetailDTO> initListTransDetail(List<MjrStockTransDetailDTO> lstGoods, MjrStockTransDTO stockTrans) {
         CatGoodsDTO goodsItem;
         for (MjrStockTransDetailDTO i : lstGoods) {
             goodsItem = mapGoodsCodeGoods.get(i.getGoodsCode());
@@ -288,7 +288,8 @@ public class ImportStockController extends BaseController {
             i.setTotalMoney(FunctionUtils.unformatFloat(i.getTotalMoney()));
             i.setVolume(FunctionUtils.unformatFloat(i.getVolume()));
             i.setWeight(FunctionUtils.unformatFloat(i.getWeight()));
-            i.setDescription(description);
+            i.setDescription(stockTrans.getDescription());
+            i.setCellCode(stockTrans.getCellCode());
         }
         return lstGoods;
     }

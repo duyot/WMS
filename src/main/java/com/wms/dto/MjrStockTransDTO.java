@@ -47,6 +47,16 @@ public class MjrStockTransDTO {
     private String orderId;
     private String exportMethod;
 
+    private String cellCode;
+
+    public String getCellCode() {
+        return cellCode;
+    }
+
+    public void setCellCode(String cellCode) {
+        this.cellCode = cellCode;
+    }
+
     public String getOrderCode() {
         return orderCode;
     }

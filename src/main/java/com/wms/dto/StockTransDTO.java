@@ -32,4 +32,7 @@ public class StockTransDTO {
     public void setLstMjrStockTransDetail(List<MjrStockTransDetailDTO> lstMjrStockTransDetail) {
         this.lstMjrStockTransDetail = lstMjrStockTransDetail;
     }
+
+
+
 }
