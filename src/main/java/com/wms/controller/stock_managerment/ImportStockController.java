@@ -277,7 +277,7 @@ public class ImportStockController extends BaseController {
             //
             i.setInputPrice(FunctionUtils.unformatFloat(i.getInputPrice()));
             i.setAmount(FunctionUtils.unformatFloat(i.getAmount()));
-            i.setCellCode(mapCellIdCellCode.get(i.getCellCode()));
+            i.setCellCode(i.getCellCode());
             i.setGoodsState(i.getGoodsState());
             //
             i.setAmountValue(null);
