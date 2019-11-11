@@ -79,6 +79,12 @@ public class ConvertCurrenciesToText {
         String format =( new DecimalFormat("###,###.##")).format(f);
         return format;
     }
+    public static String weightFormat(String curr) {
+
+        Double f = Double.parseDouble(curr.replace(",", ""));
+        String format =( new DecimalFormat("###,###.###")).format(f);
+        return format;
+    }
     public static String numberToText(String m) {
         String kq = "";
         int dem = m.length();

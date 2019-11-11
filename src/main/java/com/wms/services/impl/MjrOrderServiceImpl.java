@@ -38,4 +38,9 @@ public class MjrOrderServiceImpl extends BaseServiceImpl<MjrOrderDTO, MjrOrderDP
 	public List<MjrOrderDetailDTO> getListOrderDetail(String orderId) {
 		return mjrOrderDP.getListOrderDetail(orderId);
 	}
+
+	@Override
+	public ResponseObject deleteOrder(String orderId) {
+		return mjrOrderDP.deleteOrder(orderId);
+	}
 }

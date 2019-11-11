@@ -411,7 +411,8 @@ public class TransInfoController extends BaseController {
             double weight = item.getWeight() == null || "".equalsIgnoreCase(item.getWeight()) ? 0 : Double.parseDouble(item.getWeight().replace(",", ""));
             total = total + weight * amount;
         }
-
-        return total + "";
+//        kg to ton
+        total = total / 1000;
+        return ConvertCurrenciesToText.weightFormat(String.format("%.3f", total));
     }
 }

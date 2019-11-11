@@ -24,6 +24,7 @@ public class MjrOrderDP extends BaseDP<MjrOrderDTO> {
 	public static final String ORDER_EXPORT = "orderExport?access_token=";
 	public static final String ORDER_DATA_EXPORT = "getExportData/";
 	public static final String ORDER_DETAIL_DATA = "getListOrderDetail/";
+	public static final String DELETE_ORDER = "deleteOrder/";
 	Logger log = LoggerFactory.getLogger(MjrOrderDP.class);
 
 	public MjrOrderDP() {
@@ -60,6 +61,17 @@ public class MjrOrderDP extends BaseDP<MjrOrderDTO> {
 			log.info(e.toString());
 			e.printStackTrace();
 			return new ArrayList<>();
+		}
+	}
+	public ResponseObject deleteOrder(String id) {
+		try {
+			String url = getUrlLoadBalancing(Long.parseLong(id), DELETE_ORDER);
+			ResponseEntity<ResponseObject> responseEntity =  restTemplate.exchange(url, HttpMethod.GET,null,ResponseObject.class);
+			return  responseEntity.getBody();
+		} catch (RestClientException e) {
+			log.info(e.toString());
+			e.printStackTrace();
+			return new ResponseObject(Responses.ERROR.getName(), Responses.ERROR.getName(), "");
 		}
 	}
 }

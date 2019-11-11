@@ -193,6 +193,20 @@ public class ExportOrderStockController extends BaseController {
 		return mjrOrderService.orderExport(orderExportDTO);
 	}
 
+
+	@RequestMapping(value = "/deleteOrder", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseObject deleteOrder(@RequestParam("orderid") String orderid) {
+		MjrOrderDTO mjrOrderDTO = mjrOrderService.findById(Long.parseLong(orderid));
+		if (mjrOrderDTO.getStatus().equalsIgnoreCase("2")){
+			ResponseObject responseObject = new ResponseObject();
+			responseObject.setStatusName("FAIL");
+			responseObject.setKey("EXPORTED");
+			return  responseObject;
+		}
+		return mjrOrderService.deleteOrder(orderid);
+	}
+
 	//==================================================================================================================
 	@RequestMapping(value = "/orderExportFile" , method = RequestMethod.GET)
 	public void orderExportFile(@RequestParam("orderId") String orderId, HttpServletResponse response) {
