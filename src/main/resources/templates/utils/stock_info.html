@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head >
-    <title>WMS - Workspace</title>
+    <title th:text="#{lbl.header}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="WMS" />
@@ -190,7 +190,7 @@
 
                         <thead>
                         <tr>
-                            <th  data-formatter="runningFormatter" data-align="center" data-width="45px">STT</th>
+                            <th  data-formatter="runningFormatter" data-align="center" data-width="60px">STT</th>
                             <th class="col-md-2" data-field="stockName" data-align="left" data-sortable="true">Kho</th>
                             <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
                             <th class="col-md-4" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
@@ -233,10 +233,10 @@
             '<a class="view-goods-detail" href="javascript:void(0)" title="Chi tiết">',
             '<i class="fa fa-info-circle"></i>',
             '</a>   '
-            ,
+            /*,
             '<a class="view-goods-log" href="javascript:void(0)" title="Tra cứu thẻ kho">',
             '<i class="fa fa-history"></i>',
-            '</a>'
+            '</a>'*/
         ].join('');
     }
     //---------------------------------------------------------------------
