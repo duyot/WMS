@@ -77,7 +77,7 @@ public class StockInfoController extends BaseController{
 
         MjrStockGoodsTotalDTO searchGoodsTotalDTO = new MjrStockGoodsTotalDTO();
         lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        lstCon.add(new Condition("amount",Constants.SQL_OPERATOR.GREATER_EQUAL,0D));
+        lstCon.add(new Condition("amount",Constants.SQL_OPERATOR.GREATER,0D));
 
         searchGoodsTotalDTO.setCustId(selectedCustomer.getId());
         searchGoodsTotalDTO.setUserId(currentUser.getId());

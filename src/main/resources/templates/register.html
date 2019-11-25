@@ -216,11 +216,11 @@
         $("#custName").val($(this).val());
     });
     $("#btn-register").click(function () {
-
         var result = validateRequire($('#register-form'));
         if (result == false){
             return;
         }
+
         if ($('#password').val() != $('#confirm').val()) {
             $('#confirm').attr('data-original-title', "Mật khẩu không khớp").tooltip('show');
             $('#confirm').focus();
