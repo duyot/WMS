@@ -855,6 +855,9 @@ public class FunctionUtils {
     public static float calTotalMoney(String amount, String price) {
         float amountF = 0f;
         try {
+            if (!DataUtil.isNullOrEmpty(amount)) {
+                amountF = Float.valueOf(amount);
+            }
             amountF = Float.valueOf(amount);
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -862,7 +865,9 @@ public class FunctionUtils {
         //
         float priceF = 0f;
         try {
-            priceF = Float.valueOf(price);
+            if (!DataUtil.isNullOrEmpty(price)) {
+                priceF = Float.valueOf(price);
+            }
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }

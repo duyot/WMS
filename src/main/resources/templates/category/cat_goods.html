@@ -168,7 +168,6 @@
             </div>
         </div>
     </div>
-    <div class="modal-loading"><!-- Place at bottom of page --></div>
     <!--modal-->
     <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
     <div th:include="modal/add_goods_modal :: frag-add-goods-modal"></div>
@@ -176,6 +175,7 @@
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
+    <div class="modal-loading"><!-- Place at bottom of page --></div>
 </section>
 
 <!--FINAL JS-->
@@ -368,6 +368,12 @@
             alert('Chưa có thông tin hàng!');
             return;
         }
+        var isNeedLoading = import_goods.length > 10;
+        //
+        if (isNeedLoading) {
+            $body.addClass("loading");
+        }
+        return;
         //
         var goodsData = JSON.stringify({lstGoods:$tableAddListGoods.bootstrapTable('getData')});
         $.ajax({
@@ -399,6 +405,11 @@
                 //
                 hideModal($('#add-goods-modal'));
                 search(false);
+            },
+            complete: function () {
+                if (isNeedLoading) {
+                    $body.removeClass("loading");
+                }
             }
         });
     });
