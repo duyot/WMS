@@ -63,14 +63,14 @@
                         <!--row 1: username + status-->
                         <div class="row">
                             <div class="col-sm-2">
-                                <label th:text="#{lbl.keyword}" for="inp-keyword"></label>
+                                <label th:text="#{lbl.keyword}" for="inp-keyword" style="display: none" ></label>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" style="display: none">
                                 <div class="input-group">
                                                     <span class="input-group-addon">
                                                             <i class="fa fa-book fa-fw"></i>
                                                         </span>
-                                    <input id="inp-keyword" class="form-control" maxlength="50"/>
+                                    <input id="inp-keyword" class="form-control" maxlength="50" style="display: none"/>
                                 </div>
                             </div>
 
@@ -89,7 +89,7 @@
                     <div class="wrapper text-center" style="text-align: center;">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-default  btn-primary"
-                                    id="btn-search-cat-menu" th:value="@{/workspace/cat_customer_ctr/findByCondition}">
+                                    id="btn-search-cat-customer" th:value="@{/workspace/cat_customer_ctr/findByCondition}">
                                 <i class="fa fa-search"></i>
                                 <span th:text="#{btn.search}"></span>
                             </button>
@@ -140,8 +140,8 @@
                         <th class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.cust.code}"></th>
                         <th  data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.cust.name}"></th>
                         <th class="col-md-1" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
-                        <th class="col-md-2" data-field="email" data-align="left" data-sortable="true" th:text="#{lbl.email}"></th>
-                        <th class="col-md-1" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
+                        <th class="col-md-1" data-field="email" data-align="left" data-sortable="true" th:text="#{lbl.email}"></th>
+                        <th class="col-md-2" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
                         <th class="col-md-1" data-field="status" data-align="left" data-sortable="true" data-visible="false" ></th>
                         <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
                         <th data-align="center" data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
@@ -153,7 +153,7 @@
         </div>
     </div>
     <!--modal-->
-    <!--<div th:include="modal/cat_customer :: frag-cat-customer-modal"></div>-->
+    <div th:include="modal/cat_customer_modal :: frag-cat-customer-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
@@ -165,7 +165,7 @@
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 <!--switch-->
 <script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
-<!--<script th:attr="src=@{/js/cat_customer.js}" th:href="@{/js/cat_customer.js}"></script>-->
+<script th:attr="src=@{/js/cat_customer.js}" th:href="@{/js/cat_customer.js}"></script>
 
 </body>
 </html>
