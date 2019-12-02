@@ -39,10 +39,15 @@ $(function () {
 
     $('#order-export-insert-update-form').keydown(function (e) {
         if (e.keyCode == 13 && !$(e.target).parent().hasClass('editable-input')) {
-            if ($(e.target).attr('id') == "inp-amount" || $(e.target).attr('id') == "inp-goods-code") {
-                var weight = 0;
-                var volume = 0;
-                var amount = $inpGoodsAmount.val();
+            var amount = Number($inpGoodsAmount.val());
+            if ($(e.target).attr('id') == "inp-goods-code") {
+                if (!isValidAmount(amount) || amount ==0) {
+                    $inpGoodsAmount.focus();
+                }else{
+                    moveDataToTable();
+                }
+            }
+            if ($(e.target).attr('id') == "inp-amount") {
                 moveDataToTable();
             }
             e.preventDefault();
