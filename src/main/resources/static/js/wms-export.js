@@ -557,6 +557,7 @@ function moveDataToTable() {
     setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
     $inpGoodsAmount.val('');
     $inpGoodsCode.val('');
+    $inpGoodsCode.focus();
 }
 
 function onSelectStock() {
