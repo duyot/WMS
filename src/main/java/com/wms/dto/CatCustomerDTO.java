@@ -20,6 +20,9 @@ public class CatCustomerDTO {
     private String trial;
     private String exportMethod;
 
+    private String custName;//Ten don vi su dung
+    private String statusName;
+
     public CatCustomerDTO(String id ,String name) {
         this.id = id;
         this.name = name;
@@ -165,6 +168,22 @@ public class CatCustomerDTO {
 
     public void setExportMethod(String exportMethod) {
         this.exportMethod = exportMethod;
+    }
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 
     @Override

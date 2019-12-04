@@ -137,6 +137,11 @@ public class WorkSpaceController {
         return "redirect:/workspace/cat_menu_ctr";
     }
 
+    @RequestMapping("/cat_customer")
+    public String redirectCatCustomer() {
+        return "redirect:/workspace/cat_customer_ctr";
+    }
+
     @RequestMapping("/cat_role")
     public String redirectCatRole() {
         return "redirect:/workspace/cat_role_ctr";

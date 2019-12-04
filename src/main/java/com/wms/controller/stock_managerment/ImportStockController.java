@@ -261,6 +261,12 @@ public class ImportStockController extends BaseController {
             if(i.getTotalMoney() != null && !"".equals(i.getTotalMoney())){
                 total += Float.parseFloat(i.getTotalMoney().replaceAll(",", ""));
             }
+            if(i.getProduceDate() !=null && "dd/mm/yyyy".equals(i.getProduceDate().trim())){
+                i.setProduceDate("");
+            }
+            if(i.getExpireDate() !=null && "dd/mm/yyyy".equals(i.getExpireDate().trim())){
+                i.setExpireDate("");
+            }
         }
         return String.valueOf(total);
     }

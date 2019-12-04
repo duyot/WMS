@@ -25,6 +25,8 @@ $(function () {
     //import-action-info
     $table.bootstrapTable({
         data: dataInit,
+        pageList:[5,10, 25, 50],
+        pageSize:30,
         columns: [
             {
                 field: 'id',
@@ -555,6 +557,7 @@ function moveDataToTable() {
     setInfoMessage($('#modal-add-result'), "Bổ sung thành công");
     $inpGoodsAmount.val('');
     $inpGoodsCode.val('');
+    $inpGoodsCode.focus();
 }
 
 function onSelectStock() {

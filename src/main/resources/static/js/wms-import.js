@@ -21,6 +21,8 @@ $(function () {
     //import-action-info
     $table.bootstrapTable({
         data: dataInit,
+        pageList:[5, 10, 25, 50],
+        pageSize:30,
         columns: [
             {
                 field: 'id',
@@ -166,13 +168,61 @@ $(function () {
                 field: 'produceDate',
                 title: 'Ngày sx',
                 align: 'left',
-                width: '8%'
+                width: '8%',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    textAlign: 'left',
+                    showbuttons: false,
+                    validate: function (value) {
+                        if (value != '' && value.trim() != 'dd/mm/yyyy' && !isValidDate(value)) {
+                            return 'Không đúng định dạng dd/mm/yyyy';
+                        }
+                        var row = $table.bootstrapTable('getData')[selectedIndex];
+                        //
+                        row.produceDate = value;
+                        //
+                        $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
+                        //
+                    },
+                    display: function (value) {
+                        if(value ==''){
+                            $(this).text('dd/mm/yyyy');
+                        }else{
+                            $(this).text(value);
+                        }
+                    }
+                }
             },
             {
                 field: 'expireDate',
                 title: 'Hạn dùng',
                 align: 'left',
-                width: '9%'
+                width: '9%',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    textAlign: 'left',
+                    showbuttons: false,
+                    validate: function (value) {
+                        if (value != '' && value.trim() != 'dd/mm/yyyy' &&  !isValidDate(value)) {
+                            return 'Không đúng định dạng dd/mm/yyyy';
+                        }
+                        var row = $table.bootstrapTable('getData')[selectedIndex];
+                        //
+                        row.expireDate = value;
+                        //
+                        $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
+                        //
+                    },
+                    display: function (value) {
+                        if(value ==''){
+                            $(this).text('dd/mm/yyyy');
+                        }else{
+                            $(this).text(value);
+                        }
+                    }
+                }
             },
             {
                 title: 'Xóa',
@@ -448,7 +498,7 @@ $inpGoodsCode.keypress(function (e) {
                 goodsName: goodsItem['name'],
                 goodsState: '1',
                 goodsStateValue: '1',
-                serial: '-',
+                serial: '',
                 amount: '1',
                 weight:  Number(weight),
                 volume:  Number(volume),
@@ -539,7 +589,9 @@ function moveDataToTable() {
         cellCode: cellCode,
         columnId: columnId,
         baseWeight: weight,
-        baseVolume: volume
+        baseVolume: volume,
+        produceDate: 'dd/mm/yyyy',
+        expireDate: 'dd/mm/yyyy'
     });
     //
     totalPrice += Number(goodsItem['inPrice']) * amount ;
