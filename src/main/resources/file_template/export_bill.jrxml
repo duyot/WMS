@@ -488,7 +488,7 @@ Có:........................
 		</band>
 		<band height="119">
 			<staticText>
-				<reportElement x="0" y="50" width="80" height="20" uuid="f3b8a0ce-cac9-4823-87dd-7e8a6e3a1d45"/>
+				<reportElement x="0" y="68" width="80" height="20" uuid="f3b8a0ce-cac9-4823-87dd-7e8a6e3a1d45"/>
 				<textElement verticalAlignment="Top">
 					<font isBold="true"/>
 				</textElement>
@@ -497,7 +497,7 @@ Có:........................
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="70" width="80" height="20" uuid="365493a0-6428-4502-9133-f083466844d9"/>
+				<reportElement x="0" y="89" width="80" height="20" uuid="365493a0-6428-4502-9133-f083466844d9"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11" isItalic="true"/>
 				</textElement>
