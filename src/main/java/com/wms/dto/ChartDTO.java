@@ -1,14 +1,12 @@
 package com.wms.dto;
 
-import java.math.BigInteger;
-
 /**
  * Created by duyot on 5/17/2017.
  */
 public class ChartDTO {
     private String name;
     private Double[] data;
-    private String [] xAxisData;
+    private String[] xAxisData;
     private Double y;
 
     public ChartDTO() {
@@ -32,7 +30,7 @@ public class ChartDTO {
         this.xAxisData = xAxisData;
     }
 
-    public ChartDTO(String name, Double [] data) {
+    public ChartDTO(String name, Double[] data) {
         this.name = name;
         this.data = data;
     }

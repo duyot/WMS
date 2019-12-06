@@ -3,24 +3,39 @@ package com.wms.controller.utils;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
-import com.wms.dto.*;
+import com.wms.dto.CatGoodsDTO;
+import com.wms.dto.Condition;
+import com.wms.dto.MjrStockGoodsDTO;
+import com.wms.dto.MjrStockGoodsSerialDTO;
+import com.wms.dto.MjrStockGoodsTotalDTO;
+import com.wms.dto.MjrStockTransDetailDTO;
+import com.wms.dto.ResponseObject;
+import com.wms.dto.ServerPagingDTO;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.UtilsService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
 import com.wms.utils.StockGoodsComparator;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.util.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by duyot on 3/21/2017.
@@ -93,7 +108,7 @@ public class UpdateStockGoodsInfor extends BaseController {
         if (!DataUtil.isStringNullOrEmpty(startExpireDateVal) && !"01/01/1900".equalsIgnoreCase(startExpireDateVal) && !DataUtil.isStringNullOrEmpty(endExpireDateVal)) {
             lstCon.add(new Condition("expireDate", Constants.SQL_OPERATOR.BETWEEN, startExpireDateVal + "|" + endExpireDateVal));
         }
-        lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
 
         //get from stock goods
         List<MjrStockGoodsDTO> lstStockGoods = mjrStockGoodsService.findByCondition(lstCon);

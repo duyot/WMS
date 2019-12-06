@@ -3,7 +3,7 @@ package com.wms.dto;
 /**
  * Created by duyot on 11/2/2016.
  */
-public class ActionDTO   {
+public class ActionDTO {
     private String id;
     private String actionName;
     private String actionCode;

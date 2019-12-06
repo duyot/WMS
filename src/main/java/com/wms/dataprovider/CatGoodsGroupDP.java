@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CatGoodsGroupDP extends BaseDP<CatGoodsGroupDTO> {
     public CatGoodsGroupDP() {
-        super(CatGoodsGroupDTO[].class,CatGoodsGroupDTO.class, Constants.SERVICE_PREFIX.CAT_GOODS_GROUP_SERVICE);
+        super(CatGoodsGroupDTO[].class, CatGoodsGroupDTO.class, Constants.SERVICE_PREFIX.CAT_GOODS_GROUP_SERVICE);
     }
 }

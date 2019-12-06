@@ -1,13 +1,17 @@
 package com.wms.sercurity;
 
-import com.wms.base.BaseDP;
 import com.wms.dto.ActionMenuDTO;
 import com.wms.dto.CatCustomerDTO;
 import com.wms.dto.SysRoleDTO;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.RoleActionService;
-import org.apache.commons.lang.StringEscapeUtils;
+import java.io.IOException;
+import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +21,6 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by duyot on 11/18/2016.
@@ -49,10 +46,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         //set timeout
         HttpSession session = httpServletRequest.getSession();
-        session.setMaxInactiveInterval(60*60*3);
-		/*Set some session variables*/
+        session.setMaxInactiveInterval(60 * 60 * 3);
+        /*Set some session variables*/
         WMSUserDetails authUser = (WMSUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        SysRoleDTO sysRoleDTO = (SysRoleDTO)roleServiceImpl.findById(Long.parseLong(authUser.getCatUserDTO().getRoleId()));
+        SysRoleDTO sysRoleDTO = (SysRoleDTO) roleServiceImpl.findById(Long.parseLong(authUser.getCatUserDTO().getRoleId()));
         if (sysRoleDTO == null) {
             log.info("Can not get role");
         }
@@ -62,13 +59,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         CatCustomerDTO customer = getCustomer(authUser.getCatUserDTO().getCustId());
         if (customer == null) {
             log.info("Can not get customer, customer is null");
-        }else{
-            log.info("customer is: "+ customer.toString());
+        } else {
+            log.info("customer is: " + customer.toString());
             customer.setName(customer.getName());
         }
-        session.setAttribute("selectedCustomer",customer);
+        session.setAttribute("selectedCustomer", customer);
         //
-        List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(authUser.getCatUserDTO().getRoleId(),authUser.getCatUserDTO().getCustId());
+        List<ActionMenuDTO> lstMenu = roleActionService.getUserActionService(authUser.getCatUserDTO().getRoleId(), authUser.getCatUserDTO().getCustId());
         //
         session.setAttribute("authorities", authentication.getAuthorities());
         session.setAttribute("lstUserAction", lstMenu);
@@ -78,7 +75,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, targetUrl);
     }
 
-    private CatCustomerDTO getCustomer(String custId){
+    private CatCustomerDTO getCustomer(String custId) {
         return (CatCustomerDTO) customerService.findById(Long.parseLong(custId));
     }
 

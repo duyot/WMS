@@ -3,16 +3,19 @@ package com.wms.sercurity;
 import com.wms.dto.ActionMenuDTO;
 import com.wms.dto.CatUserDTO;
 import com.wms.utils.DataUtil;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
-
 /**
  * Created by duyot on 11/18/2016.
  */
-public class WMSUserDetails implements UserDetails,CredentialsContainer {
+public class WMSUserDetails implements UserDetails, CredentialsContainer {
     private CatUserDTO catUserDTO;
     private Set<GrantedAuthority> lstAuthorities;
     private List<ActionMenuDTO> lstMenu;
@@ -23,7 +26,7 @@ public class WMSUserDetails implements UserDetails,CredentialsContainer {
         this.lstMenu = lstMenu;
     }
 
-    public Set<GrantedAuthority> getLstAuthorities(String roleName){
+    public Set<GrantedAuthority> getLstAuthorities(String roleName) {
         Set<GrantedAuthority> authorities = new HashSet<>();
         //todo
         //GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_"+roleName);
@@ -87,21 +90,22 @@ public class WMSUserDetails implements UserDetails,CredentialsContainer {
     public void eraseCredentials() {
         this.catUserDTO.setPassword(null);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WMSUserDetails that = (WMSUserDetails) o;
-        if (DataUtil.isNullOrEmpty(catUserDTO.getId())){
+        if (DataUtil.isNullOrEmpty(catUserDTO.getId())) {
             return false;
         }
-        if (that.getCatUserDTO() == null){
+        if (that.getCatUserDTO() == null) {
             return false;
         }
-        if (catUserDTO.getId().equalsIgnoreCase(that.getCatUserDTO().getId())){
+        if (catUserDTO.getId().equalsIgnoreCase(that.getCatUserDTO().getId())) {
             return true;
         }
-      return false;
+        return false;
     }
 
     @Override

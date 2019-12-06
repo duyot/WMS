@@ -9,18 +9,23 @@ package com.wms.utils;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import org.apache.commons.validator.routines.EmailValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @author Admin
@@ -31,11 +36,11 @@ public class DataUtil {
 
     static Logger log = LoggerFactory.getLogger(DataUtil.class);
 
-    public static Long[] convertLongArr(Object input){
-        String inputArr = (String)input;
-        String [] idArr = ((String) input).split(",");
-        Long [] idLong = new Long[idArr.length];
-        for(int i=0;i<idArr.length;i++){
+    public static Long[] convertLongArr(Object input) {
+        String inputArr = (String) input;
+        String[] idArr = ((String) input).split(",");
+        Long[] idLong = new Long[idArr.length];
+        for (int i = 0; i < idArr.length; i++) {
             try {
                 idLong[i] = Long.parseLong(idArr[i]);
             } catch (NumberFormatException e) {
@@ -47,12 +52,12 @@ public class DataUtil {
     }
 
 
-    public static boolean isEmail(String email){
+    public static boolean isEmail(String email) {
         return EmailValidator.getInstance().isValid(email);
     }
 
 
-    public static String BCryptPasswordEncoder(String password){
+    public static String BCryptPasswordEncoder(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
@@ -61,8 +66,7 @@ public class DataUtil {
         System.out.println(DataUtil.BCryptPasswordEncoder("wms#2016"));
     }
 
-    public static String MD5Encrypt(String inputString)
-    {
+    public static String MD5Encrypt(String inputString) {
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
@@ -81,7 +85,7 @@ public class DataUtil {
         }
         return "";
     }
-    
+
     //duyot: 22/01: bat truong hop serial truyen sang dang .0
     public static String getQuantity(String quantity) {
         //Nhung tham so con lai truyen vao doi tuong
@@ -664,7 +668,7 @@ public class DataUtil {
     /**
      * Check an object is active
      *
-     * @param status status of object
+     * @param status   status of object
      * @param isDelete isdetete status of object
      * @return
      */
@@ -756,7 +760,6 @@ public class DataUtil {
     }
 
     /**
-     *
      * @param lstObj
      * @return lstClone
      */
@@ -821,6 +824,6 @@ public class DataUtil {
     public static boolean isListNullOrEmpty(List<?> lst) {
         return lst == null || lst.isEmpty();
     }
-    
+
 
 }

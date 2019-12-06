@@ -3,7 +3,7 @@ package com.wms.dto;
 /**
  * Created by duyot on 1/3/2017.
  */
-public class MjrStockGoodsSerialDTO{
+public class MjrStockGoodsSerialDTO {
     private String id;
     private String custId;
     private String stockId;

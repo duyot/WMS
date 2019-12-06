@@ -1,4 +1,5 @@
 package com.wms.dto;
+
 /**
  * Created by duyot on 12/6/2016.
  */
@@ -23,13 +24,13 @@ public class CatCustomerDTO {
     private String custName;//Ten don vi su dung
     private String statusName;
 
-    public CatCustomerDTO(String id ,String name) {
+    public CatCustomerDTO(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
     public CatCustomerDTO(String id, String code, String name, String type, String telNumber, String email,
-                          String bankName, String bankAccountCode, String address, String status, String createDate, String mailReport, String partnerRequire ,String trial, String exportMethod) {
+                          String bankName, String bankAccountCode, String address, String status, String createDate, String mailReport, String partnerRequire, String trial, String exportMethod) {
         this.id = id;
         this.code = code;
         this.name = name;

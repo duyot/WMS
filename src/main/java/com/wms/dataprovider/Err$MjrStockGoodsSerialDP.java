@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class Err$MjrStockGoodsSerialDP extends BaseDP<Err$MjrStockGoodsSerialDTO> {
     public Err$MjrStockGoodsSerialDP() {
-        super(Err$MjrStockGoodsSerialDTO[].class,Err$MjrStockGoodsSerialDTO.class, Constants.SERVICE_PREFIX.ERR$MJR_STOCK_GOODS_SERIAL_SERVICE);
+        super(Err$MjrStockGoodsSerialDTO[].class, Err$MjrStockGoodsSerialDTO.class, Constants.SERVICE_PREFIX.ERR$MJR_STOCK_GOODS_SERIAL_SERVICE);
     }
 }

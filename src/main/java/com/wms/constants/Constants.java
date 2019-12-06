@@ -10,7 +10,7 @@ public class Constants {
     public static final String NO_SERIAL = "0";
     public static final String SUCCES_COLOR = "color:#337ab7;";
 
-    public static class APP_PARAMS{
+    public static class APP_PARAMS {
         public static String TRANS_TYPE = "TRANS_TYPE";
         public static String UNIT_TYPE = "UNIT_TYPE";
         public static String GOODS_STATE = "GOODS_STATE";
@@ -18,7 +18,7 @@ public class Constants {
         public static String STATUS = "STATUS";
     }
 
-    public static class RESPONSE{
+    public static class RESPONSE {
         public static String UPDATE_SUSSESS = "update.success";
         public static String UPDATE_ERROR = "update.error";
         public static String INSERT_SUSSESS = "insert.success";
@@ -28,7 +28,8 @@ public class Constants {
         public static String REGISTER_SUSSESS = "register.success";
         public static String REGISTER_ERROR = "register.error";
     }
-    public static class FILE_RESOURCE{
+
+    public static class FILE_RESOURCE {
         public static String IMPORT_ERROR_TEMPLATE = "File_loi_nhap_hang.xlsx";
         public static String EXPORT_ERROR_TEMPLATE = "File_loi_xuat_hang.xlsx";
         public static String IMPORT_GOODS_ERROR_TEMPLATE = "File_loi_hang_hoa.xlsx";
@@ -47,26 +48,27 @@ public class Constants {
         public static String IMPORT_BILL = "import_bill.jasper";
         public static String EXPORT_BILL = "export_bill.jasper";
         public static String EXPORT_ORDER_BILL = "order_export_File.jasper";
-        public static String INVOICE_80= "invoice_80.jasper";
+        public static String INVOICE_80 = "invoice_80.jasper";
     }
 
-    public static class STATUS{
+    public static class STATUS {
         public static String ACTIVE = "1";
         public static String IN_ACTIVE = "0";
         public static String DELETED = "-1";
     }
 
-    public static class IMPORT_TYPE{
+    public static class IMPORT_TYPE {
         public static String IMPORT = "1";
         public static String EXPORT = "2";
     }
-    public static class SERIAL_TYPE{
+
+    public static class SERIAL_TYPE {
         public static String IS_SERIAL = "1";
         public static String IS_SERIAL_NAME = "Có";
         public static String NO_SERIAL_NAME = "Không";
     }
 
-    public static class SERVICE_METHOD{
+    public static class SERVICE_METHOD {
         public static String GET_SYS_DATE = "getSysDate?access_token=";
         public static String GET_SYS_DATE_PATTERN = "getSysDateWithPattern?access_token=";
         public static String ACCESS_TOKEN = "?access_token=";
@@ -77,8 +79,8 @@ public class Constants {
         public static String UPDATE_BYE_PROPERTIES = "updateByProperties?access_token=";
         public static String DELETE = "delete/";
         public static String FIND_BY_ID = "find/";
-        public static String FIND_BY_CONDITION  = "findByCondition?access_token=";
-        public static String DELETE_BY_CONDITION  = "deleteByCondition?access_token=";
+        public static String FIND_BY_CONDITION = "findByCondition?access_token=";
+        public static String DELETE_BY_CONDITION = "deleteByCondition?access_token=";
         public static String COUNT_BY_CONDITION = "countByCondition?access_token=";
         public static String GET_ALL = "getAll?access_token=";
     }
@@ -126,13 +128,14 @@ public class Constants {
         public static String OFFSET = "OFFSET";
     }
 
-    public static class SQL_PRO_TYPE{
+    public static class SQL_PRO_TYPE {
         public static String STRING = "string";
-        public static String LONG   = "long";
-        public static String BYTE   = "byte";
-        public static String DATE   = "date";
+        public static String LONG = "long";
+        public static String BYTE = "byte";
+        public static String DATE = "date";
     }
-    public static class SQL_LOGIC{
+
+    public static class SQL_LOGIC {
         public static String OR = " or ";
         public static String AND = " and ";
     }

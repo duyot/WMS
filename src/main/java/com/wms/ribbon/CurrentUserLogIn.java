@@ -3,16 +3,19 @@ package com.wms.ribbon;
 import com.wms.config.WMSConfigManagerment;
 import com.wms.dto.CatUserDTO;
 import com.wms.redis.model.AuthTokenInfo;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -31,15 +34,16 @@ public class CurrentUserLogIn {
     }
 
     public AuthTokenInfo getTokenInfo(String tokenURL) {
-        if (tokenInfo == null){
+        if (tokenInfo == null) {
             tokenInfo = sendTokenRequest(getCurrentUser().getCode(), getCurrentUser().getPassword(), tokenURL);
         }
         return tokenInfo;
     }
-    public static AuthTokenInfo sendTokenRequest(String username, String password,String tokenURL){
+
+    public static AuthTokenInfo sendTokenRequest(String username, String password, String tokenURL) {
         RestTemplate restTemplate = new RestTemplate();
-        tokenURL = tokenURL.replace("@username",username);
-        tokenURL = tokenURL.replace("@password",password);
+        tokenURL = tokenURL.replace("@username", username);
+        tokenURL = tokenURL.replace("@password", password);
         HttpEntity<String> request = new HttpEntity<String>(getHeadersWithClientCredentials());
         ResponseEntity<Object> response = null;
         try {
@@ -47,18 +51,18 @@ public class CurrentUserLogIn {
         } catch (RestClientException e) {
             e.printStackTrace();
         }
-        LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>)response.getBody();
+        LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
         AuthTokenInfo tokenInfo = new AuthTokenInfo();
 
-        if(map == null){
+        if (map == null) {
             return tokenInfo;
         }
 
-        tokenInfo.setAccess_token((String)map.get("access_token"));
-        tokenInfo.setToken_type((String)map.get("token_type"));
-        tokenInfo.setRefresh_token((String)map.get("refresh_token"));
-        tokenInfo.setExpires_in((int)map.get("expires_in"));
-        tokenInfo.setScope((String)map.get("scope"));
+        tokenInfo.setAccess_token((String) map.get("access_token"));
+        tokenInfo.setToken_type((String) map.get("token_type"));
+        tokenInfo.setRefresh_token((String) map.get("refresh_token"));
+        tokenInfo.setExpires_in((int) map.get("expires_in"));
+        tokenInfo.setScope((String) map.get("scope"));
 
         return tokenInfo;
     }
@@ -66,18 +70,19 @@ public class CurrentUserLogIn {
     /*
      * Add HTTP Authorization header, using Basic-Authentication to send client-credentials.
      */
-    private static HttpHeaders getHeadersWithClientCredentials(){
-        String plainClientCredentials= WMSConfigManagerment.CLIENT_ID+":"+ WMSConfigManagerment.CLIENT_SECRET;
+    private static HttpHeaders getHeadersWithClientCredentials() {
+        String plainClientCredentials = WMSConfigManagerment.CLIENT_ID + ":" + WMSConfigManagerment.CLIENT_SECRET;
         String base64ClientCredentials = new String(Base64.encodeBase64(plainClientCredentials.getBytes()));
 
         HttpHeaders headers = getHeaders();
         headers.add("Authorization", "Basic " + base64ClientCredentials);
         return headers;
     }
+
     /*
      * Prepare HTTP Headers.
      */
-    public static HttpHeaders getHeaders(){
+    public static HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         return headers;

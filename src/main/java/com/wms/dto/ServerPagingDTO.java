@@ -6,8 +6,8 @@ import java.util.List;
  * Created by duyot on 6/8/2017.
  */
 public class ServerPagingDTO {
-        private Long total;
-        private List<MjrStockTransDetailDTO> rows;
+    private Long total;
+    private List<MjrStockTransDetailDTO> rows;
 
     public ServerPagingDTO(Long total, List<MjrStockTransDetailDTO> rows) {
         this.total = total;

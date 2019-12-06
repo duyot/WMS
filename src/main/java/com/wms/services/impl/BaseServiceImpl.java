@@ -4,13 +4,12 @@ import com.wms.base.BaseDP;
 import com.wms.dto.Condition;
 import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.BaseService;
-
 import java.util.List;
 
 /**
  * Created by duyot on 11/9/2016.
  */
-public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> {
+public class BaseServiceImpl<T, TDP extends BaseDP<T>> implements BaseService<T> {
     public TDP tdp;
 
 
@@ -25,27 +24,27 @@ public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> 
     }
 
     @Override
-    public ResponseObject add(T tObject ) {
+    public ResponseObject add(T tObject) {
         return tdp.add(tObject);
     }
 
     @Override
-    public ResponseObject update(T tObject ) {
+    public ResponseObject update(T tObject) {
         return tdp.update(tObject);
     }
 
     @Override
-    public ResponseObject updateByProperties(T tObject ) {
+    public ResponseObject updateByProperties(T tObject) {
         return tdp.updateByProperties(tObject);
     }
 
     @Override
-    public ResponseObject delete(Long id ) {
+    public ResponseObject delete(Long id) {
         return tdp.delete(id);
     }
 
     @Override
-    public T findById(Long id ) {
+    public T findById(Long id) {
         return tdp.findById(id);
     }
 
@@ -55,12 +54,12 @@ public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> 
     }
 
     @Override
-    public List getAll( ) {
+    public List getAll() {
         return tdp.getAll();
     }
 
     @Override
-    public List findByCondition(List lstCondition ) {
+    public List findByCondition(List lstCondition) {
         return tdp.findByCondition(lstCondition);
     }
 
@@ -70,7 +69,7 @@ public class BaseServiceImpl<T,TDP extends BaseDP<T>> implements BaseService<T> 
     }
 
     @Override
-    public ResponseObject addList(List<T> tObject ) {
+    public ResponseObject addList(List<T> tObject) {
         return tdp.addList(tObject);
     }
 }

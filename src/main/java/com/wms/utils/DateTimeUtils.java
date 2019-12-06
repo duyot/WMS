@@ -4,20 +4,18 @@
  */
 package com.wms.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author duyot
- * @since Apr,12,2010
  * @version 1.0
+ * @since Apr, 12, 2010
  */
 public class DateTimeUtils {
     public static Logger log = LoggerFactory.getLogger(DateTimeUtils.class);
@@ -70,12 +68,11 @@ public class DateTimeUtils {
     }
 
     /**
-     *
-     * @param date to convert
+     * @param date    to convert
      * @param pattern in converting
      * @return date
      */
-    public static Date convertStringToTime(String date, String pattern){
+    public static Date convertStringToTime(String date, String pattern) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         try {
             return dateFormat.parse(date);
@@ -87,7 +84,6 @@ public class DateTimeUtils {
     }
 
     /**
-     *
      * @param date to convert
      * @return String
      * @throws Exception if error
@@ -101,7 +97,6 @@ public class DateTimeUtils {
     }
 
     /**
-     *
      * @param date to convert
      * @return String
      * @throws Exception if error
@@ -118,7 +113,7 @@ public class DateTimeUtils {
         }
     }
 
-    public static boolean isValidDateFormat(String input, String datePattern){
+    public static boolean isValidDateFormat(String input, String datePattern) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
         dateFormat.setLenient(false);
         if (input == null) {
@@ -146,7 +141,6 @@ public class DateTimeUtils {
     }
 
     /**
-     *
      * @return String
      * @throws Exception if error
      */
@@ -156,7 +150,6 @@ public class DateTimeUtils {
     }
 
     /**
-     *
      * @return String
      * @throws Exception if error
      */
@@ -169,17 +162,17 @@ public class DateTimeUtils {
             throw e;
         }
     }
-    public static String getTimeStamp(){
+
+    public static String getTimeStamp() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         return String.valueOf(timestamp.getTime());
     }
 
     /**
-     *
      * @return String
      * @throws Exception if error
      */
-    public static String getSysDate_ddMMyyyy_HH_mm_ss(){
+    public static String getSysDate_ddMMyyyy_HH_mm_ss() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
         try {
@@ -191,7 +184,6 @@ public class DateTimeUtils {
     }
 
     /**
-     *
      * @param pattern to convert
      * @return String
      * @throws Exception if error
@@ -207,7 +199,6 @@ public class DateTimeUtils {
     }
 
     /**
-     *
      * @param date to convert
      * @return String
      * @throws Exception if error
@@ -218,12 +209,11 @@ public class DateTimeUtils {
     }
 
     /**
-     *
      * @param date to convert
      * @return String
      * @throws Exception if error
      */
-    public static String convertDateTimeToString(Date date){
+    public static String convertDateTimeToString(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
             return dateFormat.format(date);
@@ -233,7 +223,6 @@ public class DateTimeUtils {
     }
 
     /**
-     *
      * @param utilDate to convert
      * @return date
      */
@@ -242,7 +231,6 @@ public class DateTimeUtils {
     }
 
     /**
-     *
      * @param monthInput to parse
      * @return String
      */
@@ -332,7 +320,7 @@ public class DateTimeUtils {
         return convertDateToString(date, format);
     }
 
-    public static String getSysDateTimeForFileName(){
+    public static String getSysDateTimeForFileName() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
         try {

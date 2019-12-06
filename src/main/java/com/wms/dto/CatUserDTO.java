@@ -27,11 +27,11 @@ public class CatUserDTO extends BaseDTO {
     private String block;
     private String usageUnit;
     private String address;
-    private SysRoleDTO sysRoleDTO ;
+    private SysRoleDTO sysRoleDTO;
     private String partnerPermission;
     private String stockPermission;
 
-    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block,String address, String partnerPermission, String stockPermission) {
+    public CatUserDTO(String id, String deptId, String custId, String code, String name, String password, String birthDate, String email, String telNumber, String status, String createdDate, String imgUrl, String roleName, String logReason, String roleId, String block, String address, String partnerPermission, String stockPermission) {
         this.id = id;
         this.deptId = deptId;
         this.custId = custId;

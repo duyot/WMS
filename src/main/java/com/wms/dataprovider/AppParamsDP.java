@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 
 
 /**
-
+ *
  */
 @Repository
 public class AppParamsDP extends BaseDP<AppParamsDTO> {
     public AppParamsDP() {
-        super(AppParamsDTO[].class,AppParamsDTO.class, Constants.SERVICE_PREFIX.APP_PARAMS_SERVICE);
+        super(AppParamsDTO[].class, AppParamsDTO.class, Constants.SERVICE_PREFIX.APP_PARAMS_SERVICE);
     }
 }

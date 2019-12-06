@@ -26,13 +26,14 @@ public class WMSUserDetailsService implements UserDetailsService {
     CurrentUserLogIn currentUserLogIn;
 
     Logger log = LoggerFactory.getLogger(WMSUserDetailsService.class);
+
     @Override
     public UserDetails loadUserByUsername(String code) throws UsernameNotFoundException {
         CatUserDTO loggingUser = new CatUserDTO();
         loggingUser.setCode(code);
         try {
             CatUserDTO loggedUser = catUserService.login(loggingUser);
-            if(loggedUser.getCode() == null){
+            if (loggedUser.getCode() == null) {
                 log.info("CatUserDTO not available");
                 return null;
             }
@@ -43,7 +44,7 @@ public class WMSUserDetailsService implements UserDetailsService {
             currentUserLogIn.setCurrentUser(loggedUser);
             //
 
-            return new WMSUserDetails(loggedUser,null);
+            return new WMSUserDetails(loggedUser, null);
         } catch (Exception e) {
             throw new UsernameNotFoundException("CatUserDTO not found");
         }

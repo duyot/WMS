@@ -4,7 +4,7 @@ package com.wms.dto;
 /**
  * Created by duyot on 11/2/2016.
  */
-public class SysRoleDTO{
+public class SysRoleDTO {
     private String id;
     private String code;
     private String name;
@@ -18,7 +18,7 @@ public class SysRoleDTO{
     public SysRoleDTO() {
     }
 
-    public SysRoleDTO(String id, String code, String name, String status, String statusName, String custId, String menuIds,String type) {
+    public SysRoleDTO(String id, String code, String name, String status, String statusName, String custId, String menuIds, String type) {
         this.id = id;
         this.code = code;
         this.name = name;

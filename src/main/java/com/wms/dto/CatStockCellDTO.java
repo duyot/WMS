@@ -3,7 +3,7 @@ package com.wms.dto;
 /**
  * Created by duyot on 4/19/2017.
  */
-public class CatStockCellDTO{
+public class CatStockCellDTO {
     private String id;
     private String code;
     private String stockId;

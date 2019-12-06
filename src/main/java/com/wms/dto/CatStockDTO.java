@@ -3,7 +3,7 @@ package com.wms.dto;
 /**
  * Created by duyot on 2/17/2017.
  */
-public class CatStockDTO extends BaseDTO{
+public class CatStockDTO extends BaseDTO {
     private String id;
     private String custId;
     private String address;

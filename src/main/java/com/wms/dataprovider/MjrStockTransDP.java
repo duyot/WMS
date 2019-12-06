@@ -2,7 +2,6 @@ package com.wms.dataprovider;
 
 import com.wms.base.BaseDP;
 import com.wms.constants.Constants;
-import com.wms.dto.MjrStockGoodsTotalDTO;
 import com.wms.dto.MjrStockTransDTO;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MjrStockTransDP extends BaseDP<MjrStockTransDTO> {
     public MjrStockTransDP() {
-        super(MjrStockTransDTO[].class,MjrStockTransDTO.class, Constants.SERVICE_PREFIX.MJR_STOCK_TRANS_SERVICE);
+        super(MjrStockTransDTO[].class, MjrStockTransDTO.class, Constants.SERVICE_PREFIX.MJR_STOCK_TRANS_SERVICE);
     }
 }

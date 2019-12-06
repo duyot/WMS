@@ -1,11 +1,10 @@
 package com.wms.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author duyot
@@ -13,7 +12,7 @@ import java.util.Properties;
 public class BundleUtils {
     public static Logger log = LoggerFactory.getLogger(BundleUtils.class);
 
-     public static String getKey(String key) {
+    public static String getKey(String key) {
         try {
             InputStream input;
             String filename = "config.properties";

@@ -38,29 +38,29 @@ public class DropDownTree {
         this.data = data;
     }
 
-    class DataAttribute{
+    class DataAttribute {
         String title;
         String data;
 
-         public DataAttribute(String title, String data) {
-             this.title = title;
-             this.data = data;
-         }
+        public DataAttribute(String title, String data) {
+            this.title = title;
+            this.data = data;
+        }
 
-         public String getTitle() {
-             return title;
-         }
+        public String getTitle() {
+            return title;
+        }
 
-         public void setTitle(String title) {
-             this.title = title;
-         }
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
-         public String getData() {
-             return data;
-         }
+        public String getData() {
+            return data;
+        }
 
-         public void setData(String data) {
-             this.data = data;
-         }
-     }
+        public void setData(String data) {
+            this.data = data;
+        }
+    }
 }

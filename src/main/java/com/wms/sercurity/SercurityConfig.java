@@ -47,7 +47,7 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/WMS", "/language/**").permitAll()
-                .antMatchers("/home_page/**", "/css/**", "/fonts/**", "/js/**","/invoice/**","/images/**", "/workspace_resource/**").permitAll()
+                .antMatchers("/home_page/**", "/css/**", "/fonts/**", "/js/**", "/invoice/**", "/images/**", "/workspace_resource/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/workspace", "/workspace/").permitAll()
                 //for sys_admin
@@ -67,7 +67,7 @@ public class SercurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .invalidateHttpSession(true)
                 .permitAll();
-                http
+        http
                 .headers()
                 .frameOptions()
                 .sameOrigin();

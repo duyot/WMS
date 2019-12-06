@@ -2,7 +2,6 @@ package com.wms.redis.repository;
 
 import com.wms.redis.model.AuthTokenInfo;
 import com.wms.redis.model.Token;
-
 import java.util.Map;
 
 public interface RedisRepository {
@@ -21,10 +20,10 @@ public interface RedisRepository {
      * Delete a key-value pair in Redis.
      */
     void delete(String id);
-    
+
     /**
      * find a movie
      */
     AuthTokenInfo find(String id);
-    
+
 }

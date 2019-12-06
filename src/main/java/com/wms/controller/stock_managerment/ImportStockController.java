@@ -7,24 +7,33 @@ import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.StockManagementService;
-import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import com.wms.utils.JSONUtils;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
 
 /**
  * Created by duyot on 2/15/2017.
@@ -37,6 +46,9 @@ public class ImportStockController extends BaseController {
     public BaseService catPartnerService;
     //
     public Map<String, CatGoodsDTO> mapGoodsCodeNameGoods;
+    @Autowired
+    public ProfileConfigInterface profileConfig;
+    public LinkedHashMap<String, String> mapUnitType;
     //
     @Autowired
     StockManagementService stockManagementService;
@@ -44,12 +56,9 @@ public class ImportStockController extends BaseController {
     BaseService err$MjrStockGoodsSerialService;
     @Autowired
     BaseService catStockCellService;
-    @Autowired
-    public ProfileConfigInterface profileConfig;
     //
     Map<String, String> mapCellIdCellCode = new HashMap<>();
     List<ComboSourceDTO> cells;
-    public LinkedHashMap<String, String> mapUnitType;
     //
     private Logger log = LoggerFactory.getLogger(ImportStockController.class);
     //
@@ -62,12 +71,12 @@ public class ImportStockController extends BaseController {
         initMapUnitType();
     }
 
-    private void initMapUnitType(){
+    private void initMapUnitType() {
         //
-        if(lstAppParams == null){
+        if (lstAppParams == null) {
             lstAppParams = FunctionUtils.getAppParams(appParamsService);
         }
-        mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE,lstAppParams));
+        mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams));
     }
 
     @ModelAttribute("setGoodsCode")
@@ -158,6 +167,7 @@ public class ImportStockController extends BaseController {
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request, HttpServletResponse response) {
         String fileLocation = profileConfig.getTempURL() + request.getSession().getAttribute("file_import_error");
+        request.getSession().removeAttribute("file_import_error");
         FunctionUtils.loadFileToClient(response, fileLocation);
     }
 
@@ -213,7 +223,7 @@ public class ImportStockController extends BaseController {
         if (!importFileResult.isValid()) {
             //save error file
             String prefixFileName = selectedCustomer.getId() + "_" + currentUser.getCode();
-            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(), prefixFileName, true,profileConfig);
+            String fileName = FunctionUtils.exportExcelError(importFileResult.getLstGoodsImport(), prefixFileName, true, profileConfig);
             //save in session
             request.getSession().setAttribute("file_import_error", fileName);
             return null;
@@ -258,13 +268,13 @@ public class ImportStockController extends BaseController {
     private String calTotalMoneyTrans(List<MjrStockTransDetailDTO> lstGoods) {
         float total = 0f;
         for (MjrStockTransDetailDTO i : lstGoods) {
-            if(i.getTotalMoney() != null && !"".equals(i.getTotalMoney())){
+            if (i.getTotalMoney() != null && !"".equals(i.getTotalMoney())) {
                 total += Float.parseFloat(i.getTotalMoney().replaceAll(",", ""));
             }
-            if(i.getProduceDate() !=null && "dd/mm/yyyy".equals(i.getProduceDate().trim())){
+            if (i.getProduceDate() != null && "dd/mm/yyyy".equals(i.getProduceDate().trim())) {
                 i.setProduceDate("");
             }
-            if(i.getExpireDate() !=null && "dd/mm/yyyy".equals(i.getExpireDate().trim())){
+            if (i.getExpireDate() != null && "dd/mm/yyyy".equals(i.getExpireDate().trim())) {
                 i.setExpireDate("");
             }
         }
@@ -314,11 +324,11 @@ public class ImportStockController extends BaseController {
                 CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
                 if (catPartnerDTO != null) {
                     String receiverName = "";
-                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())){
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
                         receiverName = receiverName + catPartnerDTO.getName();
                     }
-                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())){
-                        receiverName = receiverName+ "|" + catPartnerDTO.getTelNumber();
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())) {
+                        receiverName = receiverName + "|" + catPartnerDTO.getTelNumber();
                     }
                     mjrStockTransDTO.setPartnerId(catPartnerDTO.getId());
                     mjrStockTransDTO.setPartnerName(receiverName);
@@ -362,10 +372,10 @@ public class ImportStockController extends BaseController {
         StringBuilder namePlus = new StringBuilder();
         for (CatPartnerDTO i : lstPartner) {
             namePlus.append(i.getCode());
-            if (!DataUtil.isStringNullOrEmpty(i.getName())){
+            if (!DataUtil.isStringNullOrEmpty(i.getName())) {
                 namePlus.append("|").append(i.getName());
             }
-            if (!DataUtil.isStringNullOrEmpty(i.getTelNumber())){
+            if (!DataUtil.isStringNullOrEmpty(i.getTelNumber())) {
                 namePlus.append("|").append(i.getTelNumber());
             }
             lstPartneName.add(namePlus.toString());

@@ -10,7 +10,7 @@ public class StockManagementDTO {
     private List<MjrStockTransDetailDTO> lstGoods;
     private String printInvoice;
 
-    public StockManagementDTO(List<MjrStockTransDetailDTO> lstGoods,  MjrStockTransDTO mjrStockTransDTO) {
+    public StockManagementDTO(List<MjrStockTransDetailDTO> lstGoods, MjrStockTransDTO mjrStockTransDTO) {
         this.mjrStockTransDTO = mjrStockTransDTO;
         this.lstGoods = lstGoods;
     }

@@ -6,25 +6,26 @@ import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
-import com.wms.services.interfaces.StockService;
 import com.wms.services.interfaces.PartnerService;
-import com.wms.utils.BundleUtils;
+import com.wms.services.interfaces.StockService;
 import com.wms.utils.DataUtil;
-import com.wms.utils.FunctionUtils;
 import com.wms.utils.ResourceBundleUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/workspace/cat_user_ctr")
@@ -56,77 +57,81 @@ public class CatUserController extends BaseCommonController {
     BaseService mapUserPartnerServiceImpl;
     //
     List<TreeModel> lstTreeModal = new ArrayList<>();
-    Map<String,CatDepartmentDTO> mapIdDept = new HashMap<>();
+    Map<String, CatDepartmentDTO> mapIdDept = new HashMap<>();
     List<String> lstParentDeptId = new ArrayList<>();
-    Map<String,CatCustomerDTO> mapIdCust = new HashMap<>();
+    Map<String, CatCustomerDTO> mapIdCust = new HashMap<>();
     boolean isRoot = false;
+
     @RequestMapping()
-    public String home(Model model){
-        model.addAttribute("menuName","menu.catuser");
-        model.addAttribute("controller","/workspace/cat_user_ctr/");
-        isRoot = currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1")?true:false ;
-        if (isRoot){
+    public String home(Model model) {
+        model.addAttribute("menuName", "menu.catuser");
+        model.addAttribute("controller", "/workspace/cat_user_ctr/");
+        isRoot = currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1") ? true : false;
+        if (isRoot) {
             buildMapIdCustomer();
-            model.addAttribute("mapIdCust",mapIdCust);
+            model.addAttribute("mapIdCust", mapIdCust);
         }
-        model.addAttribute("isRoot",isRoot);
+        model.addAttribute("isRoot", isRoot);
         return "system_managerment/cat_user";
     }
 
-    @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public  @ResponseBody List<CatUserDTO> findByCondition(@RequestParam("status")String status , @RequestParam("keyword")String keyword, @RequestParam("deptId")String deptId, @RequestParam("usageUnit")String usageUnit){
+    @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
+    public @ResponseBody
+    List<CatUserDTO> findByCondition(@RequestParam("status") String status, @RequestParam("keyword") String keyword, @RequestParam("deptId") String deptId, @RequestParam("usageUnit") String usageUnit) {
         List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,status));
-        if(!DataUtil.isStringNullOrEmpty(keyword)){
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, status));
+        if (!DataUtil.isStringNullOrEmpty(keyword)) {
             List<Condition> lstOrCondition = new ArrayList<>();
-            lstOrCondition.add(new Condition("name", Constants.SQL_OPERATOR.LIKE,keyword));
-            lstOrCondition.add(new Condition("code", Constants.SQL_OPERATOR.LIKE,keyword));
-            lstCon.add(new Condition(Constants.SQL_LOGIC.OR,lstOrCondition));
+            lstOrCondition.add(new Condition("name", Constants.SQL_OPERATOR.LIKE, keyword));
+            lstOrCondition.add(new Condition("code", Constants.SQL_OPERATOR.LIKE, keyword));
+            lstCon.add(new Condition(Constants.SQL_LOGIC.OR, lstOrCondition));
         }
-        if (!DataUtil.isStringNullOrEmpty(deptId)&& !deptId.equalsIgnoreCase("0")){{
-            lstCon.add(new Condition("deptId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,deptId));
-        }}
-        if (!DataUtil.isStringNullOrEmpty(usageUnit)&& !usageUnit.equalsIgnoreCase("0")){
-            lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,usageUnit));
+        if (!DataUtil.isStringNullOrEmpty(deptId) && !deptId.equalsIgnoreCase("0")) {
+            {
+                lstCon.add(new Condition("deptId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, deptId));
+            }
         }
-        if (!isRoot){
-            lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        if (!DataUtil.isStringNullOrEmpty(usageUnit) && !usageUnit.equalsIgnoreCase("0")) {
+            lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, usageUnit));
+        }
+        if (!isRoot) {
+            lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
 
-        }else{
+        } else {
             List<Condition> lstCondition = new ArrayList<>();
-            lstCondition.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,"2"));
-            lstCondition.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,"1"));
+            lstCondition.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "2"));
+            lstCondition.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, "1"));
             List<SysRoleDTO> lstRoles = roleServiceImpl.findByCondition(lstCondition);
             String roleId = "";
-            for (SysRoleDTO role :lstRoles){
-                roleId = roleId + ","+role.getId();
+            for (SysRoleDTO role : lstRoles) {
+                roleId = roleId + "," + role.getId();
             }
-            lstCon.add(new Condition("roleId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.IN,roleId.replaceFirst(",","")));
+            lstCon.add(new Condition("roleId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN, roleId.replaceFirst(",", "")));
         }
 
         List<CatUserDTO> lstUsers = catUserServices.findByCondition(lstCon);
-        if (!isRoot){
+        if (!isRoot) {
             mapIdDept.clear();
             List<Condition> lstConDept = new ArrayList<>();
-            lstConDept.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+            lstConDept.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
             List<CatDepartmentDTO> lstDepts = new ArrayList<>();
-            if (!isRoot){
-                lstConDept.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+            if (!isRoot) {
+                lstConDept.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
             }
             lstDepts = catDeptServicesImpl.findByCondition(lstConDept);
-            for (CatDepartmentDTO item : lstDepts){
-                mapIdDept.put(item.getId(),item);
+            for (CatDepartmentDTO item : lstDepts) {
+                mapIdDept.put(item.getId(), item);
             }
 
-            for (CatUserDTO catUserDTO :lstUsers){
+            for (CatUserDTO catUserDTO : lstUsers) {
                 catUserDTO.setStatusName(mapAppStatus.get(catUserDTO.getStatus()));
-                if (!DataUtil.isNullOrEmpty(catUserDTO.getDeptId())){
+                if (!DataUtil.isNullOrEmpty(catUserDTO.getDeptId())) {
                     catUserDTO.setDeptName(mapIdDept.get(catUserDTO.getDeptId()).getName());
                 }
             }
 
-        }else {
-            for (CatUserDTO catUserDTO :lstUsers){
+        } else {
+            for (CatUserDTO catUserDTO : lstUsers) {
                 catUserDTO.setStatusName(mapAppStatus.get(catUserDTO.getStatus()));
                 catUserDTO.setCustName(mapIdCust.get(catUserDTO.getCustId()).getName());
             }
@@ -136,67 +141,72 @@ public class CatUserController extends BaseCommonController {
     }
 
 
-    @RequestMapping(value = "/getAllDepartment",method = RequestMethod.GET)
-    public  @ResponseBody List<CatDepartmentDTO> getAllDepartment(@RequestParam("status")String status ){
+    @RequestMapping(value = "/getAllDepartment", method = RequestMethod.GET)
+    public @ResponseBody
+    List<CatDepartmentDTO> getAllDepartment(@RequestParam("status") String status) {
 
         List<Condition> lstCon = new ArrayList<>();
         List<CatDepartmentDTO> lstDepts = new ArrayList<>();
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
-        if (!isRoot){
-            lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        if (!isRoot) {
+            lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
 
             lstDepts = catDeptServicesImpl.findByCondition(lstCon);
         }
 
         return lstDepts;
     }
+
     @ModelAttribute("lstTreeModel")
-    public  @ResponseBody List<TreeModel> getTreeDepartment(HttpServletRequest request){
-        if (isRoot){
+    public @ResponseBody
+    List<TreeModel> getTreeDepartment(HttpServletRequest request) {
+        if (isRoot) {
             return new ArrayList<>();
         }
         lstTreeModal = new ArrayList<>();
 
-        if(selectedCustomer == null){
-            this.selectedCustomer =  (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        if (selectedCustomer == null) {
+            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
         }
         List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("status",Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
-        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
         List<CatDepartmentDTO> lstDepts = new ArrayList<>();
         lstDepts = catDeptServicesImpl.findByCondition(lstCon);
 
         mapIdDept.clear();
-        for (CatDepartmentDTO item : lstDepts){
-            mapIdDept.put(item.getId(),item);
+        for (CatDepartmentDTO item : lstDepts) {
+            mapIdDept.put(item.getId(), item);
         }
         lstParentDeptId.clear();
-        for (CatDepartmentDTO item : lstDepts){
-            String path = buildPath(item,mapIdDept);
-            if (!DataUtil.isNullOrEmpty(path)){
+        for (CatDepartmentDTO item : lstDepts) {
+            String path = buildPath(item, mapIdDept);
+            if (!DataUtil.isNullOrEmpty(path)) {
                 TreeModel treeModel;
-                treeModel = new TreeModel(item.getId(),path.replaceFirst("/",""),item.getName());
+                treeModel = new TreeModel(item.getId(), path.replaceFirst("/", ""), item.getName());
                 lstTreeModal.add(treeModel);
             }
         }
         List<TreeModel> lstRemoveTree = new ArrayList<>();
-        for (TreeModel item:lstTreeModal){
-            if (lstParentDeptId.contains(item.getId())){
+        for (TreeModel item : lstTreeModal) {
+            if (lstParentDeptId.contains(item.getId())) {
                 lstRemoveTree.add(item);
             }
         }
         lstTreeModal.removeAll(lstRemoveTree);
         return lstTreeModal;
     }
-    @RequestMapping(value = "/getRoles",method = RequestMethod.GET)
-    public  @ResponseBody List<SysRoleDTO> getRoles(@RequestParam("custId")String custId ){
+
+    @RequestMapping(value = "/getRoles", method = RequestMethod.GET)
+    public @ResponseBody
+    List<SysRoleDTO> getRoles(@RequestParam("custId") String custId) {
 
         List<Condition> lstCon = new ArrayList<>();
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
-        if (isRoot){
-            lstCon.add(new Condition("type",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "2"));
-        }else {
-            lstCon.add(new Condition("custId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, custId));
+        if (isRoot) {
+            lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "2"));
+        } else {
+            lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, custId));
         }
 
         List<SysRoleDTO> lstSysRoles = new ArrayList<>();
@@ -205,46 +215,51 @@ public class CatUserController extends BaseCommonController {
     }
 
 
-    @RequestMapping(value = "/updateUserRole",method = RequestMethod.GET)
-    public @ResponseBody String updateUserRole(@RequestParam("userId")String userId,@RequestParam("roleId")String roleId , @RequestParam("roleName")String roleName ,@RequestParam("block")String block){
+    @RequestMapping(value = "/updateUserRole", method = RequestMethod.GET)
+    public @ResponseBody
+    String updateUserRole(@RequestParam("userId") String userId, @RequestParam("roleId") String roleId, @RequestParam("roleName") String roleName, @RequestParam("block") String block) {
         try {
             Long idL = Long.parseLong(userId);
             CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
-            if (!roleId.equalsIgnoreCase("-1")){
+            if (!roleId.equalsIgnoreCase("-1")) {
                 catUserDTO.setRoleId(roleId);
                 catUserDTO.setRoleName(roleName);
             }
             catUserDTO.setBlock(block);
             ResponseObject response = catUserServices.update(catUserDTO);
-            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+            if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
-            }else{
+            } else {
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
             }
         } catch (NumberFormatException e) {
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
     }
-    @RequestMapping(value = "/updateDepartment",method = RequestMethod.GET)
-    public @ResponseBody String updateDepartment(@RequestParam("userId")String userId,@RequestParam("deptId")String deptId){
+
+    @RequestMapping(value = "/updateDepartment", method = RequestMethod.GET)
+    public @ResponseBody
+    String updateDepartment(@RequestParam("userId") String userId, @RequestParam("deptId") String deptId) {
         try {
             Long idL = Long.parseLong(userId);
             CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
             catUserDTO.setDeptId(deptId);
             catUserDTO.setDeptName(mapIdDept.get(deptId).getName());
             ResponseObject response = catUserServices.update(catUserDTO);
-            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+            if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
 
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
-            }else{
+            } else {
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
             }
         } catch (NumberFormatException e) {
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
     }
-    @RequestMapping(value = "/updateUserStock",method = RequestMethod.GET)
-    public @ResponseBody String updateUserStock(@RequestParam("userId")String userId,@RequestParam("stockId")String stockId,@RequestParam("stockPermission")String stockPermission ){
+
+    @RequestMapping(value = "/updateUserStock", method = RequestMethod.GET)
+    public @ResponseBody
+    String updateUserStock(@RequestParam("userId") String userId, @RequestParam("stockId") String stockId, @RequestParam("stockPermission") String stockPermission) {
         try {
             boolean isError = false;
             Long idL = Long.parseLong(userId);
@@ -252,76 +267,31 @@ public class CatUserController extends BaseCommonController {
             catUserDTO.setStockPermission(stockPermission);
             ResponseObject response = catUserServices.update(catUserDTO);
 
-            stockId = stockId.replaceFirst(",","");
+            stockId = stockId.replaceFirst(",", "");
             List<Condition> lstCon = new ArrayList<>();
-
-    //        delete all stock of this user
-            lstCon.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
-            String result = mapUserStockServiceImpl.deleteByCondition(lstCon);
-            if (Responses.SUCCESS.getName().equalsIgnoreCase(result) ){
-                if ( !DataUtil.isNullOrEmpty(stockId)){
-                    List<MapUserStockDTO> lstMapUserStock = new ArrayList<>();
-                    String[] stockids = stockId.split(",");
-                    for (int i = 0 ; i <stockids.length ; i ++){
-                        lstMapUserStock.add(new MapUserStockDTO(null,userId,stockids[i]));
-                    }
-                    response =  mapUserStockServiceImpl.addList(lstMapUserStock);
-                    if(!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
-                        isError = true;
-                    }
-                }
-
-            }else{
-                isError = true;
-            }
-                if(!isError){
-                    return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
-                }else{
-                    return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
-                }
-
-        } catch (NumberFormatException e) {
-            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
-        }
-    }
-
-    @RequestMapping(value = "/updateUserPartner",method = RequestMethod.GET)
-    public @ResponseBody String updateUserPartner(@RequestParam("userId")String userId,@RequestParam("partnerId")String partnerId,@RequestParam("partnerPermission")String partnerPermission ){
-        try {
-            boolean isError = false;
-            Long idL = Long.parseLong(userId);
-            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
-            catUserDTO.setPartnerPermission(partnerPermission);
-            ResponseObject response = catUserServices.update(catUserDTO);
-
-            partnerId = partnerId.replaceFirst(",","");
-            List<Condition> lstCon = new ArrayList<>();
-            if(!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
-                isError = true;
-            }
 
             //        delete all stock of this user
-            lstCon.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
-            String result = mapUserPartnerServiceImpl.deleteByCondition(lstCon);
-            if (Responses.SUCCESS.getName().equalsIgnoreCase(result) ){
-                if ( !DataUtil.isNullOrEmpty(partnerId)){
-                    List<MapUserPartnerDTO> lstMapPartnerStock = new ArrayList<>();
-                    String[] partnerids = partnerId.split(",");
-                    for (int i = 0 ; i <partnerids.length ; i ++){
-                        lstMapPartnerStock.add(new MapUserPartnerDTO(null,userId,partnerids[i]));
+            lstCon.add(new Condition("userId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, userId));
+            String result = mapUserStockServiceImpl.deleteByCondition(lstCon);
+            if (Responses.SUCCESS.getName().equalsIgnoreCase(result)) {
+                if (!DataUtil.isNullOrEmpty(stockId)) {
+                    List<MapUserStockDTO> lstMapUserStock = new ArrayList<>();
+                    String[] stockids = stockId.split(",");
+                    for (int i = 0; i < stockids.length; i++) {
+                        lstMapUserStock.add(new MapUserStockDTO(null, userId, stockids[i]));
                     }
-                    response =  mapUserPartnerServiceImpl.addList(lstMapPartnerStock);
-                    if(!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+                    response = mapUserStockServiceImpl.addList(lstMapUserStock);
+                    if (!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
                         isError = true;
                     }
                 }
 
-            }else{
+            } else {
                 isError = true;
             }
-            if(!isError){
+            if (!isError) {
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
-            }else{
+            } else {
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
             }
 
@@ -329,50 +299,100 @@ public class CatUserController extends BaseCommonController {
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
     }
-    @RequestMapping(value = "/getListStock",method = RequestMethod.GET)
-    public @ResponseBody UserStock getListStock(@RequestParam("custId")String custId,@RequestParam("userId")String userId){
+
+    @RequestMapping(value = "/updateUserPartner", method = RequestMethod.GET)
+    public @ResponseBody
+    String updateUserPartner(@RequestParam("userId") String userId, @RequestParam("partnerId") String partnerId, @RequestParam("partnerPermission") String partnerPermission) {
+        try {
+            boolean isError = false;
+            Long idL = Long.parseLong(userId);
+            CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
+            catUserDTO.setPartnerPermission(partnerPermission);
+            ResponseObject response = catUserServices.update(catUserDTO);
+
+            partnerId = partnerId.replaceFirst(",", "");
+            List<Condition> lstCon = new ArrayList<>();
+            if (!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+                isError = true;
+            }
+
+            //        delete all stock of this user
+            lstCon.add(new Condition("userId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, userId));
+            String result = mapUserPartnerServiceImpl.deleteByCondition(lstCon);
+            if (Responses.SUCCESS.getName().equalsIgnoreCase(result)) {
+                if (!DataUtil.isNullOrEmpty(partnerId)) {
+                    List<MapUserPartnerDTO> lstMapPartnerStock = new ArrayList<>();
+                    String[] partnerids = partnerId.split(",");
+                    for (int i = 0; i < partnerids.length; i++) {
+                        lstMapPartnerStock.add(new MapUserPartnerDTO(null, userId, partnerids[i]));
+                    }
+                    response = mapUserPartnerServiceImpl.addList(lstMapPartnerStock);
+                    if (!Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+                        isError = true;
+                    }
+                }
+
+            } else {
+                isError = true;
+            }
+            if (!isError) {
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
+            } else {
+                return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
+            }
+
+        } catch (NumberFormatException e) {
+            return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/getListStock", method = RequestMethod.GET)
+    public @ResponseBody
+    UserStock getListStock(@RequestParam("custId") String custId, @RequestParam("userId") String userId) {
         List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("custId" , Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,custId));
-        lstCon.add(new Condition("status" , Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, custId));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
         List<CatStockDTO> lstStock = catStockService.findByCondition(lstCon);
 //        get current stocks of this user
         List<Condition> lstConUserStock = new ArrayList<>();
-        lstConUserStock.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
+        lstConUserStock.add(new Condition("userId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, userId));
         List<MapUserStockDTO> lstMapUserStock = mapUserStockServiceImpl.findByCondition(lstConUserStock);
         String[] stocksId = new String[lstMapUserStock.size()];
-        for(int i =0;i<lstMapUserStock.size();i++){
-            stocksId[i]=lstMapUserStock.get(i).getStockId();
+        for (int i = 0; i < lstMapUserStock.size(); i++) {
+            stocksId[i] = lstMapUserStock.get(i).getStockId();
         }
-        return new UserStock(lstStock,stocksId);
+        return new UserStock(lstStock, stocksId);
     }
 
-    @RequestMapping(value = "/getListPartner",method = RequestMethod.GET)
-    public @ResponseBody UserPartner getListPartner(@RequestParam("custId")String custId,@RequestParam("userId")String userId){
+    @RequestMapping(value = "/getListPartner", method = RequestMethod.GET)
+    public @ResponseBody
+    UserPartner getListPartner(@RequestParam("custId") String custId, @RequestParam("userId") String userId) {
         List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("custId" , Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,custId));
-        lstCon.add(new Condition("status" , Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, custId));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
         List<CatPartnerDTO> lstPartner = catPartnerService.findByCondition(lstCon);
 //        get current stocks of this user
         List<Condition> lstConUserPartner = new ArrayList<>();
-        lstConUserPartner.add(new Condition("userId" , Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,userId));
+        lstConUserPartner.add(new Condition("userId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, userId));
         List<MapUserPartnerDTO> lstMapUserPartner = mapUserPartnerServiceImpl.findByCondition(lstConUserPartner);
         String[] partnersId = new String[lstMapUserPartner.size()];
-        for(int i =0;i<lstMapUserPartner.size();i++){
-            partnersId[i]=lstMapUserPartner.get(i).getPartnerId();
+        for (int i = 0; i < lstMapUserPartner.size(); i++) {
+            partnersId[i] = lstMapUserPartner.get(i).getPartnerId();
         }
-        return new UserPartner(lstPartner,partnersId);
+        return new UserPartner(lstPartner, partnersId);
     }
 
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(@RequestParam("id")String id, HttpServletRequest request){
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public @ResponseBody
+    String delete(@RequestParam("id") String id, HttpServletRequest request) {
         try {
             Long idL = Long.parseLong(id);
             CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(idL);
             catUserDTO.setStatus(Constants.STATUS.IN_ACTIVE);
             ResponseObject response = catUserServices.update(catUserDTO);
-            if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+            if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.DELETE_SUSSESS);
-            }else{
+            } else {
                 return ResourceBundleUtils.getkey(Constants.RESPONSE.DELETE_ERROR);
             }
         } catch (NumberFormatException e) {
@@ -380,13 +400,14 @@ public class CatUserController extends BaseCommonController {
         }
     }
 
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public @ResponseBody  String add(CatUserDTO catUserDTO, HttpServletRequest request){
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public @ResponseBody
+    String add(CatUserDTO catUserDTO, HttpServletRequest request) {
         catUserDTO.setStatus("1");
         catUserDTO.setBlock("0");
-        if (!isRoot){
+        if (!isRoot) {
             catUserDTO.setCustId(selectedCustomer.getId());
-        }else{
+        } else {
             catUserDTO.setRoleId(WMSConfigManagerment.DEFAUL_ROLEID);
             catUserDTO.setRoleName(WMSConfigManagerment.DEFAUL_ROLENAME);
             catUserDTO.setCode(catUserDTO.getCode().trim().toLowerCase());
@@ -396,27 +417,28 @@ public class CatUserController extends BaseCommonController {
         try {
             Long idL = Long.parseLong(response.getKey());
             return ResourceBundleUtils.getkey(Constants.RESPONSE.INSERT_SUSSESS);
-          }  catch (NumberFormatException e) {
-            return ResourceBundleUtils.getkey(DataUtil.isNullOrEmpty(response.getKey())?Constants.RESPONSE.INSERT_ERROR:response.getKey());
-         }
+        } catch (NumberFormatException e) {
+            return ResourceBundleUtils.getkey(DataUtil.isNullOrEmpty(response.getKey()) ? Constants.RESPONSE.INSERT_ERROR : response.getKey());
+        }
     }
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public @ResponseBody String update(CatUserDTO catUser, HttpServletRequest request){
-        log.info("Update menu info: "+ catUser.toString());
-        String userId =  catUser.getId();
-        Long id =Long.parseLong(userId);
-        CatUserDTO catUserDTO =  (CatUserDTO)catUserServices.findById(id);
-        if (catUserDTO == null){
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public @ResponseBody
+    String update(CatUserDTO catUser, HttpServletRequest request) {
+        log.info("Update menu info: " + catUser.toString());
+        String userId = catUser.getId();
+        Long id = Long.parseLong(userId);
+        CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(id);
+        if (catUserDTO == null) {
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
 
-        if("on".equalsIgnoreCase(catUser.getStatus())){
+        if ("on".equalsIgnoreCase(catUser.getStatus())) {
             catUserDTO.setStatus("1");
-        }else{
+        } else {
             catUserDTO.setStatus("0");
         }
-        if (isRoot){
+        if (isRoot) {
             catUserDTO.setCustId(catUser.getCustId());
         }
         catUserDTO.setCode(catUser.getCode());
@@ -424,14 +446,13 @@ public class CatUserController extends BaseCommonController {
         catUserDTO.setEmail(catUser.getEmail());
         catUserDTO.setTelNumber(catUser.getTelNumber());
         ResponseObject response = catUserServices.update(catUserDTO);
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+        if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             log.info("SUCCESS");
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
-        }else if(Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())){
+        } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
             log.info("ERROR");
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
-        }
-        else{
+        } else {
             log.info("ERROR");
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
@@ -439,41 +460,43 @@ public class CatUserController extends BaseCommonController {
     }
 
 
-    @RequestMapping(value = "/resetPassWord",method = RequestMethod.POST)
-    public @ResponseBody String register(CatUserDTO registerCatUserDTO){
-        log.info("Register user info: "+ registerCatUserDTO.toString());
-       String userId =  registerCatUserDTO.getId();
-       Long id =Long.parseLong(userId);
-        CatUserDTO catUserDTO =  (CatUserDTO)catUserServices.findById(id);
-        if (catUserDTO == null){
+    @RequestMapping(value = "/resetPassWord", method = RequestMethod.POST)
+    public @ResponseBody
+    String register(CatUserDTO registerCatUserDTO) {
+        log.info("Register user info: " + registerCatUserDTO.toString());
+        String userId = registerCatUserDTO.getId();
+        Long id = Long.parseLong(userId);
+        CatUserDTO catUserDTO = (CatUserDTO) catUserServices.findById(id);
+        if (catUserDTO == null) {
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
         catUserDTO.setPassword(DataUtil.BCryptPasswordEncoder(registerCatUserDTO.getPassword()));
         ResponseObject responseObject = catUserServices.update(catUserDTO);
-        if(responseObject == null || !Responses.SUCCESS.getName().equalsIgnoreCase(responseObject.getStatusCode())){
+        if (responseObject == null || !Responses.SUCCESS.getName().equalsIgnoreCase(responseObject.getStatusCode())) {
             return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_ERROR);
         }
         return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
 
     }
 
-    public String buildPath(CatDepartmentDTO item,Map<String,CatDepartmentDTO>  mapIdDept){
+    public String buildPath(CatDepartmentDTO item, Map<String, CatDepartmentDTO> mapIdDept) {
         String path = "";
-        CatDepartmentDTO parrentItem =mapIdDept.get(item.getParentId());
-        if (parrentItem!=null){
-            path = buildPath(parrentItem,mapIdDept) +"/"+ parrentItem.getName();
+        CatDepartmentDTO parrentItem = mapIdDept.get(item.getParentId());
+        if (parrentItem != null) {
+            path = buildPath(parrentItem, mapIdDept) + "/" + parrentItem.getName();
             lstParentDeptId.add(parrentItem.getId());
         }
         return path;
     }
-    public void buildMapIdCustomer(){
+
+    public void buildMapIdCustomer() {
         List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("status" , Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL,Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
         List<CatCustomerDTO> lstCustomer = catCustServicesImpl.findByCondition(lstCon);
         mapIdCust.clear();
-        mapIdCust.put("0",new CatCustomerDTO("0",ResourceBundleUtils.getkey("label.choose")));
-        for (CatCustomerDTO catCustomerDTO : lstCustomer){
-            mapIdCust.put(catCustomerDTO.getId(),catCustomerDTO);
+        mapIdCust.put("0", new CatCustomerDTO("0", ResourceBundleUtils.getkey("label.choose")));
+        for (CatCustomerDTO catCustomerDTO : lstCustomer) {
+            mapIdCust.put(catCustomerDTO.getId(), catCustomerDTO);
         }
     }
 }

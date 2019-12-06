@@ -1,11 +1,9 @@
 package com.wms.utils;
 
+import com.ibm.icu.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.HashMap;
-
 import org.apache.commons.lang.NumberUtils;
-
-import com.ibm.icu.text.DecimalFormat;
 
 public class ConvertCurrenciesToText {
 
@@ -53,9 +51,9 @@ public class ConvertCurrenciesToText {
     }
 
     public static String convertToText(String x) {
-    	if (x.equals("0")){
-    		return "0 đồng";
-		}
+        if (x.equals("0")) {
+            return "0 đồng";
+        }
         String kq = "";
         x = x.replace(",", "");
         String arr_temp[] = x.split("\\.");
@@ -63,28 +61,30 @@ public class ConvertCurrenciesToText {
             return "";
         }
         String m = arr_temp[0];
-        kq = kq+ numberToText(arr_temp[0]);
-        if (arr_temp.length ==2){
+        kq = kq + numberToText(arr_temp[0]);
+        if (arr_temp.length == 2) {
             String decimal = numberToText(arr_temp[1]);
             if (!DataUtil.isNullOrEmpty(decimal))
-              kq = kq + "phẩy " +decimal ;
+                kq = kq + "phẩy " + decimal;
         }
 
-        return kq.substring(0,1).toUpperCase() + kq.substring(1).toLowerCase() + "đồng";
+        return kq.substring(0, 1).toUpperCase() + kq.substring(1).toLowerCase() + "đồng";
     }
 
     public static String currencyFormat(String curr) {
 
         Double f = Double.parseDouble(curr.replace(",", ""));
-        String format =( new DecimalFormat("###,###.##")).format(f);
+        String format = (new DecimalFormat("###,###.##")).format(f);
         return format;
     }
+
     public static String weightFormat(String curr) {
 
         Double f = Double.parseDouble(curr.replace(",", ""));
-        String format =( new DecimalFormat("###,###.###")).format(f);
+        String format = (new DecimalFormat("###,###.###")).format(f);
         return format;
     }
+
     public static String numberToText(String m) {
         String kq = "";
         int dem = m.length();
@@ -111,7 +111,7 @@ public class ConvertCurrenciesToText {
                         flag10 = 0;
                     }
                 }
-                if (dem%3!=1 &&m.startsWith("0") && m.length()>1) {
+                if (dem % 3 != 1 && m.startsWith("0") && m.length() > 1) {
                 } else {
                     if (dem % 3 == 2 && (m.startsWith("1") || m.startsWith("0"))) {//mười
                     } else {
@@ -122,7 +122,7 @@ public class ConvertCurrenciesToText {
             m = m.substring(1);
             dem = m.length();
         }
-        kq=kq.substring(0, kq.length() - 1);
-      return kq;
+        kq = kq.substring(0, kq.length() - 1);
+        return kq;
     }
 }

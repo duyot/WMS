@@ -20,7 +20,7 @@ public class AppParamsDTO {
         this.statusName = statusName;
     }
 
-    public AppParamsDTO(String id, String code, String name, String status, String type, String parOrder ) {
+    public AppParamsDTO(String id, String code, String name, String status, String type, String parOrder) {
         this.id = id;
         this.name = name;
         this.status = status;

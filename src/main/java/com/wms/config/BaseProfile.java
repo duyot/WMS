@@ -4,6 +4,7 @@ package com.wms.config;
  * Created by truongbx on 12/08/2018.
  * configs using for each profile
  */
+
 import com.wms.ribbon.BaseURL;
 import org.springframework.beans.factory.annotation.Value;
 

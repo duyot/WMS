@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
         // Login failed by max session
@@ -23,7 +24,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         }
 //        response.sendRedirect(request.getContextPath() + "/login?message=error");
 //        redirectStrategy.sendRedirect(request, response, "/login?error");
-        this.redirectStrategy.sendRedirect(request, response,"/failureLogin?message=login_error");
+        this.redirectStrategy.sendRedirect(request, response, "/failureLogin?message=login_error");
     }
 
 }

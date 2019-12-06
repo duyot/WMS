@@ -6,26 +6,41 @@ import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
-import com.wms.services.interfaces.StockService;
 import com.wms.services.interfaces.PartnerService;
+import com.wms.services.interfaces.StockService;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.net.URLConnection;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletResponse;
 import net.sf.jxls.transformer.Configuration;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.math.BigDecimal;
-import java.net.URLConnection;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by duyot on 11/17/2016.
@@ -378,7 +393,7 @@ public class FunctionUtils {
         return str.replace(String.valueOf((char) 160), "").trim();
     }
 
-    public static MjrStockTransDetailDTO initGoodsItemFromRow(Row row, int count, boolean isImportTransaction){
+    public static MjrStockTransDetailDTO initGoodsItemFromRow(Row row, int count, boolean isImportTransaction) {
         MjrStockTransDetailDTO goodsItem = new MjrStockTransDetailDTO();
         //
         goodsItem.setColumnId(count + "");
@@ -500,12 +515,12 @@ public class FunctionUtils {
                     }
                 }
                 //PRICE
-                String price = isImportTransaction? goodsItem.getInputPrice(): goodsItem.getOutputPrice();
+                String price = isImportTransaction ? goodsItem.getInputPrice() : goodsItem.getOutputPrice();
                 if (!DataUtil.isStringNullOrEmpty(price)) {
                     if (!isNumberFloat(price)) {
                         errorInfo.append("\n Giá phải là số và >= 0");
                         isValid = false;
-                    }else{
+                    } else {
                         if (isImportTransaction) {
                             goodsItem.setInputPriceValue(formatNumber(price));
                         } else {
@@ -530,13 +545,13 @@ public class FunctionUtils {
                 goodsItem.setVolume(getVolumeFromGoodsItem(goodsDTO, amount));
                 //produce date
                 String procedureDate = goodsItem.getProduceDate();
-                if (!DataUtil.isStringNullOrEmpty(procedureDate) && !DateTimeUtils.isValidDateFormat(procedureDate,"dd/MM/yyyy")) {
+                if (!DataUtil.isStringNullOrEmpty(procedureDate) && !DateTimeUtils.isValidDateFormat(procedureDate, "dd/MM/yyyy")) {
                     errorInfo.append("\n Ngày sản xuất không đúng định dạng");
                     isValid = false;
                 }
                 //expire date
                 String expireDate = goodsItem.getExpireDate();
-                if (!DataUtil.isStringNullOrEmpty(expireDate) && !DateTimeUtils.isValidDateFormat(expireDate,"dd/MM/yyyy")) {
+                if (!DataUtil.isStringNullOrEmpty(expireDate) && !DateTimeUtils.isValidDateFormat(expireDate, "dd/MM/yyyy")) {
                     errorInfo.append("\n Hạn dùng không đúng định dạng");
                     isValid = false;
                 }
@@ -570,7 +585,7 @@ public class FunctionUtils {
             weight = Float.parseFloat(goodsItem.getWeight());
         }
 
-        if (!DataUtil.isStringNullOrEmpty(amountStr)&& isNumberFloat(amountStr)) {
+        if (!DataUtil.isStringNullOrEmpty(amountStr) && isNumberFloat(amountStr)) {
             amount = Integer.parseInt(amountStr);
         }
         float totalWeight = weight * amount;
@@ -840,7 +855,7 @@ public class FunctionUtils {
         if (partnerCode != null && !partnerCode.trim().equalsIgnoreCase("")) {
             lstCondition.add(new Condition("code", Constants.SQL_OPERATOR.EQUAL, partnerCode.trim()));
         }
-        if (partnerId != null) {
+        if (!DataUtil.isStringNullOrEmpty(partnerId)) {
             lstCondition.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, partnerId));
         }
         lstCondition.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, custId));

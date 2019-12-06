@@ -6,7 +6,7 @@ import com.wms.utils.DataUtil;
 /**
  * Created by duyot on 12/9/2016.
  */
-public class CatGoodsDTO extends BaseDTO{
+public class CatGoodsDTO extends BaseDTO {
     private String id;
     private String status;
     private String createdDate;
@@ -165,9 +165,6 @@ public class CatGoodsDTO extends BaseDTO{
     }
 
 
-
-
-
     public String getId() {
         return id;
     }
@@ -220,7 +217,7 @@ public class CatGoodsDTO extends BaseDTO{
         return isSerial;
     }
 
-    public boolean isSerial(){
+    public boolean isSerial() {
         return Constants.IS_SERIAL.equalsIgnoreCase(isSerial);
     }
 
@@ -285,11 +282,11 @@ public class CatGoodsDTO extends BaseDTO{
     }
 
     public void setVolumeFromSize() {
-        Double length = DataUtil.isNullOrEmpty(getLength())? 0d:Double.valueOf(getLength());
-        Double width  = DataUtil.isNullOrEmpty(getWidth())? 0d:Double.valueOf(getWidth());
-        Double high   = DataUtil.isNullOrEmpty(getHigh())? 0d:Double.valueOf(getHigh());
-        Double volume = Math.round(length * width * high/1000000 * 1000000d)/1000000d;
-        this.volume =  volume.toString();
+        Double length = DataUtil.isNullOrEmpty(getLength()) ? 0d : Double.valueOf(getLength());
+        Double width = DataUtil.isNullOrEmpty(getWidth()) ? 0d : Double.valueOf(getWidth());
+        Double high = DataUtil.isNullOrEmpty(getHigh()) ? 0d : Double.valueOf(getHigh());
+        Double volume = Math.round(length * width * high / 1000000 * 1000000d) / 1000000d;
+        this.volume = volume.toString();
     }
 
     @Override

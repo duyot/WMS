@@ -8,11 +8,17 @@ import com.wms.ribbon.BaseURL;
 public interface ProfileConfigInterface {
 
     public String getServiceURL();
+
     public String getLoginURL();
+
     public String getTokenURL();
+
     public String getUploadURL();
+
     public String getTemplateURL();
+
     public String getTempURL();
+
     public BaseURL getBaseUrLService();
 
 }

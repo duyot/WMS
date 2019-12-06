@@ -7,23 +7,25 @@ import com.wms.dto.AppParamsDTO;
 import com.wms.dto.Condition;
 import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.services.interfaces.BaseService;
-import com.wms.utils.BundleUtils;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by duyot on 3/31/2017.
@@ -31,17 +33,17 @@ import java.util.Map;
 @Controller
 @RequestMapping("/workspace/utils/searchSerial")
 @Scope("session")
-public class SearchSerialController extends BaseController{
+public class SearchSerialController extends BaseController {
     @Autowired
     BaseService mjrStockGoodsSerialService;
     //
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
-    public Map<String,String> mapAppStockStatus;
+    public Map<String, String> mapAppStockStatus;
 
     @ModelAttribute
     public void setAppStockStatus(HttpServletRequest request) {
         if (mapAppStockStatus != null) {
-            return ;
+            return;
         }
 
         if (lstAppParams == null) {
@@ -54,76 +56,78 @@ public class SearchSerialController extends BaseController{
     }
 
     //
-    private void buildMapStockStatus(List<AppParamsDTO> lstAppParams){
+    private void buildMapStockStatus(List<AppParamsDTO> lstAppParams) {
         mapAppStockStatus = new HashMap<>();
-        if(!DataUtil.isListNullOrEmpty(lstAppParams)){
-            for(AppParamsDTO i: lstAppParams){
-                mapAppStockStatus.put(i.getCode(),i.getName());
+        if (!DataUtil.isListNullOrEmpty(lstAppParams)) {
+            for (AppParamsDTO i : lstAppParams) {
+                mapAppStockStatus.put(i.getCode(), i.getName());
             }
         }
     }
 
 
     @RequestMapping()
-    public String home(Model model){
-        lstGoodsDetails   = Lists.newArrayList();
-        model.addAttribute("menuName","menu.utils.searchserial");
+    public String home(Model model) {
+        lstGoodsDetails = Lists.newArrayList();
+        model.addAttribute("menuName", "menu.utils.searchserial");
         return "utils/search_serial";
     }
 
     //==================================================================================================================
-    @RequestMapping(value = "/findSerial",method = RequestMethod.GET)
+    @RequestMapping(value = "/findSerial", method = RequestMethod.GET)
     public @ResponseBody
-    List<MjrStockTransDetailDTO> findSerial(@RequestParam("stockId")String stockId, @RequestParam("goodsId")String goodsId,
-                                            @RequestParam("serial")String serial
-    ){
+    List<MjrStockTransDetailDTO> findSerial(@RequestParam("stockId") String stockId, @RequestParam("goodsId") String goodsId,
+                                            @RequestParam("serial") String serial
+    ) {
         String arrSearchSerial = preprocessSearchSerial(serial);
 
         List<Condition> lstCon = Lists.newArrayList();
 
-        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,selectedCustomer.getId()));
-        if(!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("stockId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL,stockId));
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
+        if (!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)) {
+            lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, stockId));
         }
-        if(!DataUtil.isStringNullOrEmpty(goodsId) && !goodsId.equals(Constants.STATS_ALL)){
-            lstCon.add(new Condition("goodsId",Constants.SQL_PRO_TYPE.LONG,Constants.SQL_OPERATOR.EQUAL,goodsId));
+        if (!DataUtil.isStringNullOrEmpty(goodsId) && !goodsId.equals(Constants.STATS_ALL)) {
+            lstCon.add(new Condition("goodsId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, goodsId));
         }
-        lstCon.add(new Condition("serial",Constants.SQL_OPERATOR.IN,arrSearchSerial));
-        lstCon.add(new Condition("importDate",Constants.SQL_OPERATOR.ORDER,"desc"));
+        lstCon.add(new Condition("serial", Constants.SQL_OPERATOR.IN, arrSearchSerial));
+        lstCon.add(new Condition("importDate", Constants.SQL_OPERATOR.ORDER, "desc"));
         //
-        List<MjrStockTransDetailDTO> lstResult= FunctionUtils.convertGoodsSerialToDetail(mjrStockGoodsSerialService.findByCondition(lstCon),mapAppStockStatus);
-        if(DataUtil.isListNullOrEmpty(lstResult)){
+        List<MjrStockTransDetailDTO> lstResult = FunctionUtils.convertGoodsSerialToDetail(mjrStockGoodsSerialService.findByCondition(lstCon), mapAppStockStatus);
+        if (DataUtil.isListNullOrEmpty(lstResult)) {
             return Lists.newArrayList();
         }
-        lstGoodsDetails  = FunctionUtils.setNameValueGoodsDetail(lstResult,mapGoodsIdGoods,mapStockIdStock,mapAppGoodsState);
+        lstGoodsDetails = FunctionUtils.setNameValueGoodsDetail(lstResult, mapGoodsIdGoods, mapStockIdStock, mapAppGoodsState);
         return lstGoodsDetails;
     }
-    //==================================================================================================================
-    @RequestMapping(value = "/getSerialFile",method = RequestMethod.GET)
-    public void getSerialFile(HttpServletResponse response){
 
-        if(DataUtil.isListNullOrEmpty(lstGoodsDetails)){
-            lstGoodsDetails.add(new MjrStockTransDetailDTO("","","","","","","","","","","",""));
+    //==================================================================================================================
+    @RequestMapping(value = "/getSerialFile", method = RequestMethod.GET)
+    public void getSerialFile(HttpServletResponse response) {
+
+        if (DataUtil.isListNullOrEmpty(lstGoodsDetails)) {
+            lstGoodsDetails.add(new MjrStockTransDetailDTO("", "", "", "", "", "", "", "", "", "", "", ""));
         }
         //
         String prefixFileName = "Thong_tin_tim_kiem_serial_";
         //
-        String fileResource = exportSerialFile(lstGoodsDetails,prefixFileName);
-        FunctionUtils.loadFileToClient(response,fileResource);
+        String fileResource = exportSerialFile(lstGoodsDetails, prefixFileName);
+        FunctionUtils.loadFileToClient(response, fileResource);
     }
+
     //==================================================================================================================
-    private String preprocessSearchSerial(String serial){
-        String [] arrSerial = serial.split(",");
+    private String preprocessSearchSerial(String serial) {
+        String[] arrSerial = serial.split(",");
         StringBuilder sbSerial = new StringBuilder();
-        for(String i: arrSerial){
+        for (String i : arrSerial) {
             sbSerial.append(",").append(i.trim());
         }
 
-        return sbSerial.toString().replaceFirst(",","");
+        return sbSerial.toString().replaceFirst(",", "");
     }
 
-    private  String exportSerialFile(List<MjrStockTransDetailDTO> lstSerial,String prefixFileName){
-        String templatePath =profileConfig.getTemplateURL()  + Constants.FILE_RESOURCE.GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE;
+    private String exportSerialFile(List<MjrStockTransDetailDTO> lstSerial, String prefixFileName) {
+        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE;
 
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -132,10 +136,10 @@ public class SearchSerialController extends BaseController{
         beans.put("items", lstSerial);
         beans.put("date", DateTimeUtils.convertDateTimeToString(new Date()));
 
-        String fullFileName = prefixFileName +"_"+ DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String fullFileName = prefixFileName + "_" + DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
         String reportFullPath = profileConfig.getTempURL() + fullFileName;
         //
-        FunctionUtils.exportExcel(templateAbsolutePath,beans,reportFullPath);
+        FunctionUtils.exportExcel(templateAbsolutePath, beans, reportFullPath);
         //
         return reportFullPath;
     }

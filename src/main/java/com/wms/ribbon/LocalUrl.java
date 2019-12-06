@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component("localUrl")
-public class LocalUrl implements BaseURL{
+public class LocalUrl implements BaseURL {
 
     @Autowired
     CurrentUserLogIn currentUserLogIn;
@@ -19,24 +19,24 @@ public class LocalUrl implements BaseURL{
     @Override
     public String getUrlToPostMethod(String servicePrefix, String serviceMethod) {
         AuthTokenInfo authTokenInfo = currentUserLogIn.getTokenInfo(tokenURL);
-        return serviceURL +servicePrefix +serviceMethod+ authTokenInfo.getAccess_token();
+        return serviceURL + servicePrefix + serviceMethod + authTokenInfo.getAccess_token();
     }
 
     @Override
     public String getUrlToGetMethod(Long id, String servicePrefix, String serviceMethod) {
         AuthTokenInfo authTokenInfo = currentUserLogIn.getTokenInfo(tokenURL);
-        return serviceURL +servicePrefix +serviceMethod+ id + Constants.SERVICE_METHOD.ACCESS_TOKEN + authTokenInfo.getAccess_token();
+        return serviceURL + servicePrefix + serviceMethod + id + Constants.SERVICE_METHOD.ACCESS_TOKEN + authTokenInfo.getAccess_token();
     }
 
     @Override
     public String getUrlToGetMethod(String query, String servicePrefix, String serviceMethod) {
         AuthTokenInfo authTokenInfo = currentUserLogIn.getTokenInfo(tokenURL);
-        return serviceURL +servicePrefix +serviceMethod+ "?" + query + Constants.SERVICE_METHOD.ACCESS_TOKEN_AND + authTokenInfo.getAccess_token();
+        return serviceURL + servicePrefix + serviceMethod + "?" + query + Constants.SERVICE_METHOD.ACCESS_TOKEN_AND + authTokenInfo.getAccess_token();
     }
 
     @Override
     public String getPostURLWithoutTokenKey(String serviceMethod) {
-        return serviceURL.replace("/services/","/")  +serviceMethod ;
+        return serviceURL.replace("/services/", "/") + serviceMethod;
     }
 
     @Override

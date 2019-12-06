@@ -14,7 +14,7 @@ public class CatDepartmentDTO {
     private String parentId;
     private boolean isSellected;
 
-    public CatDepartmentDTO(String id, String code, String name, String status, String custId, String path, String parentId ) {
+    public CatDepartmentDTO(String id, String code, String name, String status, String custId, String path, String parentId) {
         this.id = id;
         this.code = code;
         this.name = name;

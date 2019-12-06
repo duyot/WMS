@@ -5,18 +5,16 @@
  */
 package com.wms.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author duyot
  */
 public class ResourceBundleUtils {
@@ -24,12 +22,12 @@ public class ResourceBundleUtils {
 
     private static ResourceBundle rsConfig = null;
     public static final String CASCASCAS = "cas";
-    
-//     public static String getStringCas(String key) {
+
+    //     public static String getStringCas(String key) {
 //        rsConfig = ResourceBundle.getBundle(CAS);
 //        return rsConfig.getString(key);
 //    }
-     public static String getkey(String key) {
+    public static String getkey(String key) {
         try {
             InputStream input = null;
             String filename = "lang_vi.properties";
@@ -48,5 +46,5 @@ public class ResourceBundleUtils {
         return key;
     }
 
-     
+
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public class SysMenuDP extends BaseDP<SysMenuDTO> {
 
     public SysMenuDP() {
-        super(SysMenuDTO[].class, SysMenuDTO.class,  Constants.SERVICE_PREFIX.SYS_MENU_SERVICE);
+        super(SysMenuDTO[].class, SysMenuDTO.class, Constants.SERVICE_PREFIX.SYS_MENU_SERVICE);
     }
 }
 

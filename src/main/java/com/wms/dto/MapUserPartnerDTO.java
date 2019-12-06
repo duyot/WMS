@@ -1,7 +1,6 @@
 package com.wms.dto;
 
 
-
 public class MapUserPartnerDTO {
 
     String id;

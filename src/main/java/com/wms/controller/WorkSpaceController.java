@@ -1,22 +1,16 @@
 package com.wms.controller;
 
-import com.google.common.collect.Lists;
-import com.wms.dto.*;
+import com.wms.dto.CatCustomerDTO;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by duyot on 10/12/2016.
@@ -151,6 +145,7 @@ public class WorkSpaceController {
     public String redirectExportStockOrder() {
         return "redirect:/workspace/export_stock_order_ctr";
     }
+
     @RequestMapping("/cat_user")
     public String redirectCatUser() {
         return "redirect:/workspace/cat_user_ctr";

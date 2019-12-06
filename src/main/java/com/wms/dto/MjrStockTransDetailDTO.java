@@ -125,7 +125,6 @@ public class MjrStockTransDetailDTO {
     }
 
 
-
     public String getStockTransCreatedDate() {
         return stockTransCreatedDate;
     }
@@ -205,7 +204,7 @@ public class MjrStockTransDetailDTO {
         this.statusValue = statusValue;
     }
 
-    public MjrStockTransDetailDTO(String custId, String stockId, String goodsId,String goodsState, String partnerId, String amount,String volume,String weight,String cellCode,String importDate, String changeDate, String inputPrice, String serial) {
+    public MjrStockTransDetailDTO(String custId, String stockId, String goodsId, String goodsState, String partnerId, String amount, String volume, String weight, String cellCode, String importDate, String changeDate, String inputPrice, String serial) {
         this.custId = custId;
         this.stockId = stockId;
         this.goodsId = goodsId;
@@ -302,7 +301,7 @@ public class MjrStockTransDetailDTO {
     }
 
     public String getInputPrice() {
-        if (this.inputPrice == null){
+        if (this.inputPrice == null) {
             return "";
         }
         return inputPrice;
@@ -313,7 +312,7 @@ public class MjrStockTransDetailDTO {
     }
 
     public String getOutputPrice() {
-        if (this.outputPrice == null){
+        if (this.outputPrice == null) {
             return "";
         }
         return outputPrice;

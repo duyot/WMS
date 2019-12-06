@@ -11,20 +11,31 @@ import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import com.wms.utils.JSONUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
 
 /**
  * Created by duyot on 2/15/2017.
@@ -60,18 +71,19 @@ public class ExportStockController extends BaseController {
     //
     private int previousStockId = -1;
     public LinkedHashMap<String, String> mapUnitType;
+
     //
     @PostConstruct
-    public void initBean(){
+    public void initBean() {
         initMapUnitType();
     }
 
-    private void initMapUnitType(){
+    private void initMapUnitType() {
         //
-        if(lstAppParams == null){
+        if (lstAppParams == null) {
             lstAppParams = FunctionUtils.getAppParams(appParamsService);
         }
-        mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE,lstAppParams));
+        mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams));
     }
 
     //
@@ -262,6 +274,7 @@ public class ExportStockController extends BaseController {
         log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
     }
+
     @RequestMapping(value = "/exportOrder", method = RequestMethod.POST)
     @ResponseBody
     public ResponseObject exportOrder(@RequestBody StockManagementDTO stockManagementDTO) {
@@ -272,7 +285,7 @@ public class ExportStockController extends BaseController {
         log.info("Export request: " + JSONUtils.object2JSONString(stockTrans));
         ResponseObject response = stockManagementService.exportStock(stockTrans);
         log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
-        if(Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())){
+        if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             mjrOrderDTO.setStatus("2");//Cap nhat da thuc xuat cho yeu cau
             mjrOrderService.update(mjrOrderDTO);
         }
@@ -280,16 +293,16 @@ public class ExportStockController extends BaseController {
     }
 
     private MjrOrderDTO setInfoStockTrans(StockManagementDTO stockManagementDTO) {
-        String orderId =stockManagementDTO.getMjrStockTransDTO().getOrderId();
+        String orderId = stockManagementDTO.getMjrStockTransDTO().getOrderId();
 
         List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE ,Constants.SQL_OPERATOR.EQUAL, '1'));
-        lstCon.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG ,Constants.SQL_OPERATOR.EQUAL,orderId ));
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, '1'));
+        lstCon.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, orderId));
         List<MjrOrderDTO> lstOrder = mjrOrderService.findByCondition(lstCon);
         MjrOrderDTO mjrOrderDTO;
         if (DataUtil.isListNullOrEmpty(lstOrder)) {
             return new MjrOrderDTO();
-        }else{
+        } else {
             mjrOrderDTO = lstOrder.get(0);
             MjrStockTransDTO mjrStockTransDTO = stockManagementDTO.getMjrStockTransDTO();
             mjrStockTransDTO.setCustId(mjrOrderDTO.getCustId());
@@ -305,8 +318,8 @@ public class ExportStockController extends BaseController {
             stockManagementDTO.setMjrStockTransDTO(mjrStockTransDTO);
         }
         List<MjrStockTransDetailDTO> lstGoods = new ArrayList<MjrStockTransDetailDTO>();
-        List<MjrOrderDetailDTO>  lstMjrOrderDTOS = mjrOrderService.getListOrderDetail(orderId);
-        lstMjrOrderDTOS.forEach(e->{
+        List<MjrOrderDetailDTO> lstMjrOrderDTOS = mjrOrderService.getListOrderDetail(orderId);
+        lstMjrOrderDTOS.forEach(e -> {
             e.setGoodsName(mapGoodsIdGoods.get(e.getGoodsId()).getName());
             e.setOutputPrice(mapGoodsIdGoods.get(e.getGoodsId()).getOutPrice());
 
@@ -398,11 +411,11 @@ public class ExportStockController extends BaseController {
                 CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
                 if (catPartnerDTO != null) {
                     String receiverName = "";
-                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())){
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
                         receiverName = receiverName + catPartnerDTO.getName();
                     }
-                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())){
-                        receiverName = receiverName+ "|" + catPartnerDTO.getTelNumber();
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())) {
+                        receiverName = receiverName + "|" + catPartnerDTO.getTelNumber();
                     }
                     mjrStockTransDTO.setReceiveId(catPartnerDTO.getId());
                     mjrStockTransDTO.setReceiveName(receiverName);
@@ -414,11 +427,11 @@ public class ExportStockController extends BaseController {
             CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId());
             if (catPartnerDTO != null) {
                 String receiverName = "";
-                if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())){
+                if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
                     receiverName = receiverName + catPartnerDTO.getName();
                 }
-                if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())){
-                    receiverName = receiverName+ "|" + catPartnerDTO.getTelNumber();
+                if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())) {
+                    receiverName = receiverName + "|" + catPartnerDTO.getTelNumber();
                 }
                 mjrStockTransDTO.setPartnerId(catPartnerDTO.getId());
                 mjrStockTransDTO.setPartnerName(receiverName);
