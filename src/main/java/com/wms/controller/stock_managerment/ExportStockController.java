@@ -423,7 +423,7 @@ public class ExportStockController extends BaseController {
             }
         }
         //Xuat hang cua doi tac
-        if (mjrStockTransDTO.getPartnerId() != null) {
+        if (!DataUtil.isStringNullOrEmpty(mjrStockTransDTO.getPartnerId())) {
             CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId());
             if (catPartnerDTO != null) {
                 String receiverName = "";

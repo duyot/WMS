@@ -294,7 +294,7 @@ public class ExportOrderStockController extends BaseController {
             }
         }
         //Xuat hang cua doi tac
-        if (mjrOrderDTO.getPartnerId() != null) {
+        if (!DataUtil.isStringNullOrEmpty(mjrOrderDTO.getPartnerId())) {
             CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrOrderDTO.getPartnerId());
             if (catPartnerDTO != null) {
                 String receiverName = "";
