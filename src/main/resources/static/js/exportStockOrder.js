@@ -74,7 +74,8 @@ $(function () {
             $('#cmb-partner').focus();
             return;
         }
-        doInsertData();
+        doCheckExists();
+
     });
     initDateRangeSelect();
     doSearch();
@@ -149,6 +150,55 @@ $(function () {
     });
 });
 
+function doCheckExists() {
+    $body.addClass("loading");
+    var stockIdValue = $('#cmb-stock').val();
+    var contractNumberValue = $('#inp-contract-number').val();
+    var descriptionValue = $('#inp-contract-note').val();
+    var receiveValue = $('#inp-receive-name').val();
+    var partnerIdValue = $('#cmb-partner').val();
+    var exportMethod = $('input[name=cmb-export-method]:checked').val();
+    var orderId =    $('#order-export-id').val();
+    var orderCode =    $('#order-export-code').val();
+
+    var mjrOrder = {
+        id : orderId,
+        code : orderCode,
+        stockId: stockIdValue,
+        description: descriptionValue,
+        receiveName: receiveValue,
+        partnerId: partnerIdValue,
+        exportMethod: exportMethod
+    };
+    var importData = JSON.stringify({lstMjrOrderDetailDTOS: $table.bootstrapTable('getData'), mjrOrderDTO: mjrOrder});
+
+    if(receiveValue != '' && descriptionValue != ''){
+        var existsCode;
+        $.ajax({
+            url: "/workspace/export_stock_order_ctr/checkExists",
+            data: importData,
+            cache: false,
+            contentType: "application/json",
+            dataType: 'json',
+            type: 'POST',
+            success: function (data) {
+               existsCode = data['code'];
+            },
+            error: function (data) {
+            },
+            complete: function () {
+                if (existsCode != '' && existsCode != null) {
+                    $("#modal-del-lbl-del-info").text('Đã tồn tại yêu cầu tương tự với cùng thông tin (Kho xuất, Khách hàng nhận, Ghi chú): ' + existsCode + '. Bạn có chắc chắn muốn ghi lại?');
+                    showModal($('#deleteConfirmModal'));
+                    return;
+                }else{
+                    doInsertData();
+                }
+            }
+        });
+    }
+}
+
 function doInsertData() {
     $body.addClass("loading");
     var stockIdValue = $('#cmb-stock').val();
@@ -170,6 +220,7 @@ function doInsertData() {
         exportMethod: exportMethod
     };
     var importData = JSON.stringify({lstMjrOrderDetailDTOS: $table.bootstrapTable('getData'), mjrOrderDTO: mjrOrder});
+
     $.ajax({
         url: updatePopupButton.val(),
         data: importData,
@@ -200,6 +251,12 @@ function doInsertData() {
         }
     });
 }
+
+var btnSaveConfirm = $('#modal-del-btn-ok');
+btnSaveConfirm.click(function () {
+    doInsertData();
+    hideModal($('#deleteConfirmModal'));
+});
 
 function runningFormatter(value, row, index) {
     return index + 1;

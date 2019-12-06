@@ -447,7 +447,13 @@ public class ExportStockController extends BaseController {
         List<String> lstPartneName = Lists.newArrayList();
         StringBuilder namePlus = new StringBuilder();
         for (CatPartnerDTO i : lstPartner) {
-            namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
+            namePlus.append(i.getCode());
+            if (!DataUtil.isStringNullOrEmpty(i.getName())){
+                namePlus.append("|").append(i.getName());
+            }
+            if (!DataUtil.isStringNullOrEmpty(i.getTelNumber())){
+                namePlus.append("|").append(i.getTelNumber());
+            }
             lstPartneName.add(namePlus.toString());
             namePlus.setLength(0);
         }
