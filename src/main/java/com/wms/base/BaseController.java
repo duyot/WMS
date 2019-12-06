@@ -1,13 +1,9 @@
 package com.wms.base;
 
+import com.google.common.collect.Lists;
 import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
-import com.wms.dto.AppParamsDTO;
-import com.wms.dto.CatCustomerDTO;
-import com.wms.dto.CatGoodsDTO;
-import com.wms.dto.CatPartnerDTO;
-import com.wms.dto.CatStockDTO;
-import com.wms.dto.CatUserDTO;
+import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.PartnerService;
 import com.wms.services.interfaces.StockService;
@@ -32,6 +28,8 @@ public class BaseController {
     @Autowired
     public BaseService catStockService;
     @Autowired
+    BaseService catStockCellService;
+    @Autowired
     public BaseService catGoodsService;
     @Autowired
     public BaseService catPartnerService;
@@ -39,123 +37,115 @@ public class BaseController {
     public BaseService appParamsService;
     @Autowired
     public ProfileConfigInterface profileConfig;
-    //
     @Autowired
     public StockService stockService;
     @Autowired
     public PartnerService partnerService;
+    @Autowired
+    private HttpServletRequest requestCtx;
     //STOCK
     public List<CatStockDTO> lstStock;
     public Map<String, CatStockDTO> mapStockIdStock;
-
-    //PARTNER
-    public List<CatPartnerDTO> lstPartner;
-    public Map<String, CatPartnerDTO> mapPartnerIdPartner;
+    //CELLS
+    public Map<String, List<CatStockCellDTO>> mapStockIdCells = new HashMap<>();
     //GOODS
     public Map<String, CatGoodsDTO> mapGoodsCodeGoods;
     public Map<String, CatGoodsDTO> mapGoodsIdGoods;
     public List<CatGoodsDTO> lstGoods;
-
+    //PARTNER
+    public List<CatPartnerDTO> lstPartner;
+    public Map<String, CatPartnerDTO> mapPartnerIdPartner = new HashMap<>();
+    public Map<String, CatPartnerDTO> mapPartnerCodePartner = new HashMap<>();;
+    public String lstPartnerIds;
     //APP_PARAMS
     public List<AppParamsDTO> lstAppParams;
     public List<AppParamsDTO> lstAppGoodsState;
-    //
     public Map<String, String> mapAppGoodsState;
     public Map<String, String> mapAppStatus;
     public Map<String, String> mapAppParamsUnitName;
     //
     public CatCustomerDTO selectedCustomer;
     public CatUserDTO currentUser;
-    public String lstPartnerIds;
+
     //
-    @ModelAttribute("currentUser")
-    public void setCurrentUser(HttpServletRequest request) {
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
+    public boolean isDataLoaded = false;
+
+    @PostConstruct
+    public void initBaseBean(){
+        this.currentUser = (CatUserDTO) requestCtx.getSession().getAttribute("user");
+        this.selectedCustomer = (CatCustomerDTO) requestCtx.getSession().getAttribute("selectedCustomer");
+        System.out.println("BC > PostConstruct");
+        initAppParams();
+        initStocks(requestCtx);
+        initCells();
+        initGoods(requestCtx);
+        initPartner();
+        isDataLoaded = true;
     }
-
-    @ModelAttribute("lstStock")
-    public List<CatStockDTO> getListStock(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
-        //
-
+    //-----------------------init data------------------------------------
+    private void initStocks(HttpServletRequest requestCtx) {
         if (lstStock == null) {
             if (currentUser != null && currentUser.getStockPermission().equals("0")) {
-                lstStock = FunctionUtils.getListStock(catStockService, selectedCustomer);
+                this.lstStock = FunctionUtils.getListStock(catStockService, selectedCustomer);
             } else {
-                lstStock = FunctionUtils.getListStock(stockService, currentUser);
+                this.lstStock = FunctionUtils.getListStock(stockService, currentUser);
             }
             buildMapStock();
-            request.getSession().setAttribute("isStockModified", false);
+            requestCtx.getSession().setAttribute("isStockModified", false);
         }
-        //
-        return lstStock;
     }
 
-    @ModelAttribute("lstPartner")
-    public List<CatPartnerDTO> getListPartner(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+    private void initCells() {
+        if (!DataUtil.isListNullOrEmpty(lstStock)) {
+            List<Condition> conditions = Lists.newArrayList();
+            List<CatStockCellDTO> cells;
+            for (CatStockDTO i: lstStock) {
+                conditions.clear();
+                conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, i.getId()));
+                cells = catStockCellService.findByCondition(conditions);
+                this.mapStockIdCells.put(i.getId(), cells);
+            }
         }
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
+    }
+
+    private void initGoods(HttpServletRequest requestCtx) {
+        if (lstGoods == null) {
+            this.lstGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer);
+            buildMapGoods();
+            requestCtx.getSession().setAttribute("isGoodsModified", false);
         }
+    }
+
+    private void initPartner() {
         if (currentUser != null && currentUser.getPartnerPermission().equals("0")) {
-            lstPartner = FunctionUtils.getListPartner(catPartnerService, selectedCustomer);
+            this.lstPartner = FunctionUtils.getListPartner(catPartnerService, selectedCustomer);
         } else {
-            lstPartner = FunctionUtils.getListPartner(partnerService, currentUser);
+            this.lstPartner = FunctionUtils.getListPartner(partnerService, currentUser);
         }
         buildMapPartner();
-
-        return lstPartner;
     }
 
-    @ModelAttribute("lstAppParams")
-    public List<AppParamsDTO> getListAppParams(HttpServletRequest request) {
+    private void initAppParams() {
 
         if (lstAppParams == null) {
-            lstAppParams = FunctionUtils.getAppParams(appParamsService);
+            this.lstAppParams = FunctionUtils.getAppParams(appParamsService);
         }
 
         if (lstAppGoodsState == null) {
-            lstAppGoodsState = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE, lstAppParams);
+            this.lstAppGoodsState = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE, lstAppParams);
         }
 
         if (mapAppGoodsState == null) {
-            mapAppGoodsState = FunctionUtils.buildMapAppParams(lstAppGoodsState);
+            this.mapAppGoodsState = FunctionUtils.buildMapAppParams(lstAppGoodsState);
         }
 
         if (mapAppParamsUnitName == null) {
-            mapAppParamsUnitName = FunctionUtils.buildMapAppParams(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams);
+            this.mapAppParamsUnitName = FunctionUtils.buildMapAppParams(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams);
         }
 
         if (mapAppStatus == null) {
-            mapAppStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STATUS, lstAppParams));
+            this.mapAppStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STATUS, lstAppParams));
         }
-
-        return lstAppParams;
-    }
-
-    @ModelAttribute("lstGoods")
-    public List<CatGoodsDTO> getListGoods(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-
-        if (lstGoods == null) {
-            lstGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer);
-            buildMapGoods();
-            request.getSession().setAttribute("isGoodsModified", false);
-        }
-
-        return lstGoods;
     }
     //==================================================================================================================
     public void buildMapGoods() {
@@ -179,13 +169,13 @@ public class BaseController {
     }
 
     public void buildMapPartner() {
-        mapPartnerIdPartner = new HashMap<>();
         lstPartnerIds = "";
         if (!DataUtil.isListNullOrEmpty(lstPartner)) {
             int size = lstPartner.size();
             for (int i = 0; i < size; i++) {
                 CatPartnerDTO catPartnerDTO = lstPartner.get(i);
                 mapPartnerIdPartner.put(catPartnerDTO.getId(), catPartnerDTO);
+                mapPartnerCodePartner.put(catPartnerDTO.getCode(), catPartnerDTO);
                 if (i == size - 1) {
                     lstPartnerIds = lstPartnerIds + catPartnerDTO.getId();
                 } else {
@@ -194,5 +184,6 @@ public class BaseController {
             }
         }
     }
+    //==================================================================================================================
 
 }

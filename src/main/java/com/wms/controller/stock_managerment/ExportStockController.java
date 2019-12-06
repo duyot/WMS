@@ -74,7 +74,7 @@ public class ExportStockController extends BaseController {
 
     //
     @PostConstruct
-    public void initBean() {
+    public void initBaseBean() {
         initMapUnitType();
     }
 
