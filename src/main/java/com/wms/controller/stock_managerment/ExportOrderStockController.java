@@ -245,7 +245,11 @@ public class ExportOrderStockController extends BaseController {
 
 
         String prefixFileName = "Thong_tin_chitiet_yeucau_xuatkho";
-        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
+        String templatePath = profileConfig.getTemplateURL() +selectedCustomer.getCode()+File.separator+ Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
+        File file = new  File(templatePath);
+        if (!file.exists()){
+            templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
+        }
 
         String outPutFile = profileConfig.getTempURL() + prefixFileName + "_" + DateTimeUtils.getTimeStamp() + ".docx";
         List<RealExportExcelDTO> realExportExcelDTOS = mjrOrderService.orderExportExcel(orderId);
@@ -274,7 +278,7 @@ public class ExportOrderStockController extends BaseController {
             parameters.put("custName", mjrOrderDTO.getReceiveName());
             parameters.put("stockName", mjrOrderDTO.getStockValue());
             parameters.put("description", mjrOrderDTO.getDescription());
-
+            parameters.put("createdUser", currentUser.getCode());
             JasperPrint jasperPrint = JasperFillManager.fillReport(templatePath, parameters, new JREmptyDataSource());
             JRDocxExporter export = new JRDocxExporter();
             export.setExporterInput(new SimpleExporterInput(jasperPrint));
