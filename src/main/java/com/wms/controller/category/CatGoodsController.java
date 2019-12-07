@@ -4,17 +4,12 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
-import com.wms.dto.CatCustomerDTO;
-import com.wms.dto.CatGoodsDTO;
-import com.wms.dto.CatGoodsGroupDTO;
-import com.wms.dto.Condition;
-import com.wms.dto.ImportFileResultDTO;
-import com.wms.dto.ListGoodsDTO;
-import com.wms.dto.ResponseObject;
+import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import com.wms.utils.JSONUtils;
+import com.wms.utils.SessionUtils;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,12 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -43,70 +33,36 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 @RequestMapping("/workspace/cat_goods_ctr")
 @Scope("session")
 public class CatGoodsController extends BaseController {
-    Logger log = LoggerFactory.getLogger(CatGoodsController.class);
-
     public LinkedHashMap<String, String> mapGoodsGroup;
-    public LinkedHashMap<String, String> mapUnitType;
-    public Map<String, String> mapAppGoodsState;
-
+    Logger log = LoggerFactory.getLogger(CatGoodsController.class);
     @Autowired
     BaseService catGoodsGroupService;
-
     @Autowired
     BaseService catGoodsService;
-
     @Autowired
     BaseService mjrStockGoodsTotalService;
 
-    private boolean isGoodsGroupModified(HttpServletRequest request) {
-        if (request.getSession().getAttribute("isCatGoodsGroupModified") == null) {
-            return true;
-        }
-        return (boolean) request.getSession().getAttribute("isCatGoodsGroupModified");
-    }
-
     @ModelAttribute("mapGoodsGroup")
     public Map<String, String> setLstGoodsGroup(HttpServletRequest request) {
-
-        if (mapGoodsGroup == null || isGoodsGroupModified(request)) {
+        if (mapGoodsGroup == null || SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.GOODS_GROUP_MODIFIED)) {
             mapGoodsGroup = new LinkedHashMap<>();
-            CatCustomerDTO curCust = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-            List<Condition> lstCon = Lists.newArrayList();
-            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
-            lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, curCust.getId()));
-            lstCon.add(new Condition("name", "VNM_ORDER", "asc"));
-            List<CatGoodsGroupDTO> lstCatGoodsGroup = catGoodsGroupService.findByCondition(lstCon);
-
-            for (CatGoodsGroupDTO i : lstCatGoodsGroup) {
-                mapGoodsGroup.put(i.getId(), i.getName());
+            List<CatGoodsGroupDTO> lstCatGoodsGroup = getCatGroup();
+            if (!DataUtil.isListNullOrEmpty(lstCatGoodsGroup)) {
+                for (CatGoodsGroupDTO i : lstCatGoodsGroup) {
+                    mapGoodsGroup.put(i.getId(), i.getName());
+                }
             }
-            //
-            request.getSession().setAttribute("isCatGoodsGroupModified", false);
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.GOODS_GROUP_MODIFIED);
         }
-        //
-        if (mapAppGoodsState == null) {
-            if (lstAppParams == null) {
-                lstAppParams = FunctionUtils.getAppParams(appParamsService);
-            }
-            mapAppGoodsState = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.GOODS_STATE, lstAppParams));
-        }
-
         return mapGoodsGroup;
     }
 
     @ModelAttribute("mapUnitType")
     public Map<String, String> setMapUnitType(HttpServletRequest request) {
-        //
-        if (mapUnitType == null) {
-            if (lstAppParams == null) {
-                lstAppParams = FunctionUtils.getAppParams(appParamsService);
-            }
-            mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams));
-        }
-        //
-        return mapUnitType;
+        return mapAppParamsUnitName;
     }
 
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catgoods");
@@ -119,14 +75,12 @@ public class CatGoodsController extends BaseController {
         FunctionUtils.loadFileToClient(response, profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_GOODS_TEMPLATE);
     }
 
-    //
     @RequestMapping(value = "/getErrorImportFile")
     public void getErrorImportFile(HttpServletRequest request, HttpServletResponse response) {
         String fileResource = profileConfig.getTempURL() + request.getSession().getAttribute("file_goods_import_error");
         FunctionUtils.loadFileToClient(response, fileResource);
     }
 
-    //
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public List<CatGoodsDTO> uploadFile(MultipartHttpServletRequest request) {
@@ -134,7 +88,7 @@ public class CatGoodsController extends BaseController {
         Iterator<String> itr = request.getFileNames();
         MultipartFile mpf = request.getFile(itr.next());
         //
-        ImportFileResultDTO importFileResult = FunctionUtils.getListGoodsImportFromFile(mpf, mapAppGoodsState, mapGoodsGroup, mapUnitType);
+        ImportFileResultDTO importFileResult = FunctionUtils.getListGoodsImportFromFile(mpf, mapAppGoodsState, mapGoodsGroup, mapAppParamsUnitName);
         if (!importFileResult.isValid()) {
             //save error file
             String prefixFileName = selectedCustomer.getId() + "_" + currentUser.getCode();
@@ -168,8 +122,6 @@ public class CatGoodsController extends BaseController {
 
         lstCon.add(new Condition("id", Constants.SQL_OPERATOR.ORDER, "desc"));
 
-        log.info(JSONUtils.object2JSONString(lstCon));
-
         List<CatGoodsDTO> lstCatGoods = catGoodsService.findByCondition(lstCon);
 
         for (CatGoodsDTO i : lstCatGoods) {
@@ -179,7 +131,7 @@ public class CatGoodsController extends BaseController {
             i.setGoodsGroupName(mapGoodsGroup.get(i.getGoodsGroupId()));
             i.setIsSerialName(i.getIsSerial().equals("1") ? "Có" : "Không");
             i.setStatusName(mapAppStatus.get(i.getStatus()));
-            i.setUnitTypeName(mapUnitType.get(i.getUnitType()));
+            i.setUnitTypeName(mapAppParamsUnitName.get(i.getUnitType()));
             i.setInPriceValue(FunctionUtils.formatNumber(i.getInPrice()));
             i.setOutPriceValue(FunctionUtils.formatNumber(i.getOutPrice()));
             i.setVolumeFromSize();
@@ -212,9 +164,8 @@ public class CatGoodsController extends BaseController {
         //
         ResponseObject response = catGoodsService.add(catGoods);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+            SessionUtils.setGoodsModified(request);
             log.info("Add: " + catGoods.toString() + " SUCCESS");
-            request.getSession().setAttribute("isGoodsModifiedImportStock", true);
-            request.getSession().setAttribute("isGoodsModifiedExportStock", true);
             return "1|Thêm mới thành công";
         } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
             log.info("ERROR");
@@ -267,8 +218,7 @@ public class CatGoodsController extends BaseController {
             insertResponse.setSuccess(lstGoods.size() + "");
         }
         //
-        request.getSession().setAttribute("isGoodsModifiedImportStock", true);
-        request.getSession().setAttribute("isGoodsModifiedExportStock", true);
+        SessionUtils.setGoodsModified(request);
         return insertResponse;
     }
 
@@ -299,9 +249,8 @@ public class CatGoodsController extends BaseController {
         log.info("Update cat_goods info: " + JSONUtils.object2JSONString(catGoods));
         ResponseObject response = catGoodsService.update(catGoods);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+            SessionUtils.setGoodsModified(request);
             log.info("SUCCESS");
-            request.getSession().setAttribute("isGoodsModifiedImportStock", true);
-            request.getSession().setAttribute("isGoodsModifiedExportStock", true);
             return "1|Cập nhật thành công";
         } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
             log.info("ERROR");
@@ -332,8 +281,7 @@ public class CatGoodsController extends BaseController {
             deletedGoods.setStatus(Constants.STATUS.DELETED);
             ResponseObject response = catGoodsService.update(deletedGoods);
             if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
-                request.getSession().setAttribute("isGoodsModifiedImportStock", true);
-                request.getSession().setAttribute("isGoodsModifiedExportStock", true);
+                SessionUtils.setGoodsModified(request);
                 return "1|Xoá thành công";
             } else {
                 return "0|Xoá không thành công";
@@ -341,6 +289,15 @@ public class CatGoodsController extends BaseController {
         } catch (NumberFormatException e) {
             return "0|Xoá không thành công lỗi convert long";
         }
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    private List<CatGoodsGroupDTO> getCatGroup() {
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
+        lstCon.add(new Condition("name", "VNM_ORDER", "asc"));
+        return catGoodsGroupService.findByCondition(lstCon);
     }
 
     public boolean isUsed(String id) {

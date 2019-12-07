@@ -10,10 +10,10 @@ import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import com.wms.utils.JSONUtils;
+import com.wms.utils.SessionUtils;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,37 +38,51 @@ public class ImportStockController extends BaseController {
     public BaseService catPartnerService;
     @Autowired
     public ProfileConfigInterface profileConfig;
+    public List<ComboSourceDTO> cells = Lists.newArrayList();
     @Autowired
     StockManagementService stockManagementService;
     @Autowired
     BaseService err$MjrStockGoodsSerialService;
     @Autowired
     BaseService catStockCellService;
-
-    public List<ComboSourceDTO> cells = Lists.newArrayList();
-    private HashSet<String> setGoodsCode = new HashSet<>();
+    private HashSet<String> setGoodsCode;
 
     private Logger log = LoggerFactory.getLogger(ImportStockController.class);
-
+    //------------------------------------------------------------------------------------------------------------------
     @PostConstruct
     public void init() {
         if (!isDataLoaded) {
-            System.out.println("Init basebean in ImportStockController.");
             initBaseBean();
         }
-        System.out.println("ImportStockController > PostConstruct");
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    @ModelAttribute("data-reload")
+    public void checkReloadData(HttpServletRequest request) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.IMPORT_GOODS_MODIFIED)) {
+            initGoods();
+            initSetGoodsCode();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.IMPORT_GOODS_MODIFIED);
+        }
     }
 
     @ModelAttribute("cells")
-    public List<ComboSourceDTO> getCells() {
+    public List<ComboSourceDTO> getCells(HttpServletRequest request) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.IMPORT_CELL_MODIFIED)) {
+            initCells();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.IMPORT_CELL_MODIFIED);
+        }
         return cells;
     }
 
     @ModelAttribute("lstStock")
-    public List<CatStockDTO> getStocks() {
+    public List<CatStockDTO> getStocks(HttpServletRequest request) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.IMPORT_STOCK_MODIFIED)) {
+            initStocks();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.IMPORT_STOCK_MODIFIED);
+        }
         return lstStock;
     }
-
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.importstock");
@@ -112,13 +126,13 @@ public class ImportStockController extends BaseController {
     public @ResponseBody
     List<ComboSourceDTO> getCellByStock(@RequestParam("stockId") String stockId) {
         cells.clear();
-        List<CatStockCellDTO> cells = mapStockIdCells.get(stockId);
-        if (!DataUtil.isStringNullOrEmpty(cells)) {
-            for (CatStockCellDTO i : cells) {
-                this.cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
+        List<CatStockCellDTO> cellInSelectedStock = mapStockIdCells.get(stockId);
+        if (!DataUtil.isStringNullOrEmpty(cellInSelectedStock)) {
+            for (CatStockCellDTO i : cellInSelectedStock) {
+                cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
             }
         }
-        return this.cells;
+        return cells;
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -152,6 +166,35 @@ public class ImportStockController extends BaseController {
         log.info("Import data: " + JSONUtils.object2JSONString(stockTrans));
         log.info("Result " + response.toString() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
+    }
+
+    @RequestMapping(value = "/getGoodsCode")
+    public @ResponseBody
+    List<String> getGoodsCodes() {
+        List<String> lstGoodsCode = Lists.newArrayList();
+        for (CatGoodsDTO i : lstGoods) {
+            lstGoodsCode.add(i.getCode() + "|" + i.getName());
+        }
+        return lstGoodsCode;
+    }
+
+    @RequestMapping(value = "/getPartnerName")
+    public @ResponseBody
+    List<String> getPartnerName() {
+        List<String> lstPartneName = Lists.newArrayList();
+        StringBuilder namePlus = new StringBuilder();
+        for (CatPartnerDTO i : lstPartner) {
+            namePlus.append(i.getCode());
+            if (!DataUtil.isStringNullOrEmpty(i.getName())) {
+                namePlus.append("|").append(i.getName());
+            }
+            if (!DataUtil.isStringNullOrEmpty(i.getTelNumber())) {
+                namePlus.append("|").append(i.getTelNumber());
+            }
+            lstPartneName.add(namePlus.toString());
+            namePlus.setLength(0);
+        }
+        return lstPartneName;
     }
 
     //@Support function--------------------------------------------------------------------------------------------------
@@ -247,48 +290,12 @@ public class ImportStockController extends BaseController {
         return mjrStockTransDTO;
     }
 
-    private boolean isGoodsModified(HttpServletRequest request) {
-        if (request.getSession().getAttribute("isGoodsModifiedImportStock") == null) {
-            return true;
-        }
-        return (boolean) request.getSession().getAttribute("isGoodsModifiedImportStock");
-    }
-
-    private boolean isStockModified(HttpServletRequest request) {
-        if (request.getSession().getAttribute("isStockModifiedImportStock") == null) {
-            return true;
-        }
-        //
-        return (boolean) request.getSession().getAttribute("isStockModifiedImportStock");
-
-    }
-
-    @RequestMapping(value = "/getGoodsCode")
-    public @ResponseBody
-    List<String> getGoodsCodes() {
-        List<String> lstGoodsCode = Lists.newArrayList();
-        for (CatGoodsDTO i : lstGoods) {
-            lstGoodsCode.add(i.getCode() + "|" + i.getName());
-        }
-        return lstGoodsCode;
-    }
-
-    @RequestMapping(value = "/getPartnerName")
-    public @ResponseBody
-    List<String> getPartnerName() {
-        List<String> lstPartneName = Lists.newArrayList();
-        StringBuilder namePlus = new StringBuilder();
-        for (CatPartnerDTO i : lstPartner) {
-            namePlus.append(i.getCode());
-            if (!DataUtil.isStringNullOrEmpty(i.getName())) {
-                namePlus.append("|").append(i.getName());
+    private void initSetGoodsCode(){
+        setGoodsCode = new HashSet<>();
+        if (!DataUtil.isListNullOrEmpty(lstGoods)) {
+            for (CatGoodsDTO i : lstGoods) {
+                setGoodsCode.add(i.getCode());
             }
-            if (!DataUtil.isStringNullOrEmpty(i.getTelNumber())) {
-                namePlus.append("|").append(i.getTelNumber());
-            }
-            lstPartneName.add(namePlus.toString());
-            namePlus.setLength(0);
         }
-        return lstPartneName;
     }
 }

@@ -9,11 +9,11 @@ import com.wms.services.interfaces.BaseService;
 import com.wms.utils.FunctionUtils;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  * Created by duyot on 4/10/2017.
@@ -23,31 +23,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class BaseCommonController {
     @Autowired
     public BaseService appParamsService;
+    @Autowired
+    public ProfileConfigInterface profileConfig;
     //
     public CatUserDTO currentUser;
     public CatCustomerDTO selectedCustomer;
     public List<AppParamsDTO> lstAppParams;
-    //
     public Map<String, String> mapAppStatus;
-    @Autowired
-    public ProfileConfigInterface profileConfig;
     //
+    @Autowired
+    private HttpServletRequest requestCtx;
 
-    @ModelAttribute("currentUser")
-    public void setCurrentUser(HttpServletRequest request) {
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
-
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        if (lstAppParams == null) {
-            lstAppParams = FunctionUtils.getAppParams(appParamsService);
-        }
-        if (mapAppStatus == null) {
-            mapAppStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STATUS, lstAppParams));
-        }
+    //
+    @PostConstruct
+    public void initBaseCommonBean() {
+        this.currentUser = (CatUserDTO) requestCtx.getSession().getAttribute("user");
+        this.selectedCustomer = (CatCustomerDTO) requestCtx.getSession().getAttribute("selectedCustomer");
+        initAppParams();
     }
 
+    private void initAppParams() {
+        this.lstAppParams = FunctionUtils.getAppParams(appParamsService);
+        this.mapAppStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STATUS, lstAppParams));
+    }
 }

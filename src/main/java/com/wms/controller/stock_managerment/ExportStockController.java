@@ -11,13 +11,8 @@ import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import com.wms.utils.JSONUtils;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import com.wms.utils.SessionUtils;
+import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,13 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -46,137 +35,66 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 public class ExportStockController extends BaseController {
     @Autowired
     public BaseService catPartnerService;
-    //
-    public List<CatPartnerDTO> lstPartner;
-    Logger log = LoggerFactory.getLogger(ExportStockController.class);
-    //
     @Autowired
     StockManagementService stockManagementService;
     @Autowired
     BaseService mjrStockGoodsTotalService;
     @Autowired
     BaseService err$MjrStockGoodsSerialService;
-    //
     @Autowired
     BaseService catStockCellService;
-
     @Autowired
     OrderExportService mjrOrderService;
-
     //
-    List<ComboSourceDTO> cells;
+    List<ComboSourceDTO> cells = new ArrayList<>();
     Map<String, String> mapCellIdCellCode = new HashMap<>();
     //
-    private HashSet<String> setGoodsCode = new HashSet<>();
+    Logger log = LoggerFactory.getLogger(ExportStockController.class);
     //
-    private int previousStockId = -1;
-    public LinkedHashMap<String, String> mapUnitType;
+    private HashSet<String> setGoodsCode;
 
-    //
+    //------------------------------------------------------------------------------------------------------------------
     @PostConstruct
-    public void initBaseBean() {
-        initMapUnitType();
-    }
-
-    private void initMapUnitType() {
-        //
-        if (lstAppParams == null) {
-            lstAppParams = FunctionUtils.getAppParams(appParamsService);
+    public void init() {
+        if (!isDataLoaded) {
+            initBaseBean();
         }
-        mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams));
     }
-
-    //
-    @ModelAttribute("setGoodsCode")
-    public void setGoodsCode(HttpServletRequest request) {
-        //
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        if (lstGoods == null || isGoodsModified(request)) {
-            lstGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer);
-            buildMapGoods();
-            //
-            for (CatGoodsDTO i : lstGoods) {
-                setGoodsCode.add(i.getCode());
-            }
-            request.getSession().setAttribute("isGoodsModifiedExportStock", false);
+    //------------------------------------------------------------------------------------------------------------------
+    @ModelAttribute("data-reload")
+    public void checkReloadData(HttpServletRequest request) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_GOODS_MODIFIED)) {
+            initGoods();
+            initSetGoodsCode();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_GOODS_MODIFIED);
         }
     }
 
     @ModelAttribute("lstPartner")
-    public List<CatPartnerDTO> setPartner(HttpServletRequest request) {
+    public List<CatPartnerDTO> setPartner() {
         return lstPartner;
-    }
-
-    @ModelAttribute("cells")
-    public List<ComboSourceDTO> getCells(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        //
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
-        //
-        if (lstStock == null || isStockModified(request)) {
-            lstStock = FunctionUtils.getListStock(stockService, currentUser);
-            buildMapStock();
-            request.getSession().setAttribute("isStockModifiedImportStock", false);
-        }
-        //
-        if (!DataUtil.isListNullOrEmpty(lstStock)) {
-            int currentStockId = Integer.parseInt(lstStock.get(0).getId());
-            if (cells == null || cells.size() == 0 || previousStockId != currentStockId) {
-                /*cells = Lists.newArrayList();
-                previousStockId = currentStockId;
-                List<Condition> conditions = Lists.newArrayList();
-                conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, currentStockId + ""));
-                List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions);
-                if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
-                    for (CatStockCellDTO i : cellsDTO) {
-                        cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
-                        mapCellIdCellCode.put(i.getId(), i.getCode());
-                    }
-                }*/
-            }
-        }
-        return cells;
-    }
-
-    private boolean isGoodsModified(HttpServletRequest request) {
-        if (request.getSession().getAttribute("isGoodsModifiedExportStock") == null) {
-            return true;
-        }
-        return (boolean) request.getSession().getAttribute("isGoodsModifiedExportStock");
-    }
-
-    private boolean isStockModified(HttpServletRequest request) {
-        if (request.getSession().getAttribute("isStockModifiedExportStock") == null) {
-            return true;
-        }
-        return (boolean) request.getSession().getAttribute("isStockModifiedExportStock");
     }
 
     //
     @ModelAttribute("getStock")
-    public void getStock(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+    public List<CatStockDTO> getStock(HttpServletRequest request) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_GOODS_MODIFIED)) {
+            initStocks();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_GOODS_MODIFIED);
         }
-        //
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
-        //
-        if (lstStock == null || isStockModified(request)) {
-            lstStock = FunctionUtils.getListStock(stockService, currentUser);
-            buildMapStock();
-            request.getSession().setAttribute("isStockModifiedExportStock", false);
-        }
+        return lstStock;
     }
 
-    //
+    @ModelAttribute("cells")
+    public List<ComboSourceDTO> getCells(HttpServletRequest request) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_CELL_MODIFIED)) {
+            initCells();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_CELL_MODIFIED);
+        }
+        return cells;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.exportstock");
@@ -292,6 +210,20 @@ public class ExportStockController extends BaseController {
         return response;
     }
 
+    @RequestMapping(value = "/getPartnerName")
+    public @ResponseBody
+    List<String> getPartnerName() {
+        List<String> lstPartneName = Lists.newArrayList();
+        StringBuilder namePlus = new StringBuilder();
+        for (CatPartnerDTO i : lstPartner) {
+            namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
+            lstPartneName.add(namePlus.toString());
+            namePlus.setLength(0);
+        }
+        return lstPartneName;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
     private MjrOrderDTO setInfoStockTrans(StockManagementDTO stockManagementDTO) {
         String orderId = stockManagementDTO.getMjrStockTransDTO().getOrderId();
 
@@ -317,7 +249,7 @@ public class ExportStockController extends BaseController {
             mjrStockTransDTO.setOrderCode(mjrOrderDTO.getCode());
             stockManagementDTO.setMjrStockTransDTO(mjrStockTransDTO);
         }
-        List<MjrStockTransDetailDTO> lstGoods = new ArrayList<MjrStockTransDetailDTO>();
+        List<MjrStockTransDetailDTO> lstGoods = new ArrayList<>();
         List<MjrOrderDetailDTO> lstMjrOrderDTOS = mjrOrderService.getListOrderDetail(orderId);
         lstMjrOrderDTOS.forEach(e -> {
             e.setGoodsName(mapGoodsIdGoods.get(e.getGoodsId()).getName());
@@ -345,7 +277,6 @@ public class ExportStockController extends BaseController {
         return mjrOrderDTO;
     }
 
-    //@Support function--------------------------------------------------------------------------------------------------
     private List<Err$MjrStockGoodsSerialDTO> getListImportError(String stockTransId) {
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("importStockTransId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, stockTransId));
@@ -381,7 +312,7 @@ public class ExportStockController extends BaseController {
             if (goodsItem != null) {
                 i.setGoodsId(goodsItem.getId());
                 i.setIsSerial(goodsItem.getIsSerial());
-                i.setUnitName(mapUnitType.get(goodsItem.getUnitType()));
+                i.setUnitName(mapAppParamsUnitName.get(goodsItem.getUnitType()));
             }
             //
             i.setOutputPrice(FunctionUtils.unformatFloat(i.getOutputPrice()));
@@ -441,29 +372,12 @@ public class ExportStockController extends BaseController {
         return mjrStockTransDTO;
     }
 
-    @RequestMapping(value = "/getPartnerName")
-    public @ResponseBody
-    List<String> getPartnerName() {
-        List<String> lstPartneName = Lists.newArrayList();
-        StringBuilder namePlus = new StringBuilder();
-        for (CatPartnerDTO i : lstPartner) {
-            namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
-            lstPartneName.add(namePlus.toString());
-            namePlus.setLength(0);
-        }
-        return lstPartneName;
-    }
-
-    //
-    @ModelAttribute("setPartnerName")
-    public void setPartnerName(HttpServletRequest request) {
-        //
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        if (lstPartner == null || isGoodsModified(request)) {
-            lstPartner = FunctionUtils.getListPartner(catPartnerService, selectedCustomer);
+    private void initSetGoodsCode() {
+        setGoodsCode = new HashSet<>();
+        if (!DataUtil.isListNullOrEmpty(lstGoods)) {
+            for (CatGoodsDTO i : lstGoods) {
+                setGoodsCode.add(i.getCode());
+            }
         }
     }
-
 }

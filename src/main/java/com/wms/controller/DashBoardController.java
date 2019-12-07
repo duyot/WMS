@@ -2,7 +2,6 @@ package com.wms.controller;
 
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
-import com.wms.dto.CatCustomerDTO;
 import com.wms.dto.ChartDTO;
 import com.wms.services.interfaces.StatisticService;
 import com.wms.utils.DataUtil;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,16 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DashBoardController extends BaseController {
     @Autowired
     StatisticService statisticService;
-
-    public CatCustomerDTO selectedCustomer;
-
-
-    @ModelAttribute("selectedCustomer")
-    public void setSelectedCustomer(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-    }
 
     @RequestMapping()
     public String home(HttpServletRequest request) {

@@ -3,7 +3,6 @@ package com.wms.controller.utils;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
-import com.wms.dto.AppParamsDTO;
 import com.wms.dto.Condition;
 import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.services.interfaces.BaseService;
@@ -15,13 +14,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,31 +38,10 @@ public class SearchSerialController extends BaseController {
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
     public Map<String, String> mapAppStockStatus;
 
-    @ModelAttribute
-    public void setAppStockStatus(HttpServletRequest request) {
-        if (mapAppStockStatus != null) {
-            return;
-        }
-
-        if (lstAppParams == null) {
-            lstAppParams = FunctionUtils.getAppParams(appParamsService);
-        }
-        //
-        buildMapStockStatus(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STOCK_STATUS, lstAppParams));
-        //
-        return;
+    @PostConstruct
+    public void init(){
+        mapAppStockStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STOCK_STATUS, lstAppParams));
     }
-
-    //
-    private void buildMapStockStatus(List<AppParamsDTO> lstAppParams) {
-        mapAppStockStatus = new HashMap<>();
-        if (!DataUtil.isListNullOrEmpty(lstAppParams)) {
-            for (AppParamsDTO i : lstAppParams) {
-                mapAppStockStatus.put(i.getCode(), i.getName());
-            }
-        }
-    }
-
 
     @RequestMapping()
     public String home(Model model) {

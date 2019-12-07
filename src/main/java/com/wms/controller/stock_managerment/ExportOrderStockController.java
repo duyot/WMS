@@ -10,11 +10,12 @@ import com.wms.services.interfaces.OrderExportService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
+import com.wms.utils.SessionUtils;
 import java.io.File;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -31,100 +32,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/workspace/export_stock_order_ctr")
 @Scope("session")
 public class ExportOrderStockController extends BaseController {
     @Autowired
-    OrderExportService mjrOrderService;
-    private Logger log = LoggerFactory.getLogger(ExportOrderStockController.class);
-    @Autowired
     public CatUserService catUserService;
     @Autowired
+    OrderExportService mjrOrderService;
+    @Autowired
     BaseService catStockCellService;
+    List<ComboSourceDTO> cells = Lists.newArrayList();
     private List<CatUserDTO> lstUsers;
     private List<MjrOrderDTO> lstOrder;
-    List<ComboSourceDTO> cells;
-    public LinkedHashMap<String, String> mapUnitType;
+    private Logger log = LoggerFactory.getLogger(ExportOrderStockController.class);
 
-    @RequestMapping()
-    public String home(Model model) {
-        model.addAttribute("menuName", "menu.exportStockOrder");
-        model.addAttribute("controller", "/workspace/export_stock_order_ctr/");
-        initMapUnitType();
-        return "stock_management/export_stock_order";
-    }
-
-//	@PostConstruct
-//	public void initBean() {
-//		initMapUnitType();
-//	}
-
-    private void initMapUnitType() {
-        //
-        if (lstAppParams == null) {
-            lstAppParams = FunctionUtils.getAppParams(appParamsService);
-        }
-        mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams));
+    @PostConstruct
+    public void init(){
+        this.lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
     }
 
     @ModelAttribute("lstUsers")
-    public List<CatUserDTO> setUsers(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        //
-        if (lstUsers == null) {
-            lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
-        }
+    public List<CatUserDTO> setUsers() {
         return lstUsers;
     }
 
     @ModelAttribute("cells")
     public List<ComboSourceDTO> getCells(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_ORDER_CELL_MODIFIED)) {
+            initCells();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_ORDER_CELL_MODIFIED);
         }
         //
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
-        //
-        if (lstStock == null || isStockModified(request)) {
-            lstStock = FunctionUtils.getListStock(stockService, currentUser);
-            buildMapStock();
-            request.getSession().setAttribute("isStockModifiedImportStock", false);
-        }
-        //
+        cells.clear();
         if (!DataUtil.isListNullOrEmpty(lstStock)) {
             int currentStockId = Integer.parseInt(lstStock.get(0).getId());
-            if (cells == null || cells.size() == 0) {
-                cells = Lists.newArrayList();
-                List<Condition> conditions = Lists.newArrayList();
-                conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, currentStockId + ""));
-                List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions);
-                if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
-                    for (CatStockCellDTO i : cellsDTO) {
-                        cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
-                    }
+            List<CatStockCellDTO> cellInSelectedStock = mapStockIdCells.get(currentStockId);
+            if (!DataUtil.isStringNullOrEmpty(cellInSelectedStock)) {
+                for (CatStockCellDTO i : cellInSelectedStock) {
+                    cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
                 }
             }
         }
         return cells;
     }
-
-    private boolean isStockModified(HttpServletRequest request) {
-        if (request.getSession().getAttribute("isStockModifiedExportStock") == null) {
-            return true;
-        }
-        return (boolean) request.getSession().getAttribute("isStockModifiedExportStock");
+    //==================================================================================================================
+    @RequestMapping()
+    public String home(Model model) {
+        model.addAttribute("menuName", "menu.exportStockOrder");
+        model.addAttribute("controller", "/workspace/export_stock_order_ctr/");
+        return "stock_management/export_stock_order";
     }
 
     @RequestMapping(value = "/findDataByCondition", method = RequestMethod.GET)
@@ -187,7 +146,7 @@ public class ExportOrderStockController extends BaseController {
             if (goodsItem != null) {
                 e.setGoodsId(goodsItem.getId());
                 e.setIsSerial(goodsItem.getIsSerial());
-                e.setUnitName(mapUnitType.get(goodsItem.getUnitType()));
+                e.setUnitName(mapAppParamsUnitName.get(goodsItem.getUnitType()));
             }
             if (!DataUtil.isNullOrEmpty(e.getSerial())) {
                 e.setIsSerial("1");
@@ -309,61 +268,5 @@ public class ExportOrderStockController extends BaseController {
             }
         }
         //
-    }
-
-    public OrderExportService getMjrOrderService() {
-        return mjrOrderService;
-    }
-
-    public void setMjrOrderService(OrderExportService mjrOrderService) {
-        this.mjrOrderService = mjrOrderService;
-    }
-
-    public Logger getLog() {
-        return log;
-    }
-
-    public void setLog(Logger log) {
-        this.log = log;
-    }
-
-    public CatUserService getCatUserService() {
-        return catUserService;
-    }
-
-    public void setCatUserService(CatUserService catUserService) {
-        this.catUserService = catUserService;
-    }
-
-    public BaseService getCatStockCellService() {
-        return catStockCellService;
-    }
-
-    public void setCatStockCellService(BaseService catStockCellService) {
-        this.catStockCellService = catStockCellService;
-    }
-
-    public List<CatUserDTO> getLstUsers() {
-        return lstUsers;
-    }
-
-    public void setLstUsers(List<CatUserDTO> lstUsers) {
-        this.lstUsers = lstUsers;
-    }
-
-    public List<MjrOrderDTO> getLstOrder() {
-        return lstOrder;
-    }
-
-    public void setLstOrder(List<MjrOrderDTO> lstOrder) {
-        this.lstOrder = lstOrder;
-    }
-
-    public LinkedHashMap<String, String> getMapUnitType() {
-        return mapUnitType;
-    }
-
-    public void setMapUnitType(LinkedHashMap<String, String> mapUnitType) {
-        this.mapUnitType = mapUnitType;
     }
 }

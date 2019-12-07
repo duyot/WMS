@@ -9,6 +9,7 @@ import com.wms.dto.Condition;
 import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
+import com.wms.utils.SessionUtils;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -29,13 +30,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/workspace/cat_goods_group_ctr")
 @Scope("session")
 public class CatGoodsGroupController extends BaseCommonController {
-    private Logger log = LoggerFactory.getLogger(CatGoodsGroupController.class);
     @Autowired
     BaseService catGoodsGroupService;
-
     @Autowired
     BaseService catGoodsService;
-
+    private Logger log = LoggerFactory.getLogger(CatGoodsGroupController.class);
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catgoodsgroup");
@@ -47,7 +47,6 @@ public class CatGoodsGroupController extends BaseCommonController {
     List<CatGoodsGroupDTO> findByCondition(@RequestParam("status") String status) {
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
-        //lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.NOT_EQUAL, Constants.STATUS.DELETED));
 
         if (!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)) {
             lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, status));
@@ -73,7 +72,7 @@ public class CatGoodsGroupController extends BaseCommonController {
         ResponseObject response = catGoodsGroupService.add(catGoodsGroup);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             log.info("Add: " + catGoodsGroup.toString() + " SUCCESS");
-            request.getSession().setAttribute("isCatGoodsGroupModified", true);
+            SessionUtils.setGoodsGroupModified(request);
             return "1|Thêm mới thành công";
         } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
             log.info("Add: " + catGoodsGroup.toString() + " ERROR");
@@ -97,7 +96,7 @@ public class CatGoodsGroupController extends BaseCommonController {
         ResponseObject response = catGoodsGroupService.update(catGoodsGroup);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             log.info("SUCCESS");
-            request.getSession().setAttribute("isCatGoodsGroupModified", true);
+            SessionUtils.setGoodsGroupModified(request);
             return "1|Cập nhật thành công";
         } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
             log.info("ERROR");
@@ -126,7 +125,7 @@ public class CatGoodsGroupController extends BaseCommonController {
             deleteObject.setStatus(Constants.STATUS.DELETED);
             ResponseObject response = catGoodsGroupService.update(deleteObject);
             if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
-                request.getSession().setAttribute("isCatGoodsGroupModified", true);
+                SessionUtils.setGoodsGroupModified(request);
                 return "1|Xoá thành công";
             } else {
                 return "0|Xoá không thành công";

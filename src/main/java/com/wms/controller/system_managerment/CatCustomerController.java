@@ -29,15 +29,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/workspace/cat_customer_ctr")
 @Scope("session")
 public class CatCustomerController extends BaseCommonController {
-    private Logger log = LoggerFactory.getLogger(CatCustomerController.class);
-
     @Autowired
     BaseService catCustServicesImpl;
-
     @Autowired
     BaseService mapUserPartnerServiceImpl;
-
-
+    private Logger log = LoggerFactory.getLogger(CatCustomerController.class);
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catcustomer");

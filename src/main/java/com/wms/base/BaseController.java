@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  * Created by duyot on 3/31/2017.
@@ -27,8 +26,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class BaseController {
     @Autowired
     public BaseService catStockService;
-    @Autowired
-    BaseService catStockCellService;
     @Autowired
     public BaseService catGoodsService;
     @Autowired
@@ -41,21 +38,19 @@ public class BaseController {
     public StockService stockService;
     @Autowired
     public PartnerService partnerService;
-    @Autowired
-    private HttpServletRequest requestCtx;
     //STOCK
     public List<CatStockDTO> lstStock;
     public Map<String, CatStockDTO> mapStockIdStock;
     //CELLS
-    public Map<String, List<CatStockCellDTO>> mapStockIdCells = new HashMap<>();
+    public Map<String, List<CatStockCellDTO>> mapStockIdCells;
     //GOODS
     public Map<String, CatGoodsDTO> mapGoodsCodeGoods;
     public Map<String, CatGoodsDTO> mapGoodsIdGoods;
     public List<CatGoodsDTO> lstGoods;
     //PARTNER
     public List<CatPartnerDTO> lstPartner;
-    public Map<String, CatPartnerDTO> mapPartnerIdPartner = new HashMap<>();
-    public Map<String, CatPartnerDTO> mapPartnerCodePartner = new HashMap<>();;
+    public Map<String, CatPartnerDTO> mapPartnerIdPartner;
+    public Map<String, CatPartnerDTO> mapPartnerCodePartner;
     public String lstPartnerIds;
     //APP_PARAMS
     public List<AppParamsDTO> lstAppParams;
@@ -66,40 +61,40 @@ public class BaseController {
     //
     public CatCustomerDTO selectedCustomer;
     public CatUserDTO currentUser;
-
     //
     public boolean isDataLoaded = false;
+    @Autowired
+    BaseService catStockCellService;
+    @Autowired
+    private HttpServletRequest requestCtx;
 
     @PostConstruct
-    public void initBaseBean(){
+    public void initBaseBean() {
         this.currentUser = (CatUserDTO) requestCtx.getSession().getAttribute("user");
         this.selectedCustomer = (CatCustomerDTO) requestCtx.getSession().getAttribute("selectedCustomer");
-        System.out.println("BC > PostConstruct");
         initAppParams();
-        initStocks(requestCtx);
+        initStocks();
         initCells();
-        initGoods(requestCtx);
+        initGoods();
         initPartner();
         isDataLoaded = true;
     }
     //-----------------------init data------------------------------------
-    private void initStocks(HttpServletRequest requestCtx) {
-        if (lstStock == null) {
-            if (currentUser != null && currentUser.getStockPermission().equals("0")) {
-                this.lstStock = FunctionUtils.getListStock(catStockService, selectedCustomer);
-            } else {
-                this.lstStock = FunctionUtils.getListStock(stockService, currentUser);
-            }
-            buildMapStock();
-            requestCtx.getSession().setAttribute("isStockModified", false);
+    public void initStocks() {
+        if (currentUser != null && currentUser.getStockPermission().equals("0")) {
+            this.lstStock = FunctionUtils.getListStock(catStockService, selectedCustomer);
+        } else {
+            this.lstStock = FunctionUtils.getListStock(stockService, currentUser);
         }
+        buildMapStock();
     }
 
-    private void initCells() {
+    public void initCells() {
+        mapStockIdCells = new HashMap<>();
         if (!DataUtil.isListNullOrEmpty(lstStock)) {
             List<Condition> conditions = Lists.newArrayList();
             List<CatStockCellDTO> cells;
-            for (CatStockDTO i: lstStock) {
+            for (CatStockDTO i : lstStock) {
                 conditions.clear();
                 conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, i.getId()));
                 cells = catStockCellService.findByCondition(conditions);
@@ -108,12 +103,9 @@ public class BaseController {
         }
     }
 
-    private void initGoods(HttpServletRequest requestCtx) {
-        if (lstGoods == null) {
-            this.lstGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer);
-            buildMapGoods();
-            requestCtx.getSession().setAttribute("isGoodsModified", false);
-        }
+    public void initGoods() {
+        this.lstGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer);
+        buildMapGoods();
     }
 
     private void initPartner() {
@@ -126,7 +118,6 @@ public class BaseController {
     }
 
     private void initAppParams() {
-
         if (lstAppParams == null) {
             this.lstAppParams = FunctionUtils.getAppParams(appParamsService);
         }
@@ -171,6 +162,8 @@ public class BaseController {
     public void buildMapPartner() {
         lstPartnerIds = "";
         if (!DataUtil.isListNullOrEmpty(lstPartner)) {
+            mapPartnerIdPartner = new HashMap<>();
+            mapPartnerCodePartner = new HashMap<>();
             int size = lstPartner.size();
             for (int i = 0; i < size; i++) {
                 CatPartnerDTO catPartnerDTO = lstPartner.get(i);

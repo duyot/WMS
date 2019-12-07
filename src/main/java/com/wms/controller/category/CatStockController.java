@@ -15,6 +15,7 @@ import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.StockService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
+import com.wms.utils.SessionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,23 +58,6 @@ public class CatStockController extends BaseCommonController {
 
     public List<CatStockDTO> lstStock;
 
-    @ModelAttribute("lstStock")
-    public List<CatStockDTO> getListStock(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
-        //
-        if (lstStock == null) {
-            lstStock = FunctionUtils.getListStock(stockService, currentUser);
-        }
-        //
-        return lstStock;
-    }
-
-
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catstock");
@@ -83,11 +67,6 @@ public class CatStockController extends BaseCommonController {
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public @ResponseBody
     List<CatStockDTO> findByCondition(@RequestParam("status") String status) {
-        /*
-        if (status.equals(Constants.STATS_ALL) || DataUtil.isStringNullOrEmpty(status)) {
-            return lstStock;
-        }
-        */
         lstStock = FunctionUtils.getListStock(stockService, currentUser);
         for (CatStockDTO i : lstStock) {
             i.setStatusName(mapAppStatus.get(i.getStatus()));
@@ -108,12 +87,13 @@ public class CatStockController extends BaseCommonController {
 
     @RequestMapping(value = "/addCell", method = RequestMethod.POST)
     public @ResponseBody
-    String addCell(@RequestParam("stockId") String stockId, @RequestParam("code") String code) {
+    String addCell(HttpServletRequest request, @RequestParam("stockId") String stockId, @RequestParam("code") String code) {
         CatStockCellDTO cell = new CatStockCellDTO();
         cell.setStockId(stockId);
         cell.setCode(code.toUpperCase());
         ResponseObject response = catStockCellService.add(cell);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+            SessionUtils.setCellModified(request);
             return "1|Thêm mới thành công";
         } else {
             return "0|Thông tin đã có trên hệ thống";
@@ -122,9 +102,10 @@ public class CatStockController extends BaseCommonController {
 
     @RequestMapping(value = "/deleteCell", method = RequestMethod.POST)
     public @ResponseBody
-    String deleteCell(@RequestParam("id") String id) {
+    String deleteCell(HttpServletRequest request, @RequestParam("id") String id) {
         ResponseObject response = catStockCellService.delete(Long.parseLong(id));
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+            SessionUtils.setCellModified(request);
             return "1|Xóa thành công";
         } else {
             return "0|Xóa không thành công";
@@ -152,8 +133,7 @@ public class CatStockController extends BaseCommonController {
                 log.info("Add " + stockids + " to for user successfully....");
             }
             //
-            request.getSession().setAttribute("isStockModifiedImportStock", true);
-            request.getSession().setAttribute("isStockModifiedExportStock", true);
+            SessionUtils.setStockModified(request);
             return "1|Thêm mới thành công";
         } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
             log.info("Add: " + catStockDTO.toString() + " ERROR");
@@ -178,8 +158,7 @@ public class CatStockController extends BaseCommonController {
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             log.info("SUCCESS");
             //
-            request.getSession().setAttribute("isStockModifiedImportStock", true);
-            request.getSession().setAttribute("isStockModifiedExportStock", true);
+            SessionUtils.setStockModified(request);
             return "1|Cập nhật thành công";
         } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
             log.info("ERROR");
@@ -203,6 +182,7 @@ public class CatStockController extends BaseCommonController {
             //
             if (isDeleteStockAvailable(code)) {
                 catStockService.delete(idL);
+                SessionUtils.setStockModified(request);
                 return "1|Xoá thành công";
             }
             //
@@ -210,8 +190,7 @@ public class CatStockController extends BaseCommonController {
             deleteStock.setStatus(Constants.STATUS.DELETED);
             ResponseObject response = catStockService.update(deleteStock);
             if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
-                request.getSession().setAttribute("isStockModifiedImportStock", true);
-                request.getSession().setAttribute("isStockModifiedExportStock", true);
+                SessionUtils.setStockModified(request);
                 return "1|Xoá thành công";
             } else {
                 return "0|Xoá không thành công";
@@ -236,9 +215,4 @@ public class CatStockController extends BaseCommonController {
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.DELETED));
         return !DataUtil.isListNullOrEmpty(catStockService.findByCondition(lstCon));
     }
-
-    private boolean isStockModified(HttpServletRequest request) {
-        return (boolean) request.getSession().getAttribute("isStockModifiedImportStock");
-    }
-
 }

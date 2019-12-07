@@ -29,11 +29,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/workspace/app_params_ctr")
 @Scope("session")
 public class AppParamsController extends BaseCommonController {
-    Logger log = LoggerFactory.getLogger(CatPartnerController.class);
-
     @Autowired
     BaseService appParamsService;
 
+    Logger log = LoggerFactory.getLogger(AppParamsController.class);
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.appParams");
