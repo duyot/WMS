@@ -247,7 +247,9 @@ public class ExportOrderStockController extends BaseController {
         String prefixFileName = "Thong_tin_chitiet_yeucau_xuatkho";
         String templatePath = profileConfig.getTemplateURL() +selectedCustomer.getCode()+File.separator+ Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
         File file = new  File(templatePath);
+        log.info("url " + templatePath);
         if (!file.exists()){
+            log.info("Url is not exist  " + templatePath);
             templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
         }
 
