@@ -11,6 +11,7 @@ public class RealExportExcelDTO {
     private String unitName;
     private String weight;
     private String volume;
+    private String produceDate;
     private String cellCode;
     private String description;
 
@@ -99,5 +100,13 @@ public class RealExportExcelDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getProduceDate() {
+        return produceDate;
+    }
+
+    public void setProduceDate(String produceDate) {
+        this.produceDate = produceDate;
     }
 }

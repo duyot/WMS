@@ -172,6 +172,31 @@ public class ExportOrderStockController extends BaseController {
         }
         return mjrOrderService.deleteOrder(orderid);
     }
+	
+	@RequestMapping(value = "/checkExists", method = RequestMethod.POST)
+	@ResponseBody
+	public MjrOrderDTO checkExists(@RequestBody OrderExportDTO orderExportDTO) {
+		MjrOrderDTO mjrOrderDTO = orderExportDTO.getMjrOrderDTO();
+		initExportOrder(mjrOrderDTO);
+		List<Condition> lstCon = Lists.newArrayList();
+
+		lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
+		lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getStockId()));
+		lstCon.add(new Condition("receiveId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getReceiveId()));
+		lstCon.add(new Condition("description", Constants.SQL_PRO_TYPE.STRING, Constants.SQL_OPERATOR.LIKE, mjrOrderDTO.getDescription()));
+
+		List<MjrOrderDTO> lstOrderExists = mjrOrderService.findByCondition(lstCon);
+		List<MjrOrderDTO> LstResult = Lists.newArrayList();
+		for(MjrOrderDTO obj : lstOrderExists){
+			if(DataUtil.isNullOrEmpty(mjrOrderDTO.getId()) || !mjrOrderDTO.getId().equals(obj.getId())){
+				LstResult.add(obj);
+			}
+		}
+		if(DataUtil.isListNullOrEmpty(LstResult)){
+			return new MjrOrderDTO();
+		}
+		return LstResult.get(0);
+	}
 
     //==================================================================================================================
     @RequestMapping(value = "/orderExportFile", method = RequestMethod.GET)
@@ -179,7 +204,13 @@ public class ExportOrderStockController extends BaseController {
 
 
         String prefixFileName = "Thong_tin_chitiet_yeucau_xuatkho";
-        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
+        String templatePath = profileConfig.getTemplateURL() +selectedCustomer.getCode()+File.separator+ File.separator + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
+        File file = new  File(templatePath);
+        log.info("url " + templatePath);
+        if (!file.exists()){
+            log.info("Url is not exist  " + templatePath);
+            templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
+        }
 
         String outPutFile = profileConfig.getTempURL() + prefixFileName + "_" + DateTimeUtils.getTimeStamp() + ".docx";
         List<RealExportExcelDTO> realExportExcelDTOS = mjrOrderService.orderExportExcel(orderId);
@@ -208,7 +239,7 @@ public class ExportOrderStockController extends BaseController {
             parameters.put("custName", mjrOrderDTO.getReceiveName());
             parameters.put("stockName", mjrOrderDTO.getStockValue());
             parameters.put("description", mjrOrderDTO.getDescription());
-
+            parameters.put("createdUser", currentUser.getCode());
             JasperPrint jasperPrint = JasperFillManager.fillReport(templatePath, parameters, new JREmptyDataSource());
             JRDocxExporter export = new JRDocxExporter();
             export.setExporterInput(new SimpleExporterInput(jasperPrint));
@@ -253,7 +284,7 @@ public class ExportOrderStockController extends BaseController {
             }
         }
         //Xuat hang cua doi tac
-        if (mjrOrderDTO.getPartnerId() != null) {
+        if (!DataUtil.isStringNullOrEmpty(mjrOrderDTO.getPartnerId())) {
             CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrOrderDTO.getPartnerId());
             if (catPartnerDTO != null) {
                 String receiverName = "";
