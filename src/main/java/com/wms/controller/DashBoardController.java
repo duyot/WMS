@@ -26,6 +26,7 @@ public class DashBoardController extends BaseController {
     @Autowired
     StatisticService statisticService;
 
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(HttpServletRequest request) {
         Object isLogin = request.getSession().getAttribute("isLogin");
@@ -35,14 +36,12 @@ public class DashBoardController extends BaseController {
         return "workspace/dashboard";
     }
 
-    //select customer
     @RequestMapping(value = "/getRevenue/{type}", method = RequestMethod.GET)
     public @ResponseBody
     List<ChartDTO> getRevenue(@PathVariable("type") String type) {
         return statisticService.getRevenue(selectedCustomer.getId(), type);
     }
 
-    //select customer
     @RequestMapping(value = "/getTopGoods/{type}", method = RequestMethod.GET)
     public @ResponseBody
     List<ChartDTO> getTopGoods(@PathVariable("type") String type) {
@@ -57,20 +56,19 @@ public class DashBoardController extends BaseController {
         return lstTopGoods;
     }
 
-    //select customer
     @RequestMapping(value = "/getKPIStorage/{type}", method = RequestMethod.GET)
     public @ResponseBody
     List<ChartDTO> getKPIStorage(@PathVariable("type") String type) {
         return statisticService.getKPIStorage(selectedCustomer.getId(), type, currentUser.getId());
     }
 
-    //select customer
     @RequestMapping(value = "/getTransaction/{type}", method = RequestMethod.GET)
     public @ResponseBody
     List<ChartDTO> getTransaction(@PathVariable("type") String type) {
         return statisticService.getTransaction(selectedCustomer.getId(), type, currentUser.getId());
     }
 
+    //------------------------------------------------------------------------------------------------------------------
     private void setGoodsNameForTopGoods(ChartDTO item) {
         item.setName(FunctionUtils.getMapValue(mapGoodsIdGoods, item.getName()));
     }

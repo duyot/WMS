@@ -48,6 +48,7 @@ public class ImportStockController extends BaseController {
     private HashSet<String> setGoodsCode;
 
     private Logger log = LoggerFactory.getLogger(ImportStockController.class);
+
     //------------------------------------------------------------------------------------------------------------------
     @PostConstruct
     public void init() {
@@ -55,6 +56,7 @@ public class ImportStockController extends BaseController {
             initBaseBean();
         }
     }
+
     //------------------------------------------------------------------------------------------------------------------
     @ModelAttribute("data-reload")
     public void checkReloadData(HttpServletRequest request) {
@@ -82,6 +84,7 @@ public class ImportStockController extends BaseController {
         }
         return lstStock;
     }
+
     //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
@@ -290,7 +293,7 @@ public class ImportStockController extends BaseController {
         return mjrStockTransDTO;
     }
 
-    private void initSetGoodsCode(){
+    private void initSetGoodsCode() {
         setGoodsCode = new HashSet<>();
         if (!DataUtil.isListNullOrEmpty(lstGoods)) {
             for (CatGoodsDTO i : lstGoods) {
