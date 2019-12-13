@@ -8,34 +8,18 @@ import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.PartnerService;
 import com.wms.services.interfaces.StockService;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jxls.transformer.Configuration;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -844,27 +828,6 @@ public class FunctionUtils {
     //13,000 -> 13000
     public static String unformatFloat(String input) {
         return input.replaceAll(",", "");
-    }
-
-    /*
-       get partnerId from
-    */
-    public static CatPartnerDTO getPartner(BaseService service, String custId, String partnerCode, String partnerId) {
-        List<Condition> lstCondition = Lists.newArrayList();
-        lstCondition.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
-        if (partnerCode != null && !partnerCode.trim().equalsIgnoreCase("")) {
-            lstCondition.add(new Condition("code", Constants.SQL_OPERATOR.EQUAL, partnerCode.trim()));
-        }
-        if (!DataUtil.isStringNullOrEmpty(partnerId)) {
-            lstCondition.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, partnerId));
-        }
-        lstCondition.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, custId));
-        CatPartnerDTO catPartnerDTO = new CatPartnerDTO();
-        List<CatPartnerDTO> lstPartnerDTOS = service.findByCondition(lstCondition);
-        if (!DataUtil.isListNullOrEmpty(lstPartnerDTOS)) {
-            catPartnerDTO = lstPartnerDTOS.get(0);
-        }
-        return catPartnerDTO;
     }
 
     public static float calTotalMoney(String amount, String price) {

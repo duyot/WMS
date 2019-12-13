@@ -3,11 +3,7 @@ package com.wms.sercurity;
 import com.wms.dto.ActionMenuDTO;
 import com.wms.dto.CatUserDTO;
 import com.wms.utils.DataUtil;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -102,10 +98,7 @@ public class WMSUserDetails implements UserDetails, CredentialsContainer {
         if (that.getCatUserDTO() == null) {
             return false;
         }
-        if (catUserDTO.getId().equalsIgnoreCase(that.getCatUserDTO().getId())) {
-            return true;
-        }
-        return false;
+        return catUserDTO.getId().equalsIgnoreCase(that.getCatUserDTO().getId());
     }
 
     @Override

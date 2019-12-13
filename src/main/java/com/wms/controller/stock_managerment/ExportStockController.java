@@ -48,9 +48,7 @@ public class ExportStockController extends BaseController {
     //
     List<ComboSourceDTO> cells = new ArrayList<>();
     Map<String, String> mapCellIdCellCode = new HashMap<>();
-    //
     Logger log = LoggerFactory.getLogger(ExportStockController.class);
-    //
     private HashSet<String> setGoodsCode;
 
     //------------------------------------------------------------------------------------------------------------------
@@ -60,6 +58,7 @@ public class ExportStockController extends BaseController {
             initBaseBean();
         }
     }
+
     //------------------------------------------------------------------------------------------------------------------
     @ModelAttribute("data-reload")
     public void checkReloadData(HttpServletRequest request) {
@@ -68,36 +67,23 @@ public class ExportStockController extends BaseController {
             initSetGoodsCode();
             SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_GOODS_MODIFIED);
         }
-    }
-
-    @ModelAttribute("lstPartner")
-    public List<CatPartnerDTO> setPartner() {
-        return lstPartner;
-    }
-
-    //
-    @ModelAttribute("getStock")
-    public List<CatStockDTO> getStock(HttpServletRequest request) {
-        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_GOODS_MODIFIED)) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_STOCK_MODIFIED)) {
             initStocks();
-            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_GOODS_MODIFIED);
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_STOCK_MODIFIED);
         }
-        return lstStock;
-    }
-
-    @ModelAttribute("cells")
-    public List<ComboSourceDTO> getCells(HttpServletRequest request) {
         if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_CELL_MODIFIED)) {
             initCells();
             SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_CELL_MODIFIED);
         }
-        return cells;
     }
 
     //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.exportstock");
+        model.addAttribute("lstPartner", lstPartner);
+        model.addAttribute("lstStock", lstStock);
+        model.addAttribute("cells", cells);
         return "stock_management/export_stock";
     }
 
@@ -339,7 +325,7 @@ public class ExportStockController extends BaseController {
             String[] splitPartner = mjrStockTransDTO.getReceiveName().split("\\|");
             if (splitPartner.length > 0) {
                 String partnerCode = splitPartner[0];
-                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
+                CatPartnerDTO catPartnerDTO = mapPartnerCodePartner.get(partnerCode);
                 if (catPartnerDTO != null) {
                     String receiverName = "";
                     if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
@@ -354,8 +340,8 @@ public class ExportStockController extends BaseController {
             }
         }
         //Xuat hang cua doi tac
-        if (mjrStockTransDTO.getPartnerId() != null) {
-            CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId());
+        if (!DataUtil.isStringNullOrEmpty(mjrStockTransDTO.getPartnerId())) {
+            CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(mjrStockTransDTO.getPartnerId());
             if (catPartnerDTO != null) {
                 String receiverName = "";
                 if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {

@@ -13,7 +13,7 @@ import com.wms.utils.SessionUtils;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -33,8 +33,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 @RequestMapping("/workspace/cat_goods_ctr")
 @Scope("session")
 public class CatGoodsController extends BaseController {
-    public LinkedHashMap<String, String> mapGoodsGroup;
-    Logger log = LoggerFactory.getLogger(CatGoodsController.class);
     @Autowired
     BaseService catGoodsGroupService;
     @Autowired
@@ -42,34 +40,36 @@ public class CatGoodsController extends BaseController {
     @Autowired
     BaseService mjrStockGoodsTotalService;
 
-    @ModelAttribute("mapGoodsGroup")
-    public Map<String, String> setLstGoodsGroup(HttpServletRequest request) {
-        if (mapGoodsGroup == null || SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.GOODS_GROUP_MODIFIED)) {
-            mapGoodsGroup = new LinkedHashMap<>();
-            List<CatGoodsGroupDTO> lstCatGoodsGroup = getCatGroup();
-            if (!DataUtil.isListNullOrEmpty(lstCatGoodsGroup)) {
-                for (CatGoodsGroupDTO i : lstCatGoodsGroup) {
-                    mapGoodsGroup.put(i.getId(), i.getName());
-                }
-            }
-            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.GOODS_GROUP_MODIFIED);
+    private LinkedHashMap<String, String> mapGoodsGroup;
+    private Logger log = LoggerFactory.getLogger(CatGoodsController.class);
+
+    //------------------------------------------------------------------------------------------------------------------
+    @PostConstruct
+    public void init() {
+        if (!isDataLoaded) {
+            initBaseBean();
         }
-        return mapGoodsGroup;
+        initmapGoodsGroup();
     }
 
-    @ModelAttribute("mapUnitType")
-    public Map<String, String> setMapUnitType(HttpServletRequest request) {
-        return mapAppParamsUnitName;
+    //------------------------------------------------------------------------------------------------------------------
+    @ModelAttribute("data-reload")
+    public void checkReloadData(HttpServletRequest request) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.GOODS_GROUP_MODIFIED)) {
+            initmapGoodsGroup();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.GOODS_GROUP_MODIFIED);
+        }
     }
 
     //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catgoods");
+        model.addAttribute("mapUnitType", mapAppParamsUnitName);
+        model.addAttribute("mapGoodsGroup", mapGoodsGroup);
         return "category/cat_goods";
     }
 
-    //
     @RequestMapping(value = "/getTemplateFile")
     public void getTemplateFile(HttpServletResponse response) {
         FunctionUtils.loadFileToClient(response, profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_GOODS_TEMPLATE);
@@ -100,7 +100,6 @@ public class CatGoodsController extends BaseController {
         return importFileResult.getLstGoods();
     }
 
-    //
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public @ResponseBody
     List<CatGoodsDTO> findByCondition(@RequestParam("status") String status, @RequestParam("goodsCode") String goodsCode, @RequestParam("goodsGroupId") String goodsGroupId) {
@@ -139,8 +138,6 @@ public class CatGoodsController extends BaseController {
             i.setWidth(FunctionUtils.formatNumber(i.getWidth()));
             i.setHigh(FunctionUtils.formatNumber(i.getHigh()));
             i.setWeight(FunctionUtils.formatNumber(i.getWeight()));
-
-
         }
 
         return lstCatGoods;
@@ -176,7 +173,6 @@ public class CatGoodsController extends BaseController {
         }
     }
 
-    //
     @RequestMapping(value = "/saveListGoods", method = RequestMethod.POST)
     @ResponseBody
     public ResponseObject importStock(@RequestBody ListGoodsDTO lstGoodsObject, HttpServletRequest request) {
@@ -222,7 +218,6 @@ public class CatGoodsController extends BaseController {
         return insertResponse;
     }
 
-    //
     @RequestMapping(value = "/getErrorSaveGoods")
     public void getErrorSaveGoods(HttpServletRequest request, HttpServletResponse response) {
         String fileResource = profileConfig.getTempURL() + request.getSession().getAttribute("file_goods_save_error");
@@ -292,6 +287,16 @@ public class CatGoodsController extends BaseController {
     }
 
     //------------------------------------------------------------------------------------------------------------------
+    private void initmapGoodsGroup() {
+        mapGoodsGroup = new LinkedHashMap<>();
+        List<CatGoodsGroupDTO> lstCatGoodsGroup = getCatGroup();
+        if (!DataUtil.isListNullOrEmpty(lstCatGoodsGroup)) {
+            for (CatGoodsGroupDTO i : lstCatGoodsGroup) {
+                mapGoodsGroup.put(i.getId(), i.getName());
+            }
+        }
+    }
+
     private List<CatGoodsGroupDTO> getCatGroup() {
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));

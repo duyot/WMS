@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class ResourceBundleUtils {
             InputStream input = null;
             String filename = "lang_vi.properties";
             input = ResourceBundleUtils.class.getClassLoader().getResourceAsStream(filename);
-            Reader reader = new InputStreamReader(input, "UTF-8");
+            Reader reader = new InputStreamReader(input, StandardCharsets.UTF_8);
             if (input == null) {
                 log.error("Sorry, unable to find " + filename);
                 return "";

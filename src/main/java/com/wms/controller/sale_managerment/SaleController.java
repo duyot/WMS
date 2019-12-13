@@ -1,31 +1,20 @@
 package com.wms.controller.sale_managerment;
 
 import com.google.common.collect.Lists;
-import com.wms.base.BaseCommonController;
+import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
-import com.wms.dto.CatGoodsDTO;
-import com.wms.dto.CatPartnerDTO;
-import com.wms.dto.CatStockDTO;
-import com.wms.dto.MjrStockTransDTO;
-import com.wms.dto.MjrStockTransDetailDTO;
-import com.wms.dto.ResponseObject;
-import com.wms.dto.StockManagementDTO;
-import com.wms.dto.StockTransDTO;
+import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.StockManagementService;
 import com.wms.services.interfaces.StockService;
-import com.wms.utils.DataUtil;
-import com.wms.utils.DateTimeUtils;
-import com.wms.utils.FunctionUtils;
-import com.wms.utils.JSONUtils;
-import com.wms.utils.ResourceBundleUtils;
+import com.wms.utils.*;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -41,18 +30,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/workspace/sale_ctr")
 @Scope("session")
-public class SaleController extends BaseCommonController {
+public class SaleController extends BaseController {
 
-    private Logger log = LoggerFactory.getLogger(SaleController.class);
     @Autowired
     public StockService stockService;
     @Autowired
@@ -62,26 +46,30 @@ public class SaleController extends BaseCommonController {
     @Autowired
     public BaseService catPartnerService;
 
+    private Logger log = LoggerFactory.getLogger(SaleController.class);
+
+    //------------------------------------------------------------------------------------------------------------------
+    @PostConstruct
+    public void init() {
+        if (!isDataLoaded) {
+            initBaseBean();
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catuser");
         model.addAttribute("controller", "/workspace/sale_ctr/");
-        model.addAttribute("lstStock", getLstStock());
+        model.addAttribute("lstStock", lstStock);
         LinkedHashMap<String, String> mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams));
-        List<CatGoodsDTO> lstCatGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer);
-        for (CatGoodsDTO item : lstCatGoods) {
+
+        model.addAttribute("lstGoods", lstGoods);
+        for (CatGoodsDTO item : lstGoods) {
             item.setUnitTypeName(mapUnitType.get(item.getUnitType()));
         }
-        model.addAttribute("lstGoods", lstCatGoods);
-        List<CatPartnerDTO> lstPartner = FunctionUtils.getListPartner(catPartnerService, selectedCustomer);
         model.addAttribute("lstPartner", getPartnerName(lstPartner));
         return "sale_managerment/sale";
-    }
-
-    public List<CatStockDTO> getLstStock() {
-        List<CatStockDTO> lstStock = new ArrayList<>();
-        lstStock = stockService.getStockByUser(Long.parseLong(currentUser.getId()));
-        return lstStock;
     }
 
     @RequestMapping(value = "/exportStock", method = RequestMethod.POST)
@@ -182,7 +170,7 @@ public class SaleController extends BaseCommonController {
             String[] splitPartner = mjrStockTransDTO.getReceiveName().split("\\|");
             if (splitPartner.length > 0) {
                 String partnerCode = splitPartner[0];
-                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
+                CatPartnerDTO catPartnerDTO = mapPartnerCodePartner.get(partnerCode);
                 if (catPartnerDTO != null) {
                     String receiverName = "";
                     if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
@@ -198,7 +186,7 @@ public class SaleController extends BaseCommonController {
         }
         //Xuat hang cua doi tac
         if (mjrStockTransDTO.getPartnerId() != null) {
-            CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrStockTransDTO.getPartnerId());
+            CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(mjrStockTransDTO.getPartnerId());
             if (catPartnerDTO != null) {
                 String receiverName = "";
                 if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {

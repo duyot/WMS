@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,42 +31,43 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/workspace/cat_user_ctr")
 @Scope("session")
 public class CatUserController extends BaseCommonController {
-
-    private Logger log = LoggerFactory.getLogger(CatUserController.class);
     @Autowired
     BaseService catDeptServicesImpl;
     @Autowired
     BaseService catUserServices;
-
     @Autowired
     BaseService roleServiceImpl;
-
     @Autowired
     StockService catStockService;
-
     @Autowired
     PartnerService catPartnerService;
-
     @Autowired
     BaseService catCustServicesImpl;
-
     @Autowired
     BaseService mapUserStockServiceImpl;
-
     @Autowired
     BaseService mapUserPartnerServiceImpl;
     //
-    List<TreeModel> lstTreeModal = new ArrayList<>();
+    List<TreeModel> lstTreeModal;
     Map<String, CatDepartmentDTO> mapIdDept = new HashMap<>();
     List<String> lstParentDeptId = new ArrayList<>();
     Map<String, CatCustomerDTO> mapIdCust = new HashMap<>();
     boolean isRoot = false;
+    private Logger log = LoggerFactory.getLogger(CatUserController.class);
 
+    //------------------------------------------------------------------------------------------------------------------
+    @PostConstruct
+    public void init() {
+        initTreeDepartment();
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catuser");
         model.addAttribute("controller", "/workspace/cat_user_ctr/");
-        isRoot = currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1") ? true : false;
+        model.addAttribute("lstTreeModel", lstTreeModal);
+        isRoot = currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1");
         if (isRoot) {
             buildMapIdCustomer();
             model.addAttribute("mapIdCust", mapIdCust);
@@ -140,7 +141,6 @@ public class CatUserController extends BaseCommonController {
         return lstUsers;
     }
 
-
     @RequestMapping(value = "/getAllDepartment", method = RequestMethod.GET)
     public @ResponseBody
     List<CatDepartmentDTO> getAllDepartment(@RequestParam("status") String status) {
@@ -155,46 +155,6 @@ public class CatUserController extends BaseCommonController {
         }
 
         return lstDepts;
-    }
-
-    @ModelAttribute("lstTreeModel")
-    public @ResponseBody
-    List<TreeModel> getTreeDepartment(HttpServletRequest request) {
-        if (isRoot) {
-            return new ArrayList<>();
-        }
-        lstTreeModal = new ArrayList<>();
-
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
-        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
-        List<CatDepartmentDTO> lstDepts = new ArrayList<>();
-        lstDepts = catDeptServicesImpl.findByCondition(lstCon);
-
-        mapIdDept.clear();
-        for (CatDepartmentDTO item : lstDepts) {
-            mapIdDept.put(item.getId(), item);
-        }
-        lstParentDeptId.clear();
-        for (CatDepartmentDTO item : lstDepts) {
-            String path = buildPath(item, mapIdDept);
-            if (!DataUtil.isNullOrEmpty(path)) {
-                TreeModel treeModel;
-                treeModel = new TreeModel(item.getId(), path.replaceFirst("/", ""), item.getName());
-                lstTreeModal.add(treeModel);
-            }
-        }
-        List<TreeModel> lstRemoveTree = new ArrayList<>();
-        for (TreeModel item : lstTreeModal) {
-            if (lstParentDeptId.contains(item.getId())) {
-                lstRemoveTree.add(item);
-            }
-        }
-        lstTreeModal.removeAll(lstRemoveTree);
-        return lstTreeModal;
     }
 
     @RequestMapping(value = "/getRoles", method = RequestMethod.GET)
@@ -213,7 +173,6 @@ public class CatUserController extends BaseCommonController {
         lstSysRoles = roleServiceImpl.findByCondition(lstCon);
         return lstSysRoles;
     }
-
 
     @RequestMapping(value = "/updateUserRole", method = RequestMethod.GET)
     public @ResponseBody
@@ -477,6 +436,40 @@ public class CatUserController extends BaseCommonController {
         }
         return ResourceBundleUtils.getkey(Constants.RESPONSE.UPDATE_SUSSESS);
 
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    private void initTreeDepartment() {
+        lstTreeModal = new ArrayList<>();
+        if (isRoot) {
+            return;
+        }
+        List<Condition> lstCon = new ArrayList<>();
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
+        List<CatDepartmentDTO> lstDepts;
+        lstDepts = catDeptServicesImpl.findByCondition(lstCon);
+
+        mapIdDept.clear();
+        for (CatDepartmentDTO item : lstDepts) {
+            mapIdDept.put(item.getId(), item);
+        }
+        lstParentDeptId.clear();
+        for (CatDepartmentDTO item : lstDepts) {
+            String path = buildPath(item, mapIdDept);
+            if (!DataUtil.isNullOrEmpty(path)) {
+                TreeModel treeModel;
+                treeModel = new TreeModel(item.getId(), path.replaceFirst("/", ""), item.getName());
+                lstTreeModal.add(treeModel);
+            }
+        }
+        List<TreeModel> lstRemoveTree = new ArrayList<>();
+        for (TreeModel item : lstTreeModal) {
+            if (lstParentDeptId.contains(item.getId())) {
+                lstRemoveTree.add(item);
+            }
+        }
+        lstTreeModal.removeAll(lstRemoveTree);
     }
 
     public String buildPath(CatDepartmentDTO item, Map<String, CatDepartmentDTO> mapIdDept) {

@@ -33,6 +33,7 @@ public class AppParamsController extends BaseCommonController {
     BaseService appParamsService;
 
     Logger log = LoggerFactory.getLogger(AppParamsController.class);
+
     //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {

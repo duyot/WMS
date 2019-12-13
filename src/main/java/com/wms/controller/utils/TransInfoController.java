@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -34,7 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by duyot on 3/31/2017.
@@ -72,16 +74,12 @@ public class TransInfoController extends BaseController {
         lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
     }
 
-    @ModelAttribute("lstUsers")
-    public List<CatUserDTO> setUsers() {
-        return lstUsers;
-    }
-
     //==================================================================================================================
     @RequestMapping()
     public String home(Model model) {
         lstTrans = Lists.newArrayList();
         model.addAttribute("menuName", "menu.utils.transinfo");
+        model.addAttribute("lstUsers", lstUsers);
         return "utils/trans_info";
     }
 

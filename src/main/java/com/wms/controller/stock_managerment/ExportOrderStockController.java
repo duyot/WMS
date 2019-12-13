@@ -47,24 +47,33 @@ public class ExportOrderStockController extends BaseController {
     List<ComboSourceDTO> cells = Lists.newArrayList();
     private List<CatUserDTO> lstUsers;
     private List<MjrOrderDTO> lstOrder;
+
     private Logger log = LoggerFactory.getLogger(ExportOrderStockController.class);
 
+    //------------------------------------------------------------------------------------------------------------------
     @PostConstruct
-    public void init(){
+    public void init() {
+        if (!isDataLoaded) {
+            initBaseBean();
+        }
         this.lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
     }
 
-    @ModelAttribute("lstUsers")
-    public List<CatUserDTO> setUsers() {
-        return lstUsers;
-    }
-
-    @ModelAttribute("cells")
-    public List<ComboSourceDTO> getCells(HttpServletRequest request) {
+    //------------------------------------------------------------------------------------------------------------------
+    @ModelAttribute("data-reload")
+    public void checkReloadData(HttpServletRequest request) {
         if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_ORDER_CELL_MODIFIED)) {
             initCells();
             SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_ORDER_CELL_MODIFIED);
         }
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    @RequestMapping()
+    public String home(Model model) {
+        model.addAttribute("menuName", "menu.exportStockOrder");
+        model.addAttribute("controller", "/workspace/export_stock_order_ctr/");
+        model.addAttribute("lstUsers", lstUsers);
         //
         cells.clear();
         if (!DataUtil.isListNullOrEmpty(lstStock)) {
@@ -76,13 +85,8 @@ public class ExportOrderStockController extends BaseController {
                 }
             }
         }
-        return cells;
-    }
-    //==================================================================================================================
-    @RequestMapping()
-    public String home(Model model) {
-        model.addAttribute("menuName", "menu.exportStockOrder");
-        model.addAttribute("controller", "/workspace/export_stock_order_ctr/");
+        model.addAttribute("cells", cells);
+        //
         return "stock_management/export_stock_order";
     }
 
@@ -172,42 +176,41 @@ public class ExportOrderStockController extends BaseController {
         }
         return mjrOrderService.deleteOrder(orderid);
     }
-	
-	@RequestMapping(value = "/checkExists", method = RequestMethod.POST)
-	@ResponseBody
-	public MjrOrderDTO checkExists(@RequestBody OrderExportDTO orderExportDTO) {
-		MjrOrderDTO mjrOrderDTO = orderExportDTO.getMjrOrderDTO();
-		initExportOrder(mjrOrderDTO);
-		List<Condition> lstCon = Lists.newArrayList();
 
-		lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
-		lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getStockId()));
-		lstCon.add(new Condition("receiveId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getReceiveId()));
-		lstCon.add(new Condition("description", Constants.SQL_PRO_TYPE.STRING, Constants.SQL_OPERATOR.LIKE, mjrOrderDTO.getDescription()));
+    @RequestMapping(value = "/checkExists", method = RequestMethod.POST)
+    @ResponseBody
+    public MjrOrderDTO checkExists(@RequestBody OrderExportDTO orderExportDTO) {
+        MjrOrderDTO mjrOrderDTO = orderExportDTO.getMjrOrderDTO();
+        initExportOrder(mjrOrderDTO);
+        List<Condition> lstCon = Lists.newArrayList();
 
-		List<MjrOrderDTO> lstOrderExists = mjrOrderService.findByCondition(lstCon);
-		List<MjrOrderDTO> LstResult = Lists.newArrayList();
-		for(MjrOrderDTO obj : lstOrderExists){
-			if(DataUtil.isNullOrEmpty(mjrOrderDTO.getId()) || !mjrOrderDTO.getId().equals(obj.getId())){
-				LstResult.add(obj);
-			}
-		}
-		if(DataUtil.isListNullOrEmpty(LstResult)){
-			return new MjrOrderDTO();
-		}
-		return LstResult.get(0);
-	}
+        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
+        lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getStockId()));
+        lstCon.add(new Condition("receiveId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getReceiveId()));
+        lstCon.add(new Condition("description", Constants.SQL_PRO_TYPE.STRING, Constants.SQL_OPERATOR.LIKE, mjrOrderDTO.getDescription()));
 
-    //==================================================================================================================
+        List<MjrOrderDTO> lstOrderExists = mjrOrderService.findByCondition(lstCon);
+        List<MjrOrderDTO> LstResult = Lists.newArrayList();
+        for (MjrOrderDTO obj : lstOrderExists) {
+            if (DataUtil.isNullOrEmpty(mjrOrderDTO.getId()) || !mjrOrderDTO.getId().equals(obj.getId())) {
+                LstResult.add(obj);
+            }
+        }
+        if (DataUtil.isListNullOrEmpty(LstResult)) {
+            return new MjrOrderDTO();
+        }
+        return LstResult.get(0);
+    }
+
     @RequestMapping(value = "/orderExportFile", method = RequestMethod.GET)
     public void orderExportFile(@RequestParam("orderId") String orderId, HttpServletResponse response) {
 
 
         String prefixFileName = "Thong_tin_chitiet_yeucau_xuatkho";
-        String templatePath = profileConfig.getTemplateURL() +selectedCustomer.getCode()+File.separator+ File.separator + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
-        File file = new  File(templatePath);
+        String templatePath = profileConfig.getTemplateURL() + selectedCustomer.getCode() + File.separator + File.separator + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
+        File file = new File(templatePath);
         log.info("url " + templatePath);
-        if (!file.exists()){
+        if (!file.exists()) {
             log.info("Url is not exist  " + templatePath);
             templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
         }
@@ -258,15 +261,7 @@ public class ExportOrderStockController extends BaseController {
 
     }
 
-
-    public List<ComboSourceDTO> getCells() {
-        return cells;
-    }
-
-    public void setCells(List<ComboSourceDTO> cells) {
-        this.cells = cells;
-    }
-
+    //------------------------------------------------------------------------------------------------------------------
     private void initExportOrder(MjrOrderDTO mjrOrderDTO) {
         mjrOrderDTO.setCustId(selectedCustomer.getId());
         mjrOrderDTO.setType(Constants.IMPORT_TYPE.EXPORT);
@@ -277,7 +272,7 @@ public class ExportOrderStockController extends BaseController {
             String[] splitPartner = mjrOrderDTO.getReceiveName().split("\\|");
             if (splitPartner.length > 0) {
                 String partnerCode = splitPartner[0];
-                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
+                CatPartnerDTO catPartnerDTO = mapPartnerCodePartner.get(partnerCode);
                 if (catPartnerDTO != null) {
                     mjrOrderDTO.setReceiveId(catPartnerDTO.getId());
                 }
@@ -285,7 +280,7 @@ public class ExportOrderStockController extends BaseController {
         }
         //Xuat hang cua doi tac
         if (!DataUtil.isStringNullOrEmpty(mjrOrderDTO.getPartnerId())) {
-            CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), null, mjrOrderDTO.getPartnerId());
+            CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(mjrOrderDTO.getPartnerId());
             if (catPartnerDTO != null) {
                 String receiverName = "";
                 if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {

@@ -28,22 +28,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/workspace/utils/update_stock_goods_info")
 @Scope("session")
 public class UpdateStockGoodsInfor extends BaseController {
-
     @Autowired
     BaseService mjrStockGoodsService;
-
     @Autowired
     BaseService mjrStockGoodsSerialService;
-
     @Autowired
     UtilsService utilsService;
-
-    Logger log = LoggerFactory.getLogger(StockInfoController.class);
-    //
+    Logger log = LoggerFactory.getLogger(UpdateStockGoodsInfor.class);
     private List<MjrStockGoodsTotalDTO> lstGoodsTotal;
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
 
-    //
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         //clear previous data
@@ -128,104 +123,6 @@ public class UpdateStockGoodsInfor extends BaseController {
         }
         log.info(result.toString());
         return result.getStatusCode();
-    }
-
-    private List<MjrStockTransDetailDTO> sumupAllGoods(List<MjrStockGoodsDTO> lstStockGoods, List<MjrStockGoodsSerialDTO> lstStockGoodsSerial) {
-        List<MjrStockTransDetailDTO> results = Lists.newArrayList();
-        initGoodsDetailFromStockGoods(results, lstStockGoods);
-        initGoodsDetailFromStockGoodsSerial(results, lstStockGoodsSerial);
-        return results;
-    }
-
-    private void initGoodsDetailFromStockGoods(List<MjrStockTransDetailDTO> results, List<MjrStockGoodsDTO> lstStockGoods) {
-        if (!DataUtil.isListNullOrEmpty(lstStockGoods)) {
-            for (MjrStockGoodsDTO i : lstStockGoods) {
-                MjrStockTransDetailDTO detail = new MjrStockTransDetailDTO();
-                //
-                detail.setId(i.getId());
-                detail.setCustId(i.getCustId());
-
-                detail.setStockId(i.getStockId());
-                detail.setStockCode(FunctionUtils.getMapCodeValue(mapStockIdStock, i.getStockId()));
-                detail.setStockName(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()));
-
-                detail.setGoodsId(i.getGoodsId());
-                detail.setGoodsCode(FunctionUtils.getMapCodeValue(mapGoodsIdGoods, i.getGoodsId()));
-                detail.setGoodsName(FunctionUtils.getMapValue(mapGoodsIdGoods, i.getGoodsId()));
-                detail.setGoodsState(i.getGoodsState());
-                detail.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
-
-                detail.setCellCode(i.getCellCode());
-                detail.setAmount(i.getAmount());
-                detail.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-                detail.setImportDate(i.getImportDate());
-                detail.setChangeDate(i.getChangeDate());
-                detail.setStatus(i.getStatus());
-                detail.setPartnerId(i.getPartnerId());
-                detail.setInputPrice(i.getInputPrice());
-                detail.setInputPriceValue(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getInputPrice())));
-                detail.setOutputPrice(i.getOutputPrice());
-                detail.setExportDate(i.getExportDate());
-                detail.setProduceDate(i.getProduceDate());
-                detail.setExpireDate(i.getExpireDate());
-                detail.setDescription(i.getDescription());
-                detail.setIsSerial(Constants.NO_SERIAL);
-                //
-                String goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
-                detail.setUnitName(mapAppParamsUnitName.get(goodUnitId));
-                if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
-                    detail.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
-                }
-                //
-                results.add(detail);
-            }
-        }
-    }
-
-    private void initGoodsDetailFromStockGoodsSerial(List<MjrStockTransDetailDTO> results, List<MjrStockGoodsSerialDTO> lstStockGoodsSerial) {
-        if (!DataUtil.isListNullOrEmpty(lstStockGoodsSerial)) {
-            for (MjrStockGoodsSerialDTO i : lstStockGoodsSerial) {
-                MjrStockTransDetailDTO detail = new MjrStockTransDetailDTO();
-                //
-                detail.setId(i.getId());
-                detail.setCustId(i.getCustId());
-
-                detail.setStockId(i.getStockId());
-                detail.setStockCode(FunctionUtils.getMapCodeValue(mapStockIdStock, i.getStockId()));
-                detail.setStockName(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()));
-
-                detail.setGoodsId(i.getGoodsId());
-                detail.setGoodsCode(FunctionUtils.getMapCodeValue(mapGoodsIdGoods, i.getGoodsId()));
-                detail.setGoodsName(FunctionUtils.getMapValue(mapGoodsIdGoods, i.getGoodsId()));
-                detail.setGoodsState(i.getGoodsState());
-                detail.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
-
-                detail.setCellCode(i.getCellCode());
-                detail.setSerial(i.getSerial());
-                detail.setAmount(i.getAmount());
-                detail.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-                detail.setImportDate(i.getImportDate());
-                detail.setChangeDate(i.getChangeDate());
-                detail.setStatus(i.getStatus());
-                detail.setPartnerId(i.getPartnerId());
-                detail.setInputPrice(i.getInputPrice());
-                detail.setInputPriceValue(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getInputPrice())));
-                detail.setOutputPrice(i.getOutputPrice());
-                detail.setExportDate(i.getExportDate());
-                detail.setProduceDate(i.getProduceDate());
-                detail.setExpireDate(i.getExpireDate());
-                detail.setDescription(i.getDescription());
-                detail.setIsSerial(Constants.IS_SERIAL);
-                //
-                String goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
-                detail.setUnitName(mapAppParamsUnitName.get(goodUnitId));
-                if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
-                    detail.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
-                }
-                //
-                results.add(detail);
-            }
-        }
     }
 
     @RequestMapping(value = "/getGoodsDetail", method = RequestMethod.GET)
@@ -335,8 +232,6 @@ public class UpdateStockGoodsInfor extends BaseController {
         return lstResult;
     }
 
-
-    //------------------------------------------------------------------------------------------------------------------
     private List<MjrStockTransDetailDTO> setListGoodsDetailNameInfo(List<MjrStockTransDetailDTO> lstStockGoods) {
         List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
         String goodUnitId = "";
@@ -396,7 +291,104 @@ public class UpdateStockGoodsInfor extends BaseController {
         return finalResult;
     }
 
-    //=======================================================================================================
+    private List<MjrStockTransDetailDTO> sumupAllGoods(List<MjrStockGoodsDTO> lstStockGoods, List<MjrStockGoodsSerialDTO> lstStockGoodsSerial) {
+        List<MjrStockTransDetailDTO> results = Lists.newArrayList();
+        initGoodsDetailFromStockGoods(results, lstStockGoods);
+        initGoodsDetailFromStockGoodsSerial(results, lstStockGoodsSerial);
+        return results;
+    }
+
+    private void initGoodsDetailFromStockGoods(List<MjrStockTransDetailDTO> results, List<MjrStockGoodsDTO> lstStockGoods) {
+        if (!DataUtil.isListNullOrEmpty(lstStockGoods)) {
+            for (MjrStockGoodsDTO i : lstStockGoods) {
+                MjrStockTransDetailDTO detail = new MjrStockTransDetailDTO();
+                //
+                detail.setId(i.getId());
+                detail.setCustId(i.getCustId());
+
+                detail.setStockId(i.getStockId());
+                detail.setStockCode(FunctionUtils.getMapCodeValue(mapStockIdStock, i.getStockId()));
+                detail.setStockName(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()));
+
+                detail.setGoodsId(i.getGoodsId());
+                detail.setGoodsCode(FunctionUtils.getMapCodeValue(mapGoodsIdGoods, i.getGoodsId()));
+                detail.setGoodsName(FunctionUtils.getMapValue(mapGoodsIdGoods, i.getGoodsId()));
+                detail.setGoodsState(i.getGoodsState());
+                detail.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
+
+                detail.setCellCode(i.getCellCode());
+                detail.setAmount(i.getAmount());
+                detail.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                detail.setImportDate(i.getImportDate());
+                detail.setChangeDate(i.getChangeDate());
+                detail.setStatus(i.getStatus());
+                detail.setPartnerId(i.getPartnerId());
+                detail.setInputPrice(i.getInputPrice());
+                detail.setInputPriceValue(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getInputPrice())));
+                detail.setOutputPrice(i.getOutputPrice());
+                detail.setExportDate(i.getExportDate());
+                detail.setProduceDate(i.getProduceDate());
+                detail.setExpireDate(i.getExpireDate());
+                detail.setDescription(i.getDescription());
+                detail.setIsSerial(Constants.NO_SERIAL);
+                //
+                String goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
+                detail.setUnitName(mapAppParamsUnitName.get(goodUnitId));
+                if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
+                    detail.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
+                }
+                //
+                results.add(detail);
+            }
+        }
+    }
+
+    private void initGoodsDetailFromStockGoodsSerial(List<MjrStockTransDetailDTO> results, List<MjrStockGoodsSerialDTO> lstStockGoodsSerial) {
+        if (!DataUtil.isListNullOrEmpty(lstStockGoodsSerial)) {
+            for (MjrStockGoodsSerialDTO i : lstStockGoodsSerial) {
+                MjrStockTransDetailDTO detail = new MjrStockTransDetailDTO();
+                //
+                detail.setId(i.getId());
+                detail.setCustId(i.getCustId());
+
+                detail.setStockId(i.getStockId());
+                detail.setStockCode(FunctionUtils.getMapCodeValue(mapStockIdStock, i.getStockId()));
+                detail.setStockName(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()));
+
+                detail.setGoodsId(i.getGoodsId());
+                detail.setGoodsCode(FunctionUtils.getMapCodeValue(mapGoodsIdGoods, i.getGoodsId()));
+                detail.setGoodsName(FunctionUtils.getMapValue(mapGoodsIdGoods, i.getGoodsId()));
+                detail.setGoodsState(i.getGoodsState());
+                detail.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
+
+                detail.setCellCode(i.getCellCode());
+                detail.setSerial(i.getSerial());
+                detail.setAmount(i.getAmount());
+                detail.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                detail.setImportDate(i.getImportDate());
+                detail.setChangeDate(i.getChangeDate());
+                detail.setStatus(i.getStatus());
+                detail.setPartnerId(i.getPartnerId());
+                detail.setInputPrice(i.getInputPrice());
+                detail.setInputPriceValue(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getInputPrice())));
+                detail.setOutputPrice(i.getOutputPrice());
+                detail.setExportDate(i.getExportDate());
+                detail.setProduceDate(i.getProduceDate());
+                detail.setExpireDate(i.getExpireDate());
+                detail.setDescription(i.getDescription());
+                detail.setIsSerial(Constants.IS_SERIAL);
+                //
+                String goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
+                detail.setUnitName(mapAppParamsUnitName.get(goodUnitId));
+                if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
+                    detail.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
+                }
+                //
+                results.add(detail);
+            }
+        }
+    }
+
     private String exportTotal(List<MjrStockGoodsTotalDTO> lstGoodsTotal, String prefixFileName) {
         String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.GOODS_TOTAL_TEMPLATE;
 
@@ -415,7 +407,6 @@ public class UpdateStockGoodsInfor extends BaseController {
         return reportFullPath;
     }
 
-    //=======================================================================================================
     private String exportGoodsDetails(List<MjrStockTransDetailDTO> lstGoodsDetails, String prefixFileName, String stockId, boolean isSerial) {
         String templatePath;
         if (DataUtil.isListNullOrEmpty(lstGoodsDetails)) {
@@ -445,7 +436,6 @@ public class UpdateStockGoodsInfor extends BaseController {
         return reportFullPath;
     }
 
-    //=======================================================================================================
     private String exportAllGoodsDetails(List<MjrStockTransDetailDTO> lstGoodsDetails, String prefixFileName) {
 
         if (DataUtil.isListNullOrEmpty(lstGoodsDetails)) {

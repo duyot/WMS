@@ -29,7 +29,7 @@ public class SessionUtils {
         request.getSession().setAttribute(properties, false);
     }
 
-    public static boolean isPropertiesModified(HttpServletRequest request, String properties){
+    public static boolean isPropertiesModified(HttpServletRequest request, String properties) {
         if (request.getSession().getAttribute(properties) == null) {
             return false;
         }

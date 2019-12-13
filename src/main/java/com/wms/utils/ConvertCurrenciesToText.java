@@ -56,7 +56,7 @@ public class ConvertCurrenciesToText {
         }
         String kq = "";
         x = x.replace(",", "");
-        String arr_temp[] = x.split("\\.");
+        String[] arr_temp = x.split("\\.");
         if (!NumberUtils.isNumber(arr_temp[0])) {
             return "";
         }

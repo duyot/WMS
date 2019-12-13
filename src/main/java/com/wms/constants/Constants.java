@@ -143,14 +143,14 @@ public class Constants {
     public static class DATA_MODIFIED {
         public static String IMPORT_GOODS_MODIFIED = "import.goods.modified";
         public static String IMPORT_STOCK_MODIFIED = "import.stock.modified";
-        public static String IMPORT_CELL_MODIFIED  = "import.cell.modified";
+        public static String IMPORT_CELL_MODIFIED = "import.cell.modified";
         //
         public static String EXPORT_GOODS_MODIFIED = "export.goods.modified";
         public static String EXPORT_STOCK_MODIFIED = "export.stock.modified";
-        public static String EXPORT_CELL_MODIFIED  = "export.cell.modified";
+        public static String EXPORT_CELL_MODIFIED = "export.cell.modified";
         //
-        public static String EXPORT_ORDER_CELL_MODIFIED  = "export.order.cell.modified";
+        public static String EXPORT_ORDER_CELL_MODIFIED = "export.order.cell.modified";
         //
-        public static String GOODS_GROUP_MODIFIED  = "goods.group.modified";
+        public static String GOODS_GROUP_MODIFIED = "goods.group.modified";
     }
 }

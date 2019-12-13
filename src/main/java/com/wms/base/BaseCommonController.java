@@ -25,16 +25,15 @@ public class BaseCommonController {
     public BaseService appParamsService;
     @Autowired
     public ProfileConfigInterface profileConfig;
-    //
+    @Autowired
+    private HttpServletRequest requestCtx;
+
     public CatUserDTO currentUser;
     public CatCustomerDTO selectedCustomer;
     public List<AppParamsDTO> lstAppParams;
     public Map<String, String> mapAppStatus;
-    //
-    @Autowired
-    private HttpServletRequest requestCtx;
 
-    //
+    //------------------------------------------------------------------------------------------------------------------
     @PostConstruct
     public void initBaseCommonBean() {
         this.currentUser = (CatUserDTO) requestCtx.getSession().getAttribute("user");
@@ -42,6 +41,7 @@ public class BaseCommonController {
         initAppParams();
     }
 
+    //------------------------------------------------------------------------------------------------------------------
     private void initAppParams() {
         this.lstAppParams = FunctionUtils.getAppParams(appParamsService);
         this.mapAppStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STATUS, lstAppParams));

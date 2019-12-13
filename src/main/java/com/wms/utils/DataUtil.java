@@ -15,13 +15,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +66,7 @@ public class DataUtil {
             md = MessageDigest.getInstance("MD5");
             md.update(inputString.getBytes());
 
-            byte byteData[] = md.digest();
+            byte[] byteData = md.digest();
 
             //convert the byte to hex format method 1
             StringBuffer sb = new StringBuffer();
@@ -95,7 +89,7 @@ public class DataUtil {
         if (fAmount == 0) {
             return String.valueOf(iAmount);
         } else {
-            return String.valueOf(quantity);
+            return quantity;
         }
     }
 
@@ -445,7 +439,7 @@ public class DataUtil {
         if (startIndex != -1) {
 
             String firstStr = addr.substring(0, startIndex);
-            String secondStr = addr.substring(startIndex + 2, addr.length());
+            String secondStr = addr.substring(startIndex + 2);
 
             BigInteger first = ipv6ToNumber(firstStr);
 
@@ -508,21 +502,14 @@ public class DataUtil {
 
         BigInteger broadcastIP = fromIP.xor(subnet);
 
-        if (toIP.compareTo(broadcastIP) == 1) {
-            return false;
-        }
-
-        return true;
+        return toIP.compareTo(broadcastIP) != 1;
     }
 
     public static boolean checkLengthIPV4numberRange(String fromIPAddress, String toIPAddress) {
         BigInteger fromIP = ipv4ToNumber(fromIPAddress);
         BigInteger toIP = ipv4ToNumber(toIPAddress);
         BigInteger limit = toIP.subtract(fromIP);
-        if (limit.compareTo(new BigInteger(MAX_NUMBER_RANGE)) == 1) {
-            return false;
-        }
-        return true;
+        return limit.compareTo(new BigInteger(MAX_NUMBER_RANGE)) != 1;
     }
 
     public static boolean checkValidateIPv6(String fromIPAddress, String toIPAddress, int mask) {
@@ -540,11 +527,7 @@ public class DataUtil {
 
         BigInteger broadcastIP = fromIP.xor(subnet);
 
-        if (toIP.compareTo(broadcastIP) == 1) {
-            return false;
-        }
-
-        return true;
+        return toIP.compareTo(broadcastIP) != 1;
     }
 
     public static String safeStringToSearch(String input) {
@@ -553,10 +536,7 @@ public class DataUtil {
 //
 
     public static boolean isInteger(String str) {
-        if (str == null || !str.matches("[0-9]+$")) {
-            return false;
-        }
-        return true;
+        return str != null && str.matches("[0-9]+$");
     }
 
     public static boolean isLongNumber(BigDecimal minCar) {
@@ -815,7 +795,7 @@ public class DataUtil {
     public static List<String> splitListFile(String strFiles) {
         List<String> lstFile = Lists.newArrayList();
         if (!isStringNullOrEmpty(strFiles)) {
-            String lst[] = strFiles.split(",");
+            String[] lst = strFiles.split(",");
             lstFile = Arrays.asList(lst);
         }
         return lstFile;

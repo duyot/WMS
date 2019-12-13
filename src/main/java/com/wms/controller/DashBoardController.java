@@ -7,6 +7,7 @@ import com.wms.services.interfaces.StatisticService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -25,6 +26,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DashBoardController extends BaseController {
     @Autowired
     StatisticService statisticService;
+
+    //------------------------------------------------------------------------------------------------------------------
+    @PostConstruct
+    public void init() {
+        if (!isDataLoaded) {
+            initBaseBean();
+        }
+    }
 
     //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()

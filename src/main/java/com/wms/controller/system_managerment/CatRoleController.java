@@ -4,14 +4,7 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseCommonController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
-import com.wms.dto.CatCustomerDTO;
-import com.wms.dto.CatUserDTO;
-import com.wms.dto.Condition;
-import com.wms.dto.ResponseObject;
-import com.wms.dto.SysMenuDTO;
-import com.wms.dto.SysRoleDTO;
-import com.wms.dto.SysRoleMenuDTO;
-import com.wms.dto.TreeModel;
+import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.MenuService;
 import com.wms.services.interfaces.SysRoleMenuService;
@@ -21,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,29 +31,54 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/workspace/cat_role_ctr")
 @Scope("session")
 public class CatRoleController extends BaseCommonController {
-    private Logger log = LoggerFactory.getLogger(CatRoleController.class);
     @Autowired
     SysRoleMenuService sysRoleMenuServiceImpl;
-
     @Autowired
     BaseService roleServiceImpl;
     @Autowired
     MenuService menuService;
     @Autowired
     BaseService customerService;
-
     Map<String, SysMenuDTO> mapIdSysMenu = new HashMap<>();
     Map<String, String> mapCustIdName = new HashMap<>();
     Map<String, String> mapRoleIdMenu = new HashMap<>();
     List<TreeModel> lstTreeModel = new ArrayList<>();
     List<CatCustomerDTO> lstCustomer = new ArrayList<>();
     boolean isRoot = false;
+    @Autowired
+    private HttpServletRequest requestCtx;
+    private Logger log = LoggerFactory.getLogger(CatRoleController.class);
 
+    //------------------------------------------------------------------------------------------------------------------
+    @PostConstruct
+    public void init() {
+        this.currentUser = (CatUserDTO) requestCtx.getSession().getAttribute("user");
+        initTreeModel();
+        initCustomers();
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    private void initCustomers() {
+        if (!currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1")) {
+            return;
+        }
+        List<Condition> lstCon = new ArrayList<>();
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+        lstCustomer = customerService.findByCondition(lstCon);
+        for (CatCustomerDTO catCustomerDTO : lstCustomer) {
+            mapCustIdName.put(catCustomerDTO.getId(), catCustomerDTO.getName());
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
+        isRoot = currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1");
         model.addAttribute("menuName", "menu.catrole");
-        isRoot = currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1") ? true : false;
         model.addAttribute("isRoot", isRoot);
+        model.addAttribute("lstTreeModel", lstTreeModel);
+        model.addAttribute("lstCustomer", lstCustomer);
+
         return "system_managerment/cat_role";
     }
 
@@ -134,76 +152,6 @@ public class CatRoleController extends BaseCommonController {
             sysRoleDTO.setStatusName(mapAppStatus.get(sysRoleDTO.getStatus()));
         }
         return lstRole;
-    }
-
-
-    @ModelAttribute("lstTreeModel")
-    public @ResponseBody
-    List<TreeModel> getMenuData(HttpServletRequest request) {
-        if (lstTreeModel.size() > 0) {
-            return lstTreeModel;
-        }
-        List<SysMenuDTO> lstMenu = new ArrayList<>();
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
-        if (currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1")) {
-//            get full menu;
-            List<Condition> lstCon = Lists.newArrayList();
-            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
-            lstCon.add(new Condition("levels", Constants.SQL_OPERATOR.ORDER, "desc"));
-
-            lstMenu = menuService.findByCondition(lstCon);
-        } else {
-//            only get roles whichs be assigned to customer'admin
-            List<Condition> lstCon = Lists.newArrayList();
-            lstCon.add(new Condition("roleId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, currentUser.getSysRoleDTO().getId()));
-            List<SysRoleMenuDTO> lstRoleMenu = sysRoleMenuServiceImpl.findByCondition(lstCon);
-            StringBuilder strMenus = new StringBuilder();
-            for (SysRoleMenuDTO sysRoleMenuDTO : lstRoleMenu) {
-                strMenus.append(",").append(sysRoleMenuDTO.getMenuId());
-            }
-            List<Condition> lstMenuCondition = new ArrayList<>();
-            lstMenuCondition.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN, strMenus.toString().replaceFirst(",", "")));
-            lstMenu = menuService.findByCondition(lstMenuCondition);
-        }
-
-        for (SysMenuDTO menuitem : lstMenu) {
-            menuitem.setLocalizationName(ResourceBundleUtils.getkey(menuitem.getName()) == null ? menuitem.getName() : ResourceBundleUtils.getkey(menuitem.getName()));
-            mapIdSysMenu.put(menuitem.getId(), menuitem);
-        }
-        for (SysMenuDTO menuitem : lstMenu) {
-            String path = buildPath(menuitem);
-            if (!DataUtil.isNullOrEmpty(path)) {
-                TreeModel treeModel = new TreeModel(menuitem.getId(), path.replaceFirst("/", ""), menuitem.getLocalizationName());
-                lstTreeModel.add(treeModel);
-            }
-
-
-        }
-        return lstTreeModel;
-    }
-
-    @ModelAttribute("lstCustomer")
-    public List<CatCustomerDTO> getCustomerList(HttpServletRequest request) {
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
-        if (!currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1")) {
-            return null;
-        }
-        if (currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1") && lstCustomer.size() > 0) {
-            return lstCustomer;
-        }
-
-        List<Condition> lstCon = new ArrayList<>();
-        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
-        lstCustomer = customerService.findByCondition(lstCon);
-        for (CatCustomerDTO catCustomerDTO : lstCustomer) {
-            mapCustIdName.put(catCustomerDTO.getId(), catCustomerDTO.getName());
-        }
-        return lstCustomer;
-
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -331,6 +279,43 @@ public class CatRoleController extends BaseCommonController {
             }
         } catch (NumberFormatException e) {
             return "0|Xoá không thành công lỗi convert long";
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    private void initTreeModel() {
+        List<SysMenuDTO> lstMenu;
+        if (currentUser.getSysRoleDTO().getType().equalsIgnoreCase("1")) {
+//            get full menu;
+            List<Condition> lstCon = Lists.newArrayList();
+            lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
+            lstCon.add(new Condition("levels", Constants.SQL_OPERATOR.ORDER, "desc"));
+
+            lstMenu = menuService.findByCondition(lstCon);
+        } else {
+//            only get roles whichs be assigned to customer'admin
+            List<Condition> lstCon = Lists.newArrayList();
+            lstCon.add(new Condition("roleId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, currentUser.getSysRoleDTO().getId()));
+            List<SysRoleMenuDTO> lstRoleMenu = sysRoleMenuServiceImpl.findByCondition(lstCon);
+            StringBuilder strMenus = new StringBuilder();
+            for (SysRoleMenuDTO sysRoleMenuDTO : lstRoleMenu) {
+                strMenus.append(",").append(sysRoleMenuDTO.getMenuId());
+            }
+            List<Condition> lstMenuCondition = new ArrayList<>();
+            lstMenuCondition.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.IN, strMenus.toString().replaceFirst(",", "")));
+            lstMenu = menuService.findByCondition(lstMenuCondition);
+        }
+
+        for (SysMenuDTO menuitem : lstMenu) {
+            menuitem.setLocalizationName(ResourceBundleUtils.getkey(menuitem.getName()) == null ? menuitem.getName() : ResourceBundleUtils.getkey(menuitem.getName()));
+            mapIdSysMenu.put(menuitem.getId(), menuitem);
+        }
+        for (SysMenuDTO menuitem : lstMenu) {
+            String path = buildPath(menuitem);
+            if (!DataUtil.isNullOrEmpty(path)) {
+                TreeModel treeModel = new TreeModel(menuitem.getId(), path.replaceFirst("/", ""), menuitem.getLocalizationName());
+                lstTreeModel.add(treeModel);
+            }
         }
     }
 

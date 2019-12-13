@@ -35,14 +35,19 @@ public class SearchSerialController extends BaseController {
     @Autowired
     BaseService mjrStockGoodsSerialService;
     //
-    private List<MjrStockTransDetailDTO> lstGoodsDetails;
     public Map<String, String> mapAppStockStatus;
+    private List<MjrStockTransDetailDTO> lstGoodsDetails;
 
+    //------------------------------------------------------------------------------------------------------------------
     @PostConstruct
-    public void init(){
+    public void init() {
+        if (!isDataLoaded) {
+            initBaseBean();
+        }
         mapAppStockStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STOCK_STATUS, lstAppParams));
     }
 
+    //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {
         lstGoodsDetails = Lists.newArrayList();
@@ -50,7 +55,6 @@ public class SearchSerialController extends BaseController {
         return "utils/search_serial";
     }
 
-    //==================================================================================================================
     @RequestMapping(value = "/findSerial", method = RequestMethod.GET)
     public @ResponseBody
     List<MjrStockTransDetailDTO> findSerial(@RequestParam("stockId") String stockId, @RequestParam("goodsId") String goodsId,
@@ -78,7 +82,6 @@ public class SearchSerialController extends BaseController {
         return lstGoodsDetails;
     }
 
-    //==================================================================================================================
     @RequestMapping(value = "/getSerialFile", method = RequestMethod.GET)
     public void getSerialFile(HttpServletResponse response) {
 
@@ -92,7 +95,7 @@ public class SearchSerialController extends BaseController {
         FunctionUtils.loadFileToClient(response, fileResource);
     }
 
-    //==================================================================================================================
+    //------------------------------------------------------------------------------------------------------------------
     private String preprocessSearchSerial(String serial) {
         String[] arrSerial = serial.split(",");
         StringBuilder sbSerial = new StringBuilder();

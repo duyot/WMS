@@ -34,6 +34,7 @@ public class CatCustomerController extends BaseCommonController {
     @Autowired
     BaseService mapUserPartnerServiceImpl;
     private Logger log = LoggerFactory.getLogger(CatCustomerController.class);
+
     //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {

@@ -35,6 +35,7 @@ public class CatGoodsGroupController extends BaseCommonController {
     @Autowired
     BaseService catGoodsService;
     private Logger log = LoggerFactory.getLogger(CatGoodsGroupController.class);
+
     //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
     public String home(Model model) {

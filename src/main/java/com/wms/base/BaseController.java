@@ -79,6 +79,7 @@ public class BaseController {
         initPartner();
         isDataLoaded = true;
     }
+
     //-----------------------init data------------------------------------
     public void initStocks() {
         if (currentUser != null && currentUser.getStockPermission().equals("0")) {
@@ -138,6 +139,7 @@ public class BaseController {
             this.mapAppStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STATUS, lstAppParams));
         }
     }
+
     //==================================================================================================================
     public void buildMapGoods() {
         mapGoodsCodeGoods = new HashMap<>();
