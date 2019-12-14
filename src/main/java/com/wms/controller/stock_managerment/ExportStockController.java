@@ -47,7 +47,7 @@ public class ExportStockController extends BaseController {
     @Autowired
     public BaseService catPartnerService;
     //
-    public List<CatPartnerDTO> lstPartner;
+    //public List<CatPartnerDTO> lstPartner;
     Logger log = LoggerFactory.getLogger(ExportStockController.class);
     //
     @Autowired
@@ -106,7 +106,7 @@ public class ExportStockController extends BaseController {
 
     @ModelAttribute("lstPartner")
     public List<CatPartnerDTO> setPartner(HttpServletRequest request) {
-        return lstPartner;
+        return this.lstPartner;
     }
 
     @ModelAttribute("cells")
@@ -446,7 +446,7 @@ public class ExportStockController extends BaseController {
     List<String> getPartnerName() {
         List<String> lstPartneName = Lists.newArrayList();
         StringBuilder namePlus = new StringBuilder();
-        for (CatPartnerDTO i : lstPartner) {
+        for (CatPartnerDTO i : this.lstPartner) {
             namePlus.append(i.getCode());
             if (!DataUtil.isStringNullOrEmpty(i.getName())){
                 namePlus.append("|").append(i.getName());
