@@ -459,7 +459,6 @@ public class ExportStockController extends BaseController {
         }
         return lstPartneName;
     }
-
     //
     @ModelAttribute("setPartnerName")
     public void setPartnerName(HttpServletRequest request) {
