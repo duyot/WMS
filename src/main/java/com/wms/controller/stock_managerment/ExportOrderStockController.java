@@ -74,6 +74,8 @@ public class ExportOrderStockController extends BaseController {
         model.addAttribute("menuName", "menu.exportStockOrder");
         model.addAttribute("controller", "/workspace/export_stock_order_ctr/");
         model.addAttribute("lstUsers", lstUsers);
+        model.addAttribute("lstStock", lstStock);
+        model.addAttribute("lstPartner", lstPartner);
         //
         cells.clear();
         if (!DataUtil.isListNullOrEmpty(lstStock)) {

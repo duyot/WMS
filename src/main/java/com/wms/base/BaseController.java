@@ -70,6 +70,7 @@ public class BaseController {
 
     @PostConstruct
     public void initBaseBean() {
+        System.out.println("Running in initBaseBean...");
         this.currentUser = (CatUserDTO) requestCtx.getSession().getAttribute("user");
         this.selectedCustomer = (CatCustomerDTO) requestCtx.getSession().getAttribute("selectedCustomer");
         initAppParams();

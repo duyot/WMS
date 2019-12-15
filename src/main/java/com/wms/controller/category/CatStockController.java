@@ -60,7 +60,11 @@ public class CatStockController extends BaseCommonController {
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public @ResponseBody
     List<CatStockDTO> findByCondition(@RequestParam("status") String status) {
-        lstStock = FunctionUtils.getListStock(stockService, currentUser);
+        if (currentUser != null && currentUser.getStockPermission().equals("0")) {
+            this.lstStock = FunctionUtils.getListStock(catStockService, selectedCustomer);
+        } else {
+            this.lstStock = FunctionUtils.getListStock(stockService, currentUser);
+        }
         for (CatStockDTO i : lstStock) {
             i.setStatusName(mapAppStatus.get(i.getStatus()));
         }
