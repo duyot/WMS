@@ -12,15 +12,61 @@ public class MjrStockGoodsTotalDTO {
     private String goodsState;
     private String stockId;
     private String amount;
+    private String amountValue;
+    private String issueAmount;
+    private String issueAmountValue;
+
     private String changeDate;
     //name
     private String goodsStateName;
     private String stockName;
-    private String amountValue;
+
     //Chi de phuc vu add tham so vao tim kiem chu ko luu vao database
     private String partnerId;
     private String userId;
     private String goodsUnitName;
+
+    public MjrStockGoodsTotalDTO(String id, String custId, String goodsId, String goodsCode, String goodsName, String goodsState, String stockId, String amount, String changeDate) {
+        this.id = id;
+        this.custId = custId;
+        this.goodsId = goodsId;
+        this.goodsCode = goodsCode;
+        this.goodsName = goodsName;
+        this.goodsState = goodsState;
+        this.stockId = stockId;
+        this.amount = amount;
+        this.changeDate = changeDate;
+    }
+
+    public MjrStockGoodsTotalDTO(String id, String custId, String goodsId, String goodsCode, String goodsName, String goodsState, String stockId, String amount, String changeDate, String goodsStateName, String stockName, String amountValue, String partnerId, String userId, String goodsUnitName, String issueAmount) {
+        this.id = id;
+        this.custId = custId;
+        this.goodsId = goodsId;
+        this.goodsCode = goodsCode;
+        this.goodsName = goodsName;
+        this.goodsState = goodsState;
+        this.stockId = stockId;
+        this.amount = amount;
+        this.changeDate = changeDate;
+        this.goodsStateName = goodsStateName;
+        this.stockName = stockName;
+        this.amountValue = amountValue;
+        this.partnerId = partnerId;
+        this.userId = userId;
+        this.goodsUnitName = goodsUnitName;
+        this.issueAmount = issueAmount;
+    }
+
+    public String getIssueAmount() {
+        return issueAmount;
+    }
+
+    public void setIssueAmount(String issueAmount) {
+        this.issueAmount = issueAmount;
+    }
+
+    public MjrStockGoodsTotalDTO() {
+    }
 
     public String getGoodsUnitName() {
         return goodsUnitName;
@@ -36,21 +82,6 @@ public class MjrStockGoodsTotalDTO {
 
     public void setPartnerId(String partnerId) {
         this.partnerId = partnerId;
-    }
-
-    public MjrStockGoodsTotalDTO(String id, String custId, String goodsId, String goodsCode, String goodsName, String goodsState, String stockId, String amount, String changeDate) {
-        this.id = id;
-        this.custId = custId;
-        this.goodsId = goodsId;
-        this.goodsCode = goodsCode;
-        this.goodsName = goodsName;
-        this.goodsState = goodsState;
-        this.stockId = stockId;
-        this.amount = amount;
-        this.changeDate = changeDate;
-    }
-
-    public MjrStockGoodsTotalDTO() {
     }
 
     public String getUserId() {
@@ -155,6 +186,14 @@ public class MjrStockGoodsTotalDTO {
 
     public void setAmountValue(String amountValue) {
         this.amountValue = amountValue;
+    }
+
+    public String getIssueAmountValue() {
+        return issueAmountValue;
+    }
+
+    public void setIssueAmountValue(String issueAmountValue) {
+        this.issueAmountValue = issueAmountValue;
     }
 
     @Override
