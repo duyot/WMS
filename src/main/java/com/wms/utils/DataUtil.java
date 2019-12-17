@@ -1,11 +1,4 @@
-/*
- * Copyright (C) 2010 Viettel Telecom. All rights reserved.
- * VIETTEL PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.wms.utils;
-
-//stock_management com.viettel.language.util.EnumWordType;
-//stock_management com.viettel.language.util.MultiLanguageNumberToWords;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
