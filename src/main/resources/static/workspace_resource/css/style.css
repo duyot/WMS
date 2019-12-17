@@ -748,7 +748,7 @@ footer  p a:hover{
     display: none;
 }
 div#page-wrapper {
-    padding:0.5em;
+	margin-top:10px;
 }
 .left-side-collapsed .logo-icon {
     height: 51px;
