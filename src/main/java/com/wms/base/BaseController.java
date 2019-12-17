@@ -38,6 +38,10 @@ public class BaseController {
     public StockService stockService;
     @Autowired
     public PartnerService partnerService;
+    @Autowired
+    BaseService catStockCellService;
+    @Autowired
+    private HttpServletRequest requestCtx;
     //STOCK
     public List<CatStockDTO> lstStock;
     public Map<String, CatStockDTO> mapStockIdStock;
@@ -63,11 +67,7 @@ public class BaseController {
     public CatUserDTO currentUser;
     //
     public boolean isDataLoaded = false;
-    @Autowired
-    BaseService catStockCellService;
-    @Autowired
-    private HttpServletRequest requestCtx;
-
+    //------------------------------------------------------------------------------------------------------------------
     @PostConstruct
     public void initBaseBean() {
         System.out.println("Running in initBaseBean...");
@@ -81,7 +81,7 @@ public class BaseController {
         isDataLoaded = true;
     }
 
-    //-----------------------init data------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
     public void initStocks() {
         if (currentUser != null && currentUser.getStockPermission().equals("0")) {
             this.lstStock = FunctionUtils.getListStock(catStockService, selectedCustomer);
@@ -141,7 +141,6 @@ public class BaseController {
         }
     }
 
-    //==================================================================================================================
     public void buildMapGoods() {
         mapGoodsCodeGoods = new HashMap<>();
         mapGoodsIdGoods = new HashMap<>();

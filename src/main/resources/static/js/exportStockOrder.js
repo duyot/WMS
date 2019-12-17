@@ -6,14 +6,14 @@ $addUpdateMainModal = $('#order-export-insert-update-modal');
 var $btnSearch = $('#btn-search');
 $mainTable = $('#tbl-main-table');
 $table = $('#tbl-export-goods');
-var $btn_add = $('#btn-create-order')
+var $btn_add = $('#btn-create-order');
 $inpGoodsCode = $('#inp-goods-code');
 var $inpGoodsAmount = $('#inp-amount');
 var lblTotalPrice = $("#lbl-total-price");
 var updatePopupButton = $("#btn-update_exportStock");
 $btn_add_partner = $('#btn-add-partner');
 $addUpdateModal = $('#myModal');
-var exportFile = $('#btn-export-file')
+var exportFile = $('#btn-export-file');
 var isUpdate =false;
 var btnExport = $('#btn-export');
 var exportMethodVal = $('#exportMethod');
@@ -243,9 +243,9 @@ function doInsertData() {
         complete: function () {
             hideModal($addUpdateModal);
             doSearch();
-            var message = "Tạo mới thành công"
+            var message = "Tạo mới thành công";
             if (isUpdate){
-                message = "Cập nhật thành công"
+                message = "Cập nhật thành công";
             }
             setInfoMessage(null,message);
         }
@@ -280,7 +280,7 @@ function operateFormatterMainForm(value, row, index) {
     $('.export-file').attr('href',url);
 
     var status = row['status'];
-    if (status == 2) {
+    if (status === 2) {
         return [].join('');
     } else {
         return [
@@ -329,7 +329,7 @@ window.operateEvents = {
         showModal($('#myConfirmModal'));
     },
     'click .export-menu': function (e, value, row, index) {
-        isDeleteOrder = false
+        isDeleteOrder = false;
         var orderId = row['id'];
         var code = row['code'];
         $("#order_id").val(orderId);
@@ -342,11 +342,11 @@ window.operateEvents = {
 function refreshFormAndInitData( row) {
     var exportMethod = 0 ;
     var stockId = -1;
-    var received = ""
+    var received = "";
     var partnerId = -1 ;
     var node = "";
-    var orderId = ""
-    var code = ""
+    var orderId = "";
+    var code = "";
 
     if (isUpdate && row != null){
         exportMethod = row['exportMethod'];
@@ -374,7 +374,7 @@ function refreshFormAndInitData( row) {
     initData(isUpdate,row);
 }
 
-var btnOrderDetail = $('#btn-order-detail')
+var btnOrderDetail = $('#btn-order-detail');
 
 function initData(isUpdate, row) {
     var dataInit = [];
@@ -419,7 +419,7 @@ btnExportConfirm.click(function () {
 
     var orderId = $('#order_id').val();
     if (isDeleteOrder) {
-        onClickDeleteOrder(orderId)
+        onClickDeleteOrder(orderId);
         return;
     }
     var stock_trans_info = {
@@ -444,20 +444,20 @@ btnExportConfirm.click(function () {
             var stockTransId = data['key'];
             var successRecords = data['success'];
             //
-            if (resultMessage == "SUCCESS_WITH_ERROR") {
+            if (resultMessage === "SUCCESS_WITH_ERROR") {
                 var totalRecords = data['total'];
                 //show modal upload file
                 setInfoMessageWithTime($("#modal-error-import-lbl-info"), 'Thực xuất ' + successRecords + '/' + totalRecords + ' hàng hóa thành công. Mã phiếu: ' + stockTransId, 8000);
                 $("#modal-link-download").attr("href", $("#modal-inp-stock-trans-id").val() + "/" + stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
-            } else if (resultMessage == "FAIL") {
+            } else if (resultMessage === "FAIL") {
                 var details     = resultMessageDetail.split('|');
                 var errorCode   = details[0];
                 var errorDetail = details[1];
                 var errorSerial = data['key'];
-                if (errorCode == 'ERROR_NOT_FOUND_STOCK_GOODS') {
+                if (errorCode === 'ERROR_NOT_FOUND_STOCK_GOODS') {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
-                } else if (errorCode == 'ERROR_NOT_FOUND_SERIAL') {
+                } else if (errorCode === 'ERROR_NOT_FOUND_SERIAL') {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, serial " + errorSerial + " không có trong kho!", 8000);
                 }else {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
@@ -524,7 +524,7 @@ function onClickToOpenPopup(row) {
         $('input[name=cmb-export-method][value='+exportMethodVal.val()+']').prop('checked', true);
     }
 }
-var btnDeleteOrder = $('#btn-get-deleteOrder')
+var btnDeleteOrder = $('#btn-get-deleteOrder');
 function onClickDeleteOrder(orderId) {
 
     //
@@ -539,9 +539,9 @@ function onClickDeleteOrder(orderId) {
         success: function (data) {
             var resultMessageDetail = data['statusName'];
             var key = data['key'];
-            if (resultMessageDetail == 'SUCCESS') {
+            if (resultMessageDetail === 'SUCCESS') {
                 setInfoMessage(null, "Xóa thành công");
-            }else if (key == 'EXPORTED') {
+            }else if (key === 'EXPORTED') {
                 setErrorMessage(null, "Order đã  xuất");
             }else {
                 setErrorMessage(null, "Lỗi hệ thống");
@@ -557,7 +557,6 @@ function onClickDeleteOrder(orderId) {
 
 function onChangeStock(sel) {
     $('#cmb-stock').val(sel.value);
-    // onSelectStock();
 }
 
 function addStyle(value, row, index) {

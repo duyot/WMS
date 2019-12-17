@@ -44,6 +44,7 @@ public class ExportOrderStockController extends BaseController {
     OrderExportService mjrOrderService;
     @Autowired
     BaseService catStockCellService;
+
     List<ComboSourceDTO> cells = Lists.newArrayList();
     private List<CatUserDTO> lstUsers;
     private List<MjrOrderDTO> lstOrder;
