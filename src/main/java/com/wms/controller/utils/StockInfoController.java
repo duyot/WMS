@@ -3,24 +3,14 @@ package com.wms.controller.utils;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
-import com.wms.dto.AppParamsDTO;
-import com.wms.dto.CatGoodsDTO;
-import com.wms.dto.Condition;
-import com.wms.dto.MjrStockGoodsTotalDTO;
-import com.wms.dto.MjrStockTransDetailDTO;
-import com.wms.dto.ServerPagingDTO;
+import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.UtilsService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -288,6 +277,7 @@ public class StockInfoController extends BaseController {
         if (!DataUtil.isListNullOrEmpty(lstTotal)) {
             for (MjrStockGoodsTotalDTO i : lstTotal) {
                 i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                i.setIssueAmountValue(FunctionUtils.formatNumber(i.getIssueAmount()));
                 i.setGoodsStateName(mapAppGoodsState.get(i.getGoodsState()));
                 goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
                 i.setGoodsUnitName(mapAppParamsUnitName.get(goodUnitId));
@@ -350,7 +340,6 @@ public class StockInfoController extends BaseController {
         FunctionUtils.exportExcel(templateAbsolutePath, beans, reportFullPath);
         return reportFullPath;
     }
-    //==================================================================================================================
 
     //=======================================================================================================
     private String exportAllGoodsDetails(List<MjrStockTransDetailDTO> lstGoodsDetails, String prefixFileName) {

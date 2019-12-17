@@ -713,6 +713,14 @@ function setAutoComplete(element, data) {
 
 
 //----------------format color in table fields------------
+function formatterOrderStatus(value, row, index) {
+    if (value === 'Chưa thực xuất') {
+        return '<span class="status-bgm-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    } else {
+        return '<span class="status-bgm-red status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    }
+}
+
 function formatterTransType(value, row, index) {
     var transType = value;
     if (transType === 'Nhập') {

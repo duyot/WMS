@@ -202,19 +202,19 @@
                 >
                     <thead>
                     <tr>
-                        <th data-formatter="runningFormatter" data-align="center" data-width="45px">STT</th>
-                        <th data-field="id"  data-visible="false">Id</th>
-                        <th data-field="exportMethod"  data-visible="false">Xuất kho theo</th>
-                        <th data-field="stockId"  data-visible="false">Kho Id</th>
-                        <th data-field="partnerId"  data-visible="false">Đối tác</th>
-                        <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã yêu cầu</th>
-                        <th data-field="stockValue" data-align="left" data-sortable="true">Kho hàng</th>
-                        <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true">Đối tác gửi hàng</th>
-                        <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
-                        <th class="col-md-1" data-field="description" data-align="left" data-sortable="true">Ghi chú</th>
-                        <th class="col-md-1" data-field="typeValue" data-align="center" data-sortable="true">Trạng thái</th>
-                        <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>
-                        <th class="col-md-1" data-field="createdDate" data-align="left" data-sortable="true">Ngày  tạo</th>
+                        <th data-formatter="runningFormatter" data-align="center" data-width="45px" th:text="#{label.tbl.stt}"></th>
+                        <th data-field="id"  data-visible="false"></th>
+                        <th data-field="exportMethod"  data-visible="false"></th>
+                        <th data-field="stockId"  data-visible="false"></th>
+                        <th data-field="partnerId"  data-visible="false" ></th>
+                        <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{label.tbl.order.code}"></th>
+                        <th data-field="stockValue" data-align="left" data-sortable="true" th:text="#{lbl.stock}"></th>
+                        <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true" th:text="#{label.tbl.shipping.partner}"></th>
+                        <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true" th:text="#{lbl.receiveName}"></th>
+                        <th class="col-md-1" data-field="description" data-align="left" data-sortable="true" th:text="#{lbl.note}"></th>
+                        <th class="col-md-1" data-field="typeValue" data-align="center" data-sortable="true" data-formatter="formatterOrderStatus" th:text="#{lbl.menutable.status}"></th>
+                        <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true" th:text="#{label.tbl.created_user}"></th>
+                        <th class="col-md-1" data-field="createdDate" data-align="left" data-sortable="true"th:text="#{lbl.createdate}" ></th>
                         <th data-width="120px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatterMainForm" th:text="#{lbl.action}"></th>
                         <th data-field="status" data-align="left"></th>
                     </tr>
@@ -229,6 +229,7 @@
             </div>
         </div>
     </div>
+    <div class="modal-loading"></div>
     <!--modal-->
     <div th:include="modal/create_order_export_modal :: frag-order-export-modal"></div>
     <div th:include="modal/cat_partner_modal :: frag-cat-partner-modal"></div>
