@@ -80,6 +80,8 @@ public class TransInfoController extends BaseController {
         lstTrans = Lists.newArrayList();
         model.addAttribute("menuName", "menu.utils.transinfo");
         model.addAttribute("lstUsers", lstUsers);
+        model.addAttribute("lstStock", lstStock);
+        model.addAttribute("lstPartner", lstPartner);
         return "utils/trans_info";
     }
 
@@ -146,8 +148,13 @@ public class TransInfoController extends BaseController {
         }
         for (int i = 0; i < size; i++) {
             lstStockTransId.append(lstTrans.get(i).getId());
-            if (i != size - 1) {
-                lstStockTransId.append(",");
+
+            if(i!= 0 && i%990==0){
+                lstStockTransId.append("or");
+            }else{
+                if (i != size - 1) {
+                    lstStockTransId.append(",");
+                }
             }
         }
         List<MjrStockTransDetailDTO> lstTransDetail = stockManagementService.getListTransGoodsDetail(lstStockTransId.toString());

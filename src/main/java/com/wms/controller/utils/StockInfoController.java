@@ -46,6 +46,9 @@ public class StockInfoController extends BaseController {
         //clear previous data
         lstGoodsTotal = Lists.newArrayList();
         lstGoodsDetails = Lists.newArrayList();
+        model.addAttribute("lstPartner", lstPartner);
+        model.addAttribute("lstStock", lstStock);
+        model.addAttribute("lstGoods", lstGoods);
         //
         model.addAttribute("menuName", "menu.stockinfo");
         return "utils/stock_info";

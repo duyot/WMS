@@ -14,6 +14,10 @@ public class SessionUtils {
         request.getSession().setAttribute(Constants.DATA_MODIFIED.EXPORT_STOCK_MODIFIED, true);
     }
 
+    public static void setPartnerModified(HttpServletRequest request) {
+        request.getSession().setAttribute(Constants.DATA_MODIFIED.PARTNER_MODIFIED, true);
+    }
+
     public static void setCellModified(HttpServletRequest request) {
         request.getSession().setAttribute(Constants.DATA_MODIFIED.IMPORT_CELL_MODIFIED, true);
         request.getSession().setAttribute(Constants.DATA_MODIFIED.EXPORT_CELL_MODIFIED, true);

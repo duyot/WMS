@@ -152,5 +152,8 @@ public class Constants {
         public static String EXPORT_ORDER_CELL_MODIFIED = "export.order.cell.modified";
         //
         public static String GOODS_GROUP_MODIFIED = "goods.group.modified";
+
+        public static String PARTNER_MODIFIED = "parner.modified";
+
     }
 }

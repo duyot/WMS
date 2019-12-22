@@ -37,6 +37,7 @@ public class UpdateStockGoodsInfor extends BaseController {
     Logger log = LoggerFactory.getLogger(UpdateStockGoodsInfor.class);
     private List<MjrStockGoodsTotalDTO> lstGoodsTotal;
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
+    public List<ComboSourceDTO> cells = Lists.newArrayList();
 
     //------------------------------------------------------------------------------------------------------------------
     @RequestMapping()
@@ -46,6 +47,11 @@ public class UpdateStockGoodsInfor extends BaseController {
         lstGoodsDetails = Lists.newArrayList();
         //
         model.addAttribute("menuName", "menu.update.stock.goods.info");
+        model.addAttribute("lstPartner", lstPartner);
+        model.addAttribute("lstStock", lstStock);
+        model.addAttribute("cells", cells);
+        model.addAttribute("lstGoods", lstGoods);
+
         return "utils/update_stock_goods_infor";
     }
 
