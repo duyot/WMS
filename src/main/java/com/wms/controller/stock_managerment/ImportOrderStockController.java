@@ -338,7 +338,7 @@ public class ImportOrderStockController extends BaseController {
             String[] splitPartner = mjrOrderDTO.getPartnerName().split("\\|");
             if (splitPartner.length > 0) {
                 String partnerCode = splitPartner[0];
-                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
+                CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(mjrOrderDTO.getPartnerId());
                 if (catPartnerDTO != null) {
                     mjrOrderDTO.setPartnerId(catPartnerDTO.getId());
                     String partnerName = "";

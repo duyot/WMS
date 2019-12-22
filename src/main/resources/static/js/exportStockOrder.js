@@ -177,7 +177,7 @@ function doCheckExists() {
     if(receiveValue != '' && descriptionValue != ''){
         var existsCode;
         $.ajax({
-            url: "/workspace/export_stock_order_ctr/checkExists",
+            url: $("btn-check-exist").val(),
             data: importData,
             cache: false,
             contentType: "application/json",
