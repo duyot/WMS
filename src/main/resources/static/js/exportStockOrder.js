@@ -19,6 +19,8 @@ var btnExport = $('#btn-export');
 var exportMethodVal = $('#exportMethod');
 var isDeleteOrder = true;
 var $body = $("body");
+var $lblInfo = $("#export-action-info");
+
 //@Init component-----------------------------------------------------------------------------------------------
 $(function () {
     //
