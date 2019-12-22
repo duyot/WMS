@@ -221,7 +221,8 @@ function setErrorMessage(object, value) {
         message: value
     }, {
         type: 'danger',
-        delay: 5000
+        delay: 5000,
+        z_index :999999
     });
 }
 function setInfoMessage(object, value) {
@@ -229,7 +230,7 @@ function setInfoMessage(object, value) {
         message: value
     }, {
         type: 'success',
-        delay: 5000
+        delay: 5000,
     });
 }
 

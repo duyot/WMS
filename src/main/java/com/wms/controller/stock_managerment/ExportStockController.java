@@ -205,6 +205,7 @@ public class ExportStockController extends BaseController {
     List<String> getPartnerName() {
         List<String> lstPartneName = Lists.newArrayList();
         StringBuilder namePlus = new StringBuilder();
+        initPartner();
         for (CatPartnerDTO i : lstPartner) {
             namePlus.append(i.getCode());
             if (!DataUtil.isStringNullOrEmpty(i.getName())){

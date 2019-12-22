@@ -20,11 +20,12 @@ public class MjrOrderDetailDTO {
     private String description;
     private String goodsName;
     private String outputPrice;
+    private String goodsOrder;
 
     public MjrOrderDetailDTO() {
     }
 
-    public MjrOrderDetailDTO(String id, String orderId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String unitName, String partnerId, String totalMoney, String volume, String weight, String description) {
+    public MjrOrderDetailDTO(String id, String orderId, String goodsId, String goodsCode, String goodsState, String isSerial, String amount, String serial, String unitName, String partnerId, String totalMoney, String volume, String weight, String description,String goodsOrder) {
         this.id = id;
         this.orderId = orderId;
         this.goodsId = goodsId;
@@ -39,6 +40,7 @@ public class MjrOrderDetailDTO {
         this.volume = volume;
         this.weight = weight;
         this.description = description;
+        this.goodsOrder = goodsOrder;
     }
 
     public String getId() {
@@ -167,5 +169,13 @@ public class MjrOrderDetailDTO {
 
     public void setOutputPrice(String outputPrice) {
         this.outputPrice = outputPrice;
+    }
+
+    public String getGoodsOrder() {
+        return goodsOrder;
+    }
+
+    public void setGoodsOrder(String goodsOrder) {
+        this.goodsOrder = goodsOrder;
     }
 }
