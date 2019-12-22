@@ -110,7 +110,7 @@ public class BaseController {
         buildMapGoods();
     }
 
-    private void initPartner() {
+	public void initPartner() {
         if (currentUser != null && currentUser.getPartnerPermission().equals("0")) {
             this.lstPartner = FunctionUtils.getListPartner(catPartnerService, selectedCustomer);
         } else {

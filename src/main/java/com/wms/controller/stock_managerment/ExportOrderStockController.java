@@ -162,6 +162,7 @@ public class ExportOrderStockController extends BaseController {
             }
 
             e.setGoodsId(mapGoodsCodeGoods.get(e.getGoodsCode()).getId());
+            e.setGoodsOrder((orderExportDTO.getLstMjrOrderDetailDTOS().indexOf(e) + 1) +"");
         });
         return mjrOrderService.orderExport(orderExportDTO);
     }

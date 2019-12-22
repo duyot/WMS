@@ -35,6 +35,75 @@ $(function () {
         isUpdate = false;
         onClickToOpenPopup(null);
 
+        validator = $("#cat-partner-insert-update-form").validate({
+            ignore: ":hidden",
+            rules: {
+                code: {
+                    required: true,
+                    normalizer: function (value) {
+                        return $.trim(value);
+                    },
+                    maxlength: 50
+                },
+                name: {
+                    required: true,
+                    normalizer: function (value) {
+                        return $.trim(value);
+                    },
+                    maxlength: 100
+                },
+                telNumber: {
+                    required: true,
+                    normalizer: function (value) {
+                        return $.trim(value);
+                    },
+                    maxlength: 100
+                },
+                address: {
+                    normalizer: function (value) {
+                        return $.trim(value);
+                    },
+                    maxlength: 100
+                }
+            },
+            submitHandler: function (form) {
+                preprocessInput($("#cat-partner-insert-update-form"));
+                //
+                if (isContainSpecialCharacter($('#modal-inp-code').val())) {
+                    alert("Mã đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                if (isContainSpecialCharacter($('#modal-inp-name').val())) {
+                    alert("Tên đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                //
+                $("#modal-type").val('add');
+                $.ajax({
+                    type: "POST",
+                    url: "/WMS/workspace/cat_partner_ctr/add",
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        resultArr = data.split('|');
+                        resultCode = resultArr[0];
+                        resultName = resultArr[1];
+                        if (resultCode == 1) {
+                            setInfoMessage(null,resultName);
+                        } else {
+                            setErrorMessage(null, resultName);
+                        }
+                        $('#inp-receive-name').val($('#modal-inp-code').val() + "|" + $('#modal-inp-name').val() + "|" + $('#modal-inp-telNumber').val());
+                    },
+                    error: function () {
+                        setErrorMessage(null, 'Lỗi hệ thống');
+                    }
+                });
+
+                hideModal($("#myModal"));
+                return false; // required to block normal submit since you used ajax
+            }
+        });
+
     });
 
     $('#order-export-insert-update-form').keydown(function (e) {
@@ -79,75 +148,6 @@ $(function () {
     });
     initDateRangeSelect();
     doSearch();
-
-
-    validator = $("#cat-partner-insert-update-form").validate({
-        ignore: ":hidden",
-        rules: {
-            code: {
-                required: true,
-                normalizer: function (value) {
-                    return $.trim(value);
-                },
-                maxlength: 50
-            },
-            name: {
-                required: true,
-                normalizer: function (value) {
-                    return $.trim(value);
-                },
-                maxlength: 100
-            },
-            telNumber: {
-                required: true,
-                normalizer: function (value) {
-                    return $.trim(value);
-                },
-                maxlength: 100
-            },
-            address: {
-                normalizer: function (value) {
-                    return $.trim(value);
-                },
-                maxlength: 100
-            }
-        },
-        submitHandler: function (form) {
-            preprocessInput($("#cat-partner-insert-update-form"));
-            //
-            if (isContainSpecialCharacter($('#modal-inp-code').val())) {
-                alert("Mã đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
-                return;
-            }
-            if (isContainSpecialCharacter($('#modal-inp-name').val())) {
-                alert("Tên đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
-                return;
-            }
-            //
-            $.ajax({
-                type: "POST",
-                url: "/workspace/cat_partner_ctr/add",
-                data: $(form).serialize(),
-                success: function (data) {
-                    resultArr = data.split('|');
-                    resultCode = resultArr[0];
-                    resultName = resultArr[1];
-                    if (resultCode == 1) {
-                        setInfoMessage($('#action-info'), resultName);
-                    } else {
-                        setErrorMessage($('#action-info'), resultName);
-                    }
-                },
-                error: function () {
-                    setErrorMessage($('#action-info'), 'Lỗi hệ thống');
-                }
-            });
-            $('#inp-receive-name').val($('#modal-inp-code').val() + "|" + $('#modal-inp-name').val() + "|" + $('#modal-inp-telNumber').val());
-
-            hideModal($modalAddUpdate);
-            return false; // required to block normal submit since you used ajax
-        }
-    });
 });
 
 function doCheckExists() {
@@ -175,7 +175,7 @@ function doCheckExists() {
     if(receiveValue != '' && descriptionValue != ''){
         var existsCode;
         $.ajax({
-            url: "/workspace/export_stock_order_ctr/checkExists",
+            url: "/WMS/workspace/export_stock_order_ctr/checkExists",
             data: importData,
             cache: false,
             contentType: "application/json",
@@ -197,6 +197,7 @@ function doCheckExists() {
             }
         });
     }
+    $body.removeClass("loading");
 }
 
 function doInsertData() {
@@ -231,7 +232,7 @@ function doInsertData() {
         success: function (data) {
             var errorCode = data['statusName'];
             if (errorCode == 'FAIL') {
-                setErrorMessage($lblInfo, "Lỗi hệ thống")
+                setErrorMessage(null, "Lỗi hệ thống")
             } else {
                 $table.bootstrapTable('removeAll');
             }
@@ -250,6 +251,7 @@ function doInsertData() {
             setInfoMessage(null,message);
         }
     });
+    $body.removeClass("loading");
 }
 
 var btnSaveConfirm = $('#modal-del-btn-ok');
