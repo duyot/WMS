@@ -20,6 +20,8 @@
     <!--editable-->
     <link rel='stylesheet' href="editable/bootstrap-editable.css" th:href="@{/editable/bootstrap-editable.css}"  type='text/css' />
     <link rel='stylesheet' href="css/exportStockOrder.css" th:href="@{/css/exportStockOrder.css}" type='text/css'/>
+    <!--<link rel='stylesheet' href="css/cat-role.css" th:href="@{/css/cat-role.css}" type='text/css'/>-->
+
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
@@ -42,7 +44,7 @@
     <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
     <!--common-->
     <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
-    <script th:attr="src=@{/js/wms-export.js}" th:href="@{/js/wms-export.js}"></script>
+    <script th:attr="src=@{/js/wms-import.js}" th:href="@{/js/wms-import.js}"></script>
     <script th:attr="src=@{/editable/bootstrap-editable.js}"      th:href="@{/editable/bootstrap-editable.js}"></script>
     <script th:attr="src=@{/editable/bootstrap-table-editable.js}"      th:href="@{/editable/bootstrap-table-editable.js}"></script>
     <!--font and favi icon-->
@@ -66,31 +68,37 @@
                 <div class="panel-body">
                     <div class="container">
                         <div class="row">
-                            <div class="col-sm-2">
-                                <label th:text="#{lbl.usage}"></label>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group">
-                                    <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
-                                    <button id="btn-export-file" style="display: none" th:value="@{/workspace/export_stock_order_ctr/orderExportFile}"></button>
-                                    <button id="btn-order-detail" style="display: none" th:value="@{/workspace/export_stock_order_ctr/getOrderDetail}"></button>
-                                </div>
-                            </div>
+                            <!--row 1: username + status-->
+                            <div class="container">
+                                <!--row 1: customer + stock-->
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.usage}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                            <button id="btn-import-file" style="display: none" th:value="@{/workspace/import_stock_order_ctr/orderImportFile}"></button>
+                                            <button id="btn-order-detail" style="display: none" th:value="@{/workspace/import_stock_order_ctr/getOrderDetail}"></button>
+                                        </div>
+                                    </div>
 
-                            <div class="col-sm-2">
-                                <label for="cmb-main-stock" th:text="#{lbl.stock}"></label>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group input-group-combo">
-                                    <select id="cmb-main-stock" class="selectpicker form-control"
-                                            data-live-search="true"
-                                            data-width="100%" name="cmb-main-stock">
-                                        <option value="-1" th:text="#{label.all}"></option>
-                                        <option th:each="sopt:${lstStock}"
-                                                th:value="${sopt.id}"
-                                                th:text="${sopt.code} + '|' + ${sopt.name}">1
-                                        </option>
-                                    </select>
+                                    <div class="col-sm-2">
+                                        <label for="cmb-main-stock" th:text="#{lbl.stock}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group input-group-combo">
+                                            <select id="cmb-main-stock" class="selectpicker form-control"
+                                                    data-live-search="true"
+                                                    data-width="100%" name="cmb-main-stock">
+                                                <option value="-1" th:text="#{label.all}"></option>
+                                                <option th:each="sopt:${lstStock}"
+                                                        th:value="${sopt.id}"
+                                                        th:text="${sopt.code} + '|' + ${sopt.name}">1
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -137,11 +145,11 @@
                                     </div>
                                     <div class="radio radio-inline radio-info">
                                         <input value="1" type="radio" id="radio-normal" name="cmb-status" checked="checked"/>
-                                        <label for="radio-normal" th:text="#{lbl.notexport}"></label>
+                                        <label for="radio-normal" th:text="#{lbl.notimport}"></label>
                                     </div>
                                     <div class="radio radio-inline radio-danger">
                                         <input value="2" type="radio" id="radio-innormal" name="cmb-status"/>
-                                        <label for="radio-innormal" th:text="#{lbl.export}"></label>
+                                        <label for="radio-innormal" th:text="#{lbl.import}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -194,19 +202,17 @@
                 >
                     <thead>
                     <tr>
-                        <th data-formatter="runningFormatter" data-align="center" data-width="45px" th:text="#{label.tbl.stt}"></th>
-                        <th data-field="id"  data-visible="false"></th>
-                        <th data-field="exportMethod"  data-visible="false"></th>
-                        <th data-field="stockId"  data-visible="false"></th>
-                        <th data-field="partnerId"  data-visible="false" ></th>
-                        <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{label.tbl.order.code}"></th>
-                        <th data-field="stockValue" data-align="left" data-sortable="true" th:text="#{lbl.stock}"></th>
-                        <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true" th:text="#{label.tbl.shipping.partner}"></th>
-                        <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true" th:text="#{lbl.receiveName}"></th>
-                        <th class="col-md-1" data-field="description" data-align="left" data-sortable="true" th:text="#{lbl.note}"></th>
-                        <th class="col-md-1" data-field="typeValue" data-align="center" data-sortable="true" data-formatter="formatterOrderStatus" th:text="#{lbl.menutable.status}"></th>
-                        <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true" th:text="#{label.tbl.created_user}"></th>
-                        <th class="col-md-1" data-field="createdDate" data-align="left" data-sortable="true"th:text="#{lbl.createdate}" ></th>
+                        <th data-formatter="runningFormatter" data-align="center" data-width="45px">STT</th>
+                        <th data-field="id"  data-visible="false">Id</th>
+                        <th data-field="stockId"  data-visible="false">Kho Id</th>
+                        <th data-field="partnerId"  data-visible="false">Đối tác</th>
+                        <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã yêu cầu</th>
+                        <th data-field="stockValue" data-align="left" data-sortable="true">Kho hàng</th>
+                        <th class="col-md-2" data-field="partnerName" data-align="left" data-sortable="true">Đối tác gửi hàng</th>
+                        <th class="col-md-1" data-field="description" data-align="left" data-sortable="true">Ghi chú</th>
+                        <th class="col-md-1" data-field="typeValue" data-align="center" data-sortable="true">Trạng thái</th>
+                        <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người tạo</th>
+                        <th class="col-md-1" data-field="createdDate" data-align="left" data-sortable="true">Ngày  tạo</th>
                         <th data-width="120px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatterMainForm" th:text="#{lbl.action}"></th>
                         <th data-field="status" data-align="left"></th>
                     </tr>
@@ -214,19 +220,23 @@
 
                 </table>
                 <button type="button" class="btn btn-default  btn-primary" style="display: none"
-                id="btn-export" th:value="@{/workspace/stock_management/export/exportOrder}">
+                id="btn-import" th:value="@{/workspace/stock_management/import/importOrder}">
                 </button>
                 <label id="order_id"></label>
-                <label class="toolbar-label-info" id="export-action-info"></label>
+                <label class="toolbar-label-info" id="import-action-info"></label>
             </div>
         </div>
     </div>
-    <div class="modal-loading"></div>
     <!--modal-->
-    <div th:include="modal/create_order_export_modal :: frag-order-export-modal"></div>
+    <div th:include="modal/create_order_import_modal :: frag-order-import-modal"></div>
     <div th:include="modal/cat_partner_modal :: frag-cat-partner-modal"></div>
+    <!--<div th:include="modal/assign_stock_user :: frag-assign-stock-user-modal"></div>-->
+    <!--<div th:include="modal/cat_employee_modal :: frag-cat-emp-modal"></div>-->
+    <!--<div th:include="modal/reset_password :: frag-reset-password"></div>-->
+    <!--<div th:include="modal/add_department_modal :: frag-update-department"></div>-->
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <div th:include="modal/confirm_delete_modal :: frag-confirm-delete-modal"></div>
+    <!--<div th:include="modal/assign_partner_user :: frag-assign-partner-user-modal"></div>-->
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
     <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
@@ -239,7 +249,8 @@
 <!--switch-->
 <script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
 <!--validation-->
-<script th:attr="src=@{/js/exportStockOrder.js}" th:href="@{/js/exportStockOrder.js}"></script>
+<script th:attr="src=@{/js/jquery.form-validator.min.js}" th:href="@{/js/jquery.form-validator.min.js}"></script>
+<script th:attr="src=@{/js/importStockOrder.js}" th:href="@{/js/importStockOrder.js}"></script>
 
 </body>
 </html>

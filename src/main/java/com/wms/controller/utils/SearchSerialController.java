@@ -52,6 +52,8 @@ public class SearchSerialController extends BaseController {
     public String home(Model model) {
         lstGoodsDetails = Lists.newArrayList();
         model.addAttribute("menuName", "menu.utils.searchserial");
+        model.addAttribute("lstStock", lstStock);
+        model.addAttribute("lstGoods", lstGoods);
         return "utils/search_serial";
     }
 

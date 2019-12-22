@@ -10,15 +10,15 @@ import com.wms.services.interfaces.OrderExportService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
-import com.wms.utils.SessionUtils;
 import java.io.File;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.wms.utils.SessionUtils;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -33,48 +33,61 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/workspace/export_stock_order_ctr")
+@RequestMapping("/workspace/import_stock_order_ctr")
 @Scope("session")
-public class ExportOrderStockController extends BaseController {
+public class ImportOrderStockController extends BaseController {
+    @Autowired
+    OrderExportService mjrOrderService;
+    private Logger log = LoggerFactory.getLogger(ImportOrderStockController.class);
     @Autowired
     public CatUserService catUserService;
     @Autowired
-    OrderExportService mjrOrderService;
-    @Autowired
     BaseService catStockCellService;
-
-    List<ComboSourceDTO> cells = Lists.newArrayList();
     private List<CatUserDTO> lstUsers;
     private List<MjrOrderDTO> lstOrder;
+    List<ComboSourceDTO> cells;
+    public LinkedHashMap<String, String> mapUnitType;
 
-    private Logger log = LoggerFactory.getLogger(ExportOrderStockController.class);
+    @RequestMapping()
+    public String home(Model model) {
+        model.addAttribute("menuName", "menu.importStockOrder");
+        model.addAttribute("controller", "/workspace/import_stock_order_ctr/");
+        model.addAttribute("lstStock", lstStock);
+        model.addAttribute("lstPartner", lstPartner);
+        initMapUnitType();
+        return "stock_management/import_stock_order";
+    }
 
-    //------------------------------------------------------------------------------------------------------------------
-    @PostConstruct
-    public void init() {
-        if (!isDataLoaded) {
-            initBaseBean();
+    private void initMapUnitType() {
+        //
+        if (lstAppParams == null) {
+            lstAppParams = FunctionUtils.getAppParams(appParamsService);
         }
-        this.lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
+        mapUnitType = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.UNIT_TYPE, lstAppParams));
     }
 
     //------------------------------------------------------------------------------------------------------------------
     @ModelAttribute("data-reload")
     public void checkReloadData(HttpServletRequest request) {
-        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_GOODS_MODIFIED)) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.IMPORT_GOODS_MODIFIED)) {
             initGoods();
-            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_GOODS_MODIFIED);
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.IMPORT_GOODS_MODIFIED);
         }
-        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_STOCK_MODIFIED)) {
-            initStocks();
-            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_STOCK_MODIFIED);
-        }
-        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.EXPORT_CELL_MODIFIED)) {
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.IMPORT_CELL_MODIFIED)) {
             initCells();
-            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_CELL_MODIFIED);
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.IMPORT_CELL_MODIFIED);
+        }
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.IMPORT_STOCK_MODIFIED)) {
+            initStocks();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.IMPORT_STOCK_MODIFIED);
         }
         if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.PARTNER_MODIFIED)) {
             initPartner();
@@ -82,28 +95,56 @@ public class ExportOrderStockController extends BaseController {
         }
     }
 
-    //------------------------------------------------------------------------------------------------------------------
-    @RequestMapping()
-    public String home(Model model) {
-        model.addAttribute("menuName", "menu.exportStockOrder");
-        model.addAttribute("controller", "/workspace/export_stock_order_ctr/");
-        model.addAttribute("lstUsers", lstUsers);
-        model.addAttribute("lstStock", lstStock);
-        model.addAttribute("lstPartner", lstPartner);
+    @ModelAttribute("lstUsers")
+    public List<CatUserDTO> setUsers(HttpServletRequest request) {
+        if (selectedCustomer == null) {
+            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
         //
-        cells.clear();
+        if (lstUsers == null) {
+            lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
+        }
+        return lstUsers;
+    }
+
+    @ModelAttribute("cells")
+    public List<ComboSourceDTO> getCells(HttpServletRequest request) {
+        if (selectedCustomer == null) {
+            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        //
+        if (currentUser == null) {
+            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
+        }
+        //
+        if (lstStock == null || isStockModified(request)) {
+            lstStock = FunctionUtils.getListStock(stockService, currentUser);
+            buildMapStock();
+            request.getSession().setAttribute("isStockModifiedImportStock", false);
+        }
+        //
         if (!DataUtil.isListNullOrEmpty(lstStock)) {
             int currentStockId = Integer.parseInt(lstStock.get(0).getId());
-            List<CatStockCellDTO> cellInSelectedStock = mapStockIdCells.get(currentStockId);
-            if (!DataUtil.isStringNullOrEmpty(cellInSelectedStock)) {
-                for (CatStockCellDTO i : cellInSelectedStock) {
-                    cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
+            if (cells == null || cells.size() == 0) {
+                cells = Lists.newArrayList();
+                List<Condition> conditions = Lists.newArrayList();
+                conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, currentStockId + ""));
+                List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions);
+                if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
+                    for (CatStockCellDTO i : cellsDTO) {
+                        cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
+                    }
                 }
             }
         }
-        model.addAttribute("cells", cells);
-        //
-        return "stock_management/export_stock_order";
+        return cells;
+    }
+
+    private boolean isStockModified(HttpServletRequest request) {
+        if (request.getSession().getAttribute("isStockModifiedExportStock") == null) {
+            return true;
+        }
+        return (boolean) request.getSession().getAttribute("isStockModifiedExportStock");
     }
 
     @RequestMapping(value = "/findDataByCondition", method = RequestMethod.GET)
@@ -122,7 +163,7 @@ public class ExportOrderStockController extends BaseController {
         if (!DataUtil.isStringNullOrEmpty(createdUser) && !createdUser.equals(Constants.STATS_ALL)) {
             lstCon.add(new Condition("createdUser", Constants.SQL_OPERATOR.EQUAL, createdUser));
         }
-        lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "2"));
+        lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "1"));
 
         if (!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)) {
             lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, status));
@@ -137,9 +178,9 @@ public class ExportOrderStockController extends BaseController {
             e.setStockValue(mapStockIdStock.get(e.getStockId()).getName());
             String value = "";
             if (e.getStatus().equalsIgnoreCase("1")) {
-                value = "Chưa thực xuất";
+                value = "Chưa thực nhập";
             } else if (e.getStatus().equalsIgnoreCase("2")) {
-                value = "Đã thực xuất";
+                value = "Đã thực nhập";
             }
             e.setTypeValue(value);
         });
@@ -157,16 +198,16 @@ public class ExportOrderStockController extends BaseController {
         return lstMjrOrderDTOS;
     }
 
-    @RequestMapping(value = "/orderExport", method = RequestMethod.POST)
+    @RequestMapping(value = "/orderImport", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseObject orderExport(@RequestBody OrderExportDTO orderExportDTO) {
-        initExportOrder(orderExportDTO.getMjrOrderDTO());
+    public ResponseObject orderImport(@RequestBody OrderExportDTO orderExportDTO) {
+        initImportOrder(orderExportDTO.getMjrOrderDTO());
         orderExportDTO.getLstMjrOrderDetailDTOS().forEach(e -> {
             CatGoodsDTO goodsItem = mapGoodsCodeGoods.get(e.getGoodsCode());
             if (goodsItem != null) {
                 e.setGoodsId(goodsItem.getId());
                 e.setIsSerial(goodsItem.getIsSerial());
-                e.setUnitName(mapAppParamsUnitName.get(goodsItem.getUnitType()));
+                e.setUnitName(mapUnitType.get(goodsItem.getUnitType()));
             }
             if (!DataUtil.isNullOrEmpty(e.getSerial())) {
                 e.setIsSerial("1");
@@ -175,7 +216,6 @@ public class ExportOrderStockController extends BaseController {
             }
 
             e.setGoodsId(mapGoodsCodeGoods.get(e.getGoodsCode()).getId());
-            e.setGoodsOrder((orderExportDTO.getLstMjrOrderDetailDTOS().indexOf(e) + 1) +"");
         });
         return mjrOrderService.orderExport(orderExportDTO);
     }
@@ -193,41 +233,42 @@ public class ExportOrderStockController extends BaseController {
         }
         return mjrOrderService.deleteOrder(orderid);
     }
+	
+	@RequestMapping(value = "/checkExists", method = RequestMethod.POST)
+	@ResponseBody
+	public MjrOrderDTO checkExists(@RequestBody OrderExportDTO orderExportDTO) {
+		MjrOrderDTO mjrOrderDTO = orderExportDTO.getMjrOrderDTO();
+		initImportOrder(mjrOrderDTO);
+		List<Condition> lstCon = Lists.newArrayList();
 
-    @RequestMapping(value = "/checkExists", method = RequestMethod.POST)
-    @ResponseBody
-    public MjrOrderDTO checkExists(@RequestBody OrderExportDTO orderExportDTO) {
-        MjrOrderDTO mjrOrderDTO = orderExportDTO.getMjrOrderDTO();
-        initExportOrder(mjrOrderDTO);
-        List<Condition> lstCon = Lists.newArrayList();
+		lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
+		lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getStockId()));
+		lstCon.add(new Condition("receiveId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getReceiveId()));
+		lstCon.add(new Condition("description", Constants.SQL_PRO_TYPE.STRING, Constants.SQL_OPERATOR.LIKE, mjrOrderDTO.getDescription()));
 
-        lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
-        lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getStockId()));
-        lstCon.add(new Condition("receiveId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, mjrOrderDTO.getReceiveId()));
-        lstCon.add(new Condition("description", Constants.SQL_PRO_TYPE.STRING, Constants.SQL_OPERATOR.LIKE, mjrOrderDTO.getDescription()));
+		List<MjrOrderDTO> lstOrderExists = mjrOrderService.findByCondition(lstCon);
+		List<MjrOrderDTO> LstResult = Lists.newArrayList();
+		for(MjrOrderDTO obj : lstOrderExists){
+			if(DataUtil.isNullOrEmpty(mjrOrderDTO.getId()) || !mjrOrderDTO.getId().equals(obj.getId())){
+				LstResult.add(obj);
+			}
+		}
+		if(DataUtil.isListNullOrEmpty(LstResult)){
+			return new MjrOrderDTO();
+		}
+		return LstResult.get(0);
+	}
 
-        List<MjrOrderDTO> lstOrderExists = mjrOrderService.findByCondition(lstCon);
-        List<MjrOrderDTO> LstResult = Lists.newArrayList();
-        for (MjrOrderDTO obj : lstOrderExists) {
-            if (DataUtil.isNullOrEmpty(mjrOrderDTO.getId()) || !mjrOrderDTO.getId().equals(obj.getId())) {
-                LstResult.add(obj);
-            }
-        }
-        if (DataUtil.isListNullOrEmpty(LstResult)) {
-            return new MjrOrderDTO();
-        }
-        return LstResult.get(0);
-    }
-
-    @RequestMapping(value = "/orderExportFile", method = RequestMethod.GET)
+    //==================================================================================================================
+    @RequestMapping(value = "/orderImportFile", method = RequestMethod.GET)
     public void orderExportFile(@RequestParam("orderId") String orderId, HttpServletResponse response) {
 
 
         String prefixFileName = "Thong_tin_chitiet_yeucau_xuatkho";
-        String templatePath = profileConfig.getTemplateURL() + selectedCustomer.getCode() + File.separator + File.separator + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
-        File file = new File(templatePath);
+        String templatePath = profileConfig.getTemplateURL() +selectedCustomer.getCode()+File.separator+ File.separator + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
+        File file = new  File(templatePath);
         log.info("url " + templatePath);
-        if (!file.exists()) {
+        if (!file.exists()){
             log.info("Url is not exist  " + templatePath);
             templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_ORDER_BILL;
         }
@@ -278,39 +319,94 @@ public class ExportOrderStockController extends BaseController {
 
     }
 
-    //------------------------------------------------------------------------------------------------------------------
-    private void initExportOrder(MjrOrderDTO mjrOrderDTO) {
-        mjrOrderDTO.setCustId(selectedCustomer.getId());
-        mjrOrderDTO.setType(Constants.IMPORT_TYPE.EXPORT);
-        mjrOrderDTO.setStatus("1");
-        mjrOrderDTO.setCreatedUser(currentUser.getCode());
-        //Nguoi nhan khi xuat
-        if (mjrOrderDTO.getReceiveName() != null && !mjrOrderDTO.getReceiveName().trim().equals("") && mjrOrderDTO.getReceiveName().contains("|")) {
-            String[] splitPartner = mjrOrderDTO.getReceiveName().split("\\|");
-            if (splitPartner.length > 0) {
-                String partnerCode = splitPartner[0];
-                CatPartnerDTO catPartnerDTO = mapPartnerCodePartner.get(partnerCode);
-                if (catPartnerDTO != null) {
-                    mjrOrderDTO.setReceiveId(catPartnerDTO.getId());
-                }
-            }
-        }
-        //Xuat hang cua doi tac
-        if (!DataUtil.isStringNullOrEmpty(mjrOrderDTO.getPartnerId())) {
-            CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(mjrOrderDTO.getPartnerId());
-            if (catPartnerDTO != null) {
-                String receiverName = "";
-                if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
-                    receiverName = receiverName + catPartnerDTO.getName();
-                }
-                if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())) {
-                    receiverName = receiverName + "|" + catPartnerDTO.getTelNumber();
-                }
-                mjrOrderDTO.setPartnerId(catPartnerDTO.getId());
-                mjrOrderDTO.setPartnerName(receiverName);
-            }
-        }
-        //
+
+    public List<ComboSourceDTO> getCells() {
+        return cells;
     }
 
+    public void setCells(List<ComboSourceDTO> cells) {
+        this.cells = cells;
+    }
+
+    private void initImportOrder(MjrOrderDTO mjrOrderDTO) {
+        mjrOrderDTO.setCustId(selectedCustomer.getId());
+        mjrOrderDTO.setType(Constants.IMPORT_TYPE.IMPORT);
+        mjrOrderDTO.setStatus("1");
+        mjrOrderDTO.setCreatedUser(currentUser.getCode());
+        //Nhap hang cua doi tac
+        if (mjrOrderDTO.getPartnerName() != null && !mjrOrderDTO.getPartnerName().trim().equals("") && mjrOrderDTO.getPartnerName().contains("|")) {
+            String[] splitPartner = mjrOrderDTO.getPartnerName().split("\\|");
+            if (splitPartner.length > 0) {
+                String partnerCode = splitPartner[0];
+                CatPartnerDTO catPartnerDTO = FunctionUtils.getPartner(catPartnerService, selectedCustomer.getId(), partnerCode, null);
+                if (catPartnerDTO != null) {
+                    mjrOrderDTO.setPartnerId(catPartnerDTO.getId());
+                    String partnerName = "";
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getName())) {
+                        partnerName = partnerName + catPartnerDTO.getName();
+                    }
+                    if (!DataUtil.isStringNullOrEmpty(catPartnerDTO.getTelNumber())) {
+                        partnerName = partnerName + "|" + catPartnerDTO.getTelNumber();
+                    }
+                    mjrOrderDTO.setPartnerName(partnerName);
+                }
+            }
+        }
+    }
+
+    public OrderExportService getMjrOrderService() {
+        return mjrOrderService;
+    }
+
+    public void setMjrOrderService(OrderExportService mjrOrderService) {
+        this.mjrOrderService = mjrOrderService;
+    }
+
+    public Logger getLog() {
+        return log;
+    }
+
+    public void setLog(Logger log) {
+        this.log = log;
+    }
+
+    public CatUserService getCatUserService() {
+        return catUserService;
+    }
+
+    public void setCatUserService(CatUserService catUserService) {
+        this.catUserService = catUserService;
+    }
+
+    public BaseService getCatStockCellService() {
+        return catStockCellService;
+    }
+
+    public void setCatStockCellService(BaseService catStockCellService) {
+        this.catStockCellService = catStockCellService;
+    }
+
+    public List<CatUserDTO> getLstUsers() {
+        return lstUsers;
+    }
+
+    public void setLstUsers(List<CatUserDTO> lstUsers) {
+        this.lstUsers = lstUsers;
+    }
+
+    public List<MjrOrderDTO> getLstOrder() {
+        return lstOrder;
+    }
+
+    public void setLstOrder(List<MjrOrderDTO> lstOrder) {
+        this.lstOrder = lstOrder;
+    }
+
+    public LinkedHashMap<String, String> getMapUnitType() {
+        return mapUnitType;
+    }
+
+    public void setMapUnitType(LinkedHashMap<String, String> mapUnitType) {
+        this.mapUnitType = mapUnitType;
+    }
 }

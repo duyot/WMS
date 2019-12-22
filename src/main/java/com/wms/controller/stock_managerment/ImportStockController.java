@@ -80,6 +80,10 @@ public class ImportStockController extends BaseController {
             initStocks();
             SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.IMPORT_STOCK_MODIFIED);
         }
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.PARTNER_MODIFIED)) {
+            initPartner();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.PARTNER_MODIFIED);
+        }
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -292,7 +296,7 @@ public class ImportStockController extends BaseController {
     private void initListPartnerName() {
         lstPartnerName = Lists.newArrayList();
         StringBuilder namePlus = new StringBuilder();
-        for (CatPartnerDTO i : lstPartner) {
+        for (CatPartnerDTO i : super.lstPartner) {
             namePlus.append(i.getCode());
             if (!DataUtil.isStringNullOrEmpty(i.getName())) {
                 namePlus.append("|").append(i.getName());

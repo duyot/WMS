@@ -75,6 +75,10 @@ public class ExportStockController extends BaseController {
             initCells();
             SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.EXPORT_CELL_MODIFIED);
         }
+        if (SessionUtils.isPropertiesModified(request, Constants.DATA_MODIFIED.PARTNER_MODIFIED)) {
+            initPartner();
+            SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.PARTNER_MODIFIED);
+        }
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -203,11 +207,33 @@ public class ExportStockController extends BaseController {
         StringBuilder namePlus = new StringBuilder();
         initPartner();
         for (CatPartnerDTO i : lstPartner) {
-            namePlus.append(i.getCode()).append("|").append(i.getName()).append("|").append(i.getTelNumber());
-            lstPartneName.add(namePlus.toString());
-            namePlus.setLength(0);
+            namePlus.append(i.getCode());
+            if (!DataUtil.isStringNullOrEmpty(i.getName())){
+                namePlus.append("|").append(i.getName());
+            }
+            if (!DataUtil.isStringNullOrEmpty(i.getTelNumber())) {
+                namePlus.append("|").append(i.getTelNumber());
+            }
+			lstPartneName.add(namePlus.toString());
+            namePlus = new StringBuilder();
         }
         return lstPartneName;
+    }
+    @ModelAttribute("setPartnerName")
+    public void setPartnerName(HttpServletRequest request) {
+        //
+        if (selectedCustomer == null) {
+            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
+        }
+        if (lstPartner == null || isPartnerModified(request)) {
+            lstPartner = FunctionUtils.getListPartner(catPartnerService, selectedCustomer);
+        }
+    }
+    private boolean isPartnerModified(HttpServletRequest request) {
+        if (request.getSession().getAttribute("isCatPartnerModified") == null) {
+            return true;
+        }
+        return (boolean) request.getSession().getAttribute("isCatPartnerModified");
     }
 
     //------------------------------------------------------------------------------------------------------------------

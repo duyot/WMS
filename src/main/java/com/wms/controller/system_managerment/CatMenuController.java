@@ -127,7 +127,6 @@ public class CatMenuController extends BaseCommonController {
             deleteObject.setStatus(Constants.STATUS.IN_ACTIVE);
             ResponseObject response = menuService.update(deleteObject);
             if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
-                request.getSession().setAttribute("isCatPartnerModified", true);
                 return "1|Xoá thành công";
             } else {
                 return "0|Xoá không thành công";

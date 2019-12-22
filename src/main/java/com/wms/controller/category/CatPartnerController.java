@@ -11,6 +11,8 @@ import com.wms.services.interfaces.BaseService;
 import com.wms.utils.DataUtil;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
+import com.wms.utils.SessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +77,7 @@ public class CatPartnerController extends BaseCommonController {
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             log.info("Add: " + catPartnerDTO.toString() + " SUCCESS");
             request.getSession().setAttribute("isCatPartnerModified", true);
+            SessionUtils.setPartnerModified(request);
             return "1|Thêm mới thành công";
         } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
             log.info("Add: " + catPartnerDTO.toString() + " ERROR");
@@ -99,6 +102,7 @@ public class CatPartnerController extends BaseCommonController {
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             log.info("SUCCESS");
             request.getSession().setAttribute("isPartnerModified", true);
+            SessionUtils.setPartnerModified(request);
             return "1|Cập nhật thành công";
         } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
             log.info("ERROR");
@@ -122,6 +126,7 @@ public class CatPartnerController extends BaseCommonController {
             ResponseObject response = catPartnerService.update(deleteObject);
             if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
                 request.getSession().setAttribute("isCatPartnerModified", true);
+                SessionUtils.setPartnerModified(request);
                 return "1|Xoá thành công";
             } else {
                 return "0|Xoá không thành công";

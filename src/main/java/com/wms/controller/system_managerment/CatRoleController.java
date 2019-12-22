@@ -272,7 +272,6 @@ public class CatRoleController extends BaseCommonController {
 
             }
             if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
-                request.getSession().setAttribute("isCatPartnerModified", true);
                 return "1|Xoá thành công";
             } else {
                 return "0|Xoá không thành công";

@@ -51,7 +51,7 @@
                 </div>
                 <div class="panel-body">
                     <form>
-                        <div class="container" style="width:80%">
+                        <div class="container">
                             <!--row 1: customer + stock-->
                             <div class="row">
                                 <div class="col-sm-2">
@@ -193,12 +193,12 @@
                             <th  data-formatter="runningFormatter" data-align="center" data-width="60px" th:text="#{label.tbl.stt}"></th>
                             <th class="col-md-2" data-field="stockName" data-align="left" data-sortable="true" th:text="#{menu.catstock}"></th>
                             <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true" th:text="#{lbl.goodsCode}"></th>
-                            <th class="col-md-4" data-field="goodsName" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
+                            <th data-field="goodsName" data-align="left" data-sortable="true" th:text="#{lbl.goodsName}"></th>
                             <th class="col-md-1" data-field="goodsStateName" data-align="left" data-sortable="true" data-formatter="formatterGoodsStatus" th:text="#{lbl.status.short}"></th>
                             <th class="col-md-1" data-field="amountValue" data-align="right" data-sortable="true" th:text="#{lbl.short.amount}"></th>
                             <th class="col-md-1" data-field="issueAmountValue" data-align="right" data-sortable="true" th:text="#{lbl.short.amount.issue}"></th>
                             <th class="col-md-1" data-field="goodsUnitName" data-align="left" data-sortable="true" th:text="#{lbl.unit}"></th>
-                            <th class="col-md-1" data-field="changeDate" data-align="center" data-sortable="true" th:text="#{btn.short.update.time}"></th>
+                            <th style="display: none" data-field="changeDate" data-align="center" data-sortable="true" th:text="#{btn.short.update.time}"></th>
                             <th data-field="stockId" data-align="right" data-sortable="true"></th>
                             <th data-field="goodsState" data-align="right" data-sortable="true"></th>
                             <th data-field="goodsId" data-align="right" data-sortable="true"></th>
@@ -255,6 +255,8 @@
         $table.bootstrapTable('hideColumn', 'stockId');
         $table.bootstrapTable('hideColumn', 'goodsState');
         $table.bootstrapTable('hideColumn', 'goodsId');
+        $table.bootstrapTable('hideColumn', 'changeDate');
+
         //
         $tableGoodsDetail.bootstrapTable({
             data: dataInit,
