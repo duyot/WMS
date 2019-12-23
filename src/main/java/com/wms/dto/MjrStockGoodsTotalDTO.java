@@ -1,5 +1,7 @@
 package com.wms.dto;
 
+import java.math.BigDecimal;
+
 /**
  * Created by duyot on 12/19/2016.
  */
@@ -12,9 +14,10 @@ public class MjrStockGoodsTotalDTO {
     private String goodsState;
     private String stockId;
     private String amount;
-    private String amountValue;
+    private Double amountValue;
     private String issueAmount;
-    private String issueAmountValue;
+    private Double issueAmountValue;
+    private Double orderAmountValue;
 
     private String changeDate;
     //name
@@ -38,7 +41,7 @@ public class MjrStockGoodsTotalDTO {
         this.changeDate = changeDate;
     }
 
-    public MjrStockGoodsTotalDTO(String id, String custId, String goodsId, String goodsCode, String goodsName, String goodsState, String stockId, String amount, String changeDate, String goodsStateName, String stockName, String amountValue, String partnerId, String userId, String goodsUnitName, String issueAmount) {
+    public MjrStockGoodsTotalDTO(String id, String custId, String goodsId, String goodsCode, String goodsName, String goodsState, String stockId, String amount, String changeDate, String goodsStateName, String stockName, Double amountValue, String partnerId, String userId, String goodsUnitName, String issueAmount) {
         this.id = id;
         this.custId = custId;
         this.goodsId = goodsId;
@@ -180,20 +183,28 @@ public class MjrStockGoodsTotalDTO {
         this.stockName = stockName;
     }
 
-    public String getAmountValue() {
+    public Double getAmountValue() {
         return amountValue;
     }
 
-    public void setAmountValue(String amountValue) {
+    public void setAmountValue(Double amountValue) {
         this.amountValue = amountValue;
     }
 
-    public String getIssueAmountValue() {
+    public Double getIssueAmountValue() {
         return issueAmountValue;
     }
 
-    public void setIssueAmountValue(String issueAmountValue) {
+    public void setIssueAmountValue(Double issueAmountValue) {
         this.issueAmountValue = issueAmountValue;
+    }
+
+    public Double getOrderAmountValue() {
+        return orderAmountValue;
+    }
+
+    public void setOrderAmountValue(Double orderAmountValue) {
+        this.orderAmountValue = orderAmountValue;
     }
 
     @Override

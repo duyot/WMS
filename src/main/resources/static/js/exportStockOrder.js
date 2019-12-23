@@ -176,10 +176,10 @@ function doCheckExists() {
     };
     var importData = JSON.stringify({lstMjrOrderDetailDTOS: $table.bootstrapTable('getData'), mjrOrderDTO: mjrOrder});
 
-    if(receiveValue != '' && descriptionValue != ''){
+    if(receiveValue !== '' && descriptionValue !== ''){
         var existsCode;
         $.ajax({
-            url: "/WMS/workspace/export_stock_order_ctr/checkExists",
+            url: $("btn-check-exist").val(),
             data: importData,
             cache: false,
             contentType: "application/json",
