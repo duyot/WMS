@@ -478,7 +478,9 @@ Có:........................
 										<font fontName="Times New Roman" size="11"/>
 										<paragraph leftIndent="2" rightIndent="2"/>
 									</textElement>
-									<textFieldExpression><![CDATA[new DecimalFormat("###,###.##").format(($F{amount} == null ? 0 :Integer.parseInt($F{amount} ))*($F{outputPrice} == null ? 0 : ($F{outputPrice} == "" ? 0 : Double.parseDouble(    $F{outputPrice}.replace(",", "")))))]]></textFieldExpression>
+									<textFieldExpression><![CDATA[new DecimalFormat("###,###.##").format(($F{amount} == null ? 0 :($F{amount} =="" ? 0 : Double.parseDouble(    $F{amount}.replace(",", ""))))*($F{outputPrice} == null ? 0 : ($F{outputPrice} == "" ? 0 : Double.parseDouble(    $F{outputPrice}.replace(",", "")))))
+
+]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
