@@ -261,8 +261,9 @@ public class StockInfoController extends BaseController {
         String goodUnitId = "";
         if (!DataUtil.isListNullOrEmpty(lstTotal)) {
             for (MjrStockGoodsTotalDTO i : lstTotal) {
-                i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-                i.setIssueAmountValue(FunctionUtils.formatNumber(i.getIssueAmount()));
+                i.setAmountValue(Double.valueOf(i.getAmount()));
+                i.setOrderAmountValue(Double.valueOf(i.getAmount()) - Double.valueOf((i.getIssueAmount())));
+                i.setIssueAmountValue(Double.valueOf((i.getIssueAmount())));
                 i.setGoodsStateName(mapAppGoodsState.get(i.getGoodsState()));
                 goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
                 i.setGoodsUnitName(mapAppParamsUnitName.get(goodUnitId));

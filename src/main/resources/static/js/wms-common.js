@@ -746,6 +746,9 @@ function formatterGoodsStatus(value, row, index) {
         return '<span class="status-bgm-red status-label">' + '<span class="">' + value + '</span>' + '</span>';
     }
 }
+function formatterNumber(value, row, index) {
+    return '<span class="">' + value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + '</span>';
+}
 
 function formatterSerialType(value, row, index) {
     var serialType = value;

@@ -368,7 +368,7 @@ public class TransInfoController extends BaseController {
         double total = 0;
         for (MjrStockTransDetailDTO item : lstStockTransDetail) {
             item.setAmount(item.getAmount().replaceAll(",", ""));
-            int amount = item.getAmount().equalsIgnoreCase("") ? 1 : Integer.parseInt(item.getAmount());
+            double amount = item.getAmount().equalsIgnoreCase("") ? 1 : Double.valueOf(item.getAmount());
             if (type.equalsIgnoreCase("1")) {
                 double inputPrice = item.getInputPrice() == null || "".equalsIgnoreCase(item.getInputPrice()) ? 0 : Double.parseDouble(item.getInputPrice().replace(",", ""));
                 total = total + inputPrice * amount;
@@ -385,7 +385,7 @@ public class TransInfoController extends BaseController {
         double total = 0;
         for (MjrStockTransDetailDTO item : lstStockTransDetail) {
             item.setAmount(item.getAmount().replaceAll(",", ""));
-            int amount = item.getAmount().equalsIgnoreCase("") ? 1 : Integer.parseInt(item.getAmount());
+            double amount = item.getAmount().equalsIgnoreCase("") ? 1 : Double.valueOf(item.getAmount());
             double weight = item.getWeight() == null || "".equalsIgnoreCase(item.getWeight()) ? 0 : Double.parseDouble(item.getWeight().replace(",", ""));
             total = total + weight * amount;
         }

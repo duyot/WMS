@@ -282,7 +282,7 @@ public class UpdateStockGoodsInfor extends BaseController {
         String goodUnitId = "";
         if (!DataUtil.isListNullOrEmpty(lstTotal)) {
             for (MjrStockGoodsTotalDTO i : lstTotal) {
-                i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                i.setAmountValue(Double.valueOf((i.getAmount())));
                 i.setGoodsStateName(mapAppGoodsState.get(i.getGoodsState()));
                 goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
                 i.setGoodsUnitName(mapAppParamsUnitName.get(goodUnitId));
