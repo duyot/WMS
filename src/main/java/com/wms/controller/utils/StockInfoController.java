@@ -226,19 +226,26 @@ public class StockInfoController extends BaseController {
                 temp.setGoodsName(mapGoodsIdGoods.get(i.getGoodsId()).getName());
                 temp.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
                 temp.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                temp.setAmountValueReport(Double.valueOf(i.getAmount()));
                 temp.setImportDate(i.getImportDate());
                 temp.setChangeDate(i.getChangeDate());
                 if (!DataUtil.isStringNullOrEmpty(i.getInputPrice())) {
                     temp.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
+                    temp.setInputPriceValueReport(Double.valueOf(i.getInputPrice()));
                     temp.setTotalMoney(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getInputPrice()) * Double.valueOf(i.getAmount()))));
+                    temp.setTotalMoneyReport(Double.valueOf(i.getInputPrice()) * Double.valueOf(i.getAmount()));
+
                 }
                 temp.setSerial(i.getSerial());
                 temp.setCellCode(i.getCellCode());
                 if (!DataUtil.isStringNullOrEmpty(i.getWeight())) {
                     temp.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()))));
+                    temp.setWeightReport(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()));
+
                 }
                 if (!DataUtil.isStringNullOrEmpty(i.getVolume())) {
                     temp.setVolume(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()))));
+                    temp.setVolumeReport(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()));
                 }
                 goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
                 temp.setUnitName(mapAppParamsUnitName.get(goodUnitId));

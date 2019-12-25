@@ -52,6 +52,53 @@ public class MjrStockTransDetailDTO {
     private String expireDate;
     private String description;
 
+    //Value type is number for export
+    private Double amountValueReport;
+    private Double inputPriceValueReport;
+    private Double totalMoneyReport;
+    private Double volumeReport;
+    private Double weightReport;
+
+    public Double getAmountValueReport() {
+        return amountValueReport;
+    }
+
+    public void setAmountValueReport(Double amountValueReport) {
+        this.amountValueReport = amountValueReport;
+    }
+
+    public Double getInputPriceValueReport() {
+        return inputPriceValueReport;
+    }
+
+    public void setInputPriceValueReport(Double inputPriceValueReport) {
+        this.inputPriceValueReport = inputPriceValueReport;
+    }
+
+    public Double getTotalMoneyReport() {
+        return totalMoneyReport;
+    }
+
+    public void setTotalMoneyReport(Double totalMoneyReport) {
+        this.totalMoneyReport = totalMoneyReport;
+    }
+
+    public Double getVolumeReport() {
+        return volumeReport;
+    }
+
+    public void setVolumeReport(Double volumeReport) {
+        this.volumeReport = volumeReport;
+    }
+
+    public Double getWeightReport() {
+        return weightReport;
+    }
+
+    public void setWeightReport(Double weightReport) {
+        this.weightReport = weightReport;
+    }
+
     public String getStockCode() {
         return stockCode;
     }

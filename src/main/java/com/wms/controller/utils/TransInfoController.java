@@ -170,6 +170,13 @@ public class TransInfoController extends BaseController {
             //
             ieMoney = !DataUtil.isStringNullOrEmpty(i.getInputPrice()) ? i.getInputPrice() : i.getOutputPrice();
             i.setIeMoney(ieMoney);
+            i.setAmountValueReport(Double.valueOf(i.getAmount().replaceAll(",","")));
+            if (!DataUtil.isStringNullOrEmpty(i.getWeight())) {
+                i.setWeightReport(Double.valueOf(i.getWeight().replaceAll(",","")));
+            }
+            if (!DataUtil.isStringNullOrEmpty(i.getVolume())) {
+                i.setVolumeReport(Double.valueOf(i.getVolume().replaceAll(",","")));
+            }
         }
         String prefixFileName = "Thongtin_chitiet_cac_giaodich_";
         String fileResource = exportListStockTransDetail(lstTransDetail, prefixFileName);
