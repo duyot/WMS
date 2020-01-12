@@ -75,7 +75,6 @@ $(function () {
             $('#cmb-partner').focus();
             return;
         }
-        //doCheckExists();
         doInsertData();
 
     });
@@ -152,52 +151,6 @@ $(function () {
     });
 });
 
-function doCheckExists() {
-    $body.addClass("loading");
-    var stockIdValue = $('#cmb-stock').val();
-    var contractNumberValue = $('#inp-contract-number').val();
-    var descriptionValue = $('#inp-contract-note').val();
-    var receiveValue = $('#inp-receive-name').val();
-    var partnerIdValue = $('#cmb-partner').val();
-    var orderId =    $('#order-import-id').val();
-    var orderCode =    $('#order-import-code').val();
-
-    var mjrOrder = {
-        id : orderId,
-        code : orderCode,
-        stockId: stockIdValue,
-        description: descriptionValue,
-        receiveName: receiveValue,
-        partnerId: partnerIdValue,
-    };
-    var importData = JSON.stringify({lstMjrOrderDetailDTOS: $table.bootstrapTable('getData'), mjrOrderDTO: mjrOrder});
-
-    if(receiveValue != '' && descriptionValue != ''){
-        var existsCode;
-        $.ajax({
-            url: "/workspace/import_stock_order_ctr/checkExists",
-            data: importData,
-            cache: false,
-            contentType: "application/json",
-            dataType: 'json',
-            type: 'POST',
-            success: function (data) {
-               existsCode = data['code'];
-            },
-            error: function (data) {
-            },
-            complete: function () {
-                if (existsCode != '' && existsCode != null) {
-                    $("#modal-del-lbl-del-info").text('Đã tồn tại yêu cầu tương tự với cùng thông tin (Kho xuất, Khách hàng nhận, Ghi chú): ' + existsCode + '. Bạn có chắc chắn muốn ghi lại?');
-                    showModal($('#deleteConfirmModal'));
-                    return;
-                }else{
-                    doInsertData();
-                }
-            }
-        });
-    }
-}
 
 function doInsertData() {
     $body.addClass("loading");
@@ -306,7 +259,7 @@ window.operateEvents = {
         enteredSerials = enteredSerials.remove(keySerial);
         //reset total amount
         totalPrice -= Number(row['totalMoney']);
-        setConstantInfoMessage(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(Number(totalPrice)));
+        setConstantInfoMessage(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(Number(totalPrice)));
     },
     'click .edit-order': function (e, value, row, index) {
         isUpdate = true;
@@ -325,7 +278,7 @@ window.operateEvents = {
         var orderId = row['id'];
         var code = row['code'];
         $("#order_id").val(orderId);
-        $("#lbl-del-info").text('Thực xuất yêu cầu: ' + code + '?');
+        $("#lbl-del-info").text('Thực nhập yêu cầu: ' + code + '?');
         //
         showModal($('#myConfirmModal'));
     }
@@ -440,19 +393,9 @@ btnImportConfirm.click(function () {
                 $("#modal-link-download").attr("href", $("#modal-inp-stock-trans-id").val() + "/" + stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
             } else if (resultMessage == "FAIL") {
-                var details     = resultMessageDetail.split('|');
-                var errorCode   = details[0];
-                var errorDetail = details[1];
-                var errorSerial = data['key'];
-                if (errorCode == 'ERROR_NOT_FOUND_STOCK_GOODS') {
-                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
-                } else if (errorCode == 'ERROR_NOT_FOUND_SERIAL') {
-                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, serial " + errorSerial + " không có trong kho!", 8000);
-                }else {
-                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
-                }
+                setErrorMessage($lblInfo, "Nhập kho không thành công!");
             } else {
-                setInfoMessage($lblInfo, "Thực xuất " + successRecords + " hàng hóa thành công. Mã phiếu: " + stockTransId, 8000);
+                setInfoMessage($lblInfo, "Thực nhập " + successRecords + " hàng hóa thành công. Mã phiếu: " + stockTransId, 8000);
             }
         },
         error: function (data) {
@@ -460,6 +403,7 @@ btnImportConfirm.click(function () {
         },
         complete: function () {
             $body.removeClass("loading");
+            doSearch();
         }
     });
 });
@@ -524,8 +468,8 @@ function onClickDeleteOrder(orderId) {
             var key = data['key'];
             if (resultMessageDetail == 'SUCCESS') {
                 setInfoMessage(null, "Xóa thành công");
-            }else if (key == 'EXPORTED') {
-                setErrorMessage(null, "Order đã  xuất");
+            }else if (key == 'IMPORTED') {
+                setErrorMessage(null, "Order đã nhập");
             }else {
                 setErrorMessage(null, "Lỗi hệ thống");
             }

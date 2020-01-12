@@ -4,8 +4,10 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
+import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.OrderExportService;
 import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
@@ -45,6 +47,8 @@ public class ImportStockController extends BaseController {
     public BaseService err$MjrStockGoodsSerialService;
     @Autowired
     public BaseService catStockCellService;
+    @Autowired
+    OrderExportService mjrOrderService;
 
     private HashSet<String> setGoodsCode;
     private List<String> lstGoodsCode;
@@ -172,6 +176,76 @@ public class ImportStockController extends BaseController {
         log.info("Import data: " + JSONUtils.object2JSONString(stockTrans));
         log.info("Result " + response.toString() + " in " + (System.currentTimeMillis() - startTime) + "ms");
         return response;
+    }
+
+    @RequestMapping(value = "/importOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseObject exportOrder(@RequestBody StockManagementDTO stockManagementDTO) {
+        long startTime = System.currentTimeMillis();
+        String sysdate = catStockService.getSysDate();
+        MjrOrderDTO mjrOrderDTO = setInfoStockTrans(stockManagementDTO);
+        StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);
+        log.info("Import request: " + JSONUtils.object2JSONString(stockTrans));
+        ResponseObject response = stockManagementService.importStock(stockTrans);
+        log.info("Result " + response.getStatusCode() + " - " + response.getStatusName() + " in " + (System.currentTimeMillis() - startTime) + "ms");
+        if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+            mjrOrderDTO.setStatus("2");//Cap nhat da thuc nhap cho yeu cau
+            mjrOrderService.update(mjrOrderDTO);
+        }
+        return response;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    private MjrOrderDTO setInfoStockTrans(StockManagementDTO stockManagementDTO) {
+        String orderId = stockManagementDTO.getMjrStockTransDTO().getOrderId();
+
+        List<Condition> lstCon = Lists.newArrayList();
+        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, '1'));
+        lstCon.add(new Condition("id", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, orderId));
+        List<MjrOrderDTO> lstOrder = mjrOrderService.findByCondition(lstCon);
+        MjrOrderDTO mjrOrderDTO;
+        if (DataUtil.isListNullOrEmpty(lstOrder)) {
+            return new MjrOrderDTO();
+        } else {
+            mjrOrderDTO = lstOrder.get(0);
+            MjrStockTransDTO mjrStockTransDTO = stockManagementDTO.getMjrStockTransDTO();
+            mjrStockTransDTO.setCustId(mjrOrderDTO.getCustId());
+            mjrStockTransDTO.setStockId(mjrOrderDTO.getStockId());
+            mjrStockTransDTO.setDescription(mjrOrderDTO.getDescription());
+            mjrStockTransDTO.setPartnerId(mjrOrderDTO.getPartnerId());
+            mjrStockTransDTO.setPartnerName(mjrOrderDTO.getPartnerName());
+            mjrStockTransDTO.setOrderId(mjrOrderDTO.getId());
+            mjrStockTransDTO.setOrderCode(mjrOrderDTO.getCode());
+            stockManagementDTO.setMjrStockTransDTO(mjrStockTransDTO);
+        }
+        List<MjrStockTransDetailDTO> lstGoods = new ArrayList<>();
+        List<MjrOrderDetailDTO> lstMjrOrderDTOS = mjrOrderService.getListOrderDetail(orderId);
+        lstMjrOrderDTOS.forEach(e -> {
+            e.setGoodsName(mapGoodsIdGoods.get(e.getGoodsId()).getName());
+            e.setOutputPrice(mapGoodsIdGoods.get(e.getGoodsId()).getOutPrice());
+
+            MjrStockTransDetailDTO mjrStockTransDetailDTO = new MjrStockTransDetailDTO();
+            mjrStockTransDetailDTO.setGoodsId(e.getGoodsId());
+            mjrStockTransDetailDTO.setGoodsCode(e.getGoodsCode());
+            mjrStockTransDetailDTO.setGoodsName(e.getGoodsName());
+            mjrStockTransDetailDTO.setGoodsState(e.getGoodsState());
+            mjrStockTransDetailDTO.setPartnerId(e.getPartnerId());
+            mjrStockTransDetailDTO.setAmount(e.getAmount());
+            mjrStockTransDetailDTO.setUnitName(e.getUnitName());
+            mjrStockTransDetailDTO.setIsSerial(e.getIsSerial());
+            mjrStockTransDetailDTO.setDescription(e.getDescription());
+            mjrStockTransDetailDTO.setVolume(e.getVolume());
+            mjrStockTransDetailDTO.setWeight(e.getWeight());
+            mjrStockTransDetailDTO.setTotalMoney(e.getTotalMoney());
+            mjrStockTransDetailDTO.setGoodsId(e.getGoodsId());
+            mjrStockTransDetailDTO.setInputPrice(e.getInputPrice());
+            mjrStockTransDetailDTO.setProduceDate(e.getProduceDate());
+            mjrStockTransDetailDTO.setExpireDate(e.getExpireDate());
+            lstGoods.add(mjrStockTransDetailDTO);
+        });
+        stockManagementDTO.setLstGoods(lstGoods);
+
+        return mjrOrderDTO;
     }
 
     @RequestMapping(value = "/getGoodsCode")

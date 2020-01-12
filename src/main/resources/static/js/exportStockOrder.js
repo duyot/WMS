@@ -477,6 +477,7 @@ btnExportConfirm.click(function () {
         },
         complete: function () {
             $body.removeClass("loading");
+            doSearch();
         }
     });
 });

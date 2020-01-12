@@ -19,8 +19,11 @@ public class MjrOrderDetailDTO {
     private String weight;
     private String description;
     private String goodsName;
-    private String outputPrice;
     private String goodsOrder;
+    private String produceDate;
+    private String expireDate;
+    private String inputPrice;
+    private String outputPrice;
 
     public MjrOrderDetailDTO() {
     }
@@ -177,5 +180,29 @@ public class MjrOrderDetailDTO {
 
     public void setGoodsOrder(String goodsOrder) {
         this.goodsOrder = goodsOrder;
+    }
+
+    public String getProduceDate() {
+        return produceDate;
+    }
+
+    public void setProduceDate(String produceDate) {
+        this.produceDate = produceDate;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public String getInputPrice() {
+        return inputPrice;
+    }
+
+    public void setInputPrice(String inputPrice) {
+        this.inputPrice = inputPrice;
     }
 }

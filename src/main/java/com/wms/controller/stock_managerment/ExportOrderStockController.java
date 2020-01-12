@@ -152,7 +152,6 @@ public class ExportOrderStockController extends BaseController {
         List<MjrOrderDetailDTO> lstMjrOrderDTOS = mjrOrderService.getListOrderDetail(orderid);
         lstMjrOrderDTOS.forEach(e -> {
             e.setGoodsName(mapGoodsIdGoods.get(e.getGoodsId()).getName());
-            e.setOutputPrice(mapGoodsIdGoods.get(e.getGoodsId()).getOutPrice());
         });
         return lstMjrOrderDTOS;
     }
