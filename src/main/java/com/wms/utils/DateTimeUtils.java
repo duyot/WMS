@@ -97,7 +97,7 @@ public class DateTimeUtils {
      * @return String
      * @throws Exception if error
      */
-    public static String convertDateToString(Date date) throws Exception {
+    public static String convertDateToString(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         if (date == null) {
             return "";
@@ -140,7 +140,7 @@ public class DateTimeUtils {
      * @return String
      * @throws Exception if error
      */
-    public static String getSysdate() throws Exception {
+    public static String getSysdate() {
         Calendar calendar = Calendar.getInstance();
         return convertDateToString(calendar.getTime());
     }

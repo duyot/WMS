@@ -11,10 +11,8 @@ import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
 import java.io.File;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,8 +51,17 @@ public class ImportOrderStockController extends BaseController {
     BaseService catStockCellService;
     private List<CatUserDTO> lstUsers;
     private List<MjrOrderDTO> lstOrder;
-    List<ComboSourceDTO> cells;
+    List<ComboSourceDTO> cells = new ArrayList<>();
     public LinkedHashMap<String, String> mapUnitType;
+
+    //------------------------------------------------------------------------------------------------------------------
+    @PostConstruct
+    public void init() {
+        if (!isDataLoaded) {
+            initBaseBean();
+        }
+        this.lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
+    }
 
     @RequestMapping()
     public String home(Model model) {
@@ -62,6 +69,20 @@ public class ImportOrderStockController extends BaseController {
         model.addAttribute("controller", "/workspace/import_stock_order_ctr/");
         model.addAttribute("lstStock", lstStock);
         model.addAttribute("lstPartner", lstPartner);
+        model.addAttribute("lstUsers", lstUsers);
+        //
+        cells.clear();
+        if (!DataUtil.isListNullOrEmpty(lstStock)) {
+            int currentStockId = Integer.parseInt(lstStock.get(0).getId());
+            List<CatStockCellDTO> cellInSelectedStock = mapStockIdCells.get(currentStockId);
+            if (!DataUtil.isStringNullOrEmpty(cellInSelectedStock)) {
+                for (CatStockCellDTO i : cellInSelectedStock) {
+                    cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
+                }
+            }
+        }
+        model.addAttribute("cells", cells);
+        //
         initMapUnitType();
         return "stock_management/import_stock_order";
     }
@@ -93,58 +114,6 @@ public class ImportOrderStockController extends BaseController {
             initPartner();
             SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.PARTNER_MODIFIED);
         }
-    }
-
-    @ModelAttribute("lstUsers")
-    public List<CatUserDTO> setUsers(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        //
-        if (lstUsers == null) {
-            lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
-        }
-        return lstUsers;
-    }
-
-    @ModelAttribute("cells")
-    public List<ComboSourceDTO> getCells(HttpServletRequest request) {
-        if (selectedCustomer == null) {
-            this.selectedCustomer = (CatCustomerDTO) request.getSession().getAttribute("selectedCustomer");
-        }
-        //
-        if (currentUser == null) {
-            this.currentUser = (CatUserDTO) request.getSession().getAttribute("user");
-        }
-        //
-        if (lstStock == null || isStockModified(request)) {
-            lstStock = FunctionUtils.getListStock(stockService, currentUser);
-            buildMapStock();
-            request.getSession().setAttribute("isStockModifiedImportStock", false);
-        }
-        //
-        if (!DataUtil.isListNullOrEmpty(lstStock)) {
-            int currentStockId = Integer.parseInt(lstStock.get(0).getId());
-            if (cells == null || cells.size() == 0) {
-                cells = Lists.newArrayList();
-                List<Condition> conditions = Lists.newArrayList();
-                conditions.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, currentStockId + ""));
-                List<CatStockCellDTO> cellsDTO = catStockCellService.findByCondition(conditions);
-                if (!DataUtil.isStringNullOrEmpty(cellsDTO)) {
-                    for (CatStockCellDTO i : cellsDTO) {
-                        cells.add(new ComboSourceDTO(Integer.parseInt(i.getId()), i.getCode(), i.getId(), i.getCode()));
-                    }
-                }
-            }
-        }
-        return cells;
-    }
-
-    private boolean isStockModified(HttpServletRequest request) {
-        if (request.getSession().getAttribute("isStockModifiedExportStock") == null) {
-            return true;
-        }
-        return (boolean) request.getSession().getAttribute("isStockModifiedExportStock");
     }
 
     @RequestMapping(value = "/findDataByCondition", method = RequestMethod.GET)
@@ -216,6 +185,12 @@ public class ImportOrderStockController extends BaseController {
 
             e.setGoodsId(mapGoodsCodeGoods.get(e.getGoodsCode()).getId());
             e.setGoodsOrder((orderExportDTO.getLstMjrOrderDetailDTOS().indexOf(e) + 1) +"");
+            if ("dd/mm/yyyy".equalsIgnoreCase(e.getProduceDate())) {
+                e.setProduceDate(DateTimeUtils.getSysdate());
+            }
+            if ("dd/mm/yyyy".equalsIgnoreCase(e.getExpireDate())) {
+                e.setExpireDate(DateTimeUtils.getSysdate());
+            }
 
         });
         return mjrOrderService.orderExport(orderExportDTO);

@@ -1,19 +1,18 @@
 //Init data---------------------------------------------------------------------
-
 var dataInit = [];
 //---------------------------------------------------------------------
 $addUpdateMainModal = $('#order-import-insert-update-modal');
 var $btnSearch = $('#btn-search');
 $mainTable = $('#tbl-main-table');
 $table = $('#tbl-import-goods');
-var $btn_add = $('#btn-create-order')
+var $btn_add = $('#btn-create-order');
 $inpGoodsCode = $('#inp-goods-code');
 var $inpGoodsAmount = $('#inp-amount');
 var lblTotalPrice = $("#lbl-total-price");
 var updatePopupButton = $("#btn-update_importStock");
 $btn_add_partner = $('#btn-add-partner');
 $addUpdateModal = $('#myModal');
-var importFile = $('#btn-import-file')
+var importFile = $('#btn-import-file');
 var isUpdate =false;
 var btnImport = $('#btn-import');
 var isDeleteOrder = true;
@@ -191,9 +190,9 @@ function doInsertData() {
         complete: function () {
             hideModal($addUpdateModal);
             doSearch();
-            var message = "Tạo mới thành công"
+            var message = "Tạo mới thành công";
             if (isUpdate){
-                message = "Cập nhật thành công"
+                message = "Cập nhật thành công";
             }
             setInfoMessage(null,message);
         }
@@ -316,7 +315,7 @@ function refreshFormAndInitData( row) {
     initData(isUpdate,row);
 }
 
-var btnOrderDetail = $('#btn-order-detail')
+var btnOrderDetail = $('#btn-order-detail');
 
 function initData(isUpdate, row) {
     var dataInit = [];
@@ -361,7 +360,7 @@ btnImportConfirm.click(function () {
 
     var orderId = $('#order_id').val();
     if (isDeleteOrder) {
-        onClickDeleteOrder(orderId)
+        onClickDeleteOrder(orderId);
         return;
     }
     var stock_trans_info = {
@@ -451,7 +450,7 @@ function onClickToOpenPopup(row) {
     refreshFormAndInitData(row);
     showModal($addUpdateMainModal);
 }
-var btnDeleteOrder = $('#btn-get-deleteOrder')
+var btnDeleteOrder = $('#btn-get-deleteOrder');
 function onClickDeleteOrder(orderId) {
 
     //
