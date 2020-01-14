@@ -182,6 +182,12 @@ public class ImportOrderStockController extends BaseController {
             } else {
                 e.setIsSerial("0");
             }
+            if(!DataUtil.isNullOrEmpty(e.getProduceDate()) && "dd/mm/yyyy".equals(e.getProduceDate().toLowerCase())){
+                e.setProduceDate("");
+            }
+            if(!DataUtil.isNullOrEmpty(e.getExpireDate()) && "dd/mm/yyyy".equals(e.getExpireDate().toLowerCase())){
+                e.setExpireDate("");
+            }
 
             e.setGoodsId(mapGoodsCodeGoods.get(e.getGoodsCode()).getId());
             e.setGoodsOrder((orderExportDTO.getLstMjrOrderDetailDTOS().indexOf(e) + 1) +"");
