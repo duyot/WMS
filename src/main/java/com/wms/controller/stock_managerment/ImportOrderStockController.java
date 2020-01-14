@@ -182,22 +182,15 @@ public class ImportOrderStockController extends BaseController {
             } else {
                 e.setIsSerial("0");
             }
-            if(!DataUtil.isNullOrEmpty(e.getProduceDate()) && "dd/mm/yyyy".equals(e.getProduceDate().toLowerCase())){
+            if(!DataUtil.isNullOrEmpty(e.getProduceDate()) && "dd/mm/yyyy".equalsIgnoreCase(e.getProduceDate())){
                 e.setProduceDate("");
             }
-            if(!DataUtil.isNullOrEmpty(e.getExpireDate()) && "dd/mm/yyyy".equals(e.getExpireDate().toLowerCase())){
+            if(!DataUtil.isNullOrEmpty(e.getExpireDate()) && "dd/mm/yyyy".equalsIgnoreCase(e.getExpireDate())){
                 e.setExpireDate("");
             }
 
             e.setGoodsId(mapGoodsCodeGoods.get(e.getGoodsCode()).getId());
             e.setGoodsOrder((orderExportDTO.getLstMjrOrderDetailDTOS().indexOf(e) + 1) +"");
-            if ("dd/mm/yyyy".equalsIgnoreCase(e.getProduceDate())) {
-                e.setProduceDate(DateTimeUtils.getSysdate());
-            }
-            if ("dd/mm/yyyy".equalsIgnoreCase(e.getExpireDate())) {
-                e.setExpireDate(DateTimeUtils.getSysdate());
-            }
-
         });
         return mjrOrderService.orderExport(orderExportDTO);
     }
