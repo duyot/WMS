@@ -13,6 +13,24 @@ public class CatPartnerDTO {
     private String custName;
     private String telNumber;
     private String statusName;
+    private String parentId;
+    private String parentName;
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
 
     public String getStatusName() {
         return statusName;
@@ -111,6 +129,8 @@ public class CatPartnerDTO {
                 ", custName='" + custName + '\'' +
                 ", telNumber='" + telNumber + '\'' +
                 ", statusName='" + statusName + '\'' +
+                ", parentId='" + parentId + '\'' +
+                ", parentName='" + parentName + '\'' +
                 '}';
     }
 }

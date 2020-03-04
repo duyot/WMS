@@ -329,6 +329,15 @@ public class TransInfoController extends BaseController {
 
     //==================================================================================================================
     private String exportListStockTrans(List<MjrStockTransDTO> lstTrans, String prefixFileName) {
+        //Hien thi thong tin don vi cha cua cac khach hang nhan (trong giao dich xuat kho)
+        for (MjrStockTransDTO i : lstTrans) {
+            if(i.getReceiveId() != null && mapPartnerIdPartner.containsKey(i.getReceiveId())){
+                CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(i.getReceiveId());
+                if (catPartnerDTO.getParentId() != null && mapPartnerIdPartner.containsKey(catPartnerDTO.getParentId())){
+                    i.setParentReceiveName(mapPartnerIdPartner.get(catPartnerDTO.getParentId()).getName());
+                }
+            }
+        }
         String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.LIST_TRANS_TEMPLATE;
         //
         File file = new File(templatePath);

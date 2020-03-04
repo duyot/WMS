@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="/css/bootstrap-toggle.css" th:href="@{/css/bootstrap-toggle.css}"/>
     <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
     <!--script-->
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!--<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>-->
@@ -118,12 +119,14 @@
                         <thead>
                         <tr>
                             <th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
-                            <th  class="col-md-1" data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
                             <th  class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.partnerCode}"></th>
                             <th  class="col-md-4" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.partnerName}"></th>
-                            <th  class="col-md-2" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
+                            <th  data-field="parentId" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  class="col-md-2" data-field="parentName" data-align="left" data-sortable="true" th:text="#{lbl.partner.parent}"></th>
+                            <th  class="col-md-1" data-field="telNumber" data-align="left" data-sortable="true" th:text="#{lbl.telNumber}"></th>
                             <th  class="col-md-3" data-field="address" data-align="left" data-sortable="true" th:text="#{lbl.address}"></th>
-                            <th  class="col-md-1" data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
                             <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
                             <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
                         </tr>
@@ -147,6 +150,8 @@
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 <!--switch-->
 <script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
+<script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
+
 <script>
     //Init data---------------------------------------------------------------------
     function runningFormatter(value, row, index) {
@@ -192,7 +197,7 @@
             $("#cat-partner-insert-update-form").find(".error").removeClass("error");
             //
             clearActionInfo();
-            changeModelByType(2,row['code'],row['name'],row['telNumber'],row['address'],row['id'],row['status'],$btn_update.val());
+            changeModelByType(2,row['code'],row['name'],row['telNumber'],row['address'],row['id'],row['status'],row['parentId'],$btn_update.val());
             showModal($addUpdateModal);
             $addUpdateModal.on('shown.bs.modal', function () {
                 $('#modal-inp-code').focus();
@@ -279,7 +284,7 @@
     $(function () {
         $btn_add.click(function () {
             clearActionInfo();
-            changeModelByType(1,null,null,null,null,null,null,$btn_add.val());
+            changeModelByType(1,null,null,null,null,null,null,null,$btn_add.val());
             $addUpdateModal.modal('show');
             $addUpdateModal.on('shown.bs.modal', function () {
                 $('#modal-inp-code').focus();
@@ -345,7 +350,7 @@
         $("#modal-inp-address").val('');
     }
     //
-    function changeModelByType(type,code,name,telNumber,address,id,status,actionVal) {
+    function changeModelByType(type,code,name,telNumber,address,id,status,parentId,actionVal) {
         if(type == 1){//add
             $("#cat-partner-insert-update-form").attr("action",actionVal);
             //
@@ -355,6 +360,8 @@
             $("#div-status *").prop('disabled',true);
             //
             $("#modal-type").val('add');
+            $('select[name=parentId]').val(-1);
+            $('select[name=parentId]').selectpicker('refresh');
             showAdd();
             $("#myModalLabel").text('Thêm mới');
         }else{//update
@@ -364,6 +371,9 @@
             $("#modal-inp-telNumber").val(decodeHtml(telNumber));
             $("#modal-inp-address").val(decodeHtml(address));
             $("#modal-inp-id").val(id);
+            $('select[name=parentId]').val(parentId);
+            $('select[name=parentId]').selectpicker('refresh');
+
             var currentStatus = status;
             if(currentStatus == '0'){
                 $('#modal-cmb-status').bootstrapToggle('off');

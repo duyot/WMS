@@ -39,6 +39,7 @@ public class MjrStockTransDTO {
     //Khach hang nhan trong cac giao dich xuat
     private String receiveName;
     private String receiveId;
+    private String parentReceiveName;
 
     private String customerMoney;
     private String returnMoney;
@@ -48,6 +49,14 @@ public class MjrStockTransDTO {
     private String exportMethod;
 
     private String cellCode;
+
+    public String getParentReceiveName() {
+        return parentReceiveName;
+    }
+
+    public void setParentReceiveName(String parentReceiveName) {
+        this.parentReceiveName = parentReceiveName;
+    }
 
     public String getCellCode() {
         return cellCode;

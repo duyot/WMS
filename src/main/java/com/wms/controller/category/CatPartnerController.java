@@ -2,6 +2,7 @@ package com.wms.controller.category;
 
 import com.google.common.collect.Lists;
 import com.wms.base.BaseCommonController;
+import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.CatPartnerDTO;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/workspace/cat_partner_ctr")
 @Scope("session")
-public class CatPartnerController extends BaseCommonController {
+public class CatPartnerController extends BaseController {
     @Autowired
     BaseService catPartnerService;
 
@@ -43,6 +44,7 @@ public class CatPartnerController extends BaseCommonController {
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catPartner");
+        model.addAttribute("lstPartner", lstPartner);
         return "category/cat_partner";
     }
 
@@ -63,6 +65,9 @@ public class CatPartnerController extends BaseCommonController {
             i.setName(i.getName());
             i.setCustName(selectedCustomer.getName());
             i.setStatusName(mapAppStatus.get(i.getStatus()));
+            if(i.getParentId() != null && mapPartnerIdPartner.containsKey(i.getParentId())){
+                i.setParentName(mapPartnerIdPartner.get(i.getParentId()).getName());
+            }
         }
 
         return lstCatPartner;
