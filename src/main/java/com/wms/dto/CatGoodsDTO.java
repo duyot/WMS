@@ -35,11 +35,12 @@ public class CatGoodsDTO extends BaseDTO {
     private String high;
     private String weight;
     private String volume;
+    private String amountStorageQuota;
 
     public CatGoodsDTO() {
     }
 
-    public CatGoodsDTO(String id, String status, String createdDate, String custId, String unitType, String goodsGroupId, String goodsGroupName, String isSerial, String description, String inPrice, String outPrice, String brand, String custName, String unitTypeName, String statusName, String columnId, String isSerialName, String inPriceValue, String outPriceValue, String errorInfo, String amount, String length, String width, String high, String weight, String volume) {
+    public CatGoodsDTO(String id, String status, String createdDate, String custId, String unitType, String goodsGroupId, String goodsGroupName, String isSerial, String description, String inPrice, String outPrice, String brand, String custName, String unitTypeName, String statusName, String columnId, String isSerialName, String inPriceValue, String outPriceValue, String errorInfo, String amount, String length, String width, String high, String weight, String volume, String amountStorageQuota) {
         this.id = id;
         this.status = status;
         this.createdDate = createdDate;
@@ -66,6 +67,7 @@ public class CatGoodsDTO extends BaseDTO {
         this.high = high;
         this.weight = weight;
         this.volume = volume;
+        this.amountStorageQuota = amountStorageQuota;
     }
 
     public String getLength() {
@@ -281,6 +283,14 @@ public class CatGoodsDTO extends BaseDTO {
         this.volume = volume;
     }
 
+    public String getAmountStorageQuota() {
+        return amountStorageQuota;
+    }
+
+    public void setAmountStorageQuota(String amountStorageQuota) {
+        this.amountStorageQuota = amountStorageQuota;
+    }
+
     public void setVolumeFromSize() {
         Double length = DataUtil.isNullOrEmpty(getLength()) ? 0d : Double.valueOf(getLength());
         Double width = DataUtil.isNullOrEmpty(getWidth()) ? 0d : Double.valueOf(getWidth());
@@ -319,6 +329,7 @@ public class CatGoodsDTO extends BaseDTO {
                 ", high='" + high + '\'' +
                 ", weight='" + weight + '\'' +
                 ", volume='" + volume + '\'' +
+                ", amountStorageQuota='" + amountStorageQuota + '\'' +
                 '}';
     }
 

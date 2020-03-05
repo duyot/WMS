@@ -337,7 +337,9 @@ function doGetDataAndShowform(custId, block) {
 function processAssignStock(custId, code, stockPermission) {
     var data = {custId: custId, userId: currentUserId};
     $('#assign-stock-user-code').text(code);
-    $('input[name=rad-block-stock][value=' + stockPermission + ']').prop('checked', true);
+    if($('input[name=rad-block-stock][value=' + stockPermission + ']') != null){
+        $('input[name=rad-block-stock][value=' + stockPermission + ']').prop('checked', true);
+    }
     if (stockPermission == "1") {
         $("#table-lst-stock").show();
     } else {

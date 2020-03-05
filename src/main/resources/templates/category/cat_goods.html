@@ -506,6 +506,13 @@
                     },
                     maxlength: 10,
                     number: true
+                },
+                amountStorageQuota: {
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 10,
+                    number: true
                 }
             },
             submitHandler: function (form) {
@@ -559,6 +566,7 @@
         $("#modal-inp-id").val('');
         $("#modal-inp-input-price").val('');
         $("#modal-inp-output-price").val('');
+        $("#modal-inp-amountStorageQuota").val('');
         $('#modal-label-input-price').text("");
         $('#modal-label-output-price').text("");
         $("#modal-inp-input-length").val('');
@@ -625,6 +633,9 @@
 
             var weight = selectedItem["weight"];
             $("#modal-inp-input-weight").val(weight);
+
+            var amountStorageQuota = selectedItem["amountStorageQuota"];
+            $("#modal-inp-amountStorageQuota").val(amountStorageQuota);
 
             var currentStatus = selectedItem["status"];
             if(currentStatus == '0'){
@@ -720,6 +731,18 @@
             $('#modal-inp-input-weight').val(formatFloatType(currentValue));
         }else{
             $('#modal-inp-input-weight').val(currentValue);
+        }
+    });
+    $("#modal-inp-amountStorageQuota").keyup(function() {
+        var currentValue = unFormatFloat($("#modal-inp-amountStorageQuota").val());
+        var need2format = currentValue;
+        if(!isValidPrice(currentValue)){
+            currentValue = need2format.substr(0,need2format.indexOf(".") + 5);
+        }
+        if(!currentValue.includes(".")){
+            $('#modal-inp-amountStorageQuota').val(formatFloatType(currentValue));
+        }else{
+            $('#modal-inp-amountStorageQuota').val(currentValue);
         }
     });
 </script>

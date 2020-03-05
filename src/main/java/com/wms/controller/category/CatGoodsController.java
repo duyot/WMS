@@ -138,6 +138,7 @@ public class CatGoodsController extends BaseController {
             i.setWidth(FunctionUtils.formatNumber(i.getWidth()));
             i.setHigh(FunctionUtils.formatNumber(i.getHigh()));
             i.setWeight(FunctionUtils.formatNumber(i.getWeight()));
+            i.setAmountStorageQuota(FunctionUtils.formatNumber(i.getAmountStorageQuota()));
         }
 
         return lstCatGoods;
@@ -158,6 +159,8 @@ public class CatGoodsController extends BaseController {
         catGoods.setHigh(catGoods.getHigh().replaceAll(",", ""));
         catGoods.setVolumeFromSize();
         catGoods.setWeight(catGoods.getWeight().replaceAll(",", ""));
+        catGoods.setAmountStorageQuota(catGoods.getAmountStorageQuota().replaceAll(",", ""));
+
         //
         ResponseObject response = catGoodsService.add(catGoods);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
@@ -240,6 +243,8 @@ public class CatGoodsController extends BaseController {
         catGoods.setHigh(catGoods.getHigh().replaceAll(",", ""));
         catGoods.setWeight(catGoods.getWeight().replaceAll(",", ""));
         catGoods.setVolumeFromSize();
+        catGoods.setAmountStorageQuota(catGoods.getAmountStorageQuota().replaceAll(",", ""));
+
 
         log.info("Update cat_goods info: " + JSONUtils.object2JSONString(catGoods));
         ResponseObject response = catGoodsService.update(catGoods);

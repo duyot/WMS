@@ -83,6 +83,10 @@ public class WorkSpaceController {
         return "redirect:/workspace/cat_partner_ctr";
     }
 
+    @RequestMapping("/cat_reason")
+    public String redirectCatReason() {
+        return "redirect:/workspace/cat_reason_ctr";
+    }
 
     @RequestMapping("/cat_department")
     public String redirectCatDepartment() {

@@ -93,6 +93,7 @@ public class Constants {
         public static String GOODS_SERVICE = "catGoodsServices/";
         public static String CAT_STOCK_SERVICE = "catStockServices/";
         public static String CAT_PARTNER_SERVICE = "catPartnerServices/";
+        public static String CAT_REASON_SERVICE = "catReasonServices/";
         public static String CAT_DEPARTMENT_SERVICE = "catDepartmentServices/";
         public static String STOCK_MANAGEMENT_SERVICE = "stockManagementServices/";
         public static String ERR$MJR_STOCK_GOODS_SERIAL_SERVICE = "err$MjrStockGoodsSerialServices/";

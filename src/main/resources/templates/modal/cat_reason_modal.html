@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="frag-cat-reason-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-mini" role="document">
+            <form id="cat-reason-insert-update-form">
+                <div class="modal-content" id="catReasonDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{btn.add}"></h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--hidden fields-->
+                            <input id="modal-inp-id" hidden="true" name="id"/>
+                            <input id="modal-type"   hidden="true" name="modal-type"/>
+
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-name" class="control-label label-require" th:text="#{lbl.reasonName}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-name" class="form-control" type="text" th:required="true" name="name"  maxlength="1000"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-name" class="control-label label-require" th:text="#{lbl.apply}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-combo">
+                                        <div class="radio radio-inline radio-info" style="margin-top: 0px">
+                                            <input value="1" type="radio" id="radio-import" name="type" checked="checked" />
+                                            <label for="radio-import" th:text="#{lbl.apply.import}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="2" type="radio" id="radio-export" name="type" />
+                                            <label for="radio-export" th:text="#{lbl.apply.export}"></label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--row 3-->
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label" th:text="#{lbl.status}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="div-status" class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input id="modal-cmb-status" name="status" data-toggle="toggle" type="checkbox" data-width="110" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button id="modal-btn-update" class="btn btn-primary" >
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{lbl.update}"></span>
+                        </button>
+                        <button id="modal-btn-add" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{lbl.update}"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

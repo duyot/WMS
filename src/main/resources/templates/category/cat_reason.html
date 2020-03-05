@@ -1,0 +1,378 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title th:text="#{lbl.header}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="WMS" />
+    <!--CSS-->
+    <link rel='stylesheet' href="css/bootstrap.css" th:href="@{/css/bootstrap.css}"  type='text/css' />
+    <link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/css/bootstrap-table.css}"/>
+    <link rel='stylesheet' href="css/style.css" th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
+    <link rel="stylesheet" href="css/animate.css"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
+    <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+
+    <link rel="stylesheet" href="/css/bootstrap-toggle.css" th:href="@{/css/bootstrap-toggle.css}"/>
+    <link rel="stylesheet" href="/css/nprogress.css" th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
+    <!--script-->
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!--<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>-->
+    <!--<script>-->
+        <!--new WOW().init();-->
+    <!--</script>-->
+    <script th:attr="src=@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
+    <script th:attr="src=@{/js/jquery.validate.min.js}"  th:href="@{/js/jquery.validate.min.js}"></script>
+    <script th:attr="src=@{/js/notification/bootstrap-notify.min.js}" th:href="@{/js/notification/bootstrap-notify.min.js}"></script>
+    <!--confirmation-->
+    <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}"  th:href="@{/js/nprogress.js}"></script>
+    <!--common-->
+    <script th:attr="src=@{/js/wms-common.js}"      th:href="@{/js/wms-common.js}"></script>
+    <!--font and favi icon-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+    <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
+
+</head>
+<body class="sticky-header left-side-collapsed">
+<section>
+    <!--left menu-->
+    <div th:include="common/workspace_leftmenu :: frag-leftmenu"></div>
+    <!--main content-->
+    <div class="main-content main-content2 main-content2copy">
+        <div th:include="common/header :: frag-headermneu"></div>
+        <div id="page-wrapper">
+            <!--search panel-->
+            <div id="panel-search-content" class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa  fa-search"></i>
+                    <!--Search info-->
+                </div>
+                <div class="panel-body">
+                    <div class="container">
+                        <!--row 1: username + status-->
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label th:text="#{lbl.usage}"></label>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label th:text="#{lbl.status}"></label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input id="cmb-status" checked="true" data-toggle="toggle" type="checkbox" data-width="110" data-on="Hiệu lực" data-off="Hết hiệu lực"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <p></p>
+                    <div class="wrapper text-center" style="text-align: center;">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-default  btn-primary"
+                                    id="btn-search-cat-reason" th:value="@{/workspace/cat_reason_ctr/findByCondition}">
+                                <i class="fa fa-search"></i>
+                                <span th:text="#{btn.search}"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end search panel-->
+            <div id="panel-search-result" class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-database"></i>
+                    <!--Result-->
+                </div>
+                <div class="panel-body">
+                    <!--toolbar-->
+                    <div id="toolbar" class="btn-group">
+                        <button id="btn-add" th:title="#{btn.add}" th:value="@{/workspace/cat_reason_ctr/add}" type="button" class="btn btn-default">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                        <button id="btn-update" th:value="@{/workspace/cat_reason_ctr/update}" style="display: none" type="button" class="btn btn-default">
+                            <i class="fa fa-edit"></i>
+                        </button>
+
+                        <button id="btn-delete" th:value="@{/workspace/cat_reason_ctr/delete}" style="display: none" type="button" class="btn btn-default">
+                            <i class="fa fa-trash"></i>
+                        </button>
+
+                        <label id="action-info" class="action-info"></label>
+                    </div>
+                    <table  id="tbl-cat-reason"
+                            data-pagination="true"
+                            data-search="true"
+                            data-click-to-select="true"
+                            data-toolbar="#toolbar"
+                            class="table-striped"
+                            data-page-list="[5,10,30,50,ALL]"
+                            >
+                        <thead>
+                        <tr>
+                            <th  data-formatter="runningFormatter" data-align="center" data-width="50px">STT</th>
+                            <th  data-field="id" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  class="col-md-8" data-field="name" data-align="left" data-sortable="true" th:text="#{lbl.reasonName}"></th>
+                            <th  data-field="type" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  class="col-md-2" data-field="typeName" data-align="left" data-sortable="true" th:text="#{lbl.apply}"></th>
+                            <th  data-field="status" data-align="left" data-sortable="true" data-visible="false"></th>
+                            <th  class="col-md-1" data-field="statusName" data-align="left" data-sortable="true" th:text="#{lbl.status}" data-formatter="formatterStatus"></th>
+                            <th data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
+                        </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal-->
+    <div th:include="modal/cat_reason_modal :: frag-cat-reason-modal"></div>
+    <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
+    <!--footer-->
+    <div th:include="common/footer :: frag-footer"></div>
+</section>
+
+
+<!--FINAL JS-->
+<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
+<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
+<!--switch-->
+<script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
+<script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
+
+<script>
+    //Init data---------------------------------------------------------------------
+    function runningFormatter(value, row, index) {
+        return index +1;
+    }
+    //
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="update-reason row-function" href="javascript:void(0)" title="Sửa">',
+            '<i class="fa fa-pencil-square-o"></i>',
+            '</a> ',
+            '<a class="delete-reason row-function" href="javascript:void(0)" title="Xóa">',
+            '<i class="fa fa-trash"></i>',
+            '</a> '
+        ].join('');
+    }
+
+    var dataInit = [];
+    //---------------------------------------------------------------------
+    $addUpdateModal = $('#myModal');
+    $tblReason  = $('#tbl-cat-reason');
+    $btnDelConfirmed = $('#modal-btn-del-ok');
+    $btn_update = $('#btn-update');
+    $btnDel = $('#btn-delete');
+    var $btnSearch = $('#btn-search-cat-reason');
+    var validator;
+    //@Init component-----------------------------------------------------------------------------------------------
+    $(function () {
+        $tblReason.bootstrapTable({
+            data: dataInit,
+            pageSize:30
+        });
+        //
+        search(false);
+    });
+
+    //@FUNCTION-----------------------------------------------------------------------------------------------
+    var $selectedItemId;
+    var $selectedItemCode;
+    window.operateEvents = {
+        'click .update-reason': function (e, value, row, index) {
+            validator.resetForm();
+            $("#cat-reason-insert-update-form").find(".error").removeClass("error");
+            //
+            clearActionInfo();
+            changeModelByType(2,row['name'],row['id'],row['status'],row['type'],$btn_update.val());
+            showModal($addUpdateModal);
+            $addUpdateModal.on('shown.bs.modal', function () {
+                $('#modal-inp-name').focus();
+            });
+        },
+
+        'click .delete-reason': function (e, value, row, index) {
+            clearActionInfo();
+            $("#lbl-del-info").text('Xóa thông tin: '+ decodeHtml(row['name']));
+            $('#myConfirmModal').modal('show');
+            $selectedItemId = row['id'];
+            $selectedItemCode = row['name'];
+        }
+    };
+
+    $btnDelConfirmed.click(function () {
+        $.ajax({
+            type: "POST",
+            cache:false,
+            data:{id:$selectedItemId,code:$selectedItemCode},
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $btnDel.val(),
+            dataType: 'text',
+            timeout: 600000,
+            success: function (data) {
+                resultArr = data.split('|');
+                resultCode = resultArr[0];
+                resultName = resultArr[1];
+                if(resultCode == 1){
+                    setInfoMessage($('#action-info'),resultName);
+                }else{
+                    setErrorMessage($('#action-info'),resultName);
+                }
+                search(false);
+
+            },
+            error:function(){
+                setErrorMessage($('#action-info'),'Lỗi hệ thống');
+            },
+        });
+        //
+        $('#myConfirmModal').modal('hide');
+        //
+    });
+    //
+    function search(isClear){
+        NProgress.start();
+        if(isClear){
+            clearActionInfo();
+        }
+
+        var statusVal;
+        if($('#cmb-status').prop('checked')){
+            statusVal = '1';
+        }else{
+            statusVal = '0';
+        }
+
+        $.ajax({
+            type: "GET",
+            cache:false,
+            data:{status:statusVal},
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $btnSearch.val(),
+            dataType: 'json',
+            timeout: 600000,
+            success: function (data) {
+                $tblReason.bootstrapTable('load', data);
+            },
+            complete:function () {
+                NProgress.done();
+            }
+        });
+    }
+
+    //@SEARCH ACTION------------------------------------------------------------------------------------------------
+    $(function () {
+        $btnSearch.click(function () {
+            search(true);
+        });
+    });
+    //@Add action---------------------------------------------------------------------------------------------------
+    $btn_add = $('#btn-add');
+    $(function () {
+        $btn_add.click(function () {
+            clearActionInfo();
+            changeModelByType(1,null,null,null,null,$btn_add.val());
+            $addUpdateModal.modal('show');
+            $addUpdateModal.on('shown.bs.modal', function () {
+                $('#modal-inp-name').focus();
+            });
+        });
+    });
+    //
+    $(document).ready(function () {
+        validator = $("#cat-reason-insert-update-form").validate({
+            ignore: ":hidden",
+            rules: {
+                name: {
+                    required: true,
+                    normalizer: function( value ) {
+                        return $.trim( value );
+                    },
+                    maxlength: 100
+                }
+            },
+            submitHandler: function (form) {
+                preprocessInput($("#cat-reason-insert-update-form"));
+                //
+                if (isContainSpecialCharacter($('#modal-inp-name').val())) {
+                    alert("Tên đối tác chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
+                    return;
+                }
+                //
+                $.ajax({
+                    type: "POST",
+                    url: $("#cat-reason-insert-update-form").attr('action'),
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        resultArr = data.split('|');
+                        resultCode = resultArr[0];
+                        resultName = resultArr[1];
+                        if(resultCode == 1){
+                            setInfoMessage($('#action-info'),resultName);
+                        }else{
+                            setErrorMessage($('#action-info'),resultName);
+                        }
+                        //
+                        if($("#modal-type").val().includes("add")){
+                            clearInputContents();
+                            $("#modal-inp-name").focus();
+                        }else{
+                            hideModal($addUpdateModal);
+                        }
+                        search(false);
+                    },
+                    error:function(){
+                        setErrorMessage($('#action-info'),'Lỗi hệ thống');
+                    }
+                });
+                return false;
+            }
+        });
+    });
+    //
+    function clearInputContents() {
+        $("#modal-inp-name").val('');
+    }
+    //
+    function changeModelByType(type,name,id,status,reasonType,actionVal) {
+        if(type == 1){//add
+            $("#cat-reason-insert-update-form").attr("action",actionVal);
+            //
+            clearInputContents();
+            //set default active-disable combo status
+            $('#modal-cmb-status').bootstrapToggle('on');
+            $("#div-status *").prop('disabled',true);
+            //
+            $("#modal-type").val('add');
+            showAdd();
+            $("#myModalLabel").text('Thêm mới');
+        }else{//update
+            $("#cat-reason-insert-update-form").attr("action",actionVal);
+            $("#modal-inp-name").val(decodeHtml(name));
+            $("#modal-inp-id").val(id);
+            $('input[name=type][value=' + reasonType + ']').prop('checked', true);
+
+            var currentStatus = status;
+            if(currentStatus == '0'){
+                $('#modal-cmb-status').bootstrapToggle('off');
+            }else{
+                $('#modal-cmb-status').bootstrapToggle('on');
+            }
+            $("#div-status *").prop('disabled',false);
+            $("#modal-type").val('update');
+            showUpdate();
+        }
+    }
+</script>
+</body>
+</html>
