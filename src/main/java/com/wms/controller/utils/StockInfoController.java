@@ -175,36 +175,23 @@ public class StockInfoController extends BaseController {
                     fladAdd = false;
                 }
                 if (fladAdd) {
-                    MjrStockTransDetailDTO temp = new MjrStockTransDetailDTO();
-                    temp.setGoodsId(i.getGoodsId());
-                    temp.setGoodsCode(goodsItem.getCode());
-                    temp.setGoodsName(goodsItem.getName());
-                    temp.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
-                    temp.setGoodsState(i.getGoodsState());
-                    temp.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-                    temp.setImportDate(i.getImportDate());
-                    temp.setExportDate(i.getExportDate());
-                    temp.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
-                    temp.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
-                    temp.setSerial(i.getSerial());
-                    temp.setIsSerial(goodsItem.getIsSerial());
-                    temp.setCellCode(i.getCellCode());
+                    i.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
+                    i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                    i.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
+                    i.setOutputPriceValue(FunctionUtils.formatNumber(i.getOutputPrice()));
+                    i.setIsSerial(goodsItem.getIsSerial());
                     if (!DataUtil.isStringNullOrEmpty(i.getWeight())) {
-                        temp.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()))));
+                        i.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()))));
                     }
                     if (!DataUtil.isStringNullOrEmpty(i.getVolume())) {
-                        temp.setVolume(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()))));
+                        i.setVolume(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()))));
                     }
                     goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
-                    temp.setUnitName(mapAppParamsUnitName.get(goodUnitId));
+                    i.setUnitName(mapAppParamsUnitName.get(goodUnitId));
                     if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
-                        temp.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
+                        i.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
                     }
-                    //
-                    temp.setProduceDate(i.getProduceDate());
-                    temp.setExpireDate(i.getExpireDate());
-                    //
-                    lstResult.add(temp);
+                    lstResult.add(i);
                 }
             }
         }
@@ -216,47 +203,47 @@ public class StockInfoController extends BaseController {
     //------------------------------------------------------------------------------------------------------------------
     private List<MjrStockTransDetailDTO> setListGoodsDetailNameInfo(List<MjrStockTransDetailDTO> lstStockGoods) {
         List<MjrStockTransDetailDTO> lstResult = Lists.newArrayList();
+        String partnerPermission = currentUser.getPartnerPermission();
+        boolean fladAdd = true;
         String goodUnitId = "";
         for (MjrStockTransDetailDTO i : lstStockGoods) {
+            fladAdd = true;
             if (!DataUtil.isListNullOrEmpty(lstStockGoods)) {
-                MjrStockTransDetailDTO temp = new MjrStockTransDetailDTO();
-                temp.setStockCode(mapStockIdStock.get(i.getStockId()).getCode());
-                temp.setStockName(mapStockIdStock.get(i.getStockId()).getName());
-                temp.setGoodsCode(mapGoodsIdGoods.get(i.getGoodsId()).getCode());
-                temp.setGoodsName(mapGoodsIdGoods.get(i.getGoodsId()).getName());
-                temp.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
-                temp.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
-                temp.setAmountValueReport(Double.valueOf(i.getAmount()));
-                temp.setImportDate(i.getImportDate());
-                temp.setChangeDate(i.getChangeDate());
-                if (!DataUtil.isStringNullOrEmpty(i.getInputPrice())) {
-                    temp.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
-                    temp.setInputPriceValueReport(Double.valueOf(i.getInputPrice()));
-                    temp.setTotalMoney(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getInputPrice()) * Double.valueOf(i.getAmount()))));
-                    temp.setTotalMoneyReport(Double.valueOf(i.getInputPrice()) * Double.valueOf(i.getAmount()));
+                if ("1".equals(partnerPermission) && !mapPartnerIdPartner.containsKey(i.getPartnerId())) {
+                    fladAdd = false;
+                }
+                if(fladAdd) {
+                    i.setStockCode(mapStockIdStock.get(i.getStockId()).getCode());
+                    i.setStockName(mapStockIdStock.get(i.getStockId()).getName());
+                    i.setGoodsCode(mapGoodsIdGoods.get(i.getGoodsId()).getCode());
+                    i.setGoodsName(mapGoodsIdGoods.get(i.getGoodsId()).getName());
+                    i.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
+                    i.setAmountValue(FunctionUtils.formatNumber(i.getAmount()));
+                    i.setAmountValueReport(Double.valueOf(i.getAmount()));
+                    if (!DataUtil.isStringNullOrEmpty(i.getInputPrice())) {
+                        i.setInputPriceValue(FunctionUtils.formatNumber(i.getInputPrice()));
+                        i.setInputPriceValueReport(Double.valueOf(i.getInputPrice()));
+                        i.setTotalMoney(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getInputPrice()) * Double.valueOf(i.getAmount()))));
+                        i.setTotalMoneyReport(Double.valueOf(i.getInputPrice()) * Double.valueOf(i.getAmount()));
 
-                }
-                temp.setSerial(i.getSerial());
-                temp.setCellCode(i.getCellCode());
-                if (!DataUtil.isStringNullOrEmpty(i.getWeight())) {
-                    temp.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()))));
-                    temp.setWeightReport(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()));
+                    }
+                    if (!DataUtil.isStringNullOrEmpty(i.getWeight())) {
+                        i.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()))));
+                        i.setWeightReport(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()));
 
+                    }
+                    if (!DataUtil.isStringNullOrEmpty(i.getVolume())) {
+                        i.setVolume(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()))));
+                        i.setVolumeReport(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()));
+                    }
+                    goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
+                    i.setUnitName(mapAppParamsUnitName.get(goodUnitId));
+                    if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
+                        i.setPartnerCode(mapPartnerIdPartner.get(i.getPartnerId()).getCode());
+                        i.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
+                    }
+                    lstResult.add(i);
                 }
-                if (!DataUtil.isStringNullOrEmpty(i.getVolume())) {
-                    temp.setVolume(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()))));
-                    temp.setVolumeReport(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()));
-                }
-                goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
-                temp.setUnitName(mapAppParamsUnitName.get(goodUnitId));
-                if (i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
-                    temp.setPartnerCode(mapPartnerIdPartner.get(i.getPartnerId()).getCode());
-                    temp.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
-                }
-                temp.setExpireDate(i.getExpireDate());
-                temp.setProduceDate(i.getProduceDate());
-                temp.setDescription(i.getDescription());
-                lstResult.add(temp);
             }
         }
 
