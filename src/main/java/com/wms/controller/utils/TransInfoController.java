@@ -413,4 +413,16 @@ public class TransInfoController extends BaseController {
         total = total / 1000;
         return ConvertCurrenciesToText.weightFormat(String.format("%.3f", total));
     }
+
+    @RequestMapping(value = "/changeReason", method = RequestMethod.GET)
+    public @ResponseBody
+    List<CatReasonDTO> changeReason(@RequestParam("type") String type) {
+        if("1".equals(type)){
+            return lstReasonImport;
+        }else if("2".equals(type)){
+            return  lstReasonExport;
+        }else{
+            return lstReason;
+        }
+    }
 }

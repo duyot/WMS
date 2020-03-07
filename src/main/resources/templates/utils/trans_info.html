@@ -89,15 +89,15 @@
                                 <div class="col-sm-4">
                                     <div class="input-group input-group-combo">
                                         <div class="radio radio-inline radio-primary">
-                                            <input value="-1" type="radio" id="radio-all" name="cmb-trans-type" checked="checked"/>
+                                            <input value="-1" type="radio" id="radio-all" name="cmb-trans-type" checked="checked" onclick="changeReason();"/>
                                             <label for="radio-all" th:text="#{label.all}"></label>
                                         </div>
                                         <div class="radio radio-inline radio-info">
-                                            <input value="1" type="radio" id="radio-normal" name="cmb-trans-type"/>
+                                            <input value="1" type="radio" id="radio-normal" name="cmb-trans-type" onclick="changeReason();"/>
                                             <label for="radio-normal" th:text="#{lbl.input.trans}"></label>
                                         </div>
                                         <div class="radio radio-inline radio-danger">
-                                            <input value="2" type="radio" id="radio-innormal" name="cmb-trans-type"/>
+                                            <input value="2" type="radio" id="radio-innormal" name="cmb-trans-type" onclick="changeReason();"/>
                                             <label for="radio-innormal" th:text="#{lbl.output.trans}"></label>
                                         </div>
                                     </div>
@@ -187,6 +187,8 @@
                         <button id="btn-view-info" th:value="@{/workspace/utils/trans_info/viewTransInfo}" style="display: none" type="button" class="btn btn-default">
                             <i class="fa fa-edit"></i>
                         </button>
+                        <button id="btn-get-reason" style="display: none" th:value="@{/workspace/utils/trans_info/changeReason}"></button>
+
                         <!--<button id="btn-cancel-trans" th:value="@{/workspace/utils/trans_info/cancelTrans}" style="display: none" type="button" class="btn btn-default">
                             <i class="fa fa-edit"></i>
                         </button>-->
@@ -433,6 +435,35 @@
                 NProgress.done();
             }
         });
+    }
+
+    function changeReason() {
+        var type = $('input[name=cmb-trans-type]:checked').val();
+        $.ajax({
+            type: 'GET',
+            url: $('#btn-get-reason').val(),
+            data: {type: type},
+            cache: false,
+            contentType: false,
+            async: false,
+            success: function (data) {
+                loadSelectItems($("#cmb-reason"), data);
+            }
+        });
+    }
+    function loadSelectItems(select, items) {
+        select.empty();
+        var opt = document.createElement('option');
+        opt.value = "-1";
+        opt.innerHTML = "Tất cả";
+        select.append(opt);
+        $.each(items, function (i, item) {
+            opt = document.createElement('option');
+            opt.value = item.id;
+            opt.innerHTML = item.name;
+            select.append(opt);
+        });
+        select.selectpicker('refresh');
     }
     //-------------------------------------------------------------------------
 </script>

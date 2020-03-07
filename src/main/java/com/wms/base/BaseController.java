@@ -9,6 +9,8 @@ import com.wms.services.interfaces.PartnerService;
 import com.wms.services.interfaces.StockService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +60,8 @@ public class BaseController {
     public Map<String, CatReasonDTO> mapReasonIdReasonExport;
     public List<CatGoodsDTO> lstGoods;
     public List<CatReasonDTO> lstReason;
+    public List<CatReasonDTO> lstReasonImport;
+    public List<CatReasonDTO> lstReasonExport;
 
     //PARTNER
     public List<CatPartnerDTO> lstPartner;
@@ -170,13 +174,18 @@ public class BaseController {
         mapReasonIdReason = new HashMap<>();
         mapReasonIdReasonImport = new HashMap<>();
         mapReasonIdReasonExport = new HashMap<>();
+        lstReasonImport = new ArrayList<CatReasonDTO>();
+        lstReasonExport = new ArrayList<CatReasonDTO>();
+
         if (!DataUtil.isListNullOrEmpty(lstReason)) {
             for (CatReasonDTO i : lstReason) {
                 mapReasonIdReason.put(i.getId(), i);
                 if("1".equals(i.getType())){
                     mapReasonIdReasonImport.put(i.getId(), i);
+                    lstReasonImport.add(i);
                 }else{
                     mapReasonIdReasonExport.put(i.getId(), i);
+                    lstReasonExport.add(i);
                 }
             }
         }
