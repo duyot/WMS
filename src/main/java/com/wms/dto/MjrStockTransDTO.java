@@ -49,6 +49,24 @@ public class MjrStockTransDTO {
     private String exportMethod;
 
     private String cellCode;
+    private String reasonId;
+    private String reasonName;
+
+    public String getReasonId() {
+        return reasonId;
+    }
+
+    public void setReasonId(String reasonId) {
+        this.reasonId = reasonId;
+    }
+
+    public String getReasonName() {
+        return reasonName;
+    }
+
+    public void setReasonName(String reasonName) {
+        this.reasonName = reasonName;
+    }
 
     public String getParentReceiveName() {
         return parentReceiveName;
@@ -166,7 +184,7 @@ public class MjrStockTransDTO {
     }
 
     public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoiceNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String transMoneyReceive, String transMoneyResponse, String description,
-                            String partnerId, String partnerName, String receiveId, String receiveName, String orderId, String orderCode) {
+                            String partnerId, String partnerName, String receiveId, String receiveName, String orderId, String orderCode,String reasonId, String reasonName) {
         this.id = id;
         this.code = code;
         this.custId = custId;
@@ -188,6 +206,8 @@ public class MjrStockTransDTO {
         this.receiveName = receiveName;
         this.orderId = orderId;
         this.orderCode = orderCode;
+        this.reasonId = reasonId;
+        this.reasonName = reasonName;
     }
 
     public String getId() {
@@ -350,4 +370,6 @@ public class MjrStockTransDTO {
     public void setExportMethod(String exportMethod) {
         this.exportMethod = exportMethod;
     }
+
+
 }

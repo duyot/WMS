@@ -42,6 +42,9 @@ public class BaseController {
     BaseService catStockCellService;
     @Autowired
     private HttpServletRequest requestCtx;
+    @Autowired
+    public BaseService catReasonService;
+
     //STOCK
     public List<CatStockDTO> lstStock;
     public Map<String, CatStockDTO> mapStockIdStock;
@@ -50,7 +53,12 @@ public class BaseController {
     //GOODS
     public Map<String, CatGoodsDTO> mapGoodsCodeGoods;
     public Map<String, CatGoodsDTO> mapGoodsIdGoods;
+    public Map<String, CatReasonDTO> mapReasonIdReason;
+    public Map<String, CatReasonDTO> mapReasonIdReasonImport;
+    public Map<String, CatReasonDTO> mapReasonIdReasonExport;
     public List<CatGoodsDTO> lstGoods;
+    public List<CatReasonDTO> lstReason;
+
     //PARTNER
     public List<CatPartnerDTO> lstPartner;
     public Map<String, CatPartnerDTO> mapPartnerIdPartner;
@@ -78,6 +86,7 @@ public class BaseController {
         initCells();
         initGoods();
         initPartner();
+        initReason();
         isDataLoaded = true;
     }
 
@@ -108,6 +117,11 @@ public class BaseController {
     public void initGoods() {
         this.lstGoods = FunctionUtils.getListGoods(catGoodsService, selectedCustomer);
         buildMapGoods();
+    }
+
+    public void initReason() {
+        this.lstReason = FunctionUtils.getListReason(catReasonService, selectedCustomer);
+        buildMapReason();
     }
 
     public void initPartner() {
@@ -148,6 +162,22 @@ public class BaseController {
             for (CatGoodsDTO i : lstGoods) {
                 mapGoodsCodeGoods.put(i.getCode(), i);
                 mapGoodsIdGoods.put(i.getId(), i);
+            }
+        }
+    }
+
+    public void buildMapReason() {
+        mapReasonIdReason = new HashMap<>();
+        mapReasonIdReasonImport = new HashMap<>();
+        mapReasonIdReasonExport = new HashMap<>();
+        if (!DataUtil.isListNullOrEmpty(lstReason)) {
+            for (CatReasonDTO i : lstReason) {
+                mapReasonIdReason.put(i.getId(), i);
+                if("1".equals(i.getType())){
+                    mapReasonIdReasonImport.put(i.getId(), i);
+                }else{
+                    mapReasonIdReasonExport.put(i.getId(), i);
+                }
             }
         }
     }

@@ -246,6 +246,13 @@ public class FunctionUtils {
     }
 
     /*
+       get goods
+    */
+    public static List<CatReasonDTO> getListReason(BaseService service, CatCustomerDTO currentCustomer) {
+        return service.findByCondition(getBaseConditions(currentCustomer.getId()));
+    }
+
+    /*
       get Partner
    */
     public static List<CatPartnerDTO> getListPartner(BaseService service, CatCustomerDTO currentCustomer) {

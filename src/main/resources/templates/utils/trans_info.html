@@ -56,12 +56,14 @@
                             <!--row 1: customer + stock-->
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.usage}"></label>
+                                    <label th:text="#{lbl.createdate}" for="create-date-range"></label>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
-                                        <button id="btn-get-goods-detail" style="display: none" th:value="@{/workspace/utils/stockInfo/getGoodsDetail}"></button>
+										<span class="input-group-addon">
+											<i class="fa fa-calendar fa-fw"></i>
+										</span>
+                                        <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
                                     </div>
                                 </div>
 
@@ -82,14 +84,22 @@
                             <!--row 2:created_date + user -->
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.createdate}" for="create-date-range"></label>
+                                    <label th:text="#{lbl.transtype}"></label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="input-group">
-										<span class="input-group-addon">
-											<i class="fa fa-calendar fa-fw"></i>
-										</span>
-                                        <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
+                                    <div class="input-group input-group-combo">
+                                        <div class="radio radio-inline radio-primary">
+                                            <input value="-1" type="radio" id="radio-all" name="cmb-trans-type" checked="checked"/>
+                                            <label for="radio-all" th:text="#{label.all}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="1" type="radio" id="radio-normal" name="cmb-trans-type"/>
+                                            <label for="radio-normal" th:text="#{lbl.input.trans}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-danger">
+                                            <input value="2" type="radio" id="radio-innormal" name="cmb-trans-type"/>
+                                            <label for="radio-innormal" th:text="#{lbl.output.trans}"></label>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -110,24 +120,20 @@
                             <!--row 3 : trans_type -->
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.transtype}"></label>
+                                    <label th:text="#{lbl.reason}"></label>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group input-group-combo">
-                                        <div class="radio radio-inline radio-primary">
-                                            <input value="-1" type="radio" id="radio-all" name="cmb-trans-type" checked="checked"/>
-                                            <label for="radio-all" th:text="#{label.all}"></label>
-                                        </div>
-                                        <div class="radio radio-inline radio-info">
-                                            <input value="1" type="radio" id="radio-normal" name="cmb-trans-type"/>
-                                            <label for="radio-normal" th:text="#{lbl.input.trans}"></label>
-                                        </div>
-                                        <div class="radio radio-inline radio-danger">
-                                            <input value="2" type="radio" id="radio-innormal" name="cmb-trans-type"/>
-                                            <label for="radio-innormal" th:text="#{lbl.output.trans}"></label>
-                                        </div>
+                                        <button id="btn-get-goods-detail" style="display: none" th:value="@{/workspace/utils/stockInfo/getGoodsDetail}"></button>
+                                        <select id="cmb-reason" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-reason">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstReason}"
+                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                        </select>
                                     </div>
                                 </div>
+
 
                                 <div class="col-sm-2">
                                     <label th:text="#{lbl.createuser}" for="cmb-user"></label>
@@ -408,11 +414,13 @@
         var endDateVal   = drp.endDate.format("DD/MM/YYYY");
         var transType = $("input[name='cmb-trans-type']:checked").val();
 //        var transCode =  $('#inp-trans-code').val().trim();
+        var reasonId = $('#cmb-reason').val();
+
 
         $.ajax({
             type: "GET",
             cache:false,
-            data:{stockId:stock_id,createdUser:createdUser,startDate:startDateVal,endDate:endDateVal,transType:transType, partnerId: partnerId},
+            data:{stockId:stock_id,createdUser:createdUser,startDate:startDateVal,endDate:endDateVal,transType:transType, partnerId: partnerId, reasonId: reasonId },
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             url: $btnSearch.val(),
             dataType: 'json',

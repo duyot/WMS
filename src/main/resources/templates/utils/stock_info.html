@@ -55,16 +55,25 @@
                             <!--row 1: customer + stock-->
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.usage}"></label>
+                                    <!--<label th:text="#{lbl.usage}"></label>-->
+                                    <label th:text="#{lbl.goods}" for="cmb-goods"></label>
                                     <label id="hidden-stock-id"></label>
                                     <label id="hidden-goods-id"></label>
                                     <label id="hidden-state-id"></label>
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                    <!--<div class="input-group">
+                                        &lt;!&ndash;<label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>&ndash;&gt;
+                                    </div>-->
+                                    <div class="input-group input-group-combo">
                                         <button id="btn-get-goods-detail" style="display: none" th:value="@{/workspace/utils/stockInfo/getGoodsDetail}"></button>
+                                            <select id="cmb-goods" class="selectpicker form-control"  data-live-search="true"
+                                                data-width="100%" name="cmb-goods">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstGoods}"
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}"></option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
@@ -84,39 +93,7 @@
                             <!--row 2: goods group - goods -->
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.goods}" for="cmb-goods"></label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group input-group-combo">
-                                        <select id="cmb-goods" class="selectpicker form-control"  data-live-search="true"
-                                                data-width="100%" name="cmb-goods">
-                                            <option value="-1" th:text="#{label.all}"></option>
-                                            <option  th:each="sopt:${lstGoods}"
-                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}"></option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <label th:text="#{lbl.partner}" for="cmb-partner"></label>
-
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="input-group input-group-combo">
-                                        <select id="cmb-partner" class="selectpicker form-control"  data-live-search="true"
-                                                data-width="100%" name="cmb-partner">
-                                            <option value="-1" th:text="#{label.all}"></option>
-                                            <option  th:each="sopt:${lstPartner}"
-                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--row 3: goods state -->
-                            <div class="row">
-                                <div class="col-sm-2">
                                     <label>Tình trạng</label>
-
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group input-group-combo">
@@ -136,13 +113,21 @@
                                 </div>
 
                                 <div class="col-sm-2">
+                                    <label th:text="#{lbl.partner}" for="cmb-partner"></label>
 
                                 </div>
                                 <div class="col-sm-4">
-
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-partner" class="selectpicker form-control"  data-live-search="true"
+                                                data-width="100%" name="cmb-partner">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstPartner}"
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
+                                        </select>
+                                    </div>
                                 </div>
-
                             </div>
+
                         </div>
                     </form>
                     <div class="wrapper text-center" style="text-align: center; margin-top: 5px">

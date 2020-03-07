@@ -82,6 +82,7 @@ public class TransInfoController extends BaseController {
         model.addAttribute("lstUsers", lstUsers);
         model.addAttribute("lstStock", lstStock);
         model.addAttribute("lstPartner", lstPartner);
+        model.addAttribute("lstReason", lstReason);
         return "utils/trans_info";
     }
 
@@ -89,7 +90,8 @@ public class TransInfoController extends BaseController {
     public @ResponseBody
     List<MjrStockTransDTO> findTrans(@RequestParam("stockId") String stockId, @RequestParam("createdUser") String createdUser,
                                      @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-                                     @RequestParam("transType") String transType, @RequestParam("partnerId") String partnerId
+                                     @RequestParam("transType") String transType, @RequestParam("partnerId") String partnerId,
+                                     @RequestParam("reasonId") String reasonId
     ) {
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
@@ -100,6 +102,9 @@ public class TransInfoController extends BaseController {
         }
         if (!DataUtil.isStringNullOrEmpty(partnerId) && !partnerId.equals(Constants.STATS_ALL)) {
             lstCon.add(new Condition("partnerId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, partnerId));
+        }
+        if (!DataUtil.isStringNullOrEmpty(reasonId) && !reasonId.equals(Constants.STATS_ALL)) {
+            lstCon.add(new Condition("reasonId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, reasonId));
         }
         if (!DataUtil.isStringNullOrEmpty(startDate) && !DataUtil.isStringNullOrEmpty(endDate)) {
             this.startDate = startDate;
@@ -129,7 +134,7 @@ public class TransInfoController extends BaseController {
     @RequestMapping(value = "/getListTransFile")
     public void getListTransFile(HttpServletResponse response) {
         if (DataUtil.isListNullOrEmpty(lstTrans)) {
-            lstTrans.add(new MjrStockTransDTO("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
+            lstTrans.add(new MjrStockTransDTO("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","",""));
             startDate = "";
             endDate = "";
         }
