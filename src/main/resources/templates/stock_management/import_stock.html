@@ -47,16 +47,22 @@
                             <!--row 1: customer + stock-->
                                     <div class="row">
                                         <div class="col-sm-2">
-                                            <label th:text="#{lbl.usage}"></label>
+                                            <label th:text="#{lbl.reason}"></label>
                                         </div>
                                         <div class="col-sm-4">
-                                            <div class="input-group">
-                                                <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                            <div class="input-group input-group-combo">
+                                                <!--<label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>-->
                                                 <label id="lbl-customerId" style="display: none" th:text="${session.selectedCustomer.id}"></label>
                                                 <button id="btn-check-serial" style="display: none" th:value="@{/workspace/stock_management/import/isSerial}"></button>
                                                 <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
                                                 <button id="btn-get-goods-code" style="display: none" th:value="@{/workspace/stock_management/import/getGoodsCode}"></button>
                                                 <button id="btn-get-partner" style="display: none" th:value="@{/workspace/stock_management/import/getPartnerName}"></button>
+                                                <select id="cmb-reason" class="selectpicker form-control" data-live-search="true"
+                                                        data-width="100%" name="cmb-reason">
+                                                    <option value="-1" th:text="#{label.all}"></option>
+                                                    <option  th:each="sopt:${lstReasonImport}"
+                                                             th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                                </select>
                                             </div>
                                         </div>
 

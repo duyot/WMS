@@ -356,6 +356,8 @@ btnImportConfirm.click(function () {
     var descriptionValue = $('#inp-contract-note').val();
     var partnerValue = $('#inp-partner-name').val();
     var cellCode = $("#cmb-cells :selected").val();
+    var reasonIdValue = $('#cmb-reason').val();
+
     if ($("#cmb-cells :selected").val() != '-1'){
         cellCode = $("#cmb-cells :selected").text();
     }else{
@@ -366,7 +368,8 @@ btnImportConfirm.click(function () {
         stockId: stockIdValue,
         description: descriptionValue,
         partnerName: partnerValue,
-        cellCode: cellCode
+        cellCode: cellCode,
+        reasonId: reasonIdValue
     };
     //
     var importData = JSON.stringify({lstGoods: $table.bootstrapTable('getData'), mjrStockTransDTO: stock_trans_info});
@@ -395,6 +398,7 @@ btnImportConfirm.click(function () {
                 $("#modal-error-import-lbl-info").text('Nhập ' + successRecords + '/' + totalRecords + ' hàng thành công với mã giao dịch: ' + stockTransCode);
                 $("#modal-link-download").attr("href", $("#modal-inp-stock-trans-id").val() + "/" + stockTransId);
                 showModal($("#myDownloadErrorImportModal"));
+                $("#cmb-reason :selected").val('-1');
             } else if (resultMessage == "FAIL") {
                 setErrorMessage($lblInfo, "Nhập kho không thành công!");
             } else {
@@ -403,6 +407,7 @@ btnImportConfirm.click(function () {
                 $inpGoodsAmount.val('');
                 $inpPartnerName.val('');
                 $('#inp-contract-note').val('');
+                $("#cmb-reason :selected").val("-1");
             }
             //
             disableElement($('#btn-import'));

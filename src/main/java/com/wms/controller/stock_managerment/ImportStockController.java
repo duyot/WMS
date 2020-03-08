@@ -96,6 +96,8 @@ public class ImportStockController extends BaseController {
         model.addAttribute("menuName", "menu.importstock");
         model.addAttribute("cells", cells);
         model.addAttribute("lstStock", lstStock);
+        model.addAttribute("lstReasonImport", lstReasonImport);
+
         return "stock_management/import_stock";
     }
 
@@ -180,7 +182,7 @@ public class ImportStockController extends BaseController {
 
     @RequestMapping(value = "/importOrder", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseObject exportOrder(@RequestBody StockManagementDTO stockManagementDTO) {
+    public ResponseObject importOrder(@RequestBody StockManagementDTO stockManagementDTO) {
         long startTime = System.currentTimeMillis();
         String sysdate = catStockService.getSysDate();
         MjrOrderDTO mjrOrderDTO = setInfoStockTrans(stockManagementDTO);
@@ -334,6 +336,10 @@ public class ImportStockController extends BaseController {
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
+        if (!DataUtil.isStringNullOrEmpty(mjrStockTransDTO.getReasonId()) && !mjrStockTransDTO.getReasonId().equals(Constants.STATS_ALL)) {
+            mjrStockTransDTO.setReasonId(mjrStockTransDTO.getReasonId());
+            mjrStockTransDTO.setReasonName(mapReasonIdReason.get(mjrStockTransDTO.getReasonId()).getName());
+        }
         if (!DataUtil.isStringNullOrEmpty(mjrStockTransDTO.getPartnerName())) {
             String[] splitPartner = mjrStockTransDTO.getPartnerName().split("\\|");
             if (splitPartner.length > 0) {

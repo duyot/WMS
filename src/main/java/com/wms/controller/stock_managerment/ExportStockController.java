@@ -88,6 +88,7 @@ public class ExportStockController extends BaseController {
         model.addAttribute("lstPartner", lstPartner);
         model.addAttribute("lstStock", lstStock);
         model.addAttribute("cells", cells);
+        model.addAttribute("lstReasonExport", lstReasonExport);
         return "stock_management/export_stock";
     }
 
@@ -347,6 +348,10 @@ public class ExportStockController extends BaseController {
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
+        if (!DataUtil.isStringNullOrEmpty(mjrStockTransDTO.getReasonId()) && !mjrStockTransDTO.getReasonId().equals(Constants.STATS_ALL)) {
+            mjrStockTransDTO.setReasonId(mjrStockTransDTO.getReasonId());
+            mjrStockTransDTO.setReasonName(mapReasonIdReason.get(mjrStockTransDTO.getReasonId()).getName());
+        }
         //Nguoi nhan khi xuat
         if (mjrStockTransDTO.getReceiveName() != null && !mjrStockTransDTO.getReceiveName().trim().equals("") && mjrStockTransDTO.getReceiveName().contains("|")) {
             String[] splitPartner = mjrStockTransDTO.getReceiveName().split("\\|");

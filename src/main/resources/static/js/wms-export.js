@@ -305,6 +305,8 @@ btnExportConfirm.click(function () {
     var receiveValue = $('#inp-receive-name').val();
     var partnerIdValue = $('#cmb-partner').val();
     var exportMethod = $('input[name=cmb-export-method]:checked').val();
+    var reasonIdValue = $('#cmb-reason').val();
+
 
     var stock_trans_info = {
         contractNumber: contractNumberValue,
@@ -312,7 +314,8 @@ btnExportConfirm.click(function () {
         description: descriptionValue,
         receiveName: receiveValue,
         partnerId: partnerIdValue,
-        exportMethod: exportMethod
+        exportMethod: exportMethod,
+        reasonId: reasonIdValue
     };
     //
     var importData = JSON.stringify({lstGoods: $table.bootstrapTable('getData'), mjrStockTransDTO: stock_trans_info});
