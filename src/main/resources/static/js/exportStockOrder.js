@@ -95,6 +95,7 @@ $(function () {
                             setErrorMessage(null, resultName);
                         }
                         $('#inp-receive-name').val($('#modal-inp-code').val() + "|" + $('#modal-inp-name').val() + "|" + $('#modal-inp-telNumber').val());
+                        loadPartnerSuggestion();
                     },
                     error: function () {
                         setErrorMessage(null, 'Lỗi hệ thống');
