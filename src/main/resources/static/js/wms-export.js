@@ -362,6 +362,8 @@ btnExportConfirm.click(function () {
                 $('#inp-contract-note').val('');
                 $('#inp-receive-name').val('');
                 $('input[name=cmb-export-method][value='+exportMethodVal.val()+']').prop('checked', true);
+                $('#cmb-reason').val(-1);
+                $('#cmb-reason').selectpicker('refresh');
             }
             disableElement($('#btn-export'));
             $table.bootstrapTable('removeAll');

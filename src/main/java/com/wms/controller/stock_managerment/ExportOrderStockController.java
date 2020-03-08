@@ -90,6 +90,8 @@ public class ExportOrderStockController extends BaseController {
         model.addAttribute("lstUsers", lstUsers);
         model.addAttribute("lstStock", lstStock);
         model.addAttribute("lstPartner", lstPartner);
+        model.addAttribute("lstReasonExport", lstReasonExport);
+
         //
         cells.clear();
         if (!DataUtil.isListNullOrEmpty(lstStock)) {
@@ -109,7 +111,8 @@ public class ExportOrderStockController extends BaseController {
     @RequestMapping(value = "/findDataByCondition", method = RequestMethod.GET)
     public @ResponseBody
     List<MjrOrderDTO> findOrder(@RequestParam("stockId") String stockId, @RequestParam("createdUser") String createdUser,
-                                @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("status") String status) {
+                                @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
+                                @RequestParam("status") String status, @RequestParam("reasonId") String reasonId) {
         List<Condition> lstCon = Lists.newArrayList();
 
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
@@ -121,6 +124,9 @@ public class ExportOrderStockController extends BaseController {
         }
         if (!DataUtil.isStringNullOrEmpty(createdUser) && !createdUser.equals(Constants.STATS_ALL)) {
             lstCon.add(new Condition("createdUser", Constants.SQL_OPERATOR.EQUAL, createdUser));
+        }
+        if (!DataUtil.isStringNullOrEmpty(reasonId) && !createdUser.equals(Constants.STATS_ALL)) {
+            lstCon.add(new Condition("reasonId", Constants.SQL_OPERATOR.EQUAL, reasonId));
         }
         lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "2"));
 
@@ -283,6 +289,10 @@ public class ExportOrderStockController extends BaseController {
         mjrOrderDTO.setType(Constants.IMPORT_TYPE.EXPORT);
         mjrOrderDTO.setStatus("1");
         mjrOrderDTO.setCreatedUser(currentUser.getCode());
+        if (!DataUtil.isStringNullOrEmpty(mjrOrderDTO.getReasonId()) && !mjrOrderDTO.getReasonId().equals(Constants.STATS_ALL)) {
+            mjrOrderDTO.setReasonId(mjrOrderDTO.getReasonId());
+            mjrOrderDTO.setReasonName(mapReasonIdReason.get(mjrOrderDTO.getReasonId()).getName());
+        }
         //Nguoi nhan khi xuat
         if (mjrOrderDTO.getReceiveName() != null && !mjrOrderDTO.getReceiveName().trim().equals("") && mjrOrderDTO.getReceiveName().contains("|")) {
             String[] splitPartner = mjrOrderDTO.getReceiveName().split("\\|");

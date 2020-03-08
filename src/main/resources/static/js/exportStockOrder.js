@@ -216,7 +216,7 @@ function doInsertData() {
     var exportMethod = $('input[name=cmb-export-method]:checked').val();
     var orderId =    $('#order-export-id').val();
     var orderCode =    $('#order-export-code').val();
-
+    var reasonIdValue = $('#cmb-reason-export').val();
     var mjrOrder = {
         id : orderId,
         code : orderCode,
@@ -224,7 +224,8 @@ function doInsertData() {
         description: descriptionValue,
         receiveName: receiveValue,
         partnerId: partnerIdValue,
-        exportMethod: exportMethod
+        exportMethod: exportMethod,
+        reasonId: reasonIdValue
     };
     var importData = JSON.stringify({lstMjrOrderDetailDTOS: $table.bootstrapTable('getData'), mjrOrderDTO: mjrOrder});
 
@@ -278,7 +279,6 @@ function initExportPopup() {
 }
 
 function initEnterEvent() {
-
 
 }
 
@@ -355,6 +355,8 @@ function refreshFormAndInitData( row) {
     var node = "";
     var orderId = "";
     var code = "";
+    var reasonId = -1 ;
+
 
     if (isUpdate && row != null){
         exportMethod = row['exportMethod'];
@@ -364,9 +366,14 @@ function refreshFormAndInitData( row) {
         node = row['description'];
         orderId = row['id'];
         code = row['code'];
+        reasonId = row['reasonId'];
+
     }
     $('#cmb-stock').val(stockId);
     $('#cmb-stock').selectpicker('refresh');
+
+    $('#cmb-reason-export').val(reasonId);
+    $('#cmb-reason-export').selectpicker('refresh');
 
     $('#inp-contract-note').val(node);
     $('#inp-receive-name').val(received);
@@ -492,13 +499,15 @@ function doSearch() {
     var drp = $('#create-date-range').data('daterangepicker');
     var startCreateDateVal = drp.startDate.format("DD/MM/YYYY");
     var endCreateDateVal = drp.endDate.format("DD/MM/YYYY");
+    var reasonIdValue = $('#cmb-reason').val();
+
     //
     $.ajax({
         type: "GET",
         cache: false,
         data: {
             stockId: stockId, createdUser: userCode, status: status,
-            startDate: startCreateDateVal, endDate: endCreateDateVal
+            startDate: startCreateDateVal, endDate: endCreateDateVal, reasonId: reasonIdValue
         },
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         url: $btnSearch.val(),

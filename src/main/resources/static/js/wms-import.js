@@ -407,7 +407,8 @@ btnImportConfirm.click(function () {
                 $inpGoodsAmount.val('');
                 $inpPartnerName.val('');
                 $('#inp-contract-note').val('');
-                $("#cmb-reason :selected").val("-1");
+                $('#cmb-reason').val(-1);
+                $('#cmb-reason').selectpicker('refresh');
             }
             //
             disableElement($('#btn-import'));

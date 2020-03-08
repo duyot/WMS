@@ -261,6 +261,8 @@ public class ExportStockController extends BaseController {
             mjrStockTransDTO.setExportMethod(mjrOrderDTO.getExportMethod());
             mjrStockTransDTO.setOrderId(mjrOrderDTO.getId());
             mjrStockTransDTO.setOrderCode(mjrOrderDTO.getCode());
+            mjrStockTransDTO.setReasonId(mjrOrderDTO.getReasonId());
+            mjrStockTransDTO.setReasonName(mjrOrderDTO.getReasonName());
             stockManagementDTO.setMjrStockTransDTO(mjrStockTransDTO);
         }
         List<MjrStockTransDetailDTO> lstGoods = new ArrayList<>();

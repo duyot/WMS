@@ -67,14 +67,21 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-sm-2">
-                                <label th:text="#{lbl.usage}"></label>
+                                <!--<label th:text="#{lbl.usage}"></label>-->
+                                <label th:text="#{lbl.createdate}" for="create-date-range"></label>
+
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>
+                                    <!--<label id="lblCustomer" th:utext="${session.selectedCustomer.name}"></label>-->
                                     <button id="btn-export-file" style="display: none" th:value="@{/workspace/export_stock_order_ctr/orderExportFile}"></button>
                                     <button id="btn-order-detail" style="display: none" th:value="@{/workspace/export_stock_order_ctr/getOrderDetail}"></button>
                                     <button id="btn-check-exist" style="display: none" th:value="@{/workspace/export_stock_order_ctr/checkExists}"></button>
+                                    <span class="input-group-addon">
+											<i class="fa fa-calendar fa-fw"></i>
+										</span>
+                                    <input type="text" id="create-date-range" class="form-control" name="daterange"
+                                           value="01/01/2015 - 31/01/2015"/>
                                 </div>
                             </div>
 
@@ -98,15 +105,23 @@
                         <!--row 2:created_date + user -->
                         <div class="row">
                             <div class="col-sm-2">
-                                <label th:text="#{lbl.createdate}" for="create-date-range"></label>
+                                <label th:text="#{lbl.menutable.status}"></label>
                             </div>
                             <div class="col-sm-4">
-                                <div class="input-group">
-										<span class="input-group-addon">
-											<i class="fa fa-calendar fa-fw"></i>
-										</span>
-                                    <input type="text" id="create-date-range" class="form-control" name="daterange"
-                                           value="01/01/2015 - 31/01/2015"/>
+                                <div class="input-group input-group-combo">
+                                    <div class="radio radio-inline radio-primary">
+                                        <input value="-1" type="radio" id="radio-all" name="cmb-status"
+                                        />
+                                        <label for="radio-all" th:text="#{label.all}"></label>
+                                    </div>
+                                    <div class="radio radio-inline radio-info">
+                                        <input value="1" type="radio" id="radio-normal" name="cmb-status" checked="checked"/>
+                                        <label for="radio-normal" th:text="#{lbl.notexport}"></label>
+                                    </div>
+                                    <div class="radio radio-inline radio-danger">
+                                        <input value="2" type="radio" id="radio-innormal" name="cmb-status"/>
+                                        <label for="radio-innormal" th:text="#{lbl.export}"></label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -127,23 +142,16 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-2">
-                                <label th:text="#{lbl.menutable.status}"></label>
+                                <label th:text="#{lbl.reason}"></label>
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group input-group-combo">
-                                    <div class="radio radio-inline radio-primary">
-                                        <input value="-1" type="radio" id="radio-all" name="cmb-status"
-                                               />
-                                        <label for="radio-all" th:text="#{label.all}"></label>
-                                    </div>
-                                    <div class="radio radio-inline radio-info">
-                                        <input value="1" type="radio" id="radio-normal" name="cmb-status" checked="checked"/>
-                                        <label for="radio-normal" th:text="#{lbl.notexport}"></label>
-                                    </div>
-                                    <div class="radio radio-inline radio-danger">
-                                        <input value="2" type="radio" id="radio-innormal" name="cmb-status"/>
-                                        <label for="radio-innormal" th:text="#{lbl.export}"></label>
-                                    </div>
+                                    <select id="cmb-reason" class="selectpicker form-control" data-live-search="true"
+                                            data-width="100%" name="cmb-reason">
+                                        <option value="-1" th:text="#{label.all}"></option>
+                                        <option  th:each="sopt:${lstReasonExport}"
+                                                 th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -191,7 +199,7 @@
                        data-click-to-select="true"
                        data-toolbar="#toolbar"
                        class="table-striped"
-                       style="word-wrap: break-word;  table-layout: fixed;"
+                       style="word-wrap: break-word; table-layout: fixed;"
                 >
                     <thead>
                     <tr>
@@ -200,15 +208,17 @@
                         <th data-field="exportMethod"  data-visible="false"></th>
                         <th data-field="stockId"  data-visible="false"></th>
                         <th data-field="partnerId"  data-visible="false" ></th>
-                        <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" th:text="#{label.tbl.order.code}"></th>
-                        <th data-field="stockValue" data-align="left" data-sortable="true" th:text="#{lbl.stock}"></th>
+                        <th data-field="reasonId"  data-visible="false" ></th>
+                        <th class="col-md-1" data-field="code" data-align="left" data-sortable="true" th:text="#{label.tbl.order.code}"></th>
+                        <th class="col-md-1" data-field="stockValue" data-align="left" data-sortable="true" th:text="#{lbl.stock}"></th>
                         <th class="col-md-1" data-field="partnerName" data-align="left" data-sortable="true" th:text="#{label.tbl.shipping.partner}"></th>
                         <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true" th:text="#{lbl.receiveName}"></th>
                         <th class="col-md-1" data-field="description" data-align="left" data-sortable="true" th:text="#{lbl.note}"></th>
                         <th class="col-md-1" data-field="typeValue" data-align="center" data-sortable="true" data-formatter="formatterOrderStatus" th:text="#{lbl.menutable.status}"></th>
-                        <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true" th:text="#{label.tbl.created_user}"></th>
+                        <th class="col-md-1" data-field="reasonName" data-align="left" data-sortable="true">Lý do</th>
+                        <!--<th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true" th:text="#{label.tbl.created_user}"></th>-->
                         <th class="col-md-1" data-field="createdDate" data-align="left" data-sortable="true"th:text="#{lbl.createdate}" ></th>
-                        <th data-width="120px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatterMainForm" th:text="#{lbl.action}"></th>
+                        <th data-width="110px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatterMainForm" th:text="#{lbl.action}"></th>
                         <th data-field="status" data-align="left"></th>
                     </tr>
                     </thead>
