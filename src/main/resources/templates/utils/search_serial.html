@@ -137,6 +137,9 @@
                         <a class="btn btn-default" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/searchSerial/getSerialFile}">
                             <i class="fa fa-file-excel-o"></i>
                         </a>
+                        <button id="btn-serial-info" th:value="@{/workspace/utils/searchSerial/viewSerialLog}" style="display: none" type="button" class="btn btn-default">
+                            <i class="fa fa-edit"></i>
+                        </button>
                         <label class="action-info action-info-link" id="action-info"></label>
                     </div>
                     <table  id="tbl-stock-info"
@@ -145,7 +148,7 @@
                             data-click-to-select="true"
                             data-toolbar="#toolbar"
                             class="table-striped"
-                            style="word-wrap: break-word;  table-layout: fixed;"
+                            style="word-wrap: break-word;"
                     >
 
                         <thead>
@@ -163,6 +166,9 @@
                             <th data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
                             <th data-field="outputPriceValue" data-align="right" data-sortable="true">Giá xuất</th>
                             <th data-field="cellCode" data-align="right" data-sortable="true">Vị trí</th>
+                            <th data-field="content" data-align="left" data-sortable="true">Nguồn gốc</th>
+                            <th data-width="80px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
+
                         </tr>
                         </thead>
                     </table>
@@ -249,6 +255,17 @@
             }
         });
     }
+    function operateFormatter(value, row, index) {
+        var serial   = row["serial"];
+        var url = $('#btn-serial-info').val() + "?serial="+ serial;
+        $('.serilal-export').attr('href',url);
+        return [
+
+            '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
+            '<i class="fa fa-info-circle"></i>',
+            '</a> '
+        ].join('');
+           }
     //-------------------------------------------------------------------------
 </script>
 </body>

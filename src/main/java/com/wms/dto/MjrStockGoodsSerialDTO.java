@@ -24,8 +24,9 @@ public class MjrStockGoodsSerialDTO {
     private String produceDate;
     private String expireDate;
     private String description;
+    private String content;
 
-    public MjrStockGoodsSerialDTO(String id, String custId, String stockId, String goodsId, String goodsState, String cellCode, String amount, String serial, String importDate, String changeDate, String status, String partnerId, String importStockTransId, String inputPrice, String outputPrice, String exportDate, String exportStockTransId, String produceDate, String expireDate, String description) {
+    public MjrStockGoodsSerialDTO(String id, String custId, String stockId, String goodsId, String goodsState, String cellCode, String amount, String serial, String importDate, String changeDate, String status, String partnerId, String importStockTransId, String inputPrice, String outputPrice, String exportDate, String exportStockTransId, String produceDate, String expireDate, String description, String content) {
         this.id = id;
         this.custId = custId;
         this.stockId = stockId;
@@ -46,6 +47,7 @@ public class MjrStockGoodsSerialDTO {
         this.produceDate = produceDate;
         this.expireDate = expireDate;
         this.description = description;
+        this.content = content;
     }
 
     public MjrStockGoodsSerialDTO() {
@@ -209,5 +211,13 @@ public class MjrStockGoodsSerialDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
