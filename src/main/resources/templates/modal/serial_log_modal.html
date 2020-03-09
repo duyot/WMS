@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-serial-log-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="serial-log-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
+         aria-labelledby="myModalLabel" aria-hidden="true" th:width="700px">
+        <div class="modal-dialog" role="document" style="width:100%">
+                <div class="modal-content" id="catUserDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{lbl.serial.log}"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <div class="panel-body" style="padding: 0em 0.4em;">
+                                <div id="modal-trans-lst" class="btn-group">
+                                    <!--<a class="btn btn-default" id="link-download-serial-log-modal" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/searchSerial/getListSerialLogFile}">
+                                        <i class="fa fa-download"></i>
+                                    </a>-->
+                                </div>
+
+                                <table  id="tbl-serial-trans-log"
+                                        data-pagination="true"
+                                        data-search="true"
+                                        data-click-to-select="true"
+                                        data-toolbar="#modal-trans-lst"
+                                        class="table-striped"
+                                        style="word-wrap: break-word;"
+                                >
+
+                                    <thead>
+                                    <tr>
+                                        <th data-width="40px" data-field="id" data-formatter="runningFormatter" data-align="center" >#</th>
+                                        <th class="col-md-1" data-field="code" data-align="left" data-sortable="true" >Mã phiếu</th>
+                                        <th class="col-md-1" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
+                                        <th class="col-md-2" data-field="partnerName" data-align="left" data-sortable="true">Đối tác cung cấp</th>
+                                        <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
+                                        <th class="col-md-1" data-field="description" data-align="left" data-sortable="true">Ghi chú</th>
+                                        <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true" data-formatter="formatterTransType">Loại GD</th>
+                                        <th class="col-md-1" data-field="reasonName" data-align="left" data-sortable="true">Lý do</th>
+                                        <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người thực hiện</th>
+                                        <th class="col-md-1" data-field="createdDate" data-align="center" data-sortable="true">Thời gian</th>
+
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-add" class="btn btn-primary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

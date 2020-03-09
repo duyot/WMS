@@ -49,4 +49,9 @@ public class StockManagementServiceImpl implements StockManagementService {
     public List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId) {
         return stockManagementDP.getStockTransInfo(lstStockTransId);
     }
+
+    @Override
+    public List<MjrStockTransDTO> getListTransSerial(String custId, String goodsId, String serial) {
+        return stockManagementDP.getListTransSerial(custId, goodsId, serial);
+    }
 }

@@ -3,17 +3,17 @@ package com.wms.controller.utils;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
+import com.wms.dto.AppParamsDTO;
 import com.wms.dto.Condition;
+import com.wms.dto.MjrStockTransDTO;
 import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.DateTimeUtils;
 import com.wms.utils.FunctionUtils;
 import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +34,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SearchSerialController extends BaseController {
     @Autowired
     BaseService mjrStockGoodsSerialService;
+    @Autowired
+    StockManagementService stockManagementService;
     //
     public Map<String, String> mapAppStockStatus;
     private List<MjrStockTransDetailDTO> lstGoodsDetails;
-
+    private Map<String, String> mapAppTransType;
+    private List<AppParamsDTO> lstAppTransType;
     //------------------------------------------------------------------------------------------------------------------
     @PostConstruct
     public void init() {
         if (!isDataLoaded) {
             initBaseBean();
         }
+        this.lstAppTransType = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.TRANS_TYPE, lstAppParams);
+        this.mapAppTransType = FunctionUtils.buildMapAppParams(lstAppTransType);
         mapAppStockStatus = FunctionUtils.buildMapAppParams(FunctionUtils.getAppParamByType(Constants.APP_PARAMS.STOCK_STATUS, lstAppParams));
     }
 
@@ -124,5 +129,23 @@ public class SearchSerialController extends BaseController {
         FunctionUtils.exportExcel(templateAbsolutePath, beans, reportFullPath);
         //
         return reportFullPath;
+    }
+    //==================================================================================================================
+    @RequestMapping(value = "/viewSerialLog")
+    public @ResponseBody
+    List<MjrStockTransDTO> viewSerialLog(@RequestParam("goodsId") String goodsId, @RequestParam("serial") String serial) {
+        List<MjrStockTransDTO> lstStockTrans = stockManagementService.getListTransSerial(selectedCustomer.getId(), goodsId,serial);
+
+        if (DataUtil.isListNullOrEmpty(lstStockTrans)) {
+            return Lists.newArrayList();
+        }
+        for (MjrStockTransDTO i : lstStockTrans) {
+            try {
+                i.setStockValue(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()));
+                i.setTypeValue(mapAppTransType.get(i.getType()));
+            } catch (Exception e) {
+            }
+        }
+        return lstStockTrans;
     }
 }
