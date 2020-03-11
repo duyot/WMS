@@ -228,13 +228,12 @@ public class StockInfoController extends BaseController {
 
                     }
                     if (!DataUtil.isStringNullOrEmpty(i.getWeight())) {
-                        i.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()))));
-                        i.setWeightReport(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()));
-
+                        i.setWeightReport(Double.valueOf(i.getWeight().replaceAll(",","")) * Double.valueOf(i.getAmount()));
+                        i.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight().replaceAll(",","")) * Double.valueOf(i.getAmount()))));
                     }
                     if (!DataUtil.isStringNullOrEmpty(i.getVolume())) {
+                        i.setVolumeReport(Double.valueOf(i.getVolume().replaceAll(",","")) * Double.valueOf(i.getAmount()));
                         i.setVolume(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()))));
-                        i.setVolumeReport(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()));
                     }
                     goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
                     i.setUnitName(mapAppParamsUnitName.get(goodUnitId));
