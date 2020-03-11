@@ -274,7 +274,7 @@
                            data-click-to-select="true"
                            data-toolbar="#toolbar"
                            class="table-striped"
-                           style="word-wrap: break-word;  table-layout: fixed;"
+                           style="word-wrap: break-word;"
                            data-page-list="[5,10, 25, 50, 100, ALL]"
                     >
 
@@ -283,7 +283,7 @@
                             <th data-formatter="runningFormatter" data-align="center" data-width="45px">STT</th>
                             <th class="col-md-1" data-field="stockName" data-align="left" data-sortable="true">Kho</th>
                             <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
-                            <th data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
+                            <th class="col-md-1" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
                             <th class="col-md-1" data-field="amountValue" data-align="right" data-sortable="true">SL</th>
                             <th class="col-md-1" data-field="serial" data-align="right" data-sortable="true">Serial</th>
                             <th class="col-md-1" data-field="unitName" data-align="left" data-sortable="true">Đơn vị</th>
@@ -291,13 +291,14 @@
                             <th class="col-md-1" data-field="cellCode" data-align="left" data-sortable="true">Vị trí</th>
                             <th class="col-md-1" data-field="produceDate" data-align="left" data-sortable="true">Ngày sx</th>
                             <th class="col-md-1" data-field="expireDate" data-align="left" data-sortable="true">Hạn dùng</th>
+                            <th class="col-md-1" data-field="description" data-align="left" data-sortable="true">Ghi chú</th>
+                            <th class="col-md-1" data-field="content" data-align="left" data-sortable="true">Nguồn gốc</th>
                             <!--<th class="col-md-1" data-field="changeDate" data-align="center" data-sortable="true">TG cập nhật </th>-->
                             <th data-field="stockId" data-align="right" data-sortable="true"></th>
                             <th data-field="goodsState" data-align="right" data-sortable="true"></th>
                             <th data-field="goodsId" data-align="right" data-sortable="true"></th>
                             <th data-field="id" data-align="right" data-sortable="true"></th>
                             <th data-field="isSerial" data-align="right" data-sortable="true"></th>
-                            <th data-field="description" data-align="right" data-sortable="true"></th>
                             <th data-field="importDate" data-align="right" data-sortable="true"></th>
                             <th data-field="inputPriceValue" data-align="right" data-sortable="true"></th>
                             <th data-align="center" data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}" data-width="70px"></th>
@@ -349,7 +350,6 @@
         $table.bootstrapTable('hideColumn', 'goodsId');
         $table.bootstrapTable('hideColumn', 'id');
         $table.bootstrapTable('hideColumn', 'isSerial');
-        $table.bootstrapTable('hideColumn', 'description');
         $table.bootstrapTable('hideColumn', 'importDate');
         $table.bootstrapTable('hideColumn', 'inputPriceValue');
         //
@@ -445,6 +445,7 @@
         $("#modal-lbl-serial-val").text(row["serial"]);
         $("#modal-lbl-stock-name-val").text(row["stockName"]);
         $("#modal-note").val(row["description"]);
+        $("#modal-content").val(row["content"]);
         $("#modal-lbl-import-date-val").text(row["importDate"]);
         $("#modal-lbl-input-price-val").text(row["inputPriceValue"]);
         $("#modal-lbl-unit-name-val").text(row["unitName"]);
@@ -491,8 +492,10 @@
         var description = $("#modal-note").val();
         var produceDate = $("#modal-procedure-date").val();
         var expireDate = $("#modal-expire-date").val();
+        var content = $("#modal-content").val();
+
         //
-        var importData = JSON.stringify({isSerial: isSerial, id: id, produceDate: produceDate, expireDate: expireDate, description:description, cellCode: cellCode});
+        var importData = JSON.stringify({isSerial: isSerial, id: id, produceDate: produceDate, expireDate: expireDate, description:description, cellCode: cellCode, content: content});
         console.log(importData);
         //
         $.ajax({

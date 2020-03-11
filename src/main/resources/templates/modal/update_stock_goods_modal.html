@@ -185,6 +185,29 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="control-label" for="modal-content" th:text="#{lbl.content}"></label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-sticky-note fa-fw"></i>
+										</span>
+                                        <input type="text" id="modal-content" class="form-control" name="content"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                </div>
+
+                                <div class="col-sm-4" style="padding-right: 0px">
+
+                                </div>
+
+                            </div>
+
                             <button id="btn-get-cells" style="display: none" th:value="@{/workspace/stock_management/import/getCells}"></button>
                         </fieldset>
 
