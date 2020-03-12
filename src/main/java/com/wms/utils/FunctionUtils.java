@@ -398,6 +398,7 @@ public class FunctionUtils {
         String price = getCellValue(row.getCell(6));
         if (isImportTransaction) {
             goodsItem.setInputPrice(price);
+            goodsItem.setContent(getCellValue(row.getCell(10)));
         } else {
             goodsItem.setOutputPrice(price);
         }
@@ -548,6 +549,8 @@ public class FunctionUtils {
                     errorInfo.append("\n Hạn dùng không đúng định dạng");
                     isValid = false;
                 }
+                //
+                goodsItem.setContent(goodsItem.getContent());
                 //
                 if (!isValid) {
                     goodsItem.setErrorInfo(errorInfo.toString());

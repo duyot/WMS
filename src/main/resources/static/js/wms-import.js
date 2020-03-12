@@ -46,7 +46,7 @@ $(function () {
                 field: 'goodsState',
                 title: 'Tình trạng',
                 align: 'left',
-                width: '7%',
+                width: '5%',
                 editable: {
                     type: 'select',
                     mode: 'inline',
@@ -198,7 +198,7 @@ $(function () {
                 field: 'expireDate',
                 title: 'Hạn dùng',
                 align: 'left',
-                width: '9%',
+                width: '8%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -222,6 +222,18 @@ $(function () {
                             $(this).text(value);
                         }
                     }
+                }
+            },
+            {
+                field:'content',
+                title:'Nguồn gốc',
+                align: 'left',
+                width: '8%',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    textAlign: 'left',
+                    showbuttons: false
                 }
             },
             {
@@ -504,7 +516,7 @@ $inpGoodsCode.keypress(function (e) {
                 goodsName: goodsItem['name'],
                 goodsState: '1',
                 goodsStateValue: '1',
-                serial: '',
+                serial: '-',
                 amount: '1',
                 weight:  Number(weight),
                 volume:  Number(volume),
@@ -512,7 +524,10 @@ $inpGoodsCode.keypress(function (e) {
                 inputPriceValue: formatFloatType(goodsItem['inPrice']),
                 totalMoney: Number(goodsItem['inPrice']),
                 cellCode: cellCode,
-                columnId: columnId
+                columnId: columnId,
+                produceDate:'',
+                expireDate:'',
+                content:'-'
             });
             //
             totalPrice += Number(goodsItem['inPrice']);
@@ -596,8 +611,9 @@ function moveDataToTable() {
         columnId: columnId,
         baseWeight: weight,
         baseVolume: volume,
-        produceDate: 'dd/mm/yyyy',
-        expireDate: 'dd/mm/yyyy'
+        produceDate: '',
+        expireDate: '',
+        content:'-'
     });
     //
     totalPrice += Number(goodsItem['inPrice']) * amount ;
