@@ -18,6 +18,8 @@ public class MjrStockGoodsTotalDTO {
     private String issueAmount;
     private Double issueAmountValue;
     private Double orderAmountValue;
+    private Double amountStoreQuotaValue;
+    private Double issueAmountStorageQuotaValue;
 
     private String changeDate;
     //name
@@ -58,6 +60,22 @@ public class MjrStockGoodsTotalDTO {
         this.userId = userId;
         this.goodsUnitName = goodsUnitName;
         this.issueAmount = issueAmount;
+    }
+
+    public Double getAmountStoreQuotaValue() {
+        return amountStoreQuotaValue;
+    }
+
+    public void setAmountStoreQuotaValue(Double amountStoreQuotaValue) {
+        this.amountStoreQuotaValue = amountStoreQuotaValue;
+    }
+
+    public Double getIssueAmountStorageQuotaValue() {
+        return issueAmountStorageQuotaValue;
+    }
+
+    public void setIssueAmountStorageQuotaValue(Double issueAmountStorageQuotaValue) {
+        this.issueAmountStorageQuotaValue = issueAmountStorageQuotaValue;
     }
 
     public String getIssueAmount() {
