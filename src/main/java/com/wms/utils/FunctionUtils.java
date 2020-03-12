@@ -183,7 +183,7 @@ public class FunctionUtils {
 
      */
     public static List<MjrStockTransDetailDTO> setNameValueGoodsDetail(List<MjrStockTransDetailDTO> lstGoodsDetail,
-                                                                       Map<String, CatGoodsDTO> mapGoodsIdGoods, Map<String, CatStockDTO> mapStockIdStock, Map<String, String> mapGoodsState) {
+                                                                       Map<String, CatGoodsDTO> mapGoodsIdGoods, Map<String, CatStockDTO> mapStockIdStock, Map<String, String> mapAppGoodsState) {
         if (!DataUtil.isListNullOrEmpty(lstGoodsDetail)) {
             CatGoodsDTO currentGoods;
             for (MjrStockTransDetailDTO i : lstGoodsDetail) {
@@ -199,7 +199,7 @@ public class FunctionUtils {
                 i.setAmountValue(formatNumber(i.getAmount()));
                 i.setInputPriceValue(formatNumber(i.getInputPrice()));
                 i.setOutputPriceValue(formatNumber(i.getOutputPrice()));
-                i.setGoodsStateValue(i.getGoodsState());
+                i.setGoodsStateValue(mapAppGoodsState.get(i.getGoodsState()));
                 i.setStockValue(getMapValue(mapStockIdStock, i.getStockId()));
             }
         } else {

@@ -79,6 +79,9 @@ public class ExportStockController extends BaseController {
             initPartner();
             SessionUtils.setReloadedModified(request, Constants.DATA_MODIFIED.PARTNER_MODIFIED);
         }
+        if(setGoodsCode == null){
+            initSetGoodsCode();
+        }
     }
 
     //------------------------------------------------------------------------------------------------------------------

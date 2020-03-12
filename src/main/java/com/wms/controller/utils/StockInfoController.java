@@ -122,7 +122,7 @@ public class StockInfoController extends BaseController {
     }
 
     @RequestMapping(value = "/getTotalFile")
-    public void getErrorImportFile(HttpServletResponse response) {
+    public void getTotalFile(HttpServletResponse response) {
         if (DataUtil.isListNullOrEmpty(lstGoodsTotal)) {
             lstGoodsTotal.add(new MjrStockGoodsTotalDTO("", "", "", "", "", "", "", "", ""));
         }
@@ -228,13 +228,12 @@ public class StockInfoController extends BaseController {
 
                     }
                     if (!DataUtil.isStringNullOrEmpty(i.getWeight())) {
-                        i.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()))));
-                        i.setWeightReport(Double.valueOf(i.getWeight()) * Double.valueOf(i.getAmount()));
-
+                        i.setWeightReport(Double.valueOf(i.getWeight().replaceAll(",","")) * Double.valueOf(i.getAmount()));
+                        i.setWeight(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getWeight().replaceAll(",","")) * Double.valueOf(i.getAmount()))));
                     }
                     if (!DataUtil.isStringNullOrEmpty(i.getVolume())) {
+                        i.setVolumeReport(Double.valueOf(i.getVolume().replaceAll(",","")) * Double.valueOf(i.getAmount()));
                         i.setVolume(FunctionUtils.formatNumber(String.valueOf(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()))));
-                        i.setVolumeReport(Double.valueOf(i.getVolume()) * Double.valueOf(i.getAmount()));
                     }
                     goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
                     i.setUnitName(mapAppParamsUnitName.get(goodUnitId));
@@ -253,13 +252,23 @@ public class StockInfoController extends BaseController {
     private List<MjrStockGoodsTotalDTO> setNameValueInfo(List<MjrStockGoodsTotalDTO> lstTotal) {
         List<MjrStockGoodsTotalDTO> finalResult = new ArrayList<>();
         String goodUnitId = "";
+        CatGoodsDTO catGoodsDTO;
         if (!DataUtil.isListNullOrEmpty(lstTotal)) {
             for (MjrStockGoodsTotalDTO i : lstTotal) {
                 i.setAmountValue(Double.valueOf(i.getAmount()));
                 i.setOrderAmountValue(Double.valueOf(i.getAmount()) - Double.valueOf((i.getIssueAmount())));
                 i.setIssueAmountValue(Double.valueOf((i.getIssueAmount())));
                 i.setGoodsStateName(mapAppGoodsState.get(i.getGoodsState()));
-                goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
+                catGoodsDTO = mapGoodsIdGoods.get(i.getGoodsId());
+                if(catGoodsDTO != null){
+                    goodUnitId = catGoodsDTO.getUnitType();
+                    if(!DataUtil.isStringNullOrEmpty(catGoodsDTO.getAmountStorageQuota())){
+                        i.setAmountStoreQuotaValue(Double.valueOf(catGoodsDTO.getAmountStorageQuota()));
+                    }else{
+                        i.setAmountStoreQuotaValue(0.0);
+                    }
+                    i.setIssueAmountStorageQuotaValue(i.getAmountValue() - i.getAmountStoreQuotaValue());
+                }
                 i.setGoodsUnitName(mapAppParamsUnitName.get(goodUnitId));
                 if (!"".equals(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()))) {
                     i.setStockName(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()));

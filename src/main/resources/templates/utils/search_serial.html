@@ -154,19 +154,20 @@
                         <thead>
                         <tr>
                             <th data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
+                            <th data-field="goodsId" data-align="left" data-sortable="true" data-visible="false"></th>
                             <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã</th>
                             <th class="col-md-2" data-field="goodsName" data-align="left" data-sortable="true">Tên</th>
-                            <th data-field="serial" data-align="left" data-sortable="true">Serial</th>
-                            <th data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
-                            <th data-field="goodsStateValue" data-align="left" data-sortable="true">TT</th>
-                            <th data-field="statusValue" data-align="left" data-sortable="true">TT Kho</th>
-                            <th data-field="amountValue" data-align="right" data-sortable="true">SL</th>
-                            <th data-field="importDate" data-align="right" data-sortable="true">TG nhập</th>
-                            <th data-field="exportDate" data-align="right" data-sortable="true">TG xuất</th>
-                            <th data-field="inputPriceValue" data-align="right" data-sortable="true">Giá nhập</th>
-                            <th data-field="outputPriceValue" data-align="right" data-sortable="true">Giá xuất</th>
-                            <th data-field="cellCode" data-align="right" data-sortable="true">Vị trí</th>
-                            <th data-field="content" data-align="left" data-sortable="true">Nguồn gốc</th>
+                            <th class="col-md-1" data-field="serial" data-align="left" data-sortable="true">Serial</th>
+                            <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
+                            <th class="col-md-1" data-field="goodsStateValue" data-align="left" data-formatter="formatterGoodsStatus" data-sortable="true">Tình trạng</th>
+                            <th class="col-md-1" data-field="statusValue" data-align="left" data-sortable="true">Trạng thái</th>
+                            <th data-field="amountValue" data-align="right" data-sortable="true" data-visible="false">SL</th>
+                            <th data-field="importDate" data-align="right" data-sortable="true" data-visible="false">TG nhập</th>
+                            <th data-field="exportDate" data-align="right" data-sortable="true" data-visible="false">TG xuất</th>
+                            <th data-field="inputPriceValue" data-align="right" data-sortable="true" data-visible="false">Giá nhập</th>
+                            <th data-field="outputPriceValue" data-align="right" data-sortable="true" data-visible="false">Giá xuất</th>
+                            <th class="col-md-1" data-field="cellCode" data-align="right" data-sortable="true">Vị trí</th>
+                            <th class="col-md-1" data-field="content" data-align="left" data-sortable="true">Nguồn gốc</th>
                             <th data-width="80px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
 
                         </tr>
@@ -177,6 +178,7 @@
         </div>
     </div>
     <div class="modal-loading"><!-- Place at bottom of page --></div>
+    <div th:include="modal/serial_log_modal :: frag-serial-log-modal"></div>
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -191,12 +193,17 @@
 <script>
     //---------------------------------------------------------------------
     $table = $('#tbl-stock-info');
+    $tableSerialTransLog = $('#tbl-serial-trans-log');
+
     var dataInit = [
     ];
 
     $(function () {
         //
         $table.bootstrapTable({
+            data: dataInit
+        });
+        $tableSerialTransLog.bootstrapTable({
             data: dataInit
         });
         //
@@ -261,12 +268,39 @@
         $('.serilal-export').attr('href',url);
         return [
 
-            '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
+            '<a class="serial-log-detail row-function" href="javascript:void(0)" title="Chi tiết">',
             '<i class="fa fa-info-circle"></i>',
             '</a> '
         ].join('');
-           }
+    }
     //-------------------------------------------------------------------------
+
+    window.operateEvents = {
+        'click .serial-log-detail': function (e, value, row, index) {
+            //
+            NProgress.start();
+            //
+            var goodsId   = row["goodsId"];
+            var serial   = row["serial"];
+
+            $.ajax({
+                type: "GET",
+                cache:false,
+                data:{goodsId:goodsId, serial:serial},
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                url: $('#btn-serial-info').val(),
+                dataType: 'json',
+                timeout: 600000,
+                success: function (data) {
+                    $tableSerialTransLog.bootstrapTable('load', data);
+                    showModal($('#serial-log-modal'));
+                },
+                complete:function () {
+                    NProgress.done();
+                }
+            });
+        }
+    };
 </script>
 </body>
 </html>

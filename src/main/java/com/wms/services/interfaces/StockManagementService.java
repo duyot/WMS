@@ -23,4 +23,7 @@ public interface StockManagementService {
     List<MjrStockTransDetailDTO> getListTransGoodsDetail(String transId);
 
     List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId);
+
+    List<MjrStockTransDTO> getListTransSerial(String custId, String goodsId, String serial);
+
 }

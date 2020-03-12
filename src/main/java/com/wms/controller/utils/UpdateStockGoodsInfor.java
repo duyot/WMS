@@ -116,6 +116,7 @@ public class UpdateStockGoodsInfor extends BaseController {
             object.setDescription(stockGoods.getDescription());
             object.setCellCode(stockGoods.getCellCode());
             object.setChangeDate(mjrStockGoodsSerialService.getSysDate());
+            object.setContent(stockGoods.getContent());
             result = mjrStockGoodsSerialService.updateByProperties(object);
         } else {
             MjrStockGoodsSerialDTO object = new MjrStockGoodsSerialDTO();
@@ -125,6 +126,7 @@ public class UpdateStockGoodsInfor extends BaseController {
             object.setDescription(stockGoods.getDescription());
             object.setCellCode(stockGoods.getCellCode());
             object.setChangeDate(mjrStockGoodsSerialService.getSysDate());
+            object.setContent(stockGoods.getContent());
             result = mjrStockGoodsService.updateByProperties(object);
         }
         log.info(result.toString());
@@ -336,6 +338,7 @@ public class UpdateStockGoodsInfor extends BaseController {
                 detail.setProduceDate(i.getProduceDate());
                 detail.setExpireDate(i.getExpireDate());
                 detail.setDescription(i.getDescription());
+                detail.setContent(i.getContent());
                 detail.setIsSerial(Constants.NO_SERIAL);
                 //
                 String goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
