@@ -373,8 +373,7 @@
         if (isNeedLoading) {
             $body.addClass("loading");
         }
-        return;
-        //
+        //return;
         var goodsData = JSON.stringify({lstGoods:$tableAddListGoods.bootstrapTable('getData')});
         $.ajax({
             url: btnSaveGoods.val(),
