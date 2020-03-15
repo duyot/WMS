@@ -86,6 +86,7 @@
 	<parameter name="receivedCustomer" class="java.lang.String"/>
 	<parameter name="orderCode" class="java.lang.String"/>
 	<parameter name="totalRealExport" class="java.lang.String"/>
+	<parameter name="reasonName" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -98,21 +99,21 @@
 	<pageHeader>
 		<band height="169" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="8" y="5" width="252" height="20" uuid="aa1da3eb-5fc1-459e-bd79-5efd46e9c2e8"/>
+				<reportElement positionType="Float" x="8" y="5" width="287" height="20" uuid="aa1da3eb-5fc1-459e-bd79-5efd46e9c2e8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{custName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="8" y="25" width="252" height="20" uuid="75df8b52-e8e7-4f70-a570-4329e7ccf7fa"/>
+				<reportElement positionType="Float" x="8" y="25" width="287" height="20" uuid="75df8b52-e8e7-4f70-a570-4329e7ccf7fa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{stockName} + "( "+ $P{stockCode} + " )"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="60" y="45" width="140" height="20" uuid="b841d597-a725-4f27-9963-1944454fd3db"/>
+				<reportElement positionType="Float" x="70" y="45" width="140" height="20" uuid="b841d597-a725-4f27-9963-1944454fd3db"/>
 				<textElement textAlignment="Center" verticalAlignment="Top"/>
 				<text><![CDATA[-----------------------------]]></text>
 			</staticText>
@@ -171,7 +172,7 @@ Có:........................
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="138" splitType="Stretch">
+		<band height="152" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="10" width="100" height="20" uuid="2d37e2fa-7ecf-40ad-a438-8ad7f18d1ffc"/>
 				<textElement>
@@ -180,7 +181,7 @@ Có:........................
 				<text><![CDATA[Đối tác gửi hàng]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="91" width="100" height="20" uuid="34635463-9cb5-4b8b-81d1-fdef80763701"/>
+				<reportElement x="0" y="112" width="100" height="20" uuid="34635463-9cb5-4b8b-81d1-fdef80763701"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
@@ -194,14 +195,14 @@ Có:........................
 				<textFieldExpression><![CDATA[$P{partner}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="113" y="70" width="441" height="20" uuid="35e72d19-1a1d-4e2f-84c5-4eb5fc9e0bda"/>
+				<reportElement x="113" y="92" width="441" height="20" uuid="35e72d19-1a1d-4e2f-84c5-4eb5fc9e0bda"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{importMan}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="113" y="90" width="441" height="20" uuid="c8fc6e8f-1fd4-47d9-85a0-bf148a4cc0ff"/>
+				<reportElement x="113" y="112" width="441" height="20" uuid="c8fc6e8f-1fd4-47d9-85a0-bf148a4cc0ff"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
@@ -222,7 +223,7 @@ Có:........................
 				<textFieldExpression><![CDATA[$P{stockName}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="71" width="100" height="20" uuid="4149c25a-e1c4-4392-9854-4152ed6ba665"/>
+				<reportElement x="0" y="91" width="100" height="20" uuid="4149c25a-e1c4-4392-9854-4152ed6ba665"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
@@ -241,6 +242,20 @@ Có:........................
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{receivedCustomer}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="70" width="100" height="20" uuid="381e4ee0-934d-47fc-85a3-bdb2e65e7460"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<text><![CDATA[Lý do]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="113" y="71" width="441" height="20" uuid="159d4b0b-a9dd-43fc-b25c-4cd0930588f5"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reasonName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -272,7 +287,7 @@ Có:........................
 										<font fontName="Times New Roman" size="11" isBold="true"/>
 										<paragraph rightIndent="10"/>
 									</textElement>
-									<textFieldExpression><![CDATA["Tổng(Thực xuất) "+new DecimalFormat("###,###.###").format($V{totalRealExport} == null ? 0 :$V{totalRealExport})]]></textFieldExpression>
+									<textFieldExpression><![CDATA["Tổng thực xuất "+new DecimalFormat("###,###.###").format($V{totalRealExport} == null ? 0 :$V{totalRealExport})]]></textFieldExpression>
 								</textField>
 							</jr:tableFooter>
 							<jr:column width="31" uuid="b6abfbfc-4af0-4a18-afbd-e5e89263d6c6">

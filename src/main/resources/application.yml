@@ -24,13 +24,13 @@ eureka:
 #only update here
 config:
     url:
-      #service: hhttp://139.180.211.6:8080/WMS_Webservices/services/
-      #login : http://139.180.211.6:8080/WMS_Webservices/login
-      #token : http://139.180.211.6:8080/WMS_Webservices/oauth/token?grant_type=password&username=@username&password=@password
-      service: http://localhost:8080/services/
-      login : http://localhost:8080/login
-      token : http://localhost:8080/oauth/token?grant_type=password&username=@username&password=@password
-      template : C:\\WMS\\temp\\file_template\
+#      service: http://139.180.211.6:8080/WMS_Webservices/services/
+#      login : http://139.180.211.6:8080/WMS_Webservices/login
+#      token : http://139.180.211.6:8080/WMS_Webservices/oauth/token?grant_type=password&username=@username&password=@password
+      service: http://localhost:8080/WMS_Webservices/services/
+      login : http://localhost:8080/WMS_Webservices/login
+      token : http://localhost:8080/WMS_Webservices/oauth/token?grant_type=password&username=@username&password=@password
+      template : F:\x8Store\source\WMS\src\main\resources\file_template\
       temp : C:\\WMS\\temp\
       upload: C:\\WMS\\temp\
 server:
