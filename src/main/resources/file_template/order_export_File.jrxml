@@ -65,6 +65,7 @@
 	<parameter name="description" class="java.lang.String"/>
 	<parameter name="createdUser" class="java.lang.String"/>
 	<parameter name="requestAmount" class="java.lang.String"/>
+	<parameter name="reasonName" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -90,7 +91,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="86" splitType="Stretch">
+		<band height="105" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="10" width="100" height="17" uuid="2e599dfb-ea06-4139-a74f-0b6d9146314d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -112,7 +113,7 @@
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
-				<text><![CDATA[Khách hàng nhận]]></text>
+				<text><![CDATA[Lý do]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="110" y="10" width="444" height="16" uuid="543c9500-1293-4c94-8d5d-89c76aa9b2a5"/>
@@ -133,21 +134,35 @@
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{custName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{reasonName}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="61" width="100" height="17" uuid="b60db32b-4de5-4c57-b6c8-95eac090ce5c"/>
+				<reportElement x="0" y="62" width="100" height="17" uuid="ccc23c08-aa52-43cf-8cc2-7c031412ecc4"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<text><![CDATA[Khách hàng nhận]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="110" y="78" width="446" height="18" uuid="81167453-0aa1-4cdc-bba8-4b76309dd4f0"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{description}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="79" width="100" height="17" uuid="b48de47a-f098-4a51-886c-09fdd704ce4c"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Ghi chú]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="110" y="60" width="446" height="18" uuid="617ace17-4b63-4b1f-8b4a-a5851e4687d7"/>
+				<reportElement x="110" y="62" width="446" height="16" uuid="8f2a0141-39f6-4c18-a042-bb075f484ab3"/>
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{description}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{custName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -164,14 +179,14 @@
 					<datasetRun subDataset="ItemDataset" uuid="5395ba32-a511-4c3f-a268-93596ee83cbe">
 						<dataSourceExpression><![CDATA[$P{itemList}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:columnGroup width="252" uuid="33198c22-e1ae-41db-a4a8-e92af6649f9b">
+					<jr:columnGroup width="258" uuid="33198c22-e1ae-41db-a4a8-e92af6649f9b">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [3]"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="252" height="30" uuid="efa39977-7843-432c-b43d-87b23929685c"/>
+								<reportElement x="0" y="0" width="258" height="30" uuid="efa39977-7843-432c-b43d-87b23929685c"/>
 								<box>
 									<pen lineWidth="0.0"/>
 									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -268,7 +283,7 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="182" uuid="f025efd2-1d73-441c-82e6-85585d7581a5">
+						<jr:column width="188" uuid="f025efd2-1d73-441c-82e6-85585d7581a5">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 							<jr:tableFooter style="Table_TH" height="0" rowSpan="1">
 								<box>
@@ -276,12 +291,11 @@
 								</box>
 							</jr:tableFooter>
 							<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
-								<property name="com.jaspersoft.studio.unit.width" value="px"/>
 								<box>
 									<pen lineWidth="0.5"/>
 								</box>
 								<staticText>
-									<reportElement x="0" y="0" width="182" height="50" uuid="0679c6aa-0444-456c-9db8-a5164782d77b"/>
+									<reportElement x="0" y="0" width="188" height="50" uuid="0679c6aa-0444-456c-9db8-a5164782d77b"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman" size="11"/>
 									</textElement>
@@ -293,7 +307,7 @@
 									<pen lineWidth="0.5"/>
 								</box>
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="182" height="30" uuid="e8ad991d-5300-44cf-91f2-70a06d96d521"/>
+									<reportElement x="0" y="0" width="188" height="30" uuid="e8ad991d-5300-44cf-91f2-70a06d96d521"/>
 									<textElement verticalAlignment="Middle">
 										<font fontName="Times New Roman" size="11"/>
 										<paragraph leftIndent="2" rightIndent="2"/>
@@ -303,11 +317,11 @@
 							</jr:detailCell>
 						</jr:column>
 					</jr:columnGroup>
-					<jr:column width="50" uuid="6bf58ce5-5e3d-4a66-b66a-f6c2f952b648">
+					<jr:column width="52" uuid="6bf58ce5-5e3d-4a66-b66a-f6c2f952b648">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="2">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="24e65bf5-7def-4392-bf36-1bf639efd48d">
+								<reportElement x="0" y="0" width="52" height="30" uuid="24e65bf5-7def-4392-bf36-1bf639efd48d">
 									<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 								</reportElement>
@@ -322,17 +336,18 @@
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="50" uuid="e776360e-9ce5-4fa0-a179-3cdf7feb27c1"/>
+								<reportElement x="0" y="0" width="52" height="50" uuid="e776360e-9ce5-4fa0-a179-3cdf7feb27c1"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Times New Roman" size="11"/>
 								</textElement>
-								<text><![CDATA[Số lượng(yêu cầu)]]></text>
+								<text><![CDATA[Số lượng (yêu cầu)]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="9521e7d5-b245-4803-ae73-3f5ad607bebc"/>
+								<reportElement x="0" y="0" width="52" height="30" uuid="9521e7d5-b245-4803-ae73-3f5ad607bebc"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Times New Roman" size="11"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
@@ -341,14 +356,14 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="e0e5f8ba-858b-487e-8eef-e8475f73477d">
+					<jr:column width="52" uuid="e0e5f8ba-858b-487e-8eef-e8475f73477d">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="2">
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="9b6a2c49-ed43-4509-99ce-9134d3d1f6db">
+								<reportElement x="0" y="0" width="52" height="30" uuid="9b6a2c49-ed43-4509-99ce-9134d3d1f6db">
 									<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 								</reportElement>
@@ -363,15 +378,16 @@
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
 							<box>
 								<pen lineWidth="0.5"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="50" uuid="5a2c402f-4201-493f-9b1e-86670d240cb6"/>
+								<reportElement x="0" y="0" width="52" height="50" uuid="5a2c402f-4201-493f-9b1e-86670d240cb6"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Times New Roman" size="11"/>
 								</textElement>
-								<text><![CDATA[Số lượng(đáp ứng)]]></text>
+								<text><![CDATA[Số lượng (đáp ứng)]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
@@ -379,7 +395,7 @@
 								<pen lineWidth="0.5"/>
 							</box>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="ee856662-62eb-48dd-a2e8-3e903b9dfa85"/>
+								<reportElement x="0" y="0" width="52" height="30" uuid="ee856662-62eb-48dd-a2e8-3e903b9dfa85"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Times New Roman" size="11"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
@@ -388,14 +404,14 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:columnGroup width="150" uuid="c3cd6e0b-5d8d-4d28-b6c8-f861705e903e">
+					<jr:columnGroup width="140" uuid="c3cd6e0b-5d8d-4d28-b6c8-f861705e903e">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [3]"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="150" height="30" uuid="3ff0acdd-52ae-4773-89af-f4df0bfa6288">
+								<reportElement x="0" y="0" width="140" height="30" uuid="3ff0acdd-52ae-4773-89af-f4df0bfa6288">
 									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 								</reportElement>
 								<box>
@@ -408,7 +424,7 @@
 								<text><![CDATA[Tổng trọng lượng(Tấn)]]></text>
 							</staticText>
 						</jr:tableFooter>
-						<jr:column width="50" uuid="b442000f-596b-4f4e-a19c-74d0811de28c">
+						<jr:column width="40" uuid="b442000f-596b-4f4e-a19c-74d0811de28c">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 							<jr:tableFooter style="Table_TH" height="0" rowSpan="1">
 								<box>
@@ -424,7 +440,7 @@
 									<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<staticText>
-									<reportElement x="0" y="0" width="50" height="50" uuid="95363d78-a7a2-4fb2-964f-8f195ee3a1e2"/>
+									<reportElement x="0" y="0" width="40" height="50" uuid="95363d78-a7a2-4fb2-964f-8f195ee3a1e2"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman" size="11"/>
 									</textElement>
@@ -436,7 +452,7 @@
 									<pen lineWidth="0.5"/>
 								</box>
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="50" height="30" uuid="15e32419-a94c-4a01-9ced-39fa32bd9f84"/>
+									<reportElement x="0" y="0" width="40" height="30" uuid="15e32419-a94c-4a01-9ced-39fa32bd9f84"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman" size="11"/>
 										<paragraph leftIndent="2" rightIndent="2"/>
