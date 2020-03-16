@@ -1,9 +1,19 @@
-/*
 
-*/
+
+.label-dashboard-warning{
+	text-align: center;
+	display: block;
+	padding: 30px;
+	font-size: 30px;
+	font-weight: bold;
+	color: #f0763e;
+	width:100%;
+	padding-top: 20px;
+}
 /*
 css for status button
  */
+
 
 .status-bgm-blue{
 	background-color: #5bc0de !important;

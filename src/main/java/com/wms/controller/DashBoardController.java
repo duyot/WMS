@@ -3,6 +3,7 @@ package com.wms.controller;
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
 import com.wms.dto.ChartDTO;
+import com.wms.dto.InventoryInfoDTO;
 import com.wms.services.interfaces.StatisticService;
 import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
@@ -75,6 +76,12 @@ public class DashBoardController extends BaseController {
     public @ResponseBody
     List<ChartDTO> getTransaction(@PathVariable("type") String type) {
         return statisticService.getTransaction(selectedCustomer.getId(), type, currentUser.getId());
+    }
+
+    @RequestMapping(value = "/getInventoryInfor", method = RequestMethod.GET)
+    public @ResponseBody
+    InventoryInfoDTO getInventoryInfor() {
+        return statisticService.getInventoryInfor(selectedCustomer.getId());
     }
 
     //------------------------------------------------------------------------------------------------------------------

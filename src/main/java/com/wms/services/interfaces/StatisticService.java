@@ -1,6 +1,7 @@
 package com.wms.services.interfaces;
 
 import com.wms.dto.ChartDTO;
+import com.wms.dto.InventoryInfoDTO;
 import java.util.List;
 
 /**
@@ -14,4 +15,6 @@ public interface StatisticService {
     List<ChartDTO> getKPIStorage(String custId, String type, String userId);
 
     List<ChartDTO> getTransaction(String custId, String type, String userId);
+
+    InventoryInfoDTO getInventoryInfor(String custId);
 }

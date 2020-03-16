@@ -2,6 +2,7 @@ package com.wms.services.impl;
 
 import com.wms.dataprovider.StatisticDP;
 import com.wms.dto.ChartDTO;
+import com.wms.dto.InventoryInfoDTO;
 import com.wms.services.interfaces.StatisticService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,16 @@ public class StatisticServiceImpl extends BaseServiceImpl<ChartDTO, StatisticDP>
 
     @Override
     public List<ChartDTO> getKPIStorage(String custId, String type, String userId) {
+        long startTime = System.currentTimeMillis();
         List<ChartDTO> lstChart = statisticDP.getKPIStorage(custId, type, userId);
+        long endTime = System.currentTimeMillis();
+        System.out.println("Processed KPI in " + (endTime - startTime));
         return lstChart;
+    }
+
+    @Override
+    public InventoryInfoDTO getInventoryInfor(String custId) {
+        return statisticDP.getInventoryInfor(custId);
     }
 
 }

@@ -44,6 +44,8 @@
             </button>
             <button id="btn-get-transaction" th:value="@{/workspace/dashboard_ctr/getTransaction/}" type="button" style="display:none" class="btn btn-default" >
             </button>
+            <button id="btn-get-inventory-info" th:value="@{/workspace/dashboard_ctr/getInventoryInfor}" type="button" style="display:none" class="btn btn-default" >
+            </button>
             <div id="container" style="width:100%;height: 100vh">
                 <div class="row">
                     <div class="col-sm-6" id="chart-transaction" style="height: 50vh">
@@ -55,12 +57,32 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6" id="chart-kpi-storage" style="height: 50vh">
+                    <div class="col-sm-6" id="chart-kpi-storage" style="height: 50vh;">
 
                     </div>
 
-                    <div class="col-sm-6" id="chart-revenue" style="height: 50vh">
-
+                    <div class="col-sm-6" id="chart-revenue" style="height: 50vh; background-color: white; padding-left:0px !important;">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: center; font-weight: bold;font-size: 18px">
+                                Thông tin cảnh báo tồn kho
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7" style="padding:40px; font-size:17px">
+                                1. Số lượng mã hàng thiếu so với định mức tồn kho
+                            </div>
+                            <div class="col-sm-5">
+                                <label id="numOfGoodsUnderLimit" class="label-dashboard-warning"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7" style="padding:40px; font-size:17px">
+                                2. Số lượng mã hàng thiếu so với yêu cầu xuất kho
+                            </div>
+                            <div class="col-sm-5">
+                                <label id="numOfGoodsLackWithOrder" class="label-dashboard-warning"></label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -81,71 +103,71 @@
         colors: ['#309be3', '#f0763e', '#8963b0', '#dc5356', '#d1aa41', '#FF9655', '#FFF263','#6AF9C4']
     });
     //init revenue data------------------------------------------------------------------------------------------------
-    var revenueData = null;
-    var date = new Date();
-    var month = date.getMonth();
-    var year = date.getYear();
+    // var revenueData = null;
+    // var date = new Date();
+    // var month = date.getMonth();
+    // var year = date.getYear();
+    //
+    // $.ajax({
+    //     url: $('#btn-get-revenue').val()+"7",
+    //     cache: false,
+    //     async:false,
+    //     contentType: false,
+    //     processData: false,
+    //     type: 'GET',
+    //     success: function(data){
+    //         revenueData = data;
+    //     },
+    //     error: function(data){
+    //         alert(json.stringify(data));
+    //     }
+    // });
+    //
+    // var startDate;
+    // if(revenueData.length == 0){
+    //     startDate = date.getDate()-1;
+    // }else{
+    //     startDate = date.getDate() - revenueData[0].data.length;
+    // }
+    // var startPoint = Date.UTC(year, month, startDate);
 
-    $.ajax({
-        url: $('#btn-get-revenue').val()+"7",
-        cache: false,
-        async:false,
-        contentType: false,
-        processData: false,
-        type: 'GET',
-        success: function(data){
-            revenueData = data;
-        },
-        error: function(data){
-            alert(json.stringify(data));
-        }
-    });
 
-    var startDate;
-    if(revenueData.length == 0){
-        startDate = date.getDate()-1;
-    }else{
-        startDate = date.getDate() - revenueData[0].data.length;
-    }
-    var startPoint = Date.UTC(year, month, startDate);
-
-
-    Highcharts.chart('chart-revenue', {
-
-        title: {
-            text: 'Doanh thu bán hàng theo ngày'
-        },
-
-        xAxis: {
-            type: 'datetime',
-        },
-
-        yAxis: {
-            title: {
-                text: 'VNĐ'
-            },
-            labels: {
-                formatter: function() {
-                    return this.value/1000000 + ' M';
-                }
-            },
-
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-
-        plotOptions: {
-            series: {
-                pointStart: startPoint,
-                pointInterval: 24 * 3600 * 1000 // one day
-            }
-        },
-        series: revenueData
-
-    });
+    // Highcharts.chart('chart-revenue', {
+    //
+    //     title: {
+    //         text: 'Doanh thu bán hàng theo ngày'
+    //     },
+    //
+    //     xAxis: {
+    //         type: 'datetime',
+    //     },
+    //
+    //     yAxis: {
+    //         title: {
+    //             text: 'VNĐ'
+    //         },
+    //         labels: {
+    //             formatter: function() {
+    //                 return this.value/1000000 + ' M';
+    //             }
+    //         },
+    //
+    //     },
+    //     legend: {
+    //         layout: 'vertical',
+    //         align: 'right',
+    //         verticalAlign: 'middle'
+    //     },
+    //
+    //     plotOptions: {
+    //         series: {
+    //             pointStart: startPoint,
+    //             pointInterval: 24 * 3600 * 1000 // one day
+    //         }
+    //     },
+    //     series: revenueData
+    //
+    // });
     //init top goods data-----------------------------------------------------------------------------------------------
     var topGoodsData = null;
     $.ajax({
@@ -321,6 +343,25 @@
             colorByPoint: true,
             data: kpiStorageData
         }],
+    });
+
+    //init inventory info-----------------------------------------------------------------------------------------------
+    var inventoryInfo = null;
+    $.ajax({
+        url: $('#btn-get-inventory-info').val(),
+        cache: false,
+        async:false,
+        contentType: false,
+        processData: false,
+        type: 'GET',
+        success: function(data){
+            inventoryInfo = data;
+            $('#numOfGoodsUnderLimit').text(inventoryInfo['numOfGoodsUnderLimit']);
+            $('#numOfGoodsLackWithOrder').text(inventoryInfo['numOfGoodsLackWithOrder']);
+        },
+        error: function(data){
+            alert(JSON.stringify(data));
+        }
     });
 
 

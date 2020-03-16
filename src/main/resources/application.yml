@@ -27,12 +27,12 @@ config:
       #service: hhttp://139.180.211.6:8080/WMS_Webservices/services/
       #login : http://139.180.211.6:8080/WMS_Webservices/login
       #token : http://139.180.211.6:8080/WMS_Webservices/oauth/token?grant_type=password&username=@username&password=@password
-      service: http://localhost:8080/services/
-      login : http://localhost:8080/login
-      token : http://localhost:8080/oauth/token?grant_type=password&username=@username&password=@password
-      template : C:\\WMS\\temp\\file_template\
-      temp : C:\\WMS\\temp\
-      upload: C:\\WMS\\temp\
+      service: http://localhost:8888/WMS_Webservices_war/services/
+      login : http://localhost:8888/WMS_Webservices_war/login
+      token : http://localhost:8888/WMS_Webservices_war/oauth/token?grant_type=password&username=@username&password=@password
+      template : F:\\Projects\WMS\temp\\file_template\\
+      temp : F:\\Projects\\WMS\\temp\\
+      upload:
 server:
   port: 8020
 ---

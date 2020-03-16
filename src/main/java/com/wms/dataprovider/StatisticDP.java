@@ -3,6 +3,7 @@ package com.wms.dataprovider;
 import com.wms.base.BaseDP;
 import com.wms.constants.Constants;
 import com.wms.dto.ChartDTO;
+import com.wms.dto.InventoryInfoDTO;
 import com.wms.dto.SysMenuDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,7 @@ public class StatisticDP extends BaseDP<ChartDTO> {
     private final String GET_TOP_GOODS_URL = "getTopGoods";
     private final String GET_TRANSACTION_URL = "getTransaction";
     private final String GET_KPI_STORAGE_URL = "getKPIStorage";
+    private final String GET_INVENTORY_INFO_URL = "getInventoryInfor";
 
 
     public StatisticDP() {
@@ -93,6 +95,23 @@ public class StatisticDP extends BaseDP<ChartDTO> {
         } catch (RestClientException e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    public InventoryInfoDTO getInventoryInfor(String custId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String query = "custId=" + custId;
+        String url = getUrlLoadBalancingQuery(query, GET_INVENTORY_INFO_URL);
+        try {
+            ResponseEntity<InventoryInfoDTO> responseEntity = restTemplate.getForEntity(url, InventoryInfoDTO.class);
+            if (responseEntity.getBody() != null) {
+                return responseEntity.getBody();
+            } else {
+                return new InventoryInfoDTO();
+            }
+        } catch (RestClientException e) {
+            e.printStackTrace();
+            return new InventoryInfoDTO();
         }
     }
 
