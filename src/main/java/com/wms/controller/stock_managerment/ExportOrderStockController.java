@@ -264,6 +264,7 @@ public class ExportOrderStockController extends BaseController {
             parameters.put("custName", mjrOrderDTO.getReceiveName());
             parameters.put("stockName", mjrOrderDTO.getStockValue());
             parameters.put("description", mjrOrderDTO.getDescription());
+            parameters.put("reasonName", mjrOrderDTO.getReasonName());
             parameters.put("createdUser", currentUser.getCode());
             JasperPrint jasperPrint = JasperFillManager.fillReport(templatePath, parameters, new JREmptyDataSource());
             JRDocxExporter export = new JRDocxExporter();

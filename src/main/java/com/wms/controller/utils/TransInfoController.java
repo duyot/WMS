@@ -265,6 +265,7 @@ public class TransInfoController extends BaseController {
             parameters.put("stockName", mapStockIdStock.get(mjrStockTransDTO.getStockId()).getName());
             parameters.put("importMan", mjrStockTransDTO.getCreatedUser());
             parameters.put("note", mjrStockTransDTO.getDescription());
+            parameters.put("reasonName", mjrStockTransDTO.getReasonName());
             parameters.put("sum", sum);
             parameters.put("totalWeight", getTotalWeight(lstStockTransDetail));
             parameters.put("receivedCustomer", mjrStockTransDTO.getReceiveName() == null ? "" : mjrStockTransDTO.getReceiveName());

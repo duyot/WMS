@@ -26,7 +26,7 @@ public class MjrStockGoodsDTO {
     private String expireDate;
     private String description;
     private String content;
-
+    private String requestAmount;
     public MjrStockGoodsDTO(String id, String custId, String stockId, String goodsId, String goodsState, String cellCode, String amount, String importDate, String changeDate, String status, String partnerId, String importStockTransId, String inputPrice, String outputPrice, String exportDate, String exportStockTransId, String volume, String weight, String produceDate, String expireDate, String description, String content) {
         this.id = id;
         this.custId = custId;
@@ -229,5 +229,13 @@ public class MjrStockGoodsDTO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getRequestAmount() {
+        return requestAmount;
+    }
+
+    public void setRequestAmount(String requestAmount) {
+        this.requestAmount = requestAmount;
     }
 }

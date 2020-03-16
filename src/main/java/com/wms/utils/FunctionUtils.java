@@ -779,6 +779,17 @@ public class FunctionUtils {
                     }
                 }
                 goodsDTO.setWeight(weight);
+                //Weight
+                cellValue = row.getCell(12);
+                String amountStorageQuota = getCellValue(cellValue);
+                amountStorageQuota = amountStorageQuota.trim();
+                if (!DataUtil.isStringNullOrEmpty(amountStorageQuota)) {
+                    if (!isNumberFloat(amountStorageQuota)) {
+                        errorInfo.append("\n Định mức tồn kho phải là số dương");
+                        isValid = false;
+                    }
+                }
+                goodsDTO.setAmountStorageQuota(amountStorageQuota);
                 //
                 if (!isValid) {
                     goodsDTO.setErrorInfo(errorInfo.toString());
