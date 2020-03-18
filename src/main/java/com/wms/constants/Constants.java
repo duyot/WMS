@@ -40,6 +40,7 @@ public class Constants {
         public static String GOODS_DETAILS_SEARCH_SERIAL_TEMPLATE = "Thong_tin_tim_kiem_serial.xlsx";
         public static String IMPORT_TEMPLATE = "Bieu_mau_nhap_hang.xlsx";
         public static String EXPORT_TEMPLATE = "Bieu_mau_xuat_hang.xlsx";
+        public static String IMPORT_SERIAL_TEMPLATE = "Import_serial.xlsx";
         public static String IMPORT_GOODS_TEMPLATE = "Bieu_mau_hang_hoa.xlsx";
         public static String LIST_TRANS_TEMPLATE = "Thong_tin_ds_giao_dich.xlsx";
         public static String LIST_TRANS_DETAIL_TEMPLATE = "Thong_tin_chitiet_giao_dich.xlsx";

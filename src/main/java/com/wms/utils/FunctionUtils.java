@@ -561,7 +561,6 @@ public class FunctionUtils {
         } catch (IOException e) {
             log.info(e.toString());
             e.printStackTrace();
-            log.info(e.toString());
             return null;
         } catch (Exception e) {
             log.info(e.toString());
@@ -571,6 +570,192 @@ public class FunctionUtils {
         //
         importResult.setValid(isValid);
         importResult.setLstGoodsImport(lstGoods);
+        return importResult;
+    }
+
+    public static ImportFileResultDTO getListGoodsInOrderFromFile(MultipartFile mpf, HashSet<String> setGoodsCode,
+                                                                 Map<String, CatGoodsDTO> mapGoods, Map<String, String> mapGoodsState, boolean isImportTransaction) {
+        ImportFileResultDTO importResult = new ImportFileResultDTO();
+        List<MjrStockTransDetailDTO> lstGoods = Lists.newArrayList();
+        boolean isValid = true;
+        try {
+            Workbook wb = WorkbookFactory.create(new FileInputStream(FunctionUtils.convertMultipartToFile(mpf)));
+            Sheet sheet = null;
+            if (wb instanceof HSSFWorkbook) {
+                HSSFWorkbook workbook = (HSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            } else if (wb instanceof XSSFWorkbook) {
+                XSSFWorkbook workbook = (XSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            }
+
+            Iterator<Row> rowIterator = sheet.iterator();
+            if (rowIterator.hasNext()) {//read from second row!
+                rowIterator.next();
+            }
+            //
+            int count = 0;
+            StringBuilder errorInfo;
+            CatGoodsDTO goodsDTO;
+            boolean isSerial;
+            List<String> lstCheckSerial = Lists.newArrayList();
+            String serialCheckKey;
+            MjrStockTransDetailDTO goodsItem;
+            while (rowIterator.hasNext()) {
+                count++;
+                Row row = rowIterator.next();
+                errorInfo = new StringBuilder();
+                //
+                goodsItem = initGoodsItemFromRow(row, count, isImportTransaction);
+                //CODE
+                if (DataUtil.isStringNullOrEmpty(goodsItem.getGoodsCode())) {
+                    errorInfo.append("Chưa có mã hàng");
+                    goodsItem.setErrorInfo(errorInfo.toString());
+                    isValid = false;
+                    lstGoods.add(goodsItem);
+                    continue;
+                }
+                //
+                goodsDTO = mapGoods.get(goodsItem.getGoodsCode());
+                if (!setGoodsCode.contains(goodsItem.getGoodsCode()) || goodsDTO == null) {
+                    errorInfo.append("Mã hàng không hợp lệ");
+                    goodsItem.setErrorInfo(errorInfo.toString());
+                    isValid = false;
+                    lstGoods.add(goodsItem);
+                    continue;
+                }
+
+                //NAME
+                goodsItem.setGoodsName(goodsDTO.getName());
+                //STATE
+                String goodsState = goodsItem.getGoodsState();
+                if (DataUtil.isStringNullOrEmpty(goodsState)) {
+                    errorInfo.append("\n Chưa có tình trạng hàng");
+                    isValid = false;
+                } else {
+                    if (!goodsState.equalsIgnoreCase("1") && !goodsState.equalsIgnoreCase("2")) {
+                        errorInfo.append("\n Tình trạng hàng hóa không hợp lệ(1: Bình thường, 2:Hỏng");
+                        isValid = false;
+                    }
+                }
+                //AMOUNT
+                String amount = goodsItem.getAmount();
+                if (DataUtil.isStringNullOrEmpty(amount)) {
+                    errorInfo.append("\n Chưa có số lượng hàng");
+                    isValid = false;
+                } else {
+                    if (!isNumberFloat(amount)) {
+                        errorInfo.append("\n Số lượng hàng phải là số và >0");
+                        isValid = false;
+                    } else {
+                        goodsItem.setAmountValue(formatNumber(amount));
+                    }
+                }
+                //PRICE
+                String price = isImportTransaction ? goodsItem.getInputPrice() : goodsItem.getOutputPrice();
+                if (!DataUtil.isStringNullOrEmpty(price)) {
+                    if (!isNumberFloat(price)) {
+                        errorInfo.append("\n Giá phải là số và >= 0");
+                        isValid = false;
+                    } else {
+                        if (isImportTransaction) {
+                            goodsItem.setInputPriceValue(formatNumber(price));
+                        } else {
+                            goodsItem.setOutputPriceValue(formatNumber(price));
+                        }
+                    }
+                } else {//set default value
+                    if (isImportTransaction) {
+                        goodsItem.setInputPriceValue(formatNumber(goodsDTO.getInPrice()));
+                        goodsItem.setInputPrice(goodsDTO.getInPrice());
+                        price = goodsDTO.getInPrice();
+                    } else {
+                        goodsItem.setOutputPriceValue(formatNumber(goodsDTO.getOutPrice()));
+                        goodsItem.setOutputPrice(goodsDTO.getOutPrice());
+                        price = goodsDTO.getOutPrice();
+                    }
+                }
+                //
+                goodsItem.setTotalMoney(calTotalMoney(goodsItem.getAmount(), price) + "");
+                //
+                goodsItem.setWeight(getWeightFromGoodsItem(goodsDTO, amount));
+                goodsItem.setVolume(getVolumeFromGoodsItem(goodsDTO, amount));
+                //produce date
+                String procedureDate = goodsItem.getProduceDate();
+                if (!DataUtil.isStringNullOrEmpty(procedureDate) && !DateTimeUtils.isValidDateFormat(procedureDate, "dd/MM/yyyy")) {
+                    errorInfo.append("\n Ngày sản xuất không đúng định dạng");
+                    isValid = false;
+                }
+                //expire date
+                String expireDate = goodsItem.getExpireDate();
+                if (!DataUtil.isStringNullOrEmpty(expireDate) && !DateTimeUtils.isValidDateFormat(expireDate, "dd/MM/yyyy")) {
+                    errorInfo.append("\n Hạn dùng không đúng định dạng");
+                    isValid = false;
+                }
+                //
+                goodsItem.setContent(goodsItem.getContent());
+                //
+                if (!isValid) {
+                    goodsItem.setErrorInfo(errorInfo.toString());
+                }
+
+                lstGoods.add(goodsItem);
+            }
+        } catch (IOException e) {
+            log.info(e.toString());
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            log.info(e.toString());
+            e.printStackTrace();
+            return null;
+        }
+        //
+        importResult.setValid(isValid);
+        importResult.setLstGoodsImport(lstGoods);
+        return importResult;
+    }
+
+    public static ImportFileResultDTO getListSerialFromFile(MultipartFile mpf) {
+        ImportFileResultDTO importResult = new ImportFileResultDTO();
+        List<String> lstSerial = Lists.newArrayList();
+        StringBuilder serial = new StringBuilder("");
+        try {
+            Workbook wb = WorkbookFactory.create(new FileInputStream(FunctionUtils.convertMultipartToFile(mpf)));
+            Sheet sheet = null;
+            if (wb instanceof HSSFWorkbook) {
+                HSSFWorkbook workbook = (HSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            } else if (wb instanceof XSSFWorkbook) {
+                XSSFWorkbook workbook = (XSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            }
+
+            Iterator<Row> rowIterator = sheet.iterator();
+            if (rowIterator.hasNext()) {//read from second row!
+                rowIterator.next();
+            }
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                if(!DataUtil.isNullOrEmpty(serial.toString())){
+                    serial.append(",");
+                }
+                lstSerial.add(getCellValue(row.getCell(0)));
+                serial.append(getCellValue(row.getCell(0)));
+            }
+        } catch (IOException e) {
+            log.info(e.toString());
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            log.info(e.toString());
+            e.printStackTrace();
+            return null;
+        }
+
+        importResult.setLstSerial(lstSerial);
+        importResult.setSerial(serial.toString());
         return importResult;
     }
 

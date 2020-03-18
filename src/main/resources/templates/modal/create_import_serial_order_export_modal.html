@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-import-serial-order-export-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="import-serial-order-export-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-mini" role="document">
+            <form id="order-export-insert-update-form">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{lbl.import.serial}"></h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="panel panel-primary">
+                            <div class="container-modal">
+                                <div class="row">
+                                    <!--ma hang-->
+                                    <div class="col-sm-2">
+                                        <label th:text="#{label.tbl.order.code}"></label>
+                                    </div>
+                                    <div class="col-sm-4" >
+                                        <div class="input-group">
+                                            <label id="lbl-order-code"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.file.upload.serial}" for="btn-excel-import-serial"></label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="input-group">
+                                            <div class="input-group">
+                                                <input id="inp-file-serial" data-toggle="toggle" type="file"
+                                                       onchange="isValidExcel(this);"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="input-group" style="float:right">
+                                            <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload" style="float:left"
+                                                    id="btn-excel-import-serial" th:value="@{/workspace/stock_management/export/importSerial}">
+                                            </button>
+                                            <a class="link-label" style="float:left" th:text="#{link.downloadtemplate}" th:href="@{/workspace/stock_management/export/getSerialTemplateFile}">
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                    </div>
+
+                                    <div class="wrapper text-center col-sm-12" style="text-align: center; margin-top: 10px; float: left">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-default  btn-primary"
+                                                    id="btn-real-export" th:value="@{${controller} + 'orderExport'}" >
+                                                <i class="fa fa-check"></i>
+                                                <span th:text="#{lbl.exported}"></span>
+                                            </button>
+                                        </div>
+                                        <label id="order_id"></label>
+                                        <br/>
+                                        <p style="font-size:80%;"><label th:text="#{lbl.help.importSerial}" ></label></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end search panel-->
+                        <div id="panel-search-result" class="panel panel-primary">
+                            <div class="panel-heading">
+                                <i class="fa fa-database"></i>
+                                <!--Result-->
+                            </div>
+                            <div class="panel-body">
+                                <!--toolbar-->
+                                <div id="toolbar2" class="btn-group  bs-bars pull-left " style=" margin-top: -7px;">
+                                    <button style="display: none" id="btn-add-popup" th:value="@{/workspace/stock_management/export/add}" type="button"
+                                            class="btn btn-default" th:title="#{tooltip.addgoods}" >
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+
+                                    <button id="btn-refresh-table-serial" type="button"
+                                            class="btn btn-default" th:title="#{tooltip.cleartabble}" >
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+
+                                    <label class="toolbar-label-info" id="export-action-info"></label>
+                                    <label id="del-action-info"></label>
+                                    <label id="lbl-total-price-import-serial"    class="toolbar-label-info" style="    float: left;margin-left: 10px;margin-top: 8px;"></label>
+                                </div>
+                                <table  id="tbl-import-serial"
+                                        data-pagination="true"
+                                        data-search="true"
+                                        data-click-to-select="true"
+                                        data-toolbar="#toolbar"
+                                        class="table-striped"
+                                        style="word-wrap: break-word;"
+                                        data-editable-emptytext="">
+
+                                    <thead>
+                                    <tr>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

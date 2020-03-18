@@ -224,7 +224,7 @@ public class ImportStockController extends BaseController {
         List<MjrOrderDetailDTO> lstMjrOrderDTOS = mjrOrderService.getListOrderDetail(orderId);
         lstMjrOrderDTOS.forEach(e -> {
             e.setGoodsName(mapGoodsIdGoods.get(e.getGoodsId()).getName());
-            e.setOutputPrice(mapGoodsIdGoods.get(e.getGoodsId()).getOutPrice());
+            //e.setOutputPrice(mapGoodsIdGoods.get(e.getGoodsId()).getOutPrice());
 
             MjrStockTransDetailDTO mjrStockTransDetailDTO = new MjrStockTransDetailDTO();
             mjrStockTransDetailDTO.setGoodsId(e.getGoodsId());
@@ -243,6 +243,7 @@ public class ImportStockController extends BaseController {
             mjrStockTransDetailDTO.setInputPrice(e.getInputPrice());
             mjrStockTransDetailDTO.setProduceDate(e.getProduceDate());
             mjrStockTransDetailDTO.setExpireDate(e.getExpireDate());
+            mjrStockTransDetailDTO.setSerial(e.getSerial());
             lstGoods.add(mjrStockTransDetailDTO);
         });
         stockManagementDTO.setLstGoods(lstGoods);

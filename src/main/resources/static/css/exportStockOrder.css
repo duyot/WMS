@@ -29,6 +29,10 @@ div.tree-multiselect>div.selections.no-border {
     width: 100%;
     hight: 100%;
 }
+#import-serial-order-export-modal .modal-dialog{
+    width: 100%;
+    hight: 100%;
+}
 .ui-autocomplete{
     z-index : 9999999999999;
 }

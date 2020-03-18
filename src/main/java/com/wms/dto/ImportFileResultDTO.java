@@ -9,6 +9,8 @@ public class ImportFileResultDTO {
     private boolean isValid;
     private List<MjrStockTransDetailDTO> lstGoodsImport;
     private List<CatGoodsDTO> lstGoods;
+    private String serial;
+    private List<String> lstSerial;
 
     public ImportFileResultDTO(boolean isValid, List<MjrStockTransDetailDTO> lstGoodsImport) {
         this.isValid = isValid;
@@ -40,5 +42,21 @@ public class ImportFileResultDTO {
 
     public void setLstGoodsImport(List<MjrStockTransDetailDTO> lstGoodsImport) {
         this.lstGoodsImport = lstGoodsImport;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
+
+    public List<String> getLstSerial() {
+        return lstSerial;
+    }
+
+    public void setLstSerial(List<String> lstSerial) {
+        this.lstSerial = lstSerial;
     }
 }

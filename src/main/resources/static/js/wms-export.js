@@ -354,7 +354,7 @@ btnExportConfirm.click(function () {
                 }else {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
                 }
-            } else {
+            }else {
                 setInfoMessage($lblInfo, "Xuất " + successRecords + " hàng thành công với mã giao dịch: " + stockTransId, 8000);
                 $inpGoodsCode.val('');
                 $inpGoodsAmount.val('');
@@ -415,7 +415,9 @@ btnClearTableConfirm.click(function () {
     enteredSerials = [];
     $("#import-action-info").text('');
     //
-    hideModal($('#deleteConfirmModal'))
+    hideModal($('#deleteConfirmModal'));
+    totalPrice = Number(0);
+    setConstantInfoMessage(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(totalPrice));
 });
 //#event
 //-------------enter goods code

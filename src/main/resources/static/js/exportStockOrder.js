@@ -3,9 +3,12 @@
 var dataInit = [];
 //---------------------------------------------------------------------
 $addUpdateMainModal = $('#order-export-insert-update-modal');
+$importSerialOrderExportModal = $('#import-serial-order-export-modal');
+
 var $btnSearch = $('#btn-search');
 $mainTable = $('#tbl-main-table');
 $table = $('#tbl-export-goods');
+$tableImportSerial = $('#tbl-import-serial');
 var $btn_add = $('#btn-create-order');
 $inpGoodsCode = $('#inp-goods-code');
 var $inpGoodsAmount = $('#inp-amount');
@@ -20,9 +23,170 @@ var exportMethodVal = $('#exportMethod');
 var isDeleteOrder = true;
 var $body = $("body");
 var $lblInfo = $("#export-action-info");
+var totalPrice = Number(0);
+var lblTotalPrice = $("#lbl-total-price");
+var lblTotalPriceImportSerial = $("#lbl-total-price-import-serial");
+
 
 //@Init component-----------------------------------------------------------------------------------------------
 $(function () {
+    //init table in import serial screen
+    $tableImportSerial.bootstrapTable({
+        data: dataInit,
+        pageList:[5,10, 25, 50],
+        pageSize:30,
+        columns: [
+            {
+                field: 'id',
+                title: 'STT',
+                formatter: 'runningFormatter',
+                align: 'center',
+                width: '40px'
+            },
+            {
+                field: 'goodsCode',
+                title: 'Mã hàng',
+                align: 'left',
+                width: '9%'
+            },
+            {
+                field: 'goodsName',
+                title: 'Tên hàng',
+                align: 'left'
+            },
+            {
+                field: 'goodsState',
+                title: 'Tình trạng',
+                align: 'left',
+                width: '10%'
+            },
+            {
+                field: 'serial',
+                title: 'Serial',
+                align: 'left',
+                width: '7%'
+            },
+            {
+                field: 'amount',
+                title: 'Số lượng',
+                cellStyle: 'addStyle',
+                align: 'right',
+                width: '9%',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    textAlign: 'right',
+                    showbuttons: false,
+                    validate: function (value) {
+                        if (!isValidAmount(value)) {
+                            return 'Số lượng xuất phải là số';
+                        }
+                        var row = $table.bootstrapTable('getData')[selectedIndex];
+                        totalPrice += (value - row.amount) * row.outputPrice;
+                        //
+                        row.amount = value;
+                        row.totalMoney = value * row.outputPrice;
+                        //
+                        row.weight = value * row.baseWeight;
+                        row.volume = value * row.baseVolume;
+                        //
+                        $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
+                        //
+                        setConstantInfoMessage(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(totalPrice));
+                    },
+                    display: function (value) {
+                        $(this).text(formatFloatType(value));
+                    }
+                }
+            },
+            {
+                field: 'weight',
+                title: 'Trọng lượng(kg)',
+                align: 'right',
+                formatter: 'subTotal',
+                width: '13%'
+            },
+            {
+                field: 'volume',
+                title: 'Thể tích(m3)',
+                align: 'right',
+                formatter: 'subTotal',
+                width: '11%'
+            },
+            {
+                field: 'outputPrice',
+                title: 'Giá xuất',
+                align: 'right',
+                width: '9%',
+                editable: {
+                    type: 'text',
+                    mode: 'inline',
+                    textAlign: 'right',
+                    showbuttons: false,
+                    validate: function (value) {
+                        var amount = unFormatFloat(value);
+                        if (!isValidAmount(amount)) {
+                            return 'Giá xuất phải là số';
+                        }
+                        var row = $tableImportSerial.bootstrapTable('getData')[selectedIndex];
+                        console.log('totalprice before' + totalPrice);
+                        totalPrice += (value - row.outputPrice) * row.amount;
+                        //
+                        console.log(value);
+                        console.log('outptuprice' + row.outputPrice);
+                        console.log('amount' + row.amount);
+                        console.log('totalprice after' + totalPrice);
+                        row.outputPrice = value;
+                        row.totalMoney = value * row.amount;
+                        //
+                        $tableImportSerial.bootstrapTable('updateRow', {index: selectedIndex, row: row});
+                        //
+                        setConstantInfoMessage(lblTotalPriceImportSerial, "Tổng tiền xuất: " + formatFloatType(totalPrice));
+                    },
+                    display: function (value) {
+                        $(this).text(formatFloatType(value));
+                    }
+                }
+            },
+            {
+                field: 'totalMoney',
+                title: 'Thành tiền',
+                align: 'right',
+                width: '10%',
+                formatter: 'subTotal'
+            },
+            {
+                field: 'cellCode',
+                title: 'Vị trí',
+            },
+            /*{
+                title: 'Xóa',
+                formatter: 'operateFormatter',
+                events: 'operateEvents',
+                width: '6%',
+                align: 'center'
+            },*/
+            {
+                field: 'baseWeight',
+                title: 'baseWeight'
+            },
+            {
+                field: 'baseVolume',
+                title: 'baseVolume'
+            }
+        ]
+    });
+    $tableImportSerial.bootstrapTable('hideColumn', 'columnId');
+    $tableImportSerial.bootstrapTable('hideColumn', 'goodsId');
+    $tableImportSerial.bootstrapTable('hideColumn', 'baseWeight');
+    $tableImportSerial.bootstrapTable('hideColumn', 'baseVolume');
+    $tableImportSerial.bootstrapTable('hideColumn', 'cellCode');
+
+
+    $tableImportSerial.bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
+        selectedIndex = $element.attr('data-index');
+    });
+
     //
     $mainTable.bootstrapTable({
         $mainTable: dataInit
@@ -301,6 +465,9 @@ function operateFormatterMainForm(value, row, index) {
             '<a class="export-file row-function" href='+url+'  target="_blank" title="In phiếu nhặt hàng">',
             '<i class="fa fa-file-word-o"></i>',
             '</a> ',
+            '<a class="import-serial-file row-function" target="_blank" title="Nhập serial cho hàng hóa">',
+            '<i class="fa fa-table"></i>',
+            '</a> ',
             '<a class="delete-order row-function" href="javascript:void(0)" title="Xóa">',
             '<i class="fa fa-trash"></i>',
             '</a> '
@@ -327,6 +494,11 @@ window.operateEvents = {
     'click .edit-order': function (e, value, row, index) {
         isUpdate = true;
         onClickToOpenPopup(row);
+    },
+    'click .import-serial-file': function (e, value, row, index) {
+        var orderId = row['id'];
+        $("#order_id").val(orderId);
+        onClickToOpenPopupImportSerial(row);
     },
     'click .delete-order': function (e, value, row, index) {
         isDeleteOrder = true;
@@ -476,7 +648,13 @@ btnExportConfirm.click(function () {
                 }else {
                     setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
                 }
-            } else {
+            }else if (resultMessage == "ERROR_MISSING_SERIAL") {
+                setErrorMessageWithTime($lblInfo, "Xuất kho không thành công. Hàng quản lý theo serial cần bổ sung serial khi xuất!", 8000);
+                $body.removeClass("loading");
+                onClickToOpenPopupImportSerial(null);
+                $("#lbl-order-code").text(resultMessageDetail);
+                $("#order_id").val(orderId);
+            }else {
                 setInfoMessage($lblInfo, "Thực xuất " + successRecords + " hàng hóa thành công. Mã phiếu: " + stockTransId, 8000);
             }
         },
@@ -532,15 +710,27 @@ function onOpenExportPopup(dataInit, total) {
 }
 
 function onClickToOpenPopup(row) {
-    // $addUpdateMainModal.on('shown.bs.modal', function () {
-    //     refreshFormAndInitData(row);
-    // });
     refreshFormAndInitData(row);
     showModal($addUpdateMainModal);
     if(row == null){
         $('input[name=cmb-export-method][value='+exportMethodVal.val()+']').prop('checked', true);
     }
 }
+
+function onClickToOpenPopupImportSerial(row) {
+    var dataInit = [];
+    showModal($importSerialOrderExportModal);
+    $tableImportSerial.bootstrapTable('load', dataInit);
+    disableElement($('#btn-real-export'));
+    if(row != null){
+        $("#lbl-order-code").text(row["code"]);
+        $("#order_id").val(row["id"]);
+    }
+    totalPrice = Number(0);
+    setConstantInfoMessage(lblTotalPriceImportSerial, "Tổng tiền xuất: " + formatFloatType(totalPrice));
+
+}
+
 var btnDeleteOrder = $('#btn-get-deleteOrder');
 function onClickDeleteOrder(orderId) {
 
@@ -585,3 +775,189 @@ function addStyle(value, row, index) {
     }
     return {};
 }
+
+//@Upload serial---------------------------------------------------------------------
+var btnUploadSerialExcel = $('#btn-excel-import-serial');
+btnUploadSerialExcel.click(function () {
+    $("#import-action-info").text('');
+    var data = new FormData();
+    var orderId = $('#order_id').val();
+    jQuery.each(jQuery('#inp-file-serial')[0].files, function (i, file) {
+        data.append('file-' + i, file);
+    });
+
+    var fileName = $('#inp-file-serial').val();
+    if (fileName == '') {
+        alert('Chưa có file dữ liệu');
+        return;
+    }
+    $body.addClass("loading");
+
+    $.ajax({
+        url: btnUploadSerialExcel.val(),
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: function (data) {
+            if (data == '') {
+                $('#myDownloadErrorModal').modal('show');
+                return;
+            }
+            //
+            var exportGoods = data;
+            var goodsSize = exportGoods.length;
+            for (var i = 0; i < goodsSize; i++) {
+                totalPrice += Number(exportGoods[i].totalMoney);
+            }
+            //
+            setTextForLabel(lblTotalPriceImportSerial, "Tổng tiền xuất: " + formatFloatType(totalPrice));
+            $tableImportSerial.bootstrapTable('load', data);
+            //
+            enableElement($('#btn-real-export'));
+        },
+        error: function (data) {
+            alert("Vui lòng chọn lại file dữ liệu");
+        },
+        complete: function () {
+            $body.removeClass("loading");
+        }
+    });
+});
+
+//@Upload trong man hinh tao moi yeu cau---------------------------------------------------------------------
+var btnUploadExcel = $('#btn-excel-export');
+btnUploadExcel.click(function () {
+    //
+    $("#import-action-info").text('');
+    //
+    var data = new FormData();
+    jQuery.each(jQuery('#inp-file-export')[0].files, function (i, file) {
+        data.append('file-' + i, file);
+    });
+
+    var fileName = $('#inp-file-export').val();
+    if (fileName == '') {
+        alert('Chưa có file dữ liệu');
+        return;
+    }
+    //
+    $body.addClass("loading");
+    //
+    $.ajax({
+        url: btnUploadExcel.val(),
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: function (data) {
+            if (data == '') {
+                $('#myDownloadErrorModal').modal('show');
+                return;
+            }
+            //
+            var exportGoods = data;
+            var goodsSize = exportGoods.length;
+            for (var i = 0; i < goodsSize; i++) {
+                totalPrice += Number(exportGoods[i].totalMoney);
+            }
+            //
+            setTextForLabel(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(totalPrice));
+            $table.bootstrapTable('load', data);
+            //
+            enableElement($('#btn-export'));
+        },
+        error: function (data) {
+            alert("Vui lòng chọn lại file dữ liệu");
+        },
+        complete: function () {
+            $body.removeClass("loading");
+        }
+    });
+});
+
+//@Refresh table----------------------------------------------------------
+$('#btn-refresh-table').click(function () {
+    //
+    $table.bootstrapTable('removeAll');
+    enteredSerials = [];
+    $("#import-action-info").text('');
+    //
+    hideModal($('#deleteConfirmModal'));
+    totalPrice = Number(0);
+    setConstantInfoMessage(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(totalPrice));
+});
+
+//@Refresh table in import serial screen----------------------------------------------------------
+$('#btn-refresh-table-serial').click(function () {
+    $tableImportSerial.bootstrapTable('removeAll');
+    enteredSerials = [];
+    $("#import-action-info").text('');
+    totalPrice = Number(0);
+    setConstantInfoMessage(lblTotalPriceImportSerial, "Tổng tiền xuất: " + formatFloatType(totalPrice));
+    disableElement($('#btn-real-export'));
+});
+
+//@Export button in import serial screen----------------------------------------------------------
+$('#btn-real-export').click(function () {
+    $body.addClass("loading");
+    var orderId = $('#order_id').val();
+
+    var stock_trans_info = {
+        orderId: orderId
+    };
+    //
+    var importData = JSON.stringify({lstGoods: $tableImportSerial.bootstrapTable('getData'), mjrStockTransDTO: stock_trans_info});
+    $.ajax({
+        url: btnExport.val(),
+        data: importData,
+        cache: false,
+        contentType: "application/json",
+        dataType: 'json',
+        type: 'POST',
+        success: function (data) {
+            //
+            var resultMessage = data['statusCode'];
+            var resultMessageDetail = data['statusName'];
+            var stockTransId = data['key'];
+            var successRecords = data['success'];
+            //
+            if (resultMessage === "SUCCESS_WITH_ERROR") {
+                var totalRecords = data['total'];
+                //show modal upload file
+                setInfoMessageWithTime($("#modal-error-import-lbl-info"), 'Thực xuất ' + successRecords + '/' + totalRecords + ' hàng hóa thành công. Mã phiếu: ' + stockTransId, 8000);
+                $("#modal-link-download").attr("href", $("#modal-inp-stock-trans-id").val() + "/" + stockTransId);
+                showModal($("#myDownloadErrorImportModal"));
+            } else if (resultMessage === "FAIL") {
+                var details     = resultMessageDetail.split('|');
+                var errorCode   = details[0];
+                var errorDetail = details[1];
+                var errorSerial = data['key'];
+                if (errorCode === 'ERROR_NOT_FOUND_STOCK_GOODS') {
+                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
+                } else if (errorCode === 'ERROR_NOT_FOUND_SERIAL') {
+                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, serial " + errorSerial + " không có trong kho!", 8000);
+                }else {
+                    setErrorMessageWithTime($lblInfo, "Xuất kho không thành công, hàng không có trong kho!", 8000);
+                }
+            }else if (resultMessage == "ERROR_MISSING_SERIAL") {
+                setErrorMessageWithTime($lblInfo, "Xuất kho không thành công. Hàng quản lý theo serial cần bổ sung serial khi xuất!", 8000);
+                $body.removeClass("loading");
+                onClickToOpenPopupImportSerial(null);
+                $("#lbl-order-code").text(resultMessageDetail);
+                $("#order_id").val(orderId);
+            }else {
+                setInfoMessage($lblInfo, "Thực xuất " + successRecords + " hàng hóa thành công. Mã phiếu: " + stockTransId, 8000);
+            }
+        },
+        error: function (data) {
+            setErrorMessageWithTime($lblInfo, JSON.stringify(data), 8000)
+        },
+        complete: function () {
+            $body.removeClass("loading");
+            doSearch();
+        }
+    });
+});
