@@ -7,6 +7,8 @@ import com.wms.dto.ResponseObject;
 import com.wms.dto.StockTransDTO;
 import com.wms.services.interfaces.StockManagementService;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,4 +56,10 @@ public class StockManagementServiceImpl implements StockManagementService {
     public List<MjrStockTransDTO> getListTransSerial(String custId, String goodsId, String serial) {
         return stockManagementDP.getListTransSerial(custId, goodsId, serial);
     }
+
+    @Override
+    public List<MjrStockTransDetailDTO> getListSerialAfterImport(String custId, String orderId, String lstSerial) {
+        return stockManagementDP.getListSerialAfterImport(custId, orderId, lstSerial);
+    }
+
 }

@@ -64,6 +64,16 @@ public class MjrStockTransDetailDTO {
     private String reasonName;
     private String content;
 
+    private boolean isUsed;
+
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    public void setUsed(boolean used) {
+        isUsed = used;
+    }
+
     public String getContent() {
         return content;
     }

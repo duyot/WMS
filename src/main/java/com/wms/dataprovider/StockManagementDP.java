@@ -27,6 +27,7 @@ public class StockManagementDP extends BaseDP<MjrStockTransDetailDTO> {
     private final String GET_TRANS_GOODS_URL = "getTransGoodsDetail";
     private final String GET_LIST_TRANS_GOODS_URL = "getListTransGoodsDetail";
     private final String GET_LIST_TRANS_SERIAL_URL = "getListTransSerial";
+    private final String GET_LIST_SERIAL_AFTER_IMPORT_URL = "getListSerialAfterImport";
     private final String GET_LIST_TRANS_URL = "getStockTransInfo";
 
 
@@ -94,6 +95,18 @@ public class StockManagementDP extends BaseDP<MjrStockTransDetailDTO> {
         String url = getUrlLoadBalancingQuery(query, GET_LIST_TRANS_SERIAL_URL);
         try {
             ResponseEntity<MjrStockTransDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, MjrStockTransDTO[].class);
+            return Arrays.asList(responseEntity.getBody());
+        } catch (RestClientException e) {
+            return Lists.newArrayList();
+        }
+    }
+
+    public List<MjrStockTransDetailDTO> getListSerialAfterImport(String custId, String orderId, String lstSerial) {
+        RestTemplate restTemplate = new RestTemplate();
+        String query = "custId=" + custId + "&orderId=" + orderId + "&lstSerial=" + lstSerial;
+        String url = getUrlLoadBalancingQuery(query, GET_LIST_SERIAL_AFTER_IMPORT_URL);
+        try {
+            ResponseEntity<MjrStockTransDetailDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, MjrStockTransDetailDTO[].class);
             return Arrays.asList(responseEntity.getBody());
         } catch (RestClientException e) {
             return Lists.newArrayList();

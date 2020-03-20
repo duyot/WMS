@@ -719,7 +719,7 @@ public class FunctionUtils {
     public static ImportFileResultDTO getListSerialFromFile(MultipartFile mpf) {
         ImportFileResultDTO importResult = new ImportFileResultDTO();
         List<String> lstSerial = Lists.newArrayList();
-        StringBuilder serial = new StringBuilder("");
+        StringBuilder serial = new StringBuilder("  a.serial in (");
         try {
             Workbook wb = WorkbookFactory.create(new FileInputStream(FunctionUtils.convertMultipartToFile(mpf)));
             Sheet sheet = null;
@@ -735,15 +735,19 @@ public class FunctionUtils {
             if (rowIterator.hasNext()) {//read from second row!
                 rowIterator.next();
             }
-
+            int count =0;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                if(!DataUtil.isNullOrEmpty(serial.toString())){
+                serial.append("'").append(getCellValue(row.getCell(0))).append("'");
+                lstSerial.add(getCellValue(row.getCell(0)));
+                count++;
+                if (count%900 ==0){
+                    serial.append(") or a.serial in (");
+                }else{
                     serial.append(",");
                 }
-                lstSerial.add(getCellValue(row.getCell(0)));
-                serial.append(getCellValue(row.getCell(0)));
             }
+            serial.append("'')");
         } catch (IOException e) {
             log.info(e.toString());
             e.printStackTrace();

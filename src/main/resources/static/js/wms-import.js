@@ -288,7 +288,7 @@ window.operateEvents = {
 //@Upload---------------------------------------------------------------------
 var btnUploadExcel = $('#btn-excel-import');
 btnUploadExcel.click(function () {
-    //
+    totalPrice = Number(0);
     $("#import-action-info").text('');
     //
     var data = new FormData();
@@ -474,7 +474,9 @@ btnClearTableConfirm.click(function () {
     enteredSerials = [];
     $("#import-action-info").text('');
     //
-    hideModal($('#deleteConfirmModal'))
+    hideModal($('#deleteConfirmModal'));
+    totalPrice = Number(0);
+    setConstantInfoMessage(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(totalPrice));
 });
 //#event
 //-------------enter goods code

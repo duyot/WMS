@@ -215,7 +215,7 @@ public class ExportStockController extends BaseController {
             request.getSession().setAttribute("file_import_error", fileName);
             return null;
         }
-        return generateExportListGoods(orderId);
+        return generateExportListGoods(orderId, importFileResult);
     }
 
     @RequestMapping(value = "/exportStock", method = RequestMethod.POST)
@@ -461,30 +461,75 @@ public class ExportStockController extends BaseController {
         }
     }
 
-    private List<MjrStockTransDetailDTO> generateExportListGoods(String orderId){
+    private List<MjrStockTransDetailDTO> generateExportListGoods(String orderId, ImportFileResultDTO importFileResult){
         List<MjrStockTransDetailDTO> lstGoods = new ArrayList<>();
         List<MjrOrderDetailDTO> lstMjrOrderDTOS = mjrOrderService.getListOrderDetail(orderId);
+        List<MjrStockTransDetailDTO> lstSerialInStock = stockManagementService.getListSerialAfterImport(selectedCustomer.getId(), orderId, importFileResult.getSerial());
+
         lstMjrOrderDTOS.forEach(e -> {
             e.setGoodsName(mapGoodsIdGoods.get(e.getGoodsId()).getName());
-
             MjrStockTransDetailDTO mjrStockTransDetailDTO = new MjrStockTransDetailDTO();
             mjrStockTransDetailDTO.setGoodsId(e.getGoodsId());
             mjrStockTransDetailDTO.setGoodsCode(e.getGoodsCode());
             mjrStockTransDetailDTO.setGoodsName(e.getGoodsName());
             mjrStockTransDetailDTO.setGoodsState(e.getGoodsState());
+            mjrStockTransDetailDTO.setGoodsStateValue(mapAppGoodsState.get(e.getGoodsState()));
             mjrStockTransDetailDTO.setPartnerId(e.getPartnerId());
-            mjrStockTransDetailDTO.setAmount(e.getAmount());
             mjrStockTransDetailDTO.setUnitName(e.getUnitName());
-            mjrStockTransDetailDTO.setIsSerial(e.getIsSerial());
             mjrStockTransDetailDTO.setDescription(e.getDescription());
             mjrStockTransDetailDTO.setVolume(e.getVolume());
             mjrStockTransDetailDTO.setWeight(e.getWeight());
             mjrStockTransDetailDTO.setTotalMoney(e.getTotalMoney());
             mjrStockTransDetailDTO.setGoodsId(e.getGoodsId());
             mjrStockTransDetailDTO.setOutputPrice(e.getOutputPrice());
+            mjrStockTransDetailDTO.setIsSerial(e.getIsSerial());
             mjrStockTransDetailDTO.setSerial(e.getSerial());
-            lstGoods.add(mjrStockTransDetailDTO);
+            if("1".equals(e.getIsSerial())){
+                lstGoods.addAll(generateGoodsSerial(importFileResult,mjrStockTransDetailDTO,lstSerialInStock, e.getAmount()));
+            }else{
+                mjrStockTransDetailDTO.setAmount(e.getAmount());
+                lstGoods.add(mjrStockTransDetailDTO);
+            }
         });
         return lstGoods;
+    }
+
+    private List<MjrStockTransDetailDTO> generateGoodsSerial(ImportFileResultDTO importFileResult,MjrStockTransDetailDTO mjrStockTransDetailDTO,List<MjrStockTransDetailDTO> lstSerialInStock, String amount){
+        List<MjrStockTransDetailDTO> lstGoods = new ArrayList<>();
+        MjrStockTransDetailDTO generateObj = null;
+        int count = (int) Math.ceil(Double.valueOf(amount));
+        for (int i =0; i< count; i++){
+            generateObj = copyProperties(mjrStockTransDetailDTO);
+            for(int j =0; i<lstSerialInStock.size(); j++){
+                MjrStockTransDetailDTO finalGenerateObj = lstSerialInStock.get(j);
+                if(finalGenerateObj.getGoodsId().equals(generateObj.getGoodsId()) && finalGenerateObj.getGoodsState().equals(generateObj.getGoodsState()) && !finalGenerateObj.isUsed()){
+                    generateObj.setSerial(finalGenerateObj.getSerial());
+                    finalGenerateObj.setUsed(true);
+                    break;
+                }
+            }
+            lstGoods.add(generateObj);
+        }
+        return lstGoods;
+    }
+    private MjrStockTransDetailDTO copyProperties(MjrStockTransDetailDTO e){
+        MjrStockTransDetailDTO mjrStockTransDetailDTO = new MjrStockTransDetailDTO();
+        mjrStockTransDetailDTO.setGoodsId(e.getGoodsId());
+        mjrStockTransDetailDTO.setGoodsCode(e.getGoodsCode());
+        mjrStockTransDetailDTO.setGoodsName(e.getGoodsName());
+        mjrStockTransDetailDTO.setGoodsState(e.getGoodsState());
+        mjrStockTransDetailDTO.setGoodsStateValue(mapAppGoodsState.get(e.getGoodsState()));
+        mjrStockTransDetailDTO.setPartnerId(e.getPartnerId());
+        mjrStockTransDetailDTO.setUnitName(e.getUnitName());
+        mjrStockTransDetailDTO.setDescription(e.getDescription());
+        mjrStockTransDetailDTO.setVolume(e.getVolume());
+        mjrStockTransDetailDTO.setWeight(e.getWeight());
+        mjrStockTransDetailDTO.setTotalMoney(e.getTotalMoney());
+        mjrStockTransDetailDTO.setGoodsId(e.getGoodsId());
+        mjrStockTransDetailDTO.setOutputPrice(e.getOutputPrice());
+        mjrStockTransDetailDTO.setIsSerial(e.getIsSerial());
+        mjrStockTransDetailDTO.setAmount("1");
+        mjrStockTransDetailDTO.setTotalMoney(e.getOutputPrice());
+        return mjrStockTransDetailDTO;
     }
 }

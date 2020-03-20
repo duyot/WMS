@@ -55,7 +55,7 @@ $(function () {
                 align: 'left'
             },
             {
-                field: 'goodsState',
+                field: 'goodsStateValue',
                 title: 'Tình trạng',
                 align: 'left',
                 width: '10%'
@@ -71,33 +71,7 @@ $(function () {
                 title: 'Số lượng',
                 cellStyle: 'addStyle',
                 align: 'right',
-                width: '9%',
-                editable: {
-                    type: 'text',
-                    mode: 'inline',
-                    textAlign: 'right',
-                    showbuttons: false,
-                    validate: function (value) {
-                        if (!isValidAmount(value)) {
-                            return 'Số lượng xuất phải là số';
-                        }
-                        var row = $table.bootstrapTable('getData')[selectedIndex];
-                        totalPrice += (value - row.amount) * row.outputPrice;
-                        //
-                        row.amount = value;
-                        row.totalMoney = value * row.outputPrice;
-                        //
-                        row.weight = value * row.baseWeight;
-                        row.volume = value * row.baseVolume;
-                        //
-                        $table.bootstrapTable('updateRow', {index: selectedIndex, row: row});
-                        //
-                        setConstantInfoMessage(lblTotalPrice, "Tổng tiền xuất: " + formatFloatType(totalPrice));
-                    },
-                    display: function (value) {
-                        $(this).text(formatFloatType(value));
-                    }
-                }
+                width: '9%'
             },
             {
                 field: 'weight',
@@ -956,6 +930,7 @@ $('#btn-real-export').click(function () {
             setErrorMessageWithTime($lblInfo, JSON.stringify(data), 8000)
         },
         complete: function () {
+            hideModal($importSerialOrderExportModal);
             $body.removeClass("loading");
             doSearch();
         }

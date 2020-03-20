@@ -5,6 +5,7 @@ import com.wms.dto.MjrStockTransDetailDTO;
 import com.wms.dto.ResponseObject;
 import com.wms.dto.StockTransDTO;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by duyot on 2/16/2017.
@@ -25,5 +26,7 @@ public interface StockManagementService {
     List<MjrStockTransDTO> getStockTransInfo(String lstStockTransId);
 
     List<MjrStockTransDTO> getListTransSerial(String custId, String goodsId, String serial);
+
+    List<MjrStockTransDetailDTO> getListSerialAfterImport(String custId, String orderId, String lstSerial);
 
 }

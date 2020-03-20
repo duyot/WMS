@@ -170,12 +170,6 @@ public class ExportOrderStockController extends BaseController {
                 e.setIsSerial(goodsItem.getIsSerial());
                 e.setUnitName(mapAppParamsUnitName.get(goodsItem.getUnitType()));
             }
-            if (!DataUtil.isNullOrEmpty(e.getSerial())) {
-                e.setIsSerial("1");
-            } else {
-                e.setIsSerial("0");
-            }
-
             e.setGoodsId(mapGoodsCodeGoods.get(e.getGoodsCode()).getId());
             e.setGoodsOrder((orderExportDTO.getLstMjrOrderDetailDTOS().indexOf(e) + 1) +"");
         });
