@@ -197,13 +197,12 @@ public class ExportStockController extends BaseController {
         FunctionUtils.loadFileToClient(response, fileResource);
     }
 
-    @RequestMapping(value = "/importSerial", method = RequestMethod.POST)
+    @RequestMapping(value = "/importSerial/{orderId}", method = RequestMethod.POST)
     @ResponseBody
-    public List<MjrStockTransDetailDTO> importSerial(MultipartHttpServletRequest request) {
+    public List<MjrStockTransDetailDTO> importSerial(@PathVariable("orderId") String orderId, MultipartHttpServletRequest request) {
         //1. get the files from the request object
         Iterator<String> itr = request.getFileNames();
         MultipartFile mpf = request.getFile(itr.next());
-        String orderId ="10720";
         //
         ImportFileResultDTO importFileResult = FunctionUtils.getListSerialFromFile(mpf);
         importFileResult.setValid(true);

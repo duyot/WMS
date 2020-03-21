@@ -768,7 +768,7 @@ btnUploadSerialExcel.click(function () {
     $body.addClass("loading");
 
     $.ajax({
-        url: btnUploadSerialExcel.val(),
+        url: btnUploadSerialExcel.val() + orderId,
         data: data,
         cache: false,
         contentType: false,
