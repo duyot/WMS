@@ -235,6 +235,7 @@ public class ExportStockController extends BaseController {
     @ResponseBody
     public ResponseObject exportOrder(@RequestBody StockManagementDTO stockManagementDTO) {
         long startTime = System.currentTimeMillis();
+        missSerial=false;
         String sysdate = catStockService.getSysDate();
         MjrOrderDTO mjrOrderDTO = setInfoStockTrans(stockManagementDTO);
         StockTransDTO stockTrans = initStockTrans(stockManagementDTO, sysdate);

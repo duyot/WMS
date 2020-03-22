@@ -386,6 +386,7 @@ public class UpdateStockGoodsInfor extends BaseController {
                 detail.setExpireDate(i.getExpireDate());
                 detail.setDescription(i.getDescription());
                 detail.setIsSerial(Constants.IS_SERIAL);
+                detail.setContent(i.getContent());
                 //
                 String goodUnitId = mapGoodsIdGoods.get(i.getGoodsId()) != null ? mapGoodsIdGoods.get(i.getGoodsId()).getUnitType() : "";
                 detail.setUnitName(mapAppParamsUnitName.get(goodUnitId));

@@ -333,9 +333,9 @@ public class StockInfoController extends BaseController {
     //=======================================================================================================
     private String exportAllGoodsDetails(List<MjrStockTransDetailDTO> lstGoodsDetails, String prefixFileName) {
 
-        if (DataUtil.isListNullOrEmpty(lstGoodsDetails)) {
+        /*if (DataUtil.isListNullOrEmpty(lstGoodsDetails)) {
             return "";
-        }
+        }*/
         String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.GOODS_STOCK_DETAILS_TEMPLATE;
 
         //

@@ -122,8 +122,8 @@ public class ExportOrderStockController extends BaseController {
         if (!DataUtil.isStringNullOrEmpty(createdUser) && !createdUser.equals(Constants.STATS_ALL)) {
             lstCon.add(new Condition("createdUser", Constants.SQL_OPERATOR.EQUAL, createdUser));
         }
-        if (!DataUtil.isStringNullOrEmpty(reasonId) && !createdUser.equals(Constants.STATS_ALL)) {
-            lstCon.add(new Condition("reasonId", Constants.SQL_OPERATOR.EQUAL, reasonId));
+        if (!DataUtil.isStringNullOrEmpty(reasonId) && !reasonId.equals(Constants.STATS_ALL)) {
+            lstCon.add(new Condition("reasonId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, reasonId));
         }
         lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, "2"));
 
