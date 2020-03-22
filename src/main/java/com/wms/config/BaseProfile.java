@@ -21,7 +21,7 @@ public class BaseProfile implements ProfileConfigInterface {
     private String temp;
     @Value("${config.url.upload}")
     private String upload;
-    @Value("${config.security.token}")
+    @Value("${config.security.token:#{null}}")
     private String securityToken;
 
     @Override
