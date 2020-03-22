@@ -1,5 +1,7 @@
 package com.wms.sercurity;
 
+import com.wms.config.ProfileConfigInterface;
+import com.wms.config.ThanhThuyProdProfileConfig;
 import com.wms.dto.CatUserDTO;
 import com.wms.ribbon.CurrentUserLogIn;
 import com.wms.services.interfaces.CatUserService;
@@ -13,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.net.InetAddress;
+
 /**
  * Created by duyot on 11/18/2016.
  */
@@ -25,10 +29,23 @@ public class WMSUserDetailsService implements UserDetailsService {
     @Autowired
     CurrentUserLogIn currentUserLogIn;
 
+    @Autowired
+    private ProfileConfigInterface profileConfig;
+
     Logger log = LoggerFactory.getLogger(WMSUserDetailsService.class);
 
     @Override
     public UserDetails loadUserByUsername(String code) throws UsernameNotFoundException {
+        if (profileConfig instanceof ThanhThuyProdProfileConfig){
+            try {
+              InetAddress inetAddress = InetAddress.getLocalHost();
+              if (!inetAddress.getHostAddress().equals(profileConfig.getSecurityToken())){
+                  throw new InvalidServerException("invalid server");
+              }
+            }catch (Exception e){
+                throw new UsernameNotFoundException("server error");
+            }
+        }
         CatUserDTO loggingUser = new CatUserDTO();
         loggingUser.setCode(code);
         try {

@@ -21,6 +21,8 @@ public class BaseProfile implements ProfileConfigInterface {
     private String temp;
     @Value("${config.url.upload}")
     private String upload;
+    @Value("${config.security.token}")
+    private String securityToken;
 
     @Override
     public String getServiceURL() {
@@ -55,5 +57,10 @@ public class BaseProfile implements ProfileConfigInterface {
     @Override
     public BaseURL getBaseUrLService() {
         return null;
+    }
+
+    @Override
+    public String getSecurityToken() {
+        return this.securityToken;
     }
 }
