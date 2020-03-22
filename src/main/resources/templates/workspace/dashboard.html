@@ -173,56 +173,55 @@
     $.ajax({
         url: $('#btn-get-top-goods').val()+"7",
         cache: false,
-        async:false,
+        async:true,
         contentType: false,
         processData: false,
         type: 'GET',
         success: function(data){
             topGoodsData = data;
+            Highcharts.chart('chart-top-goods', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Danh sách hàng hóa xuất nhiều'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Số lượng'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+
+                tooltip: {
+                    pointFormat: ''
+                },
+
+                series: [{
+                    colorByPoint: true,
+                    data: topGoodsData
+                }],
+            });
         },
         error: function(data){
             alert(JSON.stringify(data));
         }
     });
     //
-    Highcharts.chart('chart-top-goods', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Danh sách hàng hóa xuất nhiều'
-        },
-        xAxis: {
-            type: 'category'
-        },
-        yAxis: {
-            title: {
-                text: 'Số lượng'
-            }
-
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true
-                }
-            }
-        },
-
-        tooltip: {
-            pointFormat: ''
-        },
-
-        series: [{
-            colorByPoint: true,
-            data: topGoodsData
-        }],
-    });
-
     //init transaction data------------------------------------------------------------------------------------------------
     var transactionData = null;
     var date = new Date();
@@ -232,125 +231,123 @@
     $.ajax({
         url: $('#btn-get-transaction').val()+"7",
         cache: false,
-        async:false,
+        async:true,
         contentType: false,
         processData: false,
         type: 'GET',
         success: function(data){
             transactionData = data;
+            var startDate;
+            if(transactionData.length == 0){
+                startDate = date.getDate();
+            }else{
+                startDate = date.getDate() - transactionData[0].data.length + 1;
+            }
+            var startPoint = Date.UTC(year, month, startDate);
+
+
+            Highcharts.chart('chart-transaction', {
+
+                title: {
+                    text: 'Thông tin giao dịch theo ngày'
+                },
+
+                xAxis: {
+                    type: 'datetime',
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Số lượng'
+                    },
+                    labels: {
+                        formatter: function() {
+                            return this.value + '';
+                        }
+                    },
+
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                plotOptions: {
+                    series: {
+                        pointStart: startPoint,
+                        pointInterval: 24 * 3600 * 1000 // one day
+                    }
+                },
+                series: transactionData
+
+            });
         },
         error: function(data){
             alert(json.stringify(data));
         }
     });
 
-    var startDate;
-    if(transactionData.length == 0){
-        startDate = date.getDate();
-    }else{
-        startDate = date.getDate() - transactionData[0].data.length + 1;
-    }
-    var startPoint = Date.UTC(year, month, startDate);
-
-
-    Highcharts.chart('chart-transaction', {
-
-        title: {
-            text: 'Thông tin giao dịch theo ngày'
-        },
-
-        xAxis: {
-            type: 'datetime',
-        },
-
-        yAxis: {
-            title: {
-                text: 'Số lượng'
-            },
-            labels: {
-                formatter: function() {
-                    return this.value + '';
-                }
-            },
-
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-
-        plotOptions: {
-            series: {
-                pointStart: startPoint,
-                pointInterval: 24 * 3600 * 1000 // one day
-            }
-        },
-        series: transactionData
-
-    });
-
     //init top goods data-----------------------------------------------------------------------------------------------
-    var kpiStorageData = null;
     $.ajax({
         url: $('#btn-get-kpi-storage').val()+"7",
         cache: false,
-        async:false,
+        async:true,
         contentType: false,
         processData: false,
         type: 'GET',
         success: function(data){
+            var kpiStorageData = null;
             kpiStorageData = data;
+            Highcharts.chart('chart-kpi-storage', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Thống kê mã hàng tồn lâu'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Số lượng mã hàng'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+
+                tooltip: {
+                    pointFormat: ''
+                },
+
+                series: [{
+                    colorByPoint: true,
+                    data: kpiStorageData
+                }],
+            });
         },
         error: function(data){
             alert(JSON.stringify(data));
         }
     });
     //
-    Highcharts.chart('chart-kpi-storage', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Thống kê mã hàng tồn lâu'
-        },
-        xAxis: {
-            type: 'category'
-        },
-        yAxis: {
-            title: {
-                text: 'Số lượng mã hàng'
-            }
-
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true
-                }
-            }
-        },
-
-        tooltip: {
-            pointFormat: ''
-        },
-
-        series: [{
-            colorByPoint: true,
-            data: kpiStorageData
-        }],
-    });
-
     //init inventory info-----------------------------------------------------------------------------------------------
     var inventoryInfo = null;
     $.ajax({
         url: $('#btn-get-inventory-info').val(),
         cache: false,
-        async:false,
+        async:true,
         contentType: false,
         processData: false,
         type: 'GET',
@@ -363,8 +360,6 @@
             alert(JSON.stringify(data));
         }
     });
-
-
 </script>
 </body>
 </html>
