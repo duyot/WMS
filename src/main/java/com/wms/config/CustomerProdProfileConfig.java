@@ -16,12 +16,12 @@ import javax.annotation.PostConstruct;
 import java.net.URL;
 
 @Component
-@Profile("tt_prod")
-public class ThanhThuyProdProfileConfig extends BaseProfile {
+@Profile("cus_prod")
+public class CustomerProdProfileConfig extends BaseProfile {
     //
     @Autowired
     BaseURL localUrl;
-    Logger log = LoggerFactory.getLogger(ThanhThuyProdProfileConfig.class);
+    Logger log = LoggerFactory.getLogger(CustomerProdProfileConfig.class);
     @Autowired
     CurrentUserLogIn currentUserLogIn;
 

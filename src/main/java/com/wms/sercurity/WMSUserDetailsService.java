@@ -1,12 +1,13 @@
 package com.wms.sercurity;
 
 import com.wms.config.ProfileConfigInterface;
-import com.wms.config.ThanhThuyProdProfileConfig;
+import com.wms.config.CustomerProdProfileConfig;
 import com.wms.dto.CatUserDTO;
 import com.wms.ribbon.CurrentUserLogIn;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.RoleActionService;
 import com.wms.utils.DataUtil;
+import com.wms.utils.EncyptionSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,11 @@ public class WMSUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String code) throws UsernameNotFoundException {
-        if (profileConfig instanceof ThanhThuyProdProfileConfig){
+        if (profileConfig instanceof CustomerProdProfileConfig){
             try {
+				EncyptionSecurity encyptionSecurity = new EncyptionSecurity();
               InetAddress inetAddress = InetAddress.getLocalHost();
-              if (!inetAddress.getHostAddress().equals(profileConfig.getSecurityToken())){
+              if (!encyptionSecurity.encrypt(inetAddress.getHostAddress()).equals(profileConfig.getSecurityToken())){
                   throw new InvalidServerException("invalid server");
               }
             }catch (Exception e){

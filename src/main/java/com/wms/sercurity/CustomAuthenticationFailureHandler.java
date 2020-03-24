@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.wms.config.ProfileConfigInterface;
-import com.wms.config.ThanhThuyProdProfileConfig;
+import com.wms.config.CustomerProdProfileConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -29,7 +29,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
             response.sendRedirect(request.getContextPath() + "/failureLogin?message=max_session");
             return;
         }
-        if (profileConfig instanceof ThanhThuyProdProfileConfig){
+        if (profileConfig instanceof CustomerProdProfileConfig){
             this.redirectStrategy.sendRedirect(request, response, "/failureLogin?message=invalid_server");
         }
 //        response.sendRedirect(request.getContextPath() + "/login?message=error");

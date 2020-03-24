@@ -5,7 +5,7 @@ spring:
 ---
 # profile for dev when using local service
 spring:
-  profiles: tt_prod
+  profiles: cus_prod
 eureka:
   instance:
     appname: WMS_APP
@@ -24,7 +24,7 @@ eureka:
 #only update here
 config:
   security:
-       token: 192.168.1.33
+       token: aa66341ec6fddde35c237b1bf5c0a2f007e5892b4a9dd11a3619f3da58bb27d7
   url:
     service: hhttp://139.180.211.6:8080/WMS_Webservices/services/
     login : http://139.180.211.6:8080/WMS_Webservices/login
@@ -59,12 +59,12 @@ eureka:
 #only update here
 config:
     url:
-      #service: hhttp://139.180.211.6:8080/WMS_Webservices/services/
-      #login : http://139.180.211.6:8080/WMS_Webservices/login
-      #token : http://139.180.211.6:8080/WMS_Webservices/oauth/token?grant_type=password&username=@username&password=@password
-      service: http://localhost:8888/WMS_Webservices_war/services/
-      login : http://localhost:8888/WMS_Webservices_war/login
-      token : http://localhost:8888/WMS_Webservices_war/oauth/token?grant_type=password&username=@username&password=@password
+      service: hhttp://139.180.211.6:8080/WMS_Webservices/services/
+      login : http://139.180.211.6:8080/WMS_Webservices/login
+      token : http://139.180.211.6:8080/WMS_Webservices/oauth/token?grant_type=password&username=@username&password=@password
+#      service: http://localhost:8888/WMS_Webservices_war/services/
+#      login : http://localhost:8888/WMS_Webservices_war/login
+#      token : http://localhost:8888/WMS_Webservices_war/oauth/token?grant_type=password&username=@username&password=@password
       template : F:\\Projects\WMS\temp\\file_template\\
       temp : F:\\Projects\\WMS\\temp\\
       upload:
