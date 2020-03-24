@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 
 /**
  * Created by duyot on 11/18/2016.
@@ -40,8 +41,8 @@ public class WMSUserDetailsService implements UserDetailsService {
         if (profileConfig instanceof CustomerProdProfileConfig){
             try {
 				EncyptionSecurity encyptionSecurity = new EncyptionSecurity();
-              InetAddress inetAddress = InetAddress.getLocalHost();
-              if (!encyptionSecurity.encrypt(inetAddress.getHostAddress()).equals(profileConfig.getSecurityToken())){
+
+              if (!encyptionSecurity.encrypt(encyptionSecurity.getMACAddress()).equals(profileConfig.getSecurityToken())){
                   throw new InvalidServerException("invalid server");
               }
             }catch (Exception e){

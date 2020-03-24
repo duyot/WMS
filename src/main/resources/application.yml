@@ -24,7 +24,7 @@ eureka:
 #only update here
 config:
   security:
-       token: aa66341ec6fddde35c237b1bf5c0a2f007e5892b4a9dd11a3619f3da58bb27d7
+       token: d2d492bb9cf31d41ed0f86ba9a7df10a2b2e9cda6fb0925bd6995d245ea99616
   url:
     service: hhttp://139.180.211.6:8080/WMS_Webservices/services/
     login : http://139.180.211.6:8080/WMS_Webservices/login
