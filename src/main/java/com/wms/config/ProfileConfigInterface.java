@@ -21,4 +21,5 @@ public interface ProfileConfigInterface {
 
     BaseURL getBaseUrLService();
 
+    String getSecurityToken();
 }
