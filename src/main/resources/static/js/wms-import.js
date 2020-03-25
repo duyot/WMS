@@ -29,7 +29,7 @@ $(function () {
                 title: 'STT',
                 formatter: 'runningFormatter',
                 align: 'center',
-                width: '40px'
+                width: '1%'
             },
             {
                 field: 'goodsCode',
@@ -40,7 +40,8 @@ $(function () {
             {
                 field: 'goodsName',
                 title: 'Tên hàng',
-                align: 'left'
+                align: 'left',
+                width: '12%'
             },
             {
                 field: 'goodsState',
@@ -61,7 +62,7 @@ $(function () {
                 field: 'serial',
                 title: 'Serial',
                 align: 'left',
-                width: '7%',
+                width: '4%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -73,7 +74,7 @@ $(function () {
                 title: 'Số lượng',
                 cellStyle: 'addStyle',
                 align: 'right',
-                width: '9%',
+                width: '5%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -106,7 +107,7 @@ $(function () {
                 title: 'Trọng lượng(kg)',
                 align: 'right',
                 formatter: 'subTotal',
-                width: '9%'
+                width: '4%'
             },
             /*{
                 field: 'volume',
@@ -119,7 +120,7 @@ $(function () {
                 field: 'inputPrice',
                 title: 'Giá nhập',
                 align: 'right',
-                width: '9%',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -149,14 +150,14 @@ $(function () {
                 field: 'totalMoney',
                 title: 'Thành tiền',
                 align: 'right',
-                width: '8%',
+                width: '7%',
                 formatter: 'subTotal'
             },
             {
                 field: 'cellCode',
                 title: 'Vị trí',
                 align: 'left',
-                width: '7%'
+                width: '6%'
                 /*editable: {
                     type: 'select',
                     mode: 'inline',
@@ -168,7 +169,7 @@ $(function () {
                 field: 'produceDate',
                 title: 'Ngày sx',
                 align: 'left',
-                width: '8%',
+                width: '6%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -198,7 +199,7 @@ $(function () {
                 field: 'expireDate',
                 title: 'Hạn dùng',
                 align: 'left',
-                width: '8%',
+                width: '6%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -228,7 +229,7 @@ $(function () {
                 field:'content',
                 title:'Nguồn gốc',
                 align: 'left',
-                width: '8%',
+                width: '7%',
                 editable: {
                     type: 'text',
                     mode: 'inline',

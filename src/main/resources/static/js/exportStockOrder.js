@@ -41,7 +41,7 @@ $(function () {
                 title: 'STT',
                 formatter: 'runningFormatter',
                 align: 'center',
-                width: '40px'
+                width: '1%'
             },
             {
                 field: 'goodsCode',
@@ -52,13 +52,14 @@ $(function () {
             {
                 field: 'goodsName',
                 title: 'Tên hàng',
-                align: 'left'
+                align: 'left',
+                width: '12%'
             },
             {
                 field: 'goodsStateValue',
                 title: 'Tình trạng',
                 align: 'left',
-                width: '10%'
+                width: '8%'
             },
             {
                 field: 'serial',
@@ -78,14 +79,14 @@ $(function () {
                 title: 'Trọng lượng(kg)',
                 align: 'right',
                 formatter: 'subTotal',
-                width: '13%'
+                width: '9%'
             },
             {
                 field: 'volume',
                 title: 'Thể tích(m3)',
                 align: 'right',
                 formatter: 'subTotal',
-                width: '11%'
+                width: '9%'
             },
             {
                 field: 'outputPrice',

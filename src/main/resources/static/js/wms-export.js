@@ -33,24 +33,25 @@ $(function () {
                 title: 'STT',
                 formatter: 'runningFormatter',
                 align: 'center',
-                width: '40px'
+                width: '1%'
             },
             {
                 field: 'goodsCode',
                 title: 'Mã hàng',
                 align: 'left',
-                width: '9%'
+                width: '8%'
             },
             {
                 field: 'goodsName',
                 title: 'Tên hàng',
-                align: 'left'
+                align: 'left',
+                width: '13%'
             },
             {
                 field: 'goodsState',
                 title: 'Tình trạng',
                 align: 'left',
-                width: '10%',
+                width: '5%',
                 editable: {
                     type: 'select',
                     mode: 'inline',
@@ -77,7 +78,7 @@ $(function () {
                 title: 'Số lượng',
                 cellStyle: 'addStyle',
                 align: 'right',
-                width: '9%',
+                width: '5%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -110,20 +111,20 @@ $(function () {
                 title: 'Trọng lượng(kg)',
                 align: 'right',
                 formatter: 'subTotal',
-                width: '13%'
+                width: '5%'
             },
             {
                 field: 'volume',
                 title: 'Thể tích(m3)',
                 align: 'right',
                 formatter: 'subTotal',
-                width: '11%'
+                width: '5%'
             },
             {
                 field: 'outputPrice',
                 title: 'Giá xuất',
                 align: 'right',
-                width: '9%',
+                width: '8%',
                 editable: {
                     type: 'text',
                     mode: 'inline',
@@ -158,18 +159,19 @@ $(function () {
                 field: 'totalMoney',
                 title: 'Thành tiền',
                 align: 'right',
-                width: '10%',
+                width: '8%',
                 formatter: 'subTotal'
             },
             {
                 field: 'cellCode',
                 title: 'Vị trí',
+                width: '6%'
             },
             {
                 title: 'Xóa',
                 formatter: 'operateFormatter',
                 events: 'operateEvents',
-                width: '6%',
+                width: '4%',
                 align: 'center'
             },
             {
