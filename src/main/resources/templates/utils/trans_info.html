@@ -209,6 +209,8 @@
                             <th data-field="id"  data-visible="false">Id</th>
                             <th data-field="type" data-visible="false">Type</th>
                             <th data-field="stockId" data-visible="false">StockId</th>
+                            <th data-field="orderCode" data-visible="false"></th>
+                            <th data-field="stockCode" data-visible="false"></th>
 
                             <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã phiếu</th>
                             <th class="col-md-1" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
@@ -315,7 +317,30 @@
             //
             var transId   = row["id"];
             var transType = row["type"];
-           //
+            if(transType=='1'){
+                $("#modal-lbl-order-code-val").text(row["orderCode"]);
+                $("#modal-lbl-trans-code-val").text(row["code"]);
+                $("#modal-lbl-stock-val").text(row["stockCode"] + "/" + row["stockValue"]);
+                $("#modal-lbl-partner-val").text(row["partnerName"]);
+                $("#modal-lbl-receiver-val").text(row["receiveName"]);
+                $("#modal-lbl-note-val").text(row["description"]);
+                $("#modal-lbl-trans-type-val").text(row["typeValue"]);
+                $("#modal-lbl-reason-val").text(row["reasonName"]);
+                $("#modal-lbl-create-user-val").text(row["createdUser"]);
+                $("#modal-lbl-export-time-val").text(row["createdDate"]);
+            }else{
+                $("#export-lbl-order-code-val").text(row["orderCode"]);
+                $("#export-lbl-trans-code-val").text(row["code"]);
+                $("#export-lbl-stock-val").text(row["stockCode"] + "/" + row["stockValue"]);
+                $("#export-lbl-partner-val").text(row["partnerName"]);
+                $("#export-lbl-receiver-val").text(row["receiveName"]);
+                $("#export-lbl-note-val").text(row["description"]);
+                $("#export-lbl-trans-type-val").text(row["typeValue"]);
+                $("#export-lbl-reason-val").text(row["reasonName"]);
+                $("#export-lbl-create-user-val").text(row["createdUser"]);
+                $("#export-lbl-export-time-val").text(row["createdDate"]);
+            }
+
            var $downloadLinkModalImport = $('#link-download-goods-detail');
            var $downloadLinkModalExport = $('#link-download-goods-detail-export');
            var originalLink = $downloadLinkModalImport.attr("href");

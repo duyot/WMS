@@ -323,7 +323,9 @@ public class TransInfoController extends BaseController {
                     fladAdd = false;
                 }
                 if (fladAdd) {
-                    i.setStockValue(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()));
+                    CatStockDTO catStockDTO = mapStockIdStock.get(i.getStockId());
+                    i.setStockValue(catStockDTO.getName());
+                    i.setStockCode(catStockDTO.getCode());
                     i.setTypeValue(mapAppTransType.get(i.getType()));
                     i.setTransMoneyTotal(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getTransMoneyTotal())));
                     finalResult.add(i);

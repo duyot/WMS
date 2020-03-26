@@ -13,11 +13,103 @@
                     <div class="modal-header">
                         <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
                         </button>
-                        <h4 class="modal-title" id="myModalLabel" th:text="#{modal.label.goodsdetail}"></h4>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{menu.utils.transinfo}"></h4>
                     </div>
                     <div class="modal-body">
                         <div class="container-modal">
                             <div class="panel-body" style="padding: 0em 0.4em;">
+                                <div class="row" style="margin-bottom: 10px">
+                                    <div class="col-sm-2">
+                                        <label th:text="#{label.tbl.order.code}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-order-code-val"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.transcode}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-trans-code-val"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 10px">
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.stock}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-stock-val"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.partner}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-partner-val"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 10px">
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.receiveName}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-receiver-val"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.note}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-note-val"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 10px">
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.transtype}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-trans-type-val"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.reason}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-reason-val"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 10px">
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.createuser}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-create-user-val"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.trans.date.time}"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="export-lbl-export-time-val"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <div id="modal-goods-detail-toolbar-export" class="btn-group">
                                     <a class="btn btn-default" id="link-download-goods-detail-export" th:title="#{link.downloadfile}" th:href="@{/workspace/utils/trans_info/getListTransDetailFile}">
                                         <i class="fa fa-download"></i>
@@ -37,7 +129,7 @@
                                     <tr>
                                         <th data-width="40px" data-field="id" data-formatter="runningFormatter" data-align="center" >#</th>
                                         <th class="col-md-1" data-field="goodsCode" data-align="left" data-sortable="true">Mã hàng</th>
-                                        <th data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
+                                        <th class="col-md-2" data-field="goodsName" data-align="left" data-sortable="true">Tên hàng</th>
                                         <th class="col-md-1" data-field="amount" data-align="right" data-sortable="true">SL</th>
                                         <th class="col-md-1" data-field="unitName" data-align="left" data-sortable="true" >Đơn vị</th>
                                         <th class="col-md-1" data-field="goodsState" data-align="left" data-sortable="true" data-formatter="formatterGoodsStatus">Tình trạng</th>
