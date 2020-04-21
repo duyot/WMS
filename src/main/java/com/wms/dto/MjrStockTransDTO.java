@@ -52,6 +52,52 @@ public class MjrStockTransDTO {
     private String reasonId;
     private String reasonName;
 
+    private String deliverySenderInfo;
+    private String deliveryReceiverInfo;
+    private String deliveryDescription;
+    private String deliveryStatus;
+    private String deliveryStatusValue;
+
+    public String getDeliveryStatusValue() {
+        return deliveryStatusValue;
+    }
+
+    public void setDeliveryStatusValue(String deliveryStatusValue) {
+        this.deliveryStatusValue = deliveryStatusValue;
+    }
+
+    public String getDeliverySenderInfo() {
+        return deliverySenderInfo;
+    }
+
+    public void setDeliverySenderInfo(String deliverySenderInfo) {
+        this.deliverySenderInfo = deliverySenderInfo;
+    }
+
+    public String getDeliveryReceiverInfo() {
+        return deliveryReceiverInfo;
+    }
+
+    public void setDeliveryReceiverInfo(String deliveryReceiverInfo) {
+        this.deliveryReceiverInfo = deliveryReceiverInfo;
+    }
+
+    public String getDeliveryDescription() {
+        return deliveryDescription;
+    }
+
+    public void setDeliveryDescription(String deliveryDescription) {
+        this.deliveryDescription = deliveryDescription;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
     public String getReasonId() {
         return reasonId;
     }

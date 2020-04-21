@@ -16,6 +16,8 @@ public class Constants {
         public static String GOODS_STATE = "GOODS_STATE";
         public static String STOCK_STATUS = "STOCK_STATUS";
         public static String STATUS = "STATUS";
+        public static String DELIVERY_STATUS = "DELIVERY_STATUS";
+
     }
 
     public static class RESPONSE {
@@ -50,6 +52,8 @@ public class Constants {
         public static String EXPORT_BILL = "export_bill.jasper";
         public static String EXPORT_ORDER_BILL = "order_export_File.jasper";
         public static String INVOICE_80 = "invoice_80.jasper";
+        public static String LIST_DELIVERY_TEMPLATE = "Thong_tin_ds_van_chuyen.xlsx";
+
     }
 
     public static class STATUS {

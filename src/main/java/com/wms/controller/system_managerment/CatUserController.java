@@ -364,6 +364,8 @@ public class CatUserController extends BaseCommonController {
     String add(CatUserDTO catUserDTO, HttpServletRequest request) {
         catUserDTO.setStatus("1");
         catUserDTO.setBlock("0");
+        catUserDTO.setPartnerPermission("0");
+        catUserDTO.setStockPermission("0");
         if (!isRoot) {
             catUserDTO.setCustId(selectedCustomer.getId());
         } else {

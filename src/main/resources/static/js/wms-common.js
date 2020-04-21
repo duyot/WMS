@@ -731,6 +731,17 @@ function formatterTransType(value, row, index) {
     }
 }
 
+function formatterDeliveryStatus(value, row, index) {
+    var deliveryStatus = value;
+    if (deliveryStatus === 'Chưa giao') {
+        return '<span class="status-bgm-red status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    } else if (deliveryStatus === 'Đang giao') {
+        return '<span class="status-bgm-orange status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    }else{
+        return '<span class="status-bgm-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    }
+}
+
 function formatterStatus(value, row, index) {
     if (value === 'Hiệu lực') {
         return '<span class="status-bgm-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="frag-delivery-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-mini" role="document">
+                <div class="modal-content" id="catPartnerDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{lbl.sale.delivery.info}"></h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--hidden fields-->
+
+                            <input id="modal-inp-id" hidden="true" name="id"/>
+                            <input id="modal-type"   hidden="true" name="modal-type"/>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-sender" class="control-label" th:text="#{lbl.sale.delivery.sender}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-sender" class="form-control" type="text"  name="deliverySenderInfo" maxlength="500"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-receiver" class="control-label" th:text="#{lbl.sale.delivery.receiver}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-receiver" class="form-control" type="text" name="deliveryReceiverInfo"  maxlength="500"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-receiver" class="control-label " th:text="#{lbl.sale.delivery.description}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <textarea id="modal-inp-description" class="form-control" th:rows="1" maxlength="100" name="deliveryDescription"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-description" class="control-label" th:text="#{lbl.sale.delivery.status }"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+
+                                        <div class="radio radio-inline radio-danger">
+                                            <input value="0" type="radio" id="modal-radio-not-completed" name="modal-cmb-delivery-status" />
+                                            <label for="modal-radio-not-completed" th:text="#{lbl.sale.delivery.not.completed}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-warning">
+                                            <input value="1" type="radio" id="modal-radio-processing" name="modal-cmb-delivery-status" />
+                                            <label for="modal-radio-processing" th:text="#{lbl.sale.delivery.processing}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="2" type="radio" id="modal-radio-completed" name="modal-cmb-delivery-status" />
+                                            <label for="modal-radio-completed" th:text="#{lbl.sale.delivery.completed}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button id="modal-btn-update" th:value="@{/workspace/delivery_ctr/updateDelivery}" type="submit" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{lbl.update}"></span>
+                        </button>
+
+                        <button id ="modal-btn-close" type="submit" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</html>

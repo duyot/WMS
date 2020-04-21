@@ -1,0 +1,522 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title th:text="#{lbl.header}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="WMS" />
+    <!--CSS-->
+    <link rel='stylesheet'  th:href="@{/css/bootstrap.css}"  type='text/css' />
+    <link rel="stylesheet"  th:href="@{/css/bootstrap-table.css}"/>
+    <link rel='stylesheet'  th:href="@{/workspace_resource/css/style.css}"  type='text/css' />
+    <link rel="stylesheet"  th:href="@{/workspace_resource/css/animate.css}"  type="text/css" media="all"/>
+    <link rel="stylesheet"  th:href="@{/fonts/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-toggle.css}"/>
+    <link rel="stylesheet" href="/css/daterangepicker.css" th:href="@{/css/daterangepicker.css}"/>
+    <link href="/css/awesome-bootstrap-checkbox.css"  th:href="@{/css/awesome-bootstrap-checkbox.css}" rel="stylesheet" type="text/css" media="all"/>
+    <!--script-->
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!--<script th:attr="src=@{/js/wow.min.js}"  th:href="@{/js/wow.min.js}"></script>-->
+    <!--<script>-->
+        <!--new WOW().init();-->
+    <!--</script>-->
+    <script th:attr="src=@{/js/jquery-3.2.1.min.js}" th:href="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-table.js}"  th:href="@{/js/bootstrap-table.js}"></script>
+    <script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
+    <script th:attr="src=@{/js/moment.min.js}"      th:href="@{/js/moment.min.js}"></script>
+    <script th:attr="src=@{/js/daterangepicker.js}" th:href="@{/js/daterangepicker.js}"></script>
+    <script th:attr="src=@{/js/nprogress.js}"  th:href="@{/js/nprogress.js}"></script>
+    <!--confirmation-->
+    <script th:attr="src=@{/js/bootstrap.min.js}"  th:href="@{/js/bootstrap.min.js}"></script>
+    <!--common-->
+    <script th:attr="src=@{/js/wms-common.js}" th:href="@{/js/wms-common.js}"></script>
+    <script th:attr="src=@{/js/notification/bootstrap-notify.min.js}" th:href="@{/js/notification/bootstrap-notify.min.js}"></script>
+
+    <!--font and favi icon-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+    <link rel="shortcut icon" th:href="@{/images/wms_favicon.ico}"/>
+
+</head>
+<body class="sticky-header left-side-collapsed">
+<section>
+    <!--left menu-->
+    <div th:include="common/workspace_leftmenu :: frag-leftmenu"></div>
+    <!--main content-->
+    <div class="main-content main-content2 main-content2copy">
+        <div th:include="common/header :: frag-headermneu"></div>
+        <div id="page-wrapper">
+            <!--search panel-->
+            <div id="panel-search-content" class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-search"></i>
+                </div>
+                <div class="panel-body">
+                    <!--<form>-->
+                        <div class="container">
+                            <!--row 1: customer + stock-->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.createdate.export}" for="create-date-range"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar fa-fw"></i>
+										</span>
+                                        <input type="text" id="create-date-range" class="form-control" name="daterange" value="01/01/2015 - 31/01/2015" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label for="cmb-stock" th:text="#{lbl.stock}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-stock" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-stock">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstStock}"
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row 2:created_date + user -->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.sale.delivery.status}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <div class="radio radio-inline radio-primary">
+                                            <input value="-1" type="radio" id="radio-all" name="cmb-delivery-status" checked="checked"/>
+                                            <label for="radio-all" th:text="#{label.all}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-danger">
+                                            <input value="0" type="radio" id="radio-not-completed" name="cmb-delivery-status" />
+                                            <label for="radio-not-completed" th:text="#{lbl.sale.delivery.not.completed}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-warning">
+                                            <input value="1" type="radio" id="radio-processing" name="cmb-delivery-status" />
+                                            <label for="radio-processing" th:text="#{lbl.sale.delivery.processing}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="2" type="radio" id="radio-completed" name="cmb-delivery-status" />
+                                            <label for="radio-completed" th:text="#{lbl.sale.delivery.completed}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.receiveName}" for="cmb-user"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-partner" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-partner">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstPartner}"
+                                                     th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row 3 : trans_type -->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.reason.export}"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <button id="btn-get-goods-detail" style="display: none" th:value="@{/workspace/utils/stockInfo/getGoodsDetail}"></button>
+                                        <select id="cmb-reason" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-reason">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstReason}"
+                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.createuser.export}" for="cmb-user"></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group input-group-combo">
+                                        <select id="cmb-user" class="selectpicker form-control" data-live-search="true"
+                                                data-width="100%" name="cmb-user">
+                                            <option value="-1" th:text="#{label.all}"></option>
+                                            <option  th:each="sopt:${lstUsers}"
+                                                     th:value="${sopt.code}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    <!--</form>-->
+                    <div class="wrapper text-center" style="text-align: center; margin:3px">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-default  btn-primary"
+                                    id="btn-search-serial" th:value="@{/workspace/delivery_ctr/findTrans}">
+                                <i class="fa fa-search"></i>
+                                <span th:text="#{btn.search}"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <p></p>
+                </div>
+            </div>
+            <!--end search panel-->
+            <div id="panel-search-result" class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-database"></i>
+                    <!--Result-->
+                </div>
+                <div class="panel-body">
+                    <!--toolbar-->
+                    <div id="toolbar" class="btn-group">
+                        <a class="btn btn-default" th:title="#{lbl.sale.delivery.export}" th:href="@{/workspace/delivery_ctr/getListDeliveryFile}">
+                            <i class="fa fa-file-excel-o"></i>
+                        </a>
+
+                        <button id="btn-export-info" th:value="@{/workspace/utils/trans_info/exportTransInfo}" style="display: none" type="button" class="btn btn-default">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button id="btn-view-info" th:value="@{/workspace/utils/trans_info/viewTransInfo}" style="display: none" type="button" class="btn btn-default">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button id="btn-get-reason" style="display: none" th:value="@{/workspace/utils/trans_info/changeReason}"></button>
+
+                        <!--<button id="btn-cancel-trans" th:value="@{/workspace/utils/trans_info/cancelTrans}" style="display: none" type="button" class="btn btn-default">
+                            <i class="fa fa-edit"></i>
+                        </button>-->
+
+                        <label class="action-info action-info-link" id="action-info"></label>
+                    </div>
+                    <table  id="tbl-stock-info"
+                            data-pagination="true"
+                            data-search="true"
+                            data-click-to-select="true"
+                            data-toolbar="#toolbar"
+                            class="table-striped"
+                            style="word-wrap: break-word;  table-layout: fixed;"
+                    >
+                        <thead>
+                        <tr>
+                            <th data-formatter="runningFormatter" data-align="center" data-width="40px">#</th>
+
+                            <th data-field="id"  data-visible="false">Id</th>
+                            <th data-field="type" data-visible="false">Type</th>
+                            <th data-field="stockId" data-visible="false">StockId</th>
+                            <th data-field="orderCode" data-visible="false"></th>
+                            <th data-field="stockCode" data-visible="false"></th>
+                            <th data-field="partnerName" data-align="left" data-sortable="true" data-visible="false">Đối tác cung cấp</th>
+                            <th data-field="typeValue" data-align="left" data-sortable="true" data-formatter="formatterTransType" data-visible="false">Loại GD</th>
+                            <th data-field="deliverySenderInfo" data-visible="false"></th>
+                            <th data-field="deliveryReceiverInfo" data-visible="false"></th>
+                            <th data-field="deliveryDescription" data-visible="false"></th>
+                            <th data-field="deliveryStatus" data-visible="false"></th>
+
+                            <th class="col-md-2" data-field="code" data-align="left" data-sortable="true" >Mã phiếu</th>
+                            <th class="col-md-2" data-field="stockValue" data-align="left" data-sortable="true">Kho</th>
+                            <th class="col-md-2" data-field="receiveName" data-align="left" data-sortable="true">Khách hàng nhận</th>
+                            <th class="col-md-1" data-field="description" data-align="left" data-sortable="true">Ghi chú</th>
+                            <th class="col-md-1" data-field="reasonName" data-align="left" data-sortable="true" >Lý do</th>
+                            <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true">Người xuất kho</th>
+                            <th class="col-md-1" data-field="createdDate" data-align="center" data-sortable="true">Thời gian xuất kho</th>
+                            <th class="col-md-1" data-field="deliveryStatusValue" data-align="left" data-sortable="true" data-formatter="formatterDeliveryStatus">Tình trạng giao hàng</th>
+                            <th data-width="90px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-loading"><!-- Place at bottom of page --></div>
+    <div th:include="modal/trans_goods_detail_modal_import :: frag-goods-detail-modal-import"></div>
+    <div th:include="modal/trans_goods_detail_modal_export :: frag-goods-detail-modal-export"></div>
+    <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
+    <div th:include="modal/delivery_modal :: frag-delivery-modal"></div>
+
+    <!--footer-->
+    <div th:include="common/footer :: frag-footer"></div>
+</section>
+
+<!--FINAL JS-->
+<script th:attr="src=@{/js/jquery.nicescroll.js}" th:href="@{/js/jquery.nicescroll.js}"></script>
+<script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
+<!--switch-->
+<script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
+<!--validation-->
+<script th:attr="src=@{/js/jquery.form-validator.min.js}" th:href="@{/js/jquery.form-validator.min.js}"></script>
+<script>
+    //---------------------------------------------------------------------
+    $table = $('#tbl-stock-info');
+    var $btnDelConfirmed = $('#modal-btn-del-ok');
+    $tableGoodsDetailImport = $('#tbl-trans-goods-detail-import');
+    $tableGoodsDetailExport = $('#tbl-trans-goods-detail-export');
+
+    var dataInit = [
+    ];
+    //
+    function operateFormatter(value, row, index) {
+        var createdDate = row["createdDate"].substring(0,10);
+        var transId   = row["id"];
+        var url = $('#btn-export-info').val() + "?transId="+ transId;
+        $('.trans-export').attr('href',url);
+        return [
+            '<a class="delivery row-function" href="javascript:void(0)" title="Cập nhật giao hàng">',
+            '<i class="fa fa-car"></i>',
+            '</a> ',
+            '<a class="trans-export row-function" id="lbl-trans-export"  title="Xuất phiếu" href='+url+' >',
+            '<i class="fa fa-file-word-o"></i>',
+            '</a> ',
+            '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
+            '<i class="fa fa-info-circle"></i>',
+            '</a> '
+
+        ].join('');
+
+    }
+    //
+    $(function () {
+        //
+        $table.bootstrapTable({
+            data: dataInit
+        });
+
+        $tableGoodsDetailImport.bootstrapTable({
+            data: dataInit
+        });
+        $tableGoodsDetailExport.bootstrapTable({
+            data: dataInit
+        });
+        $table.bootstrapTable('hideColumn', 'id');
+        $table.bootstrapTable('hideColumn', 'type');
+        $table.bootstrapTable('hideColumn', 'stockId');
+        //
+        initDateRangeSelect();
+    });
+    //
+    var deleteCommandId;
+    window.operateEvents = {
+       'click .trans-detail': function (e, value, row, index) {
+            //
+            NProgress.start();
+            //
+            var transId   = row["id"];
+            var transType = row["type"];
+            if(transType=='1'){
+                $("#modal-lbl-order-code-val").text(row["orderCode"]);
+                $("#modal-lbl-trans-code-val").text(row["code"]);
+                $("#modal-lbl-stock-val").text(row["stockCode"] + "/" + row["stockValue"]);
+                $("#modal-lbl-partner-val").text(row["partnerName"]);
+                $("#modal-lbl-receiver-val").text(row["receiveName"]);
+                $("#modal-lbl-note-val").text(row["description"]);
+                $("#modal-lbl-trans-type-val").text(row["typeValue"]);
+                $("#modal-lbl-reason-val").text(row["reasonName"]);
+                $("#modal-lbl-create-user-val").text(row["createdUser"]);
+                $("#modal-lbl-export-time-val").text(row["createdDate"]);
+            }else{
+                $("#export-lbl-order-code-val").text(row["orderCode"]);
+                $("#export-lbl-trans-code-val").text(row["code"]);
+                $("#export-lbl-stock-val").text(row["stockCode"] + "/" + row["stockValue"]);
+                $("#export-lbl-partner-val").text(row["partnerName"]);
+                $("#export-lbl-receiver-val").text(row["receiveName"]);
+                $("#export-lbl-note-val").text(row["description"]);
+                $("#export-lbl-trans-type-val").text(row["typeValue"]);
+                $("#export-lbl-reason-val").text(row["reasonName"]);
+                $("#export-lbl-create-user-val").text(row["createdUser"]);
+                $("#export-lbl-export-time-val").text(row["createdDate"]);
+            }
+
+           var $downloadLinkModalImport = $('#link-download-goods-detail');
+           var $downloadLinkModalExport = $('#link-download-goods-detail-export');
+           var originalLink = $downloadLinkModalImport.attr("href");
+           if(originalLink.includes("?")){
+               originalLink = trimAtChacter(originalLink,"?");
+           }
+           $downloadLinkModalImport.attr("href",originalLink +"?transId="+transId);
+           $downloadLinkModalExport.attr("href",originalLink +"?transId="+transId);
+           //
+            $.ajax({
+                type: "GET",
+                cache:false,
+                data:{transId:transId},
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                url: $('#btn-view-info').val(),
+                dataType: 'json',
+                timeout: 600000,
+                success: function (data) {
+                    if(transType ==1){
+                        $tableGoodsDetailImport.bootstrapTable('load', data);
+                        showModal($('#goods-detail-modal-import'));
+                    }else{
+                        $tableGoodsDetailExport.bootstrapTable('load', data);
+                        showModal($('#goods-detail-modal-export'));
+                    }
+                },
+                complete:function () {
+                    NProgress.done();
+                }
+            });
+        }
+        ,
+       'click .delivery': function (e, value, row, index) {
+           showModal($('#deliveryModal'));
+
+           $("#modal-inp-sender").val(decodeHtml(row["deliverySenderInfo"]));
+           $("#modal-inp-receiver").val(decodeHtml(row["deliveryReceiverInfo"]));
+           $("#modal-inp-description").val(decodeHtml(row["deliveryDescription"]));
+           //$("#modal-lbl-transCode").text(row["code"]);
+           $("#modal-inp-id").val(row["id"]);
+
+           $('input[name=modal-cmb-delivery-status][value='+row["deliveryStatus"]+']').prop('checked', true);
+
+           $('#deliveryModal').on('shown.bs.modal', function () {
+               $('#modal-inp-sender').focus();
+           });
+
+       }
+    };
+
+    $btnDelConfirmed.click(function () {
+        $.ajax({
+            type: "POST",
+            cache:false,
+            data:{transId:deleteCommandId},
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $('#btn-cancel-trans').val(),
+            dataType: 'text',
+            timeout: 600000,
+            success: function (data) {
+                var resultArr = data.split('|');
+                var resultCode = resultArr[0];
+                var resultName = resultArr[1];
+                if(resultCode == 1){
+                    setInfoMessage($('#action-info'),resultName);
+                }else{
+                    setErrorMessage($('#action-info'),resultName);
+                }
+                search(false);
+            },
+            error:function(){
+                setErrorMessage($('#action-info'),'Lỗi hệ thống');
+            }
+        });
+        //
+        $('#myConfirmModal').modal('hide');
+        //
+    });
+    var $btnSearch = $('#btn-search-serial');
+    $btnSearch.click(function () {
+        search(true);
+    });
+
+    function search(isClear){
+        //
+        NProgress.start();
+        //
+        if(isClear){
+            $("#action-info").text('');
+        }
+        //search info stock_id/goods_group/goods/serial
+        var stock_id = $('#cmb-stock').val();
+        var createdUser = $('#cmb-user').val();
+        var partnerId = $('#cmb-partner').val();
+        var drp = $('#create-date-range').data('daterangepicker');
+        var startDateVal = drp.startDate.format("DD/MM/YYYY");
+        var endDateVal   = drp.endDate.format("DD/MM/YYYY");
+        var transType = '2';
+//        var transCode =  $('#inp-trans-code').val().trim();
+        var reasonId = $('#cmb-reason').val();
+        var deliveryStatus = $("input[name='cmb-delivery-status']:checked").val();
+
+
+        $.ajax({
+            type: "GET",
+            cache:false,
+            data:{stockId:stock_id,createdUser:createdUser,startDate:startDateVal,endDate:endDateVal,transType:transType, partnerId: partnerId, reasonId: reasonId, deliveryStatus: deliveryStatus },
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            url: $btnSearch.val(),
+            dataType: 'json',
+            timeout: 600000,
+            success: function (data) {
+                $table.bootstrapTable('load', data);
+            },
+            complete:function () {
+                NProgress.done();
+            }
+        });
+    }
+
+    function changeReason() {
+        var type = '2';
+        $.ajax({
+            type: 'GET',
+            url: $('#btn-get-reason').val(),
+            data: {type: type},
+            cache: false,
+            contentType: false,
+            async: false,
+            success: function (data) {
+                loadSelectItems($("#cmb-reason"), data);
+            }
+        });
+    }
+    function loadSelectItems(select, items) {
+        select.empty();
+        var opt = document.createElement('option');
+        opt.value = "-1";
+        opt.innerHTML = "Tất cả";
+        select.append(opt);
+        $.each(items, function (i, item) {
+            opt = document.createElement('option');
+            opt.value = item.id;
+            opt.innerHTML = item.name;
+            select.append(opt);
+        });
+        select.selectpicker('refresh');
+    }
+
+    var $btnUpdateDelivery = $('#modal-btn-update');
+    $btnUpdateDelivery.click(function () {
+        var deliverySenderInfo = $("#modal-inp-sender").val();
+        var deliveryReceiverInfo = $("#modal-inp-receiver").val();
+        var deliveryDescription = $("#modal-inp-description").val();
+        var id = $("#modal-inp-id").val();
+        var deliveryStatus = $("input[name='modal-cmb-delivery-status']:checked").val();
+
+        var importData = JSON.stringify({id: id, deliverySenderInfo: deliverySenderInfo, deliveryReceiverInfo: deliveryReceiverInfo, deliveryDescription: deliveryDescription, deliveryStatus:deliveryStatus});
+        console.log(importData);
+        $.ajax({
+            url: $btnUpdateDelivery.val(),
+            data: importData,
+            cache: false,
+            contentType: "application/json",
+            dataType: 'text',
+            type: 'POST',
+            async:false,
+            success: function (data) {
+                if (data === 'SUCCESS') {
+                    setInfoMessage(null, "Cập nhật thành công");
+                }else{
+                    setErrorMessage(null, "Cập nhật không thành công")
+                }
+            }
+        });
+        hideModal($('#deliveryModal'));
+        search();
+    });
+
+
+    //-------------------------------------------------------------------------
+</script>
+</body>
+</html>

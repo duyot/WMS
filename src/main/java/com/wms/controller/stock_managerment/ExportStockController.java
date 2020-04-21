@@ -410,6 +410,8 @@ public class ExportStockController extends BaseController {
         mjrStockTransDTO.setStatus(Constants.STATUS.ACTIVE);
         mjrStockTransDTO.setCreatedDate(sysdate);
         mjrStockTransDTO.setCreatedUser(currentUser.getCode());
+        mjrStockTransDTO.setDeliveryStatus(Constants.STATUS.IN_ACTIVE);
+
         if (!DataUtil.isStringNullOrEmpty(mjrStockTransDTO.getReasonId()) && !mjrStockTransDTO.getReasonId().equals(Constants.STATS_ALL)) {
             mjrStockTransDTO.setReasonId(mjrStockTransDTO.getReasonId());
             mjrStockTransDTO.setReasonName(mapReasonIdReason.get(mjrStockTransDTO.getReasonId()).getName());
