@@ -326,7 +326,6 @@ public class ImportStockController extends BaseController {
             i.setVolume(FunctionUtils.unformatFloat(i.getVolume()));
             i.setWeight(FunctionUtils.unformatFloat(i.getWeight()));
             i.setDescription(stockTrans.getDescription());
-            i.setCellCode(stockTrans.getCellCode());
         }
         return lstGoods;
     }

@@ -23,7 +23,7 @@ function isContainsNonLatinCharacter(s) {
 
 //positive integer or float
 function isValidAmount(n) {
-    return Number(n) === n && n % 1 === 0 || Number(n) === n && n % 1 !== 0 || Number(n) > 0;
+    return Number(n) === n && n % 1 === 0 || Number(n) === n && n % 1 !== 0 || Number(n) >= 0;
 }
 
 // Validates that the input string is a valid date formatted as "dd/mm/yyyy"

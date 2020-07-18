@@ -129,6 +129,12 @@ public class CatUserController extends BaseCommonController {
                 if (!DataUtil.isNullOrEmpty(catUserDTO.getDeptId())) {
                     catUserDTO.setDeptName(mapIdDept.get(catUserDTO.getDeptId()).getName());
                 }
+                if(DataUtil.isNullOrEmpty(catUserDTO.getStockPermission())){
+                    catUserDTO.setStockPermission("0");
+                }
+                if(DataUtil.isNullOrEmpty(catUserDTO.getPartnerPermission())){
+                    catUserDTO.setPartnerPermission("0");
+                }
             }
 
         } else {
