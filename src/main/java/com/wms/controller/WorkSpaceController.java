@@ -169,4 +169,9 @@ public class WorkSpaceController {
     public String redirectDelivery() {
         return "redirect:/workspace/delivery_ctr";
     }
+    @RequestMapping("/revenue")
+    public String redirectRevenue() {
+        return "redirect:/workspace/revenue_ctr";
+    }
+
 }
