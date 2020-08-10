@@ -54,7 +54,7 @@
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label for="modal-inp-receiver" class="control-label " th:text="#{lbl.sale.delivery.description}"></label>
+                                        <label for="modal-inp-description" class="control-label " th:text="#{lbl.sale.delivery.description}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
                                     </span>
-                                        <textarea id="modal-inp-description" class="form-control" th:rows="1" maxlength="100" name="deliveryDescription"
+                                        <textarea id="modal-inp-description" class="form-control" th:rows="1" maxlength="500" name="deliveryDescription"
                                         ></textarea>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                             <div class="row row-header">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <label for="modal-inp-description" class="control-label" th:text="#{lbl.sale.delivery.status }"></label>
+                                        <label class="control-label" th:text="#{lbl.sale.delivery.status }"></label>
                                     </div>
                                 </div>
                             </div>

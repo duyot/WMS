@@ -1,4 +1,4 @@
-package com.wms.controller.utils;
+package com.wms.controller.sale_managerment;
 
 import com.google.common.collect.Lists;
 import com.wms.base.BaseController;
@@ -37,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Created by duyot on 3/31/2017.
@@ -45,38 +47,30 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/workspace/revenue_ctr")
 @Scope("session")
 public class RevenueController extends BaseController {
+
     @Autowired
     public CatUserService catUserService;
 
     @Autowired
-    BaseService mjrStockTransService;
+    BaseService revenueService;
 
 
-    Logger log = LoggerFactory.getLogger(DeliveryController.class);
+    Logger log = LoggerFactory.getLogger(RevenueController.class);
     //
-    private List<MjrStockTransDTO> lstTrans;
+    private List<RevenueDTO> lstRevenue;
     private List<CatUserDTO> lstUsers;
-    private List<AppParamsDTO> lstAppTransType;
-    private Map<String, String> mapAppTransType;
-    private List<AppParamsDTO> lstAppDeliveryStatus;
-    private Map<String, String> mapAppDeliveryStatus;
-    //
     private String startDate;
     private String endDate;
 
     @PostConstruct
     public void init() {
-        this.lstAppTransType = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.TRANS_TYPE, lstAppParams);
-        this.mapAppTransType = FunctionUtils.buildMapAppParams(lstAppTransType);
-        this.lstAppDeliveryStatus = FunctionUtils.getAppParamByType(Constants.APP_PARAMS.DELIVERY_STATUS, lstAppParams);
-        this.mapAppDeliveryStatus = FunctionUtils.buildMapAppParams(lstAppDeliveryStatus);
         lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
     }
 
     //==================================================================================================================
     @RequestMapping()
     public String home(Model model) {
-        lstTrans = Lists.newArrayList();
+        lstRevenue = Lists.newArrayList();
         model.addAttribute("menuName", "menu.sale.revenue");
         model.addAttribute("lstUsers", lstUsers);
         model.addAttribute("lstStock", lstStock);
@@ -84,26 +78,19 @@ public class RevenueController extends BaseController {
         return "sale_managerment/revenue";
     }
 
-    @RequestMapping(value = "/findTrans", method = RequestMethod.GET)
+    @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public @ResponseBody
-    List<MjrStockTransDTO> findTrans(@RequestParam("stockId") String stockId, @RequestParam("createdUser") String createdUser,
+    List<RevenueDTO> findByCondition(@RequestParam("createdUser") String createdUser,
                                      @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-                                     @RequestParam("transType") String transType, @RequestParam("partnerId") String partnerId,
-                                     @RequestParam("reasonId") String reasonId, @RequestParam("deliveryStatus") String deliveryStatus
+                                     @RequestParam("type") String type, @RequestParam("partnerId") String partnerId
     ) {
         List<Condition> lstCon = Lists.newArrayList();
-        lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.ACTIVE));
-
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
-        if (!DataUtil.isStringNullOrEmpty(stockId) && !stockId.equals(Constants.STATS_ALL)) {
-            lstCon.add(new Condition("stockId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, stockId));
-        }
+
         if (!DataUtil.isStringNullOrEmpty(partnerId) && !partnerId.equals(Constants.STATS_ALL)) {
-            lstCon.add(new Condition("receiveId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, partnerId));
+            lstCon.add(new Condition("partnerId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, partnerId));
         }
-        if (!DataUtil.isStringNullOrEmpty(reasonId) && !reasonId.equals(Constants.STATS_ALL)) {
-            lstCon.add(new Condition("reasonId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, reasonId));
-        }
+
         if (!DataUtil.isStringNullOrEmpty(startDate) && !DataUtil.isStringNullOrEmpty(endDate)) {
             this.startDate = startDate;
             this.endDate = endDate;
@@ -114,110 +101,77 @@ public class RevenueController extends BaseController {
             lstCon.add(new Condition("createdUser", Constants.SQL_OPERATOR.EQUAL, createdUser));
         }
 
-        if (!DataUtil.isStringNullOrEmpty(transType) && !transType.equals(Constants.STATS_ALL)) {
-            lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, transType));
+        if (!DataUtil.isStringNullOrEmpty(type) && !type.equals(Constants.STATS_ALL)) {
+            lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, type));
         }
-
-        if (!DataUtil.isStringNullOrEmpty(deliveryStatus) && !deliveryStatus.equals(Constants.STATS_ALL)) {
-            lstCon.add(new Condition("deliveryStatus", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, deliveryStatus));
-        }
-
 
         lstCon.add(new Condition("createdDate", Constants.SQL_OPERATOR.ORDER, "desc"));
         //
-        lstTrans = mjrStockTransService.findByCondition(lstCon);
-        if (DataUtil.isListNullOrEmpty(lstTrans)) {
+        lstRevenue = revenueService.findByCondition(lstCon);
+        if (DataUtil.isListNullOrEmpty(lstRevenue)) {
             return Lists.newArrayList();
         }
-        lstTrans = setTransInfoValue(lstTrans);
-        return lstTrans;
+        lstRevenue = setRevenueInfoValue(lstRevenue);
+        return lstRevenue;
     }
 
-    @RequestMapping(value = "/updateDelivery", method = RequestMethod.POST)
-    public @ResponseBody
-    String updateDelivery(@RequestBody MjrStockTransDTO mjrStockTransDTO) {
-        log.info("Update delivery info: " + mjrStockTransDTO.toString());
-        MjrStockTransDTO updateDTO = (MjrStockTransDTO) mjrStockTransService.findById(Long.valueOf(mjrStockTransDTO.getId()));
-        updateDTO.setDeliverySenderInfo(mjrStockTransDTO.getDeliverySenderInfo());
-        updateDTO.setDeliveryReceiverInfo(mjrStockTransDTO.getDeliveryReceiverInfo());
-        updateDTO.setDeliveryDescription(mjrStockTransDTO.getDeliveryDescription());
-        updateDTO.setDeliveryStatus(mjrStockTransDTO.getDeliveryStatus());
-
-        ResponseObject response = mjrStockTransService.update(updateDTO);
-        if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
-            log.info("SUCCESS");
-            return "SUCCESS";
-        } else {
-            log.info("ERROR");
-            return "ERROR";
-        }
-
-    }
-    //==================================================================================================================
-    private List<MjrStockTransDTO> setTransInfoValue(List<MjrStockTransDTO> lstTransDetail) {
+    private List<RevenueDTO> setRevenueInfoValue(List<RevenueDTO> lstRevenue) {
         List<MjrStockTransDTO> finalResult = new ArrayList<MjrStockTransDTO>();
         String partnerPermission = currentUser.getPartnerPermission();
         boolean fladAdd = true;
-        for (MjrStockTransDTO i : lstTransDetail) {
-            fladAdd = true;
-            if (!"".equals(FunctionUtils.getMapValue(mapStockIdStock, i.getStockId()))) {
-                //Neu user co phan quyen theo doi tac => chi tim giao dich cua cac doi tac duoc phan quyen
-                if ("1".equals(partnerPermission) && !mapPartnerIdPartner.containsKey(i.getPartnerId())) {
-                    fladAdd = false;
-                }
-                if (fladAdd) {
-                    CatStockDTO catStockDTO = mapStockIdStock.get(i.getStockId());
-                    i.setStockValue(catStockDTO.getName());
-                    i.setStockCode(catStockDTO.getCode());
-                    i.setTypeValue(mapAppTransType.get(i.getType()));
-                    i.setDeliveryStatusValue(mapAppDeliveryStatus.get(i.getDeliveryStatus()));
-                    i.setTransMoneyTotal(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getTransMoneyTotal())));
-                    finalResult.add(i);
-                }
+        Double totalAmount = 0.0;
+        Double charge = 0.0;
+        Double vat = 0.0;
+
+        for (RevenueDTO i : lstRevenue) {
+            if(i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
+                i.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
             }
+            if("1".equals(i.getType())){
+                i.setTypeValue(Constants.TYPE_EXPORTED);
+            }else{
+                i.setTypeValue(Constants.TYPE_MANUAL);
+            }
+            if("-1.0".equals(i.getVat())){
+                i.setVatValue(Constants.REVENUE_NO_VAT);
+            }else{
+                i.setVatValue(i.getVat());
+            }
+            if(i.getCharge() != null){
+                charge = Double.valueOf(i.getCharge());
+            }else{
+                charge = 0.0;
+            }
+            if(i.getVat() != null){
+                vat = Double.valueOf(i.getVat());
+            }else{
+                vat = 0.0;
+            }
+            if(i.getAmount() != null){
+                i.setTotalAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(String.valueOf(Double.valueOf(i.getAmount()) + Math.round(Double.valueOf(i.getAmount())*vat/100) + charge))));
+                i.setAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getAmount())));
+            }
+
         }
-        return finalResult;
+        return lstRevenue;
     }
 
-    //==================================================================================================================
-    @RequestMapping(value = "/getListDeliveryFile")
-    public void getListDeliveryFile(HttpServletResponse response) {
-        if (DataUtil.isListNullOrEmpty(lstTrans)) {
-            lstTrans.add(new MjrStockTransDTO("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","",""));
-            startDate = "";
-            endDate = "";
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public @ResponseBody
+    String update(RevenueDTO revenueDTO, HttpServletRequest request) {
+        log.info("Update Revenue_History info: " + revenueDTO.toString());
+        revenueDTO.setCustId(this.selectedCustomer.getId());
+        ResponseObject response = revenueService.update(revenueDTO);
+        if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+            log.info("SUCCESS");
+            return "1|Cập nhật thành công";
+        } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
+            log.info("ERROR");
+            return "0|Thông tin đã có trên hệ thống";
+        } else {
+            log.info("ERROR");
+            return "0|Cập nhật không thành công";
         }
-        String prefixFileName = "DanhSach_vanchuyen_";
-        String fileResource = exportListStockTrans(lstTrans, prefixFileName);
-        FunctionUtils.loadFileToClient(response, fileResource);
-    }
 
-    //==================================================================================================================
-    private String exportListStockTrans(List<MjrStockTransDTO> lstTrans, String prefixFileName) {
-        //Hien thi thong tin don vi cha cua cac khach hang nhan (trong giao dich xuat kho)
-        for (MjrStockTransDTO i : lstTrans) {
-            if(i.getReceiveId() != null && mapPartnerIdPartner.containsKey(i.getReceiveId())){
-                CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(i.getReceiveId());
-                if (catPartnerDTO.getParentId() != null && mapPartnerIdPartner.containsKey(catPartnerDTO.getParentId())){
-                    i.setParentReceiveName(mapPartnerIdPartner.get(catPartnerDTO.getParentId()).getName());
-                }
-            }
-        }
-        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.LIST_DELIVERY_TEMPLATE;
-        //
-        File file = new File(templatePath);
-        String templateAbsolutePath = file.getAbsolutePath();
-
-        Map<String, Object> beans = new HashMap<>();
-        beans.put("items", lstTrans);
-        beans.put("startDate", startDate);
-        beans.put("endDate", endDate);
-
-
-        String fullFileName = prefixFileName + "_" + DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
-        String reportFullPath = profileConfig.getTempURL() + fullFileName;
-        //
-        FunctionUtils.exportExcel(templateAbsolutePath, beans, reportFullPath);
-        return reportFullPath;
     }
 }

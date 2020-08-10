@@ -9,6 +9,10 @@ public class Constants {
     public static final String IS_SERIAL = "1";
     public static final String NO_SERIAL = "0";
     public static final String SUCCES_COLOR = "color:#337ab7;";
+    public static final String TYPE_EXPORTED = "Phiếu xuất";
+    public static final String TYPE_MANUAL = "Nhập tay";
+    public static final String REVENUE_NO_VAT = "Không thuế";
+
 
     public static class APP_PARAMS {
         public static String TRANS_TYPE = "TRANS_TYPE";
@@ -116,6 +120,7 @@ public class Constants {
         public static String MAP_USER_STOCK = "mapUserStockServices/";
         public static String MAP_USER_PARTNER = "mapUserPartnerServices/";
         public static String STATISTIC_SERVICE = "statisticServices/";
+        public static String REVENUE_SERVICE = "revenueServices/";
     }
 
     public static class SQL_OPERATOR {

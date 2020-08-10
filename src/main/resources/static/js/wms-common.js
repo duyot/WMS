@@ -731,6 +731,15 @@ function formatterTransType(value, row, index) {
     }
 }
 
+function formatterRevenueType(value, row, index) {
+    var typeValue = value;
+    if (typeValue === 'Phiếu xuất') {
+        return '<span class="status-bgm-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    } else {
+        return '<span class="status-bgm-red status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    }
+}
+
 function formatterDeliveryStatus(value, row, index) {
     var deliveryStatus = value;
     if (deliveryStatus === 'Chưa giao') {
@@ -818,4 +827,17 @@ function clearDateRange(object) {
     dpr.setEndDate(new Date());
     //
     object.val('');
+}
+
+function addCommas(nStr)
+{
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
 }

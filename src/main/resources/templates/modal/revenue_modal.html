@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="frag-revenue-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-mini" role="document">
+            <form id="revenue-insert-update-form">
+                <div class="modal-content" id="catPartnerDTO-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" th:text="#{btn.add}"></h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container-modal">
+                            <!--hidden fields-->
+                            <input id="modal-inp-id" hidden="true" name="id"/>
+                            <input id="modal-type"   hidden="true" name="modal-type"/>
+
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-cmb-partner" th:text="#{lbl.receiveName}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-combo" style="width: 100%;">
+                                        <span class="input-group-addon" style="height:33px">
+                                                    <i class="fa fa-th-list fa-fw"></i>
+                                                </span>
+                                        <select id="modal-cmb-partner" class="combobox form-control selectpicker" name="partnerId" data-live-search="true"  data-width="100%">
+                                            <option value="-1" th:text="#{label.choose}"></option>
+                                            <option  th:each="sopt:${lstPartner}"
+                                                     th:value="${sopt.id}" th:text="${sopt.name}">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-amount" class="control-label label-require" th:text="#{lbl.sale.revenue.amount}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-amount" class="form-control input-number" data-validation="number"
+                                               data-validation-allowing="float" th:required="true" name="amount" maxlength="15" style="text-align: right" onchange="calTotalAmount()"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label label-require" th:text="#{lbl.sale.revenue.vat}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-combo">
+                                        <div class="radio radio-inline radio-primary">
+                                            <input value="-1.0" type="radio" id="radio-all" name="modal-cmb-revenue-vat" checked="checked" onchange="calTotalAmount()"/>
+                                            <label for="radio-all" th:text="#{lbl.sale.revenue.vat.not}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-danger">
+                                            <input value="0.0" type="radio" id="radio-not-completed" name="modal-cmb-revenue-vat" onchange="calTotalAmount()"/>
+                                            <label for="radio-not-completed" th:text="#{lbl.sale.revenue.vat.0}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-warning">
+                                            <input value="5.0" type="radio" id="radio-processing" name="modal-cmb-revenue-vat" onchange="calTotalAmount()"/>
+                                            <label for="radio-processing" th:text="#{lbl.sale.revenue.vat.5}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="10.0" type="radio" id="radio-completed" name="modal-cmb-revenue-vat" onchange="calTotalAmount()"/>
+                                            <label for="radio-completed" th:text="#{lbl.sale.revenue.vat.10}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-charge" class="control-label " th:text="#{lbl.sale.revenue.charge}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-charge" class="form-control input-number" data-validation="number"
+                                               data-validation-allowing="float" name="charge" maxlength="10" style="text-align: right" onchange="calTotalAmount()"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-total-amount" class="control-label" th:text="#{lbl.sale.revenue.total.amount}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-total-amount" class="form-control input-number" data-validation="number"
+                                               data-validation-allowing="float" name="totalAmount" disabled="true" maxlength="100" style="text-align: right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-createdDate" class="control-label label-require" th:text="#{lbl.sale.revenue.createddate}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-createdDate" class="form-control" type="text" name="createdDate" maxlength="12"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-header">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-description" class="control-label " th:text="#{lbl.sale.delivery.description}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <textarea id="modal-inp-description" class="form-control" th:rows="1" maxlength="500" name="description"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button id="modal-btn-update" class="btn btn-primary" >
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{lbl.update}"></span>
+                        </button>
+                        <button id="modal-btn-add" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            <span th:text="#{lbl.update}"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            <span th:text="#{btn.close}"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>
