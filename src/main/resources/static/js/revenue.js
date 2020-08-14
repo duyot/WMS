@@ -282,15 +282,14 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         //disableElement($('#modal-cmb-partner'));
         $('#modal-inp-amount').prop('readonly', true);
         $('#modal-inp-createdDate').prop('readonly', true);
-        $('#modal-cmb-partner').prop('readonly', true);
     }else{
         //enableElement($('#modal-inp-amount'));
         //enableElement($('#modal-inp-createdDate'));
         //enableElement($('#modal-cmb-partner'));
         $('#modal-inp-amount').prop('readonly', false);
-        $('#modal-inp-createdDate').prop('readonly', false);
-        $('#modal-cmb-partner').prop('readonly', false);
         $("#modal-inp-createdDate").val('dd/mm/yyyy', new Date());
+        $('#modal-inp-createdDate').prop('readonly', false);
+
     }
     if(type == 1){//add
         clearInputContents();
@@ -299,7 +298,7 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         $("#modal-type").val('add');
         $('select[name=partnerId]').val(-1);
         $('select[name=partnerId]').selectpicker('refresh');
-        $('input[name=vat][value='+String(vat)+']').prop('checked', true);
+        $("input[name=vat][value='"+vat+"']").prop('checked', true);
         var fullDate = new Date();
         var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) :(fullDate.getMonth()+1);
         var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
@@ -307,9 +306,8 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         showAdd();
     }else{//update
         $("#modal-inp-amount").val(decodeHtml(amount));
-        vat = 5.0;
         if(vat != null && vat != ''){
-            $('input[name=vat][value='+vat+']').prop('checked', true);
+            $("input[name=vat][value='"+vat+"']").prop('checked', true);
         }
         $("#modal-inp-charge").val(decodeHtml(charge));
         $("#modal-inp-total-amount").val(decodeHtml(totalAmount));

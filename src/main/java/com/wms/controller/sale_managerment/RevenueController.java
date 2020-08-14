@@ -105,7 +105,7 @@ public class RevenueController extends BaseController {
             lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, type));
         }
 
-        lstCon.add(new Condition("createdDate", Constants.SQL_OPERATOR.ORDER, "desc"));
+        lstCon.add(new Condition("id", Constants.SQL_OPERATOR.ORDER, "desc"));
         //
         lstRevenue = revenueService.findByCondition(lstCon);
         if (DataUtil.isListNullOrEmpty(lstRevenue)) {
@@ -197,6 +197,7 @@ public class RevenueController extends BaseController {
             revenueDTO.setCharge(revenueDTO.getCharge().replaceAll(",",""));
         }
         revenueDTO.setCreatedUser(this.currentUser.getCode());
+        revenueDTO.setType("2");
         ResponseObject response = revenueService.add(revenueDTO);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             log.info("Add: " + revenueDTO.toString() + " SUCCESS");
