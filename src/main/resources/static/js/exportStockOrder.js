@@ -528,7 +528,7 @@ function refreshFormAndInitData( row) {
     $('#order-export-code').val(code);
     $inpGoodsCode.val('');
     $inpGoodsAmount.val('');
-    $('input[name=cmb-export-method][value='+exportMethod+']').prop('checked', true)
+    $('input[name=cmb-export-method][value='+exportMethod+']').prop('checked', true);
 
     $('#cmb-partner').val(partnerId);
     $('#cmb-partner').selectpicker('refresh');

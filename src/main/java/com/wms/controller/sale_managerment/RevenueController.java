@@ -137,17 +137,17 @@ public class RevenueController extends BaseController {
             }else{
                 i.setVatValue(i.getVat());
             }
-            if(i.getCharge() != null){
+            if(!DataUtil.isStringNullOrEmpty(i.getCharge())){
                 charge = Double.valueOf(i.getCharge());
             }else{
                 charge = 0.0;
             }
-            if(i.getVat() != null){
+            if(!DataUtil.isStringNullOrEmpty(i.getVat())){
                 vat = Double.valueOf(i.getVat());
             }else{
                 vat = 0.0;
             }
-            if(i.getAmount() != null){
+            if(!DataUtil.isStringNullOrEmpty(i.getAmount())){
                 i.setTotalAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(String.valueOf(Double.valueOf(i.getAmount()) + Math.round(Double.valueOf(i.getAmount())*vat/100) + charge))));
                 i.setAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getAmount())));
             }
@@ -158,10 +158,21 @@ public class RevenueController extends BaseController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
-    String update(RevenueDTO revenueDTO, HttpServletRequest request) {
+    String update(@RequestBody RevenueDTO revenueDTO, HttpServletRequest request) {
         log.info("Update Revenue_History info: " + revenueDTO.toString());
         revenueDTO.setCustId(this.selectedCustomer.getId());
-        ResponseObject response = revenueService.update(revenueDTO);
+        RevenueDTO updateDTO = (RevenueDTO) revenueService.findById(Long.valueOf(revenueDTO.getId()));
+        if(!DataUtil.isStringNullOrEmpty(revenueDTO.getAmount())){
+            updateDTO.setAmount(revenueDTO.getAmount().replaceAll(",",""));
+        }
+        if(!DataUtil.isStringNullOrEmpty(revenueDTO.getCharge())){
+            updateDTO.setCharge(revenueDTO.getCharge().replaceAll(",",""));
+        }
+        updateDTO.setPartnerId(revenueDTO.getPartnerId());
+        updateDTO.setCreatedDate(revenueDTO.getCreatedDate());
+        updateDTO.setDescription(revenueDTO.getDescription());
+        updateDTO.setCreatedUser(this.currentUser.getCode());
+        ResponseObject response = revenueService.update(updateDTO);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             log.info("SUCCESS");
             return "1|Cập nhật thành công";
@@ -173,5 +184,46 @@ public class RevenueController extends BaseController {
             return "0|Cập nhật không thành công";
         }
 
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public @ResponseBody
+    String add(@RequestBody RevenueDTO revenueDTO, HttpServletRequest request) {
+        revenueDTO.setCustId(this.selectedCustomer.getId());
+        if(!DataUtil.isStringNullOrEmpty(revenueDTO.getAmount())){
+            revenueDTO.setAmount(revenueDTO.getAmount().replaceAll(",",""));
+        }
+        if(!DataUtil.isStringNullOrEmpty(revenueDTO.getCharge())){
+            revenueDTO.setCharge(revenueDTO.getCharge().replaceAll(",",""));
+        }
+        revenueDTO.setCreatedUser(this.currentUser.getCode());
+        ResponseObject response = revenueService.add(revenueDTO);
+        if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+            log.info("Add: " + revenueDTO.toString() + " SUCCESS");
+            return "1|Thêm mới thành công";
+        } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
+            log.info("Add: " + revenueDTO.toString() + " ERROR");
+            return "0|Thông tin đã có trên hệ thống";
+        } else {
+            log.info("Add: " + revenueDTO.toString() + " ERROR");
+            return "0|Thêm mới không thành công";
+        }
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public @ResponseBody
+    String delete(@RequestParam("id") String id,  HttpServletRequest request) {
+        try {
+
+            Long idL = Long.parseLong(id);
+            ResponseObject response = revenueService.delete(idL);
+            if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+                return "1|Xoá thành công";
+            } else {
+                return "0|Xoá không thành công";
+            }
+        } catch (NumberFormatException e) {
+            return "0|Xoá không thành công lỗi convert long";
+        }
     }
 }

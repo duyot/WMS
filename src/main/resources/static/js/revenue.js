@@ -17,13 +17,20 @@ $(document).ready(function () {
     validator = $("#revenue-insert-update-form").validate({
         ignore: ":hidden",
         rules: {
-           /* name: {
+            amount: {
                 required: true,
                 normalizer: function( value ) {
                     return $.trim( value );
                 },
-                maxlength: 100
-            }*/
+                maxlength: 15
+            },
+            charge: {
+                required: false,
+                normalizer: function( value ) {
+                    return $.trim( value );
+                },
+                maxlength: 15
+            }
         },
         submitHandler: function (form) {
             preprocessInput($("#revenue-insert-update-form"));
@@ -32,7 +39,7 @@ $(document).ready(function () {
                 alert("Trường Ghi chú chứa kí tự đặc biệt. Vui lòng loại bỏ kí tự (lớn hơn, nhỏ hơn)");
                 return;
             }
-            //
+            
             $.ajax({
                 type: "POST",
                 url: $("#revenue-insert-update-form").attr('action'),
@@ -46,19 +53,16 @@ $(document).ready(function () {
                     }else{
                         setErrorMessage($('#action-info'),resultName);
                     }
-                    //
                     search(false);
-                    //
                     if($("#modal-type").val().includes("add")){
                         //clearInputContent();
                         //$("#modal-inp-amount").focus();
                     }else{
                         hideModal($addUpdateModal);
                     }
-
                 },
                 error:function(){
-                    setErrorMessage($('#action-info'),'Lỗi hệ thống');
+                    setErrorMessage($('#action-info'),'Lỗi hệ thống2');
                 }
             });
             return false; // required to block normal submit since you used ajax
@@ -90,6 +94,9 @@ function operateFormatter(value, row, index) {
         return [
             '<a class="edit-revenue row-function" href="javascript:void(0)" title="Cập nhật">',
             '<i class="fa fa-edit"></i>',
+            '</a> ',
+            '<a class="delete-revenue row-function" href="javascript:void(0)" title="Xóa">',
+            '<i class="fa fa-trash"></i>',
             '</a> '
         ].join('');
     }
@@ -172,7 +179,45 @@ window.operateEvents = {
             $('#modal-inp-amount').focus();
         });
     }
+    ,
+    'click .delete-revenue': function (e, value, row, index) {
+        clearActionInfo();
+        $("#lbl-del-info").text('Xóa doanh thu của: '+ decodeHtml(row['partnerName']));
+        $('#myConfirmModal').modal('show');
+        $selectedItemId = row['id'];
+    }
 };
+
+
+$btnDelConfirmed.click(function () {
+    $.ajax({
+        type: "POST",
+        cache:false,
+        data:{id:$selectedItemId},
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        url: $btnDel.val(),
+        dataType: 'text',
+        timeout: 600000,
+        success: function (data) {
+            resultArr = data.split('|');
+            resultCode = resultArr[0];
+            resultName = resultArr[1];
+            if(resultCode == 1){
+                setInfoMessage($('#action-info'),resultName);
+            }else{
+                setErrorMessage($('#action-info'),resultName);
+            }
+            search(false);
+
+        },
+        error:function(){
+            setErrorMessage($('#action-info'),'Lỗi hệ thống');
+        },
+    });
+    //
+    $('#myConfirmModal').modal('hide');
+    //
+});
 
 var $btnSearch = $('#btn-search-serial');
 $btnSearch.click(function () {
@@ -230,6 +275,7 @@ function loadSelectItems(select, items) {
 
 function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,description,createdDate,revenueType,actionVal) {
     $("#revenue-insert-update-form").attr("action",actionVal);
+
     if(revenueType ==1){
         disableElement($('#modal-inp-amount'));
         disableElement($('#modal-inp-createdDate'));
@@ -240,20 +286,27 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         clearInputContents();
         //set default active-disable combo status
         vat = -1.0;
-        $('input[name=modal-cmb-revenue-vat][value='+vat+']').prop('checked', true);
         $("#modal-type").val('add');
         $('select[name=partnerId]').val(-1);
         $('select[name=partnerId]').selectpicker('refresh');
-        'yy/mm/dd', new Date()
+        $('input[name=modal-cmb-revenue-vat][value='+String(vat)+']').prop('checked', true);
+        var fullDate = new Date();
+        var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) :(fullDate.getMonth()+1);
+        var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+        $("#modal-inp-createdDate").val(currentDate);
         showAdd();
     }else{//update
         $("#modal-inp-amount").val(decodeHtml(amount));
-        //$('input[name=modal-cmb-revenue-vat][value='+vat+']').prop('checked', true);
+        vat = 5.0;
+        if(vat != null && vat != ''){
+            $('input[name=modal-cmb-revenue-vat][value='+vat+']').prop('checked', true);
+        }
         $("#modal-inp-charge").val(decodeHtml(charge));
         $("#modal-inp-total-amount").val(decodeHtml(totalAmount));
         $("#modal-inp-createdDate").val(decodeHtml(createdDate));
         $("#modal-inp-description").val(decodeHtml(description));
         $("#modal-inp-id").val(id);
+        $("#modal-inp-type").val(revenueType);
         $('select[name=partnerId]').val(partnerId);
         $('select[name=partnerId]').selectpicker('refresh');
         $("#modal-type").val('update');
@@ -269,6 +322,32 @@ function calTotalAmount() {
     var amount = Number($("#modal-inp-amount").val().replace(/,/g, ""));
     var charge = Number($("#modal-inp-charge").val().replace(/,/g, ""));
     $("#modal-inp-total-amount").val(formatFloatType(amount*vat/100 + amount + charge));
+    $("#modal-inp-amount").val(formatFloatType(amount));
+    $("#modal-inp-charge").val(formatFloatType(charge));
+
+}
+
+//@Add action---------------------------------------------------------------------------------------------------
+$btn_add = $('#btn-add');
+$(function () {
+    $btn_add.click(function () {
+        clearActionInfo();
+        changeModelByType(1,null,null,null,null,null,null,null,null,2,$btn_add.val());
+        $addUpdateModal.modal('show');
+        $addUpdateModal.on('shown.bs.modal', function () {
+            $('#modal-inp-amount').focus();
+        });
+    });
+});
+
+function clearInputContents() {
+
+    $("#modal-inp-amount").val('');
+    $("#modal-inp-charge").val('');
+    $("#modal-inp-total-amount").val('');
+    $("#modal-inp-createdDate").val('');
+    $("#modal-inp-description").val('');
+    $("#modal-inp-id").val('');
 }
 
 //-------------------------------------------------------------------------
