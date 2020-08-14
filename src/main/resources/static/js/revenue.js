@@ -277,9 +277,19 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
     $("#revenue-insert-update-form").attr("action",actionVal);
 
     if(revenueType ==1){
-        disableElement($('#modal-inp-amount'));
-        disableElement($('#modal-inp-createdDate'));
-        disableElement($('#modal-cmb-partner'));
+        //disableElement($('#modal-inp-amount'));
+        //disableElement($('#modal-inp-createdDate'));
+        //disableElement($('#modal-cmb-partner'));
+        $('#modal-inp-amount').prop('readonly', true);
+        $('#modal-inp-createdDate').prop('readonly', true);
+        $('#modal-cmb-partner').prop('readonly', true);
+    }else{
+        //enableElement($('#modal-inp-amount'));
+        //enableElement($('#modal-inp-createdDate'));
+        //enableElement($('#modal-cmb-partner'));
+        $('#modal-inp-amount').prop('readonly', false);
+        $('#modal-inp-createdDate').prop('readonly', false);
+        $('#modal-cmb-partner').prop('readonly', false);
         $("#modal-inp-createdDate").val('dd/mm/yyyy', new Date());
     }
     if(type == 1){//add
@@ -341,7 +351,6 @@ $(function () {
 });
 
 function clearInputContents() {
-
     $("#modal-inp-amount").val('');
     $("#modal-inp-charge").val('');
     $("#modal-inp-total-amount").val('');
