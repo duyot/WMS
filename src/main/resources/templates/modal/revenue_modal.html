@@ -71,19 +71,19 @@
                                 <div class="col-sm-12">
                                     <div class="input-group input-group-combo">
                                         <div class="radio radio-inline radio-primary">
-                                            <input value="-1.0" type="radio" id="radio-all" name="modal-cmb-revenue-vat" onchange="calTotalAmount()"/>
+                                            <input value="-1.0" type="radio" id="radio-all" name="vat" onchange="calTotalAmount()"/>
                                             <label for="radio-all" th:text="#{lbl.sale.revenue.vat.not}"></label>
                                         </div>
                                         <div class="radio radio-inline radio-danger">
-                                            <input value="0.0" type="radio" id="radio-not-completed" name="modal-cmb-revenue-vat" onchange="calTotalAmount()"/>
+                                            <input value="0.0" type="radio" id="radio-not-completed" name="vat" onchange="calTotalAmount()"/>
                                             <label for="radio-not-completed" th:text="#{lbl.sale.revenue.vat.0}"></label>
                                         </div>
                                         <div class="radio radio-inline radio-warning">
-                                            <input value="5.0" type="radio" id="radio-processing" name="modal-cmb-revenue-vat" onchange="calTotalAmount()"/>
+                                            <input value="5.0" type="radio" id="radio-processing" name="vat" onchange="calTotalAmount()"/>
                                             <label for="radio-processing" th:text="#{lbl.sale.revenue.vat.5}"></label>
                                         </div>
                                         <div class="radio radio-inline radio-info">
-                                            <input value="10.0" type="radio" id="radio-completed" name="modal-cmb-revenue-vat" onchange="calTotalAmount()"/>
+                                            <input value="10.0" type="radio" id="radio-completed" name="vat" onchange="calTotalAmount()"/>
                                             <label for="radio-completed" th:text="#{lbl.sale.revenue.vat.10}"></label>
                                         </div>
                                     </div>

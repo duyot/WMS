@@ -158,7 +158,7 @@ public class RevenueController extends BaseController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
-    String update(@RequestBody RevenueDTO revenueDTO, HttpServletRequest request) {
+    String update( RevenueDTO revenueDTO, HttpServletRequest request) {
         log.info("Update Revenue_History info: " + revenueDTO.toString());
         revenueDTO.setCustId(this.selectedCustomer.getId());
         RevenueDTO updateDTO = (RevenueDTO) revenueService.findById(Long.valueOf(revenueDTO.getId()));
@@ -188,7 +188,7 @@ public class RevenueController extends BaseController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody
-    String add(@RequestBody RevenueDTO revenueDTO, HttpServletRequest request) {
+    String add(RevenueDTO revenueDTO, HttpServletRequest request) {
         revenueDTO.setCustId(this.selectedCustomer.getId());
         if(!DataUtil.isStringNullOrEmpty(revenueDTO.getAmount())){
             revenueDTO.setAmount(revenueDTO.getAmount().replaceAll(",",""));

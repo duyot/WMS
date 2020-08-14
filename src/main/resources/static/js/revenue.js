@@ -289,7 +289,7 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         $("#modal-type").val('add');
         $('select[name=partnerId]').val(-1);
         $('select[name=partnerId]').selectpicker('refresh');
-        $('input[name=modal-cmb-revenue-vat][value='+String(vat)+']').prop('checked', true);
+        $('input[name=vat][value='+String(vat)+']').prop('checked', true);
         var fullDate = new Date();
         var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) :(fullDate.getMonth()+1);
         var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
@@ -299,7 +299,7 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         $("#modal-inp-amount").val(decodeHtml(amount));
         vat = 5.0;
         if(vat != null && vat != ''){
-            $('input[name=modal-cmb-revenue-vat][value='+vat+']').prop('checked', true);
+            $('input[name=vat][value='+vat+']').prop('checked', true);
         }
         $("#modal-inp-charge").val(decodeHtml(charge));
         $("#modal-inp-total-amount").val(decodeHtml(totalAmount));
@@ -315,7 +315,7 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
 }
 
 function calTotalAmount() {
-    var vat = Number($('input[name=modal-cmb-revenue-vat]:checked').val());
+    var vat = Number($('input[name=vat]:checked').val());
     if(vat == -1.0){
         vat = 0;
     }
