@@ -55,14 +55,14 @@ $(document).ready(function () {
                     }
                     search(false);
                     if($("#modal-type").val().includes("add")){
-                        //clearInputContent();
-                        //$("#modal-inp-amount").focus();
+                        clearInputContent();
+                        $("#modal-inp-amount").focus();
                     }else{
                         hideModal($addUpdateModal);
                     }
                 },
                 error:function(){
-                    setErrorMessage($('#action-info'),'Lỗi hệ thống2');
+                    setErrorMessage($('#action-info'),'Lỗi hệ thống');
                 }
             });
             return false; // required to block normal submit since you used ajax
@@ -182,7 +182,7 @@ window.operateEvents = {
     ,
     'click .delete-revenue': function (e, value, row, index) {
         clearActionInfo();
-        $("#lbl-del-info").text('Xóa doanh thu của: '+ decodeHtml(row['partnerName']));
+        $("#lbl-del-info").text('Xóa doanh thu '+ decodeHtml(row['totalAmount']) +' của '+ decodeHtml(row['partnerName']));
         $('#myConfirmModal').modal('show');
         $selectedItemId = row['id'];
     }
@@ -292,9 +292,9 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
 
     }
     if(type == 1){//add
-        clearInputContents();
+        clearInputContent();
         //set default active-disable combo status
-        vat = -1.0;
+        vat = '-1.0';
         $("#modal-type").val('add');
         $('select[name=partnerId]').val(-1);
         $('select[name=partnerId]').selectpicker('refresh');
@@ -322,6 +322,10 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
     }
 }
 
+$('.input-number').keyup(function () {
+    this.value = this.value.replace(/[^0-9\.]/g,'');
+});
+
 function calTotalAmount() {
     var vat = Number($('input[name=vat]:checked').val());
     if(vat == -1.0){
@@ -348,13 +352,15 @@ $(function () {
     });
 });
 
-function clearInputContents() {
+function clearInputContent() {
     $("#modal-inp-amount").val('');
     $("#modal-inp-charge").val('');
     $("#modal-inp-total-amount").val('');
     $("#modal-inp-createdDate").val('');
     $("#modal-inp-description").val('');
     $("#modal-inp-id").val('');
+    $('select[name=partnerId]').val('-1');
+    $('select[name=partnerId]').selectpicker('refresh');
 }
 
 //-------------------------------------------------------------------------

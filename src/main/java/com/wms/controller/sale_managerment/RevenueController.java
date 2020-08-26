@@ -54,6 +54,9 @@ public class RevenueController extends BaseController {
     @Autowired
     BaseService revenueService;
 
+    @Autowired
+    BaseService mjrStockTransService;
+
 
     Logger log = LoggerFactory.getLogger(RevenueController.class);
     //
@@ -115,6 +118,49 @@ public class RevenueController extends BaseController {
         return lstRevenue;
     }
 
+    //==================================================================================================================
+    @RequestMapping(value = "/getListRevenueFile")
+    public void getListRevenueFile(HttpServletResponse response) {
+        if (DataUtil.isListNullOrEmpty(lstRevenue)) {
+            lstRevenue.add(new RevenueDTO("", "", "","", "", "", "",
+                    "", "", "", "", ""));
+            startDate = "";
+            endDate = "";
+        }
+        String prefixFileName = "Thongtin_ds_doanhthu_";
+        String fileResource = exportListStockTrans(lstRevenue, prefixFileName);
+        FunctionUtils.loadFileToClient(response, fileResource);
+    }
+
+    //==================================================================================================================
+    private String exportListStockTrans(List<RevenueDTO> lstRevenue, String prefixFileName) {
+        //Hien thi thong tin khach hang nhan
+        for (RevenueDTO i : lstRevenue) {
+            if(i.getPartnerId() != null && mapPartnerIdPartner.containsKey(i.getPartnerId())){
+                CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(i.getPartnerId());
+                if (catPartnerDTO.getParentId() != null && mapPartnerIdPartner.containsKey(catPartnerDTO.getParentId())){
+                    i.setPartnerName(mapPartnerIdPartner.get(catPartnerDTO.getParentId()).getName());
+                }
+            }
+        }
+        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.LIST_REVENUE_TEMPLATE;
+        //
+        File file = new File(templatePath);
+        String templateAbsolutePath = file.getAbsolutePath();
+
+        Map<String, Object> beans = new HashMap<>();
+        beans.put("items", lstRevenue);
+        beans.put("startDate", startDate);
+        beans.put("endDate", endDate);
+
+
+        String fullFileName = prefixFileName + "_" + DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String reportFullPath = profileConfig.getTempURL() + fullFileName;
+        //
+        FunctionUtils.exportExcel(templateAbsolutePath, beans, reportFullPath);
+        return reportFullPath;
+    }
+
     private List<RevenueDTO> setRevenueInfoValue(List<RevenueDTO> lstRevenue) {
         List<MjrStockTransDTO> finalResult = new ArrayList<MjrStockTransDTO>();
         String partnerPermission = currentUser.getPartnerPermission();
@@ -139,6 +185,7 @@ public class RevenueController extends BaseController {
             }
             if(!DataUtil.isStringNullOrEmpty(i.getCharge())){
                 charge = Double.valueOf(i.getCharge());
+                i.setCharge(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getCharge())));
             }else{
                 charge = 0.0;
             }
@@ -168,12 +215,21 @@ public class RevenueController extends BaseController {
         if(!DataUtil.isStringNullOrEmpty(revenueDTO.getCharge())){
             updateDTO.setCharge(revenueDTO.getCharge().replaceAll(",",""));
         }
+        updateDTO.setVat(revenueDTO.getVat());
         updateDTO.setPartnerId(revenueDTO.getPartnerId());
         updateDTO.setCreatedDate(revenueDTO.getCreatedDate());
         updateDTO.setDescription(revenueDTO.getDescription());
         updateDTO.setCreatedUser(this.currentUser.getCode());
         ResponseObject response = revenueService.update(updateDTO);
-        if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
+        if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode()) ) {
+            if(!DataUtil.isStringNullOrEmpty(updateDTO.getStockTransId())){
+                MjrStockTransDTO mjrStockTransDTO = (MjrStockTransDTO) mjrStockTransService.findById(Long.valueOf(updateDTO.getStockTransId()));
+                if (mjrStockTransDTO != null && revenueDTO.getPartnerId() != null) {
+                    mjrStockTransDTO.setReceiveId(revenueDTO.getPartnerId());
+                    mjrStockTransDTO.setReceiveName(mapPartnerIdPartner.get(revenueDTO.getPartnerId()).getName());
+                    mjrStockTransService.update(mjrStockTransDTO);
+                }
+            }
             log.info("SUCCESS");
             return "1|Cập nhật thành công";
         } else if (Responses.ERROR_CONSTRAINT.getName().equalsIgnoreCase(response.getStatusName())) {
