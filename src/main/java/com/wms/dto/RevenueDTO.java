@@ -20,11 +20,17 @@ public class RevenueDTO {
     private String createdDate;
     private String vatValue;
     private String totalAmount;
-
-
+    private String paymentStatus;
+    private String paymentStatusValue;
+    private String paymentAmount;
+    private String paymentDescription;
+    private String paymentDate;
+    private String paymentAction;
+    private String paymentRemain;
 
     public RevenueDTO(String id, String custId, String partnerId, String amount, String vat, String charge, String stockTransId,
-                      String stockTransCode, String description, String type, String createdUser, String createdDate) {
+                      String stockTransCode, String description, String type, String createdUser, String createdDate,
+                      String paymentStatus, String paymentAmount, String paymentDescription, String paymentDate) {
         this.id = id;
         this.custId = custId;
         this.partnerId = partnerId;
@@ -37,6 +43,10 @@ public class RevenueDTO {
         this.type = type;
         this.createdUser = createdUser;
         this.createdDate = createdDate;
+        this.paymentStatus = paymentStatus;
+        this.paymentAmount = paymentAmount;
+        this.paymentDescription = paymentDescription;
+        this.paymentDate = paymentDate;
     }
 
     public RevenueDTO() {
@@ -170,6 +180,62 @@ public class RevenueDTO {
         this.createdDate = createdDate;
     }
 
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(String paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
+
+    public String getPaymentDescription() {
+        return paymentDescription;
+    }
+
+    public void setPaymentDescription(String paymentDescription) {
+        this.paymentDescription = paymentDescription;
+    }
+
+    public String getPaymentStatusValue() {
+        return paymentStatusValue;
+    }
+
+    public void setPaymentStatusValue(String paymentStatusValue) {
+        this.paymentStatusValue = paymentStatusValue;
+    }
+
+    public String getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public String getPaymentAction() {
+        return paymentAction;
+    }
+
+    public void setPaymentAction(String paymentAction) {
+        this.paymentAction = paymentAction;
+    }
+
+    public String getPaymentRemain() {
+        return paymentRemain;
+    }
+
+    public void setPaymentRemain(String paymentRemain) {
+        this.paymentRemain = paymentRemain;
+    }
+
     @Override
     public String toString() {
         return "RevenueDTO{" +
@@ -185,6 +251,10 @@ public class RevenueDTO {
                 ", type='" + type + '\'' +
                 ", createdUser='" + createdUser + '\'' +
                 ", createdDate='" + createdDate + '\'' +
+                ", paymentStatus='" + paymentStatus + '\'' +
+                ", paymentAmount='" + paymentAmount + '\'' +
+                ", paymentDescription='" + paymentDescription + '\'' +
+                ", paymentDate='" + paymentDate + '\'' +
                 '}';
     }
 }

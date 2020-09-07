@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------
 $addUpdateModal = $('#myModal');
+
 $table = $('#tbl-stock-info');
 var $btnDelConfirmed = $('#modal-btn-del-ok');
 $tableGoodsDetailImport = $('#tbl-trans-goods-detail-import');
@@ -79,19 +80,25 @@ function operateFormatter(value, row, index) {
     $('.trans-export').attr('href',url);
     if(type==1){
         return [
+            '<a class="edit-payment row-function" href="javascript:void(0)" title="Thanh toán">',
+            '<i class="fa fa-money"></i>',
+            '</a> ',
             '<a class="edit-revenue row-function" href="javascript:void(0)" title="Cập nhật">',
             '<i class="fa fa-edit"></i>',
             '</a> ',
             '<a class="trans-export row-function" id="lbl-trans-export"  title="Xuất phiếu" href='+url+' >',
             '<i class="fa fa-file-word-o"></i>',
-            '</a> ',
+            '</a> '/*,
             '<a class="trans-detail row-function" href="javascript:void(0)" title="Chi tiết">',
             '<i class="fa fa-info-circle"></i>',
-            '</a> '
+            '</a> '*/
 
         ].join('');
     }else{
         return [
+            '<a class="edit-payment row-function" href="javascript:void(0)" title="Thanh toán">',
+            '<i class="fa fa-money"></i>',
+            '</a> ',
             '<a class="edit-revenue row-function" href="javascript:void(0)" title="Cập nhật">',
             '<i class="fa fa-edit"></i>',
             '</a> ',
@@ -173,13 +180,23 @@ window.operateEvents = {
         $("#revenue-insert-update-form").find(".error").removeClass("error");
         //
         clearActionInfo();
-        changeModelByType(2,row['id'],row['partnerId'],row['amount'],row['vat'],row['charge'],row['totalAmount'],row['description'],row['createdDate'],row['type'],$btn_update.val());
+        changeModelByType(2,row['id'],row['partnerId'],row['amount'],row['vat'],row['charge'],row['totalAmount'],row['description'],row['createdDate'],row['type'],row['paymentAmount'],row['paymentStatus'],row['paymentDate'],row['paymentDescription'],$btn_update.val());
         showModal($addUpdateModal);
         $addUpdateModal.on('shown.bs.modal', function () {
             $('#modal-inp-amount').focus();
         });
-    }
-    ,
+    },
+    'click .edit-payment': function (e, value, row, index) {
+        validator.resetForm();
+        $("#revenue-insert-update-form").find(".error").removeClass("error");
+        //
+        clearActionInfo();
+        changeModelByType(3,row['id'],row['partnerId'],row['amount'],row['vat'],row['charge'],row['totalAmount'],row['description'],row['createdDate'],row['type'],row['paymentAmount'],row['paymentStatus'],row['paymentDate'],row['paymentDescription'],$btn_update.val());
+        showModal($addUpdateModal);
+        $addUpdateModal.on('shown.bs.modal', function () {
+            $('#modal-inp-paymentAmount').focus();
+        });
+    },
     'click .delete-revenue': function (e, value, row, index) {
         clearActionInfo();
         $("#lbl-del-info").text('Xóa doanh thu '+ decodeHtml(row['totalAmount']) +' của '+ decodeHtml(row['partnerName']));
@@ -238,12 +255,13 @@ function search(isClear){
     var startDateVal = drp.startDate.format("DD/MM/YYYY");
     var endDateVal   = drp.endDate.format("DD/MM/YYYY");
     var type = $("input[name='cmb-revenue-type']:checked").val();
+    var paymentStatus = $("input[name='cmb-payment-status']:checked").val();
 
 
     $.ajax({
         type: "GET",
         cache:false,
-        data:{createdUser:createdUser,startDate:startDateVal,endDate:endDateVal,type:type, partnerId: partnerId},
+        data:{createdUser:createdUser,startDate:startDateVal,endDate:endDateVal,type:type, partnerId: partnerId, paymentStatus: paymentStatus},
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         url: $btnSearch.val(),
         dataType: 'json',
@@ -273,7 +291,7 @@ function loadSelectItems(select, items) {
     select.selectpicker('refresh');
 }
 
-function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,description,createdDate,revenueType,actionVal) {
+function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,description,createdDate,revenueType,paymentAmount, paymentStatus, paymentDate, paymentDescription,actionVal) {
     $("#revenue-insert-update-form").attr("action",actionVal);
 
     if(revenueType ==1){
@@ -292,6 +310,8 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
 
     }
     if(type == 1){//add
+        showRevenueElement();
+        enableElement($('select[name=partnerId]'));
         clearInputContent();
         //set default active-disable combo status
         vat = '-1.0';
@@ -304,7 +324,9 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
         $("#modal-inp-createdDate").val(currentDate);
         showAdd();
-    }else{//update
+    }else if (type ==2){//update
+        showRevenueElement();
+        enableElement($('select[name=partnerId]'));
         $("#modal-inp-amount").val(decodeHtml(amount));
         if(vat != null && vat != ''){
             $("input[name=vat][value='"+vat+"']").prop('checked', true);
@@ -319,6 +341,33 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         $('select[name=partnerId]').selectpicker('refresh');
         $("#modal-type").val('update');
         showUpdate();
+    }else{//payment
+        hideRevenueElement();
+        $("#modal-inp-id").val(id);
+        $("#modal-inp-total-amount").val(decodeHtml(totalAmount));
+        $('select[name=partnerId]').val(partnerId);
+        $('select[name=partnerId]').selectpicker('refresh');
+        disableElement($('select[name=partnerId]'));
+        disableElement($("#modal-inp-total-amount"));
+
+        if(paymentStatus != null && paymentStatus != ''){
+            $("input[name=paymentStatus][value='"+paymentStatus+"']").prop('checked', true);
+        }
+        $("#modal-inp-paymentAmount").val(decodeHtml(paymentAmount));
+
+        var fullDate = new Date();
+        var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) :(fullDate.getMonth()+1);
+        var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+        if(paymentDate == ''){
+            paymentDate = currentDate;
+        }
+        $("#modal-inp-paymentDate").val(decodeHtml(paymentDate));
+        $("#modal-inp-paymentDescription").val(decodeHtml(paymentDescription));
+        $("#modal-type").val('update');
+        $("#paymentAction").val('true');
+
+        showUpdate();
+        $("#myModalLabel").text('Cập nhật thanh toán');
     }
 }
 
@@ -339,12 +388,37 @@ function calTotalAmount() {
 
 }
 
+function calPaymentAmount() {
+    var paymentStatus = Number($('input[name=paymentStatus]:checked').val());
+    if(paymentStatus == 3){
+        $("#modal-inp-paymentAmount").val($("#modal-inp-total-amount").val());
+    }else if(paymentStatus == 2 && Number($("#modal-inp-paymentAmount").val().replace(/,/g, "")) < Number($("#modal-inp-total-amount").val().replace(/,/g, ""))){
+        $("#modal-inp-paymentAmount").val(formatFloatType(Number($("#modal-inp-paymentAmount").val().replace(/,/g, ""))));
+    }else{
+        $("#modal-inp-paymentAmount").val('');
+    }
+}
+
+function changePaymentAmount() {
+    if(Number($("#modal-inp-paymentAmount").val().replace(/,/g, "")) >= Number($("#modal-inp-total-amount").val().replace(/,/g, ""))){
+        $("input[name=paymentStatus][value='3']").prop('checked', true);
+        $("#modal-inp-paymentAmount").val($("#modal-inp-total-amount").val());
+    }else{
+        if($("#modal-inp-paymentAmount").val() != ''){
+            $("input[name=paymentStatus][value='2']").prop('checked', true);
+            $("#modal-inp-paymentAmount").val(formatFloatType(Number($("#modal-inp-paymentAmount").val().replace(/,/g, ""))));
+        }else{
+            $("input[name=paymentStatus][value='1']").prop('checked', true);
+        }
+    }
+}
+
 //@Add action---------------------------------------------------------------------------------------------------
 $btn_add = $('#btn-add');
 $(function () {
     $btn_add.click(function () {
         clearActionInfo();
-        changeModelByType(1,null,null,null,null,null,null,null,null,2,$btn_add.val());
+        changeModelByType(1,null,null,null,null,null,null,null,null,2,null, null, null, null, $btn_add.val());
         $addUpdateModal.modal('show');
         $addUpdateModal.on('shown.bs.modal', function () {
             $('#modal-inp-amount').focus();
@@ -361,6 +435,68 @@ function clearInputContent() {
     $("#modal-inp-id").val('');
     $('select[name=partnerId]').val('-1');
     $('select[name=partnerId]').selectpicker('refresh');
+}
+function hideRevenueElement() {
+    //Hide revenue info
+    $("#label-modal-inp-amount").hide();
+    $("#row-modal-inp-amount").hide();
+
+    $("#label-modal-inp-vat").hide();
+    $("#row-modal-inp-vat").hide();
+
+    $("#label-modal-inp-charge").hide();
+    $("#row-modal-inp-charge").hide();
+
+    $("#label-modal-inp-createdDate").hide();
+    $("#row-modal-inp-createdDate").hide();
+
+    $("#label-modal-inp-description").hide();
+    $("#row-modal-inp-description").hide();
+
+    //show payment info
+    $("#label-modal-inp-paymentStatus").show();
+    $("#row-modal-inp-paymentStatus").show();
+
+    $("#label-modal-inp-paymentAmount").show();
+    $("#row-modal-inp-paymentAmount").show();
+
+    $("#label-modal-inp-paymentDate").show();
+    $("#row-modal-inp-paymentDate").show();
+
+    $("#label-modal-inp-paymentDescription").show();
+    $("#row-modal-inp-paymentDescription").show();
+
+}
+
+function showRevenueElement() {
+    //show revenue info
+    $("#label-modal-inp-amount").show();
+    $("#row-modal-inp-amount").show();
+
+    $("#label-modal-inp-vat").show();
+    $("#row-modal-inp-vat").show();
+
+    $("#label-modal-inp-charge").show();
+    $("#row-modal-inp-charge").show();
+
+    $("#label-modal-inp-createdDate").show();
+    $("#row-modal-inp-createdDate").show();
+
+    $("#label-modal-inp-description").show();
+    $("#row-modal-inp-description").show();
+
+    //hide payment info
+    $("#label-modal-inp-paymentStatus").hide();
+    $("#row-modal-inp-paymentStatus").hide();
+
+    $("#label-modal-inp-paymentAmount").hide();
+    $("#row-modal-inp-paymentAmount").hide();
+
+    $("#label-modal-inp-paymentDate").hide();
+    $("#row-modal-inp-paymentDate").hide();
+
+    $("#label-modal-inp-paymentDescription").hide();
+    $("#row-modal-inp-paymentDescription").hide();
 }
 
 //-------------------------------------------------------------------------

@@ -90,41 +90,73 @@
                                 </div>
                             </div>
                             <!--row 2:created_date + user -->
-                            <div class="row">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label th:text="#{lbl.sale.revenue.type}"></label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group input-group-combo">
+                                    <div class="radio radio-inline radio-primary">
+                                        <input value="-1" type="radio" id="radio-all" name="cmb-revenue-type" checked="checked"/>
+                                        <label for="radio-all" th:text="#{label.all}"></label>
+                                    </div>
+                                    <div class="radio radio-inline radio-info">
+                                        <input value="1" type="radio" id="radio-type-export" name="cmb-revenue-type" />
+                                        <label for="radio-type-export" th:text="#{lbl.sale.revenue.type.export}"></label>
+                                    </div>
+                                    <div class="radio radio-inline radio-danger">
+                                        <input value="2" type="radio" id="radio-type-manual" name="cmb-revenue-type" />
+                                        <label for="radio-type-manual" th:text="#{lbl.sale.revenue.type.manual}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label th:text="#{lbl.sale.revenue.updateduser}" for="cmb-user"></label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group input-group-combo">
+                                    <select id="cmb-user" class="selectpicker form-control" data-live-search="true"
+                                            data-width="100%" name="cmb-user">
+                                        <option value="-1" th:text="#{label.all}"></option>
+                                        <option  th:each="sopt:${lstUsers}"
+                                                 th:value="${sopt.code}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.sale.revenue.type}"></label>
+                                    <label th:text="#{lbl.sale.revenue.payment.status}"></label>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group input-group-combo">
                                         <div class="radio radio-inline radio-primary">
-                                            <input value="-1" type="radio" id="radio-all" name="cmb-revenue-type" checked="checked"/>
+                                            <input value="-1" type="radio" id="radio-all" name="cmb-payment-status" checked="checked"/>
                                             <label for="radio-all" th:text="#{label.all}"></label>
                                         </div>
-                                        <div class="radio radio-inline radio-info">
-                                            <input value="1" type="radio" id="radio-type-export" name="cmb-revenue-type" />
-                                            <label for="radio-type-export" th:text="#{lbl.sale.revenue.type.export}"></label>
-                                        </div>
                                         <div class="radio radio-inline radio-danger">
-                                            <input value="2" type="radio" id="radio-type-manual" name="cmb-revenue-type" />
-                                            <label for="radio-type-manual" th:text="#{lbl.sale.revenue.type.manual}"></label>
+                                            <input value="1" type="radio" id="radio-payment-not" name="cmb-payment-status" />
+                                            <label for="radio-payment-not" th:text="#{lbl.sale.revenue.payment.not}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-warning">
+                                            <input value="2" type="radio" id="radio-payment-processing" name="cmb-payment-status" />
+                                            <label for="radio-payment-processing" th:text="#{lbl.sale.revenue.payment.processing}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="3" type="radio" id="radio-payment-complete" name="cmb-payment-status" />
+                                            <label for="radio-payment-complete" th:text="#{lbl.sale.revenue.payment.completed}"></label>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2">
-                                    <label th:text="#{lbl.sale.revenue.updateduser}" for="cmb-user"></label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="input-group input-group-combo">
-                                        <select id="cmb-user" class="selectpicker form-control" data-live-search="true"
-                                                data-width="100%" name="cmb-user">
-                                            <option value="-1" th:text="#{label.all}"></option>
-                                            <option  th:each="sopt:${lstUsers}"
-                                                     th:value="${sopt.code}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
-                                        </select>
-                                    </div>
+
                                 </div>
-                            </div>
+                        </div>
+
 
                     <!--</form>-->
                     <div class="wrapper text-center" style="text-align: center; margin:3px">
@@ -192,18 +224,19 @@
                             <th data-field="stockTransId"  data-visible="false">stockTransId</th>
                             <th data-field="partnerId"  data-visible="false">partnerId</th>
                             <th data-field="description"  data-visible="false">description</th>
-                            <th data-field="createdUser"  data-visible="false">createdUser</th>
                             <th data-field="type"  data-visible="false">type</th>
                             <th data-field="vat"  data-visible="false">vat</th>
-
-
+                            <th data-field="paymentStatus"  data-visible="false"></th>
+                            <th data-visible="false" data-field="vatValue" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.vat}"></th>
+                            <th data-visible="false" data-field="amount" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.amount}"></th>
+                            <th data-visible="false" data-field="charge" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.charge}"></th>
 
                             <th class="col-md-1" data-field="stockTransCode" data-align="left" data-sortable="true" th:text="#{lbl.sale.revenue.trans.code}"></th>
                             <th class="col-md-2" data-field="partnerName" data-align="left" data-sortable="true" th:text="#{lbl.receiveName}"></th>
-                            <th class="col-md-1" data-field="amount" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.amount}"></th>
-                            <th class="col-md-1" data-field="vatValue" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.vat}"></th>
-                            <th class="col-md-1" data-field="charge" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.charge}"></th>
+                            
                             <th class="col-md-1" data-field="totalAmount" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.total.amount}"></th>
+                            <th class="col-md-1" data-field="paymentStatusValue" data-align="left" data-sortable="true" data-formatter="formatterPaymentStatus" th:text="#{lbl.sale.revenue.payment.status}"></th>
+                            <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true" th:text="#{lbl.sale.revenue.updateduser}"></th>
                             <th class="col-md-1" data-field="createdDate" data-align="center" data-sortable="true" th:text="#{lbl.sale.revenue.createddate}"></th>
                             <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true" data-formatter="formatterRevenueType">Loại</th>
                             <th data-width="90px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>
@@ -219,6 +252,7 @@
     <div th:include="modal/trans_goods_detail_modal_export :: frag-goods-detail-modal-export"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <div th:include="modal/revenue_modal :: frag-revenue-modal"></div>
+
 
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>

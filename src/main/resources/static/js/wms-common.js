@@ -751,6 +751,17 @@ function formatterDeliveryStatus(value, row, index) {
     }
 }
 
+function formatterPaymentStatus(value, row, index) {
+    var paymentStatus = value;
+    if (paymentStatus === 'Chưa thanh toán') {
+        return '<span class="status-bgm-red status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    } else if (paymentStatus === 'Đang thanh toán') {
+        return '<span class="status-bgm-orange status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    }else{
+        return '<span class="status-bgm-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';
+    }
+}
+
 function formatterStatus(value, row, index) {
     if (value === 'Hiệu lực') {
         return '<span class="status-bgm-blue status-label">' + '<span class="">' + value + '</span>' + '</span>';

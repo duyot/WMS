@@ -85,7 +85,8 @@ public class RevenueController extends BaseController {
     public @ResponseBody
     List<RevenueDTO> findByCondition(@RequestParam("createdUser") String createdUser,
                                      @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-                                     @RequestParam("type") String type, @RequestParam("partnerId") String partnerId
+                                     @RequestParam("type") String type, @RequestParam("partnerId") String partnerId,
+                                     @RequestParam("paymentStatus") String paymentStatus
     ) {
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
@@ -108,6 +109,10 @@ public class RevenueController extends BaseController {
             lstCon.add(new Condition("type", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, type));
         }
 
+        if (!DataUtil.isStringNullOrEmpty(paymentStatus) && !paymentStatus.equals(Constants.STATS_ALL)) {
+            lstCon.add(new Condition("paymentStatus", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, paymentStatus));
+        }
+
         lstCon.add(new Condition("id", Constants.SQL_OPERATOR.ORDER, "desc"));
         //
         lstRevenue = revenueService.findByCondition(lstCon);
@@ -123,7 +128,7 @@ public class RevenueController extends BaseController {
     public void getListRevenueFile(HttpServletResponse response) {
         if (DataUtil.isListNullOrEmpty(lstRevenue)) {
             lstRevenue.add(new RevenueDTO("", "", "","", "", "", "",
-                    "", "", "", "", ""));
+                    "", "", "", "", "","", "", "",""));
             startDate = "";
             endDate = "";
         }
@@ -194,11 +199,25 @@ public class RevenueController extends BaseController {
             }else{
                 vat = 0.0;
             }
+            totalAmount = 0.0;
             if(!DataUtil.isStringNullOrEmpty(i.getAmount())){
-                i.setTotalAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(String.valueOf(Double.valueOf(i.getAmount()) + Math.round(Double.valueOf(i.getAmount())*vat/100) + charge))));
+                totalAmount = Double.valueOf(i.getAmount()) + Math.round(Double.valueOf(i.getAmount())*vat/100) + charge;
+                i.setTotalAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(String.valueOf(totalAmount))));
                 i.setAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getAmount())));
             }
-
+            if("3".equals(i.getPaymentStatus())){
+                i.setPaymentStatusValue(Constants.PAYMENT_COMPLETE);
+            }else if ("2".equals(i.getPaymentStatus())){
+                i.setPaymentStatusValue(Constants.PAYMENT_PROCESSING);
+            }else{
+                i.setPaymentStatusValue(Constants.PAYMENT_NOT_COMPLETE);
+            }
+            if(!DataUtil.isStringNullOrEmpty(i.getPaymentAmount())){
+                i.setPaymentRemain(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(String.valueOf(totalAmount - Double.valueOf(i.getPaymentAmount())))));
+                i.setPaymentAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getPaymentAmount())));
+            }else{
+                i.setPaymentRemain(i.getTotalAmount());
+            }
         }
         return lstRevenue;
     }
@@ -209,20 +228,31 @@ public class RevenueController extends BaseController {
         log.info("Update Revenue_History info: " + revenueDTO.toString());
         revenueDTO.setCustId(this.selectedCustomer.getId());
         RevenueDTO updateDTO = (RevenueDTO) revenueService.findById(Long.valueOf(revenueDTO.getId()));
-        if(!DataUtil.isStringNullOrEmpty(revenueDTO.getAmount())){
-            updateDTO.setAmount(revenueDTO.getAmount().replaceAll(",",""));
+
+        if(DataUtil.isStringNullOrEmpty(revenueDTO.getPaymentAction())){
+            //update
+            if(!DataUtil.isStringNullOrEmpty(revenueDTO.getAmount())){
+                updateDTO.setAmount(revenueDTO.getAmount().replaceAll(",",""));
+            }
+            if(!DataUtil.isStringNullOrEmpty(revenueDTO.getCharge())){
+                updateDTO.setCharge(revenueDTO.getCharge().replaceAll(",",""));
+            }
+            updateDTO.setVat(revenueDTO.getVat());
+            updateDTO.setPartnerId(revenueDTO.getPartnerId());
+            updateDTO.setCreatedDate(revenueDTO.getCreatedDate());
+            updateDTO.setDescription(revenueDTO.getDescription());
+            updateDTO.setCreatedUser(this.currentUser.getCode());
+        }else{
+            //payment
+            updateDTO.setPaymentAmount(revenueDTO.getPaymentAmount().replaceAll(",",""));
+            updateDTO.setPaymentDate(revenueDTO.getPaymentDate());
+            updateDTO.setPaymentStatus(revenueDTO.getPaymentStatus());
+            updateDTO.setPaymentDescription(revenueDTO.getPaymentDescription());
         }
-        if(!DataUtil.isStringNullOrEmpty(revenueDTO.getCharge())){
-            updateDTO.setCharge(revenueDTO.getCharge().replaceAll(",",""));
-        }
-        updateDTO.setVat(revenueDTO.getVat());
-        updateDTO.setPartnerId(revenueDTO.getPartnerId());
-        updateDTO.setCreatedDate(revenueDTO.getCreatedDate());
-        updateDTO.setDescription(revenueDTO.getDescription());
-        updateDTO.setCreatedUser(this.currentUser.getCode());
+
         ResponseObject response = revenueService.update(updateDTO);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode()) ) {
-            if(!DataUtil.isStringNullOrEmpty(updateDTO.getStockTransId())){
+            if(!DataUtil.isStringNullOrEmpty(updateDTO.getStockTransId()) && DataUtil.isStringNullOrEmpty(revenueDTO.getPaymentAction())){
                 MjrStockTransDTO mjrStockTransDTO = (MjrStockTransDTO) mjrStockTransService.findById(Long.valueOf(updateDTO.getStockTransId()));
                 if (mjrStockTransDTO != null && revenueDTO.getPartnerId() != null) {
                     mjrStockTransDTO.setReceiveId(revenueDTO.getPartnerId());
@@ -254,6 +284,8 @@ public class RevenueController extends BaseController {
         }
         revenueDTO.setCreatedUser(this.currentUser.getCode());
         revenueDTO.setType("2");
+        revenueDTO.setPaymentStatus("1");
+
         ResponseObject response = revenueService.add(revenueDTO);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             log.info("Add: " + revenueDTO.toString() + " SUCCESS");

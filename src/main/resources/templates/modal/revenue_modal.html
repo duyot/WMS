@@ -18,6 +18,7 @@
                             <input id="modal-inp-id" hidden="true" name="id"/>
                             <input id="modal-type"   hidden="true" name="modal-type"/>
                             <input id="modal-inp-type"   hidden="true" name="type"/>
+                            <input id="paymentAction"   hidden="true" name="paymentAction"/>
 
 
                             <div class="row row-header">
@@ -42,32 +43,32 @@
                                 </div>
                             </div>
 
-                            <div class="row row-header">
+                            <div class="row row-header" id="label-modal-inp-amount">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <label for="modal-inp-amount" class="control-label label-require" th:text="#{lbl.sale.revenue.amount}"></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row row-content">
+                            <div class="row row-content" id="row-modal-inp-amount">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
                                     </span>
                                         <input id="modal-inp-amount" class="form-control input-number" data-validation="number"
-                                               data-validation-allowing="float" th:required="true" name="amount" maxlength="15" style="text-align: right" onchange="calTotalAmount()"/>
+                                               data-validation-allowing="float" th:required="true" name="amount" maxlength="20" style="text-align: right" onchange="calTotalAmount()"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row row-header">
+                            <div class="row row-header" id="label-modal-inp-vat">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <label class="control-label label-require" th:text="#{lbl.sale.revenue.vat}"></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row row-content">
+                            <div class="row row-content" id="row-modal-inp-vat">
                                 <div class="col-sm-12">
                                     <div class="input-group input-group-combo">
                                         <div class="radio radio-inline radio-primary">
@@ -89,25 +90,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row row-header">
+                            <div class="row row-header" id="label-modal-inp-charge">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <label for="modal-inp-charge" class="control-label " th:text="#{lbl.sale.revenue.charge}"></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row row-content">
+                            <div class="row row-content" id="row-modal-inp-charge">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa  fa-server fa-fw"></i>
                                     </span>
                                         <input id="modal-inp-charge" class="form-control input-number" data-validation="number"
-                                               data-validation-allowing="float" name="charge" maxlength="10" style="text-align: right" onchange="calTotalAmount()"/>
+                                               data-validation-allowing="float" name="charge" maxlength="20" style="text-align: right" onchange="calTotalAmount()"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row row-header">
+                            <div class="row row-header" >
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <label for="modal-inp-total-amount" class="control-label" th:text="#{lbl.sale.revenue.total.amount}"></label>
@@ -121,18 +122,18 @@
                                             <i class="fa fa-server fa-fw"></i>
                                     </span>
                                         <input id="modal-inp-total-amount" class="form-control input-number" data-validation="number"
-                                               data-validation-allowing="float" name="totalAmount" disabled="true" maxlength="100" style="text-align: right"/>
+                                               data-validation-allowing="float" name="totalAmount" disabled="true" maxlength="20" style="text-align: right"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row row-header">
+                            <div class="row row-header" id="label-modal-inp-createdDate">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <label for="modal-inp-createdDate" class="control-label label-require" th:text="#{lbl.sale.revenue.createddate}"></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row row-content">
+                            <div class="row row-content" id="row-modal-inp-createdDate">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -143,14 +144,14 @@
                                 </div>
                             </div>
 
-                            <div class="row row-header">
+                            <div class="row row-header" id="label-modal-inp-description">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <label for="modal-inp-description" class="control-label " th:text="#{lbl.sale.delivery.description}"></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row row-content">
+                            <div class="row row-content" id="row-modal-inp-description">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -161,6 +162,87 @@
                                 </div>
                             </div>
 
+
+                            <div class="row row-header" id="label-modal-inp-paymentStatus">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label class="control-label label-require" th:text="#{lbl.sale.revenue.payment.status}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content" id="row-modal-inp-paymentStatus">
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-combo">
+
+                                        <div class="radio radio-inline radio-danger">
+                                            <input value="1" type="radio" id="radio-payment-not" name="paymentStatus" onchange="calPaymentAmount()"/>
+                                            <label for="radio-payment-not" th:text="#{lbl.sale.revenue.payment.not}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-warning">
+                                            <input value="2" type="radio" id="radio-payment-processing" name="paymentStatus" onchange="calPaymentAmount()"/>
+                                            <label for="radio-payment-processing" th:text="#{lbl.sale.revenue.payment.processing}"></label>
+                                        </div>
+                                        <div class="radio radio-inline radio-info">
+                                            <input value="3" type="radio" id="radio-payment-completed" name="paymentStatus" onchange="calPaymentAmount()"/>
+                                            <label for="radio-payment-completed" th:text="#{lbl.sale.revenue.payment.completed}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-header" id="label-modal-inp-paymentAmount">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-paymentAmount" class="control-label " th:text="#{lbl.sale.revenue.payment.amount}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content" id="row-modal-inp-paymentAmount">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-paymentAmount" class="form-control input-number" data-validation="number"
+                                               data-validation-allowing="float" name="paymentAmount" maxlength="20" style="text-align: right" onchange="changePaymentAmount()"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-header" id="label-modal-inp-paymentDate">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-paymentDate" class="control-label" th:text="#{lbl.sale.revenue.payment.date}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content" id="row-modal-inp-paymentDate">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-paymentDate" class="form-control" type="text" name="paymentDate" maxlength="12"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-header" id="label-modal-inp-paymentDescription">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <label for="modal-inp-paymentDescription" class="control-label " th:text="#{lbl.sale.revenue.payment.description}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-content" id="row-modal-inp-paymentDescription">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa  fa-server fa-fw"></i>
+                                    </span>
+                                        <input id="modal-inp-paymentDescription" class="form-control" type="text" maxlength="500" name="paymentDescription"/>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                     </div>

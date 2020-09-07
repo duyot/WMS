@@ -12,7 +12,9 @@ public class Constants {
     public static final String TYPE_EXPORTED = "Phiếu xuất";
     public static final String TYPE_MANUAL = "Nhập tay";
     public static final String REVENUE_NO_VAT = "Không thuế";
-
+    public static final String PAYMENT_NOT_COMPLETE = "Chưa thanh toán";
+    public static final String PAYMENT_PROCESSING = "Đang thanh toán";
+    public static final String PAYMENT_COMPLETE = "Đã thanh toán";
 
     public static class APP_PARAMS {
         public static String TRANS_TYPE = "TRANS_TYPE";
