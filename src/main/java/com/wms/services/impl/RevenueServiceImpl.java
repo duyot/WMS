@@ -22,4 +22,8 @@ public class RevenueServiceImpl extends BaseServiceImpl<RevenueDTO, RevenueDP> i
         this.tdp = revenueDP;
     }
 
+    @Override
+    public List<RevenueDTO> getSumRevenue( String custId, String partnerId, String startDate, String endDate) {
+        return revenueDP.getSumRevenue(custId,partnerId, startDate, endDate);
+    }
 }

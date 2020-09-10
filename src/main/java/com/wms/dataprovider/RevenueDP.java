@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import com.wms.base.BaseDP;
 import com.wms.constants.Constants;
 import com.wms.dto.RevenueDTO;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
@@ -19,10 +21,25 @@ import org.springframework.web.client.RestTemplate;
  */
 @Repository
 public class RevenueDP extends BaseDP<RevenueDTO> {
+    private final String GET_SUM_REVENUE = "getSumRevenue";
+
     Logger log = LoggerFactory.getLogger(BaseDP.class);
 
     public RevenueDP() {
         super(RevenueDTO[].class, RevenueDTO.class, Constants.SERVICE_PREFIX.REVENUE_SERVICE);
     }
 
+    public List<RevenueDTO> getSumRevenue(String custId, String partnerId, String startDate, String endDate) {
+
+        String query = "custId=" + custId + "&partnerId=" + partnerId + "&startDate=" + startDate + "&endDate=" + endDate;
+        String url = getUrlLoadBalancingQuery(query, GET_SUM_REVENUE);
+        try {
+            ResponseEntity<RevenueDTO[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, RevenueDTO[].class);
+            return Arrays.asList(responseEntity.getBody());
+        } catch (RestClientException e) {
+            log.error(e.toString());
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }

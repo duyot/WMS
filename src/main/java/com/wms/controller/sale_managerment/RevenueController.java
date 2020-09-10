@@ -7,6 +7,7 @@ import com.wms.constants.Responses;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
+import com.wms.services.interfaces.RevenueService;
 import com.wms.services.interfaces.StockManagementService;
 import com.wms.utils.*;
 
@@ -52,7 +53,7 @@ public class RevenueController extends BaseController {
     public CatUserService catUserService;
 
     @Autowired
-    BaseService revenueService;
+    RevenueService revenueService;
 
     @Autowired
     BaseService mjrStockTransService;
@@ -133,22 +134,72 @@ public class RevenueController extends BaseController {
             endDate = "";
         }
         String prefixFileName = "Thongtin_ds_doanhthu_";
-        String fileResource = exportListStockTrans(lstRevenue, prefixFileName);
+        String fileResource = exportListRevenue(lstRevenue, prefixFileName);
         FunctionUtils.loadFileToClient(response, fileResource);
     }
 
     //==================================================================================================================
-    private String exportListStockTrans(List<RevenueDTO> lstRevenue, String prefixFileName) {
+    @RequestMapping(value = "/getListSumRevenueFile")
+    public void getListSumRevenueFile(HttpServletResponse response, @RequestParam("partnerId") String partnerId, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+        List<RevenueDTO> lstSumRevenue = revenueService.getSumRevenue(selectedCustomer.getId(),partnerId, startDate, endDate);
+        String prefixFileName = "Thongtin_tonghop_doanhthu_";
+        String fileResource = exportListSumRevenue(lstSumRevenue, prefixFileName);
+        FunctionUtils.loadFileToClient(response, fileResource);
+    }
+
+    //==================================================================================================================
+    private String exportListRevenue(List<RevenueDTO> lstRevenue, String prefixFileName) {
         //Hien thi thong tin khach hang nhan
         for (RevenueDTO i : lstRevenue) {
             if(i.getPartnerId() != null && mapPartnerIdPartner.containsKey(i.getPartnerId())){
                 CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(i.getPartnerId());
-                if (catPartnerDTO.getParentId() != null && mapPartnerIdPartner.containsKey(catPartnerDTO.getParentId())){
-                    i.setPartnerName(mapPartnerIdPartner.get(catPartnerDTO.getParentId()).getName());
-                }
+                i.setPartnerName(mapPartnerIdPartner.get(catPartnerDTO.getId()).getName());
             }
         }
         String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.LIST_REVENUE_TEMPLATE;
+        //
+        File file = new File(templatePath);
+        String templateAbsolutePath = file.getAbsolutePath();
+
+        Map<String, Object> beans = new HashMap<>();
+        beans.put("items", lstRevenue);
+        beans.put("startDate", startDate);
+        beans.put("endDate", endDate);
+
+
+        String fullFileName = prefixFileName + "_" + DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String reportFullPath = profileConfig.getTempURL() + fullFileName;
+        //
+        FunctionUtils.exportExcel(templateAbsolutePath, beans, reportFullPath);
+        return reportFullPath;
+    }
+
+    //==================================================================================================================
+    private String exportListSumRevenue(List<RevenueDTO> lstRevenue, String prefixFileName) {
+        //Hien thi thong tin khach hang nhan
+        Double amount = 0.0;
+        Double paymentAmount = 0.0;
+        for (RevenueDTO i : lstRevenue) {
+            if(i.getPartnerId() != null && mapPartnerIdPartner.containsKey(i.getPartnerId())){
+                CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(i.getPartnerId());
+                i.setPartnerName(mapPartnerIdPartner.get(catPartnerDTO.getId()).getName());
+            }
+            amount = 0.0;
+            paymentAmount = 0.0;
+            if(!DataUtil.isNullOrEmpty(i.getAmount())){
+                amount = Double.valueOf(i.getAmount());
+                i.setAmountValue(amount);
+            }
+
+            if(!DataUtil.isNullOrEmpty(i.getPaymentAmount())){
+                paymentAmount = Double.valueOf(i.getPaymentAmount());
+                i.setPaymentAmountValue(paymentAmount);
+                i.setPaymentRemainValue(amount-paymentAmount);
+            }else{
+                i.setPaymentRemainValue(i.getAmountValue());
+            }
+        }
+        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.LIST_SUM_REVENUE_TEMPLATE;
         //
         File file = new File(templatePath);
         String templateAbsolutePath = file.getAbsolutePath();
@@ -175,6 +226,9 @@ public class RevenueController extends BaseController {
         Double vat = 0.0;
 
         for (RevenueDTO i : lstRevenue) {
+            totalAmount = 0.0;
+            charge = 0.0;
+            vat = 0.0;
             if(i.getPartnerId() != null && mapPartnerIdPartner.get(i.getPartnerId()) != null) {
                 i.setPartnerName(mapPartnerIdPartner.get(i.getPartnerId()).getName());
             }
@@ -194,6 +248,7 @@ public class RevenueController extends BaseController {
             }else{
                 charge = 0.0;
             }
+            i.setChargeValue(charge);
             if(!DataUtil.isStringNullOrEmpty(i.getVat())){
                 vat = Double.valueOf(i.getVat());
             }else{
@@ -203,7 +258,11 @@ public class RevenueController extends BaseController {
             if(!DataUtil.isStringNullOrEmpty(i.getAmount())){
                 totalAmount = Double.valueOf(i.getAmount()) + Math.round(Double.valueOf(i.getAmount())*vat/100) + charge;
                 i.setTotalAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(String.valueOf(totalAmount))));
+                i.setTotalAmountValue(totalAmount);
+                i.setAmountValue(Double.valueOf(i.getAmount()));
                 i.setAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getAmount())));
+            }else{
+                i.setAmountValue(0.0);
             }
             if("3".equals(i.getPaymentStatus())){
                 i.setPaymentStatusValue(Constants.PAYMENT_COMPLETE);
@@ -214,9 +273,13 @@ public class RevenueController extends BaseController {
             }
             if(!DataUtil.isStringNullOrEmpty(i.getPaymentAmount())){
                 i.setPaymentRemain(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(String.valueOf(totalAmount - Double.valueOf(i.getPaymentAmount())))));
+                i.setPaymentRemainValue(totalAmount-Double.valueOf(i.getPaymentAmount()));
+                i.setPaymentAmountValue(Double.valueOf(i.getPaymentAmount()));
                 i.setPaymentAmount(FunctionUtils.formatNumber(FunctionUtils.removeScientificNotation(i.getPaymentAmount())));
             }else{
                 i.setPaymentRemain(i.getTotalAmount());
+                i.setPaymentRemainValue(i.getTotalAmountValue());
+                i.setPaymentAmountValue(0.0);
             }
         }
         return lstRevenue;

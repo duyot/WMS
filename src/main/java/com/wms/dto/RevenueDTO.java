@@ -27,6 +27,11 @@ public class RevenueDTO {
     private String paymentDate;
     private String paymentAction;
     private String paymentRemain;
+    private Double amountValue;
+    private Double paymentAmountValue;
+    private Double paymentRemainValue;
+    private Double chargeValue;
+    private Double totalAmountValue;
 
     public RevenueDTO(String id, String custId, String partnerId, String amount, String vat, String charge, String stockTransId,
                       String stockTransCode, String description, String type, String createdUser, String createdDate,
@@ -234,6 +239,46 @@ public class RevenueDTO {
 
     public void setPaymentRemain(String paymentRemain) {
         this.paymentRemain = paymentRemain;
+    }
+
+    public Double getAmountValue() {
+        return amountValue;
+    }
+
+    public void setAmountValue(Double amountValue) {
+        this.amountValue = amountValue;
+    }
+
+    public Double getPaymentAmountValue() {
+        return paymentAmountValue;
+    }
+
+    public void setPaymentAmountValue(Double paymentAmountValue) {
+        this.paymentAmountValue = paymentAmountValue;
+    }
+
+    public Double getPaymentRemainValue() {
+        return paymentRemainValue;
+    }
+
+    public void setPaymentRemainValue(Double paymentRemainValue) {
+        this.paymentRemainValue = paymentRemainValue;
+    }
+
+    public Double getChargeValue() {
+        return chargeValue;
+    }
+
+    public void setChargeValue(Double chargeValue) {
+        this.chargeValue = chargeValue;
+    }
+
+    public Double getTotalAmountValue() {
+        return totalAmountValue;
+    }
+
+    public void setTotalAmountValue(Double totalAmountValue) {
+        this.totalAmountValue = totalAmountValue;
     }
 
     @Override

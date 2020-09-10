@@ -125,6 +125,8 @@ $(function () {
     });
     //
     initDateRangeSelect();
+    initPropertyDateSelect();
+
 });
 //
 window.operateEvents = {
@@ -258,6 +260,14 @@ function search(isClear){
     var paymentStatus = $("input[name='cmb-payment-status']:checked").val();
 
 
+    var $downloadLink = $('#link-download-sum-revenue');
+    var originalLink = $downloadLink.attr("href");
+    if(originalLink.includes("?")){
+        originalLink = trimAtChacter(originalLink,"?");
+    }
+    $downloadLink.attr("href",originalLink +"?partnerId="+partnerId+"&startDate="+startDateVal+"&endDate="+endDateVal);
+
+
     $.ajax({
         type: "GET",
         cache:false,
@@ -323,6 +333,7 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) :(fullDate.getMonth()+1);
         var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
         $("#modal-inp-createdDate").val(currentDate);
+        $("#paymentAction").val('');
         showAdd();
     }else if (type ==2){//update
         showRevenueElement();
@@ -340,6 +351,7 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         $('select[name=partnerId]').val(partnerId);
         $('select[name=partnerId]').selectpicker('refresh');
         $("#modal-type").val('update');
+        $("#paymentAction").val('');
         showUpdate();
     }else{//payment
         hideRevenueElement();
@@ -433,6 +445,10 @@ function clearInputContent() {
     $("#modal-inp-createdDate").val('');
     $("#modal-inp-description").val('');
     $("#modal-inp-id").val('');
+    $("#modal-inp-paymentAmount").val('');
+    $("#modal-inp-paymentDescription").val('');
+    $("#modal-inp-paymentDate").val('');
+    $("#modal-inp-paymentStatus").val('1');
     $('select[name=partnerId]').val('-1');
     $('select[name=partnerId]').selectpicker('refresh');
 }
