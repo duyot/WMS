@@ -357,6 +357,33 @@ function initPropertyDateSelect() {
     });
 }
 
+function disablePropertyDateSelect() {
+    var date = new Date();
+    var start = new Date(date.getFullYear(), date.getMonth(), 1);
+    var end = moment();
+
+    $('input[property="singledate"]').daterangepicker({
+        timePicker: false,
+        singleDatePicker: true,
+        timePickerIncrement: 30,
+        startDate: start,
+        endDate: end,
+        locale: {
+            format: 'DD/MM/YYYY'
+        },
+        buttonClasses: ['btn btn-default'],
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+            'Last 7 Days': [moment().subtract('days', 6), moment()],
+            'Last 30 Days': [moment().subtract('days', 29), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        },
+        showDropdowns: true
+    });
+}
+
 //------------------------------------------------------------------------------------------------------------------
 //validate for upload file
 function getExtension(filename) {

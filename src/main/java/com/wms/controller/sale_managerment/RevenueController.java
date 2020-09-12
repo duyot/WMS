@@ -302,7 +302,9 @@ public class RevenueController extends BaseController {
             }
             updateDTO.setVat(revenueDTO.getVat());
             updateDTO.setPartnerId(revenueDTO.getPartnerId());
-            updateDTO.setCreatedDate(revenueDTO.getCreatedDate());
+            if(!"1".equals(updateDTO.getType())){
+                updateDTO.setCreatedDate(revenueDTO.getCreatedDate());
+            }
             updateDTO.setDescription(revenueDTO.getDescription());
             updateDTO.setCreatedUser(this.currentUser.getCode());
         }else{

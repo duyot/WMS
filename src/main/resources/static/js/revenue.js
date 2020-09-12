@@ -305,19 +305,13 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
     $("#revenue-insert-update-form").attr("action",actionVal);
 
     if(revenueType ==1){
-        //disableElement($('#modal-inp-amount'));
-        //disableElement($('#modal-inp-createdDate'));
-        //disableElement($('#modal-cmb-partner'));
         $('#modal-inp-amount').prop('readonly', true);
-        $('#modal-inp-createdDate').prop('readonly', true);
+        disableElement($('#modal-inp-createdDate'));
+        //$('#modal-inp-createdDate').prop('readonly', true);
     }else{
-        //enableElement($('#modal-inp-amount'));
-        //enableElement($('#modal-inp-createdDate'));
-        //enableElement($('#modal-cmb-partner'));
         $('#modal-inp-amount').prop('readonly', false);
+        enableElement($('#modal-inp-createdDate'));
         $("#modal-inp-createdDate").val('dd/mm/yyyy', new Date());
-        $('#modal-inp-createdDate').prop('readonly', false);
-
     }
     if(type == 1){//add
         showRevenueElement();
@@ -367,6 +361,9 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         }
         $("#modal-inp-paymentAmount").val(decodeHtml(paymentAmount));
 
+        if($("#modal-inp-total-amount").val() != null && $("#modal-inp-total-amount").val() != ''){
+            $("#modal-inp-paymentRemain").val(formatFloatType(Number($("#modal-inp-total-amount").val().replace(/,/g, "")) - Number($("#modal-inp-paymentAmount").val().replace(/,/g, ""))));
+        }
         var fullDate = new Date();
         var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) :(fullDate.getMonth()+1);
         var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
@@ -404,10 +401,13 @@ function calPaymentAmount() {
     var paymentStatus = Number($('input[name=paymentStatus]:checked').val());
     if(paymentStatus == 3){
         $("#modal-inp-paymentAmount").val($("#modal-inp-total-amount").val());
+        $("#modal-inp-paymentRemain").val('0');
     }else if(paymentStatus == 2 && Number($("#modal-inp-paymentAmount").val().replace(/,/g, "")) < Number($("#modal-inp-total-amount").val().replace(/,/g, ""))){
         $("#modal-inp-paymentAmount").val(formatFloatType(Number($("#modal-inp-paymentAmount").val().replace(/,/g, ""))));
     }else{
         $("#modal-inp-paymentAmount").val('');
+        $("#modal-inp-paymentRemain").val($("#modal-inp-total-amount").val());
+
     }
 }
 
@@ -415,12 +415,16 @@ function changePaymentAmount() {
     if(Number($("#modal-inp-paymentAmount").val().replace(/,/g, "")) >= Number($("#modal-inp-total-amount").val().replace(/,/g, ""))){
         $("input[name=paymentStatus][value='3']").prop('checked', true);
         $("#modal-inp-paymentAmount").val($("#modal-inp-total-amount").val());
+        $("#modal-inp-paymentRemain").val('0');
+
     }else{
         if($("#modal-inp-paymentAmount").val() != ''){
             $("input[name=paymentStatus][value='2']").prop('checked', true);
             $("#modal-inp-paymentAmount").val(formatFloatType(Number($("#modal-inp-paymentAmount").val().replace(/,/g, ""))));
+            $("#modal-inp-paymentRemain").val(formatFloatType(Number($("#modal-inp-total-amount").val().replace(/,/g, "")) - Number($("#modal-inp-paymentAmount").val().replace(/,/g, ""))));
         }else{
             $("input[name=paymentStatus][value='1']").prop('checked', true);
+            $("#modal-inp-paymentRemain").val($("#modal-inp-total-amount").val());
         }
     }
 }
@@ -476,6 +480,9 @@ function hideRevenueElement() {
     $("#label-modal-inp-paymentAmount").show();
     $("#row-modal-inp-paymentAmount").show();
 
+    $("#label-modal-inp-paymentRemain").show();
+    $("#row-modal-inp-paymentRemain").show();
+
     $("#label-modal-inp-paymentDate").show();
     $("#row-modal-inp-paymentDate").show();
 
@@ -507,6 +514,9 @@ function showRevenueElement() {
 
     $("#label-modal-inp-paymentAmount").hide();
     $("#row-modal-inp-paymentAmount").hide();
+
+    $("#label-modal-inp-paymentRemain").hide();
+    $("#row-modal-inp-paymentRemain").hide();
 
     $("#label-modal-inp-paymentDate").hide();
     $("#row-modal-inp-paymentDate").hide();
