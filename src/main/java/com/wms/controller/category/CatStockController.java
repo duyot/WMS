@@ -79,15 +79,29 @@ public class CatStockController extends BaseCommonController {
         lstCon.add(new Condition("id", Constants.SQL_OPERATOR.ORDER, "desc"));
 
         List<CatStockCellDTO> lstCells = catStockCellService.findByCondition(lstCon);
+        for(CatStockCellDTO catStockCellDTO : lstCells){
+            catStockCellDTO.setMaxVolumeValue(FunctionUtils.formatNumber(catStockCellDTO.getMaxVolume()));
+            catStockCellDTO.setMaxWeightValue(FunctionUtils.formatNumber(catStockCellDTO.getMaxWeight()));
+            if("2".equals(catStockCellDTO.getManyCodes())){
+                catStockCellDTO.setManyCodesValue("Không");
+            }else{
+                catStockCellDTO.setManyCodesValue("Có");
+            }
+        }
         return lstCells;
     }
 
     @RequestMapping(value = "/addCell", method = RequestMethod.POST)
     public @ResponseBody
-    String addCell(HttpServletRequest request, @RequestParam("stockId") String stockId, @RequestParam("code") String code) {
+    String addCell(HttpServletRequest request, @RequestParam("stockId") String stockId, @RequestParam("code") String code,
+                   @RequestParam("maxWeight") String maxWeight,@RequestParam("maxVolume") String maxVolume,@RequestParam("manyCodes") String manyCodes) {
         CatStockCellDTO cell = new CatStockCellDTO();
         cell.setStockId(stockId);
         cell.setCode(code.toUpperCase());
+        cell.setMaxWeight(FunctionUtils.unformatFloat(maxWeight));
+        cell.setMaxVolume(FunctionUtils.unformatFloat(maxVolume));
+        cell.setManyCodes(manyCodes);
+
         ResponseObject response = catStockCellService.add(cell);
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode())) {
             SessionUtils.setCellModified(request);

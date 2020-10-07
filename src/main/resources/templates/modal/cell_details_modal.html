@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
 </head>
 <body>
 
@@ -19,16 +20,65 @@
                         <div class="container-modal">
                             <div class="panel-body" style="padding: 0.2em 0.4em;">
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <label id="lbl-stock-name" class="require break-word"></label>
+                                    <div class="col-sm-2">
+                                        <label class="control-label"   style="padding-right: 20px">Kho</label>
                                     </div>
-                                    <div class="col-sm-3">
+
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <label id="lbl-stock-name" class="control-label" style="padding-right: 20px"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
                                         <label th:text="#{lbl.cellCode}" class="control-label label-require"   style="padding-right: 20px"></label>
                                     </div>
 
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-4">
                                         <div class="input-group">
                                             <input id="inp-cell-code" class="form-control uppercase-input" th:required="true" maxlength="50"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.cell.max.weight}" class="control-label"   style="padding-right: 20px"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input id="inp-max-weight" class="form-control input-number" data-validation="number"
+                                                   data-validation-allowing="float" th:required="false" maxlength="10" onchange="autoAddCommand()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.cell.many.codes}" class="control-label"   style="padding-right: 20px"></label>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="input-group input-group-combo">
+                                            <div class="radio radio-inline radio-info">
+                                                <input value="1" type="radio" id="radio-yes" name="cmb-many-codes" checked="checked"/>
+                                                <label for="radio-yes">Có</label>
+                                            </div>
+                                            <div class="radio radio-inline radio-danger">
+                                                <input value="2" type="radio" id="radio-no" name="cmb-many-codes"/>
+                                                <label for="radio-no">Không</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label th:text="#{lbl.cell.max.volume}" class="control-label"   style="padding-right: 20px"></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input id="inp-max-volume" class="form-control input-number" data-validation="number"
+                                                   data-validation-allowing="float" th:required="false" maxlength="10" onchange="autoAddCommand()"/>
                                         </div>
                                     </div>
                                 </div>
@@ -62,8 +112,11 @@
                                     <thead>
                                     <tr>
                                         <th data-field="id" data-formatter="runningFormatter" data-align="center" data-width="40px">STT</th>
-                                        <th class="col-md-4" data-field="id" data-align="left" data-sortable="true">Id</th>
-                                        <th class="col-md-6" data-field="code" data-align="left" data-sortable="true">Mã</th>
+                                        <th class="col-md-1" data-field="id" data-align="left" data-sortable="true">Id</th>
+                                        <th class="col-md-3" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.cell.code}"></th>
+                                        <th class="col-md-2" data-field="maxWeightValue" data-align="right" data-sortable="true" th:text="#{lbl.cell.max.weight}"></th>
+                                        <th class="col-md-2" data-field="maxVolumeValue" data-align="right" data-sortable="true" th:text="#{lbl.cell.max.volume}"></th>
+                                        <th class="col-md-2" data-field="manyCodesValue" data-align="left" data-sortable="true" th:text="#{lbl.cell.many.codes}"></th>
                                         <th data-align="center"  data-events="operateEvents" data-formatter="cellOperateFormatter" th:text="#{lbl.action}"></th>
                                     </tr>
                                     </thead>

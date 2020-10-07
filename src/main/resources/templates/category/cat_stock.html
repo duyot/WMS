@@ -202,6 +202,11 @@
         //fill data to table
         search(false);
     });
+
+    $('.input-number').keyup(function () {
+        this.value = this.value.replace(/[^0-9\.]/g,'');
+    });
+
     //row function------------------------------------------------------------------------------------------------------
     var deleteItem;
     var deleteItemCode;
@@ -220,7 +225,7 @@
 
         'click .show-cell': function (e, value, row, index) {
             selectedStockId = row['id'];
-            $('#lbl-stock-name').text('Kho ' + row['name']);
+            $('#lbl-stock-name').text(row['name']);
             $('#inp-cell-code').val('');
             $('#inp-cell-code').focus();
             //
@@ -361,6 +366,11 @@
     $btn_add_cell = $('#btn-add-cell');
     $btn_add_cell.click(function () {
         var cellCode = $('#inp-cell-code').val().trim();
+        var maxWeight = $('#inp-max-weight').val();
+        var maxVolume = $('#inp-max-volume').val();
+        var manyCodes = $("input[name='cmb-many-codes']:checked").val();
+
+
         if (cellCode == '') {
             alert("Nhập vào mã vị trí");
             return;
@@ -373,7 +383,7 @@
         $.ajax({
             type: "POST",
             url: $btn_add_cell.val(),
-            data: {code:cellCode, stockId: selectedStockId},
+            data: {code:cellCode, stockId: selectedStockId, maxWeight:maxWeight, maxVolume:maxVolume, manyCodes:manyCodes},
             success: function (data) {
                 var resultArr = data.split('|');
                 var resultCode = resultArr[0];
@@ -382,6 +392,10 @@
                     setInfoMessage($('#cell-action-info'),resultName);
                     //refresh list
                     loadListCell(selectedStockId);
+                    $('#inp-cell-code').val('');
+                    $('#inp-max-weight').val('');
+                    $('#inp-max-volume').val('');
+                    $("input[name='cmb-many-codes']:checked").val('1');
                 }else{
                     setErrorMessage($('#cell-action-info'),resultName);
                 }
@@ -505,6 +519,13 @@
             //
             showUpdate();
         }
+    }
+
+    function autoAddCommand(){
+        var maxWeight = Number($("#inp-max-weight").val().replace(/,/g, ""));
+        var maxVolume = Number($("#inp-max-volume").val().replace(/,/g, ""));
+        $("#inp-max-weight").val(formatFloatType(maxWeight));
+        $("#inp-max-volume").val(formatFloatType(maxVolume));
     }
 </script>
 </body>
