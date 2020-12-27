@@ -137,7 +137,7 @@ public class ExportOrderStockController extends BaseController {
             return Lists.newArrayList();
         }
         lstOrder.forEach(e -> {
-            e.setStockValue(mapStockIdStock.get(e.getStockId()).getName());
+            e.setStockValue(mapStockIdStock.get(e.getStockId()) != null ? mapStockIdStock.get(e.getStockId()).getName() : "");
             String value = "";
             if (e.getStatus().equalsIgnoreCase("1")) {
                 value = "Chưa thực xuất";

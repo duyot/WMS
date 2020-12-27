@@ -244,6 +244,7 @@ public class ImportStockController extends BaseController {
             mjrStockTransDetailDTO.setProduceDate(e.getProduceDate());
             mjrStockTransDetailDTO.setExpireDate(e.getExpireDate());
             mjrStockTransDetailDTO.setSerial(e.getSerial());
+            mjrStockTransDetailDTO.setContent(e.getContent());
             lstGoods.add(mjrStockTransDetailDTO);
         });
         stockManagementDTO.setLstGoods(lstGoods);

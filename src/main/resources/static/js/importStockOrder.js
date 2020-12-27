@@ -495,3 +495,13 @@ function addStyle(value, row, index) {
     }
     return {};
 }
+//@Refresh table----------------------------------------------------------
+$('#btn-refresh-table').click(function () {
+    $table.bootstrapTable('removeAll');
+    enteredSerials = [];
+    $("#import-action-info").text('');
+    //
+    hideModal($('#deleteConfirmModal'));
+    totalPrice = Number(0);
+    setConstantInfoMessage(lblTotalPrice, "Tổng tiền nhập: " + formatFloatType(totalPrice));
+});

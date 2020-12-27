@@ -144,7 +144,7 @@ public class ImportOrderStockController extends BaseController {
             return Lists.newArrayList();
         }
         lstOrder.forEach(e -> {
-            e.setStockValue(mapStockIdStock.get(e.getStockId()).getName());
+            e.setStockValue(mapStockIdStock.get(e.getStockId()) != null ? mapStockIdStock.get(e.getStockId()).getName() : "");
             String value = "";
             if (e.getStatus().equalsIgnoreCase("1")) {
                 value = "Chưa thực nhập";
@@ -287,7 +287,7 @@ public class ImportOrderStockController extends BaseController {
             String[] splitPartner = mjrOrderDTO.getPartnerName().split("\\|");
             if (splitPartner.length > 0) {
                 String partnerCode = splitPartner[0];
-                CatPartnerDTO catPartnerDTO = mapPartnerIdPartner.get(mjrOrderDTO.getPartnerId());
+                CatPartnerDTO catPartnerDTO = mapPartnerCodePartner.get(partnerCode);
                 if (catPartnerDTO != null) {
                     mjrOrderDTO.setPartnerId(catPartnerDTO.getId());
                     String partnerName = "";

@@ -6,13 +6,20 @@ import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
 import com.wms.dto.CatPartnerDTO;
+import com.wms.dto.CatUserDTO;
 import com.wms.dto.Condition;
 import com.wms.dto.ResponseObject;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.CatUserService;
 import com.wms.utils.DataUtil;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import com.wms.utils.FunctionUtils;
 import com.wms.utils.SessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,14 +52,19 @@ public class CatPartnerController extends BaseController {
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catPartner");
         model.addAttribute("lstPartner", lstPartner);
+        model.addAttribute("lstUsers", lstUsers);
         return "category/cat_partner";
     }
 
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public @ResponseBody
-    List<CatPartnerDTO> findByCondition(@RequestParam("status") String status) {
+    List<CatPartnerDTO> findByCondition(@RequestParam("status") String status, @RequestParam("userManagerId") String userManagerId ) {
         List<Condition> lstCon = Lists.newArrayList();
         lstCon.add(new Condition("custId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, selectedCustomer.getId()));
+
+        if (!DataUtil.isStringNullOrEmpty(userManagerId) && !userManagerId.equals(Constants.STATS_ALL)) {
+            lstCon.add(new Condition("userManagerId", Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, userManagerId));
+        }
 
         if (!DataUtil.isStringNullOrEmpty(status) && !status.equals(Constants.STATS_ALL)) {
             lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, status));
@@ -67,6 +79,9 @@ public class CatPartnerController extends BaseController {
             i.setStatusName(mapAppStatus.get(i.getStatus()));
             if(i.getParentId() != null && mapPartnerIdPartner.containsKey(i.getParentId())){
                 i.setParentName(mapPartnerIdPartner.get(i.getParentId()).getName());
+            }
+            if(i.getUserManagerId() != null && mapUserIdUser.containsKey(i.getUserManagerId())){
+                i.setUserManagerName(mapUserIdUser.get(i.getUserManagerId()).getName());
             }
         }
 

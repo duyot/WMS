@@ -5,6 +5,7 @@ import com.wms.config.ProfileConfigInterface;
 import com.wms.constants.Constants;
 import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
+import com.wms.services.interfaces.CatUserService;
 import com.wms.services.interfaces.PartnerService;
 import com.wms.services.interfaces.StockService;
 import com.wms.utils.DataUtil;
@@ -46,6 +47,8 @@ public class BaseController {
     private HttpServletRequest requestCtx;
     @Autowired
     public BaseService catReasonService;
+    @Autowired
+    public CatUserService catUserService;
 
     //STOCK
     public List<CatStockDTO> lstStock;
@@ -79,6 +82,11 @@ public class BaseController {
     public CatUserDTO currentUser;
     //
     public boolean isDataLoaded = false;
+
+    //User
+    public List<CatUserDTO> lstUsers;
+    public Map<String, CatUserDTO> mapUserIdUser;
+
     //------------------------------------------------------------------------------------------------------------------
     @PostConstruct
     public void initBaseBean() {
@@ -91,6 +99,7 @@ public class BaseController {
         initGoods();
         initPartner();
         initReason();
+        initUser();
         isDataLoaded = true;
     }
 
@@ -135,6 +144,11 @@ public class BaseController {
             this.lstPartner = FunctionUtils.getListPartner(partnerService, currentUser);
         }
         buildMapPartner();
+    }
+
+    public void initUser() {
+        this.lstUsers = FunctionUtils.getCustomerUsers(catUserService, selectedCustomer);
+        buildMapUser();
     }
 
     private void initAppParams() {
@@ -215,6 +229,16 @@ public class BaseController {
                 } else {
                     lstPartnerIds = lstPartnerIds + catPartnerDTO.getId() + ",";
                 }
+            }
+        }
+    }
+    public void buildMapUser() {
+        if (!DataUtil.isListNullOrEmpty(lstUsers)) {
+            mapUserIdUser = new HashMap<>();
+            int size = lstUsers.size();
+            for (int i = 0; i < size; i++) {
+                CatUserDTO catUserDTO = lstUsers.get(i);
+                mapUserIdUser.put(catUserDTO.getId(), catUserDTO);
             }
         }
     }

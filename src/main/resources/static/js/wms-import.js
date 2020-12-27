@@ -235,6 +235,13 @@ $(function () {
                     mode: 'inline',
                     textAlign: 'left',
                     showbuttons: false
+                },
+                display: function (value) {
+                    if(value ==''){
+                        $(this).text('-');
+                    }else{
+                        $(this).text(value);
+                    }
                 }
             },
             {

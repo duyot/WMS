@@ -15,6 +15,9 @@ public class CatPartnerDTO {
     private String statusName;
     private String parentId;
     private String parentName;
+    private String userManagerId;
+    private String userManagerName;
+
 
     public String getParentId() {
         return parentId;
@@ -117,6 +120,22 @@ public class CatPartnerDTO {
         this.status = status;
     }
 
+    public String getUserManagerId() {
+        return userManagerId;
+    }
+
+    public void setUserManagerId(String userManagerId) {
+        this.userManagerId = userManagerId;
+    }
+
+    public String getUserManagerName() {
+        return userManagerName;
+    }
+
+    public void setUserManagerName(String userManagerName) {
+        this.userManagerName = userManagerName;
+    }
+
     @Override
     public String toString() {
         return "CatPartnerDTO{" +
@@ -131,6 +150,8 @@ public class CatPartnerDTO {
                 ", statusName='" + statusName + '\'' +
                 ", parentId='" + parentId + '\'' +
                 ", parentName='" + parentName + '\'' +
+                ", userManagerId='" + userManagerId + '\'' +
+                ", userManagerName'" + userManagerName + '\'' +
                 '}';
     }
 }
