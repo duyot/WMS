@@ -84,7 +84,7 @@ public class RevenueController extends BaseController {
 
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public @ResponseBody
-    List<RevenueDTO> findByCondition(@RequestParam("createdUser") String createdUser,
+    List<RevenueDTO> findByCondition(@RequestParam("userManagerId") String userManagerId,
                                      @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
                                      @RequestParam("type") String type, @RequestParam("partnerId") String partnerId,
                                      @RequestParam("paymentStatus") String paymentStatus
@@ -102,8 +102,8 @@ public class RevenueController extends BaseController {
             lstCon.add(new Condition("createdDate", Constants.SQL_OPERATOR.BETWEEN, startDate + "|" + endDate));
         }
 
-        if (!DataUtil.isStringNullOrEmpty(createdUser) && !createdUser.equals(Constants.STATS_ALL)) {
-            lstCon.add(new Condition("createdUser", Constants.SQL_OPERATOR.EQUAL, createdUser));
+        if (!DataUtil.isStringNullOrEmpty(userManagerId) && !userManagerId.equals(Constants.STATS_ALL)) {
+            lstCon.add(new Condition("userManagerId",Constants.SQL_PRO_TYPE.LONG, Constants.SQL_OPERATOR.EQUAL, userManagerId));
         }
 
         if (!DataUtil.isStringNullOrEmpty(type) && !type.equals(Constants.STATS_ALL)) {
@@ -129,7 +129,7 @@ public class RevenueController extends BaseController {
     public void getListRevenueFile(HttpServletResponse response) {
         if (DataUtil.isListNullOrEmpty(lstRevenue)) {
             lstRevenue.add(new RevenueDTO("", "", "","", "", "", "",
-                    "", "", "", "", "","", "", "",""));
+                    "", "", "", "", "","", "", "","",""));
             startDate = "";
             endDate = "";
         }
@@ -281,6 +281,9 @@ public class RevenueController extends BaseController {
                 i.setPaymentRemainValue(i.getTotalAmountValue());
                 i.setPaymentAmountValue(0.0);
             }
+            if(i.getUserManagerId() != null && mapUserIdUser.get(i.getUserManagerId()) != null) {
+                i.setUserManagerName(mapUserIdUser.get(i.getUserManagerId()).getName());
+            }
         }
         return lstRevenue;
     }
@@ -307,6 +310,7 @@ public class RevenueController extends BaseController {
             }
             updateDTO.setDescription(revenueDTO.getDescription());
             updateDTO.setCreatedUser(this.currentUser.getCode());
+            updateDTO.setUserManagerId(revenueDTO.getUserManagerId());
         }else{
             //payment
             updateDTO.setPaymentAmount(revenueDTO.getPaymentAmount().replaceAll(",",""));
@@ -319,7 +323,7 @@ public class RevenueController extends BaseController {
         if (Responses.SUCCESS.getName().equalsIgnoreCase(response.getStatusCode()) ) {
             if(!DataUtil.isStringNullOrEmpty(updateDTO.getStockTransId()) && DataUtil.isStringNullOrEmpty(revenueDTO.getPaymentAction())){
                 MjrStockTransDTO mjrStockTransDTO = (MjrStockTransDTO) mjrStockTransService.findById(Long.valueOf(updateDTO.getStockTransId()));
-                if (mjrStockTransDTO != null && revenueDTO.getPartnerId() != null) {
+                if (mjrStockTransDTO != null && revenueDTO.getPartnerId() != null && mapPartnerIdPartner.get(revenueDTO.getPartnerId()) != null) {
                     mjrStockTransDTO.setReceiveId(revenueDTO.getPartnerId());
                     mjrStockTransDTO.setReceiveName(mapPartnerIdPartner.get(revenueDTO.getPartnerId()).getName());
                     mjrStockTransService.update(mjrStockTransDTO);

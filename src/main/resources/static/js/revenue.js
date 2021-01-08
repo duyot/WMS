@@ -182,7 +182,7 @@ window.operateEvents = {
         $("#revenue-insert-update-form").find(".error").removeClass("error");
         //
         clearActionInfo();
-        changeModelByType(2,row['id'],row['partnerId'],row['amount'],row['vat'],row['charge'],row['totalAmount'],row['description'],row['createdDate'],row['type'],row['paymentAmount'],row['paymentStatus'],row['paymentDate'],row['paymentDescription'],$btn_update.val());
+        changeModelByType(2,row['id'],row['partnerId'],row['amount'],row['vat'],row['charge'],row['totalAmount'],row['description'],row['createdDate'],row['type'],row['paymentAmount'],row['paymentStatus'],row['paymentDate'],row['paymentDescription'],row['userManagerId'],$btn_update.val());
         showModal($addUpdateModal);
         $addUpdateModal.on('shown.bs.modal', function () {
             $('#modal-inp-amount').focus();
@@ -193,7 +193,7 @@ window.operateEvents = {
         $("#revenue-insert-update-form").find(".error").removeClass("error");
         //
         clearActionInfo();
-        changeModelByType(3,row['id'],row['partnerId'],row['amount'],row['vat'],row['charge'],row['totalAmount'],row['description'],row['createdDate'],row['type'],row['paymentAmount'],row['paymentStatus'],row['paymentDate'],row['paymentDescription'],$btn_update.val());
+        changeModelByType(3,row['id'],row['partnerId'],row['amount'],row['vat'],row['charge'],row['totalAmount'],row['description'],row['createdDate'],row['type'],row['paymentAmount'],row['paymentStatus'],row['paymentDate'],row['paymentDescription'],row['userManagerId'],$btn_update.val());
         showModal($addUpdateModal);
         $addUpdateModal.on('shown.bs.modal', function () {
             $('#modal-inp-paymentAmount').focus();
@@ -251,7 +251,7 @@ function search(isClear){
         $("#action-info").text('');
     }
     //search info stock_id/goods_group/goods/serial
-    var createdUser = $('#cmb-user').val();
+    var userManagerId = $('#cmb-user').val();
     var partnerId = $('#cmb-partner').val();
     var drp = $('#create-date-range').data('daterangepicker');
     var startDateVal = drp.startDate.format("DD/MM/YYYY");
@@ -271,7 +271,7 @@ function search(isClear){
     $.ajax({
         type: "GET",
         cache:false,
-        data:{createdUser:createdUser,startDate:startDateVal,endDate:endDateVal,type:type, partnerId: partnerId, paymentStatus: paymentStatus},
+        data:{userManagerId:userManagerId,startDate:startDateVal,endDate:endDateVal,type:type, partnerId: partnerId, paymentStatus: paymentStatus},
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         url: $btnSearch.val(),
         dataType: 'json',
@@ -301,7 +301,7 @@ function loadSelectItems(select, items) {
     select.selectpicker('refresh');
 }
 
-function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,description,createdDate,revenueType,paymentAmount, paymentStatus, paymentDate, paymentDescription,actionVal) {
+function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,description,createdDate,revenueType,paymentAmount, paymentStatus, paymentDate, paymentDescription, userManagerId,actionVal) {
     $("#revenue-insert-update-form").attr("action",actionVal);
 
     if(revenueType ==1){
@@ -344,6 +344,8 @@ function changeModelByType(type,id,partnerId,amount,vat,charge,totalAmount,descr
         $("#modal-inp-type").val(revenueType);
         $('select[name=partnerId]').val(partnerId);
         $('select[name=partnerId]').selectpicker('refresh');
+        $('select[name=userManagerId]').val(userManagerId);
+        $('select[name=userManagerId]').selectpicker('refresh');
         $("#modal-type").val('update');
         $("#paymentAction").val('');
         showUpdate();
@@ -434,7 +436,7 @@ $btn_add = $('#btn-add');
 $(function () {
     $btn_add.click(function () {
         clearActionInfo();
-        changeModelByType(1,null,null,null,null,null,null,null,null,2,null, null, null, null, $btn_add.val());
+        changeModelByType(1,null,null,null,null,null,null,null,null,2,null, null, null, null,null, $btn_add.val());
         $addUpdateModal.modal('show');
         $addUpdateModal.on('shown.bs.modal', function () {
             $('#modal-inp-amount').focus();
@@ -455,6 +457,8 @@ function clearInputContent() {
     $("#modal-inp-paymentStatus").val('1');
     $('select[name=partnerId]').val('-1');
     $('select[name=partnerId]').selectpicker('refresh');
+    $('select[name=userManagerId]').val('-1');
+    $('select[name=userManagerId]').selectpicker('refresh');
 }
 function hideRevenueElement() {
     //Hide revenue info

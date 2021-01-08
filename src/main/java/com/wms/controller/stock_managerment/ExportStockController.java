@@ -432,6 +432,7 @@ public class ExportStockController extends BaseController {
                     }
                     mjrStockTransDTO.setReceiveId(catPartnerDTO.getId());
                     mjrStockTransDTO.setReceiveName(receiverName);
+                    mjrStockTransDTO.setUserManagerId(catPartnerDTO.getUserManagerId());
                 }
             }
         }

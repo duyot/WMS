@@ -112,7 +112,7 @@
                             </div>
 
                             <div class="col-sm-2">
-                                <label th:text="#{lbl.sale.revenue.updateduser}" for="cmb-user"></label>
+                                <label th:text="#{lbl.sale.revenue.user.manager}" for="cmb-user"></label>
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group input-group-combo">
@@ -120,7 +120,7 @@
                                             data-width="100%" name="cmb-user">
                                         <option value="-1" th:text="#{label.all}"></option>
                                         <option  th:each="sopt:${lstUsers}"
-                                                 th:value="${sopt.code}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
+                                                 th:value="${sopt.id}" th:text="${sopt.code} + '|' + ${sopt.name}">1</option>
                                     </select>
                                 </div>
                             </div>
@@ -230,6 +230,8 @@
                             <th data-field="type"  data-visible="false">type</th>
                             <th data-field="vat"  data-visible="false">vat</th>
                             <th data-field="paymentStatus"  data-visible="false"></th>
+                            <th data-field="userManagerId"  data-visible="false"></th>
+
                             <th data-visible="false" data-field="vatValue" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.vat}"></th>
                             <th data-visible="false" data-field="amount" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.amount}"></th>
                             <th data-visible="false" data-field="charge" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.charge}"></th>
@@ -239,7 +241,7 @@
                             
                             <th class="col-md-1" data-field="totalAmount" data-align="right" data-sortable="true" th:text="#{lbl.sale.revenue.total.amount}"></th>
                             <th class="col-md-1" data-field="paymentStatusValue" data-align="left" data-sortable="true" data-formatter="formatterPaymentStatus" th:text="#{lbl.sale.revenue.payment.status}"></th>
-                            <th class="col-md-1" data-field="createdUser" data-align="left" data-sortable="true" th:text="#{lbl.sale.revenue.updateduser}"></th>
+                            <th class="col-md-1" data-field="userManagerName" data-align="left" data-sortable="true" th:text="#{lbl.sale.revenue.user.manager}"></th>
                             <th class="col-md-1" data-field="createdDate" data-align="center" data-sortable="true" th:text="#{lbl.sale.revenue.createddate}"></th>
                             <th class="col-md-1" data-field="typeValue" data-align="left" data-sortable="true" data-formatter="formatterRevenueType">Loại</th>
                             <th data-width="90px" data-align="center"  data-events="operateEvents" data-formatter="operateFormatter" th:text="#{lbl.action}"></th>

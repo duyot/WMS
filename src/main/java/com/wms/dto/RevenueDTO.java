@@ -32,10 +32,12 @@ public class RevenueDTO {
     private Double paymentRemainValue;
     private Double chargeValue;
     private Double totalAmountValue;
+    private String userManagerId;
+    private String userManagerName;
 
     public RevenueDTO(String id, String custId, String partnerId, String amount, String vat, String charge, String stockTransId,
                       String stockTransCode, String description, String type, String createdUser, String createdDate,
-                      String paymentStatus, String paymentAmount, String paymentDescription, String paymentDate) {
+                      String paymentStatus, String paymentAmount, String paymentDescription, String paymentDate, String userManagerId) {
         this.id = id;
         this.custId = custId;
         this.partnerId = partnerId;
@@ -52,6 +54,7 @@ public class RevenueDTO {
         this.paymentAmount = paymentAmount;
         this.paymentDescription = paymentDescription;
         this.paymentDate = paymentDate;
+        this.userManagerId = userManagerId;
     }
 
     public RevenueDTO() {
@@ -281,6 +284,22 @@ public class RevenueDTO {
         this.totalAmountValue = totalAmountValue;
     }
 
+    public String getUserManagerId() {
+        return userManagerId;
+    }
+
+    public void setUserManagerId(String userManagerId) {
+        this.userManagerId = userManagerId;
+    }
+
+    public String getUserManagerName() {
+        return userManagerName;
+    }
+
+    public void setUserManagerName(String userManagerName) {
+        this.userManagerName = userManagerName;
+    }
+
     @Override
     public String toString() {
         return "RevenueDTO{" +
@@ -300,6 +319,7 @@ public class RevenueDTO {
                 ", paymentAmount='" + paymentAmount + '\'' +
                 ", paymentDescription='" + paymentDescription + '\'' +
                 ", paymentDate='" + paymentDate + '\'' +
+                ", userManagerId='" + userManagerId + '\'' +
                 '}';
     }
 }

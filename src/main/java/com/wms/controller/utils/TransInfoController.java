@@ -134,7 +134,7 @@ public class TransInfoController extends BaseController {
     @RequestMapping(value = "/getListTransFile")
     public void getListTransFile(HttpServletResponse response) {
         if (DataUtil.isListNullOrEmpty(lstTrans)) {
-            lstTrans.add(new MjrStockTransDTO("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","",""));
+            lstTrans.add(new MjrStockTransDTO("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","","",""));
             startDate = "";
             endDate = "";
         }

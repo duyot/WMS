@@ -184,7 +184,7 @@ public class DeliveryController extends BaseController {
     @RequestMapping(value = "/getListDeliveryFile")
     public void getListDeliveryFile(HttpServletResponse response) {
         if (DataUtil.isListNullOrEmpty(lstTrans)) {
-            lstTrans.add(new MjrStockTransDTO("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","",""));
+            lstTrans.add(new MjrStockTransDTO("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","","",""));
             startDate = "";
             endDate = "";
         }

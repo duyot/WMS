@@ -58,6 +58,10 @@ public class MjrStockTransDTO {
     private String deliveryStatus;
     private String deliveryStatusValue;
 
+    //Nguoi quan ly khach hang
+    private String userManagerId;
+    private String userManagerName;
+
     public String getDeliveryStatusValue() {
         return deliveryStatusValue;
     }
@@ -226,11 +230,28 @@ public class MjrStockTransDTO {
         this.partnerName = partnerName;
     }
 
+    public String getUserManagerId() {
+        return userManagerId;
+    }
+
+    public void setUserManagerId(String userManagerId) {
+        this.userManagerId = userManagerId;
+    }
+
+    public String getUserManagerName() {
+        return userManagerName;
+    }
+
+    public void setUserManagerName(String userManagerName) {
+        this.userManagerName = userManagerName;
+    }
+
     public MjrStockTransDTO() {
     }
 
     public MjrStockTransDTO(String id, String code, String custId, String stockId, String contractNumber, String invoiceNumber, String type, String status, String createdDate, String createdUser, String transMoneyTotal, String transMoneyDiscount, String discountAmount, String transMoneyRequire, String transMoneyReceive, String transMoneyResponse, String description,
-                            String partnerId, String partnerName, String receiveId, String receiveName, String orderId, String orderCode,String reasonId, String reasonName) {
+                            String partnerId, String partnerName, String receiveId, String receiveName, String orderId, String orderCode,String reasonId, String reasonName,
+                            String userManagerId) {
         this.id = id;
         this.code = code;
         this.custId = custId;
@@ -254,6 +275,7 @@ public class MjrStockTransDTO {
         this.orderCode = orderCode;
         this.reasonId = reasonId;
         this.reasonName = reasonName;
+        this.userManagerId = userManagerId;
     }
 
     public String getId() {
