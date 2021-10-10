@@ -18,6 +18,9 @@
                     <div class="container-modal">
                         <input id="modal-inp-stock-trans-id" th:value="@{/workspace/stock_management/import/getErrorImportStockFile}" hidden="true"/>
                         <input id="modal-inp-download-save-goods-error" th:value="@{/workspace/cat_goods_ctr/getErrorSaveGoods}" hidden="true"/>
+                        <input id="modal-inp-download-save-partner-error" th:value="@{/workspace/cat_partner_ctr/getErrorSavePartner}" hidden="true"/>
+                        <input id="modal-inp-download-save-cell-error" th:value="@{/workspace/cat_stock_ctr/getErrorSaveCell}" hidden="true"/>
+
                         <p id="modal-error-import-lbl-info" style="color: #34495e;"></p>
                         <p style="height: 30px">
                             <a id="modal-link-download" class="link-label" style="float:left" th:text="#{link.downloadfileerror}" th:href="@{/workspace/stock_management/import/getErrorImportStockFile}"/>

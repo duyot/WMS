@@ -109,6 +109,9 @@
                         <button id="btn-delete" th:value="@{/workspace/cat_partner_ctr/delete}" style="display: none" type="button" class="btn btn-default">
                             <i class="fa fa-trash"></i>
                         </button>
+                        <button id="btn-show-modal-add-partner" type="button" class="btn btn-default">
+                            <i class="fa  fa-upload"></i>
+                        </button>
 
                         <label id="action-info" class="action-info"></label>
                     </div>
@@ -145,7 +148,10 @@
     </div>
     <!--modal-->
     <div th:include="modal/cat_partner_modal :: frag-cat-partner-modal"></div>
+    <div th:include="modal/add_partner_modal :: frag-add-partner-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
+    <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
+
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -183,6 +189,8 @@
     $btn_update = $('#btn-update');
     $btnDel = $('#btn-delete');
     var $btnSearch = $('#btn-search-cat-partner');
+    $tableAddListPartner = $('#modal-tbl-add-partner');
+
     var validator;
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
@@ -191,6 +199,11 @@
             pageSize:30
         });
         //
+        $tableAddListPartner.bootstrapTable({
+            data: dataInit,
+            pageList:[5,10, 25, 50],
+            pageSize:30
+        });
         search(false);
     });
 
@@ -396,6 +409,105 @@
             showUpdate();
         }
     }
+
+    //@Upload---------------------------------------------------------------------
+    var btnShowUploadModal = $('#btn-show-modal-add-partner');
+    btnShowUploadModal.click(function () {
+        disableElement($('#modal-btn-save-partner'));
+        hideElement($('#link-upload-partner-error'));
+        showModal($('#add-partner-modal'));
+    });
+    //
+    var btnUploadExcel = $('#modal-btn-upload-excel');
+    btnUploadExcel.click(function () {
+
+        var data = new FormData();
+        jQuery.each(jQuery('#inp-file-import')[0].files, function(i, file) {
+            data.append('file-'+i, file);
+        });
+
+        var fileName = $('#inp-file-import').val();
+        if(fileName == ''){
+            alert('Chưa có file dữ liệu');
+            return;
+        }
+        $.ajax({
+            url: btnUploadExcel.val(),
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(data){
+                if(data == ''){
+                    //
+                    showElement($('#link-upload-partner-error'));
+                    $tableAddListPartner.bootstrapTable('refresh');
+                    clearFileInput('inp-file-import');
+                    //
+                    return;
+                }
+                hideElement($('#link-upload-partner-error'));
+                clearFileInput('inp-file-import');
+                $tableAddListPartner.bootstrapTable('load', data);
+                //
+                enableElement($('#modal-btn-save-partner'));
+            }
+        });
+    });
+    //
+    var btnSavePartner = $('#modal-btn-save-partner');
+    btnSavePartner.click(function () {
+        //validate
+        var importData = $tableAddListPartner.bootstrapTable('getData');
+        if(importData.length == 0){
+            alert('Chưa có thông tin đối tác!');
+            return;
+        }
+        var isNeedLoading = importData.length > 10;
+        //
+        if (isNeedLoading) {
+            $body.addClass("loading");
+        }
+        //return;
+        var importData = JSON.stringify({lstPartner:$tableAddListPartner.bootstrapTable('getData')});
+        $.ajax({
+            url: btnSavePartner.val(),
+            data:importData,
+            cache: false,
+            contentType: "application/json",
+            dataType: 'json',
+            type: 'POST',
+            success: function(data){
+                //
+                var resultMessage  = data['statusCode'];
+                var successRecords = data['success'];
+                //
+                if(resultMessage == "SUCCESS_WITH_ERROR"){
+                    var totalRecords   = data['total'];
+                    //show modal upload file
+                    setInfoMessage($('#modal-error-import-lbl-info'),'Nhập '+successRecords+'/'+totalRecords+' đối tác thành công');
+                    hideModal($('#add-partner-modal'));
+                    //
+                    $("#modal-link-download").attr("href",$("#modal-inp-download-save-partner-error").val());
+                    showModal($("#myDownloadErrorImportModal"));
+                }else{
+                    setInfoMessage($("#action-info"),"Nhập "+successRecords+" đối tác thành công");
+                }
+                //process form
+                disableElement($('#modal-btn-save-partner'));
+                refreshTable($tableAddListPartner);
+                //
+                hideModal($('#add-partner-modal'));
+                search(false);
+            },
+            complete: function () {
+                if (isNeedLoading) {
+                    $body.removeClass("loading");
+                }
+            }
+        });
+    });
 </script>
 </body>
 </html>

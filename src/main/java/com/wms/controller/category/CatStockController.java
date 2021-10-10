@@ -11,6 +11,8 @@ import com.wms.utils.DataUtil;
 import com.wms.utils.FunctionUtils;
 import com.wms.utils.SessionUtils;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 /**
  * Created by duyot on 12/6/2016.
  */
@@ -50,10 +57,12 @@ public class CatStockController extends BaseCommonController {
     BaseService mapUserStockServiceImpl;
 
     public List<CatStockDTO> lstStock;
+    private LinkedHashMap<String, String> mapStock;
 
     @RequestMapping()
     public String home(Model model) {
         model.addAttribute("menuName", "menu.catstock");
+        mapStock = new LinkedHashMap<>();
         return "category/cat_stock";
     }
 
@@ -67,6 +76,7 @@ public class CatStockController extends BaseCommonController {
         }
         for (CatStockDTO i : lstStock) {
             i.setStatusName(mapAppStatus.get(i.getStatus()));
+            mapStock.put(i.getCode(), i.getId());
         }
         return lstStock.stream().filter(i -> i.getStatus().equalsIgnoreCase(status)).collect(Collectors.toList());
     }
@@ -225,5 +235,78 @@ public class CatStockController extends BaseCommonController {
         lstCon.add(new Condition("code", Constants.SQL_OPERATOR.EQUAL, code));
         lstCon.add(new Condition("status", Constants.SQL_PRO_TYPE.BYTE, Constants.SQL_OPERATOR.EQUAL, Constants.STATUS.DELETED));
         return !DataUtil.isListNullOrEmpty(catStockService.findByCondition(lstCon));
+    }
+
+    @RequestMapping(value = "/getTemplateFile")
+    public void getTemplateFile(HttpServletResponse response) {
+        FunctionUtils.loadFileToClient(response, profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_CELL_TEMPLATE);
+    }
+    @RequestMapping(value = "/getErrorImportFile")
+    public void getErrorImportFile(HttpServletRequest request, HttpServletResponse response) {
+        String fileResource = profileConfig.getTempURL() + request.getSession().getAttribute("file_cell_import_error");
+        FunctionUtils.loadFileToClient(response, fileResource);
+    }
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public List<CatStockCellDTO> uploadFile(MultipartHttpServletRequest request) {
+        //1. get the files from the request object
+        Iterator<String> itr = request.getFileNames();
+        MultipartFile mpf = request.getFile(itr.next());
+        //
+        ImportFileResultDTO importFileResult = FunctionUtils.getListCellImportFromFile(mpf, mapStock);
+        if (!importFileResult.isValid()) {
+            //save error file
+            String prefixFileName = selectedCustomer.getId() + "_" + currentUser.getCode();
+            String fileName = FunctionUtils.exportExcelImportCellError(importFileResult.getLstCell(), prefixFileName, profileConfig);
+            //save in session
+            request.getSession().setAttribute("file_cell_import_error", fileName);
+            return null;
+        }
+        return importFileResult.getLstCell();
+    }
+    @RequestMapping(value = "/saveListCell", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseObject saveListCell(@RequestBody ListStockCellDTO listStockCellDTO, HttpServletRequest request) {
+        log.info("------------------------------------------------------------");
+        List<CatStockCellDTO> lstStockCell = listStockCellDTO.getLstStockCell();
+        log.info(currentUser.getCode() + " importing stock cell with: " + lstStockCell.size() + " items.");
+        List<CatStockCellDTO> lstError = Lists.newArrayList();
+        //
+        ResponseObject insertResponse = new ResponseObject();
+        String sysdate = appParamsService.getSysDate();
+        int successCount = 0;
+        for (CatStockCellDTO item : lstStockCell) {
+            insertResponse = catStockCellService.add(item);
+            if (!Responses.SUCCESS.getName().equalsIgnoreCase(insertResponse.getStatusCode())) {
+                item.setErrorInfo("Mã vị trí đã được khai báo trên hệ thống");
+                lstError.add(item);
+            } else {
+                successCount++;
+            }
+        }
+        //
+        if (lstError.size() > 0) {
+            //export file error
+            String prefixFileName = selectedCustomer.getId() + "_" + currentUser.getCode();
+            String fileName = FunctionUtils.exportExcelImportCellError(lstError, prefixFileName, profileConfig);
+            //save in session
+            request.getSession().setAttribute("file_cell_save_error", fileName);
+            //
+            insertResponse.setStatusCode("SUCCESS_WITH_ERROR");
+            insertResponse.setTotal(lstStockCell.size() + "");
+            insertResponse.setSuccess(successCount + "");
+        } else {
+            insertResponse.setStatusCode("SUCCESS");
+            insertResponse.setSuccess(lstStockCell.size() + "");
+        }
+        //
+        SessionUtils.setPartnerModified(request);
+        return insertResponse;
+    }
+    @RequestMapping(value = "/getErrorSaveCell")
+    public void getErrorSaveCell(HttpServletRequest request, HttpServletResponse response) {
+        String fileResource = profileConfig.getTempURL() + request.getSession().getAttribute("file_cell_save_error");
+        FunctionUtils.loadFileToClient(response, fileResource);
     }
 }

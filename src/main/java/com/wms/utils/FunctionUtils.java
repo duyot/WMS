@@ -342,6 +342,47 @@ public class FunctionUtils {
 
         return fullFileName;
     }
+    /*
+        export error when importing
+     */
+    public static String exportExcelImportPartnerError(List<CatPartnerDTO> lstError, String prefixFileName, ProfileConfigInterface profileConfig) {
+        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_PARTNER_ERROR_TEMPLATE;
+        log.info("Number of Errors: " + lstError.size());
+
+        File file = new File(templatePath);
+        String templateAbsolutePath = file.getAbsolutePath();
+
+        Map<String, Object> beans = new HashMap<String, Object>();
+        beans.put("items", lstError);
+
+        String fullFileName = prefixFileName + "_" + DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String reportFullPath = profileConfig.getTempURL() + fullFileName;
+
+        exportExcel(templateAbsolutePath, beans, reportFullPath);
+
+        return fullFileName;
+    }
+    /*
+       export error when importing
+    */
+    public static String exportExcelImportCellError(List<CatStockCellDTO> lstError, String prefixFileName, ProfileConfigInterface profileConfig) {
+        String templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_CELL_ERROR_TEMPLATE;
+        log.info("Number of Errors: " + lstError.size());
+
+        File file = new File(templatePath);
+        String templateAbsolutePath = file.getAbsolutePath();
+
+        Map<String, Object> beans = new HashMap<String, Object>();
+        beans.put("items", lstError);
+
+        String fullFileName = prefixFileName + "_" + DateTimeUtils.getSysDateTimeForFileName() + ".xlsx";
+        String reportFullPath = profileConfig.getTempURL() + fullFileName;
+
+        exportExcel(templateAbsolutePath, beans, reportFullPath);
+
+        return fullFileName;
+    }
+
 
 
     public static boolean saveUploadedFile(MultipartFile uploadfile, String fileName, ProfileConfigInterface profileConfigInterface) {
@@ -827,11 +868,11 @@ public class FunctionUtils {
                 cellValue = row.getCell(5);
                 String serial = getCellValue(cellValue);
                 if (DataUtil.isStringNullOrEmpty(serial)) {
-                    errorInfo.append("\n Chưa có thông tin quản lý serial");
+                    errorInfo.append("\n Chưa có thông tin quản lý serial. ");
                     isValid = false;
                 } else {
                     if (!serial.equalsIgnoreCase("1") && !serial.equalsIgnoreCase("0")) {
-                        errorInfo.append("\n Thông tin serial không hợp lệ(1: QL theo serial,0:Không quản lý theo serial");
+                        errorInfo.append("\n Thông tin serial không hợp lệ(1: QL theo serial,0:Không quản lý theo serial. ");
                         isValid = false;
                     }
                 }
@@ -842,7 +883,7 @@ public class FunctionUtils {
                 cellValue = row.getCell(1);
                 String goodsCode = getCellValue(cellValue);
                 if (DataUtil.isStringNullOrEmpty(goodsCode)) {
-                    errorInfo.append("\n Chưa có mã hàng");
+                    errorInfo.append("\n Chưa có mã hàng. ");
                     isValid = false;
                 }
                 goodsDTO.setCode(goodsCode);
@@ -850,7 +891,7 @@ public class FunctionUtils {
                 cellValue = row.getCell(2);
                 String goodsName = getCellValue(cellValue);
                 if (DataUtil.isStringNullOrEmpty(goodsName)) {
-                    errorInfo.append("Chưa có tên hàng");
+                    errorInfo.append("Chưa có tên hàng. ");
                     isValid = false;
                 }
                 goodsDTO.setName(goodsName);
@@ -888,12 +929,12 @@ public class FunctionUtils {
                 cellValue = row.getCell(4);
                 String goodsGroup = getCellValue(cellValue);
                 if (DataUtil.isStringNullOrEmpty(goodsGroup)) {
-                    errorInfo.append("\n Chưa có nhóm hàng");
+                    errorInfo.append("\n Chưa có nhóm hàng. ");
                     isValid = false;
                 } else {
                     String groupName = mapGoodsGroup.get(goodsGroup);
                     if (DataUtil.isStringNullOrEmpty(groupName)) {
-                        errorInfo.append("\n Nhóm hàng chưa đúng");
+                        errorInfo.append("\n Nhóm hàng chưa đúng. ");
                         isValid = false;
                     }
                     goodsDTO.setGoodsGroupId(goodsGroup);
@@ -904,7 +945,7 @@ public class FunctionUtils {
                 String price = getCellValue(cellValue);
                 if (!DataUtil.isStringNullOrEmpty(price)) {
                     if (!isNumberFloat(price)) {
-                        errorInfo.append("\n Giá phải là số dương");
+                        errorInfo.append("\n Giá phải là số dương. ");
                         isValid = false;
                     } else {
                         goodsDTO.setInPriceValue(formatNumber(price));
@@ -917,7 +958,7 @@ public class FunctionUtils {
                 outPrice = outPrice.trim();
                 if (!DataUtil.isStringNullOrEmpty(outPrice)) {
                     if (!isNumberFloat(outPrice)) {
-                        errorInfo.append("\n Giá phải là số dương");
+                        errorInfo.append("\n Giá phải là số dương. ");
                         isValid = false;
                     } else {
                         goodsDTO.setOutPriceValue(formatNumber(outPrice));
@@ -930,7 +971,7 @@ public class FunctionUtils {
                 length = length.trim();
                 if (!DataUtil.isStringNullOrEmpty(length)) {
                     if (!isNumberFloat(length)) {
-                        errorInfo.append("\n Chiều dài phải là số dương");
+                        errorInfo.append("\n Chiều dài phải là số dương. ");
                         isValid = false;
                     }
                 }
@@ -941,7 +982,7 @@ public class FunctionUtils {
                 width = width.trim();
                 if (!DataUtil.isStringNullOrEmpty(width)) {
                     if (!isNumberFloat(width)) {
-                        errorInfo.append("\n Chiều rộng phải là số dương");
+                        errorInfo.append("\n Chiều rộng phải là số dương. ");
                         isValid = false;
                     }
                 }
@@ -952,7 +993,7 @@ public class FunctionUtils {
                 hight = hight.trim();
                 if (!DataUtil.isStringNullOrEmpty(hight)) {
                     if (!isNumberFloat(hight)) {
-                        errorInfo.append("\n Chiều cao phải là số dương");
+                        errorInfo.append("\n Chiều cao phải là số dương. ");
                         isValid = false;
                     }
                 }
@@ -963,7 +1004,7 @@ public class FunctionUtils {
                 weight = weight.trim();
                 if (!DataUtil.isStringNullOrEmpty(weight)) {
                     if (!isNumberFloat(weight)) {
-                        errorInfo.append("\n Trọng lượng phải là số dương");
+                        errorInfo.append("\n Trọng lượng phải là số dương. ");
                         isValid = false;
                     }
                 }
@@ -974,7 +1015,7 @@ public class FunctionUtils {
                 amountStorageQuota = amountStorageQuota.trim();
                 if (!DataUtil.isStringNullOrEmpty(amountStorageQuota)) {
                     if (!isNumberFloat(amountStorageQuota)) {
-                        errorInfo.append("\n Định mức tồn kho phải là số dương");
+                        errorInfo.append("\n Định mức tồn kho phải là số dương. ");
                         isValid = false;
                     }
                 }
@@ -1084,4 +1125,204 @@ public class FunctionUtils {
         }
         return catPartnerDTO;
     }
+
+    public static ImportFileResultDTO getListPartnerImportFromFile(MultipartFile mpf) {
+        ImportFileResultDTO importResult = new ImportFileResultDTO();
+        List<CatPartnerDTO> lstPartner = Lists.newArrayList();
+        boolean isValid = true;
+        try {
+            Workbook wb = WorkbookFactory.create(new FileInputStream(FunctionUtils.convertMultipartToFile(mpf)));
+            Sheet sheet = null;
+            if (wb instanceof HSSFWorkbook) {
+                HSSFWorkbook workbook = (HSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            } else if (wb instanceof XSSFWorkbook) {
+                XSSFWorkbook workbook = (XSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            }
+
+            Iterator<Row> rowIterator = sheet.iterator();
+            if (rowIterator.hasNext()) {//read from second row!
+                rowIterator.next();
+            }
+            int count = 0;
+            StringBuilder errorInfo;
+            CatPartnerDTO catPartnerDTO;
+            Cell cellValue;
+            Row row;
+            while (rowIterator.hasNext()) {
+                count++;
+                catPartnerDTO = new CatPartnerDTO();
+                errorInfo = new StringBuilder();
+                //
+                row = rowIterator.next();
+                //partner code
+                cellValue = row.getCell(1);
+                String partnerCode = getCellValue(cellValue);
+                if (DataUtil.isStringNullOrEmpty(partnerCode)) {
+                    errorInfo.append("\n Chưa có mã đối tác. ");
+                    isValid = false;
+                }
+                catPartnerDTO.setCode(partnerCode);
+                //partner name
+                cellValue = row.getCell(2);
+                String partnerName = getCellValue(cellValue);
+                if (DataUtil.isStringNullOrEmpty(partnerName)) {
+                    errorInfo.append("Chưa có tên đối tác. ");
+                    isValid = false;
+                }
+                catPartnerDTO.setName(partnerName);
+                catPartnerDTO.setStatus("1");
+                //Tel number
+                cellValue = row.getCell(3);
+                String telNumber = getCellValue(cellValue);
+                catPartnerDTO.setTelNumber(telNumber);
+                //Address
+                cellValue = row.getCell(4);
+                String address = getCellValue(cellValue);
+                catPartnerDTO.setAddress(address);
+
+                if (!isValid) {
+                    catPartnerDTO.setErrorInfo(errorInfo.toString());
+                }
+                lstPartner.add(catPartnerDTO);
+            }
+            //
+            if(count ==0){
+                isValid = false;
+                catPartnerDTO = new CatPartnerDTO();
+                catPartnerDTO.setErrorInfo("Không có dữ liệu");
+                lstPartner.add(catPartnerDTO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        importResult.setValid(isValid);
+        importResult.setLstPartner(lstPartner);
+        return importResult;
+    }
+
+    public static ImportFileResultDTO getListCellImportFromFile(MultipartFile mpf, Map<String, String> mapStock) {
+        ImportFileResultDTO importResult = new ImportFileResultDTO();
+        List<CatStockCellDTO> lstCell = Lists.newArrayList();
+        boolean isValid = true;
+        try {
+            Workbook wb = WorkbookFactory.create(new FileInputStream(FunctionUtils.convertMultipartToFile(mpf)));
+            Sheet sheet = null;
+            if (wb instanceof HSSFWorkbook) {
+                HSSFWorkbook workbook = (HSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            } else if (wb instanceof XSSFWorkbook) {
+                XSSFWorkbook workbook = (XSSFWorkbook) wb;
+                sheet = workbook.getSheetAt(0);
+            }
+
+            Iterator<Row> rowIterator = sheet.iterator();
+            if (rowIterator.hasNext()) {//read from second row!
+                rowIterator.next();
+            }
+            int count = 0;
+            StringBuilder errorInfo;
+            CatStockCellDTO cellDTO;
+            Cell cellValue;
+            Row row;
+            while (rowIterator.hasNext()) {
+                count++;
+                cellDTO = new CatStockCellDTO();
+                errorInfo = new StringBuilder();
+                //
+                row = rowIterator.next();
+                //stock code
+                cellValue = row.getCell(1);
+                String stockCode = getCellValue(cellValue);
+                if (DataUtil.isStringNullOrEmpty(stockCode)) {
+                    errorInfo.append("\n Chưa có mã kho. ");
+                    isValid = false;
+                }else{
+                    if(DataUtil.isStringNullOrEmpty(mapStock.get(stockCode))){
+                        errorInfo.append("\n Mã kho không đúng. ");
+                        isValid = false;
+                    }
+                }
+                cellDTO.setStockId(mapStock.get(stockCode));
+                cellDTO.setStockCode(stockCode);
+
+                //cell code
+                cellValue = row.getCell(2);
+                String cellCode = getCellValue(cellValue);
+                if (DataUtil.isStringNullOrEmpty(cellCode)) {
+                    errorInfo.append("Chưa có mã vị trí. ");
+                    isValid = false;
+                }
+                cellDTO.setCode(cellCode);
+
+                //weight
+                cellValue = row.getCell(3);
+                String weight = getCellValue(cellValue);
+                if (!DataUtil.isStringNullOrEmpty(weight)) {
+                    if (!isNumberFloat(weight)) {
+                        errorInfo.append("\n Trọng lượng phải là số dương. ");
+                        isValid = false;
+                    } else {
+                        cellDTO.setMaxWeight(formatNumber(weight));
+                    }
+                }
+                cellDTO.setMaxWeight(weight);
+
+                //volumn
+                cellValue = row.getCell(4);
+                String volumn = getCellValue(cellValue);
+                if (!DataUtil.isStringNullOrEmpty(volumn)) {
+                    if (!isNumberFloat(volumn)) {
+                        errorInfo.append("\n Thể tích phải là số dương. ");
+                        isValid = false;
+                    } else {
+                        cellDTO.setManyCodesValue(formatNumber(volumn));
+                    }
+                }
+                cellDTO.setMaxVolume(volumn);
+
+                //many code
+                cellValue = row.getCell(5);
+                String manyCode = getCellValue(cellValue);
+                if (!DataUtil.isStringNullOrEmpty(manyCode)) {
+                    if (!manyCode.equalsIgnoreCase("1") && !manyCode.equalsIgnoreCase("2")) {
+                        errorInfo.append("\n Thông tin vị trí lưu nhiều mã không hợp lệ(1: Lưu trữ được nhiều mã, 2: Chỉ lưu trữ 1 mã). ");
+                        isValid = false;
+                    }
+                }else{
+                    manyCode = "1";
+                }
+                String manyCodeName = "1".equals(manyCode) ? "Có" : "Không";
+                cellDTO.setManyCodes(manyCode);
+                cellDTO.setManyCodesValue(manyCodeName);
+                if (!isValid) {
+                    cellDTO.setErrorInfo(errorInfo.toString());
+                }
+                lstCell.add(cellDTO);
+            }
+            //
+            if(count ==0){
+                isValid = false;
+                cellDTO = new CatStockCellDTO();
+                cellDTO.setErrorInfo("Không có dữ liệu");
+                lstCell.add(cellDTO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        importResult.setValid(isValid);
+        importResult.setLstCell(lstCell);
+        return importResult;
+    }
+
 }

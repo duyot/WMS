@@ -183,6 +183,8 @@
 <script th:attr="src=@{/js/scripts.js}" th:href="@{/js/scripts.js}"></script>
 <!--switch-->
 <script th:attr="src=@{/js/bootstrap-toggle.min.js}" th:href="@{/js/bootstrap-toggle.min.js}"></script>
+<script th:attr="src=@{/js/bootstrap-select.min.js}"  th:href="@{/js/bootstrap-select.min.js}"></script>
+
 <script>
     //
     function runningFormatter(value, row, index) {
@@ -388,7 +390,7 @@
                 var successRecords = data['success'];
                 //
                 if(resultMessage == "SUCCESS_WITH_ERROR"){
-                    var totalRecords   = data['totalMoney'];
+                    var totalRecords   = data['total'];
                     //show modal upload file
                     setInfoMessage($('#modal-error-import-lbl-info'),'Nhập '+successRecords+'/'+totalRecords+' hàng thành công');
                     hideModal($('#add-goods-modal'));

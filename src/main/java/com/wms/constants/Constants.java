@@ -41,6 +41,8 @@ public class Constants {
         public static String IMPORT_ERROR_TEMPLATE = "File_loi_nhap_hang.xlsx";
         public static String EXPORT_ERROR_TEMPLATE = "File_loi_xuat_hang.xlsx";
         public static String IMPORT_GOODS_ERROR_TEMPLATE = "File_loi_hang_hoa.xlsx";
+        public static String IMPORT_PARTNER_ERROR_TEMPLATE = "File_loi_doi_tac.xlsx";
+        public static String IMPORT_CELL_ERROR_TEMPLATE = "File_loi_vi_tri.xlsx";
         public static String GOODS_TOTAL_TEMPLATE = "Thong_tin_hang_trong_kho.xlsx";
         public static String GOODS_DETAILS_TEMPLATE = "Thong_tin_chi_tiet_hang_trong_kho.xlsx";
         public static String GOODS_DETAILS_SERIAL_TEMPLATE = "Thong_tin_chi_tiet_hang_trong_kho_serial.xlsx";
@@ -50,6 +52,8 @@ public class Constants {
         public static String EXPORT_TEMPLATE = "Bieu_mau_xuat_hang.xlsx";
         public static String IMPORT_SERIAL_TEMPLATE = "Import_serial.xlsx";
         public static String IMPORT_GOODS_TEMPLATE = "Bieu_mau_hang_hoa.xlsx";
+        public static String IMPORT_PARTNER_TEMPLATE = "Bieu_mau_doi_tac.xlsx";
+        public static String IMPORT_CELL_TEMPLATE = "Bieu_mau_vi_tri.xlsx";
         public static String LIST_TRANS_TEMPLATE = "Thong_tin_ds_giao_dich.xlsx";
         public static String LIST_REVENUE_TEMPLATE = "Thong_tin_ds_doanhthu.xlsx";
         public static String LIST_SUM_REVENUE_TEMPLATE = "Thong_tin_ds_doanhthu_tong.xlsx";

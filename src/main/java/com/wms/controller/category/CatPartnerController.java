@@ -5,15 +5,13 @@ import com.wms.base.BaseCommonController;
 import com.wms.base.BaseController;
 import com.wms.constants.Constants;
 import com.wms.constants.Responses;
-import com.wms.dto.CatPartnerDTO;
-import com.wms.dto.CatUserDTO;
-import com.wms.dto.Condition;
-import com.wms.dto.ResponseObject;
+import com.wms.dto.*;
 import com.wms.services.interfaces.BaseService;
 import com.wms.services.interfaces.CatUserService;
 import com.wms.utils.DataUtil;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -31,6 +29,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * Created by duyot on 12/6/2016.
@@ -154,5 +158,82 @@ public class CatPartnerController extends BaseController {
         } catch (NumberFormatException e) {
             return "0|Xoá không thành công lỗi convert long";
         }
+    }
+
+    @RequestMapping(value = "/getTemplateFile")
+    public void getTemplateFile(HttpServletResponse response) {
+        FunctionUtils.loadFileToClient(response, profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_PARTNER_TEMPLATE);
+    }
+
+    @RequestMapping(value = "/getErrorImportFile")
+    public void getErrorImportFile(HttpServletRequest request, HttpServletResponse response) {
+        String fileResource = profileConfig.getTempURL() + request.getSession().getAttribute("file_partner_import_error");
+        FunctionUtils.loadFileToClient(response, fileResource);
+    }
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public List<CatPartnerDTO> uploadFile(MultipartHttpServletRequest request) {
+        //1. get the files from the request object
+        Iterator<String> itr = request.getFileNames();
+        MultipartFile mpf = request.getFile(itr.next());
+        //
+        ImportFileResultDTO importFileResult = FunctionUtils.getListPartnerImportFromFile(mpf);
+        if (!importFileResult.isValid()) {
+            //save error file
+            String prefixFileName = selectedCustomer.getId() + "_" + currentUser.getCode();
+            String fileName = FunctionUtils.exportExcelImportPartnerError(importFileResult.getLstPartner(), prefixFileName, profileConfig);
+            //save in session
+            request.getSession().setAttribute("file_partner_import_error", fileName);
+            return null;
+        }
+        return importFileResult.getLstPartner();
+    }
+
+    @RequestMapping(value = "/saveListPartner", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseObject saveListPartner(@RequestBody ListPartnerDTO lstPartnerObject, HttpServletRequest request) {
+        log.info("------------------------------------------------------------");
+        List<CatPartnerDTO> lstPartner = lstPartnerObject.getLstPartner();
+        log.info(currentUser.getCode() + " importing partner with: " + lstPartner.size() + " items.");
+        List<CatPartnerDTO> lstError = Lists.newArrayList();
+        //
+        ResponseObject insertResponse = new ResponseObject();
+        String sysdate = appParamsService.getSysDate();
+        int successCount = 0;
+        for (CatPartnerDTO item : lstPartner) {
+            item.setStatus("1");
+            item.setCustId(this.selectedCustomer.getId());
+            insertResponse = catPartnerService.add(item);
+            if (!Responses.SUCCESS.getName().equalsIgnoreCase(insertResponse.getStatusCode())) {
+                item.setErrorInfo("Thông tin đối tác đã được khai báo trên hệ thống");
+                lstError.add(item);
+            } else {
+                successCount++;
+            }
+        }
+        //
+        if (lstError.size() > 0) {
+            //export file error
+            String prefixFileName = selectedCustomer.getId() + "_" + currentUser.getCode();
+            String fileName = FunctionUtils.exportExcelImportPartnerError(lstError, prefixFileName, profileConfig);
+            //save in session
+            request.getSession().setAttribute("file_partner_save_error", fileName);
+            //
+            insertResponse.setStatusCode("SUCCESS_WITH_ERROR");
+            insertResponse.setTotal(lstPartner.size() + "");
+            insertResponse.setSuccess(successCount + "");
+        } else {
+            insertResponse.setStatusCode("SUCCESS");
+            insertResponse.setSuccess(lstPartner.size() + "");
+        }
+        //
+        SessionUtils.setPartnerModified(request);
+        return insertResponse;
+    }
+    @RequestMapping(value = "/getErrorSavePartner")
+    public void getErrorSavePartner(HttpServletRequest request, HttpServletResponse response) {
+        String fileResource = profileConfig.getTempURL() + request.getSession().getAttribute("file_partner_save_error");
+        FunctionUtils.loadFileToClient(response, fileResource);
     }
 }

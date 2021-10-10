@@ -13,6 +13,9 @@ public class CatStockCellDTO {
     private String maxWeightValue;
     private String maxVolumeValue;
     private String manyCodesValue;
+    private String stockCode;
+    private String errorInfo;
+
 
     public CatStockCellDTO(String id, String code, String stockId,String maxWeight, String maxVolume, String manyCodes) {
         this.id = id;
@@ -24,6 +27,14 @@ public class CatStockCellDTO {
     }
 
     public CatStockCellDTO() {
+    }
+
+    public String getErrorInfo() {
+        return errorInfo;
+    }
+
+    public void setErrorInfo(String errorInfo) {
+        this.errorInfo = errorInfo;
     }
 
     public String getId() {
@@ -96,5 +107,13 @@ public class CatStockCellDTO {
 
     public void setManyCodesValue(String manyCodesValue) {
         this.manyCodesValue = manyCodesValue;
+    }
+
+    public String getStockCode() {
+        return stockCode;
+    }
+
+    public void setStockCode(String stockCode) {
+        this.stockCode = stockCode;
     }
 }

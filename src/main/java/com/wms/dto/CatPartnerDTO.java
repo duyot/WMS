@@ -17,7 +17,15 @@ public class CatPartnerDTO {
     private String parentName;
     private String userManagerId;
     private String userManagerName;
+    private String errorInfo;
 
+    public String getErrorInfo() {
+        return errorInfo;
+    }
+
+    public void setErrorInfo(String errorInfo) {
+        this.errorInfo = errorInfo;
+    }
 
     public String getParentId() {
         return parentId;

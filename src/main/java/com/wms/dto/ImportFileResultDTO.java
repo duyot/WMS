@@ -11,6 +11,16 @@ public class ImportFileResultDTO {
     private List<CatGoodsDTO> lstGoods;
     private String serial;
     private List<String> lstSerial;
+    private List<CatPartnerDTO> lstPartner;
+    private List<CatStockCellDTO> lstCell;
+
+    public List<CatStockCellDTO> getLstCell() {
+        return lstCell;
+    }
+
+    public void setLstCell(List<CatStockCellDTO> lstCell) {
+        this.lstCell = lstCell;
+    }
 
     public ImportFileResultDTO(boolean isValid, List<MjrStockTransDetailDTO> lstGoodsImport) {
         this.isValid = isValid;
@@ -58,5 +68,13 @@ public class ImportFileResultDTO {
 
     public void setLstSerial(List<String> lstSerial) {
         this.lstSerial = lstSerial;
+    }
+
+    public List<CatPartnerDTO> getLstPartner() {
+        return lstPartner;
+    }
+
+    public void setLstPartner(List<CatPartnerDTO> lstPartner) {
+        this.lstPartner = lstPartner;
     }
 }

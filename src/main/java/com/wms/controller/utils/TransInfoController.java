@@ -240,10 +240,22 @@ public class TransInfoController extends BaseController {
         int total = 0;
         Map<String, Object> parameters = new HashMap<String, Object>();
         if (mjrStockTransDTO.getType().equalsIgnoreCase("1")) {
-            templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_BILL;
+            templatePath = profileConfig.getTemplateURL() + selectedCustomer.getCode() + File.separator + File.separator + Constants.FILE_RESOURCE.IMPORT_BILL;
+            File file = new File(templatePath);
+            log.info("url " + templatePath);
+            if (!file.exists()) {
+                log.info("Url is not exist  " + templatePath);
+                templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.IMPORT_BILL;
+            }
             prefixFileName = prefixFileName + "nhapkho_";
         } else {
-            templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_BILL;
+            templatePath = profileConfig.getTemplateURL() +selectedCustomer.getCode() + File.separator + File.separator + Constants.FILE_RESOURCE.EXPORT_BILL;
+            File file = new File(templatePath);
+            log.info("url " + templatePath);
+            if (!file.exists()) {
+                log.info("Url is not exist  " + templatePath);
+                templatePath = profileConfig.getTemplateURL() + Constants.FILE_RESOURCE.EXPORT_BILL;
+            }
             parameters.put("receiverName", mjrStockTransDTO.getReceiveName());
             prefixFileName = prefixFileName + "xuatkho_";
         }

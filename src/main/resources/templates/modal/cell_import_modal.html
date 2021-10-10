@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="frag-import-cell-modal">
+    <!-- Modal -->
+    <div class="modal fade" id="import-cell-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true"
+         aria-labelledby="myModalLabel" aria-hidden="true" th:width="500px">
+        <div class="modal-dialog" role="document" style="width:85%">
+            <div class="modal-content" id="catUserDTO-modal">
+                <div class="modal-header">
+                    <button type="button" class="close fa fa-close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel" th:text="#{modal.label.celldetail}"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-modal">
+                        <div class="panel-body" style="padding: 0.1em 0.2em;">
+                            <!--row 1: file upload-->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label th:text="#{lbl.fileupload}" for="modal-btn-upload-excel"></label>
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <div class="input-group">
+                                            <input id="inp-file-import" data-toggle="toggle" type="file"
+                                                   onchange="isValidExcel(this);"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <button type="button" th:title="#{tooltip.uploadfile}" class="btn btn-default  btn-primary fa fa-upload"
+                                                id="modal-btn-upload-excel" th:value="@{/workspace/cat_stock_ctr/upload}">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <a class="link-label" th:text="#{link.downloadtemplate}" th:href="@{/workspace/cat_stock_ctr/getTemplateFile}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <a id="link-upload-cell-error" class="link-label" th:text="#{link.downloadfileerror}"  th:href="@{/workspace/cat_stock_ctr/getErrorImportFile}" hidden="true">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <p> </p>
+                        </div>
+                        <div class="panel-body" style="padding: 0.1em 0.2em;">
+                            <table  id="modal-tbl-add-cell"
+                                    data-pagination="true"
+                                    data-click-to-select="true"
+                                    class="table-striped"
+                                    style="word-wrap: break-word; "
+                            >
+                            <thead>
+                            <tr>
+                                <th  data-formatter="runningFormatter" data-align="center" data-width="30px">STT</th>
+                                <th  class="col-md-2" data-field="stockCode" data-align="left" data-sortable="true" th:text="#{lbl.stockCode}"></th>
+                                <th  class="col-md-3" data-field="code" data-align="left" data-sortable="true" th:text="#{lbl.cell.code}"></th>
+                                <th  class="col-md-2" data-field="maxWeight" data-align="left" data-sortable="true" th:text="#{lbl.cell.max.weight}"></th>
+                                <th  class="col-md-2" data-field="maxVolume" data-align="left" data-sortable="true" th:text="#{lbl.cell.max.volume}" ></th>
+                                <th  class="col-md-2" data-field="manyCodesValue" data-align="left" data-sortable="true" th:text="#{lbl.cell.many.codes}" ></th>
+
+                            </tr>
+                            </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-btn-save-cell" th:value="@{/workspace/cat_stock_ctr/saveListCell}" type="submit" class="btn btn-primary">
+                        <i class="fa fa-check"></i>
+                        <span th:text="#{lbl.update}"></span>
+                    </button>
+                    <button id="modal-btn-close" type="submit" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                        <span th:text="#{btn.close}"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

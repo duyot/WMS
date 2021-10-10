@@ -106,6 +106,9 @@
                         <button id="btn-cells" th:value="@{/workspace/cat_stock_ctr/getCells}" type="button" class="btn btn-default btn-hide">
                             <i class="fa fa-trash"></i>
                         </button>
+                        <button id="btn-show-modal-import-cell" type="button" class="btn btn-default">
+                            <i class="fa  fa-upload"></i>
+                        </button>
                         <label id="action-info" class="action-info"></label>
                     </div>
                     <table  id="tbl-stock"
@@ -137,6 +140,10 @@
     <div th:include="modal/cat_stock_modal :: frag-cat-stock-modal"></div>
     <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
     <div th:include="modal/cell_details_modal :: frag-cell-detail-modal"></div>
+    <div th:include="modal/confirm_modal :: frag-confirm-modal"></div>
+    <div th:include="modal/confirm_download_import_error_modal :: frag-confirm-download-error-modal"></div>
+    <div th:include="modal/cell_import_modal :: frag-import-cell-modal"></div>
+
     <!--footer-->
     <div th:include="common/footer :: frag-footer"></div>
 </section>
@@ -186,6 +193,8 @@
     var $btnDelConfirmed = $('#modal-btn-del-ok');
     var selectedStockId;
     var validator;
+    var $tableAddListCell = $('#modal-tbl-add-cell');
+
     //@Init component-----------------------------------------------------------------------------------------------
     $(function () {
         $tblStock.bootstrapTable({
@@ -196,6 +205,12 @@
         $tblCells.bootstrapTable({
             data: dataInit,
             pageSize:5
+        });
+
+        $tableAddListCell.bootstrapTable({
+            data: dataInit,
+            pageList:[5,10, 25, 50],
+            pageSize:30
         });
 
         $tblStock.bootstrapTable('hideColumn', 'id');
@@ -527,6 +542,105 @@
         $("#inp-max-weight").val(formatFloatType(maxWeight));
         $("#inp-max-volume").val(formatFloatType(maxVolume));
     }
+
+    //@Upload---------------------------------------------------------------------
+    var btnShowUploadModal = $('#btn-show-modal-import-cell');
+    btnShowUploadModal.click(function () {
+        disableElement($('#modal-btn-save-cell'));
+        hideElement($('#link-upload-cell-error'));
+        showModal($('#import-cell-modal'));
+    });
+    //
+    var btnUploadExcel = $('#modal-btn-upload-excel');
+    btnUploadExcel.click(function () {
+
+        var data = new FormData();
+        jQuery.each(jQuery('#inp-file-import')[0].files, function(i, file) {
+            data.append('file-'+i, file);
+        });
+
+        var fileName = $('#inp-file-import').val();
+        if(fileName == ''){
+            alert('Chưa có file dữ liệu');
+            return;
+        }
+        $.ajax({
+            url: btnUploadExcel.val(),
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(data){
+                if(data == ''){
+                    //
+                    showElement($('#link-upload-cell-error'));
+                    $tableAddListCell.bootstrapTable('refresh');
+                    clearFileInput('inp-file-import');
+                    //
+                    return;
+                }
+                hideElement($('#link-upload-cell-error'));
+                clearFileInput('inp-file-import');
+                $tableAddListCell.bootstrapTable('load', data);
+                //
+                enableElement($('#modal-btn-save-cell'));
+            }
+        });
+    });
+    //
+    var btnSave = $('#modal-btn-save-cell');
+    btnSave.click(function () {
+        //validate
+        var importData = $tableAddListCell.bootstrapTable('getData');
+        if(importData.length == 0){
+            alert('Chưa có thông tin đối tác!');
+            return;
+        }
+        var isNeedLoading = importData.length > 10;
+        //
+        if (isNeedLoading) {
+            $body.addClass("loading");
+        }
+        //return;
+        var importData = JSON.stringify({lstStockCell:$tableAddListCell.bootstrapTable('getData')});
+        $.ajax({
+            url: btnSave.val(),
+            data:importData,
+            cache: false,
+            contentType: "application/json",
+            dataType: 'json',
+            type: 'POST',
+            success: function(data){
+                //
+                var resultMessage  = data['statusCode'];
+                var successRecords = data['success'];
+                //
+                if(resultMessage == "SUCCESS_WITH_ERROR"){
+                    var totalRecords   = data['total'];
+                    //show modal upload file
+                    setInfoMessage($('#modal-error-import-lbl-info'),'Nhập '+successRecords+'/'+totalRecords+' vị trí thành công');
+                    hideModal($('#import-cell-modal'));
+                    //
+                    $("#modal-link-download").attr("href",$("#modal-inp-download-save-cell-error").val());
+                    showModal($("#myDownloadErrorImportModal"));
+                }else{
+                    setInfoMessage($("#action-info"),"Nhập "+successRecords+" vị trí thành công");
+                }
+                //process form
+                disableElement($('#modal-btn-save-cell'));
+                refreshTable($tableAddListCell);
+                //
+                hideModal($('#import-cell-modal'));
+                search(false);
+            },
+            complete: function () {
+                if (isNeedLoading) {
+                    $body.removeClass("loading");
+                }
+            }
+        });
+    });
 </script>
 </body>
 </html>
